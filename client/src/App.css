@@ -1,0 +1,486 @@
+/* General Centering for Initial Screen, Join/Start Game Screen, and Lobby */
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #228B22; /* Green background resembling a football field */
+}
+.lobby-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #228B22; /* Green background resembling a football field */
+}
+
+.intro-with-image {
+  background-image: url('introimage.png'); /* Replace with your image path */
+  background-repeat: no-repeat;
+  background-position: top center;  /* Center the image horizontally */
+  background-size: 250px auto; /* Set a smaller width while keeping aspect ratio */
+  padding-top: 150px; /* Adjust padding to position the content below the image */
+}
+
+.intro-image {
+  background-image: url('introimage.png'); /* Replace with the correct path */
+  width: 200px; /* Adjust size */
+  height: auto;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px;
+  width: 90%; /* Adjust width for mobile */
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  width: 90%; /* Full width on mobile */
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+/* Remove bullet points from the cards in your hand */
+.your-hand-cards, .wild-hand-cards {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  list-style: none; /* Remove bullet points */
+}
+
+.card, .wild-card-content {
+  border: 1px solid #000;
+  padding: 5px;
+  width: 80px;  /* Smaller width */
+  height: 120px; /* Smaller height */
+  display: flex;
+  color: white;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 14px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative; /* Needed for better positioning */
+}
+
+/* Card content for both standard and wild cards */
+.card-name {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd; /* Separates name and drink count */
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+/* Styling for the lobby and player list */
+.players-list {
+  list-style: none;
+  padding: 0;
+}
+
+.players-list li {
+  margin: 5px 0;
+  font-size: 18px;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+
+/* Game table CSS */
+.game-table {
+  text-align: center;
+  background-color: white; 
+  height: 100vh; /* Ensure full height background color or choice */
+}
+
+.standard-cards-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.card-area {
+  border: 1px solid #000;
+  padding: 10px;
+  width: 80px;  /* Smaller width */
+  height: 120px; /* Smaller height */
+  text-align: center;
+  background-color: #1a9324; /* Green for action cards */
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.player-area {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+
+.player-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 10px;
+}
+
+.player-stats {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #333;
+}
+
+.player-image {
+  width: 50px;
+  height: 50px;
+  background-image: url('shotgunning3.png'); /* Set the path to your default image */
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%; /* Make it circular */
+  border: 2px solid #000;
+  margin-bottom: 5px;
+}
+
+
+.your-hand {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+}
+
+.wild-card-content-button {
+  border: 1px solid #000;
+  width: 80px;
+  height: 120px;
+  background-color: #00ff15;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 14px;
+  color: white;
+  border-radius: 8px;
+}
+
+/* Remove bullet points from player stats and round results */
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* Ensure the modal has a high z-index to cover everything */
+.menu-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dim the background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's on top of other elements */
+}
+
+/* Prevent interactions on game elements when the menu is open */
+.game-elements-disabled {
+  pointer-events: none; /* Disable clicks */
+  opacity: 0.5; /* Optional: Dim the game elements to visually indicate they are disabled */
+}
+
+.menu-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.menu-content h3 {
+  margin-bottom: 10px;
+}
+
+.menu-content button {
+  display: block;
+  margin: 10px 0;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.host-selection-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.host-selection-modal h3 {
+  margin-bottom: 15px;
+}
+
+.host-selection-modal ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.host-selection-modal button {
+  margin: 5px 0;
+  padding: 8px 15px;
+  border: none;
+  background-color: #1a9324;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.host-selection-modal button:hover {
+  background-color: #1a9324;
+}
+
+.wild-card-swap-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.wild-card-swap-modal h3 {
+  margin-bottom: 15px;
+  background-color: white;
+}
+
+.wild-card-swap-modal ul {
+  list-style-type: none;
+  padding: 0;
+  background-color: white;
+}
+
+.wild-card-swap-modal button {
+  margin: 5px 0;
+  padding: 8px 15px;
+  border: none;
+  background-color: #1a9324;
+  color: #000; /* Black text */
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.wild-card-swap-modal button:hover {
+  background-color: #1a9324;
+}
+
+/* General Modal Styling */
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.modal-content h3 {
+  margin-bottom: 15px;
+}
+
+.modal-content button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  border: none;
+  background-color: #1a9324;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #1a9324;
+}
+
+/* Full-screen overlay for modals */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dim the background */
+  z-index: 999;
+}
+
+/* Specific Modal Styles */
+.timer-modal,
+.drink-assignment-modal,
+.first-down-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card container for both standard and wild cards */
+.card, .wild-card-content {
+  border: 1px solid #000;
+  width: 80px;  /* Smaller width */
+  height: 120px; /* Smaller height */
+  background-color: #1a9324; /* Green for action cards */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space out the content between top and bottom */
+  align-items: center;
+  font-size: 0px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 5px;
+  position: relative; /* For positioning inside the card */
+}
+
+/* Card name styling (ensure it stays at the top) */
+.card-name {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: auto; /* Pushes the name to the top */
+  margin-top: 10px; /* Adds some padding from the top */
+}
+
+.drink-count {
+  font-size: 14px;
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: auto; /* Ensures it stays at the bottom */
+  text-align: center;
+}
+
+.player-stats-container {
+  position: fixed;
+  right: 20px; /* Distance from the right edge */
+  top: 50%; /* Start at the center of the screen */
+  transform: translateY(-50%); /* Center the stats vertically */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end; /* Align the stats to the right */
+  gap: 10px; /* Spacing between the stat sections */
+}
+
+.player-stats-container h3 {
+  margin: 0 0 10px 0;
+}
+
+.player-stats-container ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.player-stats-container li {
+  margin-bottom: 10px;
+}
+
+.player-icons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Allows the icons to wrap into multiple rows */
+  margin: 20px auto; /* Center the container and add spacing between icons and the game table */
+  max-width: 90%; /* Ensures the icons don’t spread out too much */
+  padding: 10px 0;
+  position: relative; /* Make sure it is under ShotGun Formation */
+}
+
+.player-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-icon h3 {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.player-image {
+  width: 50px;
+  height: 50px;
+  background-image: url('shotgunning3.png'); /* Replace with your image */
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%; /* Circle shape */
+  border: 2px solid #000;
+}
+
+/* Media Queries for mobile responsiveness */
+@media (max-width: 768px) {
+  .card, .wild-card-content {
+    width: 70px;
+    height: 100px;
+  }
+
+  .player-image {
+    width: 40px;
+    height: 40px;
+  }
+
+
+
+  .your-hand {
+    width: 100%;
+  }
+  .action-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #1a9324;
+    color: white;
+    border-radius: 8px;
+    margin: 10px 0;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .action-button:hover {
+    background-color: #145a16; /* Darker green on hover */
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
