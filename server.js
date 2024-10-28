@@ -6,10 +6,13 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, { cors: { origin: '*' } });
 const PORT = process.env.PORT || 3001; // Default to 3001 if not on Heroku
-
+const cors = require('cors');
 const rooms = {};  // Store rooms and players
 const playerStats = {};  // Store drink and shotgun counts for each player
 const roundResults = {};  // Store drink assignments for each round
+
+// Enable CORS for all routes
+app.use(cors());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
