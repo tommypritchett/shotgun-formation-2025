@@ -4,7 +4,11 @@ const socketIo = require('socket.io');
 const path = require('path'); // Import the path module
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, { cors: { origin: '*' } });
+const io = socketIo(server, {
+  cors: { origin: '*' },
+  pingInterval: 25000,   // Send a ping every 25 seconds
+  pingTimeout: 90000,    // Allow 90 seconds without a pong before disconnecting
+});
 const PORT = process.env.PORT || 3001; // Default to 3001 if not on Heroku
 const cors = require('cors');
 const rooms = {};  // Store rooms and players

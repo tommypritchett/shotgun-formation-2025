@@ -4,6 +4,7 @@ import './App.css';  // Import the updated CSS
 
 
 const socket = io(process.env.REACT_APP_API_URL || 'https://shotgun-formation.onrender.com');
+// const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:3001');
 
 function App() {
   const [gameState, setGameState] = useState('initial');  // 'initial', 'startOrJoin', 'lobby', 'game'
