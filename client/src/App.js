@@ -406,6 +406,7 @@ useEffect(() => {
   };
 }, []);
 
+
 useEffect(() => {
   socket.on('updatePlayerHand', ({ standard, wild }) => {
     setPlayers(prevPlayers =>

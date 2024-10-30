@@ -169,17 +169,8 @@ socket.on('joinRoom', (roomCode, playerName) => {
 
           console.log(`Player ${socket.id} joined active game ${roomCode}`);
 
-          // Update the hands of all players (including the new player) to ensure everyone is in sync
-         room.players.forEach(player => {
-          const playerHand = playerStats[player.id];
-          io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });  
-          console.log(`Join hand for player ${player.id}:`, playerHand.standard);
-
-        });
+       
               
- 
-          
-
       } else {
           // If the game hasn't started, emit the joinedRoom event as usual
           io.to(socket.id).emit('joinedRoom', roomCode);
@@ -192,7 +183,13 @@ socket.on('joinRoom', (roomCode, playerName) => {
       // If the room doesn't exist, send an error to the player
       io.to(socket.id).emit('error', 'Room not found');
   }
-  
+     // Update the hands of all players (including the new player) to ensure everyone is in sync
+     rooms[roomCode].players.forEach(player => {
+      const playerHand = playerStats[player.id];
+      io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });  
+      console.log(`Join hand for player ${player.id}:`, playerHand.standard);
+
+    });
 });
 
   // Leave Room
