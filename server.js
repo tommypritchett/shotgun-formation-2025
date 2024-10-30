@@ -137,35 +137,59 @@ io.on('connection', (socket) => {
     io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
   });
 
-  // Join Room
-  socket.on('joinRoom', (roomCode, playerName) => {
-    if (rooms[roomCode]) {
-        rooms[roomCode].players.push({ id: socket.id, name: playerName });
-        playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
-        socket.join(roomCode);
+ // Join Room or game
+socket.on('joinRoom', (roomCode, playerName) => {
+  if (rooms[roomCode]) {
+      // Add the new player to the room
+      rooms[roomCode].players.push({ id: socket.id, name: playerName });
+      playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
+      socket.join(roomCode);
 
-        // Check if the game has already started
-        if (rooms[roomCode].gameStarted) {
-            // If the game has started, send the current state to the new player
-            const currentHands = playerStats[socket.id];
-            socket.emit('gameStarted', {
-                hands: {
-                    standard: currentHands.standard,
-                    wild: currentHands.wild,
-                },
-                playerStats, // Send current player stats to the new player
-            });
-            console.log(`Player ${socket.id} joined active game ${roomCode}`);
-        } else {
-            // If the game hasn't started, emit the joinedRoom event as usual
-            io.to(socket.id).emit('joinedRoom', roomCode);
-        }
+      // Check if the game has already started
+      if (rooms[roomCode].gameStarted) {
+          const room = rooms[roomCode];
+          const { standardDeck, wildDeck } = room.deck;  // Get the existing decks
 
-        // Notify all players about the updated player list
-        io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
-    } else {
-        io.to(socket.id).emit('error', 'Room not found');
-    }
+          // Deal cards to the new player
+          const newStandardCards = standardDeck.splice(0, 5);  // Deal 5 standard cards
+          const newWildCards = wildDeck.splice(0, 2);  // Deal 2 wild cards
+
+          // Update the playerStats for the new player
+          playerStats[socket.id].standard = newStandardCards;
+          playerStats[socket.id].wild = newWildCards;
+
+          // Send the current state of the game (hands and playerStats) to the new player
+          socket.emit('gameStarted', {
+              hands: {
+                  standard: playerStats[socket.id].standard,
+                  wild: playerStats[socket.id].wild,
+              },
+              playerStats, // Send current player stats to the new player
+          });
+
+          console.log(`Player ${socket.id} joined active game ${roomCode}`);
+
+          // Update the hands of all players (including the new player) to ensure everyone is in sync
+          room.players.forEach(player => {
+              const playerHand = playerStats[player.id];
+              io.to(player.id).emit('updatePlayerHand', {
+                  standard: playerHand.standard,
+                  wild: playerHand.wild,
+              });
+          });
+
+      } else {
+          // If the game hasn't started, emit the joinedRoom event as usual
+          io.to(socket.id).emit('joinedRoom', roomCode);
+      }
+
+      // Notify all players about the updated player list
+      io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
+
+  } else {
+      // If the room doesn't exist, send an error to the player
+      io.to(socket.id).emit('error', 'Room not found');
+  }
 });
 
   // Leave Room
@@ -201,8 +225,8 @@ io.on('connection', (socket) => {
       const { standardDeck, wildDeck } = generateDecks(room.players.length);
 
       // Log the decks in the terminal before shuffling and dealing out the cards
-      console.log('Standard Deck before dealing:', standardDeck);
-      console.log('Wild Deck before dealing:', wildDeck);
+      //console.log('Standard Deck before dealing:', standardDeck);
+    //  console.log('Wild Deck before dealing:', wildDeck);
 
       const hands = distributeCards(room.players, standardDeck, wildDeck);
       rooms[roomCode].deck = { standardDeck, wildDeck }; // Save remaining deck in room
