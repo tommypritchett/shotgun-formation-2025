@@ -642,10 +642,9 @@ socket.on('leaveGame', ({ roomCode }) => {
     // Find and remove the player by their socket ID
     room.players = room.players.filter(player => player.id !== socket.id);
     delete playerStats[socket.id];  // Remove player stats
-/* Removing for now to make it so the game doesn't end if only one player is left and others can rejoin
-    // Check if only one player is left
-    if (room.players.length === 1) {
-        io.to(roomCode).emit('gameOver', 'The game is ending as only one player is left.');
+    // Check if only no player is left
+    if (room.players.length === 0) {
+        io.to(roomCode).emit('gameOver', 'The game is ending as no player is left.');
         delete rooms[roomCode];  // End the game and delete the room
         console.log(`Room ${roomCode} deleted because only one player is left.`);
                  // Emit updated player stats for the round
@@ -655,7 +654,7 @@ socket.on('leaveGame', ({ roomCode }) => {
       });  
         return;  // Exit the function to prevent further execution
     }
-*/
+
     // Handle if the host leaves
     if (room.host === socket.id) {
       if (room.players.length > 0) {
