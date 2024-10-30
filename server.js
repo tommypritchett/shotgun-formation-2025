@@ -709,8 +709,8 @@ socket.on('disconnect', () => {
           players.splice(playerIndex, 1);
           delete playerStats[socket.id];
   
-          // Check if only one player is left
-          if (players.length === 1) {
+          // Check if no player is left
+          if (players.length === 0) {
             io.to(roomCode).emit('gameOver', 'The game is ending as only one player is left.');
             delete rooms[roomCode];  // End the game and delete the room
             console.log(`Room ${roomCode} deleted because only one player is left.`);
