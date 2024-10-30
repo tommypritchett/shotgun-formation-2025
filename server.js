@@ -140,16 +140,33 @@ io.on('connection', (socket) => {
   // Join Room
   socket.on('joinRoom', (roomCode, playerName) => {
     if (rooms[roomCode]) {
-      rooms[roomCode].players.push({ id: socket.id, name: playerName });
-      playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
-      // Initialize empty round results for drinks and shotguns when the room is created
-      socket.join(roomCode);
-      io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
-      io.to(socket.id).emit('joinedRoom', roomCode);
+        rooms[roomCode].players.push({ id: socket.id, name: playerName });
+        playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
+        socket.join(roomCode);
+
+        // Check if the game has already started
+        if (rooms[roomCode].gameStarted) {
+            // If the game has started, send the current state to the new player
+            const currentHands = playerStats[socket.id];
+            socket.emit('gameStarted', {
+                hands: {
+                    standard: currentHands.standard,
+                    wild: currentHands.wild,
+                },
+                playerStats, // Send current player stats to the new player
+            });
+            console.log(`Player ${socket.id} joined active game ${roomCode}`);
+        } else {
+            // If the game hasn't started, emit the joinedRoom event as usual
+            io.to(socket.id).emit('joinedRoom', roomCode);
+        }
+
+        // Notify all players about the updated player list
+        io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
     } else {
-      io.to(socket.id).emit('error', 'Room not found');
+        io.to(socket.id).emit('error', 'Room not found');
     }
-  });
+});
 
   // Leave Room
   socket.on('leaveRoom', (roomCode) => {

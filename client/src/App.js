@@ -67,11 +67,25 @@ const [isHostSelection, setIsHostSelection] = useState(false);
     }
   };
 
-  // Join an existing game (Join Room)
   const joinGame = () => {
-    alert(instructionsmessage)
     if (roomCode && playerName) {
       socket.emit('joinRoom', roomCode, playerName);
+  
+      // Listen for the 'gameStarted' event if the game is already active
+      socket.on('gameStarted', ({ hands, playerStats }) => {
+        // Update the player's hand
+        setPlayers(prevPlayers =>
+          prevPlayers.map(player =>
+            player.id === socket.id ? { ...player, cards: { standard: hands.standard, wild: hands.wild } } : player
+          )
+        );
+  
+        // Set player stats to show the scoreboard
+        setPlayerStats(playerStats);
+  
+        // Transition the player to the game screen
+        setGameState('game');
+      });
     } else {
       setErrorMessage('Please enter a valid room code and your name');
     }
