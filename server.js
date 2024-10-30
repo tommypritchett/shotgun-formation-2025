@@ -175,7 +175,11 @@ socket.on('joinRoom', (roomCode, playerName) => {
               io.to(player.id).emit('updatePlayerHand', {
                   standard: playerHand.standard,
                   wild: playerHand.wild,
+
+
               });
+              console.log(`New hand for player ${player.id}:`, playerHand.standard);
+ 
           });
 
       } else {
@@ -190,6 +194,7 @@ socket.on('joinRoom', (roomCode, playerName) => {
       // If the room doesn't exist, send an error to the player
       io.to(socket.id).emit('error', 'Room not found');
   }
+  
 });
 
   // Leave Room
