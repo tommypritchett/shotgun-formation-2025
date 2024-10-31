@@ -667,11 +667,11 @@ socket.on('leaveGame', ({ roomCode }) => {
     if (playerIndex === -1) return; // If player is not found, do nothing
 
     const leavingPlayer = room.players[playerIndex];
-    
+
     // Log player stats and hands before disconnecting
     console.log(`Saving stats for leaving player ${leavingPlayer.name} with ID ${socket.id}`);
     console.log(playerStats[socket.id]);
-    console.log("Player array:", players);
+    console.log("Player array:", room.players);
 
     // Store player data in formerPlayers by their name
     formerPlayers[leavingPlayer.name] = {
