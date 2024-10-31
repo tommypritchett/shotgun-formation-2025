@@ -175,9 +175,9 @@ socket.on('joinRoom', (roomCode, playerName) => {
         playerData.standard = standardDeck.splice(0, 5);  // Deal 5 standard cards
         playerData.wild = wildDeck.splice(0, 2);  // Deal 2 wild cards
       }
-          // Update the playerStats for the new player
-          playerStats[socket.id].standard = newStandardCards;
-          playerStats[socket.id].wild = newWildCards;
+            // Update playerStats for the new or rejoining player
+      playerStats[socket.id].standard = playerData.standard;
+      playerStats[socket.id].wild = playerData.wild;
 
           // Send the current state of the game (hands and playerStats) to the new player
           socket.emit('gameStarted', {
