@@ -225,9 +225,9 @@ socket.on('joinRoom', (roomCode, playerName) => {
             console.log(`Saving stats for leaving player ${player.name} with ID ${socket.id}`);
         
             // Store player data in formerPlayers by their name
-            formerPlayers[player.name] = {
+            formerPlayers[playerStats.name] = {
               id: socket.id,  // Original socket ID (not needed but included for reference)
-              name: player.name,
+              name: playerStats.name,
               drinks: playerStats[socket.id].drinks || 0,
               shotguns: playerStats[socket.id].shotguns || 0,
               standard: playerStats[socket.id].standard || [],
