@@ -748,7 +748,10 @@ socket.on('disconnect', () => {
 
             // Log player stats and hands before disconnecting
             console.log(`Saving stats for leaving player ${playerStats[socket.id].name} with ID ${socket.id}`);
-        
+        console.log (playerStats[socket.id]);
+        console.log ("Player", players);
+        console.log ("Index", playerIndex);
+
             // Store player data in formerPlayers by their name
             formerPlayers[playerStats[socket.id].name] = {
               id: socket.id,  // Original socket ID (not needed but included for reference)
