@@ -677,8 +677,8 @@ socket.on('leaveGame', ({ roomCode }) => {
     formerPlayers[leavingPlayer.name] = {
       id: socket.id,  // Original socket ID (for reference)
       name: leavingPlayer.name,
-      drinks: playerStats[socket.id].totalDrinks || 0,
-            shotguns: playerStats[socket.id].totalShotguns || 0,
+      totalDrinks: playerStats[socket.id].totalDrinks || 0,
+      totalShotguns: playerStats[socket.id].totalShotguns || 0,
       standard: playerStats[socket.id].standard || [],
       wild: playerStats[socket.id].wild || []
     };
