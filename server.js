@@ -747,7 +747,7 @@ socket.on('disconnect', () => {
         if (playerIndex !== -1) {
 
             // Log player stats and hands before disconnecting
-        console.log(`Saving stats for leaving player ${players[socket.id].name} with ID ${socket.id}`);
+        console.log(`Saving stats for leaving player ${players[socket.id]} with ID ${socket.id}`);
         console.log (playerStats[socket.id]);
         console.log ("Player", players);
 
@@ -755,7 +755,7 @@ socket.on('disconnect', () => {
             // Store player data in formerPlayers by their name
             formerPlayers[players[socket.id].name] = {
               id: socket.id,  // Original socket ID (not needed but included for reference)
-              name: players[socket.id].name,
+              name: players[socket.id],
               drinks: playerStats[socket.id].drinks || 0,
               shotguns: playerStats[socket.id].shotguns || 0,
               standard: playerStats[socket.id].standard || [],
