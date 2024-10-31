@@ -221,23 +221,13 @@ socket.on('joinRoom', (roomCode, playerName) => {
 
       if (playerIndex !== -1) {
 
-            // Log player stats and hands before disconnecting
-            console.log(`Saving stats for leaving player ${player.name} with ID ${socket.id}`);
         
-            // Store player data in formerPlayers by their name
-            formerPlayers[playerStats.name] = {
-              id: socket.id,  // Original socket ID (not needed but included for reference)
-              name: playerStats.name,
-              drinks: playerStats[socket.id].drinks || 0,
-              shotguns: playerStats[socket.id].shotguns || 0,
-              standard: playerStats[socket.id].standard || [],
-              wild: playerStats[socket.id].wild || []
-            };
     
         players.splice(playerIndex, 1);
         socket.leave(roomCode);
         delete playerStats[socket.id];  // Remove player stats
         console.log(`Player ${socket.id} left room ${roomCode}`);
+
 
         if (rooms[roomCode].players.length === 0) {
           delete rooms[roomCode];
@@ -674,8 +664,22 @@ socket.on('leaveGame', ({ roomCode }) => {
     const room = rooms[roomCode];
     if (!room) return;  // If the room doesn't exist, do nothing
 
+        // Log player stats and hands before disconnecting
+        console.log(`Saving stats for leaving player ${players.name} with ID ${socket.id}`);
+        
+        // Store player data in formerPlayers by their name
+        formerPlayers[playerStats.name] = {
+          id: socket.id,  // Original socket ID (not needed but included for reference)
+          name: playerStats.name,
+          drinks: playerStats[socket.id].drinks || 0,
+          shotguns: playerStats[socket.id].shotguns || 0,
+          standard: playerStats[socket.id].standard || [],
+          wild: playerStats[socket.id].wild || []
+        };
+
     // Find and remove the player by their socket ID
     room.players = room.players.filter(player => player.id !== socket.id);
+
     delete playerStats[socket.id];  // Remove player stats
     // Check if only no player is left
     if (room.players.length === 0) {
@@ -743,7 +747,7 @@ socket.on('disconnect', () => {
         if (playerIndex !== -1) {
 
               // Log player stats and hands before disconnecting
-        console.log(`Saving stats for disconnected player ${player.name} with ID ${socket.id}`);
+        console.log(`Saving stats for disconnected player ${players.name} with ID ${socket.id}`);
         
         // Store player data in formerPlayers by their name
         formerPlayers[playerStats.name] = {
