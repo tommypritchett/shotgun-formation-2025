@@ -5,9 +5,14 @@ const path = require('path'); // Import the path module
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
-  cors: { origin: '*' },
-  pingInterval: 25000,   // Ping every 25 seconds
-  pingTimeout: 180000,   // Allow up to 3 minutes (180000 ms) without a pong before disconnecting
+  cors: {
+    origin: '*',  // Adjust this for security in production
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  },
+  pingInterval: 10000,  // Send a ping every 10 seconds
+  pingTimeout: 180000,   // Allow up to 180ß seconds without a pong before disconnecting
 });
 const PORT = process.env.PORT || 3001; // Default to 3001 if not on Heroku
 const cors = require('cors');
