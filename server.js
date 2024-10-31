@@ -11,8 +11,8 @@ const io = socketIo(server, {
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   },
-  pingInterval: 10000,  // Send a ping every 10 seconds
-  pingTimeout: 180000,   // Allow up to 180ß seconds without a pong before disconnecting
+  pingInterval: 5000,  // Send a ping every 5 seconds
+  pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
 });
 const PORT = process.env.PORT || 3001; // Default to 3001 if not on Heroku
 const cors = require('cors');
