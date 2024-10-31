@@ -19,6 +19,8 @@ const cors = require('cors');
 const rooms = {};  // Store rooms and players
 const playerStats = {};  // Store drink and shotgun counts for each player
 const roundResults = {};  // Store drink assignments for each round
+const formerPlayers = {};  // Store former players by name when they disconnect
+
 
 // Enable CORS for all routes
 app.use(cors());
@@ -145,20 +147,34 @@ io.on('connection', (socket) => {
  // Join Room or game
 socket.on('joinRoom', (roomCode, playerName) => {
   if (rooms[roomCode]) {
-      // Add the new player to the room
-      rooms[roomCode].players.push({ id: socket.id, name: playerName });
-      playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
-      socket.join(roomCode);
+    let playerData;
+
+    // Check if the playerName exists in formerPlayers
+    if (formerPlayers[playerName]) {
+      playerData = formerPlayers[playerName];
+      delete formerPlayers[playerName];  // Remove from formerPlayers after rejoining
+      console.log(`Player ${playerName} is rejoining with restored data.`);
+    } else {
+      // Initialize new player data if not reconnecting
+      playerData = { id: socket.id, name: playerName, drinks: 0, shotguns: 0, standard: [], wild: [] };
+    }
+
+    // Add the player to the room and update stats
+    rooms[roomCode].players.push({ id: socket.id, name: playerName });
+    playerStats[socket.id] = playerData;
+    socket.join(roomCode);
+
 
       // Check if the game has already started
       if (rooms[roomCode].gameStarted) {
           const room = rooms[roomCode];
           const { standardDeck, wildDeck } = room.deck;  // Get the existing decks
 
-          // Deal cards to the new player
-          const newStandardCards = standardDeck.splice(0, 5);  // Deal 5 standard cards
-          const newWildCards = wildDeck.splice(0, 2);  // Deal 2 wild cards
-
+         // If player data is new, deal cards; otherwise, use restored hand
+      if (playerData.standard.length === 0) {
+        playerData.standard = standardDeck.splice(0, 5);  // Deal 5 standard cards
+        playerData.wild = wildDeck.splice(0, 2);  // Deal 2 wild cards
+      }
           // Update the playerStats for the new player
           playerStats[socket.id].standard = newStandardCards;
           playerStats[socket.id].wild = newWildCards;
@@ -204,6 +220,20 @@ socket.on('joinRoom', (roomCode, playerName) => {
       const playerIndex = players.findIndex(player => player.id === socket.id);
 
       if (playerIndex !== -1) {
+
+            // Log player stats and hands before disconnecting
+            console.log(`Saving stats for leaving player ${player.name} with ID ${socket.id}`);
+        
+            // Store player data in formerPlayers by their name
+            formerPlayers[player.name] = {
+              id: socket.id,  // Original socket ID (not needed but included for reference)
+              name: player.name,
+              drinks: playerStats[socket.id].drinks || 0,
+              shotguns: playerStats[socket.id].shotguns || 0,
+              standard: playerStats[socket.id].standard || [],
+              wild: playerStats[socket.id].wild || []
+            };
+    
         players.splice(playerIndex, 1);
         socket.leave(roomCode);
         delete playerStats[socket.id];  // Remove player stats
@@ -698,6 +728,7 @@ socket.on('leaveGame', ({ roomCode }) => {
 
 // Handle Player Disconnection 
 socket.on('disconnect', () => {
+  
     console.log('A user disconnected:', socket.id);
     let roomToDelete = null;
   
@@ -710,6 +741,20 @@ socket.on('disconnect', () => {
         const playerIndex = players.findIndex(player => player.id === socket.id);
   
         if (playerIndex !== -1) {
+
+              // Log player stats and hands before disconnecting
+        console.log(`Saving stats for disconnected player ${player.name} with ID ${socket.id}`);
+        
+        // Store player data in formerPlayers by their name
+        formerPlayers[playerStats.name] = {
+          id: socket.id,  // Original socket ID (not needed but included for reference)
+          name: playerStats.name,
+          drinks: playerStats[socket.id].drinks || 0,
+          shotguns: playerStats[socket.id].shotguns || 0,
+          standard: playerStats[socket.id].standard || [],
+          wild: playerStats[socket.id].wild || []
+        };
+
           // Remove the player from the room and delete their stats
           players.splice(playerIndex, 1);
           delete playerStats[socket.id];

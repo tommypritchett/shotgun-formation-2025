@@ -319,8 +319,20 @@ useEffect(() => {
   };
 }, []);
 
-
-
+// connect logs
+useEffect(() => {
+  socket.on('connect', () => console.log('Connected to server.'));
+  socket.on('disconnect', () => console.log('Disconnected from server.'));
+  socket.on('reconnect_attempt', attempt => console.log(`Reconnection attempt: ${attempt}`));
+  socket.on('reconnect_failed', () => console.log('Reconnection failed.'));
+  
+  return () => {
+    socket.off('connect');
+    socket.off('disconnect');
+    socket.off('reconnect_attempt');
+    socket.off('reconnect_failed');
+  };
+}, []);
 
   // Listen for the wild card selection from the server
   useEffect(() => {
