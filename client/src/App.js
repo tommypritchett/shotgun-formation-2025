@@ -795,32 +795,32 @@ if (gameState === 'game') {
         </div>
 
         {/* Wild Card Swap Modal */}
-        {isWildCardSelectionOpen && (
-          <div className="wild-card-swap-modal">
-            <div className="wild-card-content">
-              <h3>Select a Wild Card to Discard</h3>
-              <ul>
-                {players.find(p => p.id === socket.id)?.cards.wild.map((card, index) => (
-                  <li key={index}>
-                    <button
-                      onClick={() => handleSelectWildCardToDiscard(card)}
-                      style={{
-                        backgroundColor: selectedWildCardToDiscard === card ? '#f00' : '#fff', // Highlight selected card
-                        color: selectedWildCardToDiscard === card ? '#fff' : '#000', // Adjust text color
-                      }}
-                    >
-                      {card.card ? card.card : JSON.stringify(card)} {/* Fix wild card rendering */}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <button onClick={confirmWildCardSwap} disabled={!selectedWildCardToDiscard}>
-                Confirm Swap
-              </button>
-              <button onClick={() => setIsWildCardSelectionOpen(false)}>Cancel</button>
-            </div>
-          </div>
-        )}
+{isWildCardSelectionOpen && (
+  <div className="modal-overlay">
+    <div className="wild-card-swap-modal">
+      <h3>Select a Wild Card to Discard and return a new one</h3>
+      <ul>
+        {players.find(p => p.id === socket.id)?.cards.wild.map((card, index) => (
+          <li key={index}>
+            <button
+              onClick={() => handleSelectWildCardToDiscard(card)}
+              style={{
+                backgroundColor: selectedWildCardToDiscard === card ? '#f00' : '#fff', // Highlight selected card
+                color: selectedWildCardToDiscard === card ? '#fff' : '#000', // Adjust text color
+              }}
+            >
+              {card.card ? card.card : JSON.stringify(card)} {/* Fix wild card rendering */}
+            </button>
+          </li>
+        ))}
+      </ul>
+      <button onClick={confirmWildCardSwap} disabled={!selectedWildCardToDiscard}>
+        Confirm Swap
+      </button>
+      <button onClick={() => setIsWildCardSelectionOpen(false)}>Cancel</button>
+    </div>
+  </div>
+)}
 
 {/* Declare Action Button for Host */}
 {isHost && (

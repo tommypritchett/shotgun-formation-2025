@@ -263,55 +263,77 @@ ul {
 .host-selection-modal button:hover {
   background-color: #1a9324;
 }
-
-.wild-card-swap-modal {
+/* Full-screen overlay for modals */
+.modal-overlay {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dim the background */
+  z-index: 999; /* Layer it below modal content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Wild Card Swap Modal Styling */
+.wild-card-swap-modal {
+  position: relative;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
 .wild-card-swap-modal h3 {
   margin-bottom: 15px;
-  background-color: white;
 }
 
 .wild-card-swap-modal ul {
   list-style-type: none;
   padding: 0;
-  background-color: white;
+}
+
+.wild-card-swap-modal li {
+  margin: 10px 0;
 }
 
 .wild-card-swap-modal button {
   margin: 5px 0;
   padding: 8px 15px;
-  border: none;
+  border: 1px solid #ddd;
   background-color: #1a9324;
-  color: #000; /* Black text */
+  color: #fff;
   border-radius: 4px;
   cursor: pointer;
+  width: 100%; /* Full width for buttons */
 }
 
 .wild-card-swap-modal button:hover {
-  background-color: #1a9324;
+  background-color: #167a1d; /* Darker green on hover */
 }
 
-/* General Modal Styling */
+.wild-card-swap-modal button[disabled] {
+  background-color: #ccc; /* Disabled button style */
+  cursor: not-allowed;
+}
+
+/* General Modal Content Styling */
 .modal-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
 .modal-content h3 {
@@ -329,18 +351,7 @@ ul {
 }
 
 .modal-content button:hover {
-  background-color: #1a9324;
-}
-
-/* Full-screen overlay for modals */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dim the background */
-  z-index: 999;
+  background-color: #167a1d; /* Darker green on hover */
 }
 
 /* Specific Modal Styles */
@@ -355,7 +366,7 @@ ul {
 /* Card container for both standard and wild cards */
 .card, .wild-card-content {
   border: 1px solid #000;
-  width: 80px;  /* Smaller width */
+  width: 80px; /* Smaller width */
   height: 120px; /* Smaller height */
   background-color: #1a9324; /* Green for action cards */
   display: flex;
