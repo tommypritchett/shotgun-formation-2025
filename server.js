@@ -665,7 +665,7 @@ socket.on('leaveGame', ({ roomCode }) => {
     if (!room) return;  // If the room doesn't exist, do nothing
 
         // Log player stats and hands before disconnecting
-        console.log(`Saving stats for leaving player ${players.name} with ID ${socket.id}`);
+        console.log(`Saving stats for leaving player ${playerStats.name} with ID ${socket.id}`);
         
         // Store player data in formerPlayers by their name
         formerPlayers[playerStats.name] = {
@@ -747,7 +747,7 @@ socket.on('disconnect', () => {
         if (playerIndex !== -1) {
 
               // Log player stats and hands before disconnecting
-        console.log(`Saving stats for disconnected player ${players.name} with ID ${socket.id}`);
+        console.log(`Saving stats for disconnected player ${playerStats.name} with ID ${socket.id}`);
         
         // Store player data in formerPlayers by their name
         formerPlayers[playerStats.name] = {
