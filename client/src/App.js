@@ -7,7 +7,7 @@ const socket = io(process.env.REACT_APP_API_URL || 'https://shotgun-formation.on
   reconnectionAttempts: 5,        // Try to reconnect up to 5 times
   reconnectionDelay: 5000,        // Wait 5 seconds between each reconnection attempt
   timeout: 60000,                 // Wait 60 seconds before failing the connection
-  pingInterval: 25000,            // Send a ping every 25 seconds (match backend)
+  pingInterval: 10000,            // Send a ping every 25 seconds (match backend)
   pingTimeout: 180000,            // Allow up to 3 minutes without a pong (match backend)
 });
 
