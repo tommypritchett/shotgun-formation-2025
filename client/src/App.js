@@ -663,8 +663,10 @@ if (gameState === 'game') {
     <div className="game-table">
       <h2>ShotGun Formation!</h2>
 
-      {/* Quarter Display in the top right */}
+ 
+      {/* Quarter and room code Display in the top right */}
       <div style={{ position: 'fixed', top: '20px', right: '20px' }}>
+      <h3>Room Code: {roomCode}</h3> {/* Display the room code */}
         <h3>QTR: {quarter}</h3> {/* Display the current quarter */}
       </div>
       {/* Player Icons (Top, 2 rows) */}
