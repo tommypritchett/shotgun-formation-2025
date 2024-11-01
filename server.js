@@ -204,13 +204,16 @@ socket.on('joinRoom', (roomCode, playerName) => {
       // If the room doesn't exist, send an error to the player
       io.to(socket.id).emit('error', 'Room not found');
   }
-     // Update the hands of all players (including the new player) to ensure everyone is in sync
-     rooms[roomCode].players.forEach(player => {
-      const playerHand = playerStats[player.id];
-      io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });  
-      console.log(`Join hand for player ${player.id}:`, playerHand.standard);
-
-    });
+   // Update the hands of all players (including the new player) to ensure everyone is in sync
+if (rooms[roomCode].players) {
+  rooms[roomCode].players.forEach(player => {
+    const playerHand = playerStats[player.id];
+    io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });  
+    console.log(`Join hand for player ${player.id}:`, playerHand.standard);
+  });
+} else {
+  console.log(`No players found in room ${roomCode}`);
+}
 });
 
   // Leave Room
