@@ -205,10 +205,11 @@ socket.on('joinRoom', (roomCode, playerName) => {
       io.to(socket.id).emit('error', 'Room not found');
   }
    // Update the hands of all players (including the new player) to ensure everyone is in sync
-if (rooms[roomCode].players) {
+// Only proceed if rooms[roomCode] and rooms[roomCode].players are defined
+if (rooms[roomCode]?.players) {
   rooms[roomCode].players.forEach(player => {
     const playerHand = playerStats[player.id];
-    io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });  
+    io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
     console.log(`Join hand for player ${player.id}:`, playerHand.standard);
   });
 } else {
