@@ -7,12 +7,12 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: '*',  // Adjust this for security in production
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+   // methods: ['GET', 'POST'],
+   // allowedHeaders: ['Content-Type', 'Authorization'],
+   // credentials: true,
   },
-  pingInterval: 5000,  // Send a ping every 5 seconds
-  pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
+  //pingInterval: 5000,  // Send a ping every 5 seconds
+ // pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
 });
 const PORT = process.env.PORT || 3001; // Default to 3001 if not on Heroku
 const cors = require('cors');
