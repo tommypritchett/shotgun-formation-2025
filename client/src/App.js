@@ -320,6 +320,13 @@ useEffect(() => {
 }, []);
 
 // connection logs
+socket.on('connect_error', (error) => {
+  console.error('Connection error:', error);
+});
+
+socket.on('error', (error) => {
+  console.error('Socket error:', error);
+});
 
 socket.on('connect', () => {
   console.log('Connected to server:', socket.id);

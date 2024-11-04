@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: '*',  // Adjust this for security in production
+    origin: 'https://shotgun-formation.onrender.com',  // Adjust this for security in production
    methods: ['GET', 'POST'],
    allowedHeaders: ['Content-Type', 'Authorization'],
    credentials: true,
@@ -127,13 +127,35 @@ const finalizeRound = (roomCode) => {
       }
     }, 1000);
   };
+  // connection errors
+  io.on('connection', (socket) => {
+    console.log(`User connected: ${socket.id}`);
   
-// reconnect logs
-io.on('connection', (socket) => {
-  socket.on('reconnect_attempt', (attemptNumber) => {
-    console.log(`User ${socket.id} attempting to reconnect. Attempt #${attemptNumber}`);
+    // Log errors
+    socket.on('error', (error) => {
+      console.error(`Error from socket ${socket.id}:`, error);
+    });
+  
+    // Log disconnects and reasons
+    socket.on('disconnect', (reason) => {
+      console.log(`User disconnected: ${socket.id}. Reason: ${reason}`);
+    });
+  
+    // Log reconnect attempts
+    socket.on('reconnect_attempt', (attemptNumber) => {
+      console.log(`Reconnect attempt ${attemptNumber} for socket ${socket.id}`);
+    });
+  
+    // Log successful reconnections
+    socket.on('reconnect', (attemptNumber) => {
+      console.log(`User reconnected: ${socket.id} after ${attemptNumber} attempts`);
+    });
+  
+    // Log failed reconnection attempts
+    socket.on('reconnect_failed', () => {
+      console.log(`Reconnection failed for socket ${socket.id}`);
+    });
   });
-});
 
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
@@ -751,7 +773,7 @@ socket.on('leaveGame', ({ roomCode }) => {
 
 
 // Handle Player Disconnection 
-socket.on('disconnect', () => {
+socket.on('disconnect', (reason) => {
   
   console.log(`User disconnected: ${socket.id}. Reason: ${reason}`);
   let roomToDelete = null;
