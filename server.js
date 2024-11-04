@@ -4,6 +4,12 @@ const socketIo = require('socket.io');
 const path = require('path'); // Import the path module
 const app = express();
 const server = http.createServer(app);
+
+
+// Set keep-alive timeout to ensure connections stay open longer
+server.keepAliveTimeout = 65000;  // 65 seconds
+server.headersTimeout = 66000;    // Slightly longer than keepAliveTimeout
+
 const io = socketIo(server, {
   cors: {
     origin: 'https://shotgun-formation.onrender.com',  // Adjust this for security in production
@@ -128,7 +134,7 @@ const finalizeRound = (roomCode) => {
     }, 1000);
   };
   // connection logs 
-  
+
   io.on('connection', (socket) => {
     console.log(`User connected: ${socket.id}`);
   
