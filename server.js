@@ -7,12 +7,12 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: '*',  // Adjust this for security in production
-   // methods: ['GET', 'POST'],
-   // allowedHeaders: ['Content-Type', 'Authorization'],
-   // credentials: true,
+   methods: ['GET', 'POST'],
+   allowedHeaders: ['Content-Type', 'Authorization'],
+   credentials: true,
   },
-  //pingInterval: 5000,  // Send a ping every 5 seconds
- // pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
+  pingInterval: 5000,  // Send a ping every 5 seconds
+  pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
 });
 const PORT = process.env.PORT || 3001; // Default to 3001 if not on Heroku
 const cors = require('cors');
@@ -128,7 +128,12 @@ const finalizeRound = (roomCode) => {
     }, 1000);
   };
   
-
+// reconnect logs
+io.on('connection', (socket) => {
+  socket.on('reconnect_attempt', (attemptNumber) => {
+    console.log(`User ${socket.id} attempting to reconnect. Attempt #${attemptNumber}`);
+  });
+});
 
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
@@ -381,6 +386,8 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
         wild: playerHand.wild 
     });
 });
+
+
 
 // Handle First Down event
 socket.on('firstDownEvent', ({ roomCode }) => {
@@ -742,11 +749,12 @@ socket.on('leaveGame', ({ roomCode }) => {
     });
 });
 
+
 // Handle Player Disconnection 
 socket.on('disconnect', () => {
   
-    console.log('A user disconnected:', socket.id);
-    let roomToDelete = null;
+  console.log(`User disconnected: ${socket.id}. Reason: ${reason}`);
+  let roomToDelete = null;
   
     for (let roomCode in rooms) {
       const room = rooms[roomCode];

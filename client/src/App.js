@@ -3,12 +3,12 @@ import io from 'socket.io-client';
 import './App.css';  // Import the updated CSS
 
 const socket = io(process.env.REACT_APP_API_URL || 'https://shotgun-formation.onrender.com', {  
- // reconnection: true,            // Enable reconnection
- // reconnectionAttempts: 5,        // Try to reconnect up to 5 times
- // reconnectionDelay: 5000,        // Wait 5 seconds between each reconnection attempt
-//  timeout: 60000,                 // Wait 60 seconds before failing the connection
-//  pingInterval: 5000,  // Send a ping every 5 seconds
- // pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
+  reconnection: true,            // Enable reconnection
+  reconnectionAttempts: 5,        // Try to reconnect up to 5 times
+  reconnectionDelay: 5000,        // Wait 5 seconds between each reconnection attempt
+  timeout: 60000,                 // Wait 60 seconds before failing the connection
+  pingInterval: 5000,  // Send a ping every 5 seconds
+  pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
 });
 
 // const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:3001');
@@ -319,20 +319,28 @@ useEffect(() => {
   };
 }, []);
 
-// connect logs
-useEffect(() => {
-  socket.on('connect', () => console.log('Connected to server.'));
-  socket.on('disconnect', () => console.log('Disconnected from server.'));
-  socket.on('reconnect_attempt', attempt => console.log(`Reconnection attempt: ${attempt}`));
-  socket.on('reconnect_failed', () => console.log('Reconnection failed.'));
-  
-  return () => {
-    socket.off('connect');
-    socket.off('disconnect');
-    socket.off('reconnect_attempt');
-    socket.off('reconnect_failed');
-  };
-}, []);
+// connection logs
+
+socket.on('connect', () => {
+  console.log('Connected to server:', socket.id);
+});
+
+socket.on('disconnect', (reason) => {
+  console.log('Disconnected from server. Reason:', reason);
+});
+
+socket.on('reconnect_attempt', (attemptNumber) => {
+  console.log(`Reconnection attempt #${attemptNumber}`);
+});
+
+socket.on('reconnect', (attemptNumber) => {
+  console.log(`Successfully reconnected after ${attemptNumber} attempt(s)`);
+});
+
+socket.on('reconnect_failed', () => {
+  console.log('Reconnection failed after maximum attempts');
+});
+
 
   // Listen for the wild card selection from the server
   useEffect(() => {
