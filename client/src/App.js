@@ -3,7 +3,8 @@ import io from 'socket.io-client';
 import './App.css';  // Import the updated CSS
 
 const socket = io(process.env.REACT_APP_API_URL || 'https://shotgun-formation.onrender.com', {  
-  reconnection: true,            // Enable reconnection
+  transports: ['websocket'], // Force WebSocket transport
+reconnection: true,            // Enable reconnection
   reconnectionAttempts: 5,        // Try to reconnect up to 5 times
   reconnectionDelay: 5000,        // Wait 5 seconds between each reconnection attempt
   timeout: 60000,                 // Wait 60 seconds before failing the connection

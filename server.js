@@ -127,7 +127,8 @@ const finalizeRound = (roomCode) => {
       }
     }, 1000);
   };
-  // connection errors
+  // connection logs 
+  
   io.on('connection', (socket) => {
     console.log(`User connected: ${socket.id}`);
   
