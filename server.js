@@ -17,6 +17,7 @@ const io = socketIo(server, {
    allowedHeaders: ['Content-Type', 'Authorization'],
    credentials: true,
   },
+  transports: ['websocket'],  // Ensure only websocket transport is used
   pingInterval: 5000,  // Send a ping every 5 seconds
   pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
 });
