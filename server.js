@@ -18,8 +18,8 @@ const io = socketIo(server, {
    credentials: true,
   },
   transports: ['websocket'],  // Ensure only websocket transport is used
-  pingInterval: 10000,  // Send a ping every 5 seconds
-  pingTimeout: 180000,   // Allow up to 60 seconds without a pong before disconnecting
+  pingInterval: 50000,  // Send a ping every 5 seconds
+  pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
 });
 const PORT = process.env.PORT || 3001; // Default to 3001 if not on Heroku
 const cors = require('cors');
