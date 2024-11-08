@@ -32,10 +32,11 @@ function App() {
     drinks: {},     // Track assigned drinks
     shotguns: {}    // Track assigned shotguns
   });
+  const [noCardMessage, setNoCardMessage] = useState(false);
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // Add class to disable game interactions when the menu is open
-const gameElementsClass = isMenuOpen ? 'game-elements-disabled' : '';
+// const gameElementsClass = isMenuOpen ? 'game-elements-disabled' : '';
   // New state to track if host selection is in progress
 const [isHostSelection, setIsHostSelection] = useState(false);
     const [isDistributing, setIsDistributing] = useState(false);  // Flag to control drink distribution
@@ -385,9 +386,8 @@ useEffect(() => {
 useEffect(() => {
   socket.on('noCard', (message) => {
     if (message) {
-      setDeclaredCard(message);  // Display "No one had this card" message
-    } else {
-      setDeclaredCard('');  // Clear the message after 5 seconds
+      setNoCardMessage(true);
+      setTimeout(() => setNoCardMessage(false), 5000);  // Clear message after 5 seconds
     }
   });
 
@@ -395,6 +395,8 @@ useEffect(() => {
     socket.off('noCard');
   };
 }, []);
+
+
 
 // Listen for the timer updates from the server
 useEffect(() => {
@@ -796,6 +798,16 @@ if (gameState === 'game') {
           ))}
         </div>
       )}
+
+      {/* No Card Message Modal */}
+{noCardMessage && (
+  <div className="drink-assignment-modal">
+    <div className="modal-content">
+      <h3>No Drinks</h3>
+      <p>No one had this card.</p>
+    </div>
+  </div>
+)}
       
       {/* Close the modal automatically if time reaches 0 */}
       {timeRemaining === 0 && closeModal('drinkAssignmentModal')}
