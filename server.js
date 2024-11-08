@@ -485,6 +485,26 @@ socket.on('firstDownEvent', ({ roomCode }) => {
 
     console.log(`Host in room ${roomCode} has declared ${cardType}.`);
 
+    let anyPlayerHasCard = false;
+    room.players.forEach((player) => {
+      const playerHand = playerStats[player.id];
+      if (playerHand.standard.some(card => card.card === cardType)) {
+        anyPlayerHasCard = true;
+      }
+    });
+  
+    if (!anyPlayerHasCard) {
+      // If no one has the card, inform the room and reset the action status
+      io.to(roomCode).emit('noCard', 'No one had this card');
+      rooms.isActionInProgress = false;
+  
+      // Show the message for 5 seconds, then clear it
+      setTimeout(() => {
+        io.to(roomCode).emit('noCard', '');  // Clear the message
+      }, 5000);
+  
+      return;
+    }
 
      // Send the declared card to all players in the room
   io.to(roomCode).emit('declaredCard', cardType);  // Broadcast the declared card

@@ -382,6 +382,19 @@ useEffect(() => {
   };
 }, []);
 
+useEffect(() => {
+  socket.on('noCard', (message) => {
+    if (message) {
+      setDeclaredCard(message);  // Display "No one had this card" message
+    } else {
+      setDeclaredCard('');  // Clear the message after 5 seconds
+    }
+  });
+
+  return () => {
+    socket.off('noCard');
+  };
+}, []);
 
 // Listen for the timer updates from the server
 useEffect(() => {
