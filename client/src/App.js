@@ -777,7 +777,11 @@ if (gameState === 'game') {
       onClick={() => handleWildCardSelect(card.card)}
     >
       <div className="card-name">{card.card}</div> {/* Card Name */}
-      <div className="drink-count">{card.drinks} Drinks</div> {/* Drink Count */}
+      <div className="drink-count">
+        {card.drinks >= 10 
+          ? `${Math.floor(card.drinks / 10)} Shotgun${Math.floor(card.drinks / 10) > 1 ? 's' : ''}`
+          : `${card.drinks} Drink${card.drinks > 1 ? 's' : ''}`}
+      </div> {/* Shotgun or Drink Count */}
     </button>
   </li>
 ))}
