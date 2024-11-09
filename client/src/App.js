@@ -799,18 +799,20 @@ if (gameState === 'game') {
         </div>
       )}
 
+
+      
+      {/* Close the modal automatically if time reaches 0 */}
+      {timeRemaining === 0 && closeModal('drinkAssignmentModal')}
+    </div>
+  </div>
+)}
+
       {/* No Card Message Modal */}
-{noCardMessage && (
+      {noCardMessage && (
   <div className="drink-assignment-modal">
     <div className="modal-content">
       <h3>No Drinks</h3>
       <p>No one had this card.</p>
-    </div>
-  </div>
-)}
-      
-      {/* Close the modal automatically if time reaches 0 */}
-      {timeRemaining === 0 && closeModal('drinkAssignmentModal')}
     </div>
   </div>
 )}
