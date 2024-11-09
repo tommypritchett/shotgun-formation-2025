@@ -185,6 +185,7 @@ const handleGiveDrink = (selectedPlayerId, type) => {
     setAssignedDrinks({ drinks: updatedDrinks, shotguns: updatedShotguns });
 
     // Send the drink and shotgun assignments once the totals match the available drinks and shotguns
+    /*
     if ((totalAssignedDrinks === drinksToGive && totalAssignedShotguns === shotgunsToGive) && !localDrinksAssigned) {
       socket.emit('assignDrinks', {
         roomCode,  // Room code to identify the game
@@ -196,6 +197,7 @@ const handleGiveDrink = (selectedPlayerId, type) => {
       console.log("Local Drinks Assigned Flag:", localDrinksAssigned);
       console.log(`Assignment complete for player: ${selectedPlayerId}`);
     }
+*/
 
     // Return the updated state
     return { drinks: updatedDrinks, shotguns: updatedShotguns };
@@ -396,7 +398,33 @@ useEffect(() => {
   };
 }, []);
 
+// send stats after timer ends
 
+useEffect(() => {
+  if (timeRemaining === 0) {
+    // Check if there are any assignments to be sent
+    const totalAssignedDrinks = Object.values(assignedDrinks.drinks || {}).reduce((acc, cur) => acc + cur, 0);
+    const totalAssignedShotguns = Object.values(assignedDrinks.shotguns || {}).reduce((acc, cur) => acc + cur, 0);
+
+    if (totalAssignedDrinks > 0 || totalAssignedShotguns > 0) {
+      console.log("Sending drink and shotgun assignments after timer hit zero");
+
+      const allSelectedPlayerIds = [
+        ...new Set([...Object.keys(assignedDrinks.drinks || {}), ...Object.keys(assignedDrinks.shotguns || {})])
+      ];
+
+      socket.emit('assignDrinks', {
+        roomCode,  // Room code to identify the game
+        selectedPlayerIds: allSelectedPlayerIds,  // All player IDs receiving drinks/shotguns
+        drinksToGive: assignedDrinks.drinks,  // The entire set of drink assignments
+        shotgunsToGive: assignedDrinks.shotguns  // The entire set of shotgun assignments
+      });
+
+      // Reset the assignments after emitting
+      setAssignedDrinks({ drinks: {}, shotguns: {} });
+    }
+  }
+}, [timeRemaining]);
 
 // Listen for the timer updates from the server
 useEffect(() => {

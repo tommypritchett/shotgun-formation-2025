@@ -679,7 +679,7 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
           console.log(`Player ${selectedPlayerId} reached 10 drinks and has to shotgun!`);
         }
       }
-      console.log("shotgund to give",shotgunsToGive, "shotguns to give[selectedPlayerId]", shotgunsToGive[selectedPlayerId]);
+      console.log("shotguns to give",shotgunsToGive, "shotguns to give[selectedPlayerId]", shotgunsToGive[selectedPlayerId]);
 
       // Add shotguns to the player's round results, if applicable
       if (shotgunsToGive && shotgunsToGive[selectedPlayerId]) {
