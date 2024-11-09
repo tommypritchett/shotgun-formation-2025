@@ -769,7 +769,7 @@ if (gameState === 'game') {
 )}
 
           {/* Drink assignment UI Modal with Timer */}
-{timeRemaining > 0 && (
+{timeRemaining > 0 && declaredCard !== 'First Down' && (
   <div className="drink-assignment-modal">
     <div className="modal-content">
       <h3>Card Played: {declaredCard}</h3>
