@@ -184,15 +184,17 @@ socket.on('joinRoom', (roomCode, playerName) => {
   if (rooms[roomCode]) {
     let playerData;
 
-    // Check if the playerName exists in formerPlayers
-    if (formerPlayers[playerName]) {
+    // Check if the playerName exists in formerPlayers and that the roomCode matches
+    if (formerPlayers[playerName] && formerPlayers[playerName].roomCode === roomCode) {
       playerData = formerPlayers[playerName];
       delete formerPlayers[playerName];  // Remove from formerPlayers after rejoining
-      console.log(`Player ${playerName} is rejoining with restored data.`);
+      console.log(`Player ${playerName} is rejoining room ${roomCode} with restored data.`);
     } else {
-      // Initialize new player data if not reconnecting
+      // Initialize new player data if not reconnecting or if the roomCode doesn't match
       playerData = { id: socket.id, name: playerName, drinks: 0, shotguns: 0, standard: [], wild: [] };
+      console.log(`Player ${playerName} is joining as a new player in room ${roomCode}.`);
     }
+
 
     // Add the player to the room and update stats
     rooms[roomCode].players.push({ id: socket.id, name: playerName });
@@ -738,6 +740,7 @@ socket.on('leaveGame', ({ roomCode }) => {
     formerPlayers[leavingPlayer.name] = {
       id: socket.id,  // Original socket ID (for reference)
       name: leavingPlayer.name,
+      roomCode: roomCode,            // Last room the player was in
       totalDrinks: playerStats[socket.id].totalDrinks || 0,
       totalShotguns: playerStats[socket.id].totalShotguns || 0,
       standard: playerStats[socket.id].standard || [],
@@ -826,6 +829,7 @@ socket.on('disconnect', (reason) => {
           formerPlayers[leavingPlayer.name] = {
             id: socket.id,  // Original socket ID (for reference)
             name: leavingPlayer.name,
+            roomCode: roomCode,            // Last room the player was in
             totalDrinks: playerStats[socket.id].totalDrinks || 0,
             totalShotguns: playerStats[socket.id].totalShotguns || 0,
             standard: playerStats[socket.id].standard || [],
