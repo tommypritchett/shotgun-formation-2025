@@ -138,7 +138,8 @@ const finalizeRound = (roomCode) => {
 
   io.on('connection', (socket) => {
     console.log(`User connected: ${socket.id}`);
-  
+    console.log(`Client connected using transport: ${socket.conn.transport.name}`);
+
     // Log errors
     socket.on('error', (error) => {
       console.error(`Error from socket ${socket.id}:`, error);
