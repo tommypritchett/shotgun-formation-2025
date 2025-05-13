@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import './App.css';  // Import the updated CSS
 
-const socket = io(process.env.REACT_APP_API_URL || 'https://shotgun-formation.onrender.com', {  
+const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com', {  
   transports: ['websocket'],  // Allow  websocket
 reconnection: true,            // Enable reconnection
   reconnectionAttempts: 5,        // Try to reconnect up to 5 times
