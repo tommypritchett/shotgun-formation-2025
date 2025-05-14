@@ -12,15 +12,19 @@ server.headersTimeout = 66000;    // Slightly longer than keepAliveTimeout
 
 const io = socketIo(server, {
   cors: {
-    origin: 'https://shotgun-formation.onrender.com',  // Adjust this for security in production
-   methods: ['GET', 'POST'],
-   allowedHeaders: ['Content-Type', 'Authorization'],
-   credentials: true,
+    origin: '*', // Less restrictive for development, adjust for production
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   },
-  transports: ['websocket'],  // Ensure only websocket transport is used
-  pingInterval: 50000,  // Send a ping every 5 seconds
-  pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
+  transports: ['websocket', 'polling'], // Allow polling as fallback
+  pingInterval: 25000, // More frequent pings (25 seconds)
+  pingTimeout: 120000, // Longer timeout (2 minutes)
+  connectTimeout: 120000, // Longer connect timeout
+  maxHttpBufferSize: 1e8, // Increased buffer size
 });
+
+
 const PORT = process.env.PORT || 3001; // Default to 3001 if not on Heroku
 const cors = require('cors');
 const rooms = {};  // Store rooms and players

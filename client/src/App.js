@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import './App.css';  // Import the updated CSS
 
-const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com', {  
-  transports: ['websocket'],  // Allow  websocket
-reconnection: true,            // Enable reconnection
-  reconnectionAttempts: 5,        // Try to reconnect up to 5 times
-  reconnectionDelay: 5000,        // Wait 5 seconds between each reconnection attempt
-  timeout: 60000,                 // Wait 60 seconds before failing the connection
-  pingInterval: 50000,  // Send a ping every 5 seconds
-  pingTimeout: 60000,   // Allow up to 60 seconds without a pong before disconnecting
+const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com', {
+  transports: ['websocket', 'polling'], // Add polling as fallback
+  reconnection: true,
+  reconnectionAttempts: Infinity, // Never stop trying to reconnect
+  reconnectionDelay: 1000,  // Start with 1 second delay
+  reconnectionDelayMax: 10000, // Maximum 10 second delay between attempts
+  timeout: 120000, // Increase timeout to 2 minutes
+  pingInterval: 25000, // More frequent pings (every 25 seconds)
+  pingTimeout: 120000, // Longer ping timeout (2 minutes)
+  autoConnect: true
 });
 
 // const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:3001');
