@@ -140,10 +140,40 @@ const finalizeRound = (roomCode) => {
   };
   // connection logs 
 
-  io.on('connection', (socket) => {
-    console.log(`User connected: ${socket.id}`);
-    console.log(`Client connected using transport: ${socket.conn.transport.name}`);
-
+  // Add this to your server.js file in the io.on('connection') section
+io.on('connection', (socket) => {
+  console.log(`Client connected: ${socket.id} with transport: ${socket.conn.transport.name}`);
+  
+  // Set up a heartbeat mechanism to detect disconnected clients
+  let heartbeatInterval;
+  
+  const startHeartbeat = () => {
+    // Clear any existing interval
+    if (heartbeatInterval) clearInterval(heartbeatInterval);
+    
+    // Start a new interval
+    heartbeatInterval = setInterval(() => {
+      // This emit will be used to keep the connection alive
+      socket.emit('heartbeat', { timestamp: Date.now() });
+    }, 20000); // Send a heartbeat every 20 seconds
+  };
+  
+  // Start the heartbeat when a client connects
+  startHeartbeat();
+  
+  // Handle heartbeat acknowledgement
+  socket.on('heartbeat-ack', () => {
+    // We could track the round-trip time here if needed
+    console.log(`Heartbeat acknowledged by ${socket.id}`);
+  });
+  
+  // Clean up the interval when the socket disconnects
+  socket.on('disconnect', () => {
+    if (heartbeatInterval) {
+      clearInterval(heartbeatInterval);
+    }
+  });
+  
     // Log errors
     socket.on('error', (error) => {
       console.error(`Error from socket ${socket.id}:`, error);
@@ -807,6 +837,41 @@ socket.on('leaveGame', ({ roomCode }) => {
     });
 });
 
+// Add this handler in the io.on('connection') block
+socket.on('requestGameState', ({ roomCode }) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  
+  // Find the player in the room
+  const player = room.players.find(p => p.id === socket.id);
+  if (!player) return;
+  
+  // Get the player's current stats and hand
+  const playerHand = playerStats[socket.id];
+  if (!playerHand) return;
+  
+  console.log(`Player ${socket.id} requested current game state after reconnection`);
+  
+  // Send the player their current hand and game stats
+  socket.emit('updatePlayerHand', { 
+    standard: playerHand.standard || [], 
+    wild: playerHand.wild || [] 
+  });
+  
+  // Send current player stats and round results
+  socket.emit('updatePlayerStats', {
+    players: playerStats,
+    roundResults: roundResults[roomCode] || {}
+  });
+  
+  // Send current quarter
+  socket.emit('quarterUpdated', room.quarter || 1);
+  
+  // If there's an action in progress, send that information
+  if (rooms.isActionInProgress) {
+    socket.emit('actionInProgress', 'Reconnected during an action in progress');
+  }
+});
 
 // Handle Player Disconnection 
 socket.on('disconnect', (reason) => {

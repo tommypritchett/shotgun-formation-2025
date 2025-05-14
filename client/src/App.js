@@ -300,6 +300,108 @@ const closeModal = (modalType) => {
       break;
   }
 };
+
+// Add these functions to your App.js
+const saveGameStateLocally = () => {
+  try {
+    if (players.length > 0 && roomCode) {
+      const localGameState = {
+        players,
+        playerStats,
+        roomCode,
+        quarter,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('shotgunFormation_gameState', JSON.stringify(localGameState));
+      console.log('Game state saved locally');
+    }
+  } catch (error) {
+    console.error('Failed to save game state locally:', error);
+  }
+};
+
+const loadGameStateLocally = () => {
+  try {
+    const savedState = localStorage.getItem('shotgunFormation_gameState');
+    if (savedState) {
+      const parsedState = JSON.parse(savedState);
+      const isStale = Date.now() - parsedState.timestamp > 1000 * 60 * 30; // 30 minutes
+      
+      if (!isStale && parsedState.roomCode === roomCode) {
+        return parsedState;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to load game state locally:', error);
+  }
+  return null;
+};
+
+// Call saveGameStateLocally periodically
+useEffect(() => {
+  if (gameState === 'game') {
+    // Save game state every 15 seconds
+    const saveInterval = setInterval(saveGameStateLocally, 15000);
+    return () => clearInterval(saveInterval);
+  }
+}, [gameState, players, playerStats, roomCode, quarter]);
+
+// Add this to your useEffect in App.js
+useEffect(() => {
+  // Handle server heartbeat
+  const handleHeartbeat = (data) => {
+    // Respond to server heartbeat to keep connection alive
+    socket.emit('heartbeat-ack', { timestamp: data.timestamp });
+  };
+  
+  socket.on('heartbeat', handleHeartbeat);
+  
+  return () => {
+    socket.off('heartbeat', handleHeartbeat);
+  };
+}, [socket]);
+
+
+// Add this useEffect near the top of your App component
+useEffect(() => {
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      console.log('App became visible, checking connection status...');
+      if (!socket.connected) {
+        console.log('Reconnecting after visibility change...');
+        socket.connect();
+        
+        // Request current game state if needed
+        if (gameState === 'game') {
+          socket.emit('requestGameState', { roomCode });
+        }
+      }
+    }
+  };
+
+  // Mobile-specific events for better reconnection
+  const handleAppFocus = () => {
+    console.log('Window focus gained, checking connection...');
+    if (!socket.connected) {
+      socket.connect();
+      
+      // Request current game state if needed
+      if (gameState === 'game') {
+        socket.emit('requestGameState', { roomCode });
+      }
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  window.addEventListener('focus', handleAppFocus);
+  
+  // Clean up event listeners when component unmounts
+  return () => {
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+    window.removeEventListener('focus', handleAppFocus);
+  };
+}, [socket, gameState, roomCode]);
+
 /*
 useEffect(() => {
   // Set zoom to 70% when the page loads
@@ -325,44 +427,81 @@ useEffect(() => {
   };
 }, []);
 
-// connection logs
-socket.on('connect_error', (error) => {
-  console.error('Connection error:', error);
-});
-
-socket.on('error', (error) => {
-  console.error('Socket error:', error);
-});
-
-socket.on('connect', () => {
-  console.log('Connected to server:', socket.id);
-});
-
-socket.on("disconnect", (reason, details) => {
-  // the reason of the disconnection, for example "transport error"
-  console.log(reason);
-
-  // the low-level reason of the disconnection, for example "xhr post error"
-  console.log(details.message);
-
-  // some additional description, for example the status code of the HTTP response
-  console.log(details.description);
-
-  // some additional context, for example the XMLHttpRequest object
-  console.log(details.context);
-});
-
-socket.on('reconnect_attempt', (attemptNumber) => {
-  console.log(`Reconnection attempt #${attemptNumber}`);
-});
-
-socket.on('reconnect', (attemptNumber) => {
-  console.log(`Successfully reconnected after ${attemptNumber} attempt(s)`);
-});
-
-socket.on('reconnect_failed', () => {
-  console.log('Reconnection failed after maximum attempts');
-});
+// Add this to your App.js, replacing your current socket event listeners
+useEffect(() => {
+  // Connection events
+  const handleConnect = () => {
+    console.log('Connected to server:', socket.id);
+    
+    // If we're in a game, request the current state
+    if (gameState === 'game' && roomCode) {
+      socket.emit('requestGameState', { roomCode });
+    }
+  };
+  
+  const handleDisconnect = (reason) => {
+    console.log('Disconnected from server. Reason:', reason);
+    
+    // Only attempt to reconnect if it's a transport close and not an intentional disconnect
+    if (reason === 'transport close' || reason === 'ping timeout') {
+      console.log('Will attempt to reconnect automatically...');
+    }
+  };
+  
+  const handleReconnectAttempt = (attemptNumber) => {
+    console.log(`Reconnection attempt #${attemptNumber}`);
+  };
+  
+  const handleReconnect = (attemptNumber) => {
+    console.log(`Successfully reconnected after ${attemptNumber} attempt(s)`);
+    
+    // If we're in a game, request the current state
+    if (gameState === 'game' && roomCode) {
+      socket.emit('requestGameState', { roomCode });
+      
+      // Try to recover from local storage as a fallback
+      const localState = loadGameStateLocally();
+      if (localState) {
+        console.log('Loaded game state from local storage while waiting for server response');
+        // Only update UI elements that don't depend on fresh server data
+        setQuarter(localState.quarter);
+      }
+    }
+  };
+  
+  const handleReconnectError = (error) => {
+    console.error('Reconnection error:', error);
+  };
+  
+  const handleReconnectFailed = () => {
+    console.log('Failed to reconnect after all attempts');
+    alert('Unable to reconnect to the game. Please refresh the page.');
+  };
+  
+  const handleError = (error) => {
+    console.error('Socket error:', error);
+  };
+  
+  // Add event listeners
+  socket.on('connect', handleConnect);
+  socket.on('disconnect', handleDisconnect);
+  socket.on('reconnect_attempt', handleReconnectAttempt);
+  socket.on('reconnect', handleReconnect);
+  socket.on('reconnect_error', handleReconnectError);
+  socket.on('reconnect_failed', handleReconnectFailed);
+  socket.on('error', handleError);
+  
+  // Clean up listeners
+  return () => {
+    socket.off('connect', handleConnect);
+    socket.off('disconnect', handleDisconnect);
+    socket.off('reconnect_attempt', handleReconnectAttempt);
+    socket.off('reconnect', handleReconnect);
+    socket.off('reconnect_error', handleReconnectError);
+    socket.off('reconnect_failed', handleReconnectFailed);
+    socket.off('error', handleError);
+  };
+}, [socket, gameState, roomCode]);
 
 
   // Listen for the wild card selection from the server
@@ -748,7 +887,7 @@ if (gameState === 'game') {
             <div className="player-image"></div> {/* Div that holds the background image */}
             <div className="player-stats">
             <div>Total Drinks: {playerStats[player.id]?.totalDrinks || 0}</div>
-        <div>Return Shotguns: {playerStats[player.id]?.totalShotguns || 0}</div>
+        <div>Shotguns: {playerStats[player.id]?.totalShotguns || 0}</div>
                   </div>
           </div>
         ))}
