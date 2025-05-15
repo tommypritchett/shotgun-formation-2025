@@ -10,18 +10,19 @@ const server = http.createServer(app);
 server.keepAliveTimeout = 65000;  // 65 seconds
 server.headersTimeout = 66000;    // Slightly longer than keepAliveTimeout
 
+// In server.js
 const io = socketIo(server, {
   cors: {
-    origin: '*', // Less restrictive for development, adjust for production
+    origin: '*',
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   },
-  transports: ['websocket', 'polling'], // Allow polling as fallback
-  pingInterval: 25000, // More frequent pings (25 seconds)
-  pingTimeout: 120000, // Longer timeout (2 minutes)
-  connectTimeout: 120000, // Longer connect timeout
-  maxHttpBufferSize: 1e8, // Increased buffer size
+  transports: ['polling', 'websocket'], // Match client priority
+  pingInterval: 10000, // Match client's more frequent pings
+  pingTimeout: 60000, // Match client's timeout
+  connectTimeout: 60000, // Match client's timeout
+  maxHttpBufferSize: 1e8
 });
 
 
@@ -838,27 +839,54 @@ socket.on('leaveGame', ({ roomCode }) => {
 });
 
 // Add this handler in the io.on('connection') block
+// In server.js - update the requestGameState handler to be more robust
 socket.on('requestGameState', ({ roomCode }) => {
+  console.log(`Player ${socket.id} requested game state for room ${roomCode}`);
   const room = rooms[roomCode];
-  if (!room) return;
+  if (!room) {
+    console.log(`Room ${roomCode} not found`);
+    return;
+  }
   
   // Find the player in the room
-  const player = room.players.find(p => p.id === socket.id);
-  if (!player) return;
+  let player = room.players.find(p => p.id === socket.id);
   
-  // Get the player's current stats and hand
-  const playerHand = playerStats[socket.id];
-  if (!playerHand) return;
+  // Player might be reconnecting with a new socket ID
+  if (!player) {
+    // Look in formerPlayers for a potential match by room
+    const possibleFormerPlayers = Object.values(formerPlayers)
+      .filter(p => p.roomCode === roomCode);
+    
+    if (possibleFormerPlayers.length > 0) {
+      // Add the reconnecting player back to the room
+      player = { id: socket.id, name: possibleFormerPlayers[0].name };
+      room.players.push(player);
+      
+      // Restore their data
+      playerStats[socket.id] = {
+        totalDrinks: possibleFormerPlayers[0].totalDrinks || 0,
+        totalShotguns: possibleFormerPlayers[0].totalShotguns || 0,
+        standard: possibleFormerPlayers[0].standard || [],
+        wild: possibleFormerPlayers[0].wild || []
+      };
+      
+      console.log(`Reconnected player ${socket.id} to room ${roomCode}`);
+      
+      // Remove from formerPlayers
+      delete formerPlayers[possibleFormerPlayers[0].name];
+    } else {
+      console.log(`Unable to find player data for ${socket.id}`);
+      return;
+    }
+  }
   
-  console.log(`Player ${socket.id} requested current game state after reconnection`);
-  
-  // Send the player their current hand and game stats
+  // Send the current game state to the reconnected player
   socket.emit('updatePlayerHand', { 
-    standard: playerHand.standard || [], 
-    wild: playerHand.wild || [] 
+    standard: playerStats[socket.id]?.standard || [], 
+    wild: playerStats[socket.id]?.wild || [] 
   });
   
-  // Send current player stats and round results
+  // Send current player stats and game state
   socket.emit('updatePlayerStats', {
     players: playerStats,
     roundResults: roundResults[roomCode] || {}
@@ -867,10 +895,11 @@ socket.on('requestGameState', ({ roomCode }) => {
   // Send current quarter
   socket.emit('quarterUpdated', room.quarter || 1);
   
-  // If there's an action in progress, send that information
-  if (rooms.isActionInProgress) {
-    socket.emit('actionInProgress', 'Reconnected during an action in progress');
-  }
+  // Notify all other players about the reconnection
+  socket.to(roomCode).emit('playerRejoined', { 
+    playerId: socket.id, 
+    playerName: player.name 
+  });
 });
 
 // Handle Player Disconnection 

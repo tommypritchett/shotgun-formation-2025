@@ -3,14 +3,14 @@ import io from 'socket.io-client';
 import './App.css';  // Import the updated CSS
 
 const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com', {
-  transports: ['websocket', 'polling'], // Add polling as fallback
+  transports: ['polling', 'websocket'], // Put polling FIRST for mobile
   reconnection: true,
-  reconnectionAttempts: Infinity, // Never stop trying to reconnect
-  reconnectionDelay: 1000,  // Start with 1 second delay
-  reconnectionDelayMax: 10000, // Maximum 10 second delay between attempts
-  timeout: 120000, // Increase timeout to 2 minutes
-  pingInterval: 25000, // More frequent pings (every 25 seconds)
-  pingTimeout: 120000, // Longer ping timeout (2 minutes)
+  reconnectionAttempts: Infinity,
+  reconnectionDelay: 200, // Faster initial retry
+  reconnectionDelayMax: 5000, // Cap at 5 seconds between attempts
+  timeout: 60000, // 60 seconds is more reasonable
+  pingInterval: 10000, // More frequent pings (10 seconds)
+  pingTimeout: 60000, // More reasonable ping timeout (1 minute)
   autoConnect: true
 });
 
@@ -301,17 +301,35 @@ const closeModal = (modalType) => {
   }
 };
 
-// Add these functions to your App.js
+// In your App.js, update the saveGameStateLocally function
 const saveGameStateLocally = () => {
   try {
     if (players.length > 0 && roomCode) {
+      // Create a simplified state object that won't cause circular reference errors
       const localGameState = {
-        players,
-        playerStats,
+        players: players.map(p => ({
+          id: p.id,
+          name: p.name,
+          // Only include essential card data
+          cards: p.cards ? {
+            standard: p.cards.standard ? p.cards.standard.map(c => ({ card: c.card, drinks: c.drinks })) : [],
+            wild: p.cards.wild ? p.cards.wild.map(c => ({ card: c.card, drinks: c.drinks })) : []
+          } : { standard: [], wild: [] }
+        })),
         roomCode,
         quarter,
+        isHost,
+        // Simplify playerStats to avoid circular references
+        playerStats: Object.entries(playerStats).reduce((acc, [id, stats]) => {
+          acc[id] = {
+            totalDrinks: stats.totalDrinks || 0,
+            totalShotguns: stats.totalShotguns || 0
+          };
+          return acc;
+        }, {}),
         timestamp: Date.now()
       };
+      
       localStorage.setItem('shotgunFormation_gameState', JSON.stringify(localGameState));
       console.log('Game state saved locally');
     }
@@ -345,6 +363,36 @@ useEffect(() => {
     return () => clearInterval(saveInterval);
   }
 }, [gameState, players, playerStats, roomCode, quarter]);
+
+// Add this to your App.js
+useEffect(() => {
+  // Track connection status changes
+  let lastConnectedStatus = socket.connected;
+  let disconnectTime = null;
+  
+  const checkConnection = () => {
+    // Connection state changed
+    if (lastConnectedStatus !== socket.connected) {
+      if (socket.connected) {
+        const reconnectTime = Date.now();
+        const downtime = disconnectTime ? (reconnectTime - disconnectTime) / 1000 : null;
+        console.log(`Connection restored after ${downtime} seconds of downtime`);
+        disconnectTime = null;
+      } else {
+        disconnectTime = Date.now();
+        console.log('Connection lost at:', new Date(disconnectTime).toISOString());
+      }
+      lastConnectedStatus = socket.connected;
+    }
+  };
+  
+  // Check every second
+  const interval = setInterval(checkConnection, 1000);
+  
+  return () => {
+    clearInterval(interval);
+  };
+}, [socket]);
 
 // Add this to your useEffect in App.js
 useEffect(() => {
