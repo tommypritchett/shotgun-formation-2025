@@ -10,7 +10,6 @@ const server = http.createServer(app);
 server.keepAliveTimeout = 65000;  // 65 seconds
 server.headersTimeout = 66000;    // Slightly longer than keepAliveTimeout
 
-// In server.js
 const io = socketIo(server, {
   cors: {
     origin: '*',

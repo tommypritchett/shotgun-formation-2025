@@ -7,10 +7,10 @@ const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onr
   reconnection: true,
   reconnectionAttempts: Infinity,
   reconnectionDelay: 200, // Faster initial retry
-  reconnectionDelayMax: 5000, // Cap at 5 seconds between attempts
-  timeout: 60000, // 60 seconds is more reasonable
-  pingInterval: 10000, // More frequent pings (10 seconds)
-  pingTimeout: 60000, // More reasonable ping timeout (1 minute)
+  reconnectionDelayMax: 5000, // Cap at 5 seconds
+  timeout: 60000, 
+  pingInterval: 10000, // More frequent pings (10 sec)
+  pingTimeout: 60000,
   autoConnect: true
 });
 
