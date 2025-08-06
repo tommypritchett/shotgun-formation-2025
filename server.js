@@ -233,32 +233,52 @@ socket.on('joinRoom', (roomCode, playerName) => {
       rooms[roomCode].players[existingPlayerIndex].disconnected = false;
       delete rooms[roomCode].players[existingPlayerIndex].disconnectedAt;
       
-      // Get their existing stats
-      const existingStats = Object.values(playerStats).find(stats => 
-        stats.name === playerName || formerPlayers[playerName]
-      );
+      // Get their existing stats by searching through playerStats for matching name
+      let existingPlayerStatsId = null;
+      for (const [playerId, stats] of Object.entries(playerStats)) {
+        if (stats.name === playerName || 
+            (rooms[roomCode].players.find(p => p.id === playerId && p.name === playerName))) {
+          existingPlayerStatsId = playerId;
+          break;
+        }
+      }
       
-      if (existingStats) {
-        playerData = existingStats;
+      if (existingPlayerStatsId && playerStats[existingPlayerStatsId]) {
+        // Use existing stats but remove old key and add with new socket ID
+        playerData = { ...playerStats[existingPlayerStatsId] };
+        delete playerStats[existingPlayerStatsId]; // Remove old entry
         playerData.id = socket.id;
       } else if (formerPlayers[playerName] && formerPlayers[playerName].roomCode === roomCode) {
         playerData = formerPlayers[playerName];
         delete formerPlayers[playerName];
+        playerData.id = socket.id;
+      } else {
+        // Fallback: create new player data
+        playerData = { id: socket.id, name: playerName, totalDrinks: 0, totalShotguns: 0, standard: [], wild: [] };
       }
       
       isRejoining = true;
       console.log(`Player ${playerName} is rejoining room ${roomCode} with existing data.`);
     } else if (formerPlayers[playerName] && formerPlayers[playerName].roomCode === roomCode) {
-      // Player from formerPlayers is rejoining
+      // Player from formerPlayers is rejoining - only add if not already in players array
       playerData = formerPlayers[playerName];
       delete formerPlayers[playerName];
-      rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
+      playerData.id = socket.id;
+      
+      // Only add to players array if not already there
+      if (!rooms[roomCode].players.find(p => p.name === playerName)) {
+        rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
+      }
       isRejoining = true;
       console.log(`Player ${playerName} is rejoining room ${roomCode} with restored data.`);
     } else {
       // Initialize new player data if not reconnecting or if the roomCode doesn't match
-      playerData = { id: socket.id, name: playerName, drinks: 0, shotguns: 0, standard: [], wild: [] };
-      rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
+      playerData = { id: socket.id, name: playerName, totalDrinks: 0, totalShotguns: 0, standard: [], wild: [] };
+      
+      // Only add to players array if not already there
+      if (!rooms[roomCode].players.find(p => p.name === playerName)) {
+        rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
+      }
       console.log(`Player ${playerName} is joining as a new player in room ${roomCode}.`);
     }
 
@@ -969,9 +989,10 @@ socket.on('disconnect', (reason) => {
           players[playerIndex].disconnected = true;
           players[playerIndex].disconnectedAt = Date.now();
           
-          // Keep player stats but mark them as disconnected
+          // Keep player stats but mark them as disconnected and ensure name is stored
           if (playerStats[socket.id]) {
             playerStats[socket.id].disconnected = true;
+            playerStats[socket.id].name = leavingPlayer.name; // Ensure name is stored for reconnection
           }
           
           console.log(`Player ${leavingPlayer.name} marked as disconnected but kept in game`);

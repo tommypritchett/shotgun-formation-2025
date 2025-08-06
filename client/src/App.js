@@ -97,6 +97,7 @@ const [isHostSelection, setIsHostSelection] = useState(false);
     if (playerName) {
       socket.emit('createRoom', playerName);
       setIsHost(true);
+      // URL will be updated when roomCreated event is received
     } else {
       setErrorMessage('Please enter your name');
     }
@@ -343,18 +344,21 @@ const saveGameStateLocally = () => {
         players: players.map(p => ({
           id: p.id,
           name: p.name,
+          disconnected: p.disconnected || false,
           // Only include essential card data
           cards: p.cards ? {
             standard: p.cards.standard ? p.cards.standard.map(c => ({ card: c.card, drinks: c.drinks })) : [],
             wild: p.cards.wild ? p.cards.wild.map(c => ({ card: c.card, drinks: c.drinks })) : []
           } : { standard: [], wild: [] }
         })),
+        currentPlayerName: playerName, // Store current player name explicitly
         roomCode,
         quarter,
         isHost,
         // Simplify playerStats to avoid circular references
         playerStats: Object.entries(playerStats).reduce((acc, [id, stats]) => {
           acc[id] = {
+            name: stats.name || players.find(p => p.id === id)?.name,
             totalDrinks: stats.totalDrinks || 0,
             totalShotguns: stats.totalShotguns || 0
           };
@@ -424,16 +428,30 @@ useEffect(() => {
       socket.off('error', handleRejoinError);
     }, 10000);
     
-  } else if (localState && localState.roomCode && localState.players && localState.players.length > 0) {
-    // Try to rejoin from local storage
-    const currentPlayer = localState.players.find(p => p.name);
-    if (currentPlayer) {
-      console.log('Attempting auto-rejoin from local storage');
-      setPlayerName(currentPlayer.name);
-      setRoomCode(localState.roomCode);
-      updateURL(localState.roomCode, currentPlayer.name);
-      socket.emit('joinRoom', localState.roomCode, currentPlayer.name);
-    }
+  } else if (localState && localState.roomCode && localState.currentPlayerName) {
+    // Try to rejoin from local storage using stored current player name
+    console.log('Attempting auto-rejoin from local storage for player:', localState.currentPlayerName);
+    setPlayerName(localState.currentPlayerName);
+    setRoomCode(localState.roomCode);
+    updateURL(localState.roomCode, localState.currentPlayerName);
+    
+    // Try to rejoin the game
+    socket.emit('joinRoom', localState.roomCode, localState.currentPlayerName);
+    
+    // Set up listeners for auto-rejoin
+    const handleLocalRejoinSuccess = () => {
+      console.log('Local storage auto-rejoin successful');
+      setGameState('game');
+    };
+    
+    socket.once('gameStarted', handleLocalRejoinSuccess);
+    socket.once('joinedRoom', () => setGameState('lobby'));
+    
+    // Cleanup after 10 seconds
+    setTimeout(() => {
+      socket.off('gameStarted', handleLocalRejoinSuccess);
+      socket.off('joinedRoom');
+    }, 10000);
   }
 }, []); // Only run on mount
 
@@ -936,6 +954,7 @@ useEffect(() => {
 
     socket.on('joinedRoom', (joinedRoomCode) => {
       setRoomCode(joinedRoomCode);
+      updateURL(joinedRoomCode, playerName); // Store in URL
       setGameState('lobby');
       document.body.style.zoom = "70%"; // Adjust the percentage as needed
 
