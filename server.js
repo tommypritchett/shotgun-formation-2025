@@ -18,10 +18,14 @@ const io = socketIo(server, {
     credentials: true,
   },
   transports: ['polling', 'websocket'], // Match client priority
-  pingInterval: 10000, // Match client's more frequent pings
-  pingTimeout: 60000, // Match client's timeout
-  connectTimeout: 60000, // Match client's timeout
-  maxHttpBufferSize: 1e8
+  pingInterval: 8000, // More frequent pings for mobile (optimized)
+  pingTimeout: 30000, // Shorter timeout for faster mobile detection
+  connectTimeout: 45000, // Shorter connect timeout for mobile
+  maxHttpBufferSize: 1e8,
+  // Additional mobile optimizations
+  allowEIO3: true, // Better compatibility
+  serveClient: false, // Reduce overhead
+  cookie: false // Reduce cookie overhead
 });
 
 
@@ -155,7 +159,7 @@ io.on('connection', (socket) => {
     heartbeatInterval = setInterval(() => {
       // This emit will be used to keep the connection alive
       socket.emit('heartbeat', { timestamp: Date.now() });
-    }, 20000); // Send a heartbeat every 20 seconds
+    }, 10000); // Send a heartbeat every 10 seconds (optimized for mobile)
   };
   
   // Start the heartbeat when a client connects

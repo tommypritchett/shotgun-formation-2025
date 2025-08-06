@@ -3,15 +3,19 @@ import io from 'socket.io-client';
 import './App.css';  // Import the updated CSS
 
 const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com', {
-  transports: ['polling', 'websocket'], // Put polling FIRST for mobile
+  transports: ['websocket', 'polling'], // WebSocket first for better performance, polling as fallback
   reconnection: true,
   reconnectionAttempts: Infinity,
-  reconnectionDelay: 200, // Faster initial retry
-  reconnectionDelayMax: 5000, // Cap at 5 seconds
-  timeout: 60000, 
-  pingInterval: 10000, // More frequent pings (10 sec)
-  pingTimeout: 60000,
-  autoConnect: true
+  reconnectionDelay: 100, // Even faster initial retry for mobile
+  reconnectionDelayMax: 3000, // Shorter max delay for mobile
+  timeout: 45000, // Match server connectTimeout
+  pingInterval: 8000, // Match server pingInterval
+  pingTimeout: 30000, // Match server pingTimeout
+  autoConnect: true,
+  // Mobile-specific optimizations
+  forceNew: false, // Reuse existing connection when possible
+  upgrade: true, // Allow transport upgrades
+  rememberUpgrade: true // Remember successful upgrades
 });
 
 // const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:3001');
@@ -364,9 +368,8 @@ useEffect(() => {
   }
 }, [gameState, players, playerStats, roomCode, quarter]);
 
-// Add this to your App.js
+// Enhanced connection monitoring with network change detection
 useEffect(() => {
-  // Track connection status changes
   let lastConnectedStatus = socket.connected;
   let disconnectTime = null;
   
@@ -378,21 +381,56 @@ useEffect(() => {
         const downtime = disconnectTime ? (reconnectTime - disconnectTime) / 1000 : null;
         console.log(`Connection restored after ${downtime} seconds of downtime`);
         disconnectTime = null;
+        
+        // Request game state after reconnection
+        if (gameState === 'game' && roomCode) {
+          setTimeout(() => {
+            socket.emit('requestGameState', { roomCode });
+          }, 1000);
+        }
       } else {
         disconnectTime = Date.now();
         console.log('Connection lost at:', new Date(disconnectTime).toISOString());
+        
+        // Save game state when connection is lost
+        if (gameState === 'game') {
+          saveGameStateLocally();
+        }
       }
       lastConnectedStatus = socket.connected;
     }
   };
   
-  // Check every second
+  // Network change detection for mobile
+  const handleNetworkChange = () => {
+    console.log('Network status changed. Online:', navigator.onLine);
+    
+    if (navigator.onLine && !socket.connected) {
+      console.log('Network restored, attempting to reconnect...');
+      setTimeout(() => {
+        socket.connect();
+      }, 1000);
+    } else if (!navigator.onLine) {
+      console.log('Network lost, saving game state...');
+      if (gameState === 'game') {
+        saveGameStateLocally();
+      }
+    }
+  };
+  
+  // Check connection every second
   const interval = setInterval(checkConnection, 1000);
+  
+  // Listen for network changes (mobile-friendly)
+  window.addEventListener('online', handleNetworkChange);
+  window.addEventListener('offline', handleNetworkChange);
   
   return () => {
     clearInterval(interval);
+    window.removeEventListener('online', handleNetworkChange);
+    window.removeEventListener('offline', handleNetworkChange);
   };
-}, [socket]);
+}, [socket, gameState, roomCode]);
 
 // Add this to your useEffect in App.js
 useEffect(() => {
@@ -410,43 +448,116 @@ useEffect(() => {
 }, [socket]);
 
 
-// Add this useEffect near the top of your App component
+// Enhanced mobile visibility and wake lock handling
 useEffect(() => {
+  let wakeLock = null;
+  
+  // Request wake lock to prevent mobile from sleeping during gameplay
+  const requestWakeLock = async () => {
+    if ('wakeLock' in navigator && gameState === 'game') {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        console.log('Wake lock acquired for better mobile connectivity');
+        
+        wakeLock.addEventListener('release', () => {
+          console.log('Wake lock released');
+        });
+      } catch (err) {
+        console.log('Wake lock failed:', err);
+      }
+    }
+  };
+
+  // Release wake lock when leaving game
+  const releaseWakeLock = () => {
+    if (wakeLock) {
+      wakeLock.release();
+      wakeLock = null;
+    }
+  };
+
   const handleVisibilityChange = () => {
     if (document.visibilityState === 'visible') {
       console.log('App became visible, checking connection status...');
+      
+      // Request wake lock when app becomes visible during game
+      if (gameState === 'game') {
+        requestWakeLock();
+      }
+      
       if (!socket.connected) {
         console.log('Reconnecting after visibility change...');
         socket.connect();
         
-        // Request current game state if needed
-        if (gameState === 'game') {
-          socket.emit('requestGameState', { roomCode });
-        }
+        // Give it a moment to connect then request game state
+        setTimeout(() => {
+          if (gameState === 'game') {
+            socket.emit('requestGameState', { roomCode });
+          }
+        }, 1000);
+      }
+    } else {
+      // App going to background - prepare for potential disconnect
+      console.log('App going to background, saving state...');
+      if (gameState === 'game') {
+        saveGameStateLocally();
       }
     }
   };
 
-  // Mobile-specific events for better reconnection
+  // Enhanced mobile focus handling
   const handleAppFocus = () => {
     console.log('Window focus gained, checking connection...');
+    
+    if (gameState === 'game') {
+      requestWakeLock();
+    }
+    
     if (!socket.connected) {
       socket.connect();
       
-      // Request current game state if needed
-      if (gameState === 'game') {
-        socket.emit('requestGameState', { roomCode });
-      }
+      // Give connection time to establish
+      setTimeout(() => {
+        if (gameState === 'game') {
+          socket.emit('requestGameState', { roomCode });
+        }
+      }, 1000);
     }
   };
 
+  const handleAppBlur = () => {
+    console.log('Window lost focus');
+    if (gameState === 'game') {
+      saveGameStateLocally();
+    }
+  };
+
+  // Mobile-specific touch events to maintain wake lock
+  const handleTouchStart = () => {
+    if (gameState === 'game' && !wakeLock) {
+      requestWakeLock();
+    }
+  };
+
+  // Request wake lock when entering game
+  if (gameState === 'game') {
+    requestWakeLock();
+  } else {
+    releaseWakeLock();
+  }
+
   document.addEventListener('visibilitychange', handleVisibilityChange);
   window.addEventListener('focus', handleAppFocus);
+  window.addEventListener('blur', handleAppBlur);
+  document.addEventListener('touchstart', handleTouchStart);
   
-  // Clean up event listeners when component unmounts
+  // Clean up event listeners and wake lock when component unmounts
   return () => {
     document.removeEventListener('visibilitychange', handleVisibilityChange);
     window.removeEventListener('focus', handleAppFocus);
+    window.removeEventListener('blur', handleAppBlur);
+    document.removeEventListener('touchstart', handleTouchStart);
+    releaseWakeLock();
   };
 }, [socket, gameState, roomCode]);
 
@@ -503,17 +614,41 @@ useEffect(() => {
   const handleReconnect = (attemptNumber) => {
     console.log(`Successfully reconnected after ${attemptNumber} attempt(s)`);
     
-    // If we're in a game, request the current state
+    // Enhanced reconnection logic for mobile
     if (gameState === 'game' && roomCode) {
-      socket.emit('requestGameState', { roomCode });
-      
-      // Try to recover from local storage as a fallback
-      const localState = loadGameStateLocally();
-      if (localState) {
-        console.log('Loaded game state from local storage while waiting for server response');
-        // Only update UI elements that don't depend on fresh server data
-        setQuarter(localState.quarter);
-      }
+      // Wait a moment for the connection to stabilize
+      setTimeout(() => {
+        console.log('Requesting game state after successful reconnection');
+        socket.emit('requestGameState', { roomCode });
+        
+        // Try to recover from local storage as immediate fallback
+        const localState = loadGameStateLocally();
+        if (localState) {
+          console.log('Loaded game state from local storage while waiting for server response');
+          // Update UI elements that don't depend on fresh server data
+          setQuarter(localState.quarter);
+          
+          // Restore basic player info if available
+          if (localState.players && localState.players.length > 0) {
+            const currentPlayer = localState.players.find(p => p.name === playerName);
+            if (currentPlayer && currentPlayer.cards) {
+              console.log('Restoring player hand from local storage');
+              setPlayers(prevPlayers =>
+                prevPlayers.map(player =>
+                  player.name === playerName 
+                    ? { ...player, cards: currentPlayer.cards }
+                    : player
+                )
+              );
+            }
+          }
+          
+          // Restore player stats if available
+          if (localState.playerStats) {
+            setPlayerStats(localState.playerStats);
+          }
+        }
+      }, 500);
     }
   };
   
@@ -523,7 +658,24 @@ useEffect(() => {
   
   const handleReconnectFailed = () => {
     console.log('Failed to reconnect after all attempts');
-    alert('Unable to reconnect to the game. Please refresh the page.');
+    
+    // Try to restore from local storage as last resort
+    const localState = loadGameStateLocally();
+    if (localState && gameState === 'game') {
+      console.log('Using local storage as fallback after reconnection failure');
+      alert('Connection lost. Using saved game state. Some features may not work until connection is restored.');
+      
+      // Restore what we can from local storage
+      if (localState.players && localState.players.length > 0) {
+        setPlayers(localState.players);
+      }
+      if (localState.playerStats) {
+        setPlayerStats(localState.playerStats);
+      }
+      setQuarter(localState.quarter);
+    } else {
+      alert('Unable to reconnect to the game. Please refresh the page.');
+    }
   };
   
   const handleError = (error) => {
