@@ -55,6 +55,31 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   const [selectedWildCardToDiscard, setSelectedWildCardToDiscard] = useState(null);  // Track the selected wild card to discard
   const [instructionsmessage] = useState('Instructions: \n1. Host will select a card event when an event occurs.\n2. If you have corresponding cards you will be prompted to Assign drinks or shotguns.\n3. Select your Neon Green Wild Card when the event occurs. Host will confirm event\n4. After each Quarter the host will confirm a Quarter has ended and you will have an option to swap out one of your wild cards\n5. Drink responsibly! Must be 21+ Years Old');
 
+  // URL management functions
+  const updateURL = (roomCode, playerName) => {
+    if (roomCode && playerName) {
+      const url = new URL(window.location);
+      url.searchParams.set('room', roomCode);
+      url.searchParams.set('player', playerName);
+      window.history.replaceState({}, '', url);
+    }
+  };
+
+  const getURLParams = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return {
+      roomCode: urlParams.get('room'),
+      playerName: urlParams.get('player')
+    };
+  };
+
+  const clearURL = () => {
+    const url = new URL(window.location);
+    url.searchParams.delete('room');
+    url.searchParams.delete('player');
+    window.history.replaceState({}, '', url);
+  };
+
 
   // Handle name submission
   const handleNameSubmit = (e) => {
@@ -80,6 +105,7 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   const joinGame = () => {
     if (roomCode && playerName) {
       socket.emit('joinRoom', roomCode, playerName);
+      updateURL(roomCode, playerName); // Store in URL for automatic rejoin
   
       // Listen for the 'gameStarted' event if the game is already active
       socket.on('gameStarted', ({ hands, playerStats }) => {
@@ -248,6 +274,9 @@ const handleLeaveGame = () => {
   // Emit a custom 'leaveGame' event to the server
   socket.emit('leaveGame', { roomCode });  // Send the roomCode to the server
 
+  // Clear URL parameters
+  clearURL();
+
   // Reset the frontend game state and return to the start/join screen
   setGameState('startOrJoin');  // Reset the game state to 'startOrJoin'
   setRoomCode('');  // Clear the room code
@@ -358,6 +387,55 @@ const loadGameStateLocally = () => {
   }
   return null;
 };
+
+// Automatic rejoin on app load
+useEffect(() => {
+  const urlParams = getURLParams();
+  const localState = loadGameStateLocally();
+  
+  if (urlParams.roomCode && urlParams.playerName) {
+    // Attempt automatic rejoin from URL
+    console.log('Attempting auto-rejoin from URL:', urlParams);
+    setPlayerName(urlParams.playerName);
+    setRoomCode(urlParams.roomCode);
+    
+    // Try to rejoin the game
+    socket.emit('joinRoom', urlParams.roomCode, urlParams.playerName);
+    
+    // Listen for successful rejoin
+    const handleRejoinSuccess = () => {
+      console.log('Auto-rejoin successful');
+      setGameState('game');
+    };
+    
+    const handleRejoinError = () => {
+      console.log('Auto-rejoin failed, going to join screen');
+      setGameState('startOrJoin');
+    };
+    
+    socket.once('gameStarted', handleRejoinSuccess);
+    socket.once('joinedRoom', () => setGameState('lobby'));
+    socket.once('error', handleRejoinError);
+    
+    // Cleanup listeners after 10 seconds
+    setTimeout(() => {
+      socket.off('gameStarted', handleRejoinSuccess);
+      socket.off('joinedRoom');
+      socket.off('error', handleRejoinError);
+    }, 10000);
+    
+  } else if (localState && localState.roomCode && localState.players && localState.players.length > 0) {
+    // Try to rejoin from local storage
+    const currentPlayer = localState.players.find(p => p.name);
+    if (currentPlayer) {
+      console.log('Attempting auto-rejoin from local storage');
+      setPlayerName(currentPlayer.name);
+      setRoomCode(localState.roomCode);
+      updateURL(localState.roomCode, currentPlayer.name);
+      socket.emit('joinRoom', localState.roomCode, currentPlayer.name);
+    }
+  }
+}, []); // Only run on mount
 
 // Call saveGameStateLocally periodically
 useEffect(() => {
@@ -850,6 +928,7 @@ useEffect(() => {
   useEffect(() => {
     socket.on('roomCreated', (newRoomCode) => {
       setRoomCode(newRoomCode);
+      updateURL(newRoomCode, playerName); // Store in URL
       setGameState('lobby');
       document.body.style.zoom = "70%"; // Adjust the percentage as needed
 
@@ -963,7 +1042,13 @@ socket.on('newHost', ({ newHostId, message }) => {
 
 });
 
-// Handle when a player leaves during the game
+// Handle when a player disconnects during the game
+socket.on('playerDisconnected', ({ playerId, playerName, remainingPlayers, allPlayers }) => {
+  setPlayers(allPlayers);  // Update to show all players including disconnected ones
+  console.log(`Player ${playerName} disconnected`);
+});
+
+// Handle when a player leaves during the game (old event, kept for compatibility)
 socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
   setPlayers(remainingPlayers);  // Update the player list with remaining players
   // Optionally remove player icon from the game UI
@@ -1082,8 +1167,8 @@ if (gameState === 'game') {
       {/* Player Icons (Top, 2 rows) */}
       <div className="player-icons-container">
         {players.map((player) => (
-          <div key={player.id} className="player-icon">
-            <h3>{player.name}</h3>
+          <div key={player.id || player.name} className={`player-icon ${player.disconnected ? 'disconnected' : ''}`}>
+            <h3>{player.name} {player.disconnected ? '(Disconnected)' : ''}</h3>
             <div className="player-image"></div> {/* Div that holds the background image */}
             <div className="player-stats">
             <div>Total Drinks: {playerStats[player.id]?.totalDrinks || 0}</div>
@@ -1165,16 +1250,16 @@ if (gameState === 'game') {
         isDistributing && (drinksToGive > 0 || shotgunsToGive > 0)) && (
         <div>
           <p>{drinkMessage}</p>
-          {players.filter(p => p.id !== socket.id).map(p => (
-            <div key={p.id}>
+          {players.filter(p => p.id !== socket.id || p.name !== playerName).map(p => (
+            <div key={p.id || p.name}>
               {drinksToGive > 0 && (
-                <button onClick={() => handleGiveDrink(p.id, 'drink')}>
-                  Give Drink to {p.name} ({assignedDrinks?.drinks?.[p.id] || 0})
+                <button onClick={() => handleGiveDrink(p.id || p.name, 'drink')}>
+                  Give Drink to {p.name}{p.disconnected ? ' (Disconnected)' : ''} ({assignedDrinks?.drinks?.[p.id || p.name] || 0})
                 </button>
               )}
               {shotgunsToGive > 0 && (
-                <button onClick={() => handleGiveDrink(p.id, 'shotgun')}>
-                  Give Shotgun to {p.name} ({assignedDrinks?.shotguns?.[p.id] || 0})
+                <button onClick={() => handleGiveDrink(p.id || p.name, 'shotgun')}>
+                  Give Shotgun to {p.name}{p.disconnected ? ' (Disconnected)' : ''} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
                 </button>
               )}
             </div>

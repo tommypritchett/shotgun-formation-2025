@@ -222,22 +222,48 @@ io.on('connection', (socket) => {
 socket.on('joinRoom', (roomCode, playerName) => {
   if (rooms[roomCode]) {
     let playerData;
+    let isRejoining = false;
 
-    // Check if the playerName exists in formerPlayers and that the roomCode matches
-    if (formerPlayers[playerName] && formerPlayers[playerName].roomCode === roomCode) {
+    // Check if player is already in the room but disconnected
+    const existingPlayerIndex = rooms[roomCode].players.findIndex(p => p.name === playerName);
+    
+    if (existingPlayerIndex !== -1) {
+      // Player is rejoining - update their socket ID and mark as connected
+      rooms[roomCode].players[existingPlayerIndex].id = socket.id;
+      rooms[roomCode].players[existingPlayerIndex].disconnected = false;
+      delete rooms[roomCode].players[existingPlayerIndex].disconnectedAt;
+      
+      // Get their existing stats
+      const existingStats = Object.values(playerStats).find(stats => 
+        stats.name === playerName || formerPlayers[playerName]
+      );
+      
+      if (existingStats) {
+        playerData = existingStats;
+        playerData.id = socket.id;
+      } else if (formerPlayers[playerName] && formerPlayers[playerName].roomCode === roomCode) {
+        playerData = formerPlayers[playerName];
+        delete formerPlayers[playerName];
+      }
+      
+      isRejoining = true;
+      console.log(`Player ${playerName} is rejoining room ${roomCode} with existing data.`);
+    } else if (formerPlayers[playerName] && formerPlayers[playerName].roomCode === roomCode) {
+      // Player from formerPlayers is rejoining
       playerData = formerPlayers[playerName];
-      delete formerPlayers[playerName];  // Remove from formerPlayers after rejoining
+      delete formerPlayers[playerName];
+      rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
+      isRejoining = true;
       console.log(`Player ${playerName} is rejoining room ${roomCode} with restored data.`);
     } else {
       // Initialize new player data if not reconnecting or if the roomCode doesn't match
       playerData = { id: socket.id, name: playerName, drinks: 0, shotguns: 0, standard: [], wild: [] };
+      rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
       console.log(`Player ${playerName} is joining as a new player in room ${roomCode}.`);
     }
 
-
-    // Add the player to the room and update stats
-    rooms[roomCode].players.push({ id: socket.id, name: playerName });
-    playerStats[socket.id] = playerData;
+    // Update player stats with the socket ID
+    playerStats[socket.id] = { ...playerData, id: socket.id };
     socket.join(roomCode);
 
 
@@ -939,22 +965,24 @@ socket.on('disconnect', (reason) => {
           };
           console.log("Former Players:", formerPlayers);
 
-
-          // Remove the player from the room and delete their stats
-          players.splice(playerIndex, 1);
-          delete playerStats[socket.id];
+          // Mark player as disconnected but keep them in the game for drink assignments
+          players[playerIndex].disconnected = true;
+          players[playerIndex].disconnectedAt = Date.now();
+          
+          // Keep player stats but mark them as disconnected
+          if (playerStats[socket.id]) {
+            playerStats[socket.id].disconnected = true;
+          }
+          
+          console.log(`Player ${leavingPlayer.name} marked as disconnected but kept in game`);
   
-          // Check if no player is left
-          if (players.length === 0) {
-            io.to(roomCode).emit('gameOver', 'The game is ending as only one player is left.');
-            delete rooms[roomCode];  // End the game and delete the room
-            console.log(`Room ${roomCode} deleted because only one player is left.`);
-                     // Emit updated player stats for the round
-    io.to(roomCode).emit('updatePlayerStats', {
-        players: playerStats,
-        roundResults: roundResults[roomCode],
-      });  
-            return;  // Exit the loop to prevent further execution
+          // Check if no ACTIVE players are left (all disconnected)
+          const activePlayers = players.filter(p => !p.disconnected);
+          if (activePlayers.length === 0) {
+            io.to(roomCode).emit('gameOver', 'All players have disconnected. Game will remain open for reconnections.');
+            console.log(`All players disconnected from room ${roomCode}. Room kept alive for reconnections.`);
+            // Don't delete the room - keep it for reconnections
+            return;
           }
 
           // If the game has NOT started (still in the lobby)
@@ -970,36 +998,50 @@ socket.on('disconnect', (reason) => {
           } else {
             // If the game HAS started, handle the disconnection accordingly
             if (room.host === socket.id) {
-              // If the host leaves during the game, reassign host to another player
-              if (players.length > 0) {
-                room.host = players[0].id; // Assign the first player as the new host
-                io.to(roomCode).emit('playerLeft', { playerId: socket.id, remainingPlayers: players });
-                io.to(roomCode).emit('newHost', { newHostId: room.host, message: 'The host has left. A new host has been assigned.' });
+              // If the host disconnects during the game, reassign host to another ACTIVE player
+              const activePlayersForHost = players.filter(p => !p.disconnected);
+              if (activePlayersForHost.length > 0) {
+                room.host = activePlayersForHost[0].id; // Assign the first active player as the new host
+                io.to(roomCode).emit('playerDisconnected', { 
+                  playerId: socket.id, 
+                  playerName: leavingPlayer.name,
+                  remainingPlayers: players.filter(p => !p.disconnected),
+                  allPlayers: players 
+                });
+                io.to(roomCode).emit('newHost', { newHostId: room.host, message: 'The host has disconnected. A new host has been assigned.' });
               } else {
-                // If no players are left, delete the room
-                roomToDelete = roomCode;
-                io.to(roomCode).emit('gameOver', 'The game is ending as all players have disconnected.');
+                // If no active players are left, keep room alive but notify
+                io.to(roomCode).emit('gameOver', 'All players have disconnected. Game will remain open for reconnections.');
               }
             } else {
-              // If a non-host player leaves during the game, update the game state
-              io.to(roomCode).emit('playerLeft', { playerId: socket.id, remainingPlayers: players });
-              console.log(`Player ${socket.id} left the game in progress.`);
+              // If a non-host player disconnects during the game, update the game state
+              io.to(roomCode).emit('playerDisconnected', { 
+                playerId: socket.id, 
+                playerName: leavingPlayer.name,
+                remainingPlayers: players.filter(p => !p.disconnected),
+                allPlayers: players 
+              });
+              console.log(`Player ${socket.id} disconnected from game in progress.`);
             }
           }
 
-          // Update player hands for the remaining players
+          // Update player hands for the remaining ACTIVE players
           room.players.forEach((player) => {
-            const playerHand = playerStats[player.id];
-            io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
-            console.log(`New hand for player ${player.id}:`, playerHand.standard);
+            if (!player.disconnected) {
+              const playerHand = playerStats[player.id];
+              if (playerHand) {
+                io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
+                console.log(`New hand for player ${player.id}:`, playerHand.standard);
+              }
+            }
+          });
           
-            // Emit updated player stats for the round
-    io.to(roomCode).emit('updatePlayerStats', {
-        players: playerStats,
-        roundResults: roundResults[roomCode],
-      });  
-        
-        });
+          // Emit updated player stats for the round (to all active players)
+          io.to(roomCode).emit('updatePlayerStats', {
+            players: playerStats,
+            roundResults: roundResults[roomCode] || {},
+            allPlayers: players // Include all players (connected and disconnected)
+          });
         }
       }
     }
