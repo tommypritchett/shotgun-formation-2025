@@ -233,6 +233,8 @@ socket.on('joinRoom', (roomCode, playerName) => {
       rooms[roomCode].players[existingPlayerIndex].disconnected = false;
       delete rooms[roomCode].players[existingPlayerIndex].disconnectedAt;
       
+      console.log(`Player ${playerName} reconnected and marked as active`);
+      
       // Get their existing stats by searching through playerStats for matching name
       let existingPlayerStatsId = null;
       for (const [playerId, stats] of Object.entries(playerStats)) {
@@ -248,13 +250,23 @@ socket.on('joinRoom', (roomCode, playerName) => {
         playerData = { ...playerStats[existingPlayerStatsId] };
         delete playerStats[existingPlayerStatsId]; // Remove old entry
         playerData.id = socket.id;
+        // Remove disconnected status
+        delete playerData.disconnected;
       } else if (formerPlayers[playerName] && formerPlayers[playerName].roomCode === roomCode) {
         playerData = formerPlayers[playerName];
-        delete formerPlayers[playerName];
+        delete formerPlayers[playerName]; // Clean up formerPlayers
         playerData.id = socket.id;
+        // Remove disconnected status
+        delete playerData.disconnected;
       } else {
         // Fallback: create new player data
         playerData = { id: socket.id, name: playerName, totalDrinks: 0, totalShotguns: 0, standard: [], wild: [] };
+      }
+      
+      // Clean up formerPlayers entry if it exists (in case player reconnected)
+      if (formerPlayers[playerName]) {
+        delete formerPlayers[playerName];
+        console.log(`Cleaned up formerPlayers entry for ${playerName}`);
       }
       
       isRejoining = true;
@@ -321,6 +333,16 @@ socket.on('joinRoom', (roomCode, playerName) => {
 
       // Notify all players about the updated player list
       io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
+      
+      // If player was rejoining, notify about successful reconnection
+      if (isRejoining) {
+        io.to(roomCode).emit('playerReconnected', { 
+          playerId: socket.id, 
+          playerName: playerName,
+          allPlayers: rooms[roomCode].players 
+        });
+        console.log(`Notified room ${roomCode} about ${playerName} reconnection`);
+      }
 
   } else {
       // If the room doesn't exist, send an error to the player

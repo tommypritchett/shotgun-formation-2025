@@ -1067,6 +1067,12 @@ socket.on('playerDisconnected', ({ playerId, playerName, remainingPlayers, allPl
   console.log(`Player ${playerName} disconnected`);
 });
 
+// Handle when a player reconnects during the game
+socket.on('playerReconnected', ({ playerId, playerName, allPlayers }) => {
+  setPlayers(allPlayers);  // Update to show all players with reconnected player no longer disconnected
+  console.log(`Player ${playerName} reconnected`);
+});
+
 // Handle when a player leaves during the game (old event, kept for compatibility)
 socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
   setPlayers(remainingPlayers);  // Update the player list with remaining players
