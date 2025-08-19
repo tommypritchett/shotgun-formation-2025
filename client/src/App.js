@@ -132,6 +132,8 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   const startTheGame = () => {
     if (isHost && players.length >= 3) {
       socket.emit('startGame', roomCode);
+      // Update URL for host when starting the game
+      updateURL(roomCode, playerName);
     }
   };
 
@@ -974,6 +976,10 @@ useEffect(() => {
       setPlayerStats(playerStats);
     
       setGameState('game');
+      
+      // Ensure URL is updated for all players (including host) when game starts
+      updateURL(roomCode, playerName);
+      
        // Adjust the page zoom when the game starts
   document.body.style.zoom = "70%"; // Adjust the percentage as needed
     });
