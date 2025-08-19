@@ -218,8 +218,26 @@ io.on('connection', (socket) => {
     io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
   });
 
- // Join Room or game
-socket.on('joinRoom', (roomCode, playerName) => {
+ // Validate and Join Room (for automatic reconnection)
+socket.on('validateAndJoinRoom', (roomCode, playerName) => {
+  console.log(`Validating room ${roomCode} for player ${playerName}`);
+  
+  // Check if room exists
+  if (!rooms[roomCode]) {
+    console.log(`Room ${roomCode} not found`);
+    socket.emit('roomNotFound', { roomCode, message: 'Game room not found' });
+    return;
+  }
+  
+  // Room exists, proceed with joining
+  console.log(`Room ${roomCode} found, proceeding with join for ${playerName}`);
+  
+  // Call the existing joinRoom logic
+  handleJoinRoom(socket, roomCode, playerName);
+});
+
+// Join Room or game (extracted to reusable function)
+function handleJoinRoom(socket, roomCode, playerName) {
   if (rooms[roomCode]) {
     let playerData;
     let isRejoining = false;
@@ -383,6 +401,11 @@ if (rooms[roomCode]?.players) {
 } else {
   console.log(`No players found in room ${roomCode}`);
 }
+}
+
+// Regular Join Room event (calls the extracted function)
+socket.on('joinRoom', (roomCode, playerName) => {
+  handleJoinRoom(socket, roomCode, playerName);
 });
 
   // Leave Room

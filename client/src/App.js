@@ -393,7 +393,7 @@ const loadGameStateLocally = () => {
   return null;
 };
 
-// Automatic rejoin on app load
+// Automatic rejoin on app load - ALWAYS check URL first
 useEffect(() => {
   const urlParams = getURLParams();
   const localState = loadGameStateLocally();
@@ -401,71 +401,115 @@ useEffect(() => {
   // Add a flag to prevent multiple rejoin attempts
   let rejoinAttempted = false;
   
+  // PRIORITY 1: Always check URL params first (highest priority)
   if (urlParams.roomCode && urlParams.playerName && !rejoinAttempted) {
-    // Attempt automatic rejoin from URL
-    console.log('Attempting auto-rejoin from URL:', urlParams);
+    console.log('Device connected with URL params - attempting automatic rejoin:', urlParams);
     setPlayerName(urlParams.playerName);
     setRoomCode(urlParams.roomCode);
+    setGameState('connecting'); // Show connecting state instead of start screen
     rejoinAttempted = true;
     
-    // Debounced rejoin to prevent duplicate calls
-    const rejoinTimeout = setTimeout(() => {
-      console.log('Executing auto-rejoin from URL');
-      socket.emit('joinRoom', urlParams.roomCode, urlParams.playerName);
-    }, 300);
+    // First, validate if the game exists
+    const validateTimeout = setTimeout(() => {
+      console.log('Validating game exists and attempting auto-rejoin from URL');
+      socket.emit('validateAndJoinRoom', urlParams.roomCode, urlParams.playerName);
+    }, 200);
     
     // Listen for successful rejoin
     const handleRejoinSuccess = () => {
-      console.log('Auto-rejoin successful');
+      console.log('Auto-rejoin successful - entering game');
       setGameState('game');
     };
     
-    const handleRejoinError = () => {
-      console.log('Auto-rejoin failed, going to join screen');
+    const handleLobbyJoin = () => {
+      console.log('Auto-rejoin successful - entering lobby');
+      setGameState('lobby');
+    };
+    
+    const handleRejoinError = (error) => {
+      console.log('Auto-rejoin failed:', error, '- going to join screen');
       setGameState('startOrJoin');
+      // Clear URL params since the game doesn't exist
+      const url = new URL(window.location);
+      url.searchParams.delete('room');
+      url.searchParams.delete('player');
+      window.history.replaceState({}, '', url);
     };
     
     socket.once('gameStarted', handleRejoinSuccess);
-    socket.once('joinedRoom', () => setGameState('lobby'));
+    socket.once('joinedRoom', handleLobbyJoin);
+    socket.once('roomNotFound', handleRejoinError);
     socket.once('error', handleRejoinError);
     
     // Cleanup listeners and timeout after 10 seconds
     setTimeout(() => {
-      clearTimeout(rejoinTimeout);
+      clearTimeout(validateTimeout);
       socket.off('gameStarted', handleRejoinSuccess);
-      socket.off('joinedRoom');
+      socket.off('joinedRoom', handleLobbyJoin);
+      socket.off('roomNotFound', handleRejoinError);
       socket.off('error', handleRejoinError);
+      
+      // If still connecting after 10 seconds, assume failure
+      if (gameState === 'connecting') {
+        console.log('Auto-rejoin timed out - going to join screen');
+        setGameState('startOrJoin');
+      }
     }, 10000);
     
   } else if (localState && localState.roomCode && localState.currentPlayerName && !rejoinAttempted) {
-    // Try to rejoin from local storage only if URL params weren't available
-    console.log('Attempting auto-rejoin from local storage for player:', localState.currentPlayerName);
+    // PRIORITY 2: Try to rejoin from local storage only if URL params weren't available
+    console.log('No URL params found - attempting auto-rejoin from local storage for player:', localState.currentPlayerName);
     setPlayerName(localState.currentPlayerName);
     setRoomCode(localState.roomCode);
     updateURL(localState.roomCode, localState.currentPlayerName);
+    setGameState('connecting'); // Show connecting state
     rejoinAttempted = true;
     
-    // Debounced rejoin to prevent duplicate calls
-    const rejoinTimeout = setTimeout(() => {
-      console.log('Executing auto-rejoin from local storage');
-      socket.emit('joinRoom', localState.roomCode, localState.currentPlayerName);
-    }, 500); // Longer delay for localStorage fallback
+    // Validate and rejoin from localStorage
+    const validateTimeout = setTimeout(() => {
+      console.log('Validating game exists and attempting auto-rejoin from local storage');
+      socket.emit('validateAndJoinRoom', localState.roomCode, localState.currentPlayerName);
+    }, 400);
     
     // Set up listeners for auto-rejoin
     const handleLocalRejoinSuccess = () => {
-      console.log('Local storage auto-rejoin successful');
+      console.log('Local storage auto-rejoin successful - entering game');
       setGameState('game');
     };
     
+    const handleLocalLobbyJoin = () => {
+      console.log('Local storage auto-rejoin successful - entering lobby');
+      setGameState('lobby');
+    };
+    
+    const handleLocalRejoinError = (error) => {
+      console.log('Local storage auto-rejoin failed:', error);
+      setGameState('startOrJoin');
+    };
+    
     socket.once('gameStarted', handleLocalRejoinSuccess);
-    socket.once('joinedRoom', () => setGameState('lobby'));
+    socket.once('joinedRoom', handleLocalLobbyJoin);
+    socket.once('roomNotFound', handleLocalRejoinError);
+    socket.once('error', handleLocalRejoinError);
     
     // Cleanup listeners and timeout after 10 seconds
     setTimeout(() => {
-      clearTimeout(rejoinTimeout);
+      clearTimeout(validateTimeout);
       socket.off('gameStarted', handleLocalRejoinSuccess);
-      socket.off('joinedRoom');
+      socket.off('joinedRoom', handleLocalLobbyJoin);
+      socket.off('roomNotFound', handleLocalRejoinError);
+      socket.off('error', handleLocalRejoinError);
+      
+      // If still connecting after 10 seconds, assume failure
+      if (gameState === 'connecting') {
+        console.log('Local storage auto-rejoin timed out - going to join screen');
+        setGameState('startOrJoin');
+      }
     }, 10000);
+  } else {
+    // PRIORITY 3: No saved game data found - go to start screen
+    console.log('No saved game data found - showing start/join screen');
+    setGameState('startOrJoin');
   }
 }, []); // Only run on mount
 
@@ -1153,6 +1197,19 @@ socket.on('gameOver', (message) => {
           <button type="submit">Submit</button>
         </form>
         {errorMessage && <p>{errorMessage}</p>}
+      </div>
+    );
+  }
+
+  // UI for connecting state (auto-rejoin in progress)
+  if (gameState === 'connecting') {
+    return (
+      <div className="centered-container">
+        <h1>Connecting...</h1>
+        <p>Attempting to rejoin game for {playerName}</p>
+        <p>Room: {roomCode}</p>
+        <div style={{fontSize: '24px', margin: '20px'}}>🔄</div>
+        <p style={{fontSize: '14px', color: '#666'}}>Please wait while we connect you to your game...</p>
       </div>
     );
   }
