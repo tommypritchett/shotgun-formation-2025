@@ -419,11 +419,23 @@ useEffect(() => {
     const handleRejoinSuccess = () => {
       console.log('Auto-rejoin successful - entering game');
       setGameState('game');
+      
+      // Auto-refresh after successful rejoin to ensure full game state reload
+      setTimeout(() => {
+        console.log('Auto-refreshing page after successful auto-rejoin to ensure full reload');
+        window.location.reload();
+      }, 1500);
     };
     
     const handleLobbyJoin = () => {
       console.log('Auto-rejoin successful - entering lobby');
       setGameState('lobby');
+      
+      // Auto-refresh after successful lobby rejoin
+      setTimeout(() => {
+        console.log('Auto-refreshing page after successful lobby rejoin');
+        window.location.reload();
+      }, 1000);
     };
     
     const handleRejoinError = (error) => {
@@ -475,11 +487,23 @@ useEffect(() => {
     const handleLocalRejoinSuccess = () => {
       console.log('Local storage auto-rejoin successful - entering game');
       setGameState('game');
+      
+      // Auto-refresh after successful localStorage rejoin
+      setTimeout(() => {
+        console.log('Auto-refreshing page after successful localStorage rejoin');
+        window.location.reload();
+      }, 1500);
     };
     
     const handleLocalLobbyJoin = () => {
       console.log('Local storage auto-rejoin successful - entering lobby');
       setGameState('lobby');
+      
+      // Auto-refresh after successful localStorage lobby rejoin
+      setTimeout(() => {
+        console.log('Auto-refreshing page after successful localStorage lobby rejoin');
+        window.location.reload();
+      }, 1000);
     };
     
     const handleLocalRejoinError = (error) => {
@@ -770,12 +794,18 @@ useEffect(() => {
     
     // Enhanced reconnection logic for mobile
     if (gameState === 'game' && roomCode) {
-      // Wait a moment for the connection to stabilize
+      // Wait a moment for the connection to stabilize, then refresh the page
       setTimeout(() => {
         console.log('Requesting game state after successful reconnection');
         socket.emit('requestGameState', { roomCode });
         
-        // Try to recover from local storage as immediate fallback
+        // Auto-refresh the page to fully reload the player back into the game
+        setTimeout(() => {
+          console.log('Auto-refreshing page to reload player back into game after reconnection');
+          window.location.reload();
+        }, 1500); // Give a moment for any final sync, then refresh
+        
+        // Try to recover from local storage as immediate fallback while waiting for refresh
         const localState = loadGameStateLocally();
         if (localState) {
           console.log('Loaded game state from local storage while waiting for server response');
@@ -1141,9 +1171,17 @@ socket.on('playerDisconnected', ({ playerId, playerName, remainingPlayers, allPl
 });
 
 // Handle when a player reconnects during the game
-socket.on('playerReconnected', ({ playerId, playerName, allPlayers }) => {
+socket.on('playerReconnected', ({ playerId, playerName: reconnectedPlayerName, allPlayers }) => {
   setPlayers(allPlayers);  // Update to show all players with reconnected player no longer disconnected
-  console.log(`Player ${playerName} reconnected`);
+  console.log(`Player ${reconnectedPlayerName} reconnected`);
+  
+  // If the reconnected player is the current player, refresh the page to fully reload them back into the game
+  if (reconnectedPlayerName === playerName) {
+    console.log('Current player reconnected - auto-refreshing page to reload back into game');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000); // Short delay to let the update complete
+  }
 });
 
 // Handle when a player leaves during the game (old event, kept for compatibility)
