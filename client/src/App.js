@@ -398,14 +398,21 @@ useEffect(() => {
   const urlParams = getURLParams();
   const localState = loadGameStateLocally();
   
-  if (urlParams.roomCode && urlParams.playerName) {
+  // Add a flag to prevent multiple rejoin attempts
+  let rejoinAttempted = false;
+  
+  if (urlParams.roomCode && urlParams.playerName && !rejoinAttempted) {
     // Attempt automatic rejoin from URL
     console.log('Attempting auto-rejoin from URL:', urlParams);
     setPlayerName(urlParams.playerName);
     setRoomCode(urlParams.roomCode);
+    rejoinAttempted = true;
     
-    // Try to rejoin the game
-    socket.emit('joinRoom', urlParams.roomCode, urlParams.playerName);
+    // Debounced rejoin to prevent duplicate calls
+    const rejoinTimeout = setTimeout(() => {
+      console.log('Executing auto-rejoin from URL');
+      socket.emit('joinRoom', urlParams.roomCode, urlParams.playerName);
+    }, 300);
     
     // Listen for successful rejoin
     const handleRejoinSuccess = () => {
@@ -422,22 +429,27 @@ useEffect(() => {
     socket.once('joinedRoom', () => setGameState('lobby'));
     socket.once('error', handleRejoinError);
     
-    // Cleanup listeners after 10 seconds
+    // Cleanup listeners and timeout after 10 seconds
     setTimeout(() => {
+      clearTimeout(rejoinTimeout);
       socket.off('gameStarted', handleRejoinSuccess);
       socket.off('joinedRoom');
       socket.off('error', handleRejoinError);
     }, 10000);
     
-  } else if (localState && localState.roomCode && localState.currentPlayerName) {
-    // Try to rejoin from local storage using stored current player name
+  } else if (localState && localState.roomCode && localState.currentPlayerName && !rejoinAttempted) {
+    // Try to rejoin from local storage only if URL params weren't available
     console.log('Attempting auto-rejoin from local storage for player:', localState.currentPlayerName);
     setPlayerName(localState.currentPlayerName);
     setRoomCode(localState.roomCode);
     updateURL(localState.roomCode, localState.currentPlayerName);
+    rejoinAttempted = true;
     
-    // Try to rejoin the game
-    socket.emit('joinRoom', localState.roomCode, localState.currentPlayerName);
+    // Debounced rejoin to prevent duplicate calls
+    const rejoinTimeout = setTimeout(() => {
+      console.log('Executing auto-rejoin from local storage');
+      socket.emit('joinRoom', localState.roomCode, localState.currentPlayerName);
+    }, 500); // Longer delay for localStorage fallback
     
     // Set up listeners for auto-rejoin
     const handleLocalRejoinSuccess = () => {
@@ -448,8 +460,9 @@ useEffect(() => {
     socket.once('gameStarted', handleLocalRejoinSuccess);
     socket.once('joinedRoom', () => setGameState('lobby'));
     
-    // Cleanup after 10 seconds
+    // Cleanup listeners and timeout after 10 seconds
     setTimeout(() => {
+      clearTimeout(rejoinTimeout);
       socket.off('gameStarted', handleLocalRejoinSuccess);
       socket.off('joinedRoom');
     }, 10000);

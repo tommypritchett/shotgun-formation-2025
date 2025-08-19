@@ -224,6 +224,13 @@ socket.on('joinRoom', (roomCode, playerName) => {
     let playerData;
     let isRejoining = false;
 
+    // Check if this socket is already in the room to prevent duplicates
+    const socketAlreadyInRoom = rooms[roomCode].players.find(p => p.id === socket.id);
+    if (socketAlreadyInRoom) {
+      console.log(`Socket ${socket.id} is already in room ${roomCode}, ignoring duplicate join request`);
+      return;
+    }
+
     // Check if player is already in the room but disconnected
     const existingPlayerIndex = rooms[roomCode].players.findIndex(p => p.name === playerName);
     
@@ -297,6 +304,23 @@ socket.on('joinRoom', (roomCode, playerName) => {
     // Update player stats with the socket ID
     playerStats[socket.id] = { ...playerData, id: socket.id };
     socket.join(roomCode);
+
+    // Final safety check: ensure no duplicate player names exist in the room
+    const playerNames = rooms[roomCode].players.map(p => p.name);
+    const uniquePlayerNames = [...new Set(playerNames)];
+    if (playerNames.length !== uniquePlayerNames.length) {
+      console.log(`Duplicate player names detected in room ${roomCode}, cleaning up...`);
+      // Keep only the first occurrence of each name (most recent socket ID)
+      const seenNames = new Set();
+      rooms[roomCode].players = rooms[roomCode].players.filter(player => {
+        if (seenNames.has(player.name)) {
+          console.log(`Removing duplicate player: ${player.name} (${player.id})`);
+          return false;
+        }
+        seenNames.add(player.name);
+        return true;
+      });
+    }
 
 
       // Check if the game has already started
