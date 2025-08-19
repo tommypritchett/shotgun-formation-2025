@@ -1207,8 +1207,8 @@ if (gameState === 'game') {
       {/* Player Icons (Top, 2 rows) */}
       <div className="player-icons-container">
         {players.map((player) => (
-          <div key={player.id || player.name} className={`player-icon ${player.disconnected ? 'disconnected' : ''}`}>
-            <h3>{player.name} {player.disconnected ? '(Disconnected)' : ''}</h3>
+          <div key={player.id || player.name} className="player-icon">
+            <h3>{player.name}</h3>
             <div className="player-image"></div> {/* Div that holds the background image */}
             <div className="player-stats">
             <div>Total Drinks: {playerStats[player.id]?.totalDrinks || 0}</div>
@@ -1294,12 +1294,12 @@ if (gameState === 'game') {
             <div key={p.id || p.name}>
               {drinksToGive > 0 && (
                 <button onClick={() => handleGiveDrink(p.id || p.name, 'drink')}>
-                  Give Drink to {p.name}{p.disconnected ? ' (Disconnected)' : ''} ({assignedDrinks?.drinks?.[p.id || p.name] || 0})
+                  Give Drink to {p.name} ({assignedDrinks?.drinks?.[p.id || p.name] || 0})
                 </button>
               )}
               {shotgunsToGive > 0 && (
                 <button onClick={() => handleGiveDrink(p.id || p.name, 'shotgun')}>
-                  Give Shotgun to {p.name}{p.disconnected ? ' (Disconnected)' : ''} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
+                  Give Shotgun to {p.name} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
                 </button>
               )}
             </div>
