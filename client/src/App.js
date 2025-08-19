@@ -398,44 +398,56 @@ useEffect(() => {
   const urlParams = getURLParams();
   const localState = loadGameStateLocally();
   
+  // Check if we just refreshed to prevent refresh loops
+  const hasRefreshed = sessionStorage.getItem('hasAutoRefreshed');
+  
   // Add a flag to prevent multiple rejoin attempts
   let rejoinAttempted = false;
   
   // PRIORITY 1: Always check URL params first (highest priority)
-  if (urlParams.roomCode && urlParams.playerName && !rejoinAttempted) {
-    console.log('Device connected with URL params - attempting automatic rejoin:', urlParams);
+  if (urlParams.roomCode && urlParams.playerName && !rejoinAttempted && !hasRefreshed) {
+    console.log('Device connected with URL params - will refresh immediately to rejoin:', urlParams);
     setPlayerName(urlParams.playerName);
     setRoomCode(urlParams.roomCode);
-    setGameState('connecting'); // Show connecting state instead of start screen
+    
+    // Mark that we're about to refresh to prevent loops
+    sessionStorage.setItem('hasAutoRefreshed', 'true');
+    
+    // Immediate refresh to rejoin the game with fresh state
+    setTimeout(() => {
+      console.log('Auto-refreshing immediately to rejoin game with fresh connection');
+      window.location.reload();
+    }, 500); // Very short delay to set session storage
+    
+    return; // Exit early since we're refreshing
+  }
+  
+  // If we just refreshed, proceed with normal rejoin (no more refreshing)
+  if (urlParams.roomCode && urlParams.playerName && hasRefreshed && !rejoinAttempted) {
+    console.log('Post-refresh: attempting rejoin with fresh connection:', urlParams);
+    setPlayerName(urlParams.playerName);
+    setRoomCode(urlParams.roomCode);
+    setGameState('connecting');
     rejoinAttempted = true;
     
-    // First, validate if the game exists
+    // Clear the refresh flag
+    sessionStorage.removeItem('hasAutoRefreshed');
+    
+    // Validate and rejoin without additional refreshing
     const validateTimeout = setTimeout(() => {
-      console.log('Validating game exists and attempting auto-rejoin from URL');
+      console.log('Post-refresh: validating game and rejoining');
       socket.emit('validateAndJoinRoom', urlParams.roomCode, urlParams.playerName);
     }, 200);
     
-    // Listen for successful rejoin
+    // Listen for successful rejoin (NO MORE REFRESHING)
     const handleRejoinSuccess = () => {
-      console.log('Auto-rejoin successful - entering game');
+      console.log('Post-refresh rejoin successful - entering game');
       setGameState('game');
-      
-      // Auto-refresh after successful rejoin to ensure full game state reload
-      setTimeout(() => {
-        console.log('Auto-refreshing page after successful auto-rejoin to ensure full reload');
-        window.location.reload();
-      }, 1500);
     };
     
     const handleLobbyJoin = () => {
-      console.log('Auto-rejoin successful - entering lobby');
+      console.log('Post-refresh rejoin successful - entering lobby');
       setGameState('lobby');
-      
-      // Auto-refresh after successful lobby rejoin
-      setTimeout(() => {
-        console.log('Auto-refreshing page after successful lobby rejoin');
-        window.location.reload();
-      }, 1000);
     };
     
     const handleRejoinError = (error) => {
@@ -468,43 +480,28 @@ useEffect(() => {
       }
     }, 10000);
     
-  } else if (localState && localState.roomCode && localState.currentPlayerName && !rejoinAttempted) {
-    // PRIORITY 2: Try to rejoin from local storage only if URL params weren't available
-    console.log('No URL params found - attempting auto-rejoin from local storage for player:', localState.currentPlayerName);
+  } else if (localState && localState.roomCode && localState.currentPlayerName && !rejoinAttempted && !hasRefreshed) {
+    // PRIORITY 2: Try to rejoin from local storage - refresh immediately to create URL params
+    console.log('No URL params found - will refresh with localStorage data to create URL params:', localState.currentPlayerName);
     setPlayerName(localState.currentPlayerName);
     setRoomCode(localState.roomCode);
     updateURL(localState.roomCode, localState.currentPlayerName);
-    setGameState('connecting'); // Show connecting state
-    rejoinAttempted = true;
     
-    // Validate and rejoin from localStorage
-    const validateTimeout = setTimeout(() => {
-      console.log('Validating game exists and attempting auto-rejoin from local storage');
-      socket.emit('validateAndJoinRoom', localState.roomCode, localState.currentPlayerName);
-    }, 400);
+    // Mark that we're about to refresh to prevent loops
+    sessionStorage.setItem('hasAutoRefreshed', 'true');
     
-    // Set up listeners for auto-rejoin
-    const handleLocalRejoinSuccess = () => {
-      console.log('Local storage auto-rejoin successful - entering game');
-      setGameState('game');
-      
-      // Auto-refresh after successful localStorage rejoin
-      setTimeout(() => {
-        console.log('Auto-refreshing page after successful localStorage rejoin');
-        window.location.reload();
-      }, 1500);
-    };
+    // Immediate refresh to create URL params and rejoin
+    setTimeout(() => {
+      console.log('Auto-refreshing to create URL params from localStorage data');
+      window.location.reload();
+    }, 500);
     
-    const handleLocalLobbyJoin = () => {
-      console.log('Local storage auto-rejoin successful - entering lobby');
-      setGameState('lobby');
-      
-      // Auto-refresh after successful localStorage lobby rejoin
-      setTimeout(() => {
-        console.log('Auto-refreshing page after successful localStorage lobby rejoin');
-        window.location.reload();
-      }, 1000);
-    };
+    return; // Exit early since we're refreshing
+    
+  } else if (localState && localState.roomCode && localState.currentPlayerName && hasRefreshed && !rejoinAttempted) {
+    // Handle localStorage rejoin after refresh (should now have URL params)
+    console.log('Post-refresh localStorage rejoin (should have URL params now)');
+    setGameState('startOrJoin'); // This case should be handled by URL params now
     
     const handleLocalRejoinError = (error) => {
       console.log('Local storage auto-rejoin failed:', error);
@@ -794,16 +791,10 @@ useEffect(() => {
     
     // Enhanced reconnection logic for mobile
     if (gameState === 'game' && roomCode) {
-      // Wait a moment for the connection to stabilize, then refresh the page
+      // Wait a moment for the connection to stabilize
       setTimeout(() => {
         console.log('Requesting game state after successful reconnection');
         socket.emit('requestGameState', { roomCode });
-        
-        // Auto-refresh the page to fully reload the player back into the game
-        setTimeout(() => {
-          console.log('Auto-refreshing page to reload player back into game after reconnection');
-          window.location.reload();
-        }, 1500); // Give a moment for any final sync, then refresh
         
         // Try to recover from local storage as immediate fallback while waiting for refresh
         const localState = loadGameStateLocally();
@@ -1175,13 +1166,7 @@ socket.on('playerReconnected', ({ playerId, playerName: reconnectedPlayerName, a
   setPlayers(allPlayers);  // Update to show all players with reconnected player no longer disconnected
   console.log(`Player ${reconnectedPlayerName} reconnected`);
   
-  // If the reconnected player is the current player, refresh the page to fully reload them back into the game
-  if (reconnectedPlayerName === playerName) {
-    console.log('Current player reconnected - auto-refreshing page to reload back into game');
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000); // Short delay to let the update complete
-  }
+  // No auto-refresh here - let the immediate refresh on connection handle this
 });
 
 // Handle when a player leaves during the game (old event, kept for compatibility)
