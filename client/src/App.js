@@ -990,12 +990,31 @@ useEffect(() => {
       )
     );
     console.log("Player hand updated:", { standard, wild });  // Log the updated hand
+    
+    // If we receive an updatePlayerHand event during active game, it means we successfully reconnected
+    // Refresh the page to ensure full UI reload with fresh game state
+    if (gameState === 'game' && (standard.length > 0 || wild.length > 0)) {
+      // Check if we haven't already refreshed recently to prevent refresh loops
+      const lastRefresh = sessionStorage.getItem('lastReconnectRefresh');
+      const now = Date.now();
+      
+      if (!lastRefresh || (now - parseInt(lastRefresh)) > 10000) { // 10 second cooldown
+        console.log('Successful reconnection detected - auto-refreshing page to reload game state');
+        sessionStorage.setItem('lastReconnectRefresh', now.toString());
+        
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // Short delay to let the hand update complete
+      } else {
+        console.log('Skipping refresh - recent refresh detected');
+      }
+    }
   });
 
   return () => {
     socket.off('updatePlayerHand');
   };
-}, []);
+}, [gameState]);
 
 // Separate useEffect for room events that doesn't depend on players array
 useEffect(() => {
