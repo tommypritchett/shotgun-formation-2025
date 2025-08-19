@@ -97,7 +97,6 @@ const [isHostSelection, setIsHostSelection] = useState(false);
     if (playerName) {
       socket.emit('createRoom', playerName);
       setIsHost(true);
-      // URL will be updated when roomCreated event is received
     } else {
       setErrorMessage('Please enter your name');
     }
@@ -944,16 +943,27 @@ useEffect(() => {
   };
 }, []);
 
+// Separate useEffect for room events that doesn't depend on players array
+useEffect(() => {
+  const handleRoomCreated = (newRoomCode) => {
+    setRoomCode(newRoomCode);
+    setGameState('lobby');
+    document.body.style.zoom = "70%"; // Adjust the percentage as needed
+    
+    // Update URL immediately when room is created
+    if (playerName) {
+      updateURL(newRoomCode, playerName);
+    }
+  };
+
+  socket.on('roomCreated', handleRoomCreated);
+  
+  return () => {
+    socket.off('roomCreated', handleRoomCreated);
+  };
+}, [playerName]); // Depend on playerName instead of players
 
   useEffect(() => {
-    socket.on('roomCreated', (newRoomCode) => {
-      setRoomCode(newRoomCode);
-      updateURL(newRoomCode, playerName); // Store in URL
-      setGameState('lobby');
-      document.body.style.zoom = "70%"; // Adjust the percentage as needed
-
-    });
-
     socket.on('joinedRoom', (joinedRoomCode) => {
       setRoomCode(joinedRoomCode);
       updateURL(joinedRoomCode, playerName); // Store in URL
@@ -1104,7 +1114,6 @@ socket.on('gameOver', (message) => {
     });
 
     return () => {
-      socket.off('roomCreated');
       socket.off('joinedRoom');
       socket.off('updatePlayers');
       socket.off('gameStarted');
