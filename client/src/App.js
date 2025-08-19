@@ -498,39 +498,15 @@ useEffect(() => {
     
     return; // Exit early since we're refreshing
     
-  } else if (localState && localState.roomCode && localState.currentPlayerName && hasRefreshed && !rejoinAttempted) {
-    // Handle localStorage rejoin after refresh (should now have URL params)
-    console.log('Post-refresh localStorage rejoin (should have URL params now)');
-    setGameState('startOrJoin'); // This case should be handled by URL params now
-    
-    const handleLocalRejoinError = (error) => {
-      console.log('Local storage auto-rejoin failed:', error);
-      setGameState('startOrJoin');
-    };
-    
-    socket.once('gameStarted', handleLocalRejoinSuccess);
-    socket.once('joinedRoom', handleLocalLobbyJoin);
-    socket.once('roomNotFound', handleLocalRejoinError);
-    socket.once('error', handleLocalRejoinError);
-    
-    // Cleanup listeners and timeout after 10 seconds
-    setTimeout(() => {
-      clearTimeout(validateTimeout);
-      socket.off('gameStarted', handleLocalRejoinSuccess);
-      socket.off('joinedRoom', handleLocalLobbyJoin);
-      socket.off('roomNotFound', handleLocalRejoinError);
-      socket.off('error', handleLocalRejoinError);
-      
-      // If still connecting after 10 seconds, assume failure
-      if (gameState === 'connecting') {
-        console.log('Local storage auto-rejoin timed out - going to join screen');
-        setGameState('startOrJoin');
-      }
-    }, 10000);
   } else {
-    // PRIORITY 3: No saved game data found - go to start screen
-    console.log('No saved game data found - showing start/join screen');
+    // PRIORITY 3: No saved game data found OR post-refresh cleanup - go to start screen
+    console.log('No saved game data found or post-refresh - showing start/join screen');
     setGameState('startOrJoin');
+    
+    // Clear any stale refresh flags if present
+    if (hasRefreshed) {
+      sessionStorage.removeItem('hasAutoRefreshed');
+    }
   }
 }, []); // Only run on mount
 
