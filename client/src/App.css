@@ -124,7 +124,7 @@ input:focus {
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Players Section - Compact Grid */
+/* Players Section - Dynamic Grid */
 .players-section {
   background: rgba(0,0,0,0.2);
   border-radius: 12px;
@@ -136,12 +136,29 @@ input:focus {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 6px;
-  max-height: 120px;
+  min-height: 80px;
   overflow-y: auto;
 }
 
-.player-icons-container.has-many-players {
+/* Dynamic heights based on player count */
+.player-icons-container.players-1-5 {
+  max-height: 80px;
+  grid-template-rows: 1fr;
+}
+
+.player-icons-container.players-6-10 {
+  max-height: 160px;
   grid-template-rows: repeat(2, 1fr);
+}
+
+.player-icons-container.players-11-15 {
+  max-height: 240px;
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.player-icons-container.players-16-plus {
+  max-height: 320px;
+  grid-template-rows: repeat(4, 1fr);
 }
 
 .player-icon {
@@ -246,11 +263,12 @@ input:focus {
 
 .your-hand {
   background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.95) 100%);
-  padding: 12px 8px;
+  padding: 16px 12px;
   backdrop-filter: blur(15px);
   border: 2px solid rgba(76, 175, 80, 0.5);
   border-radius: 12px;
-  max-height: 200px;
+  min-height: 140px;
+  max-height: 260px;
   overflow-y: auto;
 }
 
@@ -279,9 +297,9 @@ input:focus {
 /* ==================== CARDS IN HAND - FOOTBALL CARDS ==================== */
 
 .card, .wild-card-content {
-  width: 70px;
-  height: 95px;
-  border-radius: 6px;
+  width: 80px;
+  height: 110px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -332,21 +350,25 @@ input:focus {
 
 .card-name {
   font-weight: bold;
-  font-size: 0.6rem;
-  padding: 4px 2px;
-  line-height: 1.1;
+  font-size: 0.65rem;
+  padding: 6px 3px;
+  line-height: 1.2;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
   border-bottom: 1px solid rgba(255,255,255,0.3);
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .drink-count {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: bold;
   background: rgba(0,0,0,0.6);
   color: #FFD700;
-  border-radius: 4px;
-  padding: 2px 4px;
-  margin: 2px;
+  border-radius: 6px;
+  padding: 4px 6px;
+  margin: 3px;
   border: 1px solid #FFD700;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
 }
@@ -512,16 +534,17 @@ input:focus {
   }
   
   .card, .wild-card-content {
-    width: 50px;
-    height: 70px;
+    width: 65px;
+    height: 90px;
   }
   
   .card-name {
-    font-size: 0.5rem;
+    font-size: 0.55rem;
+    min-height: 35px;
   }
   
   .drink-count {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
   }
   
   .player-image {
@@ -544,8 +567,13 @@ input:focus {
   }
   
   .card, .wild-card-content {
-    width: 45px;
-    height: 65px;
+    width: 60px;
+    height: 80px;
+  }
+  
+  .card-name {
+    font-size: 0.5rem;
+    min-height: 30px;
   }
   
   .card-area {

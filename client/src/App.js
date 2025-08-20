@@ -1302,7 +1302,12 @@ socket.on('gameOver', (message) => {
 
       {/* Players Section */}
       <div className="players-section">
-        <div className={`player-icons-container ${players.length >= 6 ? 'has-many-players' : ''}`}>
+        <div className={`player-icons-container ${
+          players.length <= 5 ? 'players-1-5' :
+          players.length <= 10 ? 'players-6-10' :
+          players.length <= 15 ? 'players-11-15' :
+          'players-16-plus'
+        }`}>
           {players.map((player) => (
             <div key={player.id || player.name} className="player-icon glass-effect">
               <h3>{player.name}</h3>
