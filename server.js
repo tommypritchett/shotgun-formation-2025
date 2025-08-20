@@ -969,6 +969,17 @@ socket.on('requestGameState', ({ roomCode }) => {
   // Find the player in the room
   let player = room.players.find(p => p.id === socket.id);
   
+  // If player is found, they're requesting game state (likely after reconnection)
+  if (player) {
+    console.log(`Player ${player.name} (${socket.id}) requesting game state - sending refresh signal`);
+    socket.emit('triggerPersonalRefresh', {
+      message: 'Game state requested - refreshing your device to ensure full game state',
+      playerId: socket.id,
+      playerName: player.name
+    });
+    console.log(`🔄 GAME STATE REFRESH SIGNAL SENT to player ${player.name} (${socket.id})`);
+  }
+  
   // Player might be reconnecting with a new socket ID
   if (!player) {
     // Look in formerPlayers for a potential match by room
@@ -989,6 +1000,14 @@ socket.on('requestGameState', ({ roomCode }) => {
       };
       
       console.log(`Reconnected player ${socket.id} to room ${roomCode}`);
+      
+      // Send personal refresh signal immediately after successful reconnection detection
+      socket.emit('triggerPersonalRefresh', {
+        message: 'Successful reconnection detected - refreshing your device to ensure full game state',
+        playerId: socket.id,
+        playerName: possibleFormerPlayers[0].name
+      });
+      console.log(`🔄 IMMEDIATE REFRESH SIGNAL SENT to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
       
       // Remove from formerPlayers
       delete formerPlayers[possibleFormerPlayers[0].name];
@@ -1012,6 +1031,19 @@ socket.on('requestGameState', ({ roomCode }) => {
   
   // Send current quarter
   socket.emit('quarterUpdated', room.quarter || 1);
+  
+  // Send personal refresh signal to ONLY this reconnected player
+  socket.emit('triggerPersonalRefresh', {
+    message: 'Successful reconnection - refreshing your device to ensure full game state',
+    playerId: socket.id,
+    playerName: player.name
+  });
+  console.log(`🔄 SENDING PERSONAL REFRESH SIGNAL to player ${player.name} (${socket.id})`);
+  console.log(`📡 Event: triggerPersonalRefresh with data:`, {
+    message: 'Successful reconnection - refreshing your device to ensure full game state',
+    playerId: socket.id,
+    playerName: player.name
+  });
   
   // Notify all other players about the reconnection
   socket.to(roomCode).emit('playerRejoined', { 
