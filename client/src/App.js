@@ -1148,6 +1148,15 @@ socket.on('newHost', ({ newHostId, message }) => {
       // No auto-refresh here - let the personal refresh signal handle this
     });
 
+    // Listen for player stats updates (specifically for reconnections)
+    socket.on('updatePlayerStats', (stats) => {
+      // Only update if it's a direct stats object (not the round results format)
+      if (stats && typeof stats === 'object' && !stats.players) {
+        setPlayerStats(stats);
+        console.log('Updated player stats after reconnection:', stats);
+      }
+    });
+
     // Handle personal refresh signal from server (ONLY for this specific player)
     socket.on('triggerPersonalRefresh', ({ message, playerId, playerName: reconnectedPlayerName }) => {
       console.log(`🔄 REFRESH SIGNAL RECEIVED: ${message}`);
@@ -1195,6 +1204,7 @@ socket.on('gameOver', (message) => {
       socket.off('hostLeft');
       socket.off('playerDisconnected');
       socket.off('playerReconnected');
+      socket.off('updatePlayerStats');
       socket.off('triggerPersonalRefresh');
     };
   }, [players]);
@@ -1292,7 +1302,7 @@ socket.on('gameOver', (message) => {
 
       {/* Players Section */}
       <div className="players-section">
-        <div className="player-icons-container">
+        <div className={`player-icons-container ${players.length >= 6 ? 'has-many-players' : ''}`}>
           {players.map((player) => (
             <div key={player.id || player.name} className="player-icon glass-effect">
               <h3>{player.name}</h3>
@@ -1339,41 +1349,33 @@ socket.on('gameOver', (message) => {
         {players.map((player) => (
           player.id === socket.id && (
             <div key={player.id}>
-              <div className="hand-header">Your Hand</div>
+              <div className="hand-header">Your Hand {isHost && "(Host)"}</div>
               
-              {/* Standard Cards */}
-              {player.cards?.standard?.length > 0 && (
-                <>
-                  <div className="hand-header" style={{fontSize: '0.7rem', marginBottom: '4px'}}>Standard Cards</div>
-                  <ul className="your-hand-cards">
-                    {player.cards.standard.map((card, index) => (
-                      <li key={index}>
-                        <div className="card" onClick={() => handleCardClick(card.card)}>
-                          <div className="card-name">{card.card}</div>
-                          <div className="drink-count">{card.drinks} drinks</div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-
-              {/* Wild Cards */}
-              {player.cards?.wild?.length > 0 && (
-                <>
-                  <div className="hand-header" style={{fontSize: '0.7rem', marginBottom: '4px'}}>Wild Cards</div>
-                  <ul className="wild-hand-cards">
-                    {player.cards.wild.map((card, index) => (
-                      <li key={index}>
-                        <div className="wild-card-content" onClick={() => handleCardClick(card.card)}>
-                          <div className="card-name">{card.card}</div>
-                          <div className="drink-count">{card.drinks} drinks</div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
+              <div className="your-hand-cards">
+                {/* Standard Cards */}
+                {player.cards?.standard?.map((card, index) => (
+                  <div key={index} className="card" onClick={() => handleCardClick(card.card)}>
+                    <div className="card-name">{card.card}</div>
+                    <div className="drink-count">{card.drinks} drinks</div>
+                  </div>
+                ))}
+                
+                {/* Wild Cards */}
+                {player.cards?.wild?.map((card, index) => (
+                  <div
+                    key={`wild-${index}`}
+                    className="wild-card-content"
+                    onClick={() => handleCardClick(card.card)}
+                  >
+                    <div className="card-name">{card.card}</div>
+                    <div className="drink-count">
+                      {card.drinks >= 10 
+                        ? `${Math.floor(card.drinks / 10)} Shotgun${Math.floor(card.drinks / 10) > 1 ? 's' : ''}`
+                        : `${card.drinks} Drink${card.drinks > 1 ? 's' : ''}`}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )
         ))}

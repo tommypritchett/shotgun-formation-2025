@@ -383,7 +383,9 @@ function handleJoinRoom(socket, roomCode, playerName) {
           playerName: playerName,
           allPlayers: rooms[roomCode].players 
         });
-        console.log(`Notified room ${roomCode} about ${playerName} reconnection`);
+        // Broadcast updated player stats to all players in the room
+        io.to(roomCode).emit('updatePlayerStats', playerStats);
+        console.log(`Notified room ${roomCode} about ${playerName} reconnection and updated stats`);
       }
 
   } else {
