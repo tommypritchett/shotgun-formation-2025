@@ -1145,7 +1145,19 @@ socket.on('playerReconnected', ({ playerId, playerName: reconnectedPlayerName, a
   setPlayers(allPlayers);  // Update to show all players with reconnected player no longer disconnected
   console.log(`Player ${reconnectedPlayerName} reconnected`);
   
-  // No auto-refresh here - let the immediate refresh on connection handle this
+  // No auto-refresh here - let the personal refresh signal handle this
+});
+
+// Handle personal refresh signal from server (ONLY for this specific player)
+socket.on('triggerPersonalRefresh', ({ message, playerId, playerName: reconnectedPlayerName }) => {
+  console.log(`Received personal refresh signal: ${message}`);
+  console.log(`This refresh is for player: ${reconnectedPlayerName} (${playerId})`);
+  
+  // Add a small delay to ensure all reconnection data is processed
+  setTimeout(() => {
+    console.log('Executing personal refresh as requested by server after successful reconnection');
+    window.location.reload();
+  }, 1500); // 1.5 second delay to let all game state updates complete
 });
 
 // Handle when a player leaves during the game (old event, kept for compatibility)
