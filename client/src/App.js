@@ -1306,16 +1306,77 @@ socket.on('gameOver', (message) => {
         </div>
       </div>
 
-      {/* Player Stats Display (Fixed Position) */}
-      <div className="player-stats-container">
-        <h3>Room: {roomCode}</h3>
-        <ul>
-          {players.map((player) => (
-            <li key={player.id || player.name}>
-              {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}🔫
-            </li>
-          ))}
-        </ul>
+      {/* Stats and Results Row */}
+      <div className="stats-row">
+        <div className="player-stats-container">
+          <h3>Room: {roomCode}</h3>
+          <ul>
+            {players.map((player) => (
+              <li key={player.id || player.name}>
+                {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}🔫
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        {Object.keys(roundDrinkResults).length > 0 && (
+          <div className="round-results-container">
+            <h3>Round Results</h3>
+            <ul>
+              {Object.entries(roundDrinkResults).map(([id, result]) => (
+                <li key={id}>
+                  {players.find(p => p.id === id)?.name}: {result.drinks}🍺
+                  {result.shotguns > 0 && ` ${result.shotguns}🔫`}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* Player's Hand Section */}
+      <div className="your-hand slide-up">
+        {players.map((player) => (
+          player.id === socket.id && (
+            <div key={player.id}>
+              <div className="hand-header">Your Hand</div>
+              
+              {/* Standard Cards */}
+              {player.cards?.standard?.length > 0 && (
+                <>
+                  <div className="hand-header" style={{fontSize: '0.7rem', marginBottom: '4px'}}>Standard Cards</div>
+                  <ul className="your-hand-cards">
+                    {player.cards.standard.map((card, index) => (
+                      <li key={index}>
+                        <div className="card" onClick={() => handleCardClick(card.card)}>
+                          <div className="card-name">{card.card}</div>
+                          <div className="drink-count">{card.drinks} drinks</div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {/* Wild Cards */}
+              {player.cards?.wild?.length > 0 && (
+                <>
+                  <div className="hand-header" style={{fontSize: '0.7rem', marginBottom: '4px'}}>Wild Cards</div>
+                  <ul className="wild-hand-cards">
+                    {player.cards.wild.map((card, index) => (
+                      <li key={index}>
+                        <div className="wild-card-content" onClick={() => handleCardClick(card.card)}>
+                          <div className="card-name">{card.card}</div>
+                          <div className="drink-count">{card.drinks} drinks</div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+          )
+        ))}
       </div>
       {/* Wrapping game elements in a container */}
       <div className={`game-elements-container ${isDisabled ? 'game-elements-disabled' : ''}`}>
@@ -1326,45 +1387,6 @@ socket.on('gameOver', (message) => {
               An action is already in progress. Please wait for the round to end.
             </p>
           )}
-
-        </div>
-   
-        {/* Player's Hand - Fixed Bottom */}
-        <div className="your-hand slide-up">
-          {players.map((player) => (
-            player.id === socket.id && (
-              <div key={player.id}>
-                <div className="hand-header">
-                  Your Hand {isHost && "(Host)"}
-                </div>
-                <div className="your-hand-cards">
-                  {/* Standard Cards */}
-                  {player.cards?.standard?.map((card, index) => (
-                    <div key={index} className="card">
-                      <div className="card-name">{card.card}</div>
-                      <div className="drink-count">{card.drinks} Drinks</div>
-                    </div>
-                  ))}
-                  
-                  {/* Wild Cards */}
-                  {player.cards?.wild?.map((card, index) => (
-                    <button
-                      key={`wild-${index}`}
-                      className="wild-card-content"
-                      onClick={() => handleWildCardSelect(card.card)}
-                    >
-                      <div className="card-name">{card.card}</div>
-                      <div className="drink-count">
-                        {card.drinks >= 10 
-                          ? `${Math.floor(card.drinks / 10)} Shotgun${Math.floor(card.drinks / 10) > 1 ? 's' : ''}`
-                          : `${card.drinks} Drink${card.drinks > 1 ? 's' : ''}`}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )
-          ))}
         </div>
               {/* Wild Card Confirmation Modal */}
 {wildCardSelected && isHost && (
@@ -1528,20 +1550,6 @@ socket.on('gameOver', (message) => {
           </div>
         )}
 
-        {/* Round Results Display */}
-        {Object.keys(roundDrinkResults).length > 0 && (
-          <div className="round-results-container">
-            <h3>Round Results:</h3>
-            <ul>
-              {Object.entries(roundDrinkResults).map(([id, result]) => (
-                <li key={id}>
-                  {players.find(p => p.id === id)?.name} received {result.drinks} drink{result.drinks !== 1 ? 's' : ''}
-                  {result.shotguns > 0 && ` and ${result.shotguns} shotgun${result.shotguns > 1 ? 's' : ''}`}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
 
         </div>
       </div>

@@ -88,13 +88,13 @@ input:focus {
 
 .game-table {
   display: grid;
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto auto auto auto 1fr;
   height: 100vh;
   background: linear-gradient(135deg, #1e3a20 0%, #2c5530 100%);
   padding: 8px;
   gap: 6px;
   overflow: hidden;
-  padding-bottom: 140px; /* Space for fixed bottom hand */
+  padding-bottom: 20px;
 }
 
 /* Header Section */
@@ -238,18 +238,15 @@ input:focus {
   border-color: #66BB6A;
 }
 
-/* ==================== PLAYER HAND - BOTTOM FIXED ==================== */
+/* ==================== PLAYER HAND - REPOSITIONED ==================== */
 
 .your-hand {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.95) 100%);
-  padding: 8px 6px 6px 6px;
+  padding: 12px 8px;
   backdrop-filter: blur(15px);
-  border-top: 2px solid rgba(76, 175, 80, 0.5);
-  max-height: 130px;
+  border: 2px solid rgba(76, 175, 80, 0.5);
+  border-radius: 12px;
+  max-height: 200px;
   overflow-y: auto;
 }
 
@@ -268,13 +265,18 @@ input:focus {
   gap: 6px;
   list-style: none;
   flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.wild-hand-cards {
+  margin-bottom: 0;
 }
 
 /* ==================== CARDS IN HAND - FOOTBALL CARDS ==================== */
 
 .card, .wild-card-content {
-  width: 60px;
-  height: 85px;
+  width: 70px;
+  height: 95px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -434,34 +436,50 @@ input:focus {
   box-shadow: 0 5px 10px rgba(0,0,0,0.4);
 }
 
-/* ==================== PLAYER STATS DISPLAY ==================== */
+/* ==================== SCORE AND STATS SECTION ==================== */
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
 
 .player-stats-container {
-  position: fixed;
-  top: 60px;
-  right: 8px;
   background: rgba(0,0,0,0.8);
   border-radius: 8px;
   padding: 8px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(76, 175, 80, 0.3);
-  max-width: 150px;
   font-size: 0.7rem;
 }
 
-.player-stats-container h3 {
+.round-results-container {
+  background: rgba(0,0,0,0.8);
+  border-radius: 8px;
+  padding: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  font-size: 0.7rem;
+}
+
+.player-stats-container h3, .round-results-container h3 {
   color: #4CAF50;
   font-size: 0.8rem;
   margin-bottom: 4px;
   text-align: center;
 }
 
-.player-stats-container ul {
+.round-results-container h3 {
+  color: #FF9800;
+}
+
+.player-stats-container ul, .round-results-container ul {
   list-style: none;
   color: #ddd;
 }
 
-.player-stats-container li {
+.player-stats-container li, .round-results-container li {
   margin-bottom: 2px;
   padding: 2px 0;
   border-bottom: 1px solid rgba(255,255,255,0.1);
