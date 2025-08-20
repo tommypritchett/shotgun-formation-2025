@@ -140,34 +140,38 @@ input:focus {
   overflow-y: auto;
 }
 
-/* Dynamic heights based on player count - Double size for 6+ players */
+/* Dynamic heights based on player count - Properly double size for 6+ players */
 .player-icons-container.players-1-5 {
-  max-height: 80px;
+  height: 80px;
   grid-template-rows: 1fr;
+  overflow: hidden;
 }
 
 .player-icons-container.players-6-10 {
-  max-height: 160px;
+  height: 160px;
   grid-template-rows: repeat(2, 1fr);
+  overflow: hidden;
 }
 
 .player-icons-container.players-11-15 {
-  max-height: 240px;
+  height: 240px;
   grid-template-rows: repeat(3, 1fr);
+  overflow: hidden;
 }
 
 .player-icons-container.players-16-plus {
-  max-height: 320px;
+  height: 320px;
   grid-template-rows: repeat(4, 1fr);
+  overflow: hidden;
 }
 
-/* Double the player section size when 6+ players */
+/* Double the player section size when 6+ players - no scrolling */
 .players-section.expanded {
-  min-height: 160px;
+  min-height: 180px;
 }
 
 .players-section.expanded .player-icons-container {
-  min-height: 140px;
+  min-height: 160px;
 }
 
 .player-icon {
@@ -417,6 +421,20 @@ input:focus {
   text-align: center;
   font-size: 1.3rem;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Enhanced timer visibility */
+.timer-display {
+  background: linear-gradient(145deg, #FF6B35, #E55722);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin: 8px 0;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  border: 2px solid #FFD700;
 }
 
 /* ==================== DRINK DISTRIBUTION ==================== */

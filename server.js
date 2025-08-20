@@ -65,7 +65,8 @@ app.get('*', (req, res) => {
 
 // Generate random room code
 const generateRoomCode = () => {
-  return Math.random().toString(36).substr(2, 5).toUpperCase();
+  // Generate a 5-digit number only room code
+  return Math.floor(10000 + Math.random() * 90000).toString();
 };
 
 // Finalize round logic

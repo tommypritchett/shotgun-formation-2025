@@ -1423,7 +1423,7 @@ socket.on('gameOver', (message) => {
   <div className="drink-assignment-modal">
     <div className="modal-content">
       <h3>Card Played: {declaredCard}</h3>
-      <p>Time Remaining: {timeRemaining} seconds</p>
+      <div className="timer-display">⏰ Time Remaining: {timeRemaining} seconds</div>
 
       {/* Conditional rendering for drink assignment UI */}
       {(declaredCard !== 'First Down' &&
@@ -1475,7 +1475,7 @@ socket.on('gameOver', (message) => {
     <div className="modal-content">
       <h3>First Down!</h3>
       <p>Everyone drinks once!</p>
-      <p>Time Remaining: {timeRemaining} seconds</p>
+      <div className="timer-display">⏰ Time Remaining: {timeRemaining} seconds</div>
       {timeRemaining === 0 && closeModal('firstDownModal')}
     </div>
   </div>
