@@ -1278,11 +1278,11 @@ socket.on('gameOver', (message) => {
     );
   }
 
-// UI for the game screen
-if (gameState === 'game') {
-  const isDisabled = isHostSelection && !isMenuOpen; // Disable game elements when host selection is open, but not when the menu is open
+  // UI for the game screen
+  if (gameState === 'game') {
+    const isDisabled = isHostSelection && !isMenuOpen; // Disable game elements when host selection is open, but not when the menu is open
 
-  return (
+    return (
     <div className="game-table fade-in">
       {/* Header Section */}
       <div className="game-header">
@@ -1389,8 +1389,8 @@ if (gameState === 'game') {
 
       {/* Conditional rendering for drink assignment UI */}
       {(declaredCard !== 'First Down' &&
-        (player.cards?.standard?.some(card => card.card === declaredCard) ||
-        player.cards?.wild?.some(card => card.card === declaredCard)) &&
+        (players.find(p => p.id === socket.id)?.cards?.standard?.some(card => card.card === declaredCard) ||
+        players.find(p => p.id === socket.id)?.cards?.wild?.some(card => card.card === declaredCard)) &&
         isDistributing && (drinksToGive > 0 || shotgunsToGive > 0)) && (
         <div className="drink-distribution slide-up">
           <div className="drink-message">{drinkMessage}</div>
@@ -1442,16 +1442,6 @@ if (gameState === 'game') {
     </div>
   </div>
 )}
-
-                </>
-              ) : (
-                <div className="player-icon">
-                <h3>{}</h3>
-              </div>
-              )}
-            </div>
-          ))}
-        </div>
 
         {/* Wild Card Swap Modal */}
 {isWildCardSelectionOpen && (
@@ -1538,23 +1528,28 @@ if (gameState === 'game') {
           </div>
         )}
 
-    {/* Player Stats and Round Results (Right Side) */}
-    <div className="player-stats-container">
-        <h3>Round Results:</h3>
-        <ul>
-          {Object.entries(roundDrinkResults).map(([id, result]) => (
-            <li key={id}>
-              {players.find(p => p.id === id)?.name} received {result.drinks} drink{result.drinks !== 1 ? 's' : ''}
-              {result.shotguns > 0 && ` and ${result.shotguns} shotgun${result.shotguns > 1 ? 's' : ''}`}
-            </li>
-            ))}
-          </ul>
+        {/* Round Results Display */}
+        {Object.keys(roundDrinkResults).length > 0 && (
+          <div className="round-results-container">
+            <h3>Round Results:</h3>
+            <ul>
+              {Object.entries(roundDrinkResults).map(([id, result]) => (
+                <li key={id}>
+                  {players.find(p => p.id === id)?.name} received {result.drinks} drink{result.drinks !== 1 ? 's' : ''}
+                  {result.shotguns > 0 && ` and ${result.shotguns} shotgun${result.shotguns > 1 ? 's' : ''}`}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return null;
 }
-return null;
-}
+
 export default App;
 
