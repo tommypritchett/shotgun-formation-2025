@@ -250,10 +250,18 @@ function handleJoinRoom(socket, roomCode, playerName) {
       return;
     }
 
-    // Check if player is already in the room but disconnected
+    // Check if player name is already taken by an active player
     const existingPlayerIndex = rooms[roomCode].players.findIndex(p => p.name === playerName);
     
     if (existingPlayerIndex !== -1) {
+      const existingPlayer = rooms[roomCode].players[existingPlayerIndex];
+      
+      // If player is active (not disconnected), don't allow joining with same name
+      if (!existingPlayer.disconnected) {
+        console.log(`Player name "${playerName}" is already taken by an active player in room ${roomCode}`);
+        socket.emit('error', `Player name "${playerName}" is already taken. Please choose a different name.`);
+        return;
+      }
       // Player is rejoining - update their socket ID and mark as connected
       rooms[roomCode].players[existingPlayerIndex].id = socket.id;
       rooms[roomCode].players[existingPlayerIndex].disconnected = false;
