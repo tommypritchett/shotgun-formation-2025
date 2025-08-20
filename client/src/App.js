@@ -1142,8 +1142,15 @@ socket.on('newHost', ({ newHostId, message }) => {
 
     // Handle when a player reconnects during the game
     socket.on('playerReconnected', ({ playerId, playerName: reconnectedPlayerName, allPlayers }) => {
-      setPlayers(allPlayers);  // Update to show all players with reconnected player no longer disconnected
       console.log(`Player ${reconnectedPlayerName} reconnected`);
+      
+      // Update players list immediately
+      setPlayers(allPlayers);
+      
+      // Force a UI update to prevent white screen
+      setTimeout(() => {
+        setPlayers(prevPlayers => [...prevPlayers]);
+      }, 100);
       
       // No auto-refresh here - let the personal refresh signal handle this
     });
@@ -1161,13 +1168,15 @@ socket.on('newHost', ({ newHostId, message }) => {
     socket.on('triggerPersonalRefresh', ({ message, playerId, playerName: reconnectedPlayerName }) => {
       console.log(`🔄 REFRESH SIGNAL RECEIVED: ${message}`);
       console.log(`🎯 This refresh is for player: ${reconnectedPlayerName} (${playerId})`);
-      console.log(`⏰ Will refresh in 1.5 seconds...`);
       
-      // Add a small delay to ensure all reconnection data is processed
+      // Instead of full page reload, just request game state update
+      console.log(`🔄 REQUESTING FRESH GAME STATE FOR PLAYER: ${reconnectedPlayerName}`);
+      
+      // Request fresh game state without page reload
       setTimeout(() => {
-        console.log(`🔄 REFRESHING DEVICE FOR PLAYER: ${reconnectedPlayerName} - Executing window.location.reload()`);
-        window.location.reload();
-      }, 1500); // 1.5 second delay to let all game state updates complete
+        socket.emit('requestGameState', { roomCode });
+        console.log(`📡 Requested fresh game state for room: ${roomCode}`);
+      }, 500); // Small delay to ensure reconnection is complete
     });
 
 // Handle when a player leaves during the game (old event, kept for compatibility)
@@ -1301,7 +1310,7 @@ socket.on('gameOver', (message) => {
       </div>
 
       {/* Players Section */}
-      <div className="players-section">
+      <div className={`players-section ${players.length >= 6 ? 'expanded' : ''}`}>
         <div className={`player-icons-container ${
           players.length <= 5 ? 'players-1-5' :
           players.length <= 10 ? 'players-6-10' :

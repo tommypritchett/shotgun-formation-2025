@@ -140,7 +140,7 @@ input:focus {
   overflow-y: auto;
 }
 
-/* Dynamic heights based on player count */
+/* Dynamic heights based on player count - Double size for 6+ players */
 .player-icons-container.players-1-5 {
   max-height: 80px;
   grid-template-rows: 1fr;
@@ -159,6 +159,15 @@ input:focus {
 .player-icons-container.players-16-plus {
   max-height: 320px;
   grid-template-rows: repeat(4, 1fr);
+}
+
+/* Double the player section size when 6+ players */
+.players-section.expanded {
+  min-height: 160px;
+}
+
+.players-section.expanded .player-icons-container {
+  min-height: 140px;
 }
 
 .player-icon {
