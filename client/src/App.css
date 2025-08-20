@@ -1,513 +1,601 @@
-/* General Centering for Initial Screen, Join/Start Game Screen, and Lobby */
-.centered-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  text-align: center;
-  background-color: #228B22; /* Green background resembling a football field */
-}
-.lobby-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  text-align: center;
-  background-color: #228B22; /* Green background resembling a football field */
-}
-
-.intro-with-image {
-  background-image: url('introimage.png'); /* Replace with your image path */
-  background-repeat: no-repeat;
-  background-position: top center;  /* Center the image horizontally */
-  background-size: 250px auto; /* Set a smaller width while keeping aspect ratio */
-  padding-top: 150px; /* Adjust padding to position the content below the image */
-}
-
-.intro-image {
-  background-image: url('introimage.png'); /* Replace with the correct path */
-  width: 200px; /* Adjust size */
-  height: auto;
-  margin-bottom: 20px;
-}
-
-input {
-  padding: 10px;
-  font-size: 16px;
-  margin: 10px;
-  width: 90%; /* Adjust width for mobile */
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 10px;
-  cursor: pointer;
-  width: 90%; /* Full width on mobile */
-}
-
-/* Disconnected player styling */
-.player-icon.disconnected {
-  opacity: 0.6;
-  filter: grayscale(50%);
-  border: 2px dashed #ff4444;
-}
-
-.player-icon.disconnected h3 {
-  color: #ff4444;
-  font-style: italic;
-}
-
-.player-icon.disconnected .player-image {
-  opacity: 0.5;
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-/* Remove bullet points from the cards in your hand */
-.your-hand-cards, .wild-hand-cards {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  list-style: none; /* Remove bullet points */
-}
-
-.card, .wild-card-content {
-  border: 1px solid #000;
-  padding: 5px;
-  width: 80px;  /* Smaller width */
-  height: 120px; /* Smaller height */
-  display: flex;
-  color: white;
-  flex-direction: column;
-  justify-content: space-between;
-  font-size: 14px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  position: relative; /* Needed for better positioning */
-}
-
-/* Card content for both standard and wild cards */
-.card-name {
-  font-weight: bold;
-  font-size: 16px;
-  padding: 5px 0;
-  border-bottom: 1px solid #ddd; /* Separates name and drink count */
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-/* Styling for the lobby and player list */
-.players-list {
-  list-style: none;
+/* ==================== GLOBAL STYLES ==================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
   padding: 0;
 }
 
-.players-list li {
-  margin: 5px 0;
-  font-size: 18px;
-}
-
-button:hover {
-  background-color: #ddd;
-}
-
-/* Game table CSS */
-.game-table {
-  text-align: center;
-  background-color: white; 
-  height: 100vh; /* Ensure full height background color or choice */
-}
-
-.standard-cards-row {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.card-area {
-  border: 1px solid #000;
-  padding: 10px;
-  width: 80px;  /* Smaller width */
-  height: 120px; /* Smaller height */
-  text-align: center;
-  background-color: #1a9324; /* Green for action cards */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #2c5530 0%, #1e3a20 100%);
   color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  overflow-x: hidden;
+}
+
+/* ==================== LAYOUT CONTAINERS ==================== */
+
+/* Initial/Lobby/Join Screens */
+.centered-container, .lobby-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #2c5530 0%, #1e3a20 100%);
+  text-align: center;
 }
 
-.player-area {
+/* Connecting Screen */
+.centered-container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* ==================== BUTTONS & INPUTS ==================== */
+
+button {
+  background: linear-gradient(145deg, #4CAF50, #2E7D32);
+  border: none;
+  color: white;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  margin: 8px;
+  width: 280px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+button:hover {
+  background: linear-gradient(145deg, #5CBF60, #357a38);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+input {
+  background: rgba(255,255,255,0.9);
+  border: 2px solid #4CAF50;
+  padding: 14px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  margin: 8px;
+  width: 280px;
+  max-width: 90%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #2E7D32;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+}
+
+/* ==================== GAME TABLE - MOBILE OPTIMIZED ==================== */
+
+.game-table {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3a20 0%, #2c5530 100%);
+  padding: 8px;
+  gap: 6px;
+  overflow: hidden;
+  padding-bottom: 140px; /* Space for fixed bottom hand */
+}
+
+/* Header Section */
+.game-header {
   display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.3);
+  padding: 8px 12px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
 }
 
+.game-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.quarter-display {
+  background: linear-gradient(145deg, #FF6B35, #E55722);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Players Section - Compact Grid */
+.players-section {
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.player-icons-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  gap: 6px;
+  max-height: 100px;
+  overflow-y: auto;
+}
 
 .player-icon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  margin: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 6px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
-.player-stats {
-  margin-top: 5px;
-  font-size: 12px;
-  color: #333;
+.player-icon h3 {
+  font-size: 0.7rem;
+  margin-bottom: 4px;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70px;
 }
 
 .player-image {
-  width: 50px;
-  height: 50px;
-  background-image: url('shotgunning3.png'); /* Set the path to your default image */
+  width: 36px;
+  height: 36px;
+  background-image: url('shotgunning3.png');
   background-size: cover;
   background-position: center;
-  border-radius: 50%; /* Make it circular */
-  border: 2px solid #000;
-  margin-bottom: 5px;
+  border-radius: 50%;
+  border: 2px solid #4CAF50;
+  margin-bottom: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
+.player-stats {
+  font-size: 0.6rem;
+  color: #ddd;
+  text-align: center;
+  line-height: 1.1;
+}
+
+/* ==================== CARD AREAS - FOOTBALL THEME ==================== */
+
+.standard-cards-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.card-area {
+  width: 70px;
+  height: 100px;
+  background: linear-gradient(145deg, #2E7D32, #1B5E20);
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.7rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-area::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.1) 2px,
+    rgba(255,255,255,0.1) 4px
+  );
+  pointer-events: none;
+}
+
+.card-area:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+  border-color: #66BB6A;
+}
+
+/* ==================== PLAYER HAND - BOTTOM FIXED ==================== */
 
 .your-hand {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.95) 100%);
+  padding: 8px 6px 6px 6px;
+  backdrop-filter: blur(15px);
+  border-top: 2px solid rgba(76, 175, 80, 0.5);
+  max-height: 130px;
+  overflow-y: auto;
 }
 
-.wild-card-content-button {
-  border: 1px solid #000;
-  width: 80px;
-  height: 120px;
-  background-color: #00ff15;
+.hand-header {
+  text-align: center;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.your-hand-cards, .wild-hand-cards {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+/* ==================== CARDS IN HAND - FOOTBALL CARDS ==================== */
+
+.card, .wild-card-content {
+  width: 60px;
+  height: 85px;
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-size: 14px;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+  border: 2px solid;
+  overflow: hidden;
+}
+
+/* Standard Cards */
+.card {
+  background: linear-gradient(145deg, #1976D2, #0D47A1);
+  border-color: #2196F3;
   color: white;
-  border-radius: 8px;
 }
 
-/* Remove bullet points from player stats and round results */
-ul {
-  list-style-type: none;
-  padding-left: 0;
+/* Wild Cards */
+.wild-card-content {
+  background: linear-gradient(145deg, #F57C00, #E65100);
+  border-color: #FF9800;
+  color: white;
 }
 
-/* Ensure the modal has a high z-index to cover everything */
-.menu-modal {
-  position: fixed;
+.card::before, .wild-card-content::before {
+  content: '';
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dim the background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Ensure it's on top of other elements */
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 3px,
+    rgba(255,255,255,0.1) 3px,
+    rgba(255,255,255,0.1) 6px
+  );
+  pointer-events: none;
 }
 
-/* Prevent interactions on game elements when the menu is open */
-.game-elements-disabled {
-  pointer-events: none; /* Disable clicks */
-  opacity: 0.5; /* Optional: Dim the game elements to visually indicate they are disabled */
+.card:hover, .wild-card-content:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
 }
 
-.menu-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
+.card-name {
+  font-weight: bold;
+  font-size: 0.6rem;
+  padding: 4px 2px;
+  line-height: 1.1;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
 }
 
-.menu-content h3 {
-  margin-bottom: 10px;
-}
-
-.menu-content button {
-  display: block;
-  margin: 10px 0;
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-.host-selection-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-}
-
-.host-selection-modal h3 {
-  margin-bottom: 15px;
-}
-
-.host-selection-modal ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.host-selection-modal button {
-  margin: 5px 0;
-  padding: 8px 15px;
-  border: none;
-  background-color: #1a9324;
-  color: white;
+.drink-count {
+  font-size: 0.7rem;
+  font-weight: bold;
+  background: rgba(0,0,0,0.6);
+  color: #FFD700;
   border-radius: 4px;
-  cursor: pointer;
+  padding: 2px 4px;
+  margin: 2px;
+  border: 1px solid #FFD700;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
 }
 
-.host-selection-modal button:hover {
-  background-color: #1a9324;
-}
-/* Full-screen overlay for modals */
+/* ==================== MODALS - MODERN DESIGN ==================== */
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dim the background */
-  z-index: 999; /* Layer it below modal content */
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* Wild Card Swap Modal Styling */
-.wild-card-swap-modal {
-  position: relative;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
+  padding: 20px;
 }
 
-.wild-card-swap-modal h3 {
-  margin-bottom: 15px;
-}
-
-.wild-card-swap-modal ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.wild-card-swap-modal li {
-  margin: 10px 0;
-}
-
-.wild-card-swap-modal button {
-  margin: 5px 0;
-  padding: 8px 15px;
-  border: 1px solid #ddd;
-  background-color: #1a9324;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%; /* Full width for buttons */
-}
-
-.wild-card-swap-modal button:hover {
-  background-color: #167a1d; /* Darker green on hover */
-}
-
-.wild-card-swap-modal button[disabled] {
-  background-color: #ccc; /* Disabled button style */
-  cursor: not-allowed;
-}
-
-/* General Modal Content Styling */
 .modal-content {
-  position: relative;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  background: linear-gradient(145deg, #2c5530, #1e3a20);
+  border-radius: 16px;
+  padding: 24px;
   width: 100%;
   max-width: 400px;
-  text-align: center;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 2px solid rgba(76, 175, 80, 0.5);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.5);
 }
 
 .modal-content h3 {
-  margin-bottom: 15px;
-}
-
-.modal-content button {
-  margin-top: 10px;
-  padding: 8px 15px;
-  border: none;
-  background-color: #1a9324;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.modal-content button:hover {
-  background-color: #167a1d; /* Darker green on hover */
-}
-
-/* Specific Modal Styles */
-.timer-modal,
-.drink-assignment-modal,
-.first-down-modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Card container for both standard and wild cards */
-.card, .wild-card-content {
-  border: 1px solid #000;
-  width: 80px; /* Smaller width */
-  height: 120px; /* Smaller height */
-  background-color: #1a9324; /* Green for action cards */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Space out the content between top and bottom */
-  align-items: center;
-  font-size: 0px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  margin-bottom: 16px;
   text-align: center;
-  padding: 5px;
-  position: relative; /* For positioning inside the card */
+  font-size: 1.3rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
-/* Card name styling (ensure it stays at the top) */
-.card-name {
+/* ==================== DRINK DISTRIBUTION ==================== */
+
+.drink-distribution {
+  position: fixed;
+  bottom: 140px;
+  left: 8px;
+  right: 8px;
+  background: rgba(255, 69, 0, 0.95);
+  border: 2px solid #FF4500;
+  border-radius: 12px;
+  padding: 12px;
+  backdrop-filter: blur(15px);
+  z-index: 100;
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
+}
+
+.drink-message {
+  color: #FFD700;
   font-weight: bold;
-  font-size: 16px;
   text-align: center;
-  margin-bottom: auto; /* Pushes the name to the top */
-  margin-top: 10px; /* Adds some padding from the top */
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
-.drink-count {
-  font-size: 14px;
-  background-color: black;
-  color: white;
-  border-radius: 4px;
-  padding: 5px;
-  margin-top: auto; /* Ensures it stays at the bottom */
-  text-align: center;
+.player-assignment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
 }
+
+.assignment-button {
+  background: linear-gradient(145deg, #FF6B35, #E55722);
+  border: none;
+  color: white;
+  padding: 10px 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.assignment-button:hover {
+  background: linear-gradient(145deg, #FF7849, #FF5722);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+}
+
+/* ==================== PLAYER STATS DISPLAY ==================== */
 
 .player-stats-container {
   position: fixed;
-  right: 20px; /* Distance from the right edge */
-  top: 50%; /* Start at the center of the screen */
-  transform: translateY(-50%); /* Center the stats vertically */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end; /* Align the stats to the right */
-  gap: 10px; /* Spacing between the stat sections */
+  top: 60px;
+  right: 8px;
+  background: rgba(0,0,0,0.8);
+  border-radius: 8px;
+  padding: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  max-width: 150px;
+  font-size: 0.7rem;
 }
 
 .player-stats-container h3 {
-  margin: 0 0 10px 0;
+  color: #4CAF50;
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+  text-align: center;
 }
 
 .player-stats-container ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+  list-style: none;
+  color: #ddd;
 }
 
 .player-stats-container li {
-  margin-bottom: 10px;
+  margin-bottom: 2px;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.player-icons-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap; /* Allows the icons to wrap into multiple rows */
-  margin: 20px auto; /* Center the container and add spacing between icons and the game table */
-  max-width: 90%; /* Ensures the icons don’t spread out too much */
-  padding: 10px 0;
-  position: relative; /* Make sure it is under ShotGun Formation */
-}
+/* ==================== RESPONSIVE DESIGN ==================== */
 
-.player-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.player-icon h3 {
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-.player-image {
-  width: 50px;
-  height: 50px;
-  background-image: url('shotgunning3.png'); /* Replace with your image */
-  background-size: cover;
-  background-position: center;
-  border-radius: 50%; /* Circle shape */
-  border: 2px solid #000;
-}
-
-/* Media Queries for mobile responsiveness */
-@media (max-width: 768px) {
-  .card, .wild-card-content {
-    width: 70px;
-    height: 100px;
-  }
-
-  .player-image {
-    width: 40px;
-    height: 40px;
-  }
-
-
-
-  .your-hand {
-    width: 100%;
-  }
-  .action-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #1a9324;
-    color: white;
-    border-radius: 8px;
-    margin: 10px 0;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+@media (max-width: 480px) {
+  .game-header {
+    padding: 6px 8px;
   }
   
-  .action-button:hover {
-    background-color: #145a16; /* Darker green on hover */
+  .game-title {
+    font-size: 1rem;
   }
+  
+  .quarter-display {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+  
+  .card-area {
+    width: 60px;
+    height: 85px;
+    font-size: 0.6rem;
+  }
+  
+  .card, .wild-card-content {
+    width: 50px;
+    height: 70px;
+  }
+  
+  .card-name {
+    font-size: 0.5rem;
+  }
+  
+  .drink-count {
+    font-size: 0.6rem;
+  }
+  
+  .player-image {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .player-icon h3 {
+    font-size: 0.6rem;
+  }
+  
+  .player-stats {
+    font-size: 0.5rem;
+  }
+}
 
-  .modal-content {
-    width: 90%;
+@media (max-width: 360px) {
+  .your-hand-cards, .wild-hand-cards {
+    gap: 4px;
+  }
+  
+  .card, .wild-card-content {
+    width: 45px;
+    height: 65px;
+  }
+  
+  .card-area {
+    width: 55px;
+    height: 80px;
+  }
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+
+.text-shadow {
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.glass-effect {
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.football-gradient {
+  background: linear-gradient(145deg, #2E7D32, #1B5E20);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==================== ANIMATIONS ==================== */
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ==================== LOADING STATES ==================== */
+
+.loading-spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: #4CAF50;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

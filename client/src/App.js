@@ -1222,12 +1222,12 @@ socket.on('gameOver', (message) => {
   // UI for connecting state (auto-rejoin in progress)
   if (gameState === 'connecting') {
     return (
-      <div className="centered-container">
+      <div className="centered-container fade-in">
         <h1>Connecting...</h1>
         <p>Attempting to rejoin game for {playerName}</p>
         <p>Room: {roomCode}</p>
-        <div style={{fontSize: '24px', margin: '20px'}}>🔄</div>
-        <p style={{fontSize: '14px', color: '#666'}}>Please wait while we connect you to your game...</p>
+        <div className="loading-spinner" style={{margin: '20px auto'}}></div>
+        <p style={{fontSize: '14px', color: '#ddd'}}>Please wait while we connect you to your game...</p>
       </div>
     );
   }
@@ -1283,27 +1283,39 @@ if (gameState === 'game') {
   const isDisabled = isHostSelection && !isMenuOpen; // Disable game elements when host selection is open, but not when the menu is open
 
   return (
-    <div className="game-table">
-      <h2>ShotGun Formation!</h2>
-
- 
-      {/* Quarter and room code Display in the top right */}
-      <div style={{ position: 'fixed', top: '20px', right: '20px' }}>
-      <h3>Room Code: {roomCode}</h3> {/* Display the room code */}
-        <h3>QTR: {quarter}</h3> {/* Display the current quarter */}
+    <div className="game-table fade-in">
+      {/* Header Section */}
+      <div className="game-header">
+        <div className="game-title">ShotGun Formation</div>
+        <div className="quarter-display">QTR {quarter}</div>
       </div>
-      {/* Player Icons (Top, 2 rows) */}
-      <div className="player-icons-container">
-        {players.map((player) => (
-          <div key={player.id || player.name} className="player-icon">
-            <h3>{player.name}</h3>
-            <div className="player-image"></div> {/* Div that holds the background image */}
-            <div className="player-stats">
-            <div>Total Drinks: {playerStats[player.id]?.totalDrinks || 0}</div>
-        <div>Shotguns: {playerStats[player.id]?.totalShotguns || 0}</div>
-                  </div>
-          </div>
-        ))}
+
+      {/* Players Section */}
+      <div className="players-section">
+        <div className="player-icons-container">
+          {players.map((player) => (
+            <div key={player.id || player.name} className="player-icon glass-effect">
+              <h3>{player.name}</h3>
+              <div className="player-image"></div>
+              <div className="player-stats">
+                <div>🍺 {playerStats[player.id]?.totalDrinks || 0}</div>
+                <div>🔫 {playerStats[player.id]?.totalShotguns || 0}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Player Stats Display (Fixed Position) */}
+      <div className="player-stats-container">
+        <h3>Room: {roomCode}</h3>
+        <ul>
+          {players.map((player) => (
+            <li key={player.id || player.name}>
+              {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}🔫
+            </li>
+          ))}
+        </ul>
       </div>
       {/* Wrapping game elements in a container */}
       <div className={`game-elements-container ${isDisabled ? 'game-elements-disabled' : ''}`}>
@@ -1317,39 +1329,43 @@ if (gameState === 'game') {
 
         </div>
    
-        {/* Player's hand and drink assignment area */}
-        <div className="player-area">
+        {/* Player's Hand - Fixed Bottom */}
+        <div className="your-hand slide-up">
           {players.map((player) => (
-            <div key={player.id} className={player.id === socket.id ? "your-hand" : "other-player"}>
-              {player.id === socket.id ? (
-                <>
-           <h2>Your Hand {isHost && "(Host)"}</h2>
-          <ul className="your-hand-cards">
-            {/* Ensure the player's cards are defined and render both standard and wild cards */}
-            {player.cards?.standard?.map((card, index) => (
-              <li key={index} className="card">
-             <div className="card-name">{card.card}</div>   {/* Card Name at the top */}
-      <div className="drink-count">{card.drinks} Drinks</div>  {/* Drink count at the bottom */}
-                {card.card}
-              </li>
-            ))}
-
-{player.cards?.wild?.map((card, index) => (
-  <li key={`wild-${index}`} className="card">
-    <button
-      className="wild-card-content-button"
-      onClick={() => handleWildCardSelect(card.card)}
-    >
-      <div className="card-name">{card.card}</div> {/* Card Name */}
-      <div className="drink-count">
-        {card.drinks >= 10 
-          ? `${Math.floor(card.drinks / 10)} Shotgun${Math.floor(card.drinks / 10) > 1 ? 's' : ''}`
-          : `${card.drinks} Drink${card.drinks > 1 ? 's' : ''}`}
-      </div> {/* Shotgun or Drink Count */}
-    </button>
-  </li>
-))}
-          </ul>
+            player.id === socket.id && (
+              <div key={player.id}>
+                <div className="hand-header">
+                  Your Hand {isHost && "(Host)"}
+                </div>
+                <div className="your-hand-cards">
+                  {/* Standard Cards */}
+                  {player.cards?.standard?.map((card, index) => (
+                    <div key={index} className="card">
+                      <div className="card-name">{card.card}</div>
+                      <div className="drink-count">{card.drinks} Drinks</div>
+                    </div>
+                  ))}
+                  
+                  {/* Wild Cards */}
+                  {player.cards?.wild?.map((card, index) => (
+                    <button
+                      key={`wild-${index}`}
+                      className="wild-card-content"
+                      onClick={() => handleWildCardSelect(card.card)}
+                    >
+                      <div className="card-name">{card.card}</div>
+                      <div className="drink-count">
+                        {card.drinks >= 10 
+                          ? `${Math.floor(card.drinks / 10)} Shotgun${Math.floor(card.drinks / 10) > 1 ? 's' : ''}`
+                          : `${card.drinks} Drink${card.drinks > 1 ? 's' : ''}`}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )
+          ))}
+        </div>
               {/* Wild Card Confirmation Modal */}
 {wildCardSelected && isHost && (
   <div className="modal-overlay">
@@ -1376,22 +1392,24 @@ if (gameState === 'game') {
         (player.cards?.standard?.some(card => card.card === declaredCard) ||
         player.cards?.wild?.some(card => card.card === declaredCard)) &&
         isDistributing && (drinksToGive > 0 || shotgunsToGive > 0)) && (
-        <div>
-          <p>{drinkMessage}</p>
-          {players.filter(p => p.id !== socket.id || p.name !== playerName).map(p => (
-            <div key={p.id || p.name}>
-              {drinksToGive > 0 && (
-                <button onClick={() => handleGiveDrink(p.id || p.name, 'drink')}>
-                  Give Drink to {p.name} ({assignedDrinks?.drinks?.[p.id || p.name] || 0})
-                </button>
-              )}
-              {shotgunsToGive > 0 && (
-                <button onClick={() => handleGiveDrink(p.id || p.name, 'shotgun')}>
-                  Give Shotgun to {p.name} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
-                </button>
-              )}
-            </div>
-          ))}
+        <div className="drink-distribution slide-up">
+          <div className="drink-message">{drinkMessage}</div>
+          <div className="player-assignment-grid">
+            {players.filter(p => p.id !== socket.id || p.name !== playerName).map(p => (
+              <div key={p.id || p.name}>
+                {drinksToGive > 0 && (
+                  <button className="assignment-button" onClick={() => handleGiveDrink(p.id || p.name, 'drink')}>
+                    🍺 Give Drink to {p.name} ({assignedDrinks?.drinks?.[p.id || p.name] || 0})
+                  </button>
+                )}
+                {shotgunsToGive > 0 && (
+                  <button className="assignment-button" onClick={() => handleGiveDrink(p.id || p.name, 'shotgun')}>
+                    🔫 Give Shotgun to {p.name} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
