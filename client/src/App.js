@@ -1324,7 +1324,7 @@ socket.on('gameOver', (message) => {
               <div className="player-image"></div>
               <div className="player-stats">
                 <div>🍺 {playerStats[player.id]?.totalDrinks || 0}</div>
-                <div><img src={shotgunIcon} alt="shotgun" style={{width: '16px', height: '16px', marginRight: '5px'}} /> {playerStats[player.id]?.totalShotguns || 0}</div>
+                <div><img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginRight: '8px'}} /> {playerStats[player.id]?.totalShotguns || 0}</div>
               </div>
             </div>
           ))}
@@ -1338,7 +1338,7 @@ socket.on('gameOver', (message) => {
           <ul>
             {players.map((player) => (
               <li key={player.id || player.name}>
-                {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}<img src={shotgunIcon} alt="shotgun" style={{width: '16px', height: '16px', marginLeft: '5px'}} />
+                {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}<img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginLeft: '8px'}} />
               </li>
             ))}
           </ul>
@@ -1351,7 +1351,7 @@ socket.on('gameOver', (message) => {
               {Object.entries(roundDrinkResults).map(([id, result]) => (
                 <li key={id}>
                   {players.find(p => p.id === id)?.name}: {result.drinks}🍺
-                  {result.shotguns > 0 && ` ${result.shotguns}`}<img src={shotgunIcon} alt="shotgun" style={{width: '16px', height: '16px', marginLeft: '5px'}} />
+                  {result.shotguns > 0 && ` ${result.shotguns}`}<img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginLeft: '8px'}} />
                 </li>
               ))}
             </ul>
@@ -1445,7 +1445,7 @@ socket.on('gameOver', (message) => {
                   )}
                   {shotgunsToGive > 0 && (
                     <button className="assignment-button" onClick={() => handleGiveDrink(p.id || p.name, 'shotgun')}>
-                      <img src={shotgunIcon} alt="shotgun" style={{width: '16px', height: '16px', marginRight: '5px'}} /> Give Shotgun to {p.name} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
+                      <img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginRight: '8px'}} /> Give Shotgun to {p.name} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
                     </button>
                   )}
                 </div>

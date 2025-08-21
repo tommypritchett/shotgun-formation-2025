@@ -91,10 +91,10 @@ input:focus {
   grid-template-rows: auto auto auto auto 1fr;
   height: 100vh;
   background: linear-gradient(135deg, #1e3a20 0%, #2c5530 100%);
-  padding: 8px;
-  gap: 6px;
+  padding: 4px;
+  gap: 4px;
   overflow: hidden;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 /* Header Section */
@@ -103,8 +103,8 @@ input:focus {
   justify-content: space-between;
   align-items: center;
   background: rgba(0,0,0,0.3);
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
   backdrop-filter: blur(10px);
 }
 
@@ -127,40 +127,40 @@ input:focus {
 /* Players Section - Dynamic Grid */
 .players-section {
   background: rgba(0,0,0,0.2);
-  border-radius: 12px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 6px;
   backdrop-filter: blur(10px);
 }
 
 .player-icons-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-  min-height: 80px;
+  gap: 4px;
+  min-height: 70px;
   overflow-y: auto;
 }
 
 /* Dynamic heights based on player count - Properly sized to show all rows */
 .player-icons-container.players-1-5 {
-  height: 90px;
+  height: 75px;
   grid-template-rows: 1fr;
   overflow: hidden;
 }
 
 .player-icons-container.players-6-10 {
-  height: 180px;
+  height: 150px;
   grid-template-rows: repeat(2, 1fr);
   overflow: hidden;
 }
 
 .player-icons-container.players-11-15 {
-  height: 270px;
+  height: 225px;
   grid-template-rows: repeat(3, 1fr);
   overflow: hidden;
 }
 
 .player-icons-container.players-16-plus {
-  height: 360px;
+  height: 300px;
   grid-template-rows: repeat(4, 1fr);
   overflow: hidden;
 }
@@ -276,12 +276,12 @@ input:focus {
 
 .your-hand {
   background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.95) 100%);
-  padding: 16px 12px;
+  padding: 12px 8px;
   backdrop-filter: blur(15px);
   border: 2px solid rgba(76, 175, 80, 0.5);
-  border-radius: 12px;
-  min-height: 140px;
-  max-height: 260px;
+  border-radius: 8px;
+  min-height: 120px;
+  max-height: 220px;
   overflow-y: auto;
 }
 
@@ -494,14 +494,14 @@ input:focus {
 .stats-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 6px;
+  margin-top: 6px;
 }
 
 .player-stats-container {
   background: rgba(0,0,0,0.8);
-  border-radius: 8px;
-  padding: 8px;
+  border-radius: 6px;
+  padding: 6px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(76, 175, 80, 0.3);
   font-size: 0.7rem;
@@ -509,8 +509,8 @@ input:focus {
 
 .round-results-container {
   background: rgba(0,0,0,0.8);
-  border-radius: 8px;
-  padding: 8px;
+  border-radius: 6px;
+  padding: 6px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 152, 0, 0.3);
   font-size: 0.7rem;
@@ -541,17 +541,44 @@ input:focus {
 /* ==================== RESPONSIVE DESIGN ==================== */
 
 @media (max-width: 480px) {
+  .game-table {
+    padding: 2px;
+    gap: 3px;
+    padding-bottom: 8px;
+  }
+  
   .game-header {
-    padding: 6px 8px;
+    padding: 4px 6px;
   }
   
   .game-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   
   .quarter-display {
-    font-size: 0.8rem;
-    padding: 3px 8px;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+  }
+  
+  .players-section {
+    padding: 4px;
+  }
+  
+  .player-icons-container {
+    gap: 3px;
+    min-height: 60px;
+  }
+  
+  .player-icons-container.players-1-5 {
+    height: 65px;
+  }
+  
+  .player-icons-container.players-6-10 {
+    height: 130px;
+  }
+  
+  .player-icons-container.players-11-15 {
+    height: 195px;
   }
   
   .card-area {
@@ -575,16 +602,37 @@ input:focus {
   }
   
   .player-image {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .player-icon {
+    padding: 4px;
   }
   
   .player-icon h3 {
     font-size: 0.6rem;
+    margin-bottom: 2px;
   }
   
   .player-stats {
     font-size: 0.5rem;
+  }
+  
+  .your-hand {
+    padding: 8px 6px;
+    min-height: 100px;
+    max-height: 180px;
+  }
+  
+  .stats-row {
+    gap: 4px;
+    margin-top: 4px;
+  }
+  
+  .player-stats-container, .round-results-container {
+    padding: 4px;
+    font-size: 0.6rem;
   }
 }
 
