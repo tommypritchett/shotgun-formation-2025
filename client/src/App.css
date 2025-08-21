@@ -88,13 +88,12 @@ input:focus {
 
 .game-table {
   display: grid;
-  grid-template-rows: auto auto auto auto 1fr;
+  grid-template-rows: auto 1fr auto auto auto auto;
   height: 100vh;
   background: linear-gradient(135deg, #1e3a20 0%, #2c5530 100%);
-  padding: 4px;
-  gap: 4px;
+  padding: 6px;
+  gap: 8px;
   overflow: hidden;
-  padding-bottom: 10px;
 }
 
 /* Header Section */
@@ -134,35 +133,39 @@ input:focus {
 
 .player-icons-container {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 4px;
-  min-height: 70px;
-  overflow-y: auto;
-}
-
-/* Dynamic heights based on player count - Properly sized to show all rows */
-.player-icons-container.players-1-5 {
-  height: 75px;
-  grid-template-rows: 1fr;
-  overflow: hidden;
-}
-
-.player-icons-container.players-6-10 {
-  height: 150px;
   grid-template-rows: repeat(2, 1fr);
+  gap: 8px;
+  height: 180px;
   overflow: hidden;
 }
 
-.player-icons-container.players-11-15 {
-  height: 225px;
-  grid-template-rows: repeat(3, 1fr);
-  overflow: hidden;
+/* Dynamic columns based on player count - Always 2 rows */
+.player-icons-container.players-1-2 {
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.player-icons-container.players-16-plus {
-  height: 300px;
-  grid-template-rows: repeat(4, 1fr);
-  overflow: hidden;
+.player-icons-container.players-3-4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.player-icons-container.players-5-6 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.player-icons-container.players-7-8 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.player-icons-container.players-9-10 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.player-icons-container.players-11-12 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.player-icons-container.players-13-plus {
+  grid-template-columns: repeat(7, 1fr);
 }
 
 /* Expand player section size based on player count */
@@ -217,30 +220,59 @@ input:focus {
 
 /* ==================== CARD AREAS - FOOTBALL THEME ==================== */
 
-.standard-cards-row {
+.standard-cards-section {
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  padding: 12px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(33, 150, 243, 0.5);
+}
+
+.wild-cards-section {
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  padding: 12px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 152, 0, 0.5);
+}
+
+.cards-header {
+  text-align: center;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.standard-cards-header {
+  color: #2196F3;
+}
+
+.wild-cards-header {
+  color: #FF9800;
+}
+
+.cards-row {
   display: flex;
   justify-content: center;
   gap: 8px;
   flex-wrap: wrap;
-  padding: 8px;
-  background: rgba(0,0,0,0.2);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
 }
 
 .card-area {
-  width: 70px;
-  height: 100px;
+  width: 90px;
+  height: 120px;
   background: linear-gradient(145deg, #2E7D32, #1B5E20);
   border: 2px solid #4CAF50;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
   font-weight: bold;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -310,9 +342,9 @@ input:focus {
 /* ==================== CARDS IN HAND - FOOTBALL CARDS ==================== */
 
 .card, .wild-card-content {
-  width: 80px;
-  height: 110px;
-  border-radius: 8px;
+  width: 100px;
+  height: 130px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -542,97 +574,76 @@ input:focus {
 
 @media (max-width: 480px) {
   .game-table {
-    padding: 2px;
-    gap: 3px;
-    padding-bottom: 8px;
+    padding: 4px;
+    gap: 6px;
   }
   
   .game-header {
-    padding: 4px 6px;
+    padding: 6px 8px;
   }
   
   .game-title {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   
   .quarter-display {
-    font-size: 0.7rem;
-    padding: 2px 6px;
+    font-size: 0.8rem;
+    padding: 4px 8px;
   }
   
   .players-section {
-    padding: 4px;
+    padding: 6px;
   }
   
   .player-icons-container {
-    gap: 3px;
-    min-height: 60px;
-  }
-  
-  .player-icons-container.players-1-5 {
-    height: 65px;
-  }
-  
-  .player-icons-container.players-6-10 {
-    height: 130px;
-  }
-  
-  .player-icons-container.players-11-15 {
-    height: 195px;
-  }
-  
-  .card-area {
-    width: 60px;
-    height: 85px;
-    font-size: 0.6rem;
+    gap: 6px;
+    height: 140px;
   }
   
   .card, .wild-card-content {
-    width: 65px;
-    height: 90px;
+    width: 75px;
+    height: 100px;
   }
   
   .card-name {
-    font-size: 0.55rem;
+    font-size: 0.6rem;
     min-height: 35px;
   }
   
   .drink-count {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
   }
   
   .player-image {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
   }
   
   .player-icon {
-    padding: 4px;
+    padding: 6px;
   }
   
   .player-icon h3 {
-    font-size: 0.6rem;
-    margin-bottom: 2px;
+    font-size: 0.7rem;
+    margin-bottom: 3px;
   }
   
   .player-stats {
-    font-size: 0.5rem;
-  }
-  
-  .your-hand {
-    padding: 8px 6px;
-    min-height: 100px;
-    max-height: 180px;
-  }
-  
-  .stats-row {
-    gap: 4px;
-    margin-top: 4px;
-  }
-  
-  .player-stats-container, .round-results-container {
-    padding: 4px;
     font-size: 0.6rem;
+  }
+  
+  .standard-cards-section, .wild-cards-section {
+    padding: 8px;
+  }
+  
+  .cards-header {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+  }
+  
+  .round-results-container {
+    padding: 6px;
+    font-size: 0.7rem;
   }
 }
 

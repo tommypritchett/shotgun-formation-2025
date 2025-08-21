@@ -1307,16 +1307,19 @@ socket.on('gameOver', (message) => {
       {/* Header Section */}
       <div className="game-header">
         <div className="game-title">ShotGun Formation</div>
-        <div className="quarter-display">QTR {quarter}</div>
+        <div className="quarter-display">QTR {quarter} | Room: {roomCode}</div>
       </div>
 
-      {/* Players Section */}
-      <div className={`players-section ${players.length >= 6 ? 'expanded' : ''}`}>
+      {/* Players Section - Always 2 rows */}
+      <div className="players-section">
         <div className={`player-icons-container ${
-          players.length <= 5 ? 'players-1-5' :
-          players.length <= 10 ? 'players-6-10' :
-          players.length <= 15 ? 'players-11-15' :
-          'players-16-plus'
+          players.length <= 2 ? 'players-1-2' :
+          players.length <= 4 ? 'players-3-4' :
+          players.length <= 6 ? 'players-5-6' :
+          players.length <= 8 ? 'players-7-8' :
+          players.length <= 10 ? 'players-9-10' :
+          players.length <= 12 ? 'players-11-12' :
+          'players-13-plus'
         }`}>
           {players.map((player) => (
             <div key={player.id || player.name} className="player-icon glass-effect">
@@ -1331,70 +1334,58 @@ socket.on('gameOver', (message) => {
         </div>
       </div>
 
+      {/* Standard Cards Section */}
+      <div className="standard-cards-section">
+        <div className="cards-header standard-cards-header">Your Standard Cards {isHost && "(Host)"}</div>
+        <div className="cards-row">
+          {players.map((player) => (
+            player.id === socket.id && player.cards?.standard?.map((card, index) => (
+              <div key={index} className="card" onClick={() => handleCardClick(card.card)}>
+                <div className="card-name">{card.card}</div>
+                <div className="drink-count">{card.drinks} drinks</div>
+              </div>
+            ))
+          ))}
+        </div>
+      </div>
+
+      {/* Wild Cards Section */}
+      <div className="wild-cards-section">
+        <div className="cards-header wild-cards-header">Your Wild Cards</div>
+        <div className="cards-row">
+          {players.map((player) => (
+            player.id === socket.id && player.cards?.wild?.map((card, index) => (
+              <div
+                key={`wild-${index}`}
+                className="wild-card-content"
+                onClick={() => handleCardClick(card.card)}
+              >
+                <div className="card-name">{card.card}</div>
+                <div className="drink-count">
+                  {card.drinks >= 10 
+                    ? `${Math.floor(card.drinks / 10)} Shotgun${Math.floor(card.drinks / 10) > 1 ? 's' : ''}`
+                    : `${card.drinks} Drink${card.drinks > 1 ? 's' : ''}`}
+                </div>
+              </div>
+            ))
+          ))}
+        </div>
+      </div>
+
       {/* Stats and Results Row */}
-      <div className="stats-row">
-        <div className="player-stats-container">
-          <h3>Room: {roomCode}</h3>
+      {Object.keys(roundDrinkResults).length > 0 && (
+        <div className="round-results-container">
+          <h3>Round Results</h3>
           <ul>
-            {players.map((player) => (
-              <li key={player.id || player.name}>
-                {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}<img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginLeft: '8px'}} />
+            {Object.entries(roundDrinkResults).map(([id, result]) => (
+              <li key={id}>
+                {players.find(p => p.id === id)?.name}: {result.drinks}🍺
+                {result.shotguns > 0 && ` ${result.shotguns}`}<img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginLeft: '8px'}} />
               </li>
             ))}
           </ul>
         </div>
-        
-        {Object.keys(roundDrinkResults).length > 0 && (
-          <div className="round-results-container">
-            <h3>Round Results</h3>
-            <ul>
-              {Object.entries(roundDrinkResults).map(([id, result]) => (
-                <li key={id}>
-                  {players.find(p => p.id === id)?.name}: {result.drinks}🍺
-                  {result.shotguns > 0 && ` ${result.shotguns}`}<img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginLeft: '8px'}} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-
-      {/* Player's Hand Section */}
-      <div className="your-hand slide-up">
-        {players.map((player) => (
-          player.id === socket.id && (
-            <div key={player.id}>
-              <div className="hand-header">Your Hand {isHost && "(Host)"}</div>
-              
-              <div className="your-hand-cards">
-                {/* Standard Cards */}
-                {player.cards?.standard?.map((card, index) => (
-                  <div key={index} className="card" onClick={() => handleCardClick(card.card)}>
-                    <div className="card-name">{card.card}</div>
-                    <div className="drink-count">{card.drinks} drinks</div>
-                  </div>
-                ))}
-                
-                {/* Wild Cards */}
-                {player.cards?.wild?.map((card, index) => (
-                  <div
-                    key={`wild-${index}`}
-                    className="wild-card-content"
-                    onClick={() => handleCardClick(card.card)}
-                  >
-                    <div className="card-name">{card.card}</div>
-                    <div className="drink-count">
-                      {card.drinks >= 10 
-                        ? `${Math.floor(card.drinks / 10)} Shotgun${Math.floor(card.drinks / 10) > 1 ? 's' : ''}`
-                        : `${card.drinks} Drink${card.drinks > 1 ? 's' : ''}`}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )
-        ))}
-      </div>
+      )}
       {/* Wrapping game elements in a container */}
       <div className={`game-elements-container ${isDisabled ? 'game-elements-disabled' : ''}`}>
         {/* Show the action cards for all players, but only allow the host to click */}
