@@ -24,25 +24,39 @@ function App() {
   // Check for existing player name on component load
   const getInitialGameState = () => {
     try {
-      const savedState = localStorage.getItem('shotgunFormation_gameState');
-      if (savedState) {
-        const parsedState = JSON.parse(savedState);
-        if (parsedState.currentPlayerName) {
-          return 'startOrJoin'; // Has name, go to lobby selection
+      // Check if this is a refresh (sessionStorage exists) vs new tab (sessionStorage empty)
+      const isRefresh = sessionStorage.getItem('shotgunFormation_session');
+      
+      if (isRefresh) {
+        // This is a refresh, check for saved name
+        const savedState = localStorage.getItem('shotgunFormation_gameState');
+        if (savedState) {
+          const parsedState = JSON.parse(savedState);
+          if (parsedState.currentPlayerName) {
+            return 'startOrJoin'; // Has name, go to lobby selection
+          }
         }
       }
+      
+      // Set session marker for future refreshes
+      sessionStorage.setItem('shotgunFormation_session', 'active');
     } catch (error) {
       console.log('Error checking saved player name:', error);
     }
-    return 'initial'; // No name, go to name entry
+    return 'initial'; // New tab or no name, go to name entry
   };
 
   const getInitialPlayerName = () => {
     try {
-      const savedState = localStorage.getItem('shotgunFormation_gameState');
-      if (savedState) {
-        const parsedState = JSON.parse(savedState);
-        return parsedState.currentPlayerName || '';
+      // Only load name if this is a refresh, not a new tab
+      const isRefresh = sessionStorage.getItem('shotgunFormation_session');
+      
+      if (isRefresh) {
+        const savedState = localStorage.getItem('shotgunFormation_gameState');
+        if (savedState) {
+          const parsedState = JSON.parse(savedState);
+          return parsedState.currentPlayerName || '';
+        }
       }
     } catch (error) {
       console.log('Error loading saved player name:', error);
@@ -121,6 +135,8 @@ const [isHostSelection, setIsHostSelection] = useState(false);
           timestamp: Date.now()
         };
         localStorage.setItem('shotgunFormation_gameState', JSON.stringify(gameState));
+        // Set session marker so refreshes will load the name
+        sessionStorage.setItem('shotgunFormation_session', 'active');
         console.log('Player name saved to localStorage:', playerName.trim());
       } catch (error) {
         console.log('Error saving player name:', error);
