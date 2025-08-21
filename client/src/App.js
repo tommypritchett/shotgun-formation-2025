@@ -144,7 +144,7 @@ const [isHostSelection, setIsHostSelection] = useState(false);
     if (roomCode) {
       socket.emit('leaveRoom', roomCode);
     }
-    setGameState('startOrJoin');
+    setGameState('initial');
     setRoomCode('');
     setPlayers([]);  // Reset players to empty array
   };
@@ -283,7 +283,7 @@ const handleLeaveGame = () => {
   clearURL();
 
   // Reset the frontend game state and return to the start/join screen
-  setGameState('startOrJoin');  // Reset the game state to 'startOrJoin'
+  setGameState('initial');  // Reset the game state to 'startOrJoin'
   setRoomCode('');  // Clear the room code
   setPlayers([]);  // Reset players
   setIsHost(false);  // Reset host status
@@ -455,7 +455,7 @@ useEffect(() => {
     
     const handleRejoinError = (error) => {
       console.log('Auto-rejoin failed:', error, '- going to join screen');
-      setGameState('startOrJoin');
+      setGameState('initial');
       // Clear URL params since the game doesn't exist
       const url = new URL(window.location);
       url.searchParams.delete('room');
@@ -479,7 +479,7 @@ useEffect(() => {
       // If still connecting after 10 seconds, assume failure
       if (gameState === 'connecting') {
         console.log('Auto-rejoin timed out - going to join screen');
-        setGameState('startOrJoin');
+        setGameState('initial');
       }
     }, 10000);
     
@@ -504,7 +504,7 @@ useEffect(() => {
   } else {
     // PRIORITY 3: No saved game data found OR post-refresh cleanup - go to start screen
     console.log('No saved game data found or post-refresh - showing start/join screen');
-    setGameState('startOrJoin');
+    setGameState('initial');
     
     // Clear any stale refresh flags if present
     if (hasRefreshed) {
@@ -1194,14 +1194,14 @@ socket.off('gameOver');
 socket.on('gameOver', (message) => {
   alert(message);  // Notify the players
   // Redirect everyone back to the main screen
-  setGameState('startOrJoin');
+  setGameState('initial');
 });
 
 
 
     socket.on('hostLeft', () => {
       alert('The host has left the game. Returning to the start screen.');
-      setGameState('startOrJoin');
+      setGameState('initial');
       setPlayers([]);
       setRoomCode('');
     });
