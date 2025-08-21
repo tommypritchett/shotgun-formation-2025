@@ -596,16 +596,16 @@ input:focus {
   }
   
   .game-header {
-    padding: 4px 6px;
+    padding: 3px 4px;
   }
   
   .game-title {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
   }
   
   .quarter-display {
-    font-size: 0.7rem;
-    padding: 3px 6px;
+    font-size: 0.6rem;
+    padding: 2px 4px;
   }
   
   .players-section {
@@ -645,30 +645,32 @@ input:focus {
   }
   
   .card, .wild-card-content {
-    width: 120px;
-    height: 140px;
+    width: 65px;
+    height: 85px;
   }
   
   .card-name {
-    font-size: 0.55rem;
-    min-height: 30px;
+    font-size: 0.5rem;
+    min-height: 25px;
+    padding: 2px;
   }
   
   .drink-count {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
+    padding: 2px;
   }
   
   .standard-cards-section, .wild-cards-section {
-    padding: 6px;
+    padding: 4px;
   }
   
   .cards-header {
-    font-size: 0.8rem;
-    margin-bottom: 4px;
+    font-size: 0.7rem;
+    margin-bottom: 3px;
   }
   
   .cards-row {
-    gap: 6px;
+    gap: 4px;
   }
   
   .round-results-container {
@@ -679,26 +681,41 @@ input:focus {
 
 @media (max-width: 360px) {
   .game-table {
-    gap: 3px;
-    grid-template-rows: auto 140px 140px 140px auto auto;
+    gap: 2px;
+    grid-template-rows: auto 120px 140px 140px auto auto;
+  }
+  
+  .game-header {
+    padding: 2px 3px;
+  }
+  
+  .game-title {
+    font-size: 0.6rem;
+  }
+  
+  .quarter-display {
+    font-size: 0.5rem;
+    padding: 1px 3px;
   }
   
   .cards-row {
-    gap: 4px;
+    gap: 3px;
   }
   
   .card, .wild-card-content {
-    width: 110px;
-    height: 130px;
+    width: 58px;
+    height: 78px;
   }
   
   .card-name {
-    font-size: 0.5rem;
-    min-height: 25px;
+    font-size: 0.45rem;
+    min-height: 20px;
+    padding: 1px;
   }
   
   .drink-count {
-    font-size: 0.55rem;
+    font-size: 0.5rem;
+    padding: 1px;
   }
   
   .player-icon {
@@ -727,6 +744,15 @@ input:focus {
   
   .stat-item {
     gap: 1px;
+  }
+  
+  .standard-cards-section, .wild-cards-section {
+    padding: 3px;
+  }
+  
+  .cards-header {
+    font-size: 0.6rem;
+    margin-bottom: 2px;
   }
 }
 
