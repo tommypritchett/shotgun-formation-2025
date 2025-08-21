@@ -21,8 +21,37 @@ const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onr
 // const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:3001');
 
 function App() {
-  const [gameState, setGameState] = useState('initial');  // 'initial', 'startOrJoin', 'lobby', 'game'
-  const [playerName, setPlayerName] = useState('');
+  // Check for existing player name on component load
+  const getInitialGameState = () => {
+    try {
+      const savedState = localStorage.getItem('shotgunFormation_gameState');
+      if (savedState) {
+        const parsedState = JSON.parse(savedState);
+        if (parsedState.currentPlayerName) {
+          return 'startOrJoin'; // Has name, go to lobby selection
+        }
+      }
+    } catch (error) {
+      console.log('Error checking saved player name:', error);
+    }
+    return 'initial'; // No name, go to name entry
+  };
+
+  const getInitialPlayerName = () => {
+    try {
+      const savedState = localStorage.getItem('shotgunFormation_gameState');
+      if (savedState) {
+        const parsedState = JSON.parse(savedState);
+        return parsedState.currentPlayerName || '';
+      }
+    } catch (error) {
+      console.log('Error loading saved player name:', error);
+    }
+    return '';
+  };
+
+  const [gameState, setGameState] = useState(getInitialGameState());  // 'initial', 'startOrJoin', 'lobby', 'game'
+  const [playerName, setPlayerName] = useState(getInitialPlayerName());
   const [roomCode, setRoomCode] = useState('');
   const [players, setPlayers] = useState([]);  // Initialize as array
   const [isHost, setIsHost] = useState(false);
@@ -85,6 +114,17 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   const handleNameSubmit = (e) => {
     e.preventDefault();
     if (playerName.trim()) {
+      // Save player name to localStorage for future sessions
+      try {
+        const gameState = {
+          currentPlayerName: playerName.trim(),
+          timestamp: Date.now()
+        };
+        localStorage.setItem('shotgunFormation_gameState', JSON.stringify(gameState));
+        console.log('Player name saved to localStorage:', playerName.trim());
+      } catch (error) {
+        console.log('Error saving player name:', error);
+      }
       setGameState('startOrJoin');
     } else {
       setErrorMessage('Please enter your name');
@@ -1267,7 +1307,7 @@ socket.on('gameOver', (message) => {
             autoFocus  // Automatically focus on this input field
           />
           <button onClick={joinGame}>Join Game</button>
-          <button onClick={() => setGameState('initial')}>Back</button>
+          <button onClick={() => setGameState('initial')}>Change Name</button>
         </div>
         {errorMessage && <p>{errorMessage}</p>}
       </div>
