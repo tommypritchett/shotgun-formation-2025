@@ -88,7 +88,7 @@ input:focus {
 
 .game-table {
   display: grid;
-  grid-template-rows: auto 200px minmax(140px, 1fr) minmax(140px, 1fr) auto;
+  grid-template-rows: auto 200px minmax(105px, 1fr) minmax(105px, 1fr) auto;
   height: 100vh;
   background: linear-gradient(135deg, #1e3a20 0%, #2c5530 100%);
   padding: 6px;
@@ -180,43 +180,56 @@ input:focus {
 .player-icon {
   display: flex;
   flex-direction: column;
-  align-items: center;
   background: rgba(255,255,255,0.1);
   border-radius: 8px;
-  padding: 8px;
+  padding: 6px;
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255,255,255,0.2);
   min-height: 90px;
 }
 
-.player-icon h3 {
-  font-size: 0.8rem;
+.player-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 4px;
-  color: #fff;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 90px;
 }
 
 .player-image {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background-image: url('shotgunning3.png');
   background-size: cover;
   background-position: center;
   border-radius: 50%;
   border: 2px solid #4CAF50;
-  margin-bottom: 4px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  flex-shrink: 0;
 }
 
 .player-stats {
-  font-size: 0.7rem;
+  display: flex;
+  gap: 8px;
+  font-size: 0.6rem;
   color: #ddd;
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.player-icon h3 {
+  font-size: 0.7rem;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: center;
-  line-height: 1.2;
+  width: 100%;
 }
 
 /* ==================== CARD AREAS - FOOTBALL THEME ==================== */
@@ -579,7 +592,7 @@ input:focus {
   .game-table {
     padding: 4px;
     gap: 4px;
-    grid-template-rows: auto 160px minmax(120px, 1fr) minmax(120px, 1fr) auto;
+    grid-template-rows: auto 160px minmax(90px, 1fr) minmax(90px, 1fr) auto;
   }
   
   .game-header {
@@ -608,21 +621,27 @@ input:focus {
     min-height: 70px;
   }
   
+  .player-content {
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  
   .player-icon h3 {
     font-size: 0.6rem;
-    margin-bottom: 2px;
-    max-width: 70px;
   }
   
   .player-image {
     width: 28px;
     height: 28px;
-    margin-bottom: 2px;
   }
   
   .player-stats {
     font-size: 0.5rem;
-    line-height: 1.1;
+    gap: 6px;
+  }
+  
+  .stat-item {
+    gap: 1px;
   }
   
   .card, .wild-card-content {
@@ -661,7 +680,7 @@ input:focus {
 @media (max-width: 360px) {
   .game-table {
     gap: 3px;
-    grid-template-rows: auto 140px minmax(100px, 1fr) minmax(100px, 1fr) auto;
+    grid-template-rows: auto 140px minmax(75px, 1fr) minmax(75px, 1fr) auto;
   }
   
   .cards-row {
@@ -687,9 +706,13 @@ input:focus {
     padding: 3px;
   }
   
+  .player-content {
+    gap: 4px;
+    margin-bottom: 2px;
+  }
+  
   .player-icon h3 {
     font-size: 0.55rem;
-    max-width: 60px;
   }
   
   .player-image {
@@ -699,6 +722,11 @@ input:focus {
   
   .player-stats {
     font-size: 0.45rem;
+    gap: 4px;
+  }
+  
+  .stat-item {
+    gap: 1px;
   }
 }
 

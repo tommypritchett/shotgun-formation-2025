@@ -1323,12 +1323,19 @@ socket.on('gameOver', (message) => {
         }`}>
           {players.map((player) => (
             <div key={player.id || player.name} className="player-icon glass-effect">
-              <h3>{player.name}</h3>
-              <div className="player-image"></div>
-              <div className="player-stats">
-                <div>🍺 {playerStats[player.id]?.totalDrinks || 0}</div>
-                <div><img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginRight: '8px'}} /> {playerStats[player.id]?.totalShotguns || 0}</div>
+              <div className="player-content">
+                <div className="player-image"></div>
+                <div className="player-stats">
+                  <div className="stat-item">
+                    🍺 {playerStats[player.id]?.totalDrinks || 0}
+                  </div>
+                  <div className="stat-item">
+                    <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
+                    {playerStats[player.id]?.totalShotguns || 0}
+                  </div>
+                </div>
               </div>
+              <h3>{player.name}</h3>
             </div>
           ))}
         </div>
@@ -1378,9 +1385,17 @@ socket.on('gameOver', (message) => {
           <h3>Round Results</h3>
           <ul>
             {Object.entries(roundDrinkResults).map(([id, result]) => (
-              <li key={id}>
-                {players.find(p => p.id === id)?.name}: {result.drinks}🍺
-                {result.shotguns > 0 && ` ${result.shotguns}`}<img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginLeft: '8px'}} />
+              <li key={id} style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px'}}>
+                <span>{players.find(p => p.id === id)?.name}:</span>
+                <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                  🍺 {result.drinks}
+                </div>
+                {result.shotguns > 0 && (
+                  <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                    <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
+                    {result.shotguns}
+                  </div>
+                )}
               </li>
             ))}
           </ul>
