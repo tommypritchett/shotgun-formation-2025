@@ -1418,14 +1418,24 @@ socket.on('gameOver', (message) => {
   </div>
 )}
 
-          {/* Drink assignment UI Modal with Timer */}
+          {/* Combined Timer and Drink Assignment Screen - Always Visible */}
 {timeRemaining > 0 && declaredCard !== 'First Down' && (
   <div className="drink-assignment-modal">
     <div className="modal-content">
+      {/* Timer and Card Info - Always Visible to Everyone */}
       <h3>Card Played: {declaredCard}</h3>
       <div className="timer-display">⏰ Time Remaining: {timeRemaining} seconds</div>
+      
+      {/* Show who has the card and can distribute */}
+      {!((players.find(p => p.id === socket.id)?.cards?.standard?.some(card => card.card === declaredCard) ||
+        players.find(p => p.id === socket.id)?.cards?.wild?.some(card => card.card === declaredCard)) &&
+        isDistributing && (drinksToGive > 0 || shotgunsToGive > 0)) && (
+        <div style={{textAlign: 'center', padding: '10px', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '8px', margin: '10px 0'}}>
+          <p style={{color: '#FFD700', fontWeight: 'bold'}}>Waiting for players with this card to assign drinks...</p>
+        </div>
+      )}
 
-      {/* Conditional rendering for drink assignment UI */}
+      {/* Drink Assignment Section - Only for Players Who Can Distribute */}
       {(declaredCard !== 'First Down' &&
         (players.find(p => p.id === socket.id)?.cards?.standard?.some(card => card.card === declaredCard) ||
         players.find(p => p.id === socket.id)?.cards?.wild?.some(card => card.card === declaredCard)) &&
@@ -1451,8 +1461,6 @@ socket.on('gameOver', (message) => {
         </div>
       )}
 
-
-      
       {/* Close the modal automatically if time reaches 0 */}
       {timeRemaining === 0 && closeModal('drinkAssignmentModal')}
     </div>
