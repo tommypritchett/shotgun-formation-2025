@@ -1307,7 +1307,7 @@ socket.on('gameOver', (message) => {
       {/* Header Section */}
       <div className="game-header">
         <div className="game-title">ShotGun Formation</div>
-        <div className="quarter-display">QTR {quarter} | Room: {roomCode}</div>
+        <div className="quarter-display">QTR {quarter}</div>
       </div>
 
       {/* Players Section - Always 2 rows */}
@@ -1380,27 +1380,40 @@ socket.on('gameOver', (message) => {
       </div>
 
       {/* Stats and Results Row */}
-      {Object.keys(roundDrinkResults).length > 0 && (
-        <div className="round-results-container">
-          <h3>Round Results</h3>
+      <div className="stats-row">
+        <div className="player-stats-container">
+          <h3>Room: {roomCode}</h3>
           <ul>
-            {Object.entries(roundDrinkResults).map(([id, result]) => (
-              <li key={id} style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px'}}>
-                <span>{players.find(p => p.id === id)?.name}:</span>
-                <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-                  🍺 {result.drinks}
-                </div>
-                {result.shotguns > 0 && (
-                  <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-                    <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
-                    {result.shotguns}
-                  </div>
-                )}
+            {players.map((player) => (
+              <li key={player.id || player.name}>
+                {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}<img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px', marginLeft: '4px'}} />
               </li>
             ))}
           </ul>
         </div>
-      )}
+        
+        {Object.keys(roundDrinkResults).length > 0 && (
+          <div className="round-results-container">
+            <h3>Round Results</h3>
+            <ul>
+              {Object.entries(roundDrinkResults).map(([id, result]) => (
+                <li key={id} style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px'}}>
+                  <span>{players.find(p => p.id === id)?.name}:</span>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                    🍺 {result.drinks}
+                  </div>
+                  {result.shotguns > 0 && (
+                    <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                      <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
+                      {result.shotguns}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
       {/* Wrapping game elements in a container */}
       <div className={`game-elements-container ${isDisabled ? 'game-elements-disabled' : ''}`}>
         {/* Show the action cards for all players, but only allow the host to click */}

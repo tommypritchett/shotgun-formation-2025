@@ -88,7 +88,7 @@ input:focus {
 
 .game-table {
   display: grid;
-  grid-template-rows: auto 200px 100px 100px auto;
+  grid-template-rows: auto 200px 200px 200px auto auto;
   height: 100vh;
   background: linear-gradient(135deg, #1e3a20 0%, #2c5530 100%);
   padding: 6px;
@@ -358,9 +358,9 @@ input:focus {
 /* ==================== CARDS IN HAND - FOOTBALL CARDS ==================== */
 
 .card, .wild-card-content {
-  width: 75px;
-  height: 85px;
-  border-radius: 6px;
+  width: 150px;
+  height: 170px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -592,7 +592,7 @@ input:focus {
   .game-table {
     padding: 4px;
     gap: 4px;
-    grid-template-rows: auto 160px 80px 80px auto;
+    grid-template-rows: auto 160px 160px 160px auto auto;
   }
   
   .game-header {
@@ -645,8 +645,8 @@ input:focus {
   }
   
   .card, .wild-card-content {
-    width: 60px;
-    height: 70px;
+    width: 120px;
+    height: 140px;
   }
   
   .card-name {
@@ -680,7 +680,7 @@ input:focus {
 @media (max-width: 360px) {
   .game-table {
     gap: 3px;
-    grid-template-rows: auto 140px 70px 70px auto;
+    grid-template-rows: auto 140px 140px 140px auto auto;
   }
   
   .cards-row {
@@ -688,8 +688,8 @@ input:focus {
   }
   
   .card, .wild-card-content {
-    width: 55px;
-    height: 65px;
+    width: 110px;
+    height: 130px;
   }
   
   .card-name {
