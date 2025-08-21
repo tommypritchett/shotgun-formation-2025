@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import './App.css';  // Import the updated CSS
+import shotgunIcon from './shotgun_icon.png';  // Import shotgun icon
 
 const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com', {
   transports: ['websocket', 'polling'], // WebSocket first for better performance, polling as fallback
@@ -1323,7 +1324,7 @@ socket.on('gameOver', (message) => {
               <div className="player-image"></div>
               <div className="player-stats">
                 <div>🍺 {playerStats[player.id]?.totalDrinks || 0}</div>
-                <div>🏹 {playerStats[player.id]?.totalShotguns || 0}</div>
+                <div><img src={shotgunIcon} alt="shotgun" style={{width: '16px', height: '16px', marginRight: '5px'}} /> {playerStats[player.id]?.totalShotguns || 0}</div>
               </div>
             </div>
           ))}
@@ -1337,7 +1338,7 @@ socket.on('gameOver', (message) => {
           <ul>
             {players.map((player) => (
               <li key={player.id || player.name}>
-                {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}🏹
+                {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}<img src={shotgunIcon} alt="shotgun" style={{width: '16px', height: '16px', marginLeft: '5px'}} />
               </li>
             ))}
           </ul>
@@ -1350,7 +1351,7 @@ socket.on('gameOver', (message) => {
               {Object.entries(roundDrinkResults).map(([id, result]) => (
                 <li key={id}>
                   {players.find(p => p.id === id)?.name}: {result.drinks}🍺
-                  {result.shotguns > 0 && ` ${result.shotguns}🏹`}
+                  {result.shotguns > 0 && ` ${result.shotguns}`}<img src={shotgunIcon} alt="shotgun" style={{width: '16px', height: '16px', marginLeft: '5px'}} />
                 </li>
               ))}
             </ul>
@@ -1444,7 +1445,7 @@ socket.on('gameOver', (message) => {
                   )}
                   {shotgunsToGive > 0 && (
                     <button className="assignment-button" onClick={() => handleGiveDrink(p.id || p.name, 'shotgun')}>
-                      🏹 Give Shotgun to {p.name} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
+                      <img src={shotgunIcon} alt="shotgun" style={{width: '16px', height: '16px', marginRight: '5px'}} /> Give Shotgun to {p.name} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
                     </button>
                   )}
                 </div>
