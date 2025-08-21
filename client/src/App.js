@@ -21,51 +21,8 @@ const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onr
 // const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:3001');
 
 function App() {
-  // Check for existing player name on component load
-  const getInitialGameState = () => {
-    try {
-      // Check if this is a refresh (sessionStorage exists) vs new tab (sessionStorage empty)
-      const isRefresh = sessionStorage.getItem('shotgunFormation_session');
-      
-      if (isRefresh) {
-        // This is a refresh, check for saved name
-        const savedState = localStorage.getItem('shotgunFormation_gameState');
-        if (savedState) {
-          const parsedState = JSON.parse(savedState);
-          if (parsedState.currentPlayerName) {
-            return 'startOrJoin'; // Has name, go to lobby selection
-          }
-        }
-      }
-      
-      // Set session marker for future refreshes
-      sessionStorage.setItem('shotgunFormation_session', 'active');
-    } catch (error) {
-      console.log('Error checking saved player name:', error);
-    }
-    return 'initial'; // New tab or no name, go to name entry
-  };
-
-  const getInitialPlayerName = () => {
-    try {
-      // Only load name if this is a refresh, not a new tab
-      const isRefresh = sessionStorage.getItem('shotgunFormation_session');
-      
-      if (isRefresh) {
-        const savedState = localStorage.getItem('shotgunFormation_gameState');
-        if (savedState) {
-          const parsedState = JSON.parse(savedState);
-          return parsedState.currentPlayerName || '';
-        }
-      }
-    } catch (error) {
-      console.log('Error loading saved player name:', error);
-    }
-    return '';
-  };
-
-  const [gameState, setGameState] = useState(getInitialGameState());  // 'initial', 'startOrJoin', 'lobby', 'game'
-  const [playerName, setPlayerName] = useState(getInitialPlayerName());
+  const [gameState, setGameState] = useState('initial');  // 'initial', 'lobby', 'game'
+  const [playerName, setPlayerName] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const [players, setPlayers] = useState([]);  // Initialize as array
   const [isHost, setIsHost] = useState(false);
@@ -124,32 +81,14 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   };
 
 
-  // Handle name submission
-  const handleNameSubmit = (e) => {
-    e.preventDefault();
-    if (playerName.trim()) {
-      // Save player name to localStorage for future sessions
-      try {
-        const gameState = {
-          currentPlayerName: playerName.trim(),
-          timestamp: Date.now()
-        };
-        localStorage.setItem('shotgunFormation_gameState', JSON.stringify(gameState));
-        // Set session marker so refreshes will load the name
-        sessionStorage.setItem('shotgunFormation_session', 'active');
-        console.log('Player name saved to localStorage:', playerName.trim());
-      } catch (error) {
-        console.log('Error saving player name:', error);
-      }
-      setGameState('startOrJoin');
-    } else {
-      setErrorMessage('Please enter your name');
-    }
-  };
 
   // Start a new game (Create Room)
   const startGame = () => {
-  alert(instructionsmessage)
+    if (!playerName.trim()) {
+      setErrorMessage('Please enter your name first');
+      return;
+    }
+    alert(instructionsmessage)
     if (playerName) {
       socket.emit('createRoom', playerName);
       setIsHost(true);
@@ -159,6 +98,14 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   };
 
   const joinGame = () => {
+    if (!playerName.trim()) {
+      setErrorMessage('Please enter your name first');
+      return;
+    }
+    if (!roomCode.trim()) {
+      setErrorMessage('Please enter a room code');
+      return;
+    }
     if (roomCode && playerName) {
       socket.emit('joinRoom', roomCode, playerName);
       updateURL(roomCode, playerName); // Store in URL for automatic rejoin
@@ -1274,22 +1221,41 @@ socket.on('gameOver', (message) => {
     };
   }, [players]);
 
-  // UI for the initial screen to enter the player name
+  // UI for the initial screen with name entry and game actions
   if (gameState === 'initial') {
     return (
       <div className="intro-with-image centered-container"> 
         <h1>ShotGun Formation</h1>
-        <form onSubmit={handleNameSubmit}>
+        
+        {/* Name Entry */}
+        <input
+          type="text"
+          placeholder="Enter your name"
+          value={playerName}
+          onChange={(e) => {
+            setPlayerName(e.target.value);
+            setErrorMessage(''); // Clear error when user types
+          }}
+          autoFocus
+        />
+        
+        {/* Game Actions */}
+        <button onClick={startGame}>Start a Lobby</button>
+        
+        <div style={{marginTop: '20px'}}>
           <input
             type="text"
-            placeholder="Enter your name"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            autoFocus  // Automatically focus on this input field
+            placeholder="Enter room code"
+            value={roomCode}
+            onChange={(e) => {
+              setRoomCode(e.target.value);
+              setErrorMessage(''); // Clear error when user types
+            }}
           />
-          <button type="submit">Submit</button>
-        </form>
-        {errorMessage && <p>{errorMessage}</p>}
+          <button onClick={joinGame}>Join Game</button>
+        </div>
+        
+        {errorMessage && <p style={{color: '#ff6666', marginTop: '10px'}}>{errorMessage}</p>}
       </div>
     );
   }
@@ -1307,28 +1273,6 @@ socket.on('gameOver', (message) => {
     );
   }
 
-  // UI for start/join game screen
-  if (gameState === 'startOrJoin') {
-    return (
-      
-      <div className="centered-container">
-        <h1>Welcome, {playerName}</h1>
-        <button onClick={startGame}>Start a Lobby</button>
-        <div>
-          <input
-            type="text"
-            placeholder="Enter room code"
-            value={roomCode}
-            onChange={(e) => setRoomCode(e.target.value)}
-            autoFocus  // Automatically focus on this input field
-          />
-          <button onClick={joinGame}>Join Game</button>
-          <button onClick={() => setGameState('initial')}>Change Name</button>
-        </div>
-        {errorMessage && <p>{errorMessage}</p>}
-      </div>
-    );
-  }
 
   // UI for the lobby screen
   if (gameState === 'lobby') {
