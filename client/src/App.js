@@ -186,21 +186,7 @@ const [isHostSelection, setIsHostSelection] = useState(false);
       socket.emit('joinRoom', currentRoomCode, playerName);
       updateURL(currentRoomCode, playerName); // Store in URL for automatic rejoin
   
-      // Listen for the 'gameStarted' event if the game is already active
-      socket.on('gameStarted', ({ hands, playerStats }) => {
-        // Update the player's hand
-        setPlayers(prevPlayers =>
-          prevPlayers.map(player =>
-            player.id === socket.id ? { ...player, cards: { standard: hands.standard, wild: hands.wild } } : player
-          )
-        );
-  
-        // Set player stats to show the scoreboard
-        setPlayerStats(playerStats);
-  
-        // Transition the player to the game screen
-        setGameState('game');
-      });
+      // ✅ FIX: Removed old conflicting gameStarted handler - main handler will process
     } else {
       setErrorMessage('Please enter a valid room code and your name');
     }
@@ -597,7 +583,7 @@ useEffect(() => {
       window.history.replaceState({}, '', url);
     };
     
-    socket.once('gameStarted', handleRejoinSuccess);
+    // ✅ FIX: Remove competing gameStarted handler - let main handler process cards
     socket.once('joinedRoom', handleLobbyJoin);
     socket.once('roomNotFound', handleRejoinError);
     socket.once('error', handleRejoinError);
@@ -605,7 +591,7 @@ useEffect(() => {
     // Cleanup listeners and timeout after 10 seconds
     setTimeout(() => {
       clearTimeout(validateTimeout);
-      socket.off('gameStarted', handleRejoinSuccess);
+      // ✅ FIX: Remove cleanup for competing gameStarted handler
       socket.off('joinedRoom', handleLobbyJoin);
       socket.off('roomNotFound', handleRejoinError);
       socket.off('error', handleRejoinError);
@@ -660,7 +646,7 @@ useEffect(() => {
       setGameState('initial');
     };
     
-    socket.once('gameStarted', handleRejoinSuccess);
+    // ✅ FIX: Remove competing gameStarted handler - let main handler process cards
     socket.once('joinedRoom', handleLobbyJoin);
     socket.once('roomNotFound', handleRejoinError);
     socket.once('error', handleRejoinError);
@@ -668,7 +654,7 @@ useEffect(() => {
     // Cleanup after timeout
     setTimeout(() => {
       clearTimeout(validateTimeout);
-      socket.off('gameStarted', handleRejoinSuccess);
+      // ✅ FIX: Remove cleanup for competing gameStarted handler
       socket.off('joinedRoom', handleLobbyJoin);
       socket.off('roomNotFound', handleRejoinError);
       socket.off('error', handleRejoinError);
