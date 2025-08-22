@@ -1276,10 +1276,28 @@ useEffect(() => {
         return;
       }
       
-      setPlayers(players.map(player => ({
-        ...player,
-        cards: hands[player.id]
-      })));
+      // ✅ FIX: Handle empty players array on reconnection  
+      console.log('🔧 DEBUG: Processing players array for card assignment');
+      console.log('🔧 DEBUG: Current players array length:', players.length);
+      console.log('🔧 DEBUG: Available hands for socket IDs:', Object.keys(hands));
+      
+      if (players.length === 0) {
+        console.log('🔧 DEBUG: Players array is empty - creating player entry for reconnection');
+        // Create player entry if array is empty (common on reconnection)
+        const newPlayer = {
+          id: socket.id,
+          name: playerName,
+          cards: hands[socket.id]
+        };
+        setPlayers([newPlayer]);
+        console.log('🎯 Created player entry for reconnected player');
+      } else {
+        console.log('🔧 DEBUG: Updating existing players array with cards');
+        setPlayers(players.map(player => ({
+          ...player,
+          cards: hands[player.id]
+        })));
+      }
       
       // Set player stats to show the initial scoreboard
       setPlayerStats(playerStats);
