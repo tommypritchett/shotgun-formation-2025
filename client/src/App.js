@@ -812,6 +812,22 @@ useEffect(() => {
         requestWakeLock();
       }
       
+      // ✅ NEW: Check for stealth disconnect scenario
+      const urlParams = new URLSearchParams(window.location.search);
+      const hasValidGameUrl = urlParams.get('room') && urlParams.get('player');
+      
+      if (hasValidGameUrl && gameState !== 'game' && gameState !== 'connecting' && gameState !== 'lobby') {
+        console.log('🔄 STEALTH DISCONNECT DETECTED: Have game URL but not in game state');
+        console.log('🔄 Current game state:', gameState);
+        console.log('🔄 Socket connected:', socket.connected);
+        console.log('🔄 URL params:', { room: urlParams.get('room'), player: urlParams.get('player') });
+        console.log('🔄 Auto-refreshing to reconnect...');
+        
+        // Trigger the standard refresh reconnection process
+        window.location.reload();
+        return;
+      }
+      
       if (!socket.connected) {
         console.log('Reconnecting after visibility change...');
         socket.connect();
@@ -838,6 +854,21 @@ useEffect(() => {
     
     if (gameState === 'game') {
       requestWakeLock();
+    }
+    
+    // ✅ NEW: Check for stealth disconnect scenario on focus
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasValidGameUrl = urlParams.get('room') && urlParams.get('player');
+    
+    if (hasValidGameUrl && gameState !== 'game' && gameState !== 'connecting' && gameState !== 'lobby') {
+      console.log('🔄 STEALTH DISCONNECT DETECTED on focus: Have game URL but not in game state');
+      console.log('🔄 Current game state:', gameState);
+      console.log('🔄 Socket connected:', socket.connected);
+      console.log('🔄 Auto-refreshing to reconnect...');
+      
+      // Trigger the standard refresh reconnection process  
+      window.location.reload();
+      return;
     }
     
     if (!socket.connected) {
