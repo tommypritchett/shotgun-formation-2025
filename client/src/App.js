@@ -23,6 +23,11 @@ const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onr
 
 function App() {
   const [gameState, setGameState] = useState('initial');  // 'initial', 'lobby', 'game'
+  
+  // Debug logging for gameState changes
+  useEffect(() => {
+    console.log('🔄 GAME STATE CHANGED TO:', gameState);
+  }, [gameState]);
   const [playerName, setPlayerName] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const [players, setPlayers] = useState([]);  // Initialize as array
@@ -1104,11 +1109,16 @@ useEffect(() => {
 
   useEffect(() => {
     socket.on('joinedRoom', (joinedRoomCode) => {
+      console.log('🏠 JOINED ROOM EVENT RECEIVED:', joinedRoomCode);
+      console.log('🎯 Current gameState before update:', gameState);
+      
       setRoomCode(joinedRoomCode);
       updateURL(joinedRoomCode, playerName); // Store in URL
       setGameState('lobby');
+      console.log('🎯 Setting gameState to: lobby');
       document.body.style.zoom = "70%"; // Adjust the percentage as needed
-
+      
+      console.log('✅ Lobby state updated successfully');
     });
 
     socket.on('updatePlayers', (playersList) => {
@@ -1116,6 +1126,9 @@ useEffect(() => {
     });
 
     socket.on('gameStarted', ({ hands, playerStats }) => {
+      console.log('🎮 GAME STARTED EVENT RECEIVED:', { hands, playerStats });
+      console.log('🎯 Current gameState before update:', gameState);
+      
       setPlayers(players.map(player => ({
         ...player,
         cards: hands[player.id]
@@ -1125,12 +1138,15 @@ useEffect(() => {
       setPlayerStats(playerStats);
     
       setGameState('game');
+      console.log('🎯 Setting gameState to: game');
       
       // Ensure URL is updated for all players (including host) when game starts
       updateURL(roomCode, playerName);
       
        // Adjust the page zoom when the game starts
-  document.body.style.zoom = "70%"; // Adjust the percentage as needed
+      document.body.style.zoom = "70%"; // Adjust the percentage as needed
+      
+      console.log('✅ Game state updated successfully');
     });
 
     socket.on('distributeDrinks', ({ cardType, drinkCount, wildcardtype, shotguns }) => {
@@ -1285,6 +1301,9 @@ socket.on('gameOver', (message) => {
       // Removed triggerPersonalRefresh cleanup - handler removed
     };
   }, [players]);
+
+  // Debug: Log current render state
+  console.log('🖼️ RENDERING - gameState:', gameState, 'playerName:', playerName, 'roomCode:', roomCode);
 
   // UI for the initial screen with name entry and game actions
   if (gameState === 'initial') {

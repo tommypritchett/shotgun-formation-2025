@@ -368,10 +368,7 @@ function handleJoinRoom(socket, roomCode, playerName) {
 
           // Send the current state of the game (hands and playerStats) to the new player
           socket.emit('gameStarted', {
-              hands: {
-                  standard: playerStats[socket.id].standard,
-                  wild: playerStats[socket.id].wild,
-              },
+              hands: { [socket.id]: playerStats[socket.id] }, // Fix: proper hands format
               playerStats, // Send current player stats to the new player
           });
 
