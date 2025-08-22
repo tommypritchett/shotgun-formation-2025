@@ -88,7 +88,7 @@ input:focus {
 
 .game-table {
   display: grid;
-  grid-template-rows: auto 200px 200px 200px auto auto;
+  grid-template-rows: 40px 200px 200px 200px auto auto;
   height: 100vh;
   background: linear-gradient(135deg, #1e3a20 0%, #2c5530 100%);
   padding: 6px;
@@ -592,7 +592,7 @@ input:focus {
   .game-table {
     padding: 4px;
     gap: 4px;
-    grid-template-rows: auto 160px 160px 160px auto auto;
+    grid-template-rows: 25px 160px 160px 160px auto auto;
   }
   
   .game-header {
@@ -682,7 +682,7 @@ input:focus {
 @media (max-width: 360px) {
   .game-table {
     gap: 2px;
-    grid-template-rows: auto 120px 140px 140px auto auto;
+    grid-template-rows: 20px 120px 140px 140px auto auto;
   }
   
   .game-header {
