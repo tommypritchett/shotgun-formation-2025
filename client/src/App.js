@@ -1,7 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import io from 'socket.io-client';
 import './App.css';  // Import the updated CSS
 import shotgunIcon from './shotgun_icon.png';  // Import shotgun icon
+
+// Error Boundary to catch JavaScript crashes
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null, errorInfo: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('💥 CRITICAL CRASH CAUGHT BY ERROR BOUNDARY:', error);
+    console.error('💥 Error Info:', errorInfo);
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          backgroundColor: '#1a1a1a',
+          color: '#ff6b35',
+          fontSize: '18px',
+          padding: '20px',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <h2>💥 Application Crashed</h2>
+          <p>The app encountered an unexpected error and has been reset.</p>
+          <details style={{ whiteSpace: 'pre-wrap', marginTop: '20px', color: '#ff9999' }}>
+            <summary>Error Details (click to expand)</summary>
+            {this.state.error && this.state.error.toString()}
+            <br />
+            {this.state.errorInfo.componentStack}
+          </details>
+          <button 
+            onClick={() => window.location.reload()}
+            style={{
+              marginTop: '20px',
+              padding: '12px 24px',
+              backgroundColor: '#ff6b35',
+              border: 'none',
+              borderRadius: '8px',
+              color: 'white',
+              fontSize: '16px',
+              cursor: 'pointer'
+            }}
+          >
+            Reload App
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com', {
   transports: ['websocket', 'polling'], // WebSocket first for better performance, polling as fallback
@@ -453,6 +518,15 @@ useEffect(() => {
   console.log('🔄 APP MOUNT: Starting auto-rejoin logic...');
   console.log('Current gameState:', gameState);
   console.log('Socket connected:', socket.connected);
+  console.log('Window location:', window.location.href);
+  console.log('Document ready state:', document.readyState);
+  
+  // CRITICAL: Ensure gameState is never undefined during rejoin
+  if (!gameState || gameState === '') {
+    console.warn('⚠️ GameState is invalid during mount, forcing to initial');
+    setGameState('initial');
+    return;
+  }
   
   const urlParams = getURLParams();
   const localState = loadGameStateLocally();
@@ -1108,6 +1182,15 @@ useEffect(() => {
 }, [playerName]); // Depend on playerName instead of players
 
   useEffect(() => {
+    // Debug: Log ALL socket events
+    const originalEmit = socket.emit;
+    const originalOn = socket.on;
+    
+    // Override socket.on to log all incoming events
+    socket.onAny((eventName, ...args) => {
+      console.log('📡 SOCKET EVENT RECEIVED:', eventName, args);
+    });
+    
     socket.on('joinedRoom', (joinedRoomCode) => {
       console.log('🏠 JOINED ROOM EVENT RECEIVED:', joinedRoomCode);
       console.log('🎯 Current gameState before update:', gameState);
@@ -1128,6 +1211,16 @@ useEffect(() => {
     socket.on('gameStarted', ({ hands, playerStats }) => {
       console.log('🎮 GAME STARTED EVENT RECEIVED:', { hands, playerStats });
       console.log('🎯 Current gameState before update:', gameState);
+      console.log('🎯 Current players before update:', players);
+      console.log('🎯 Socket ID:', socket.id);
+      console.log('🎯 My hand data:', hands[socket.id]);
+      
+      // Validate hands data
+      if (!hands || !hands[socket.id]) {
+        console.error('❌ INVALID HANDS DATA:', hands);
+        console.error('❌ Socket ID not found in hands:', socket.id);
+        return;
+      }
       
       setPlayers(players.map(player => ({
         ...player,
@@ -1147,6 +1240,8 @@ useEffect(() => {
       document.body.style.zoom = "70%"; // Adjust the percentage as needed
       
       console.log('✅ Game state updated successfully');
+      console.log('✅ Final gameState:', gameState);
+      console.log('✅ Final players:', players);
     });
 
     socket.on('distributeDrinks', ({ cardType, drinkCount, wildcardtype, shotguns }) => {
@@ -1304,6 +1399,41 @@ socket.on('gameOver', (message) => {
 
   // Debug: Log current render state
   console.log('🖼️ RENDERING - gameState:', gameState, 'playerName:', playerName, 'roomCode:', roomCode);
+  console.log('🖼️ CSS Loaded:', !!document.querySelector('style, link[rel="stylesheet"]'));
+  console.log('🖼️ Body classes:', document.body.className);
+  console.log('🖼️ Document visibility:', document.visibilityState);
+
+  // Emergency fallback for debugging
+  if (!gameState) {
+    console.error('❌ CRITICAL: gameState is undefined/null');
+    return <div style={{color: 'red', fontSize: '20px', padding: '20px'}}>EMERGENCY: gameState undefined</div>;
+  }
+
+  // TEST: Force render test content to check if it's a CSS issue
+  if (window.location.search.includes('debugtest')) {
+    return (
+      <div style={{
+        backgroundColor: 'red', 
+        color: 'white', 
+        fontSize: '24px', 
+        padding: '20px',
+        minHeight: '100vh',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 9999
+      }}>
+        DEBUG TEST MODE
+        <br />gameState: {gameState}
+        <br />playerName: {playerName}
+        <br />roomCode: {roomCode}
+        <br />Socket connected: {socket.connected ? 'YES' : 'NO'}
+        <br />Current URL: {window.location.href}
+      </div>
+    );
+  }
 
   // UI for the initial screen with name entry and game actions
   if (gameState === 'initial') {
@@ -1692,8 +1822,64 @@ socket.on('gameOver', (message) => {
     );
   }
 
-  return null;
+  // CRITICAL FIX: Never return null - this causes white screen!
+  // If we reach here, gameState is invalid. Force back to initial state.
+  console.error('❌ CRITICAL WHITE SCREEN BUG: Invalid gameState reached end of render:', gameState);
+  console.error('❌ playerName:', playerName, 'roomCode:', roomCode);
+  console.error('❌ Socket connected:', socket.connected);
+  console.error('❌ Forcing gameState back to initial to prevent white screen');
+  
+  // Reset to initial state to recover
+  setTimeout(() => {
+    setGameState('initial');
+    setErrorMessage('Connection issue detected - please rejoin your game');
+  }, 100);
+  
+  // Return emergency fallback instead of null
+  return (
+    <div style={{
+      backgroundColor: '#1a1a1a',
+      color: '#ff6b35',
+      fontSize: '18px',
+      padding: '20px',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <h2>🔧 Connection Recovery</h2>
+      <p>Detected invalid game state: {gameState}</p>
+      <p>Automatically redirecting you back to the start...</p>
+      <div style={{marginTop: '20px'}}>
+        <button 
+          onClick={() => {
+            setGameState('initial');
+            setErrorMessage('Please rejoin your game');
+          }}
+          style={{
+            padding: '12px 24px',
+            backgroundColor: '#ff6b35',
+            border: 'none',
+            borderRadius: '8px',
+            color: 'white',
+            fontSize: '16px',
+            cursor: 'pointer'
+          }}
+        >
+          Return to Start
+        </button>
+      </div>
+    </div>
+  );
 }
 
-export default App;
+// Wrap App with ErrorBoundary to prevent crashes
+const AppWithErrorBoundary = () => (
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
+);
+
+export default AppWithErrorBoundary;
 
