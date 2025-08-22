@@ -400,17 +400,10 @@ function handleJoinRoom(socket, roomCode, playerName) {
         
         // ✅ FIXED: Send updated player stats ONLY to the reconnected player (not entire room)
         io.to(socket.id).emit('updatePlayerStats', playerStats);
-        console.log(`✅ Sent targeted reconnection data to ${playerName} (${socket.id}) - no room broadcast`);
+        console.log(`✅ Sent targeted reconnection data to ${playerName} (${socket.id}) - reconnection complete`);
         
-        // 🔄 Send personal refresh signal to the reconnected player to sync their UI
-        setTimeout(() => {
-          console.log(`🔄 SENDING PERSONAL REFRESH to ${playerName} (${socket.id}) in room ${roomCode}`);
-          io.to(socket.id).emit('triggerPersonalRefresh', {
-            message: `Personal refresh for ${playerName} after successful reconnection`,
-            playerId: socket.id,
-            playerName: playerName
-          });
-        }, 500); // Small delay to ensure all other reconnection events are processed first
+        // ✅ REMOVED triggerPersonalRefresh - gameStarted already handles everything needed
+        console.log(`🎯 Reconnection complete for ${playerName} - gameStarted event provides all necessary data`);
       }
 
   } else {
@@ -1104,50 +1097,7 @@ socket.on('requestGameState', ({ roomCode }) => {
   });
 });
 
-// Handle requestGameSync - for UI sync after reconnection without page refresh
-socket.on('requestGameSync', ({ roomCode, playerName }) => {
-  console.log(`🔄 Player ${playerName} (${socket.id}) requested game sync for room ${roomCode}`);
-  
-  const room = rooms[roomCode];
-  if (!room) {
-    console.log(`❌ Room ${roomCode} not found for sync request`);
-    socket.emit('error', 'Room not found');
-    return;
-  }
-  
-  // Find the player in the room
-  const player = room.players.find(p => p.id === socket.id);
-  if (!player) {
-    console.log(`❌ Player ${socket.id} not found in room ${roomCode} for sync`);
-    return;
-  }
-  
-  console.log(`✅ Syncing UI for player ${playerName} in room ${roomCode}`);
-  
-  // Send fresh game data to sync the UI
-  if (room.gameStarted) {
-    // Send current game state
-    socket.emit('gameStarted', {
-      hands: { [socket.id]: playerStats[socket.id] },
-      playerStats: playerStats
-    });
-    
-    // Send current players list
-    socket.emit('updatePlayers', room.players);
-    
-    // Send current quarter
-    if (room.quarter) {
-      socket.emit('quarterUpdated', room.quarter);
-    }
-    
-    console.log(`📡 Game sync completed for player ${playerName}`);
-  } else {
-    // Send lobby state
-    socket.emit('joinedRoom', roomCode);
-    socket.emit('updatePlayers', room.players);
-    console.log(`📡 Lobby sync completed for player ${playerName}`);
-  }
-});
+// ✅ REMOVED requestGameSync handler - no longer needed, gameStarted handles everything
 
 // Handle Player Disconnection 
 socket.on('disconnect', (reason) => {

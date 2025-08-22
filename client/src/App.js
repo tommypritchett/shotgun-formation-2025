@@ -421,7 +421,7 @@ const fallbackCopyTextToClipboard = (text) => {
   };
 
 const [actionMessage, setActionMessage] = useState('');  // Store messages like "Action in progress"
-const [isRefreshProcessing, setIsRefreshProcessing] = useState(false);  // Prevent multiple refresh signals
+// ✅ REMOVED isRefreshProcessing - no longer needed since triggerPersonalRefresh removed
 
 // Handle opening the wild card selection modal
 const openWildCardSelection = () => {
@@ -1372,43 +1372,8 @@ useEffect(() => {
       }
     });
 
-    // Handle personal refresh signal from server (ONLY for this specific player)
-    socket.on('triggerPersonalRefresh', ({ message, playerId, playerName: reconnectedPlayerName }) => {
-      console.log(`🔄 REFRESH SIGNAL RECEIVED: ${message}`);
-      console.log(`🎯 This refresh is for player: ${reconnectedPlayerName} (${playerId})`);
-      
-      // 🛡️ Prevent multiple refresh signals from processing simultaneously
-      if (isRefreshProcessing) {
-        console.log(`⚠️ Refresh already in progress, ignoring duplicate signal`);
-        return;
-      }
-      
-      console.log(`✅ FIXED: Using direct state update instead of window.location.reload() to prevent infinite loop`);
-      setIsRefreshProcessing(true);
-      
-      // 🚫 REMOVED window.location.reload() - was causing infinite refresh loops
-      // ✅ Instead: Force UI sync by requesting fresh game state
-      setTimeout(() => {
-        console.log(`🔄 SYNCING UI FOR PLAYER: ${reconnectedPlayerName} - Using direct state update`);
-        
-        // Force the component to re-sync with current game state
-        if (gameState !== 'game') {
-          console.log(`🎯 Setting gameState to 'game' for reconnected player`);
-          setGameState('game');
-        }
-        
-        // Request fresh data from server to ensure sync
-        socket.emit('requestGameSync', { roomCode, playerName: reconnectedPlayerName });
-        console.log(`📡 Requested fresh game sync for room ${roomCode}`);
-        
-        // Reset flag after processing
-        setTimeout(() => {
-          setIsRefreshProcessing(false);
-          console.log(`🔄 Refresh processing completed for ${reconnectedPlayerName}`);
-        }, 2000);
-        
-      }, 500); // Shorter delay since we're not reloading the page
-    });
+    // ✅ REMOVED triggerPersonalRefresh handler - gameStarted already handles reconnection perfectly
+    console.log(`🎯 Reconnection handling simplified - gameStarted event provides all necessary data`);
 
 // Handle when a player leaves during the game (old event, kept for compatibility)
 socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
@@ -1446,7 +1411,7 @@ socket.on('gameOver', (message) => {
       socket.off('playerDisconnected');
       socket.off('playerReconnected');
       socket.off('updatePlayerStats');
-      socket.off('triggerPersonalRefresh');
+      // ✅ REMOVED triggerPersonalRefresh cleanup - handler removed
     };
   }, [players]);
 
