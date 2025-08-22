@@ -1256,8 +1256,27 @@ useEffect(() => {
     socket.on('updatePlayers', (playersList) => {
       console.log('👥 DEBUG: Received updatePlayers event with:', playersList);
       console.log('👥 DEBUG: Current players before update:', players);
-      setPlayers(playersList);
-      console.log('👥 DEBUG: Players updated successfully');
+      
+      // ✅ FIX: Preserve existing card data when updating players list
+      const updatedPlayers = playersList.map(serverPlayer => {
+        // Find if this player already exists in our local players array
+        const existingPlayer = players.find(p => p.id === serverPlayer.id);
+        
+        // If player exists locally and has cards, preserve the cards
+        if (existingPlayer && existingPlayer.cards) {
+          console.log(`👥 DEBUG: Preserving cards for player ${serverPlayer.name}`);
+          return {
+            ...serverPlayer,
+            cards: existingPlayer.cards  // Keep the cards from local state
+          };
+        }
+        
+        // New player or player without cards - use server data as-is
+        return serverPlayer;
+      });
+      
+      setPlayers(updatedPlayers);
+      console.log('👥 DEBUG: Players updated successfully with preserved cards');
     });
 
     socket.on('gameStarted', ({ hands, playerStats }) => {
