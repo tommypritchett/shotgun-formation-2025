@@ -445,8 +445,15 @@ const loadGameStateLocally = () => {
 
 // Automatic rejoin on app load - ALWAYS check URL first
 useEffect(() => {
+  console.log('🔄 APP MOUNT: Starting auto-rejoin logic...');
+  console.log('Current gameState:', gameState);
+  console.log('Socket connected:', socket.connected);
+  
   const urlParams = getURLParams();
   const localState = loadGameStateLocally();
+  
+  console.log('URL params:', urlParams);
+  console.log('Local state:', localState);
   
   // Add a flag to prevent multiple rejoin attempts
   let rejoinAttempted = false;
@@ -459,10 +466,20 @@ useEffect(() => {
     setGameState('connecting');
     rejoinAttempted = true;
     
-    // Validate and rejoin directly without page refresh
+    // Validate and rejoin directly without page refresh - wait for socket connection
     const validateTimeout = setTimeout(() => {
-      console.log('Direct rejoin: validating game and rejoining');
-      socket.emit('validateAndJoinRoom', urlParams.roomCode, urlParams.playerName);
+      console.log('Direct rejoin: checking socket connection...');
+      
+      if (socket.connected) {
+        console.log('Socket connected - validating game and rejoining');
+        socket.emit('validateAndJoinRoom', urlParams.roomCode, urlParams.playerName);
+      } else {
+        console.log('Socket not connected - waiting for connection...');
+        socket.once('connect', () => {
+          console.log('Socket connected after wait - validating game and rejoining');
+          socket.emit('validateAndJoinRoom', urlParams.roomCode, urlParams.playerName);
+        });
+      }
     }, 1000); // Give socket time to connect
     
     // Listen for successful rejoin (NO MORE REFRESHING)
@@ -517,10 +534,20 @@ useEffect(() => {
     // Update URL for future reference
     updateURL(localState.roomCode, localState.currentPlayerName);
     
-    // Validate and rejoin directly
+    // Validate and rejoin directly - wait for socket connection
     const validateTimeout = setTimeout(() => {
-      console.log('LocalStorage rejoin: validating game and rejoining');
-      socket.emit('validateAndJoinRoom', localState.roomCode, localState.currentPlayerName);
+      console.log('LocalStorage rejoin: checking socket connection...');
+      
+      if (socket.connected) {
+        console.log('Socket connected - validating game and rejoining');
+        socket.emit('validateAndJoinRoom', localState.roomCode, localState.currentPlayerName);
+      } else {
+        console.log('Socket not connected - waiting for connection...');
+        socket.once('connect', () => {
+          console.log('Socket connected after wait - validating game and rejoining');
+          socket.emit('validateAndJoinRoom', localState.roomCode, localState.currentPlayerName);
+        });
+      }
     }, 1000);
     
     // Use the same event handlers as URL rejoin
@@ -1325,6 +1352,12 @@ socket.on('gameOver', (message) => {
         <p>Room: {roomCode}</p>
         <div className="loading-spinner" style={{margin: '20px auto'}}></div>
         <p style={{fontSize: '14px', color: '#ddd'}}>Please wait while we connect you to your game...</p>
+        <button 
+          onClick={() => setGameState('initial')} 
+          style={{marginTop: '20px', padding: '10px 20px', backgroundColor: '#ff6b35', border: 'none', borderRadius: '5px', color: 'white', cursor: 'pointer'}}
+        >
+          Cancel & Return to Start
+        </button>
       </div>
     );
   }
