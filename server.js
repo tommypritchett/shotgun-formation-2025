@@ -239,188 +239,108 @@ socket.on('validateAndJoinRoom', (roomCode, playerName) => {
   handleJoinRoom(socket, roomCode, playerName);
 });
 
-// Join Room or game (extracted to reusable function)
+// ✅ SIMPLIFIED: Join Room or game (clean reconnection logic)
 function handleJoinRoom(socket, roomCode, playerName) {
-  if (rooms[roomCode]) {
-    let playerData;
-    let isRejoining = false;
-
-    // Check if this socket is already in the room to prevent duplicates
-    const socketAlreadyInRoom = rooms[roomCode].players.find(p => p.id === socket.id);
-    if (socketAlreadyInRoom) {
-      console.log(`Socket ${socket.id} is already in room ${roomCode}, ignoring duplicate join request`);
-      return;
-    }
-
-    // Check if player name is already taken by an active player
-    const existingPlayerIndex = rooms[roomCode].players.findIndex(p => p.name === playerName);
-    
-    if (existingPlayerIndex !== -1) {
-      const existingPlayer = rooms[roomCode].players[existingPlayerIndex];
-      
-      // If player is active (not disconnected), don't allow joining with same name
-      if (!existingPlayer.disconnected) {
-        console.log(`Player name "${playerName}" is already taken by an active player in room ${roomCode}`);
-        socket.emit('error', `Player name "${playerName}" is already taken. Please choose a different name.`);
-        return;
-      }
-      // Player is rejoining - update their socket ID and mark as connected
-      rooms[roomCode].players[existingPlayerIndex].id = socket.id;
-      rooms[roomCode].players[existingPlayerIndex].disconnected = false;
-      delete rooms[roomCode].players[existingPlayerIndex].disconnectedAt;
-      
-      console.log(`Player ${playerName} reconnected and marked as active`);
-      
-      // Get their existing stats by searching through playerStats for matching name
-      let existingPlayerStatsId = null;
-      for (const [playerId, stats] of Object.entries(playerStats)) {
-        if (stats.name === playerName || 
-            (rooms[roomCode].players.find(p => p.id === playerId && p.name === playerName))) {
-          existingPlayerStatsId = playerId;
-          break;
-        }
-      }
-      
-      if (existingPlayerStatsId && playerStats[existingPlayerStatsId]) {
-        // Use existing stats but remove old key and add with new socket ID
-        playerData = { ...playerStats[existingPlayerStatsId] };
-        delete playerStats[existingPlayerStatsId]; // Remove old entry
-        playerData.id = socket.id;
-        // Remove disconnected status
-        delete playerData.disconnected;
-      } else if (formerPlayers[playerName] && formerPlayers[playerName].roomCode === roomCode) {
-        playerData = formerPlayers[playerName];
-        delete formerPlayers[playerName]; // Clean up formerPlayers
-        playerData.id = socket.id;
-        // Remove disconnected status
-        delete playerData.disconnected;
-      } else {
-        // Fallback: create new player data
-        playerData = { id: socket.id, name: playerName, totalDrinks: 0, totalShotguns: 0, standard: [], wild: [] };
-      }
-      
-      // Clean up formerPlayers entry if it exists (in case player reconnected)
-      if (formerPlayers[playerName]) {
-        delete formerPlayers[playerName];
-        console.log(`Cleaned up formerPlayers entry for ${playerName}`);
-      }
-      
-      isRejoining = true;
-      console.log(`Player ${playerName} is rejoining room ${roomCode} with existing data.`);
-    } else if (formerPlayers[playerName] && formerPlayers[playerName].roomCode === roomCode) {
-      // Player from formerPlayers is rejoining - only add if not already in players array
-      playerData = formerPlayers[playerName];
-      delete formerPlayers[playerName];
-      playerData.id = socket.id;
-      
-      // Only add to players array if not already there
-      if (!rooms[roomCode].players.find(p => p.name === playerName)) {
-        rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
-      }
-      isRejoining = true;
-      console.log(`Player ${playerName} is rejoining room ${roomCode} with restored data.`);
-    } else {
-      // Initialize new player data if not reconnecting or if the roomCode doesn't match
-      playerData = { id: socket.id, name: playerName, totalDrinks: 0, totalShotguns: 0, standard: [], wild: [] };
-      
-      // Only add to players array if not already there
-      if (!rooms[roomCode].players.find(p => p.name === playerName)) {
-        rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
-      }
-      console.log(`Player ${playerName} is joining as a new player in room ${roomCode}.`);
-    }
-
-    // Update player stats with the socket ID
-    playerStats[socket.id] = { ...playerData, id: socket.id };
-    socket.join(roomCode);
-
-    // Final safety check: ensure no duplicate player names exist in the room
-    const playerNames = rooms[roomCode].players.map(p => p.name);
-    const uniquePlayerNames = [...new Set(playerNames)];
-    if (playerNames.length !== uniquePlayerNames.length) {
-      console.log(`Duplicate player names detected in room ${roomCode}, cleaning up...`);
-      // Keep only the first occurrence of each name (most recent socket ID)
-      const seenNames = new Set();
-      rooms[roomCode].players = rooms[roomCode].players.filter(player => {
-        if (seenNames.has(player.name)) {
-          console.log(`Removing duplicate player: ${player.name} (${player.id})`);
-          return false;
-        }
-        seenNames.add(player.name);
-        return true;
-      });
-    }
-
-
-      // Check if the game has already started
-      if (rooms[roomCode].gameStarted) {
-          const room = rooms[roomCode];
-          const { standardDeck, wildDeck } = room.deck;  // Get the existing decks
-
-         // If player data is new, deal cards; otherwise, use restored hand
-      if (playerData.standard.length === 0) {
-        playerData.standard = standardDeck.splice(0, 5);  // Deal 5 standard cards
-        playerData.wild = wildDeck.splice(0, 2);  // Deal 2 wild cards
-      }
-            // Update playerStats for the new or rejoining player
-      playerStats[socket.id].standard = playerData.standard;
-      playerStats[socket.id].wild = playerData.wild;
-
-          // Send the current state of the game (hands and playerStats) to the new player
-          socket.emit('gameStarted', {
-              hands: { [socket.id]: playerStats[socket.id] }, // Fix: proper hands format
-              playerStats, // Send current player stats to the new player
-          });
-
-          console.log(`Player ${socket.id} joined active game ${roomCode}`);
-
-       
-              
-      } else {
-          // If the game hasn't started, emit the joinedRoom event as usual
-          io.to(socket.id).emit('joinedRoom', roomCode);
-      }
-
-      // ✅ FIXED: Only update player list for new joins, not for reconnections (prevents UI churn)
-      if (!isRejoining) {
-        io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
-        console.log(`📡 Updated player list for new player ${playerName} in room ${roomCode}`);
-      } else {
-        console.log(`🔇 Skipped player list broadcast for reconnection of ${playerName} - prevents UI churn`);
-      }
-      
-      // If player was rejoining, send targeted events (NOT room-wide broadcasts)
-      if (isRejoining) {
-        // ✅ FIXED: Send playerReconnected ONLY to the reconnected player (not entire room)
-        io.to(socket.id).emit('playerReconnected', { 
-          playerId: socket.id, 
-          playerName: playerName,
-          allPlayers: rooms[roomCode].players 
-        });
-        
-        // ✅ FIXED: Send updated player stats ONLY to the reconnected player (not entire room)
-        io.to(socket.id).emit('updatePlayerStats', playerStats);
-        console.log(`✅ Sent targeted reconnection data to ${playerName} (${socket.id}) - reconnection complete`);
-        
-        // ✅ REMOVED triggerPersonalRefresh - gameStarted already handles everything needed
-        console.log(`🎯 Reconnection complete for ${playerName} - gameStarted event provides all necessary data`);
-      }
-
-  } else {
-      // If the room doesn't exist, send an error to the player
-      io.to(socket.id).emit('error', 'Room not found');
+  if (!rooms[roomCode]) {
+    console.log(`❌ Room ${roomCode} not found`);
+    socket.emit('error', 'Room not found');
+    return;
   }
-   // Update the hands of all players (including the new player) to ensure everyone is in sync
-// Only proceed if rooms[roomCode] and rooms[roomCode].players are defined
-if (rooms[roomCode]?.players) {
-  rooms[roomCode].players.forEach(player => {
-    const playerHand = playerStats[player.id];
-    io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
-    console.log(`Join hand for player ${player.id}:`, playerHand.standard);
-  });
-} else {
-  console.log(`No players found in room ${roomCode}`);
-}
+
+  console.log(`🎯 Player ${playerName} attempting to join room ${roomCode}`);
+
+  // Check if this socket is already in the room to prevent duplicates
+  const socketAlreadyInRoom = rooms[roomCode].players.find(p => p.id === socket.id);
+  if (socketAlreadyInRoom) {
+    console.log(`Socket ${socket.id} is already in room ${roomCode}, ignoring duplicate join request`);
+    return;
+  }
+
+  // ✅ SIMPLE RECONNECTION: Check if player exists in formerPlayers
+  const formerPlayer = formerPlayers[playerName];
+  if (formerPlayer && formerPlayer.roomCode === roomCode) {
+    console.log(`🔄 RECONNECTING: ${playerName} found in formerPlayers for room ${roomCode}`);
+    
+    // Restore player to active players list
+    const restoredPlayer = { id: socket.id, name: playerName, disconnected: false };
+    rooms[roomCode].players.push(restoredPlayer);
+    
+    // Restore their game data
+    playerStats[socket.id] = {
+      totalDrinks: formerPlayer.totalDrinks || 0,
+      totalShotguns: formerPlayer.totalShotguns || 0,
+      standard: formerPlayer.standard || [],
+      wild: formerPlayer.wild || []
+    };
+    
+    // Clean up formerPlayers
+    delete formerPlayers[playerName];
+    console.log(`✅ Restored ${playerName} with data:`, playerStats[socket.id]);
+    
+    // Join the socket to the room
+    socket.join(roomCode);
+    
+    // Send game state directly
+    if (rooms[roomCode].gameStarted) {
+      socket.emit('gameStarted', {
+        hands: { [socket.id]: playerStats[socket.id] },
+        playerStats: playerStats
+      });
+      console.log(`📡 Sent gameStarted to reconnected player ${playerName}`);
+    } else {
+      socket.emit('joinedRoom', roomCode);
+      socket.emit('updatePlayers', rooms[roomCode].players);
+      console.log(`📡 Sent lobby state to reconnected player ${playerName}`);
+    }
+    return;
+  }
+
+  // ✅ NEW PLAYER: Check if name is already taken by active player
+  const existingActivePlayer = rooms[roomCode].players.find(p => p.name === playerName && !p.disconnected);
+  if (existingActivePlayer) {
+    console.log(`❌ Player name "${playerName}" is already taken by an active player`);
+    socket.emit('error', `Player name "${playerName}" is already taken. Please choose a different name.`);
+    return;
+  }
+  // ✅ NEW PLAYER: Handle as normal new player
+  console.log(`🆕 NEW PLAYER: ${playerName} joining room ${roomCode}`);
+  
+  // Add to players list
+  rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
+  
+  // Initialize player stats
+  playerStats[socket.id] = { 
+    id: socket.id, 
+    name: playerName, 
+    totalDrinks: 0, 
+    totalShotguns: 0, 
+    standard: [], 
+    wild: [] 
+  };
+  
+  // Join socket to room
+  socket.join(roomCode);
+  
+  // Handle game state
+  if (rooms[roomCode].gameStarted) {
+    // Game in progress - deal cards
+    const room = rooms[roomCode];
+    const { standardDeck, wildDeck } = room.deck;
+    
+    playerStats[socket.id].standard = standardDeck.splice(0, 5);
+    playerStats[socket.id].wild = wildDeck.splice(0, 2);
+    
+    socket.emit('gameStarted', {
+      hands: { [socket.id]: playerStats[socket.id] },
+      playerStats: playerStats
+    });
+    console.log(`📡 Sent gameStarted to new player ${playerName}`);
+  } else {
+    // Lobby - send lobby state
+    socket.emit('joinedRoom', roomCode);
+    io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
+    console.log(`📡 Sent lobby state to new player ${playerName}`);
+  }
 }
 
 // Regular Join Room event (calls the extracted function)
