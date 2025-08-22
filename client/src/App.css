@@ -596,16 +596,16 @@ input:focus {
   }
   
   .game-header {
-    padding: 3px 4px;
+    padding: 2px 3px;
   }
   
   .game-title {
-    font-size: 0.7rem;
+    font-size: 0.5rem;
   }
   
   .quarter-display {
-    font-size: 0.6rem;
-    padding: 2px 4px;
+    font-size: 0.45rem;
+    padding: 1px 3px;
   }
   
   .players-section {
@@ -686,16 +686,16 @@ input:focus {
   }
   
   .game-header {
-    padding: 2px 3px;
+    padding: 1px 2px;
   }
   
   .game-title {
-    font-size: 0.6rem;
+    font-size: 0.45rem;
   }
   
   .quarter-display {
-    font-size: 0.5rem;
-    padding: 1px 3px;
+    font-size: 0.4rem;
+    padding: 1px 2px;
   }
   
   .cards-row {
