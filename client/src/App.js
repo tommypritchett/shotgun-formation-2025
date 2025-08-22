@@ -1254,7 +1254,10 @@ useEffect(() => {
     });
 
     socket.on('updatePlayers', (playersList) => {
+      console.log('👥 DEBUG: Received updatePlayers event with:', playersList);
+      console.log('👥 DEBUG: Current players before update:', players);
       setPlayers(playersList);
+      console.log('👥 DEBUG: Players updated successfully');
     });
 
     socket.on('gameStarted', ({ hands, playerStats }) => {

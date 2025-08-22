@@ -305,6 +305,11 @@ function handleJoinRoom(socket, roomCode, playerName) {
         hands: { [socket.id]: handData },
         playerStats: playerStats
       });
+      
+      // ✅ FIX: Send complete players list so reconnected player sees everyone
+      socket.emit('updatePlayers', rooms[roomCode].players);
+      console.log(`📡 Sent complete players list to reconnected player ${playerName}`);
+      
       console.log(`📡 Sent gameStarted to reconnected player ${playerName} with socket ${socket.id}`);
     } else {
       socket.emit('joinedRoom', roomCode);
@@ -350,9 +355,17 @@ function handleJoinRoom(socket, roomCode, playerName) {
     playerStats[socket.id].wild = wildDeck.splice(0, 2);
     
     socket.emit('gameStarted', {
-      hands: { [socket.id]: playerStats[socket.id] },
+      hands: { [socket.id]: {
+        standard: playerStats[socket.id].standard,
+        wild: playerStats[socket.id].wild
+      }},
       playerStats: playerStats
     });
+    
+    // ✅ FIX: Send complete players list so new player sees everyone
+    socket.emit('updatePlayers', room.players);
+    console.log(`📡 Sent complete players list to new player ${playerName}`);
+    
     console.log(`📡 Sent gameStarted to new player ${playerName}`);
   } else {
     // Lobby - send lobby state
@@ -967,6 +980,11 @@ socket.on('requestGameState', ({ roomCode }) => {
         }},
         playerStats: playerStats
       });
+      
+      // ✅ FIX: Send complete players list so reconnected player sees everyone
+      socket.emit('updatePlayers', room.players);
+      console.log(`📡 Sent complete players list to reconnected player ${player.name}`);
+      
       console.log(`📡 Sent direct game state to player ${player.name} (${socket.id})`);
     } else {
       socket.emit('joinedRoom', roomCode);
@@ -1005,6 +1023,11 @@ socket.on('requestGameState', ({ roomCode }) => {
           }},
           playerStats: playerStats
         });
+        
+        // ✅ FIX: Send complete players list so reconnected player sees everyone
+        socket.emit('updatePlayers', room.players);
+        console.log(`📡 Sent complete players list to reconnected player ${possibleFormerPlayers[0].name}`);
+        
         console.log(`📡 Sent direct game state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
       } else {
         socket.emit('joinedRoom', roomCode);
