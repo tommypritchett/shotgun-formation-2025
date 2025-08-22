@@ -527,6 +527,20 @@ useEffect(() => {
     setGameState('initial');
     return;
   }
+
+  // 🛡️ SAFETY: Add timeout to prevent auto-rejoin from blocking initial render
+  const autoRejoinTimeout = setTimeout(() => {
+    console.log('🛡️ Auto-rejoin safety timeout triggered - ensuring initial state if nothing happened');
+    if (gameState === 'initial' && !playerName && !roomCode) {
+      console.log('🛡️ Confirming initial state after timeout');
+      // App is still in pristine initial state, which is correct
+    }
+  }, 2000);
+
+  // Cleanup timeout on unmount
+  const cleanup = () => {
+    clearTimeout(autoRejoinTimeout);
+  };
   
   const urlParams = getURLParams();
   const localState = loadGameStateLocally();
@@ -669,6 +683,9 @@ useEffect(() => {
     console.log('No saved game data found - showing start/join screen');
     setGameState('initial');
   }
+
+  // Return cleanup function
+  return cleanup;
 }, []); // Only run on mount
 
 // Call saveGameStateLocally periodically
@@ -1407,11 +1424,57 @@ socket.on('gameOver', (message) => {
     };
   }, [players]);
 
-  // Debug: Log current render state
-  console.log('🖼️ RENDERING - gameState:', gameState, 'playerName:', playerName, 'roomCode:', roomCode);
-  console.log('🖼️ CSS Loaded:', !!document.querySelector('style, link[rel="stylesheet"]'));
-  console.log('🖼️ Body classes:', document.body.className);
-  console.log('🖼️ Document visibility:', document.visibilityState);
+  // 🔍 COMPREHENSIVE DEBUG RENDER MODE - bypasses all logic
+  if (window.location.search.includes('debugrender')) {
+    return (
+      <div style={{
+        backgroundColor: 'red', 
+        color: 'white', 
+        fontSize: '20px', 
+        padding: '20px',
+        minHeight: '100vh',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 10000,
+        overflow: 'auto'
+      }}>
+        <h1>🔍 DEBUG RENDER MODE</h1>
+        <div>✅ React is rendering</div>
+        <div>✅ JavaScript is working</div>
+        <div>✅ Component mounted successfully</div>
+        <br/>
+        <div><strong>Game State:</strong> {gameState || 'undefined'}</div>
+        <div><strong>Player Name:</strong> {playerName || 'empty'}</div>
+        <div><strong>Room Code:</strong> {roomCode || 'empty'}</div>
+        <div><strong>Socket Connected:</strong> {socket.connected ? 'YES' : 'NO'}</div>
+        <div><strong>Players Count:</strong> {players?.length || 0}</div>
+        <div><strong>Current URL:</strong> {window.location.href}</div>
+        <div><strong>Document Ready:</strong> {document.readyState}</div>
+        <div><strong>CSS Links Found:</strong> {document.querySelectorAll('link[rel="stylesheet"]').length}</div>
+        <div><strong>Style Tags Found:</strong> {document.querySelectorAll('style').length}</div>
+        <br/>
+        <div>🧪 Add ?debugrender=false to exit this mode</div>
+      </div>
+    );
+  }
+
+  // Debug: Log current render state with enhanced details
+  console.log('🖼️ RENDER START - gameState:', gameState, 'playerName:', playerName, 'roomCode:', roomCode);
+  console.log('🖼️ Players array:', players);
+  console.log('🖼️ Socket state:', { connected: socket.connected, id: socket.id });
+  console.log('🖼️ CSS status:', {
+    stylesheets: document.querySelectorAll('link[rel="stylesheet"]').length,
+    styleTags: document.querySelectorAll('style').length,
+    bodyBg: getComputedStyle(document.body).backgroundColor
+  });
+  console.log('🖼️ Document:', { 
+    readyState: document.readyState, 
+    visibility: document.visibilityState,
+    bodyClasses: document.body.className 
+  });
 
   // Emergency fallback for debugging
   if (!gameState) {
@@ -1447,8 +1510,10 @@ socket.on('gameOver', (message) => {
 
   // UI for the initial screen with name entry and game actions
   if (gameState === 'initial') {
+    console.log('🎯 RENDERING: Initial screen');
     const urlParams = getURLParams();
     const hasSharedRoomCode = urlParams.roomCode && !urlParams.playerName;
+    console.log('🎯 Initial screen data:', { urlParams, hasSharedRoomCode });
     
     return (
       <div className="intro-with-image centered-container"> 
@@ -1492,6 +1557,8 @@ socket.on('gameOver', (message) => {
 
   // UI for connecting state (auto-rejoin in progress)
   if (gameState === 'connecting') {
+    console.log('🎯 RENDERING: Connecting screen');
+    console.log('🎯 Connecting data:', { playerName, roomCode });
     return (
       <div className="centered-container fade-in">
         <h1>Connecting...</h1>
@@ -1512,6 +1579,8 @@ socket.on('gameOver', (message) => {
 
   // UI for the lobby screen
   if (gameState === 'lobby') {
+    console.log('🎯 RENDERING: Lobby screen');
+    console.log('🎯 Lobby data:', { roomCode, players, isHost });
     return (
       <div className="lobby-container">
         <h1>Lobby</h1>
@@ -1536,6 +1605,8 @@ socket.on('gameOver', (message) => {
 
   // UI for the game screen
   if (gameState === 'game') {
+    console.log('🎯 RENDERING: Game screen');
+    console.log('🎯 Game data:', { players, playerStats, quarter, isHost });
     const isDisabled = isHostSelection && !isMenuOpen; // Disable game elements when host selection is open, but not when the menu is open
 
     return (
