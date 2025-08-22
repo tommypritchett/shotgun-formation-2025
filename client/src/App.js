@@ -1355,7 +1355,17 @@ useEffect(() => {
     });
 
     // Handle personal refresh signal from server (ONLY for this specific player)
-    // Removed triggerPersonalRefresh handler - was causing infinite refresh loops
+    socket.on('triggerPersonalRefresh', ({ message, playerId, playerName: reconnectedPlayerName }) => {
+      console.log(`🔄 REFRESH SIGNAL RECEIVED: ${message}`);
+      console.log(`🎯 This refresh is for player: ${reconnectedPlayerName} (${playerId})`);
+      console.log(`⏰ Will refresh in 1.5 seconds...`);
+      
+      // Add a small delay to ensure all reconnection data is processed
+      setTimeout(() => {
+        console.log(`🔄 REFRESHING DEVICE FOR PLAYER: ${reconnectedPlayerName} - Executing window.location.reload()`);
+        window.location.reload();
+      }, 1500); // 1.5 second delay to let all game state updates complete
+    });
 
 // Handle when a player leaves during the game (old event, kept for compatibility)
 socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
@@ -1393,7 +1403,7 @@ socket.on('gameOver', (message) => {
       socket.off('playerDisconnected');
       socket.off('playerReconnected');
       socket.off('updatePlayerStats');
-      // Removed triggerPersonalRefresh cleanup - handler removed
+      socket.off('triggerPersonalRefresh');
     };
   }, [players]);
 

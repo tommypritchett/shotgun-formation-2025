@@ -394,6 +394,16 @@ function handleJoinRoom(socket, roomCode, playerName) {
         // Broadcast updated player stats to all players in the room
         io.to(roomCode).emit('updatePlayerStats', playerStats);
         console.log(`Notified room ${roomCode} about ${playerName} reconnection and updated stats`);
+        
+        // 🔄 CRITICAL: Send personal refresh signal to the reconnected player to sync their UI
+        setTimeout(() => {
+          console.log(`🔄 SENDING PERSONAL REFRESH to ${playerName} (${socket.id}) in room ${roomCode}`);
+          io.to(socket.id).emit('triggerPersonalRefresh', {
+            message: `Personal refresh for ${playerName} after successful reconnection`,
+            playerId: socket.id,
+            playerName: playerName
+          });
+        }, 500); // Small delay to ensure all other reconnection events are processed first
       }
 
   } else {
