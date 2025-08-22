@@ -381,21 +381,28 @@ function handleJoinRoom(socket, roomCode, playerName) {
           io.to(socket.id).emit('joinedRoom', roomCode);
       }
 
-      // Notify all players about the updated player list
-      io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
+      // ✅ FIXED: Only update player list for new joins, not for reconnections (prevents UI churn)
+      if (!isRejoining) {
+        io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
+        console.log(`📡 Updated player list for new player ${playerName} in room ${roomCode}`);
+      } else {
+        console.log(`🔇 Skipped player list broadcast for reconnection of ${playerName} - prevents UI churn`);
+      }
       
-      // If player was rejoining, notify about successful reconnection
+      // If player was rejoining, send targeted events (NOT room-wide broadcasts)
       if (isRejoining) {
-        io.to(roomCode).emit('playerReconnected', { 
+        // ✅ FIXED: Send playerReconnected ONLY to the reconnected player (not entire room)
+        io.to(socket.id).emit('playerReconnected', { 
           playerId: socket.id, 
           playerName: playerName,
           allPlayers: rooms[roomCode].players 
         });
-        // Broadcast updated player stats to all players in the room
-        io.to(roomCode).emit('updatePlayerStats', playerStats);
-        console.log(`Notified room ${roomCode} about ${playerName} reconnection and updated stats`);
         
-        // 🔄 CRITICAL: Send personal refresh signal to the reconnected player to sync their UI
+        // ✅ FIXED: Send updated player stats ONLY to the reconnected player (not entire room)
+        io.to(socket.id).emit('updatePlayerStats', playerStats);
+        console.log(`✅ Sent targeted reconnection data to ${playerName} (${socket.id}) - no room broadcast`);
+        
+        // 🔄 Send personal refresh signal to the reconnected player to sync their UI
         setTimeout(() => {
           console.log(`🔄 SENDING PERSONAL REFRESH to ${playerName} (${socket.id}) in room ${roomCode}`);
           io.to(socket.id).emit('triggerPersonalRefresh', {
@@ -1214,26 +1221,18 @@ socket.on('disconnect', (reason) => {
               const activePlayersForHost = players.filter(p => !p.disconnected);
               if (activePlayersForHost.length > 0) {
                 room.host = activePlayersForHost[0].id; // Assign the first active player as the new host
-                io.to(roomCode).emit('playerDisconnected', { 
-                  playerId: socket.id, 
-                  playerName: leavingPlayer.name,
-                  remainingPlayers: players.filter(p => !p.disconnected),
-                  allPlayers: players 
-                });
+                
+                // ✅ FIXED: Only send lightweight notification about disconnection (not full state updates)
+                console.log(`📡 Host ${leavingPlayer.name} disconnected, new host assigned to ${room.host}`);
                 io.to(roomCode).emit('newHost', { newHostId: room.host, message: 'The host has disconnected. A new host has been assigned.' });
               } else {
                 // If no active players are left, keep room alive but notify
                 io.to(roomCode).emit('gameOver', 'All players have disconnected. Game will remain open for reconnections.');
               }
             } else {
-              // If a non-host player disconnects during the game, update the game state
-              io.to(roomCode).emit('playerDisconnected', { 
-                playerId: socket.id, 
-                playerName: leavingPlayer.name,
-                remainingPlayers: players.filter(p => !p.disconnected),
-                allPlayers: players 
-              });
-              console.log(`Player ${socket.id} disconnected from game in progress.`);
+              // ✅ FIXED: If a non-host player disconnects, minimal notification (no heavy state updates)
+              console.log(`📡 Non-host player ${leavingPlayer.name} (${socket.id}) disconnected from game in progress.`);
+              // Don't broadcast playerDisconnected - causes unnecessary UI churn for other players
             }
           }
 
