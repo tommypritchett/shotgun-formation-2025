@@ -540,7 +540,9 @@ useEffect(() => {
   
   // PRIORITY 1: Always check URL params first (highest priority) - NO MORE FORCED REFRESH
   if (urlParams.roomCode && urlParams.playerName && !rejoinAttempted) {
-    console.log('Device connected with URL params - attempting direct rejoin:', urlParams);
+    console.log('🔄 DEBUG: Device connected with URL params - attempting direct rejoin:', urlParams);
+    console.log('🔄 DEBUG: Socket ID at rejoin start:', socket.id);
+    console.log('🔄 DEBUG: rejoinAttempted flag:', rejoinAttempted);
     setPlayerName(urlParams.playerName);
     setRoomCode(urlParams.roomCode);
     setGameState('connecting');
@@ -551,12 +553,14 @@ useEffect(() => {
       console.log('Direct rejoin: checking socket connection...');
       
       if (socket.connected) {
-        console.log('Socket connected - validating game and rejoining');
+        console.log('🔄 DEBUG: Socket connected - validating game and rejoining');
+        console.log('🔄 DEBUG: Socket ID before validateAndJoinRoom:', socket.id);
         socket.emit('validateAndJoinRoom', urlParams.roomCode, urlParams.playerName);
       } else {
-        console.log('Socket not connected - waiting for connection...');
+        console.log('🔄 DEBUG: Socket not connected - waiting for connection...');
         socket.once('connect', () => {
-          console.log('Socket connected after wait - validating game and rejoining');
+          console.log('🔄 DEBUG: Socket connected after wait - validating game and rejoining');
+          console.log('🔄 DEBUG: Socket ID after connect:', socket.id);
           socket.emit('validateAndJoinRoom', urlParams.roomCode, urlParams.playerName);
         });
       }
@@ -683,6 +687,13 @@ useEffect(() => {
     return () => clearInterval(saveInterval);
   }
 }, [gameState, players, playerStats, roomCode, quarter]);
+
+// ✅ DEBUG: Track main event handler setup timing
+useEffect(() => {
+  console.log('🔧 DEBUG: Main event handlers useEffect starting - setting up gameStarted handler');
+  console.log('🔧 DEBUG: Socket connected status:', socket.connected);
+  console.log('🔧 DEBUG: Current socket ID:', socket.id);
+}, []);
 
 // Enhanced connection monitoring with network change detection
 useEffect(() => {
@@ -902,11 +913,45 @@ useEffect(() => {
   };
 }, []);
 
+// ✅ DEBUG: Add universal event listener to catch ALL socket events
+useEffect(() => {
+  const originalOn = socket.on.bind(socket);
+  const originalEmit = socket.emit.bind(socket);
+  
+  // Override socket.on to log all event registrations
+  socket.on = function(event, handler) {
+    console.log(`🔧 DEBUG: Registering event handler for: ${event}`);
+    return originalOn(event, handler);
+  };
+  
+  // Override socket.emit to log all outgoing events
+  socket.emit = function(event, ...args) {
+    console.log(`📤 DEBUG: Emitting event: ${event}`, args);
+    return originalEmit(event, ...args);
+  };
+  
+  // Listen for ALL incoming events
+  const originalOnevent = socket.onevent;
+  socket.onevent = function(packet) {
+    console.log(`📥 DEBUG: Received socket event: ${packet.data[0]}`, packet.data.slice(1));
+    return originalOnevent.call(this, packet);
+  };
+  
+  return () => {
+    socket.on = originalOn;
+    socket.emit = originalEmit;
+    socket.onevent = originalOnevent;
+  };
+}, []);
+
 // Add this to your App.js, replacing your current socket event listeners
 useEffect(() => {
   // Connection events
   const handleConnect = () => {
-    console.log('Connected to server:', socket.id);
+    console.log('🔌 DEBUG: Connected to server:', socket.id);
+    console.log('🔌 DEBUG: Game state on connect:', gameState);
+    console.log('🔌 DEBUG: Room code on connect:', roomCode);
+    console.log('🔌 DEBUG: Player name on connect:', playerName);
     
     // If we're in a game, request the current state
     if (gameState === 'game' && roomCode) {
@@ -1214,9 +1259,11 @@ useEffect(() => {
 
     socket.on('gameStarted', ({ hands, playerStats }) => {
       console.log('🎮 GAME STARTED EVENT RECEIVED:', { hands, playerStats });
+      console.log('🔌 DEBUG: Current socket ID when receiving gameStarted:', socket.id);
+      console.log('🔌 DEBUG: Available hands for socket IDs:', Object.keys(hands));
+      console.log('🔌 DEBUG: Socket ID match check:', hands.hasOwnProperty(socket.id));
       console.log('🎯 Current gameState before update:', gameState);
       console.log('🎯 Current players before update:', players);
-      console.log('🎯 Socket ID:', socket.id);
       console.log('🎯 My hand data:', hands[socket.id]);
       console.log('🔍 DEBUG: hands object structure:', hands);
       console.log('🔍 DEBUG: My hand standard cards:', hands[socket.id]?.standard);

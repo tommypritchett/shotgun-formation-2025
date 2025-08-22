@@ -291,14 +291,21 @@ function handleJoinRoom(socket, roomCode, playerName) {
     // Send game state directly
     if (rooms[roomCode].gameStarted) {
       // ✅ FIX: Send only card data in hands, not full playerStats
+      const handData = {
+        standard: playerStats[socket.id].standard || [],
+        wild: playerStats[socket.id].wild || []
+      };
+      
+      console.log(`🔧 DEBUG: Sending gameStarted to socket ${socket.id} for player ${playerName}`);
+      console.log(`🔧 DEBUG: Hand data being sent:`, handData);
+      console.log(`🔧 DEBUG: Standard cards count:`, handData.standard.length);
+      console.log(`🔧 DEBUG: Wild cards count:`, handData.wild.length);
+      
       socket.emit('gameStarted', {
-        hands: { [socket.id]: {
-          standard: playerStats[socket.id].standard || [],
-          wild: playerStats[socket.id].wild || []
-        }},
+        hands: { [socket.id]: handData },
         playerStats: playerStats
       });
-      console.log(`📡 Sent gameStarted to reconnected player ${playerName}`);
+      console.log(`📡 Sent gameStarted to reconnected player ${playerName} with socket ${socket.id}`);
     } else {
       socket.emit('joinedRoom', roomCode);
       socket.emit('updatePlayers', rooms[roomCode].players);
