@@ -35,6 +35,7 @@ const rooms = {};  // Store rooms and players
 const playerStats = {};  // Store drink and shotgun counts for each player
 const roundResults = {};  // Store drink assignments for each round
 const formerPlayers = {};  // Store former players by name when they disconnect
+const usedCards = {};  // Store used cards for each room to enable deck replenishment
 
 
 // Enable CORS for all routes
@@ -213,6 +214,7 @@ io.on('connection', (socket) => {
     const roomCode = generateRoomCode();
     rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false };
     playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
+    usedCards[roomCode] = { standard: [], wild: [] };  // Initialize used cards storage for deck replenishment
         socket.join(roomCode);
     console.log(`Room ${roomCode} created by ${socket.id}`);
     io.to(socket.id).emit('roomCreated', roomCode);
@@ -437,10 +439,12 @@ socket.on('joinRoom', (roomCode, playerName) => {
 
         if (rooms[roomCode].players.length === 0) {
           delete rooms[roomCode];
+          delete usedCards[roomCode];  // Clean up used cards storage
           console.log(`Room ${roomCode} deleted`);
         } else if (rooms[roomCode].host === socket.id) {
           io.to(roomCode).emit('hostLeft', 'The host has left the game. Lobby is closing.');
           delete rooms[roomCode];  // Delete the room when the host leaves
+          delete usedCards[roomCode];  // Clean up used cards storage
           console.log(`Host left. Room ${roomCode} closed.`);
         } else {
           io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
@@ -567,12 +571,18 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
 
     if (cardIndex === -1) return;  // If card not found, do nothing
 
+    // Store the discarded wild card 
+    if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
+    usedCards[roomCode].wild.push(discardedCard);
+    
     // Replace the discarded wild card with a new one from the wild deck
     const newWildCard = room.deck.wildDeck.pop();  // Take a new card from the wild deck
     playerHand.wild[cardIndex] = newWildCard;
 
     console.log("New Wild card in", playerHand.wild);
 
+    // Check if deck needs replenishment after card is drawn
+    checkAndReplenishDecks(roomCode);
 
     // Log the wild card swap
     console.log(`Player ${socket.id} swapped wild card ${discardedCard} for ${newWildCard}`);
@@ -708,10 +718,17 @@ socket.on('firstDownEvent', ({ roomCode }) => {
           shotguns,  // Emit the number of shotguns if any
         });
 
+        // Store used cards before removing them
+        if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
+        usedCards[roomCode].standard.push(...playerCards);
+        
         playerHand.standard = playerHand.standard.filter(card => card.card !== cardType);
         const newCards = rooms[roomCode].deck.standardDeck.splice(0, playerCards.length);
         playerHand.standard.push(...newCards);
         console.log(`${player.id} played ${playerCards.length} ${cardType} card(s) and is prompted to give out ${totalDrinksForPlayer} drinks.`);
+        
+        // Check if deck needs replenishment after cards are drawn
+        checkAndReplenishDecks(roomCode);
 
     }
     });
@@ -795,12 +812,19 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
               shotguns,  // Send number of shotguns if any
             });
           
+            // Store used wild cards before removing them
+            if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
+            usedCards[roomCode].wild.push(...playerCards);
+            
             // Update player hand by removing played wild cards and replenishing them
             playerHand.wild = playerHand.wild.filter(card => card.card !== wildcardtype);
             const newCards = rooms[roomCode].deck.wildDeck.splice(0, playerCards.length);
             playerHand.wild.push(...newCards);
           
             console.log(`${currentPlayer.id} played ${playerCards.length} ${wildcardtype} wild card(s) and is prompted to give out ${remainingDrinks} drinks and gives out ${shotguns} shotgun(s).`);
+            
+            // Check if deck needs replenishment after cards are drawn
+            checkAndReplenishDecks(roomCode);
           }
 
             else {
@@ -922,6 +946,7 @@ socket.on('leaveGame', ({ roomCode }) => {
     if (room.players.length === 0) {
         io.to(roomCode).emit('gameOver', 'The game is ending as no player is left.');
         delete rooms[roomCode];  // End the game and delete the room
+        delete usedCards[roomCode];  // Clean up used cards storage
         console.log(`Room ${roomCode} deleted because only one player is left.`);
                  // Emit updated player stats for the round
     io.to(roomCode).emit('updatePlayerStats', {
@@ -945,6 +970,7 @@ socket.on('leaveGame', ({ roomCode }) => {
         // If no players are left, end the game and delete the room
         io.to(roomCode).emit('gameOver', 'The game is ending as all other players have disconnected.');
         delete rooms[roomCode];
+        delete usedCards[roomCode];  // Clean up used cards storage
         console.log(`Room ${roomCode} deleted as no players are left.`);
       }
     } else {
@@ -1182,6 +1208,7 @@ socket.on('disconnect', (reason) => {
     // If the room needs to be deleted
     if (roomToDelete) {
       delete rooms[roomToDelete];
+      delete usedCards[roomToDelete];  // Clean up used cards storage
       console.log(`Room ${roomToDelete} deleted`);
     }
 });
@@ -1196,6 +1223,40 @@ const shuffle = (deck) => {
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
   return deck;
+};
+
+// Check deck sizes and replenish if needed
+const checkAndReplenishDecks = (roomCode) => {
+  const room = rooms[roomCode];
+  if (!room || !room.deck) return;
+  
+  const { standardDeck, wildDeck } = room.deck;
+  const roomUsedCards = usedCards[roomCode] || { standard: [], wild: [] };
+  
+  // Debug: Log current deck sizes
+  console.log(`Room ${roomCode} - Standard deck: ${standardDeck.length} cards, Used: ${roomUsedCards.standard.length} cards`);
+  console.log(`Room ${roomCode} - Wild deck: ${wildDeck.length} cards, Used: ${roomUsedCards.wild.length} cards`);
+  
+  // Check standard deck
+  if (standardDeck.length <= 12 && roomUsedCards.standard.length > 0) {
+    console.log(`🔄 DECK REPLENISHMENT: Standard deck low (${standardDeck.length} cards). Shuffling ${roomUsedCards.standard.length} used cards back in.`);
+    standardDeck.push(...roomUsedCards.standard);
+    shuffle(standardDeck);
+    roomUsedCards.standard = [];
+    console.log(`✅ Standard deck replenished. New size: ${standardDeck.length} cards.`);
+  }
+  
+  // Check wild deck
+  if (wildDeck.length <= 12 && roomUsedCards.wild.length > 0) {
+    console.log(`🔄 DECK REPLENISHMENT: Wild deck low (${wildDeck.length} cards). Shuffling ${roomUsedCards.wild.length} used cards back in.`);
+    wildDeck.push(...roomUsedCards.wild);
+    shuffle(wildDeck);
+    roomUsedCards.wild = [];
+    console.log(`✅ Wild deck replenished. New size: ${wildDeck.length} cards.`);
+  }
+  
+  // Update the used cards storage
+  usedCards[roomCode] = roomUsedCards;
 };
 
 // Generate separate Standard and Wild decks based on the number of players
