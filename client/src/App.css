@@ -756,6 +756,129 @@ input:focus {
   }
 }
 
+/* ==================== BOTTOM BUTTONS ==================== */
+
+.declare-action-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: linear-gradient(145deg, #4CAF50, #2E7D32);
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  max-width: 120px;
+}
+
+.menu-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(145deg, #FF6B35, #E55722);
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  max-width: 120px;
+}
+
+.declare-action-button:hover, .menu-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.menu-modal {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: rgba(0,0,0,0.95);
+  border-radius: 12px;
+  padding: 16px;
+  border: 2px solid rgba(255, 107, 53, 0.5);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+  z-index: 1000;
+}
+
+.menu-content h3 {
+  color: #FF6B35;
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.menu-content button {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.share-button {
+  background: linear-gradient(145deg, #2196F3, #1976D2);
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  margin: 8px;
+  max-width: 140px;
+}
+
+.share-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+/* ==================== MOBILE BUTTON ADJUSTMENTS ==================== */
+
+@media (max-width: 480px) {
+  .declare-action-button, .menu-button {
+    padding: 8px 10px;
+    font-size: 12px;
+    max-width: 90px;
+    bottom: 15px;
+  }
+  
+  .declare-action-button {
+    left: 15px;
+  }
+  
+  .menu-button {
+    right: 15px;
+  }
+  
+  .menu-modal {
+    bottom: 65px;
+    right: 15px;
+    padding: 12px;
+  }
+  
+  .menu-content button {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  
+  .share-button {
+    padding: 8px 10px;
+    font-size: 12px;
+    max-width: 100px;
+  }
+}
+
 /* ==================== UTILITY CLASSES ==================== */
 
 .text-shadow {

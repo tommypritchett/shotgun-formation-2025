@@ -103,13 +103,18 @@ const [isHostSelection, setIsHostSelection] = useState(false);
       setErrorMessage('Please enter your name first');
       return;
     }
-    if (!roomCode.trim()) {
+    
+    const urlParams = getURLParams();
+    const currentRoomCode = urlParams.roomCode || roomCode;
+    
+    if (!currentRoomCode.trim()) {
       setErrorMessage('Please enter a room code');
       return;
     }
-    if (roomCode && playerName) {
-      socket.emit('joinRoom', roomCode, playerName);
-      updateURL(roomCode, playerName); // Store in URL for automatic rejoin
+    if (currentRoomCode && playerName) {
+      setRoomCode(currentRoomCode); // Set the room code state
+      socket.emit('joinRoom', currentRoomCode, playerName);
+      updateURL(currentRoomCode, playerName); // Store in URL for automatic rejoin
   
       // Listen for the 'gameStarted' event if the game is already active
       socket.on('gameStarted', ({ hands, playerStats }) => {
@@ -294,6 +299,47 @@ const handleLeaveGame = () => {
 // Function to close the menu (X button)
 const closeMenu = () => {
   setIsMenuOpen(false);
+};
+
+const handleShareGame = () => {
+  const gameUrl = `${window.location.origin}?room=${roomCode}`;
+  const shareText = `Join my Shotgun Formation game! Room Code: ${roomCode}\n\nClick here to join: ${gameUrl}`;
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Shotgun Formation Game',
+      text: shareText,
+      url: gameUrl
+    }).catch(err => console.log('Error sharing:', err));
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareText).then(() => {
+      alert('Game link copied to clipboard!');
+    }).catch(err => {
+      console.log('Error copying to clipboard:', err);
+      fallbackCopyTextToClipboard(shareText);
+    });
+  } else {
+    fallbackCopyTextToClipboard(shareText);
+  }
+  setIsMenuOpen(false);
+};
+
+const fallbackCopyTextToClipboard = (text) => {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    alert('Game link copied to clipboard!');
+  } catch (err) {
+    alert(`Share this game link: ${text}`);
+  }
+  document.body.removeChild(textArea);
 };
 
 
@@ -1224,6 +1270,9 @@ socket.on('gameOver', (message) => {
 
   // UI for the initial screen with name entry and game actions
   if (gameState === 'initial') {
+    const urlParams = getURLParams();
+    const hasSharedRoomCode = urlParams.roomCode && !urlParams.playerName;
+    
     return (
       <div className="intro-with-image centered-container"> 
         <h1>ShotGun Formation</h1>
@@ -1241,19 +1290,22 @@ socket.on('gameOver', (message) => {
         />
         
         {/* Game Actions */}
-        <button onClick={startGame}>Start a Lobby</button>
+        {!hasSharedRoomCode && <button onClick={startGame}>Start a Lobby</button>}
         
         <div style={{marginTop: '20px'}}>
           <input
             type="text"
             placeholder="Enter room code"
-            value={roomCode}
+            value={hasSharedRoomCode ? urlParams.roomCode : roomCode}
             onChange={(e) => {
               setRoomCode(e.target.value);
               setErrorMessage(''); // Clear error when user types
             }}
+            readOnly={hasSharedRoomCode}
           />
-          <button onClick={joinGame}>Join Game</button>
+          <button onClick={joinGame}>
+            {hasSharedRoomCode ? 'Join Shared Game' : 'Join Game'}
+          </button>
         </div>
         
         {errorMessage && <p style={{color: '#ff6666', marginTop: '10px'}}>{errorMessage}</p>}
@@ -1293,6 +1345,7 @@ socket.on('gameOver', (message) => {
         {isHost && players.length >= 3 && (
           <button onClick={startTheGame}>Start Game</button>
         )}
+        <button className="share-button" onClick={handleShareGame}>Share Game</button>
         <button onClick={leaveLobby}>Leave Lobby</button>
       </div>
     );
@@ -1538,11 +1591,9 @@ socket.on('gameOver', (message) => {
 
 {/* Declare Action Button for Host */}
 {isHost && (
-  <div style={{ position: 'fixed', bottom: '20px', left: '20px' }}>
-    <button className="action-button" onClick={handleDeclareAction}>
-      Declare Action
-    </button>
-  </div>
+  <button className="declare-action-button" onClick={handleDeclareAction}>
+    Declare Action
+  </button>
 )}
 {isActionModalOpen && (
   <div className="modal-overlay">
@@ -1559,22 +1610,21 @@ socket.on('gameOver', (message) => {
   </div>
 )}
         {/* Menu Button in the bottom right */}
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
-          <button onClick={toggleMenu}>Menu</button>
+        <button className="menu-button" onClick={toggleMenu}>Menu</button>
 
-          {isMenuOpen && (
-            <div className="menu-modal">
-              <div className="menu-content">
-                <h3>Game Menu</h3>
-                <button onClick={handleLeaveGame}>Leave Game</button>
-                {isHost && <button onClick={handleHostSwap}>Swap Host</button>}
-                {isHost && <button onClick={handleNextQuarter}>Next QTR</button>}
-                <button onClick={handleShowInstructions}>Instructions</button>
-                <button onClick={closeMenu}>Close</button>
-              </div>
+        {isMenuOpen && (
+          <div className="menu-modal">
+            <div className="menu-content">
+              <h3>Game Menu</h3>
+              <button onClick={handleShareGame}>Share Game</button>
+              <button onClick={handleLeaveGame}>Leave Game</button>
+              {isHost && <button onClick={handleHostSwap}>Swap Host</button>}
+              {isHost && <button onClick={handleNextQuarter}>Next QTR</button>}
+              <button onClick={handleShowInstructions}>Instructions</button>
+              <button onClick={closeMenu}>Close</button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Show host selection modal if in progress */}
         {!isDisabled && isHostSelection && (
