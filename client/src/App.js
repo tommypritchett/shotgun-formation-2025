@@ -1232,6 +1232,9 @@ useEffect(() => {
       console.log('🎯 Current players before update:', players);
       console.log('🎯 Socket ID:', socket.id);
       console.log('🎯 My hand data:', hands[socket.id]);
+      console.log('🔍 DEBUG: hands object structure:', hands);
+      console.log('🔍 DEBUG: My hand standard cards:', hands[socket.id]?.standard);
+      console.log('🔍 DEBUG: My hand wild cards:', hands[socket.id]?.wild);
       
       // Validate hands data
       if (!hands || !hands[socket.id]) {

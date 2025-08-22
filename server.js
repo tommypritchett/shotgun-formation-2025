@@ -257,13 +257,21 @@ function handleJoinRoom(socket, roomCode, playerName) {
   }
 
   // ✅ SIMPLE RECONNECTION: Check if player exists in formerPlayers
+  console.log(`🔍 DEBUG: Checking formerPlayers for ${playerName}:`);
+  console.log(`🔍 DEBUG: formerPlayers keys:`, Object.keys(formerPlayers));
+  console.log(`🔍 DEBUG: formerPlayer data:`, formerPlayers[playerName]);
+  
   const formerPlayer = formerPlayers[playerName];
   if (formerPlayer && formerPlayer.roomCode === roomCode) {
     console.log(`🔄 RECONNECTING: ${playerName} found in formerPlayers for room ${roomCode}`);
     
+    // ✅ FIX: Remove any existing player entries with same name before adding
+    rooms[roomCode].players = rooms[roomCode].players.filter(p => p.name !== playerName);
+    
     // Restore player to active players list
     const restoredPlayer = { id: socket.id, name: playerName, disconnected: false };
     rooms[roomCode].players.push(restoredPlayer);
+    console.log(`🔄 Removed old entries and added player ${playerName} with new socket ${socket.id}`);
     
     // Restore their game data
     playerStats[socket.id] = {
@@ -282,8 +290,12 @@ function handleJoinRoom(socket, roomCode, playerName) {
     
     // Send game state directly
     if (rooms[roomCode].gameStarted) {
+      // ✅ FIX: Send only card data in hands, not full playerStats
       socket.emit('gameStarted', {
-        hands: { [socket.id]: playerStats[socket.id] },
+        hands: { [socket.id]: {
+          standard: playerStats[socket.id].standard || [],
+          wild: playerStats[socket.id].wild || []
+        }},
         playerStats: playerStats
       });
       console.log(`📡 Sent gameStarted to reconnected player ${playerName}`);
@@ -940,8 +952,12 @@ socket.on('requestGameState', ({ roomCode }) => {
     // Send game state directly without refresh signal to prevent infinite loops
     const room = rooms[roomCode];
     if (room && room.gameStarted) {
+      // ✅ FIX: Send only card data in hands, not full playerStats
       socket.emit('gameStarted', {
-        hands: { [socket.id]: playerStats[socket.id] },
+        hands: { [socket.id]: {
+          standard: playerStats[socket.id]?.standard || [],
+          wild: playerStats[socket.id]?.wild || []
+        }},
         playerStats: playerStats
       });
       console.log(`📡 Sent direct game state to player ${player.name} (${socket.id})`);
@@ -974,8 +990,12 @@ socket.on('requestGameState', ({ roomCode }) => {
       
       // Send game state directly to reconnected player without refresh signal
       if (room.gameStarted) {
+        // ✅ FIX: Send only card data in hands, not full playerStats
         socket.emit('gameStarted', {
-          hands: { [socket.id]: playerStats[socket.id] },
+          hands: { [socket.id]: {
+            standard: playerStats[socket.id]?.standard || [],
+            wild: playerStats[socket.id]?.wild || []
+          }},
           playerStats: playerStats
         });
         console.log(`📡 Sent direct game state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
