@@ -1271,6 +1271,17 @@ useEffect(() => {
           };
         }
         
+        // ✅ FIX: Check for pending cards from gameStarted event
+        if (window.pendingPlayerCards && window.pendingPlayerCards[serverPlayer.id]) {
+          console.log(`👥 DEBUG: Adding pending cards for player ${serverPlayer.name}`);
+          const cardsForPlayer = window.pendingPlayerCards[serverPlayer.id];
+          delete window.pendingPlayerCards[serverPlayer.id]; // Clean up
+          return {
+            ...serverPlayer,
+            cards: cardsForPlayer
+          };
+        }
+        
         // New player or player without cards - use server data as-is
         return serverPlayer;
       });
@@ -1304,15 +1315,12 @@ useEffect(() => {
       console.log('🔧 DEBUG: Available hands for socket IDs:', Object.keys(hands));
       
       if (players.length === 0) {
-        console.log('🔧 DEBUG: Players array is empty - creating player entry for reconnection');
-        // Create player entry if array is empty (common on reconnection)
-        const newPlayer = {
-          id: socket.id,
-          name: playerName,
-          cards: hands[socket.id]
+        console.log('🔧 DEBUG: Players array is empty - will wait for updatePlayers to create proper entry');
+        // ✅ FIX: Store cards in temporary state for updatePlayers to use
+        window.pendingPlayerCards = {
+          [socket.id]: hands[socket.id]
         };
-        setPlayers([newPlayer]);
-        console.log('🎯 Created player entry for reconnected player');
+        console.log('🎯 Stored cards for upcoming updatePlayers event');
       } else {
         console.log('🔧 DEBUG: Updating existing players array with cards');
         setPlayers(players.map(player => ({
