@@ -879,6 +879,66 @@ input:focus {
   }
 }
 
+/* ==================== HOST SELECTION MODAL ==================== */
+
+.host-selection-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid rgba(255, 107, 53, 0.5);
+  border-radius: 12px;
+  padding: 20px;
+  z-index: 2000;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.host-selection-modal h3 {
+  color: #FF6B35;
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.host-selection-modal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+
+.host-selection-modal li {
+  margin-bottom: 8px;
+}
+
+.host-selection-modal button {
+  width: 100%;
+  padding: 10px 12px;
+  background: linear-gradient(145deg, #4CAF50, #2E7D32);
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.host-selection-modal button:hover {
+  background: linear-gradient(145deg, #66BB6A, #388E3C);
+  transform: translateY(-1px);
+}
+
+.host-selection-modal .close-button {
+  background: linear-gradient(145deg, #f44336, #d32f2f);
+  margin-top: 8px;
+}
+
+.host-selection-modal .close-button:hover {
+  background: linear-gradient(145deg, #ef5350, #e53935);
+}
+
 /* ==================== UTILITY CLASSES ==================== */
 
 .text-shadow {

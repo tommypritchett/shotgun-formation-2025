@@ -1171,18 +1171,15 @@ useEffect(() => {
     });
 
 
-    // Handle when the host leaves during the game and a new host is assigned
-    socket.off('newHost');
-
-socket.on('newHost', ({ newHostId, message }) => {
-  socket.off('newHost');
-  if (socket.id === newHostId) {
-    setIsHost(true);  // Update the front-end logic to reflect the new host
-
-  }
-  alert(message);  // Display the host change message
-
-});
+    // Handle when a new host is assigned
+    socket.on('newHost', ({ newHostId, message }) => {
+      if (socket.id === newHostId) {
+        setIsHost(true);  // Update the front-end logic to reflect the new host
+      } else {
+        setIsHost(false); // Ensure non-hosts are not hosts
+      }
+      alert(message);  // Display the host change message
+    });
 
     // Handle when a player disconnects during the game
     socket.on('playerDisconnected', ({ playerId, playerName, remainingPlayers, allPlayers }) => {
@@ -1261,6 +1258,7 @@ socket.on('gameOver', (message) => {
       socket.off('updatePlayerStats');
       socket.off('error');
       socket.off('hostLeft');
+      socket.off('newHost');
       socket.off('playerDisconnected');
       socket.off('playerReconnected');
       socket.off('updatePlayerStats');
@@ -1627,7 +1625,7 @@ socket.on('gameOver', (message) => {
         )}
 
         {/* Show host selection modal if in progress */}
-        {!isDisabled && isHostSelection && (
+        {isHostSelection && (
           <div className="host-selection-modal">
             <h3>Select a New Host</h3>
             <ul>
@@ -1639,7 +1637,7 @@ socket.on('gameOver', (message) => {
                 </li>
               ))}
             </ul>
-            <button onClick={closeHostSelection}>Cancel</button>
+            <button className="close-button" onClick={closeHostSelection}>Cancel</button>
           </div>
         )}
 
