@@ -821,26 +821,15 @@ useEffect(() => {
         console.log('🔄 Current game state:', gameState);
         console.log('🔄 Socket connected:', socket.connected);
         console.log('🔄 URL params:', { room: urlParams.get('room'), player: urlParams.get('player') });
-        console.log('🔄 FORCING HARD REFRESH like physical button press...');
+        console.log('🔄 REQUESTING server to force refresh...');
         
-        // ✅ FIX: Force hard refresh like physical button press on mobile
-        try {
-          // Method 1: Force reload with cache bypass (like Ctrl+F5)
-          window.location.reload(true);
-        } catch (e) {
-          try {
-            // Method 2: Replace current location to force refresh
-            window.location.replace(window.location.href);
-          } catch (e2) {
-            try {
-              // Method 3: Set href to current location
-              window.location.href = window.location.href;
-            } catch (e3) {
-              // Method 4: Last resort - navigate to same URL
-              window.location = window.location;
-            }
-          }
-        }
+        // ✅ FIX: Request server to trigger forceRefresh instead of doing it directly
+        // This prevents infinite loops by letting server control when to refresh
+        socket.emit('requestRefresh', {
+          roomCode: urlParams.get('room'),
+          playerName: urlParams.get('player'),
+          reason: 'Stealth disconnect detected'
+        });
         return;
       }
       

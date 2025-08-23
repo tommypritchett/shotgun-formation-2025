@@ -312,14 +312,8 @@ function handleJoinRoom(socket, roomCode, playerName) {
       
       console.log(`📡 Sent gameStarted to reconnected player ${playerName} with socket ${socket.id}`);
       
-      // ✅ NEW: Force page refresh after successful reconnection to ensure clean UI state
-      setTimeout(() => {
-        socket.emit('forceRefresh', { 
-          reason: 'Successfully reconnected to game - refreshing to ensure clean state',
-          playerName: playerName
-        });
-        console.log(`📡 Sent forceRefresh command to reconnected player ${playerName} (${socket.id})`);
-      }, 1000); // Small delay to ensure all data is sent first
+      // ✅ REMOVED: Auto-refresh after reconnection to prevent infinite loops
+      // Let client-side stealth detection handle refreshes when truly needed
     } else {
       socket.emit('joinedRoom', roomCode);
       socket.emit('updatePlayers', rooms[roomCode].players);
@@ -996,14 +990,8 @@ socket.on('requestGameState', ({ roomCode }) => {
       
       console.log(`📡 Sent direct game state to player ${player.name} (${socket.id})`);
       
-      // ✅ NEW: Force page refresh after successful reconnection to ensure clean UI state
-      setTimeout(() => {
-        socket.emit('forceRefresh', { 
-          reason: 'Successfully reconnected to game - refreshing to ensure clean state',
-          playerName: player.name
-        });
-        console.log(`📡 Sent forceRefresh command to reconnected player ${player.name} (${socket.id})`);
-      }, 1000); // Small delay to ensure all data is sent first
+      // ✅ REMOVED: Auto-refresh after reconnection to prevent infinite loops
+      // Let client-side stealth detection handle refreshes when truly needed
     } else {
       socket.emit('joinedRoom', roomCode);
       console.log(`📡 Sent lobby state to player ${player.name} (${socket.id})`);
@@ -1048,14 +1036,8 @@ socket.on('requestGameState', ({ roomCode }) => {
         
         console.log(`📡 Sent direct game state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
         
-        // ✅ NEW: Force page refresh after successful reconnection to ensure clean UI state
-        setTimeout(() => {
-          socket.emit('forceRefresh', { 
-            reason: 'Successfully reconnected to game - refreshing to ensure clean state',
-            playerName: possibleFormerPlayers[0].name
-          });
-          console.log(`📡 Sent forceRefresh command to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
-        }, 1000); // Small delay to ensure all data is sent first
+        // ✅ REMOVED: Auto-refresh after reconnection to prevent infinite loops
+        // Let client-side stealth detection handle refreshes when truly needed
       } else {
         socket.emit('joinedRoom', roomCode);
         console.log(`📡 Sent lobby state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
@@ -1210,6 +1192,43 @@ socket.on('disconnect', (reason) => {
       delete usedCards[roomToDelete];  // Clean up used cards storage
       console.log(`Room ${roomToDelete} deleted`);
     }
+});
+
+// ✅ NEW: Handle client requests for forced refresh (prevents infinite loops)
+const refreshCooldowns = new Map(); // Track recent refresh requests
+
+socket.on('requestRefresh', ({ roomCode, playerName, reason }) => {
+  console.log(`🔄 Client ${playerName} (${socket.id}) requesting refresh: ${reason}`);
+  
+  // Check cooldown to prevent loops (1 refresh per 5 seconds per player)
+  const cooldownKey = `${roomCode}-${playerName}`;
+  const now = Date.now();
+  const lastRefresh = refreshCooldowns.get(cooldownKey);
+  
+  if (lastRefresh && (now - lastRefresh) < 5000) {
+    console.log(`⏳ Refresh cooldown active for ${playerName}, ignoring request`);
+    return;
+  }
+  
+  // Set cooldown
+  refreshCooldowns.set(cooldownKey, now);
+  
+  // Send the forceRefresh event
+  socket.emit('forceRefresh', { 
+    reason: `Client requested: ${reason}`,
+    playerName: playerName
+  });
+  console.log(`📡 Sent forceRefresh command to ${playerName} (${socket.id}) due to: ${reason}`);
+  
+  // Clean up old cooldown entries (every 10 requests)
+  if (refreshCooldowns.size > 10) {
+    const tenSecondsAgo = now - 10000;
+    for (const [key, timestamp] of refreshCooldowns.entries()) {
+      if (timestamp < tenSecondsAgo) {
+        refreshCooldowns.delete(key);
+      }
+    }
+  }
 });
 
 });
