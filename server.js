@@ -369,6 +369,18 @@ function handleJoinRoom(socket, roomCode, playerName) {
     socket.emit('updatePlayers', room.players);
     console.log(`📡 Sent complete players list to new player ${playerName}`);
     
+    // ✅ NEW: Notify ALL players in the room about the new player joining
+    socket.to(roomCode).emit('updatePlayers', room.players);
+    console.log(`📡 Notified all existing players about new player ${playerName} joining`);
+    
+    // ✅ NEW: Update all players' playerStats to include the new player
+    io.to(roomCode).emit('updatePlayerStats', {
+      players: playerStats,
+      roundResults: roundResults[roomCode] || {},
+      allPlayers: room.players
+    });
+    console.log(`📡 Sent updated player stats to all players including new player ${playerName}`);
+    
     console.log(`📡 Sent gameStarted to new player ${playerName}`);
   } else {
     // Lobby - send lobby state
