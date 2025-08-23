@@ -1322,8 +1322,30 @@ useEffect(() => {
         return serverPlayer;
       });
       
-      setPlayers(updatedPlayers);
-      console.log('👥 DEBUG: Players updated successfully with preserved cards');
+      // ✅ FIX: Deduplicate players before storing to prevent duplicates in the array
+      const deduplicatedPlayers = updatedPlayers.reduce((acc, player) => {
+        const existingIndex = acc.findIndex(p => p.id === player.id);
+        if (existingIndex === -1) {
+          // New unique player
+          acc.push(player);
+        } else {
+          // Player already exists, keep the one with more complete data
+          const existing = acc[existingIndex];
+          const current = player;
+          
+          // Choose the player with more complete data (has cards, name, etc.)
+          if ((current.cards && !existing.cards) || 
+              (current.name && !existing.name) ||
+              (current.cards && current.cards.standard && current.cards.wild)) {
+            acc[existingIndex] = current;
+          }
+        }
+        return acc;
+      }, []);
+      
+      console.log(`👥 DEBUG: Original count: ${updatedPlayers.length}, Deduplicated count: ${deduplicatedPlayers.length}`);
+      setPlayers(deduplicatedPlayers);
+      console.log('👥 DEBUG: Players updated successfully with deduplication and preserved cards');
     });
 
     socket.on('gameStarted', ({ hands, playerStats }) => {

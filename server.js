@@ -218,6 +218,7 @@ io.on('connection', (socket) => {
         socket.join(roomCode);
     console.log(`Room ${roomCode} created by ${socket.id}`);
     io.to(socket.id).emit('roomCreated', roomCode);
+    rooms[roomCode].players = deduplicatePlayers(rooms[roomCode].players);
     io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
   });
 
@@ -238,6 +239,28 @@ socket.on('validateAndJoinRoom', (roomCode, playerName) => {
   // Call the existing joinRoom logic
   handleJoinRoom(socket, roomCode, playerName);
 });
+
+// ✅ UTILITY: Deduplicate players array to prevent duplicate player icons
+function deduplicatePlayers(players) {
+  const unique = players.reduce((acc, player) => {
+    const existingIndex = acc.findIndex(p => p.id === player.id);
+    if (existingIndex === -1) {
+      acc.push(player);
+    } else {
+      // Keep the player with more complete data
+      if (player.name && !acc[existingIndex].name) {
+        acc[existingIndex] = player;
+      }
+    }
+    return acc;
+  }, []);
+  
+  if (unique.length !== players.length) {
+    console.log(`🔧 DEDUP: Removed ${players.length - unique.length} duplicate players`);
+  }
+  
+  return unique;
+}
 
 // ✅ SIMPLIFIED: Join Room or game (clean reconnection logic)
 function handleJoinRoom(socket, roomCode, playerName) {
@@ -307,6 +330,7 @@ function handleJoinRoom(socket, roomCode, playerName) {
       });
       
       // ✅ FIX: Send complete players list so reconnected player sees everyone
+      rooms[roomCode].players = deduplicatePlayers(rooms[roomCode].players);
       socket.emit('updatePlayers', rooms[roomCode].players);
       console.log(`📡 Sent complete players list to reconnected player ${playerName}`);
       
@@ -332,8 +356,15 @@ function handleJoinRoom(socket, roomCode, playerName) {
   // ✅ NEW PLAYER: Handle as normal new player
   console.log(`🆕 NEW PLAYER: ${playerName} joining room ${roomCode}`);
   
-  // Add to players list
-  rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
+  // Add to players list (check for duplicates first)
+  const existingPlayer = rooms[roomCode].players.find(p => p.id === socket.id);
+  if (!existingPlayer) {
+    rooms[roomCode].players.push({ id: socket.id, name: playerName, disconnected: false });
+  } else {
+    console.log(`⚠️ Player ${socket.id} already exists in room, updating instead of adding`);
+    existingPlayer.name = playerName;
+    existingPlayer.disconnected = false;
+  }
   
   // Initialize player stats
   playerStats[socket.id] = { 
@@ -365,7 +396,8 @@ function handleJoinRoom(socket, roomCode, playerName) {
       playerStats: playerStats
     });
     
-    // ✅ FIX: Send complete players list so new player sees everyone
+    // ✅ FIX: Deduplicate and send complete players list so new player sees everyone
+    room.players = deduplicatePlayers(room.players);
     socket.emit('updatePlayers', room.players);
     console.log(`📡 Sent complete players list to new player ${playerName}`);
     
@@ -385,6 +417,7 @@ function handleJoinRoom(socket, roomCode, playerName) {
   } else {
     // Lobby - send lobby state
     socket.emit('joinedRoom', roomCode);
+    rooms[roomCode].players = deduplicatePlayers(rooms[roomCode].players);
     io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
     console.log(`📡 Sent lobby state to new player ${playerName}`);
   }
