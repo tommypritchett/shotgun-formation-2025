@@ -1739,7 +1739,22 @@ socket.on('gameOver', (message) => {
           players.length <= 12 ? 'players-11-12' :
           'players-13-plus'
         }`}>
-          {players.map((player) => (
+          {(() => {
+            // ✅ FIX: Deduplicate players for main game UI
+            const uniquePlayers = players.reduce((acc, player) => {
+              const existingIndex = acc.findIndex(p => p.id === player.id);
+              if (existingIndex === -1) {
+                acc.push(player);
+              } else {
+                // Keep player with more complete data
+                if (!acc[existingIndex].name && player.name) {
+                  acc[existingIndex] = player;
+                }
+              }
+              return acc;
+            }, []);
+            
+            return uniquePlayers.map((player) => (
             <div key={player.id || player.name} className="player-icon glass-effect">
               <div className="player-content">
                 <div className="player-image"></div>
@@ -1755,7 +1770,8 @@ socket.on('gameOver', (message) => {
               </div>
               <h3>{player.name}</h3>
             </div>
-          ))}
+            ));
+          })()}
         </div>
       </div>
 
@@ -1814,9 +1830,15 @@ socket.on('gameOver', (message) => {
           <div className="round-results-container">
             <h3>Round Results</h3>
             <ul>
-              {Object.entries(roundDrinkResults).map(([id, result]) => (
+              {Object.entries(roundDrinkResults).map(([id, result]) => {
+                // ✅ FIX: Better player name lookup with fallbacks
+                const playerName = playerStats[id]?.name || 
+                                 players.find(p => p.id === id)?.name || 
+                                 `Player ${id.slice(-4)}`; // Fallback to last 4 chars of ID
+                                 
+                return (
                 <li key={id} style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px'}}>
-                  <span>{players.find(p => p.id === id)?.name}:</span>
+                  <span>{playerName}:</span>
                   <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
                     🍺 {result.drinks}
                   </div>
@@ -1827,7 +1849,8 @@ socket.on('gameOver', (message) => {
                     </div>
                   )}
                 </li>
-              ))}
+                );
+              })}
             </ul>
           </div>
         )}
@@ -1873,7 +1896,30 @@ socket.on('gameOver', (message) => {
           <div>
             <div className="drink-message">{drinkMessage}</div>
             <div className="player-assignment-grid">
-              {players.filter(p => p.id !== socket.id || p.name !== playerName).map(p => (
+              {(() => {
+                // ✅ FIX: Deduplicate players and filter out current player
+                const uniquePlayers = players.reduce((acc, player) => {
+                  // Skip current player
+                  if (player.id === socket.id) return acc;
+                  
+                  // Check if we already have a player with this ID
+                  const existingIndex = acc.findIndex(p => p.id === player.id);
+                  if (existingIndex === -1) {
+                    // New unique player
+                    acc.push(player);
+                  } else {
+                    // Player already exists, keep the one with more data
+                    if (!acc[existingIndex].name && player.name) {
+                      acc[existingIndex] = player;
+                    }
+                  }
+                  return acc;
+                }, []);
+                
+                console.log('🎯 DEBUG: Original players count:', players.length);
+                console.log('🎯 DEBUG: Unique players count:', uniquePlayers.length);
+                
+                return uniquePlayers.map(p => (
                 <div key={p.id || p.name}>
                   {drinksToGive > 0 && (
                     <button className="assignment-button" onClick={() => handleGiveDrink(p.id || p.name, 'drink')}>
@@ -1886,7 +1932,8 @@ socket.on('gameOver', (message) => {
                     </button>
                   )}
                 </div>
-              ))}
+                ));
+              })()}
             </div>
           </div>
         ) : (
