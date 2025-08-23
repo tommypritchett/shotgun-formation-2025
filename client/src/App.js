@@ -812,26 +812,8 @@ useEffect(() => {
         requestWakeLock();
       }
       
-      // ✅ NEW: Check for stealth disconnect scenario
-      const urlParams = new URLSearchParams(window.location.search);
-      const hasValidGameUrl = urlParams.get('room') && urlParams.get('player');
-      
-      if (hasValidGameUrl && gameState !== 'game' && gameState !== 'connecting' && gameState !== 'lobby') {
-        console.log('🔄 STEALTH DISCONNECT DETECTED: Have game URL but not in game state');
-        console.log('🔄 Current game state:', gameState);
-        console.log('🔄 Socket connected:', socket.connected);
-        console.log('🔄 URL params:', { room: urlParams.get('room'), player: urlParams.get('player') });
-        console.log('🔄 REQUESTING server to force refresh...');
-        
-        // ✅ FIX: Request server to trigger forceRefresh instead of doing it directly
-        // This prevents infinite loops by letting server control when to refresh
-        socket.emit('requestRefresh', {
-          roomCode: urlParams.get('room'),
-          playerName: urlParams.get('player'),
-          reason: 'Stealth disconnect detected'
-        });
-        return;
-      }
+      // ✅ REMOVED: Client-side stealth disconnect detection
+      // Server now handles this automatically when player reconnects from formerPlayers state
       
       if (!socket.connected) {
         console.log('Reconnecting after visibility change...');
@@ -861,20 +843,8 @@ useEffect(() => {
       requestWakeLock();
     }
     
-    // ✅ NEW: Check for stealth disconnect scenario on focus
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasValidGameUrl = urlParams.get('room') && urlParams.get('player');
-    
-    if (hasValidGameUrl && gameState !== 'game' && gameState !== 'connecting' && gameState !== 'lobby') {
-      console.log('🔄 STEALTH DISCONNECT DETECTED on focus: Have game URL but not in game state');
-      console.log('🔄 Current game state:', gameState);
-      console.log('🔄 Socket connected:', socket.connected);
-      console.log('🔄 Auto-refreshing to reconnect...');
-      
-      // Trigger the standard refresh reconnection process  
-      window.location.reload();
-      return;
-    }
+    // ✅ REMOVED: Client-side stealth disconnect detection
+    // Server now handles this automatically when player reconnects from formerPlayers state
     
     if (!socket.connected) {
       socket.connect();

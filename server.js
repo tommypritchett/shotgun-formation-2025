@@ -1019,6 +1019,15 @@ socket.on('requestGameState', ({ roomCode }) => {
       
       console.log(`Reconnected player ${socket.id} to room ${roomCode}`);
       
+      // ✅ NEW: Force refresh for players reconnecting from formerPlayers (stealth disconnect recovery)
+      setTimeout(() => {
+        socket.emit('forceRefresh', { 
+          reason: 'Reconnected after stealth disconnect - refreshing to ensure clean UI state',
+          playerName: possibleFormerPlayers[0].name
+        });
+        console.log(`📡 Sent forceRefresh command to formerly disconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
+      }, 1000); // Small delay to ensure all data is sent first
+      
       // Send game state directly to reconnected player without refresh signal
       if (room.gameStarted) {
         // ✅ FIX: Send only card data in hands, not full playerStats
