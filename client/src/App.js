@@ -1090,6 +1090,31 @@ useEffect(() => {
     console.error('Socket error:', error);
   };
   
+  // ✅ NEW: Handle forceRefresh command from server
+  const handleForceRefresh = ({ reason, playerName }) => {
+    console.log(`🔄 Server requested force refresh for ${playerName}: ${reason}`);
+    console.log('🔄 EXECUTING HARD REFRESH like physical button press...');
+    
+    // ✅ FIX: Force hard refresh like physical button press on mobile
+    try {
+      // Method 1: Force reload with cache bypass (like Ctrl+F5)
+      window.location.reload(true);
+    } catch (e) {
+      try {
+        // Method 2: Replace current location to force refresh
+        window.location.replace(window.location.href);
+      } catch (e2) {
+        try {
+          // Method 3: Set href to current location
+          window.location.href = window.location.href;
+        } catch (e3) {
+          // Method 4: Last resort - navigate to same URL
+          window.location = window.location;
+        }
+      }
+    }
+  };
+
   // Add event listeners
   socket.on('connect', handleConnect);
   socket.on('disconnect', handleDisconnect);
@@ -1098,6 +1123,7 @@ useEffect(() => {
   socket.on('reconnect_error', handleReconnectError);
   socket.on('reconnect_failed', handleReconnectFailed);
   socket.on('error', handleError);
+  socket.on('forceRefresh', handleForceRefresh);
   
   // Clean up listeners
   return () => {
@@ -1108,6 +1134,7 @@ useEffect(() => {
     socket.off('reconnect_error', handleReconnectError);
     socket.off('reconnect_failed', handleReconnectFailed);
     socket.off('error', handleError);
+    socket.off('forceRefresh', handleForceRefresh);
   };
 }, [socket, gameState, roomCode]);
 

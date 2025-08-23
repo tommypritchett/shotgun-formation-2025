@@ -311,6 +311,15 @@ function handleJoinRoom(socket, roomCode, playerName) {
       console.log(`📡 Sent complete players list to reconnected player ${playerName}`);
       
       console.log(`📡 Sent gameStarted to reconnected player ${playerName} with socket ${socket.id}`);
+      
+      // ✅ NEW: Force page refresh after successful reconnection to ensure clean UI state
+      setTimeout(() => {
+        socket.emit('forceRefresh', { 
+          reason: 'Successfully reconnected to game - refreshing to ensure clean state',
+          playerName: playerName
+        });
+        console.log(`📡 Sent forceRefresh command to reconnected player ${playerName} (${socket.id})`);
+      }, 1000); // Small delay to ensure all data is sent first
     } else {
       socket.emit('joinedRoom', roomCode);
       socket.emit('updatePlayers', rooms[roomCode].players);
@@ -986,6 +995,15 @@ socket.on('requestGameState', ({ roomCode }) => {
       console.log(`📡 Sent complete players list to reconnected player ${player.name}`);
       
       console.log(`📡 Sent direct game state to player ${player.name} (${socket.id})`);
+      
+      // ✅ NEW: Force page refresh after successful reconnection to ensure clean UI state
+      setTimeout(() => {
+        socket.emit('forceRefresh', { 
+          reason: 'Successfully reconnected to game - refreshing to ensure clean state',
+          playerName: player.name
+        });
+        console.log(`📡 Sent forceRefresh command to reconnected player ${player.name} (${socket.id})`);
+      }, 1000); // Small delay to ensure all data is sent first
     } else {
       socket.emit('joinedRoom', roomCode);
       console.log(`📡 Sent lobby state to player ${player.name} (${socket.id})`);
@@ -1029,6 +1047,15 @@ socket.on('requestGameState', ({ roomCode }) => {
         console.log(`📡 Sent complete players list to reconnected player ${possibleFormerPlayers[0].name}`);
         
         console.log(`📡 Sent direct game state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
+        
+        // ✅ NEW: Force page refresh after successful reconnection to ensure clean UI state
+        setTimeout(() => {
+          socket.emit('forceRefresh', { 
+            reason: 'Successfully reconnected to game - refreshing to ensure clean state',
+            playerName: possibleFormerPlayers[0].name
+          });
+          console.log(`📡 Sent forceRefresh command to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
+        }, 1000); // Small delay to ensure all data is sent first
       } else {
         socket.emit('joinedRoom', roomCode);
         console.log(`📡 Sent lobby state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
