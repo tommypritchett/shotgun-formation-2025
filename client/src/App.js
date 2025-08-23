@@ -1780,7 +1780,7 @@ socket.on('gameOver', (message) => {
               <div
                 key={`wild-${index}`}
                 className="wild-card-content"
-                onClick={() => handleCardClick(card.card)}
+                onClick={() => handleWildCardSelect(card.card)}
               >
                 <div className="card-name">{card.card}</div>
                 <div className="drink-count">
