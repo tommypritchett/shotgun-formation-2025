@@ -228,18 +228,20 @@ const handleCardClick = (cardType) => {
 };
 // Handle wild card selection
 const handleWildCardSelect = (wildcardtype) => {
-  // setWildCardSelected({ player: socket.id, card });  // Store the player and card selected locally
+  console.log(`🃏 Player clicked wild card: ${wildcardtype}`);
+  console.log(`🃏 Emitting wildCardSelected with roomCode: ${roomCode}, playerId: ${socket.id}`);
+  
   socket.emit('wildCardSelected', { roomCode, playerId: socket.id, wildcardtype });
-
-  console.log(`Player selected wild card: ${wildcardtype}`);
+  console.log(`🃏 Wild card selection emitted to server`);
 };
 const confirmWildCard = (confirm) => {
   if (confirm && wildCardSelected) {
     // Emit to the server that the host confirmed the wild card action
     socket.emit('wildCardConfirmed', { roomCode, wildcardtype: wildCardSelected.wildcardtype, player: wildCardSelected.player });
-    console.log(`Host confirmed wild card: ${wildCardSelected.wildcardtype}`);
+    console.log(`✅ Host confirmed wild card: ${wildCardSelected.wildcardtype} by player ${wildCardSelected.player}`);
   } else {
-    console.log('Host denied wild card selection');
+    console.log(`❌ Host rejected wild card: ${wildCardSelected?.wildcardtype} by player ${wildCardSelected?.player}`);
+    // TODO: Could emit rejection event to notify players
   }
   setWildCardSelected(null);  // Reset after confirming or denying
 };
@@ -1101,14 +1103,15 @@ useEffect(() => {
   // Listen for the wild card selection from the server
   useEffect(() => {
     socket.on('wildCardSelected', ({ playerId, wildcardtype }) => {
+      console.log(`🎯 Host received wild card selection: ${wildcardtype} by player: ${playerId}`);
+      console.log(`🎯 Setting wild card modal state, isHost: ${isHost}`);
       setWildCardSelected({ player: playerId, wildcardtype });
-      console.log(`Host received wild card selection: ${wildcardtype} by player: ${playerId}`);
     });
 
     return () => {
       socket.off('wildCardSelected');
     };
-  }, []);
+  }, [isHost]);
 
 // Listen for messages from the server
 useEffect(() => {
