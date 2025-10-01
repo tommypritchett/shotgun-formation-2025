@@ -1186,12 +1186,21 @@ useEffect(() => {
     setRoundDrinkResults(roundResults);  // Update the round results
     console.log("Round drink results (for all players):", roundResults);
 
-    // Reset drink assignment state when the round is finalized
-    setDrinkMessage('');  // Clear the drink assignment message
-    setAssignedDrinks({});  // Clear the assigned drinks
-    setDrinksToGive(0);  // Reset the drinks to give
-    setIsDistributing(false);  // Turn off drink distribution mode
-    console.log("Round drink results (for all players):", roundResults);
+    // ✅ FIX: Only reset drink assignment state if this is actually end of round
+    // Check if roundResults has actual data (indicating round ended) vs empty object (new player joined)
+    const hasRoundResults = roundResults && Object.keys(roundResults).length > 0;
+    const hasActualDrinks = hasRoundResults && Object.values(roundResults).some(result => result.drinks > 0 || result.shotguns > 0);
+    
+    if (hasActualDrinks) {
+      console.log("🔄 Round ended with results - resetting drink assignment state");
+      // Reset drink assignment state when the round is finalized
+      setDrinkMessage('');  // Clear the drink assignment message
+      setAssignedDrinks({});  // Clear the assigned drinks
+      setDrinksToGive(0);  // Reset the drinks to give
+      setIsDistributing(false);  // Turn off drink distribution mode
+    } else {
+      console.log("📊 Player stats updated (new player or ongoing round) - preserving drink assignment state");
+    }
 
   });
 
