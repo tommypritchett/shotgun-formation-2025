@@ -1050,9 +1050,21 @@ socket.on('requestGameState', ({ roomCode }) => {
       .filter(p => p.roomCode === roomCode);
     
     if (possibleFormerPlayers.length > 0) {
-      // Add the reconnecting player back to the room
-      player = { id: socket.id, name: possibleFormerPlayers[0].name };
-      room.players.push(player);
+      // ✅ FIX: Check if player already exists in room (as disconnected) before adding
+      const existingDisconnectedPlayer = room.players.find(p => p.name === possibleFormerPlayers[0].name);
+      
+      if (existingDisconnectedPlayer) {
+        // Player is already in room as disconnected - just update their socket ID and reconnect them
+        console.log(`📡 Found existing disconnected player ${possibleFormerPlayers[0].name}, updating socket ID`);
+        existingDisconnectedPlayer.id = socket.id;
+        existingDisconnectedPlayer.disconnected = false;
+        player = existingDisconnectedPlayer;
+      } else {
+        // Player not in room - add them back
+        console.log(`📡 Adding former player ${possibleFormerPlayers[0].name} back to room`);
+        player = { id: socket.id, name: possibleFormerPlayers[0].name };
+        room.players.push(player);
+      }
       
       // Restore their data
       playerStats[socket.id] = {
@@ -1063,6 +1075,7 @@ socket.on('requestGameState', ({ roomCode }) => {
       };
       
       console.log(`Reconnected player ${socket.id} to room ${roomCode}`);
+      console.log(`🔧 DEBUG: Room ${roomCode} now has ${room.players.length} players:`, room.players.map(p => `${p.name}(${p.id}, disconnected: ${p.disconnected})`));
       
       // ✅ NEW: Force refresh for players reconnecting from formerPlayers (stealth disconnect recovery)
       setTimeout(() => {
@@ -1097,8 +1110,17 @@ socket.on('requestGameState', ({ roomCode }) => {
         console.log(`📡 Sent lobby state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
       }
       
-      // Remove from formerPlayers
+      // Remove from formerPlayers and clean up any old playerStats
       delete formerPlayers[possibleFormerPlayers[0].name];
+      
+      // ✅ FIX: Clean up any old playerStats entries for previous socket IDs
+      const oldSocketIds = Object.keys(playerStats).filter(id => 
+        id !== socket.id && playerStats[id]?.name === possibleFormerPlayers[0].name
+      );
+      oldSocketIds.forEach(oldId => {
+        console.log(`🧹 Cleaning up old playerStats for ${possibleFormerPlayers[0].name} with old socket ID: ${oldId}`);
+        delete playerStats[oldId];
+      });
     } else {
       console.log(`Unable to find player data for ${socket.id}`);
       return;
