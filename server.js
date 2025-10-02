@@ -98,7 +98,8 @@ const finalizeRound = (roomCode) => {
     // Emit the final round results and updated player stats to everyone in the room
     io.to(roomCode).emit('updatePlayerStats', {
        players: playerStats,
-       roundResults: roundResults[roomCode]  // Send combined round results
+       roundResults: roundResults[roomCode],  // Send combined round results
+       roundFinalized: true  // ✅ NEW: Flag to indicate official round end
     });
  
     // Reset the declaredCard for all players

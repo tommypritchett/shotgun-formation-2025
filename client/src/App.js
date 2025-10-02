@@ -1181,25 +1181,22 @@ useEffect(() => {
   });
 
   // Listen for the updated player stats and round results after the timer ends
-  socket.on('updatePlayerStats', ({ players, roundResults }) => {
+  socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
     setPlayerStats(players);  // Update the overall player stats
     setRoundDrinkResults(roundResults);  // Update the round results
     console.log("Round drink results (for all players):", roundResults);
 
-    // ✅ FIX: Only reset drink assignment state if this is actually end of round
-    // Check if roundResults has actual data (indicating round ended) vs empty object (new player joined)
-    const hasRoundResults = roundResults && Object.keys(roundResults).length > 0;
-    const hasActualDrinks = hasRoundResults && Object.values(roundResults).some(result => result.drinks > 0 || result.shotguns > 0);
-    
-    if (hasActualDrinks) {
-      console.log("🔄 Round ended with results - resetting drink assignment state");
+    // ✅ FIX: Only reset drink assignment state if round is officially finalized
+    // Use roundFinalized flag to distinguish official round end vs player updates
+    if (roundFinalized) {
+      console.log("🔄 Round officially finalized - resetting drink assignment state");
       // Reset drink assignment state when the round is finalized
       setDrinkMessage('');  // Clear the drink assignment message
       setAssignedDrinks({});  // Clear the assigned drinks
       setDrinksToGive(0);  // Reset the drinks to give
       setIsDistributing(false);  // Turn off drink distribution mode
     } else {
-      console.log("📊 Player stats updated (new player or ongoing round) - preserving drink assignment state");
+      console.log("📊 Player stats updated (player join/leave/reconnect) - preserving drink assignment state");
     }
 
   });
@@ -1472,10 +1469,12 @@ useEffect(() => {
       }
     });
 
-    socket.on('updatePlayerStats', ({ players, roundResults }) => {
+    socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
       setPlayerStats(players);
       setRoundDrinkResults(roundResults);
       console.log("Round drink results (for all players):", roundResults);
+      
+      // This handler doesn't reset drink assignment state - that's handled by the main handler above
     });
 
     socket.on('error', (msg) => {
