@@ -209,6 +209,7 @@ const [isHostSelection, setIsHostSelection] = useState(false);
     setGameState('initial');
     setRoomCode('');
     setPlayers([]);  // Reset players to empty array
+    clearURL();  // Clear URL when manually leaving so they can join new games
   };
 
 // Handle card click from the host
@@ -342,9 +343,6 @@ const closeHostSelection = () => {
 const handleLeaveGame = () => {
   // Emit a custom 'leaveGame' event to the server
   socket.emit('leaveGame', { roomCode });  // Send the roomCode to the server
-
-  // Clear URL parameters
-  clearURL();
 
   // Reset the frontend game state and return to the start/join screen
   setGameState('initial');  // Reset the game state to 'startOrJoin'
@@ -582,11 +580,7 @@ useEffect(() => {
     const handleRejoinError = (error) => {
       console.log('Auto-rejoin failed:', error, '- going to join screen');
       setGameState('initial');
-      // Clear URL params since the game doesn't exist
-      const url = new URL(window.location);
-      url.searchParams.delete('room');
-      url.searchParams.delete('player');
-      window.history.replaceState({}, '', url);
+      clearURL();  // Clear URL when rejoin fails so they can join new games
     };
     
     // ✅ FIX: Remove competing gameStarted handler - let main handler process cards
@@ -606,6 +600,7 @@ useEffect(() => {
       if (gameState === 'connecting') {
         console.log('Auto-rejoin timed out - going to join screen');
         setGameState('initial');
+        clearURL();  // Clear URL when auto-rejoin times out so they can join new games
       }
     }, 10000);
     
@@ -650,6 +645,7 @@ useEffect(() => {
     const handleRejoinError = (error) => {
       console.log('LocalStorage rejoin failed:', error, '- going to join screen');
       setGameState('initial');
+      clearURL();  // Clear URL when localStorage rejoin fails so they can join new games
     };
     
     // ✅ FIX: Remove competing gameStarted handler - let main handler process cards
@@ -668,6 +664,7 @@ useEffect(() => {
       if (gameState === 'connecting') {
         console.log('LocalStorage rejoin timed out - going to join screen');
         setGameState('initial');
+        clearURL();  // Clear URL when localStorage rejoin times out so they can join new games
       }
     }, 10000);
     
@@ -1538,6 +1535,7 @@ socket.on('gameOver', (message) => {
   alert(message);  // Notify the players
   // Redirect everyone back to the main screen
   setGameState('initial');
+  clearURL();  // Clear URL when game ends so they can join new games
 });
 
 
@@ -1547,6 +1545,7 @@ socket.on('gameOver', (message) => {
       setGameState('initial');
       setPlayers([]);
       setRoomCode('');
+      clearURL();  // Clear URL when host leaves so they can join new games
     });
 
     return () => {
@@ -1708,7 +1707,10 @@ socket.on('gameOver', (message) => {
         <div className="loading-spinner" style={{margin: '20px auto'}}></div>
         <p style={{fontSize: '14px', color: '#ddd'}}>Please wait while we connect you to your game...</p>
         <button 
-          onClick={() => setGameState('initial')} 
+          onClick={() => {
+            setGameState('initial');
+            clearURL();  // Clear URL when manually canceling reconnection
+          }} 
           style={{marginTop: '20px', padding: '10px 20px', backgroundColor: '#ff6b35', border: 'none', borderRadius: '5px', color: 'white', cursor: 'pointer'}}
         >
           Cancel & Return to Start
@@ -2124,6 +2126,7 @@ socket.on('gameOver', (message) => {
         <button 
           onClick={() => {
             setGameState('initial');
+            clearURL();  // Clear URL when recovering from invalid state
             setErrorMessage('Please rejoin your game');
           }}
           style={{
