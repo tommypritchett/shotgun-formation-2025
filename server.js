@@ -107,6 +107,17 @@ const finalizeRound = (roomCode) => {
     // ✅ FIX: Post-assignment sync - update all player hands and states that were held during assignment
     if (rooms[roomCode]) {
       console.log(`🔄 Post-assignment sync - updating all player hands and states for room ${roomCode}`);
+      
+      // Send updated player stats first to refresh totals on UI
+      io.to(roomCode).emit('updatePlayerStats', {
+        players: playerStats,
+        roundResults: {},  // Round just ended, results are now empty
+        roundFinalized: true,
+        updateReason: 'post_assignment_sync'  // Special flag for post-assignment sync
+      });
+      console.log(`📤 Post-sync player stats update for room ${roomCode}`);
+      
+      // Then update hands and players list  
       rooms[roomCode].players.forEach((player) => {
         if (!player.disconnected) {
           const playerHand = playerStats[player.id];

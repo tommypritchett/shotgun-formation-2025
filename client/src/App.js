@@ -1194,6 +1194,12 @@ useEffect(() => {
       setDrinksToGive(0);  // Reset the drinks to give
       setshotgunsToGive(0);  // Reset shotguns to give
       setIsDistributing(false);  // Turn off drink distribution mode
+      
+      // ✅ FIX: Force UI refresh for post-assignment sync to show updated totals
+      if (updateReason === 'post_assignment_sync') {
+        console.log("🔄 Post-assignment sync - forcing UI refresh to display updated totals");
+        // The state updates above will trigger re-render to show new totals
+      }
     } else {
       console.log(`📊 Player stats updated (${updateReason || 'unknown reason'}) - preserving drink assignment state`);
       console.log(`Current assignment state - distributing: ${isDistributing}, drinks: ${drinksToGive}, shotguns: ${shotgunsToGive}`);
