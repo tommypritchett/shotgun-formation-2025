@@ -35,6 +35,7 @@ const rooms = {};  // Store rooms and players
 const playerStats = {};  // Store drink and shotgun counts for each player
 const roundResults = {};  // Store drink assignments for each round
 const formerPlayers = {};  // Store former players by name when they disconnect
+const declaredCards = {};  // Track currently declared card for each room
 const usedCards = {};  // Store used cards for each room to enable deck replenishment
 
 
@@ -99,10 +100,34 @@ const finalizeRound = (roomCode) => {
     io.to(roomCode).emit('updatePlayerStats', {
        players: playerStats,
        roundResults: roundResults[roomCode],  // Send combined round results
-       roundFinalized: true  // ✅ NEW: Flag to indicate official round end
+       roundFinalized: true,  // ✅ NEW: Flag to indicate official round end
+       updateReason: 'round_finalized'  // ✅ FIX: Specify this is a round finalization
     });
+
+    // ✅ FIX: Post-assignment sync - update all player hands and states that were held during assignment
+    if (rooms[roomCode]) {
+      console.log(`🔄 Post-assignment sync - updating all player hands and states for room ${roomCode}`);
+      rooms[roomCode].players.forEach((player) => {
+        if (!player.disconnected) {
+          const playerHand = playerStats[player.id];
+          if (playerHand) {
+            io.to(player.id).emit('updatePlayerHand', { 
+              standard: playerHand.standard, 
+              wild: playerHand.wild,
+              postAssignmentSync: true  // Flag to indicate this is post-assignment sync
+            });
+            console.log(`📤 Post-sync hand update for player ${player.id}`);
+          }
+        }
+      });
+      
+      // Send complete players list to ensure UI is in sync
+      io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
+      console.log(`📤 Post-sync players list update for room ${roomCode}`);
+    }
  
     // Reset the declaredCard for all players
+    declaredCards[roomCode] = null;  // Clear tracked declared card
     io.to(roomCode).emit('declaredCard', null);  // Reset the declared card to null
  
     // Clear round results for the next round
@@ -410,6 +435,8 @@ function handleJoinRoom(socket, roomCode, playerName) {
     io.to(roomCode).emit('updatePlayerStats', {
       players: playerStats,
       roundResults: roundResults[roomCode] || {},
+      roundFinalized: false,  // ✅ FIX: New player joining - round ongoing
+      updateReason: 'player_joined',  // ✅ FIX: Specify this is a player joining
       allPlayers: room.players
     });
     console.log(`📡 Sent updated player stats to all players including new player ${playerName}`);
@@ -622,6 +649,7 @@ socket.on('firstDownEvent', ({ roomCode }) => {
   rooms.isActionInProgress = true;
 
   // Send the declared card to all players in the room
+  declaredCards[roomCode] = 'First Down';  // Track declared card for reconnection
   io.to(roomCode).emit('declaredCard', 'First Down');  // Broadcast the first down
     
   // Add 1 drink to every player's stats
@@ -644,6 +672,8 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     io.to(roomCode).emit('updatePlayerStats', {
       players: playerStats,
       roundResults: roundResults[roomCode],
+      roundFinalized: false,  // ✅ FIX: First Down event - round ongoing
+      updateReason: 'first_down_event'  // ✅ FIX: Specify this is a first down event
     });
   
     console.log(`First Down - Everyone drinks once in room ${roomCode}`);
@@ -692,6 +722,7 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     }
 
      // Send the declared card to all players in the room
+  declaredCards[roomCode] = cardType;  // Track declared card for reconnection
   io.to(roomCode).emit('declaredCard', cardType);  // Broadcast the declared card
 
     logPlayerHands(roomCode);
@@ -777,6 +808,7 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
     rooms.isActionInProgress = true;
 
     // Notify all players about the wild card action
+    declaredCards[roomCode] = wildcardtype;  // Track declared card for reconnection
     io.to(roomCode).emit('declaredCard', wildcardtype);  // Broadcast the declared card
     console.log(`Broadcast declared card ${wildcardtype} to all players`);
 
@@ -960,6 +992,8 @@ socket.on('leaveGame', ({ roomCode }) => {
     io.to(roomCode).emit('updatePlayerStats', {
         players: playerStats,
         roundResults: roundResults[roomCode],
+        roundFinalized: false,  // ✅ FIX: Game ending - but still ongoing for stats
+        updateReason: 'game_ending'  // ✅ FIX: Specify this is a game ending event
       });  
         return;  // Exit the function to prevent further execution
     }
@@ -996,6 +1030,8 @@ socket.on('leaveGame', ({ roomCode }) => {
       io.to(roomCode).emit('updatePlayerStats', {
         players: playerStats,
         roundResults: roundResults[roomCode],
+        roundFinalized: false,  // ✅ FIX: Player leaving - round ongoing
+        updateReason: 'player_left'  // ✅ FIX: Specify this is a player leaving event
       });
     
     });
@@ -1137,8 +1173,45 @@ socket.on('requestGameState', ({ roomCode }) => {
   // Send current player stats and game state
   socket.emit('updatePlayerStats', {
     players: playerStats,
-    roundResults: roundResults[roomCode] || {}
+    roundResults: roundResults[roomCode] || {},
+    roundFinalized: false,  // ✅ FIX: Game state request - round ongoing
+    updateReason: 'player_reconnect'  // ✅ FIX: Critical - mark as reconnect to preserve assignment state
   });
+  
+  // ✅ FIX: If assignment is active, send timer and declared card so reconnecting player can join ongoing assignment
+  if (timers[roomCode] && timers[roomCode] > 0) {
+    console.log(`🎯 Active assignment detected for reconnecting player - sending timer (${timers[roomCode]}s) and declared card`);
+    socket.emit('updateTimer', timers[roomCode]);
+    if (declaredCards[roomCode]) {
+      socket.emit('declaredCard', declaredCards[roomCode]);
+      console.log(`📤 Sent declared card "${declaredCards[roomCode]}" to reconnecting player`);
+      
+      // Check if reconnecting player has the declared card and send distributeDrinks
+      const playerStats = getPlayerStats(roomCode);
+      const playerHand = playerStats[socket.id];
+      if (playerHand) {
+        const hasStandardCard = playerHand.standard?.some(card => card.card === declaredCards[roomCode]);
+        const hasWildCard = playerHand.wild?.some(card => card.card === declaredCards[roomCode]);
+        
+        if (hasStandardCard || hasWildCard) {
+          const card = hasStandardCard ? 
+            playerHand.standard.find(card => card.card === declaredCards[roomCode]) :
+            playerHand.wild.find(card => card.card === declaredCards[roomCode]);
+          
+          const drinks = card.drinks < 10 ? card.drinks : 0;
+          const shotguns = card.drinks >= 10 ? Math.floor(card.drinks / 10) : 0;
+          
+          socket.emit('distributeDrinks', {
+            cardType: declaredCards[roomCode],
+            drinkCount: drinks,
+            shotguns: shotguns,
+            wildcardtype: hasWildCard ? declaredCards[roomCode] : null
+          });
+          console.log(`🍺 Reconnecting player can join assignment: ${drinks} drinks, ${shotguns} shotguns for ${declaredCards[roomCode]}`);
+        }
+      }
+    }
+  }
   
   // Send current quarter
   socket.emit('quarterUpdated', room.quarter || 1);
@@ -1242,21 +1315,29 @@ socket.on('disconnect', (reason) => {
             }
           }
 
-          // Update player hands for the remaining ACTIVE players
-          room.players.forEach((player) => {
-            if (!player.disconnected) {
-              const playerHand = playerStats[player.id];
-              if (playerHand) {
-                io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
-                console.log(`New hand for player ${player.id}:`, playerHand.standard);
+          // Update player hands for the remaining ACTIVE players  
+          // ✅ FIX: Always skip during assignment - let post-assignment sync handle it
+          const isAssignmentActive = timers[roomCode] && timers[roomCode] > 0;
+          if (!isAssignmentActive) {
+            room.players.forEach((player) => {
+              if (!player.disconnected) {
+                const playerHand = playerStats[player.id];
+                if (playerHand) {
+                  io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
+                  console.log(`New hand for player ${player.id}:`, playerHand.standard);
+                }
               }
-            }
-          });
+            });
+          } else {
+            console.log(`🚫 Holding updatePlayerHand during active assignment (timer: ${timers[roomCode]}s) - will sync after assignment ends`);
+          }
           
           // Emit updated player stats for the round (to all active players)
           io.to(roomCode).emit('updatePlayerStats', {
             players: playerStats,
             roundResults: roundResults[roomCode] || {},
+            roundFinalized: false,  // ✅ FIX: Player disconnecting - round ongoing
+            updateReason: 'player_disconnect',  // ✅ FIX: Critical - mark as disconnect to preserve assignment state
             allPlayers: players // Include all players (connected and disconnected)
           });
         }

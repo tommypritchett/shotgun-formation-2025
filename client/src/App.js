@@ -1178,22 +1178,25 @@ useEffect(() => {
   });
 
   // Listen for the updated player stats and round results after the timer ends
-  socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
+  socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized, updateReason }) => {
     setPlayerStats(players);  // Update the overall player stats
     setRoundDrinkResults(roundResults);  // Update the round results
     console.log("Round drink results (for all players):", roundResults);
+    console.log("Update reason:", updateReason || 'not specified');
 
     // ✅ FIX: Only reset drink assignment state if round is officially finalized
-    // Use roundFinalized flag to distinguish official round end vs player updates
-    if (roundFinalized) {
+    // Use roundFinalized flag AND updateReason to distinguish official round end vs player updates
+    if (roundFinalized && updateReason !== 'player_disconnect' && updateReason !== 'player_reconnect') {
       console.log("🔄 Round officially finalized - resetting drink assignment state");
       // Reset drink assignment state when the round is finalized
       setDrinkMessage('');  // Clear the drink assignment message
       setAssignedDrinks({});  // Clear the assigned drinks
       setDrinksToGive(0);  // Reset the drinks to give
+      setshotgunsToGive(0);  // Reset shotguns to give
       setIsDistributing(false);  // Turn off drink distribution mode
     } else {
-      console.log("📊 Player stats updated (player join/leave/reconnect) - preserving drink assignment state");
+      console.log(`📊 Player stats updated (${updateReason || 'unknown reason'}) - preserving drink assignment state`);
+      console.log(`Current assignment state - distributing: ${isDistributing}, drinks: ${drinksToGive}, shotguns: ${shotgunsToGive}`);
     }
 
   });
@@ -1232,13 +1235,25 @@ useEffect(() => {
 
 
 useEffect(() => {
-  socket.on('updatePlayerHand', ({ standard, wild }) => {
+  socket.on('updatePlayerHand', ({ standard, wild, postAssignmentSync }) => {
+    // ✅ FIX: Allow post-assignment sync to go through even during assignment
+    if (isDistributing && (drinksToGive > 0 || shotgunsToGive > 0) && !postAssignmentSync) {
+      console.log("🚫 Holding updatePlayerHand during active assignment to preserve UI state");
+      console.log("Assignment state - distributing:", isDistributing, "drinks:", drinksToGive, "shotguns:", shotgunsToGive);
+      return;
+    }
+    
     setPlayers(prevPlayers =>
       prevPlayers.map(player =>
         player.id === socket.id ? { ...player, cards: { standard, wild } } : player
       )
     );
-    console.log("Player hand updated:", { standard, wild });  // Log the updated hand
+    
+    if (postAssignmentSync) {
+      console.log("🔄 Post-assignment sync: Player hand updated:", { standard, wild });
+    } else {
+      console.log("Player hand updated:", { standard, wild });
+    }
     
     // NO AUTO-REFRESH HERE - only refresh on initial connection with URL params
     // Removed refresh logic to prevent mass refreshing of all players
@@ -1247,7 +1262,7 @@ useEffect(() => {
   return () => {
     socket.off('updatePlayerHand');
   };
-}, []);
+}, [isDistributing, drinksToGive, shotgunsToGive]); // ✅ FIX: Depend on assignment state
 
 // Separate useEffect for room events that doesn't depend on players array
 useEffect(() => {
@@ -1295,6 +1310,13 @@ useEffect(() => {
     socket.on('updatePlayers', (playersList) => {
       console.log('👥 DEBUG: Received updatePlayers event with:', playersList);
       console.log('👥 DEBUG: Current players before update:', players);
+      console.log('👥 DEBUG: Current assignment state - distributing:', isDistributing, 'drinks:', drinksToGive, 'shotguns:', shotgunsToGive);
+      
+      // ✅ FIX: Allow updates from post-assignment sync, hold others during assignment
+      if (isDistributing && (drinksToGive > 0 || shotgunsToGive > 0)) {
+        console.log('🚫 Holding updatePlayers during active drink assignment to prevent UI disruption');
+        return;
+      }
       
       // ✅ FIX: Preserve existing card data when updating players list
       const updatedPlayers = playersList.map(serverPlayer => {
@@ -1466,13 +1488,6 @@ useEffect(() => {
       }
     });
 
-    socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
-      setPlayerStats(players);
-      setRoundDrinkResults(roundResults);
-      console.log("Round drink results (for all players):", roundResults);
-      
-      // This handler doesn't reset drink assignment state - that's handled by the main handler above
-    });
 
     socket.on('error', (msg) => {
       setErrorMessage(msg);
