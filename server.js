@@ -99,43 +99,10 @@ const finalizeRound = (roomCode) => {
     // Emit the final round results and updated player stats to everyone in the room
     io.to(roomCode).emit('updatePlayerStats', {
        players: playerStats,
-       roundResults: roundResults[roomCode],  // Send combined round results
-       roundFinalized: true,  // ✅ NEW: Flag to indicate official round end
+       roundResults: roundResults[roomCode],  // Send combined round results  
+       roundFinalized: true,  // ✅ FIX: Flag to indicate official round end
        updateReason: 'round_finalized'  // ✅ FIX: Specify this is a round finalization
     });
-
-    // ✅ FIX: Post-assignment sync - update all player hands and states that were held during assignment
-    if (rooms[roomCode]) {
-      console.log(`🔄 Post-assignment sync - updating all player hands and states for room ${roomCode}`);
-      
-      // Send updated player stats first to refresh totals on UI
-      io.to(roomCode).emit('updatePlayerStats', {
-        players: playerStats,
-        roundResults: {},  // Round just ended, results are now empty
-        roundFinalized: true,
-        updateReason: 'post_assignment_sync'  // Special flag for post-assignment sync
-      });
-      console.log(`📤 Post-sync player stats update for room ${roomCode}`);
-      
-      // Then update hands and players list  
-      rooms[roomCode].players.forEach((player) => {
-        if (!player.disconnected) {
-          const playerHand = playerStats[player.id];
-          if (playerHand) {
-            io.to(player.id).emit('updatePlayerHand', { 
-              standard: playerHand.standard, 
-              wild: playerHand.wild,
-              postAssignmentSync: true  // Flag to indicate this is post-assignment sync
-            });
-            console.log(`📤 Post-sync hand update for player ${player.id}`);
-          }
-        }
-      });
-      
-      // Send complete players list to ensure UI is in sync
-      io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
-      console.log(`📤 Post-sync players list update for room ${roomCode}`);
-    }
  
     // Reset the declaredCard for all players
     declaredCards[roomCode] = null;  // Clear tracked declared card
@@ -146,14 +113,16 @@ const finalizeRound = (roomCode) => {
     console.log(`Round results cleared for room ${roomCode}.`);
     rooms.isActionInProgress = false;
 
- 
-    // Update player hands for the next round
+    // ✅ RESTORED: Update player hands for the next round (original working logic)
     room.players.forEach((player) => {
-      const playerHand = playerStats[player.id];
- 
-      // Send updated hand back to each player
-      io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
-      console.log(`New hand for player ${player.id}:`, playerHand.standard);
+      if (!player.disconnected) {  // ✅ FIX: Only update hands for connected players
+        const playerHand = playerStats[player.id];
+        if (playerHand) {
+          // Send updated hand back to each player
+          io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
+          console.log(`New hand for player ${player.id}:`, playerHand.standard);
+        }
+      }
     });
 
  };

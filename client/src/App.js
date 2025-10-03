@@ -1194,12 +1194,6 @@ useEffect(() => {
       setDrinksToGive(0);  // Reset the drinks to give
       setshotgunsToGive(0);  // Reset shotguns to give
       setIsDistributing(false);  // Turn off drink distribution mode
-      
-      // ✅ FIX: Force UI refresh for post-assignment sync to show updated totals
-      if (updateReason === 'post_assignment_sync') {
-        console.log("🔄 Post-assignment sync - forcing UI refresh to display updated totals");
-        // The state updates above will trigger re-render to show new totals
-      }
     } else {
       console.log(`📊 Player stats updated (${updateReason || 'unknown reason'}) - preserving drink assignment state`);
       console.log(`Current assignment state - distributing: ${isDistributing}, drinks: ${drinksToGive}, shotguns: ${shotgunsToGive}`);
@@ -1241,9 +1235,9 @@ useEffect(() => {
 
 
 useEffect(() => {
-  socket.on('updatePlayerHand', ({ standard, wild, postAssignmentSync }) => {
-    // ✅ FIX: Allow post-assignment sync to go through even during assignment
-    if (isDistributing && (drinksToGive > 0 || shotgunsToGive > 0) && !postAssignmentSync) {
+  socket.on('updatePlayerHand', ({ standard, wild }) => {
+    // ✅ FIX: Allow hand updates after assignments (like from finalizeRound)
+    if (isDistributing && (drinksToGive > 0 || shotgunsToGive > 0)) {
       console.log("🚫 Holding updatePlayerHand during active assignment to preserve UI state");
       console.log("Assignment state - distributing:", isDistributing, "drinks:", drinksToGive, "shotguns:", shotgunsToGive);
       return;
@@ -1254,12 +1248,7 @@ useEffect(() => {
         player.id === socket.id ? { ...player, cards: { standard, wild } } : player
       )
     );
-    
-    if (postAssignmentSync) {
-      console.log("🔄 Post-assignment sync: Player hand updated:", { standard, wild });
-    } else {
-      console.log("Player hand updated:", { standard, wild });
-    }
+    console.log("Player hand updated:", { standard, wild });
     
     // NO AUTO-REFRESH HERE - only refresh on initial connection with URL params
     // Removed refresh logic to prevent mass refreshing of all players
