@@ -1178,37 +1178,35 @@ socket.on('requestGameState', ({ roomCode }) => {
     updateReason: 'player_reconnect'  // ✅ FIX: Critical - mark as reconnect to preserve assignment state
   });
   
-  // ✅ FIX: If assignment is active, send timer and declared card so reconnecting player can join ongoing assignment
-  if (timers[roomCode] && timers[roomCode] > 0) {
-    console.log(`🎯 Active assignment detected for reconnecting player - sending timer (${timers[roomCode]}s) and declared card`);
-    socket.emit('updateTimer', timers[roomCode]);
-    if (declaredCards[roomCode]) {
-      socket.emit('declaredCard', declaredCards[roomCode]);
-      console.log(`📤 Sent declared card "${declaredCards[roomCode]}" to reconnecting player`);
+  // ✅ FIX: If assignment is active, send declared card so reconnecting player can join ongoing assignment
+  if (rooms.isActionInProgress && declaredCards[roomCode]) {
+    console.log(`🎯 Active assignment detected for reconnecting player - sending declared card`);
+    // Note: Timer sync will happen through existing timer broadcast system
+    socket.emit('declaredCard', declaredCards[roomCode]);
+    console.log(`📤 Sent declared card "${declaredCards[roomCode]}" to reconnecting player`);
+    
+    // Check if reconnecting player has the declared card and send distributeDrinks
+    const playerStats = getPlayerStats(roomCode);
+    const playerHand = playerStats[socket.id];
+    if (playerHand) {
+      const hasStandardCard = playerHand.standard?.some(card => card.card === declaredCards[roomCode]);
+      const hasWildCard = playerHand.wild?.some(card => card.card === declaredCards[roomCode]);
       
-      // Check if reconnecting player has the declared card and send distributeDrinks
-      const playerStats = getPlayerStats(roomCode);
-      const playerHand = playerStats[socket.id];
-      if (playerHand) {
-        const hasStandardCard = playerHand.standard?.some(card => card.card === declaredCards[roomCode]);
-        const hasWildCard = playerHand.wild?.some(card => card.card === declaredCards[roomCode]);
+      if (hasStandardCard || hasWildCard) {
+        const card = hasStandardCard ? 
+          playerHand.standard.find(card => card.card === declaredCards[roomCode]) :
+          playerHand.wild.find(card => card.card === declaredCards[roomCode]);
         
-        if (hasStandardCard || hasWildCard) {
-          const card = hasStandardCard ? 
-            playerHand.standard.find(card => card.card === declaredCards[roomCode]) :
-            playerHand.wild.find(card => card.card === declaredCards[roomCode]);
-          
-          const drinks = card.drinks < 10 ? card.drinks : 0;
-          const shotguns = card.drinks >= 10 ? Math.floor(card.drinks / 10) : 0;
-          
-          socket.emit('distributeDrinks', {
-            cardType: declaredCards[roomCode],
-            drinkCount: drinks,
-            shotguns: shotguns,
-            wildcardtype: hasWildCard ? declaredCards[roomCode] : null
-          });
-          console.log(`🍺 Reconnecting player can join assignment: ${drinks} drinks, ${shotguns} shotguns for ${declaredCards[roomCode]}`);
-        }
+        const drinks = card.drinks < 10 ? card.drinks : 0;
+        const shotguns = card.drinks >= 10 ? Math.floor(card.drinks / 10) : 0;
+        
+        socket.emit('distributeDrinks', {
+          cardType: declaredCards[roomCode],
+          drinkCount: drinks,
+          shotguns: shotguns,
+          wildcardtype: hasWildCard ? declaredCards[roomCode] : null
+        });
+        console.log(`🍺 Reconnecting player can join assignment: ${drinks} drinks, ${shotguns} shotguns for ${declaredCards[roomCode]}`);
       }
     }
   }
@@ -1317,7 +1315,7 @@ socket.on('disconnect', (reason) => {
 
           // Update player hands for the remaining ACTIVE players  
           // ✅ FIX: Always skip during assignment - let post-assignment sync handle it
-          const isAssignmentActive = timers[roomCode] && timers[roomCode] > 0;
+          const isAssignmentActive = rooms.isActionInProgress;
           if (!isAssignmentActive) {
             room.players.forEach((player) => {
               if (!player.disconnected) {
@@ -1329,7 +1327,7 @@ socket.on('disconnect', (reason) => {
               }
             });
           } else {
-            console.log(`🚫 Holding updatePlayerHand during active assignment (timer: ${timers[roomCode]}s) - will sync after assignment ends`);
+            console.log(`🚫 Holding updatePlayerHand during active assignment - will sync after assignment ends`);
           }
           
           // Emit updated player stats for the round (to all active players)
