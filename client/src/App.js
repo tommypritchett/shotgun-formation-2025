@@ -1179,10 +1179,18 @@ useEffect(() => {
 
   // Listen for the updated player stats and round results after the timer ends
   socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized, updateReason }) => {
+    console.log("📥 updatePlayerStats received:", { 
+      playersCount: Object.keys(players || {}).length, 
+      roundResultsCount: Object.keys(roundResults || {}).length,
+      roundFinalized, 
+      updateReason 
+    });
+    console.log("Round drink results (for all players):", roundResults);
+    
     setPlayerStats(players);  // Update the overall player stats
     setRoundDrinkResults(roundResults);  // Update the round results
-    console.log("Round drink results (for all players):", roundResults);
-    console.log("Update reason:", updateReason || 'not specified');
+    
+    console.log("✅ React state updated - playerStats and roundDrinkResults set");
 
     // ✅ FIX: Only reset drink assignment state if round is officially finalized
     // Use roundFinalized flag AND updateReason to distinguish official round end vs player updates
@@ -1194,6 +1202,8 @@ useEffect(() => {
       setDrinksToGive(0);  // Reset the drinks to give
       setshotgunsToGive(0);  // Reset shotguns to give
       setIsDistributing(false);  // Turn off drink distribution mode
+      
+      console.log("🎯 Assignment state reset completed");
     } else {
       console.log(`📊 Player stats updated (${updateReason || 'unknown reason'}) - preserving drink assignment state`);
       console.log(`Current assignment state - distributing: ${isDistributing}, drinks: ${drinksToGive}, shotguns: ${shotgunsToGive}`);
@@ -1868,34 +1878,58 @@ socket.on('gameOver', (message) => {
           </ul>
         </div>
         
-        {Object.keys(roundDrinkResults).length > 0 && (
-          <div className="round-results-container">
-            <h3>Round Results</h3>
-            <ul>
-              {Object.entries(roundDrinkResults).map(([id, result]) => {
-                // ✅ FIX: Better player name lookup with fallbacks
-                const playerName = playerStats[id]?.name || 
-                                 players.find(p => p.id === id)?.name || 
-                                 `Player ${id.slice(-4)}`; // Fallback to last 4 chars of ID
-                                 
-                return (
-                <li key={id} style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px'}}>
-                  <span>{playerName}:</span>
-                  <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-                    🍺 {result.drinks}
-                  </div>
-                  {result.shotguns > 0 && (
-                    <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-                      <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
-                      {result.shotguns}
-                    </div>
-                  )}
-                </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
+        {(() => {
+          const roundResultsKeys = Object.keys(roundDrinkResults);
+          console.log("🎯 Rendering round results check:", { 
+            roundDrinkResults, 
+            keysLength: roundResultsKeys.length,
+            keys: roundResultsKeys 
+          });
+          
+          if (roundResultsKeys.length > 0) {
+            console.log("✅ Round results UI SHOULD be visible!");
+            return (
+              <div className="round-results-container" style={{
+                backgroundColor: '#2a2a2a',
+                border: '2px solid #ff6b35',
+                borderRadius: '8px',
+                padding: '16px',
+                margin: '16px 0',
+                color: 'white'
+              }}>
+                <h3 style={{color: '#ff6b35', marginTop: 0}}>🎉 Round Results</h3>
+                <ul style={{listStyle: 'none', padding: 0}}>
+                  {Object.entries(roundDrinkResults).map(([id, result]) => {
+                    // ✅ FIX: Better player name lookup with fallbacks
+                    const playerName = playerStats[id]?.name || 
+                                     players.find(p => p.id === id)?.name || 
+                                     `Player ${id.slice(-4)}`; // Fallback to last 4 chars of ID
+                                     
+                    console.log(`🎯 Rendering result for ${playerName}:`, result);
+                    
+                    return (
+                    <li key={id} style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontSize: '16px'}}>
+                      <span style={{fontWeight: 'bold'}}>{playerName}:</span>
+                      <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                        🍺 {result.drinks}
+                      </div>
+                      {result.shotguns > 0 && (
+                        <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                          <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
+                          {result.shotguns}
+                        </div>
+                      )}
+                    </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          } else {
+            console.log("❌ Round results UI will NOT be visible - no results");
+            return null;
+          }
+        })()}
       </div>
       {/* Wrapping game elements in a container */}
       <div className={`game-elements-container ${isDisabled ? 'game-elements-disabled' : ''}`}>

@@ -111,7 +111,7 @@ const finalizeRound = (roomCode) => {
     // Clear round results for the next round
     roundResults[roomCode] = {};
     console.log(`Round results cleared for room ${roomCode}.`);
-    rooms.isActionInProgress = false;
+    room.isActionInProgress = false;
 
     // ✅ RESTORED: Update player hands for the next round (original working logic)
     room.players.forEach((player) => {
@@ -622,11 +622,11 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     }
 
     // Check if an action is already in progress
-  if (rooms.isActionInProgress) {
+  if (room.isActionInProgress) {
     io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
     return;
   }
-  rooms.isActionInProgress = true;
+  room.isActionInProgress = true;
 
   // Send the declared card to all players in the room
   declaredCards[roomCode] = 'First Down';  // Track declared card for reconnection
@@ -668,15 +668,15 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     if (!room) return;
 
       // Check if an action is already in progress
-      if (rooms.isActionInProgress) {
+      if (room.isActionInProgress) {
         // Emit a message to the frontend asking the player to wait
         io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
         return;
       }
   
       // Set the action as in progress
-      rooms.isActionInProgress = true;
-      console.log(`Action status ${rooms.isActionInProgress} `);
+      room.isActionInProgress = true;
+      console.log(`Action status ${room.isActionInProgress} `);
 
     console.log(`Host in room ${roomCode} has declared ${cardType}.`);
 
@@ -691,7 +691,7 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     if (!anyPlayerHasCard) {
       // If no one has the card, inform the room and reset the action status
       io.to(roomCode).emit('noCard', 'No one had this card');
-      rooms.isActionInProgress = false;
+      room.isActionInProgress = false;
   
       // Show the message for 5 seconds, then clear it
       setTimeout(() => {
@@ -762,7 +762,7 @@ socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype }) => {
   
     // Broadcast the wild card selection to the host
      // Check if an action is already in progress
-     if (rooms.isActionInProgress) {
+     if (room.isActionInProgress) {
         // Emit a message to the frontend asking the player to wait
         io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
         return;
@@ -776,7 +776,7 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
     if (!room) return;
 
     // Check if an action is already in progress
-    if (rooms.isActionInProgress) {
+    if (room.isActionInProgress) {
         // Emit a message to the frontend asking the player to wait
         io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
         return;
@@ -785,7 +785,7 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
     console.log(`Host confirmed wild card: ${wildcardtype} by player ${player}`);
     
     // Set the action as in progress
-    rooms.isActionInProgress = true;
+    room.isActionInProgress = true;
 
     // Notify all players about the wild card action
     declaredCards[roomCode] = wildcardtype;  // Track declared card for reconnection
@@ -1159,7 +1159,7 @@ socket.on('requestGameState', ({ roomCode }) => {
   });
   
   // ✅ FIX: If assignment is active, send declared card so reconnecting player can join ongoing assignment
-  if (rooms.isActionInProgress && declaredCards[roomCode]) {
+  if (room.isActionInProgress && declaredCards[roomCode]) {
     console.log(`🎯 Active assignment detected for reconnecting player - sending declared card`);
     // Note: Timer sync will happen through existing timer broadcast system
     socket.emit('declaredCard', declaredCards[roomCode]);
@@ -1295,7 +1295,7 @@ socket.on('disconnect', (reason) => {
 
           // Update player hands for the remaining ACTIVE players  
           // ✅ FIX: Always skip during assignment - let post-assignment sync handle it
-          const isAssignmentActive = rooms.isActionInProgress;
+          const isAssignmentActive = room.isActionInProgress;
           if (!isAssignmentActive) {
             room.players.forEach((player) => {
               if (!player.disconnected) {
