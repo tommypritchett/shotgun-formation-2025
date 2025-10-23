@@ -1178,8 +1178,12 @@ useEffect(() => {
   });
 
   // Listen for the updated player stats and round results after the timer ends
-  socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized, updateReason }) => {
-    console.log("🚀 CLIENT: updatePlayerStats received:", { 
+  socket.on('updatePlayerStats', (data) => {
+    console.log("🚀 CLIENT: updatePlayerStats RAW data received:", data);
+    
+    const { players, roundResults, roundFinalized, updateReason } = data || {};
+    
+    console.log("🚀 CLIENT: updatePlayerStats processed:", { 
       playersCount: Object.keys(players || {}).length, 
       roundResultsCount: Object.keys(roundResults || {}).length,
       roundFinalized, 
