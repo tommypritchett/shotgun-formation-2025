@@ -1181,19 +1181,35 @@ useEffect(() => {
   socket.on('updatePlayerStats', (data) => {
     console.log("🚀 CLIENT: updatePlayerStats RAW data received:", data);
     
-    const { players, roundResults, roundFinalized, updateReason } = data || {};
+    let roundFinalized = false;
+    let updateReason = 'unknown';
     
-    console.log("🚀 CLIENT: updatePlayerStats processed:", { 
-      playersCount: Object.keys(players || {}).length, 
-      roundResultsCount: Object.keys(roundResults || {}).length,
-      roundFinalized, 
-      updateReason 
-    });
-    console.log("🚀 CLIENT: Round drink results (for all players):", roundResults);
-    console.log("🚀 CLIENT: Full event data:", { players, roundResults, roundFinalized, updateReason });
-    
-    setPlayerStats(players);  // Update the overall player stats
-    setRoundDrinkResults(roundResults);  // Update the round results
+    // Handle both round completion format AND reconnection format
+    if (data && typeof data === 'object') {
+      if (data.players) {
+        // Round completion format: { players: {...}, roundResults: {...}, roundFinalized: true }
+        const { players, roundResults, roundFinalized: isRoundFinalized, updateReason: reason } = data;
+        
+        roundFinalized = isRoundFinalized;
+        updateReason = reason || 'round_completion';
+        
+        console.log("🚀 CLIENT: Round completion format detected:", { 
+          playersCount: Object.keys(players || {}).length, 
+          roundResultsCount: Object.keys(roundResults || {}).length,
+          roundFinalized, 
+          updateReason 
+        });
+        console.log("🚀 CLIENT: Round drink results (for all players):", roundResults);
+        
+        setPlayerStats(players);  // Update the overall player stats
+        setRoundDrinkResults(roundResults);  // Update the round results
+      } else {
+        // Reconnection format: direct stats object
+        console.log("🚀 CLIENT: Reconnection format detected:", data);
+        updateReason = 'reconnection';
+        setPlayerStats(data);
+      }
+    }
     
     console.log("✅ React state updated - playerStats and roundDrinkResults set");
 
