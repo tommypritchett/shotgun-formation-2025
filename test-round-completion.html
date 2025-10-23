@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Round Completion</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Round Completion Test</h1>
+    <div id="status">Connecting...</div>
+    <div id="logs"></div>
+
+    <script>
+        const socket = io();
+        const status = document.getElementById('status');
+        const logs = document.getElementById('logs');
+        
+        function log(message) {
+            const p = document.createElement('p');
+            p.textContent = new Date().toLocaleTimeString() + ': ' + message;
+            logs.appendChild(p);
+            console.log(message);
+        }
+        
+        socket.on('connect', () => {
+            log('✅ Connected to server');
+            status.textContent = 'Connected';
+            
+            // Create a room
+            socket.emit('createRoom', 'TestHost');
+        });
+        
+        socket.on('roomCreated', (roomCode) => {
+            log(`✅ Room created: ${roomCode}`);
+            
+            // Start testing after a short delay
+            setTimeout(() => {
+                log('🎯 Declaring Penalty action...');
+                socket.emit('playStandardCard', { roomCode, cardType: 'Penalty' });
+            }, 2000);
+        });
+        
+        socket.on('updateTimer', (timeRemaining) => {
+            log(`⏰ Timer: ${timeRemaining} seconds remaining`);
+        });
+        
+        socket.on('updatePlayerStats', (data) => {
+            log(`📊 updatePlayerStats received: players=${Object.keys(data.players || {}).length}, roundResults=${Object.keys(data.roundResults || {}).length}, roundFinalized=${data.roundFinalized}, reason=${data.updateReason}`);
+            
+            if (data.roundFinalized) {
+                log('🎉 ROUND COMPLETED! Round results should be available now.');
+            }
+        });
+        
+        socket.on('distributeDrinks', (data) => {
+            log(`🍺 distributeDrinks: ${data.drinkCount} drinks for ${data.cardType}`);
+            
+            // Auto-assign drinks for testing
+            setTimeout(() => {
+                log('🎯 Auto-assigning drinks...');
+                socket.emit('assignDrinks', { 
+                    roomCode: roomCode,
+                    drinksToGive: { [socket.id]: data.drinkCount },
+                    shotgunsToGive: { [socket.id]: 0 }
+                });
+            }, 1000);
+        });
+        
+        socket.on('declaredCard', (cardType) => {
+            if (cardType) {
+                log(`📋 Card declared: ${cardType}`);
+            } else {
+                log('📋 Card declaration cleared');
+            }
+        });
+        
+        socket.on('error', (error) => {
+            log(`❌ Error: ${error}`);
+        });
+        
+        let roomCode = null;
+        socket.on('roomCreated', (code) => {
+            roomCode = code;
+        });
+    </script>
+</body>
+</html>
