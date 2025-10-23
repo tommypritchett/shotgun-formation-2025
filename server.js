@@ -100,13 +100,19 @@ const finalizeRound = (roomCode) => {
     const currentRoundResults = roundResults[roomCode] || {};
     console.log(`🚀 FIX: Emitting roundResults for room ${roomCode}:`, currentRoundResults);
     
-    // Emit the final round results and updated player stats to everyone in the room
-    io.to(roomCode).emit('updatePlayerStats', {
+    const updateData = {
        players: playerStats,
        roundResults: currentRoundResults,  // Send combined round results  
        roundFinalized: true,  // ✅ FIX: Flag to indicate official round end
        updateReason: 'round_finalized'  // ✅ FIX: Specify this is a round finalization
-    });
+    };
+    
+    console.log(`🚀 EMIT: About to emit updatePlayerStats to room ${roomCode} with data:`, JSON.stringify(updateData, null, 2));
+    
+    // Emit the final round results and updated player stats to everyone in the room
+    io.to(roomCode).emit('updatePlayerStats', updateData);
+    
+    console.log(`🚀 EMIT: updatePlayerStats emitted to room ${roomCode}`);
  
     // Reset the declaredCard for all players
     declaredCards[roomCode] = null;  // Clear tracked declared card
