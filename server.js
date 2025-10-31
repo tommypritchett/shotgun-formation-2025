@@ -109,8 +109,21 @@ const finalizeRound = (roomCode) => {
     
     console.log(`🚀 EMIT: About to emit updatePlayerStats to room ${roomCode} with data:`, JSON.stringify(updateData, null, 2));
     
+    // Debug: Check who is actually in the room
+    const roomMembers = io.sockets.adapter.rooms.get(roomCode);
+    console.log(`🚀 DEBUG: Room ${roomCode} members:`, Array.from(roomMembers || []));
+    console.log(`🚀 DEBUG: Players in game:`, room.players.map(p => p.id));
+    
     // Emit the final round results and updated player stats to everyone in the room
     io.to(roomCode).emit('updatePlayerStats', updateData);
+    
+    // ALSO emit directly to each player as fallback
+    room.players.forEach((player) => {
+      if (!player.disconnected) {
+        console.log(`🚀 FALLBACK: Emitting directly to player ${player.id}`);
+        io.to(player.id).emit('updatePlayerStats', updateData);
+      }
+    });
     
     console.log(`🚀 EMIT: updatePlayerStats emitted to room ${roomCode}`);
  
