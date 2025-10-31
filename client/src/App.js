@@ -1551,14 +1551,8 @@ useEffect(() => {
       // No auto-refresh here - let the personal refresh signal handle this
     });
 
-    // Listen for player stats updates (specifically for reconnections)
-    socket.on('updatePlayerStats', (stats) => {
-      // Only update if it's a direct stats object (not the round results format)
-      if (stats && typeof stats === 'object' && !stats.players) {
-        setPlayerStats(stats);
-        console.log('Updated player stats after reconnection:', stats);
-      }
-    });
+    // ✅ REMOVED: Second updatePlayerStats handler that was causing conflicts
+    // The main handler now handles both round completion AND reconnection formats
 
     // ✅ REMOVED triggerPersonalRefresh handler - gameStarted already handles reconnection perfectly
     console.log(`🎯 Reconnection handling simplified - gameStarted event provides all necessary data`);
