@@ -1409,9 +1409,12 @@ useEffect(() => {
 
     socket.on('distributeDrinks', ({ cardType, drinkCount, wildcardtype, shotguns }) => {
       const player = players.find(p => p.id === socket.id);
+      console.log('🍺 DISTRIBUTE DRINKS: Player found:', player?.name, 'Has cards:', !!player?.cards);
+      console.log('🍺 DISTRIBUTE DRINKS: Looking for cardType:', cardType, 'wildcardtype:', wildcardtype);
+      console.log('🍺 DISTRIBUTE DRINKS: Player cards:', player?.cards);
     
       // Check if the player has the declared standard card
-      if (player && player.cards.standard.some(card => card.card === cardType)) {
+      if (player && player.cards && player.cards.standard && player.cards.standard.some(card => card.card === cardType)) {
         setDeclaredCard(cardType);  // Set the declared card globally
     
         let message = '';
@@ -1435,7 +1438,7 @@ useEffect(() => {
         console.log('Drink Message', message);
 
       // Check if the player has the declared wild card
-      } else if (player && player.cards.wild.some(card => card.card === wildcardtype)) {
+      } else if (player && player.cards && player.cards.wild && player.cards.wild.some(card => card.card === wildcardtype)) {
         setDeclaredCard(wildcardtype);  // Set the declared card globally
     
         let message = '';
