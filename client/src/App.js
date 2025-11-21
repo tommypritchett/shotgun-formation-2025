@@ -1539,6 +1539,19 @@ useEffect(() => {
       // No auto-refresh here - let the personal refresh signal handle this
     });
 
+    // Handle playerRejoined events (protect from state corruption)
+    socket.on('playerRejoined', ({ playerId, playerName }) => {
+      // 🛡️ PROTECTION: Ignore playerRejoined events during drink distribution
+      if (isDistributing) {
+        console.log('🛡️ PROTECTED: Ignoring playerRejoined event while distributing drinks');
+        console.log(`🛡️ REASON: ${playerName} rejoined but not updating UI to prevent corruption`);
+        return;
+      }
+      
+      console.log(`👥 Player ${playerName} rejoined the game`);
+      // Note: No setPlayers() call needed here - updatePlayers handles the actual list updates
+    });
+
     // Listen for player stats updates (specifically for reconnections)
     socket.on('updatePlayerStats', (stats) => {
       // Only update if it's a direct stats object (not the round results format)
@@ -1588,6 +1601,7 @@ socket.on('gameOver', (message) => {
       socket.off('newHost');
       socket.off('playerDisconnected');
       socket.off('playerReconnected');
+      socket.off('playerRejoined');
       socket.off('updatePlayerStats');
       // ✅ REMOVED triggerPersonalRefresh cleanup - handler removed
     };
