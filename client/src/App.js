@@ -1296,6 +1296,13 @@ useEffect(() => {
       console.log('👥 DEBUG: Received updatePlayers event with:', playersList);
       console.log('👥 DEBUG: Current players before update:', players);
       
+      // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
+      if (isDistributing) {
+        console.log('🛡️ PROTECTED: Skipping player update while distributing drinks');
+        console.log('🛡️ REASON: Preventing state corruption during drink assignment');
+        return;
+      }
+      
       // ✅ FIX: Preserve existing card data when updating players list
       const updatedPlayers = playersList.map(serverPlayer => {
         // Find if this player already exists in our local players array
@@ -1384,10 +1391,17 @@ useEffect(() => {
         console.log('🎯 Stored cards for upcoming updatePlayers event');
       } else {
         console.log('🔧 DEBUG: Updating existing players array with cards');
-        setPlayers(players.map(player => ({
-          ...player,
-          cards: hands[player.id]
-        })));
+        
+        // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
+        if (isDistributing) {
+          console.log('🛡️ PROTECTED: Skipping gameStarted player update while distributing drinks');
+          console.log('🛡️ REASON: Preventing state corruption during drink assignment');
+        } else {
+          setPlayers(players.map(player => ({
+            ...player,
+            cards: hands[player.id]
+          })));
+        }
       }
       
       // Set player stats to show the initial scoreboard
@@ -1494,7 +1508,13 @@ useEffect(() => {
 
     // Handle when a player disconnects during the game
     socket.on('playerDisconnected', ({ playerId, playerName, remainingPlayers, allPlayers }) => {
-      setPlayers(allPlayers);  // Update to show all players including disconnected ones
+      // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
+      if (isDistributing) {
+        console.log('🛡️ PROTECTED: Skipping playerDisconnected update while distributing drinks');
+        console.log('🛡️ REASON: Preventing state corruption during drink assignment');
+      } else {
+        setPlayers(allPlayers);  // Update to show all players including disconnected ones
+      }
       console.log(`Player ${playerName} disconnected`);
     });
 
@@ -1502,13 +1522,19 @@ useEffect(() => {
     socket.on('playerReconnected', ({ playerId, playerName: reconnectedPlayerName, allPlayers }) => {
       console.log(`Player ${reconnectedPlayerName} reconnected`);
       
-      // Update players list immediately
-      setPlayers(allPlayers);
-      
-      // Force a UI update to prevent white screen
-      setTimeout(() => {
-        setPlayers(prevPlayers => [...prevPlayers]);
-      }, 100);
+      // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
+      if (isDistributing) {
+        console.log('🛡️ PROTECTED: Skipping playerReconnected update while distributing drinks');
+        console.log('🛡️ REASON: Preventing state corruption during drink assignment');
+      } else {
+        // Update players list immediately
+        setPlayers(allPlayers);
+        
+        // Force a UI update to prevent white screen
+        setTimeout(() => {
+          setPlayers(prevPlayers => [...prevPlayers]);
+        }, 100);
+      }
       
       // No auto-refresh here - let the personal refresh signal handle this
     });
