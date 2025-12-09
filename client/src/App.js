@@ -96,6 +96,19 @@ function App() {
   const [playerName, setPlayerName] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const [players, setPlayers] = useState([]);  // Initialize as array
+  
+  // 🔧 CRITICAL FIX: Use refs to prevent useEffect re-runs from destroying handlers
+  const playersRef = useRef([]);
+  const isDistributingRef = useRef(false);
+  
+  // Keep refs in sync with state
+  useEffect(() => {
+    playersRef.current = players;
+  }, [players]);
+  
+  useEffect(() => {
+    isDistributingRef.current = isDistributing;
+  }, [isDistributing]);
   const [isHost, setIsHost] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [drinkMessage, setDrinkMessage] = useState(''); // Message for drink assignments
@@ -1294,10 +1307,10 @@ useEffect(() => {
 
     socket.on('updatePlayers', (playersList) => {
       console.log('👥 DEBUG: Received updatePlayers event with:', playersList);
-      console.log('👥 DEBUG: Current players before update:', players);
+      console.log('👥 DEBUG: Current players before update:', playersRef.current);
       
       // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
-      if (isDistributing) {
+      if (isDistributingRef.current) {
         console.log('🛡️ PROTECTED: Skipping player update while distributing drinks');
         console.log('🛡️ REASON: Preventing state corruption during drink assignment');
         return;
@@ -1306,7 +1319,7 @@ useEffect(() => {
       // ✅ FIX: Preserve existing card data when updating players list
       const updatedPlayers = playersList.map(serverPlayer => {
         // Find if this player already exists in our local players array
-        const existingPlayer = players.find(p => p.id === serverPlayer.id);
+        const existingPlayer = playersRef.current.find(p => p.id === serverPlayer.id);
         
         // If player exists locally and has cards, preserve the cards
         if (existingPlayer && existingPlayer.cards) {
@@ -1393,11 +1406,11 @@ useEffect(() => {
         console.log('🔧 DEBUG: Updating existing players array with cards');
         
         // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
-        if (isDistributing) {
+        if (isDistributingRef.current) {
           console.log('🛡️ PROTECTED: Skipping gameStarted player update while distributing drinks');
           console.log('🛡️ REASON: Preventing state corruption during drink assignment');
         } else {
-          setPlayers(players.map(player => ({
+          setPlayers(playersRef.current.map(player => ({
             ...player,
             cards: hands[player.id]
           })));
@@ -1422,7 +1435,7 @@ useEffect(() => {
     });
 
     socket.on('distributeDrinks', ({ cardType, drinkCount, wildcardtype, shotguns }) => {
-      const player = players.find(p => p.id === socket.id);
+      const player = playersRef.current.find(p => p.id === socket.id);
       console.log('🍺 DISTRIBUTE DRINKS: Player found:', player?.name, 'Has cards:', !!player?.cards);
       console.log('🍺 DISTRIBUTE DRINKS: Looking for cardType:', cardType, 'wildcardtype:', wildcardtype);
       console.log('🍺 DISTRIBUTE DRINKS: Player cards:', player?.cards);
@@ -1509,7 +1522,7 @@ useEffect(() => {
     // Handle when a player disconnects during the game
     socket.on('playerDisconnected', ({ playerId, playerName, remainingPlayers, allPlayers }) => {
       // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
-      if (isDistributing) {
+      if (isDistributingRef.current) {
         console.log('🛡️ PROTECTED: Skipping playerDisconnected update while distributing drinks');
         console.log('🛡️ REASON: Preventing state corruption during drink assignment');
       } else {
@@ -1523,7 +1536,7 @@ useEffect(() => {
       console.log(`Player ${reconnectedPlayerName} reconnected`);
       
       // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
-      if (isDistributing) {
+      if (isDistributingRef.current) {
         console.log('🛡️ PROTECTED: Skipping playerReconnected update while distributing drinks');
         console.log('🛡️ REASON: Preventing state corruption during drink assignment');
       } else {
@@ -1542,7 +1555,7 @@ useEffect(() => {
     // Handle playerRejoined events (protect from state corruption)
     socket.on('playerRejoined', ({ playerId, playerName }) => {
       // 🛡️ PROTECTION: Ignore playerRejoined events during drink distribution
-      if (isDistributing) {
+      if (isDistributingRef.current) {
         console.log('🛡️ PROTECTED: Ignoring playerRejoined event while distributing drinks');
         console.log(`🛡️ REASON: ${playerName} rejoined but not updating UI to prevent corruption`);
         return;
@@ -1605,7 +1618,7 @@ socket.on('gameOver', (message) => {
       socket.off('updatePlayerStats');
       // ✅ REMOVED triggerPersonalRefresh cleanup - handler removed
     };
-  }, [players]);
+  }, []); // 🔧 CRITICAL FIX: Empty dependency - handlers created once, never destroyed during gameplay
 
   // 🔍 COMPREHENSIVE DEBUG RENDER MODE - bypasses all logic
   if (window.location.search.includes('debugrender')) {
