@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect, useRef, Component } from 'react';
 import io from 'socket.io-client';
 import './App.css';  // Import the updated CSS
 import shotgunIcon from './shotgun_icon.png';  // Import shotgun icon
