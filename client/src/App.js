@@ -43,7 +43,7 @@ class ErrorBoundary extends Component {
             <summary>Error Details (click to expand)</summary>
             {this.state.error && this.state.error.toString()}
             <br />
-            {this.state.errorInfo.componentStack}
+            {this.state.errorInfo && this.state.errorInfo.componentStack}
           </details>
           <button 
             onClick={() => window.location.reload()}
