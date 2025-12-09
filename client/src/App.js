@@ -122,6 +122,7 @@ function App() {
   // New state to track if host selection is in progress
 const [isHostSelection, setIsHostSelection] = useState(false);
     const [isDistributing, setIsDistributing] = useState(false);  // Flag to control drink distribution
+  const [hasMatchingCardForCurrentEvent, setHasMatchingCardForCurrentEvent] = useState(false);  // Track if current player has matching card
   //const [drinksAssignedThisRound, setDrinksAssignedThisRound] = useState(0); 
   const [declaredCard, setDeclaredCard] = useState('');
   // Initialize wildCardSelections to store the selected wild card for each player
@@ -139,6 +140,10 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   useEffect(() => {
     isDistributingRef.current = isDistributing;
   }, [isDistributing]);
+
+  useEffect(() => {
+    window.hasMatchingCardForCurrentEvent = hasMatchingCardForCurrentEvent;  // For debugging
+  }, [hasMatchingCardForCurrentEvent]);
 
   // URL management functions
   const updateURL = (roomCode, playerName) => {
@@ -1198,16 +1203,21 @@ useEffect(() => {
     console.log("Round drink results (for all players):", roundResults);
 
     // ✅ FIX: Only reset drink assignment state if round is officially finalized
-    // Use roundFinalized flag to distinguish official round end vs player updates
-    if (roundFinalized) {
+    // 🛡️ ULTRA PROTECTION: Never reset during active drink distribution
+    if (roundFinalized === true && !isDistributingRef.current) {  
       console.log("🔄 Round officially finalized - resetting drink assignment state");
       // Reset drink assignment state when the round is finalized
       setDrinkMessage('');  // Clear the drink assignment message
       setAssignedDrinks({});  // Clear the assigned drinks
       setDrinksToGive(0);  // Reset the drinks to give
       setIsDistributing(false);  // Turn off drink distribution mode
+      setHasMatchingCardForCurrentEvent(false);  // Clear matching card flag
     } else {
       console.log("📊 Player stats updated (player join/leave/reconnect) - preserving drink assignment state");
+      console.log("🔧 DEBUG: roundFinalized value:", roundFinalized, "type:", typeof roundFinalized);
+      if (isDistributingRef.current) {
+        console.log("🛡️ ULTRA PROTECTION: Active drink distribution detected - blocking any state reset");
+      }
     }
 
   });
@@ -1310,11 +1320,10 @@ useEffect(() => {
       console.log('👥 DEBUG: Received updatePlayers event with:', playersList);
       console.log('👥 DEBUG: Current players before update:', playersRef.current);
       
-      // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
+      // 🛡️ SELECTIVE PROTECTION: Allow player updates but preserve distributing player's cards
       if (isDistributingRef.current) {
-        console.log('🛡️ PROTECTED: Skipping player update while distributing drinks');
-        console.log('🛡️ REASON: Preventing state corruption during drink assignment');
-        return;
+        console.log('🛡️ SELECTIVE PROTECTION: Player update during drink distribution - preserving current player cards');
+        console.log('🛡️ REASON: Allowing reconnection updates while protecting drink assignment state');
       }
       
       // ✅ FIX: Preserve existing card data when updating players list
@@ -1325,6 +1334,12 @@ useEffect(() => {
         // If player exists locally and has cards, preserve the cards
         if (existingPlayer && existingPlayer.cards) {
           console.log(`👥 DEBUG: Preserving cards for player ${serverPlayer.name}`);
+          
+          // 🛡️ EXTRA PROTECTION: If this is the current player and they're distributing, ensure cards are preserved
+          if (serverPlayer.id === socket.id && isDistributingRef.current) {
+            console.log('🛡️ CRITICAL PROTECTION: Preserving current player cards during drink distribution');
+          }
+          
           return {
             ...serverPlayer,
             cards: existingPlayer.cards  // Keep the cards from local state
@@ -1406,16 +1421,17 @@ useEffect(() => {
       } else {
         console.log('🔧 DEBUG: Updating existing players array with cards');
         
-        // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
+        // 🛡️ SELECTIVE PROTECTION: Allow gameStarted updates but preserve distributing player state
         if (isDistributingRef.current) {
-          console.log('🛡️ PROTECTED: Skipping gameStarted player update while distributing drinks');
-          console.log('🛡️ REASON: Preventing state corruption during drink assignment');
-        } else {
-          setPlayers(playersRef.current.map(player => ({
-            ...player,
-            cards: hands[player.id]
-          })));
+          console.log('🛡️ SELECTIVE PROTECTION: gameStarted during drink distribution - maintaining assignment state');
+          console.log('🛡️ REASON: Allowing game updates while protecting drink assignment');
         }
+        
+        // Always process gameStarted updates (with card preservation already built-in)
+        setPlayers(playersRef.current.map(player => ({
+          ...player,
+          cards: hands[player.id]
+        })));
       }
       
       // Set player stats to show the initial scoreboard
@@ -1461,6 +1477,7 @@ useEffect(() => {
         setDrinksToGive(drinkCount);
         setshotgunsToGive(shotguns);
         setIsDistributing(true);  // Set flag to true to indicate distribution is active
+        setHasMatchingCardForCurrentEvent(true);  // Mark that this player has matching card
         setAssignedDrinks({});
         console.log("Drinks", drinkCount, "Shotgun", shotguns);
         console.log('Drink Message', message);
@@ -1485,15 +1502,21 @@ useEffect(() => {
         setDrinksToGive(drinkCount);
         setshotgunsToGive(shotguns);
         setIsDistributing(true);  // Set flag to true to indicate distribution is active
+        setHasMatchingCardForCurrentEvent(true);  // Mark that this player has matching card
         setAssignedDrinks({});
         console.log("Drinks", drinkCount, "Shotgun", shotguns);
         console.log('Drink Message', message);
 
     
       } else {
-        // Clear the message and distribution flag for players without the card
-        setDrinkMessage('');  
-        setIsDistributing(false);
+        // 🛡️ PROTECTION: Only clear if no one else is distributing
+        if (!isDistributingRef.current) {
+          // Clear the message and distribution flag for players without the card
+          setDrinkMessage('');  
+          setIsDistributing(false);
+        } else {
+          console.log('🛡️ PROTECTED: Not clearing distribution state - other players may be distributing');
+        }
       }
     });
 
@@ -1522,13 +1545,24 @@ useEffect(() => {
 
     // Handle when a player disconnects during the game
     socket.on('playerDisconnected', ({ playerId, playerName, remainingPlayers, allPlayers }) => {
-      // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
+      // 🛡️ SELECTIVE PROTECTION: Allow disconnect updates but preserve distributing player state
       if (isDistributingRef.current) {
-        console.log('🛡️ PROTECTED: Skipping playerDisconnected update while distributing drinks');
-        console.log('🛡️ REASON: Preventing state corruption during drink assignment');
-      } else {
-        setPlayers(allPlayers);  // Update to show all players including disconnected ones
+        console.log('🛡️ SELECTIVE PROTECTION: Player disconnect during drink distribution - maintaining assignment state');
+        console.log('🛡️ REASON: Allowing disconnect updates while protecting drink assignment');
       }
+      
+      // ✅ FIX: Use card preservation logic for disconnect updates too
+      const preservedPlayers = allPlayers.map(serverPlayer => {
+        const existingPlayer = playersRef.current.find(p => p.id === serverPlayer.id);
+        if (existingPlayer && existingPlayer.cards) {
+          return {
+            ...serverPlayer,
+            cards: existingPlayer.cards  // Preserve existing cards
+          };
+        }
+        return serverPlayer;
+      });
+      setPlayers(preservedPlayers);
       console.log(`Player ${playerName} disconnected`);
     });
 
@@ -1536,19 +1570,29 @@ useEffect(() => {
     socket.on('playerReconnected', ({ playerId, playerName: reconnectedPlayerName, allPlayers }) => {
       console.log(`Player ${reconnectedPlayerName} reconnected`);
       
-      // 🛡️ PROTECTION: Don't update players if user is currently distributing drinks
+      // 🛡️ SELECTIVE PROTECTION: Allow reconnection updates but preserve distributing player state
       if (isDistributingRef.current) {
-        console.log('🛡️ PROTECTED: Skipping playerReconnected update while distributing drinks');
-        console.log('🛡️ REASON: Preventing state corruption during drink assignment');
-      } else {
-        // Update players list immediately
-        setPlayers(allPlayers);
-        
-        // Force a UI update to prevent white screen
-        setTimeout(() => {
-          setPlayers(prevPlayers => [...prevPlayers]);
-        }, 100);
+        console.log('🛡️ SELECTIVE PROTECTION: Player reconnection during drink distribution - maintaining assignment state');
+        console.log('🛡️ REASON: Allowing reconnection updates while protecting drink assignment');
       }
+      
+      // ✅ FIX: Use card preservation logic for reconnection updates too  
+      const preservedPlayers = allPlayers.map(serverPlayer => {
+        const existingPlayer = playersRef.current.find(p => p.id === serverPlayer.id);
+        if (existingPlayer && existingPlayer.cards) {
+          return {
+            ...serverPlayer,
+            cards: existingPlayer.cards  // Preserve existing cards
+          };
+        }
+        return serverPlayer;
+      });
+      setPlayers(preservedPlayers);
+      
+      // Force a UI update to prevent white screen
+      setTimeout(() => {
+        setPlayers(prevPlayers => [...prevPlayers]);
+      }, 100);
       
       // No auto-refresh here - let the personal refresh signal handle this
     });
@@ -1979,9 +2023,7 @@ socket.on('gameOver', (message) => {
       {/* Drink Assignment Section - Always Visible */}
       <div style={{marginTop: '20px'}}>
         {/* Show different content based on whether player can distribute */}
-        {(players.find(p => p.id === socket.id)?.cards?.standard?.some(card => card.card === declaredCard) ||
-          players.find(p => p.id === socket.id)?.cards?.wild?.some(card => card.card === declaredCard)) &&
-          isDistributing && (drinksToGive > 0 || shotgunsToGive > 0) ? (
+        {hasMatchingCardForCurrentEvent && isDistributing && (drinksToGive > 0 || shotgunsToGive > 0) ? (
           <div>
             <div className="drink-message">{drinkMessage}</div>
             <div className="player-assignment-grid">
