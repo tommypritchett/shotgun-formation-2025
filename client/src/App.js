@@ -1436,7 +1436,7 @@ useEffect(() => {
     });
 
     socket.on('distributeDrinks', ({ cardType, drinkCount, wildcardtype, shotguns }) => {
-      const player = players.find(p => p.id === socket.id);
+      const player = playersRef.current.find(p => p.id === socket.id);
       console.log('🍺 DISTRIBUTE DRINKS: Player found:', player?.name, 'Has cards:', !!player?.cards);
       console.log('🍺 DISTRIBUTE DRINKS: Looking for cardType:', cardType, 'wildcardtype:', wildcardtype);
       console.log('🍺 DISTRIBUTE DRINKS: Player cards:', player?.cards);
