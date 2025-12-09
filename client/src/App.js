@@ -131,6 +131,15 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   const [selectedWildCardToDiscard, setSelectedWildCardToDiscard] = useState(null);  // Track the selected wild card to discard
   const [instructionsmessage] = useState('Instructions: \n1. Host will select a card event when an event occurs.\n2. If you have corresponding cards you will be prompted to Assign drinks or shotguns.\n3. Select your Neon Green Wild Card when the event occurs. Host will confirm event\n4. After each Quarter the host will confirm a Quarter has ended and you will have an option to swap out one of your wild cards\n5. Drink responsibly! Must be 21+ Years Old');
 
+  // 🔧 CRITICAL FIX: Sync refs with state to restore functionality
+  useEffect(() => {
+    playersRef.current = players;
+  }, [players]);
+
+  useEffect(() => {
+    isDistributingRef.current = isDistributing;
+  }, [isDistributing]);
+
   // URL management functions
   const updateURL = (roomCode, playerName) => {
     if (roomCode && playerName) {
@@ -1311,7 +1320,7 @@ useEffect(() => {
       // ✅ FIX: Preserve existing card data when updating players list
       const updatedPlayers = playersList.map(serverPlayer => {
         // Find if this player already exists in our local players array
-        const existingPlayer = playersRef.current.find(p => p.id === serverPlayer.id);
+        const existingPlayer = players.find(p => p.id === serverPlayer.id);
         
         // If player exists locally and has cards, preserve the cards
         if (existingPlayer && existingPlayer.cards) {
@@ -1387,8 +1396,8 @@ useEffect(() => {
       console.log('🔧 DEBUG: Current players array length:', players.length);
       console.log('🔧 DEBUG: Available hands for socket IDs:', Object.keys(hands));
       
-      if (players.length === 0) {
-        console.log('🔧 DEBUG: Players array is empty - will wait for updatePlayers to create proper entry');
+      if (playersRef.current.length === 0) {
+        console.log('🔧 DEBUG: Players ref is empty - will wait for updatePlayers to create proper entry');
         // ✅ FIX: Store cards in temporary state for updatePlayers to use
         window.pendingPlayerCards = {
           [socket.id]: hands[socket.id]
@@ -1427,7 +1436,7 @@ useEffect(() => {
     });
 
     socket.on('distributeDrinks', ({ cardType, drinkCount, wildcardtype, shotguns }) => {
-      const player = playersRef.current.find(p => p.id === socket.id);
+      const player = players.find(p => p.id === socket.id);
       console.log('🍺 DISTRIBUTE DRINKS: Player found:', player?.name, 'Has cards:', !!player?.cards);
       console.log('🍺 DISTRIBUTE DRINKS: Looking for cardType:', cardType, 'wildcardtype:', wildcardtype);
       console.log('🍺 DISTRIBUTE DRINKS: Player cards:', player?.cards);
