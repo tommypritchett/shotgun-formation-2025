@@ -101,14 +101,6 @@ function App() {
   const playersRef = useRef([]);
   const isDistributingRef = useRef(false);
   
-  // Keep refs in sync with state
-  useEffect(() => {
-    playersRef.current = players;
-  }, [players]);
-  
-  useEffect(() => {
-    isDistributingRef.current = isDistributing;
-  }, [isDistributing]);
   const [isHost, setIsHost] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [drinkMessage, setDrinkMessage] = useState(''); // Message for drink assignments
