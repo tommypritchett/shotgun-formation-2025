@@ -107,6 +107,7 @@ function App() {
   //const [drinkAssignments, setDrinkAssignments] = useState([]); // Track drink assignments
   const [playerStats, setPlayerStats] = useState({});  // Overall stats
   const [roundDrinkResults, setRoundDrinkResults] = useState({});  // Drinks for the current round
+  const [playerNameMap, setPlayerNameMap] = useState({});  // Track ID -> Name mappings
   const [timeRemaining, setTimeRemaining] = useState(0);  // Timer for drink assignment
   const [drinksToGive, setDrinksToGive] = useState(0);  // Track total drinks for this action
   const [shotgunsToGive, setshotgunsToGive] = useState(0);  // Track total shotguns for this action 
@@ -1199,6 +1200,33 @@ useEffect(() => {
   // Listen for the updated player stats and round results after the timer ends
   socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
     setPlayerStats(players);  // Update the overall player stats
+    
+    // ✅ ENHANCED: Store player name mappings when round results are received
+    if (roundResults) {
+      const newNameMap = {};
+      Object.keys(roundResults).forEach(playerId => {
+        let playerName = players[playerId]?.name || playersRef.current?.find(p => p.id === playerId)?.name;
+        
+        // ✅ FALLBACK: If name not found by ID, try to match by process of elimination
+        if (!playerName) {
+          const knownPlayerNames = Object.values(players).map(p => p.name).filter(Boolean);
+          const mappedNames = Object.values(playerNameMap).filter(Boolean);
+          const unmappedName = knownPlayerNames.find(name => !mappedNames.includes(name));
+          
+          if (unmappedName) {
+            playerName = unmappedName;
+            console.log(`🔍 Found unmapped player by elimination: ${playerId} -> ${playerName}`);
+          }
+        }
+        
+        if (playerName) {
+          newNameMap[playerId] = playerName;
+        }
+      });
+      setPlayerNameMap(prev => ({ ...prev, ...newNameMap }));
+      console.log("📝 Updated player name mappings:", newNameMap);
+    }
+    
     setRoundDrinkResults(roundResults);  // Update the round results
     console.log("Round drink results (for all players):", roundResults);
 
@@ -1522,6 +1550,33 @@ useEffect(() => {
 
     socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
       setPlayerStats(players);
+      
+      // ✅ ENHANCED: Store player name mappings when round results are received
+      if (roundResults) {
+        const newNameMap = {};
+        Object.keys(roundResults).forEach(playerId => {
+          let playerName = players[playerId]?.name || playersRef.current?.find(p => p.id === playerId)?.name;
+          
+          // ✅ FALLBACK: If name not found by ID, try to match by process of elimination
+          if (!playerName) {
+            const knownPlayerNames = Object.values(players).map(p => p.name).filter(Boolean);
+            const mappedNames = Object.values(playerNameMap).filter(Boolean);
+            const unmappedName = knownPlayerNames.find(name => !mappedNames.includes(name));
+            
+            if (unmappedName) {
+              playerName = unmappedName;
+              console.log(`🔍 Found unmapped player by elimination (handler 2): ${playerId} -> ${playerName}`);
+            }
+          }
+          
+          if (playerName) {
+            newNameMap[playerId] = playerName;
+          }
+        });
+        setPlayerNameMap(prev => ({ ...prev, ...newNameMap }));
+        console.log("📝 Updated player name mappings (handler 2):", newNameMap);
+      }
+      
       setRoundDrinkResults(roundResults);
       console.log("Round drink results (for all players):", roundResults);
       
@@ -1607,6 +1662,15 @@ useEffect(() => {
       }
       
       console.log(`👥 Player ${playerName} rejoined the game`);
+      
+      // ✅ ENHANCED: Update name mapping for reconnected player
+      if (playerId && playerName) {
+        setPlayerNameMap(prev => ({
+          ...prev,
+          [playerId]: playerName
+        }));
+        console.log(`📝 Updated name mapping for reconnected player: ${playerId} -> ${playerName}`);
+      }
       // Note: No setPlayers() call needed here - updatePlayers handles the actual list updates
     });
 
@@ -1964,10 +2028,11 @@ socket.on('gameOver', (message) => {
             <h3>Round Results</h3>
             <ul>
               {Object.entries(roundDrinkResults).map(([id, result]) => {
-                // ✅ FIX: Better player name lookup with fallbacks
+                // ✅ ENHANCED FIX: Use stored player name mappings for robust lookup
                 const playerName = playerStats[id]?.name || 
                                  players.find(p => p.id === id)?.name || 
-                                 `Player ${id.slice(-4)}`; // Fallback to last 4 chars of ID
+                                 playerNameMap[id] || 
+                                 `Player ${id.slice(-4)}`;
                                  
                 return (
                 <li key={id} style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px'}}>
