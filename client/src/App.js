@@ -145,6 +145,11 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   useEffect(() => {
     window.hasMatchingCardForCurrentEvent = hasMatchingCardForCurrentEvent;  // For debugging
   }, [hasMatchingCardForCurrentEvent]);
+  
+  useEffect(() => {
+    window.playerStats = playerStats;  // For debugging
+    console.log("🔍 DEBUG: playerStats updated:", playerStats);
+  }, [playerStats]);
 
   // URL management functions
   const updateURL = (roomCode, playerName) => {
@@ -1199,8 +1204,6 @@ useEffect(() => {
 
   // Listen for the updated player stats and round results after the timer ends
   socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
-    setPlayerStats(players);  // Update the overall player stats
-    
     // ✅ ENHANCED: Store player name mappings when round results are received
     if (roundResults) {
       const newNameMap = {};
@@ -1225,6 +1228,34 @@ useEffect(() => {
       });
       setPlayerNameMap(prev => ({ ...prev, ...newNameMap }));
       console.log("📝 Updated player name mappings:", newNameMap);
+    }
+    
+    // ✅ ENHANCED: Update player stats properly - players is the actual stats object from server
+    if (players) {
+      const mergedStats = { ...players };  // players is actually the stats object from server
+      
+      // Check for reconnected players that need stats merging
+      Object.entries(playerStats).forEach(([oldId, oldPlayerStats]) => {
+        const oldPlayerName = oldPlayerStats.name;
+        
+        // Find if this player exists with a new ID
+        const reconnectedPlayerEntry = Object.entries(mergedStats).find(([newId, newPlayerStats]) => 
+          newId !== oldId && newPlayerStats.name === oldPlayerName
+        );
+        
+        if (reconnectedPlayerEntry && oldPlayerStats.totalDrinks > 0) {
+          const [newId, newPlayerStats] = reconnectedPlayerEntry;
+          // Merge old stats into new ID stats
+          mergedStats[newId] = {
+            ...newPlayerStats,
+            totalDrinks: Math.max(oldPlayerStats.totalDrinks || 0, newPlayerStats.totalDrinks || 0),
+            totalShotguns: Math.max(oldPlayerStats.totalShotguns || 0, newPlayerStats.totalShotguns || 0)
+          };
+          console.log(`🔄 Merged stats for reconnected player ${oldPlayerName}: ${oldId} -> ${newId}`);
+        }
+      });
+      
+      setPlayerStats(mergedStats);
     }
     
     setRoundDrinkResults(roundResults);  // Update the round results
@@ -1537,19 +1568,27 @@ useEffect(() => {
 
     
       } else {
-        // 🛡️ PROTECTION: Only clear if no one else is distributing
+        // 🛡️ ENHANCED PROTECTION: Only clear if no one else is distributing AND validate current player doesn't have card
+        console.log('🔍 CARD CHECK: Player does not have required card:', cardType, 'or', wildcardtype);
+        console.log('🔍 CARD CHECK: Player cards:', player?.cards);
+        console.log('🔍 CARD CHECK: isDistributingRef.current:', isDistributingRef.current);
+        
         if (!isDistributingRef.current) {
           // Clear the message and distribution flag for players without the card
           setDrinkMessage('');  
           setIsDistributing(false);
+          setHasMatchingCardForCurrentEvent(false);  // ✅ FIX: Clear matching card flag
+          console.log('🛡️ CLEARED: Player without matching card - clearing distribution state');
         } else {
           console.log('🛡️ PROTECTED: Not clearing distribution state - other players may be distributing');
+          // ✅ ENHANCED: Even with protection, current player shouldn't have matching card flag if they don't have the card
+          setHasMatchingCardForCurrentEvent(false);
+          console.log('🛡️ CARD FIX: Removed matching card flag for player without card (but preserved distribution for others)');
         }
       }
     });
 
     socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
-      setPlayerStats(players);
       
       // ✅ ENHANCED: Store player name mappings when round results are received
       if (roundResults) {
@@ -1575,6 +1614,34 @@ useEffect(() => {
         });
         setPlayerNameMap(prev => ({ ...prev, ...newNameMap }));
         console.log("📝 Updated player name mappings (handler 2):", newNameMap);
+      }
+      
+      // ✅ ENHANCED: Update player stats properly (handler 2) - players is the actual stats object from server
+      if (players) {
+        const mergedStats = { ...players };  // players is actually the stats object from server
+        
+        // Check for reconnected players that need stats merging
+        Object.entries(playerStats).forEach(([oldId, oldPlayerStats]) => {
+          const oldPlayerName = oldPlayerStats.name;
+          
+          // Find if this player exists with a new ID
+          const reconnectedPlayerEntry = Object.entries(mergedStats).find(([newId, newPlayerStats]) => 
+            newId !== oldId && newPlayerStats.name === oldPlayerName
+          );
+          
+          if (reconnectedPlayerEntry && oldPlayerStats.totalDrinks > 0) {
+            const [newId, newPlayerStats] = reconnectedPlayerEntry;
+            // Merge old stats into new ID stats
+            mergedStats[newId] = {
+              ...newPlayerStats,
+              totalDrinks: Math.max(oldPlayerStats.totalDrinks || 0, newPlayerStats.totalDrinks || 0),
+              totalShotguns: Math.max(oldPlayerStats.totalShotguns || 0, newPlayerStats.totalShotguns || 0)
+            };
+            console.log(`🔄 Merged stats (handler 2) for reconnected player ${oldPlayerName}: ${oldId} -> ${newId}`);
+          }
+        });
+        
+        setPlayerStats(mergedStats);
       }
       
       setRoundDrinkResults(roundResults);
