@@ -148,7 +148,12 @@ const [isHostSelection, setIsHostSelection] = useState(false);
   
   useEffect(() => {
     window.playerStats = playerStats;  // For debugging
-    console.log("🔍 DEBUG: playerStats updated:", playerStats);
+    console.log("🔍 DEBUG: playerStats keys and drinks:", Object.entries(playerStats).map(([id, stats]) => ({
+      id: id.slice(-4), 
+      name: stats.name, 
+      totalDrinks: stats.totalDrinks,
+      disconnected: stats.disconnected
+    })));
   }, [playerStats]);
 
   // URL management functions
@@ -1236,22 +1241,30 @@ useEffect(() => {
       
       // Check for reconnected players that need stats merging
       Object.entries(playerStats).forEach(([oldId, oldPlayerStats]) => {
+        // Skip if this old ID still exists in the new stats (no reconnection)
+        if (mergedStats[oldId]) return;
+        
         const oldPlayerName = oldPlayerStats.name;
+        console.log(`🔍 Looking for reconnected player: ${oldPlayerName} (old ID: ${oldId})`);
         
-        // Find if this player exists with a new ID
-        const reconnectedPlayerEntry = Object.entries(mergedStats).find(([newId, newPlayerStats]) => 
-          newId !== oldId && newPlayerStats.name === oldPlayerName
-        );
+        // Find if this player exists with a new ID by name matching
+        const reconnectedPlayerEntry = Object.entries(mergedStats).find(([newId, newPlayerStats]) => {
+          const nameMatch = newPlayerStats.name === oldPlayerName;
+          console.log(`🔍 Comparing ${newPlayerStats.name} === ${oldPlayerName}: ${nameMatch} (ID: ${newId})`);
+          return nameMatch;
+        });
         
-        if (reconnectedPlayerEntry && oldPlayerStats.totalDrinks > 0) {
+        if (reconnectedPlayerEntry) {
           const [newId, newPlayerStats] = reconnectedPlayerEntry;
-          // Merge old stats into new ID stats
+          // Always merge stats for reconnected players - preserve any accumulated totals
           mergedStats[newId] = {
             ...newPlayerStats,
             totalDrinks: Math.max(oldPlayerStats.totalDrinks || 0, newPlayerStats.totalDrinks || 0),
             totalShotguns: Math.max(oldPlayerStats.totalShotguns || 0, newPlayerStats.totalShotguns || 0)
           };
-          console.log(`🔄 Merged stats for reconnected player ${oldPlayerName}: ${oldId} -> ${newId}`);
+          console.log(`🔄 SUCCESS: Merged stats for reconnected player ${oldPlayerName}: ${oldId} -> ${newId} (drinks: ${oldPlayerStats.totalDrinks || 0} -> ${mergedStats[newId].totalDrinks})`);
+        } else {
+          console.log(`❌ No reconnection found for player ${oldPlayerName}`);
         }
       });
       
@@ -1629,15 +1642,15 @@ useEffect(() => {
             newId !== oldId && newPlayerStats.name === oldPlayerName
           );
           
-          if (reconnectedPlayerEntry && oldPlayerStats.totalDrinks > 0) {
+          if (reconnectedPlayerEntry) {
             const [newId, newPlayerStats] = reconnectedPlayerEntry;
-            // Merge old stats into new ID stats
+            // Always merge stats for reconnected players - preserve any accumulated totals
             mergedStats[newId] = {
               ...newPlayerStats,
               totalDrinks: Math.max(oldPlayerStats.totalDrinks || 0, newPlayerStats.totalDrinks || 0),
               totalShotguns: Math.max(oldPlayerStats.totalShotguns || 0, newPlayerStats.totalShotguns || 0)
             };
-            console.log(`🔄 Merged stats (handler 2) for reconnected player ${oldPlayerName}: ${oldId} -> ${newId}`);
+            console.log(`🔄 Merged stats (handler 2) for reconnected player ${oldPlayerName}: ${oldId} -> ${newId} (drinks: ${oldPlayerStats.totalDrinks || 0} -> ${mergedStats[newId].totalDrinks})`);
           }
         });
         
