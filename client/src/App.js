@@ -1237,38 +1237,43 @@ useEffect(() => {
     
     // ✅ ENHANCED: Update player stats properly - players is the actual stats object from server
     if (players) {
-      const mergedStats = { ...players };  // players is actually the stats object from server
+      console.log(`🧹 CLEANUP: Before update, playerStats had ${Object.keys(playerStats).length} entries`);
+      console.log(`🧹 CLEANUP: Backend sent ${Object.keys(players).length} players:`, Object.keys(players));
       
-      // Check for reconnected players that need stats merging
-      Object.entries(playerStats).forEach(([oldId, oldPlayerStats]) => {
-        // Skip if this old ID still exists in the new stats (no reconnection)
-        if (mergedStats[oldId]) return;
-        
-        const oldPlayerName = oldPlayerStats.name;
-        console.log(`🔍 Looking for reconnected player: ${oldPlayerName} (old ID: ${oldId})`);
-        
-        // Find if this player exists with a new ID by name matching
-        const reconnectedPlayerEntry = Object.entries(mergedStats).find(([newId, newPlayerStats]) => {
-          const nameMatch = newPlayerStats.name === oldPlayerName;
-          console.log(`🔍 Comparing ${newPlayerStats.name} === ${oldPlayerName}: ${nameMatch} (ID: ${newId})`);
-          return nameMatch;
+      // ✅ CRITICAL: Use backend data as authoritative source to prevent duplicates
+      const cleanStats = { ...players };  // Start with clean backend data
+      
+      // Only merge if we have existing frontend data that needs to be preserved
+      if (Object.keys(playerStats).length > 0) {
+        Object.entries(playerStats).forEach(([oldId, oldPlayerStats]) => {
+          // Skip if backend already has this exact ID (no change needed)
+          if (cleanStats[oldId]) {
+            console.log(`✅ Player ${oldPlayerStats.name} (${oldId}) exists in backend - using backend data`);
+            return;
+          }
+          
+          // Check if this is a reconnected player with a new ID
+          if (oldPlayerStats.name) {
+            const backendPlayerWithSameName = Object.entries(cleanStats).find(([newId, newStats]) => 
+              newStats.name === oldPlayerStats.name
+            );
+            
+            if (backendPlayerWithSameName) {
+              const [newId, newStats] = backendPlayerWithSameName;
+              // Merge the accumulated stats
+              cleanStats[newId] = {
+                ...newStats,
+                totalDrinks: Math.max(oldPlayerStats.totalDrinks || 0, newStats.totalDrinks || 0),
+                totalShotguns: Math.max(oldPlayerStats.totalShotguns || 0, newStats.totalShotguns || 0)
+              };
+              console.log(`🔄 MERGED: ${oldPlayerStats.name} from ${oldId} to ${newId} (drinks: ${oldPlayerStats.totalDrinks || 0} -> ${cleanStats[newId].totalDrinks})`);
+            }
+          }
         });
-        
-        if (reconnectedPlayerEntry) {
-          const [newId, newPlayerStats] = reconnectedPlayerEntry;
-          // Always merge stats for reconnected players - preserve any accumulated totals
-          mergedStats[newId] = {
-            ...newPlayerStats,
-            totalDrinks: Math.max(oldPlayerStats.totalDrinks || 0, newPlayerStats.totalDrinks || 0),
-            totalShotguns: Math.max(oldPlayerStats.totalShotguns || 0, newPlayerStats.totalShotguns || 0)
-          };
-          console.log(`🔄 SUCCESS: Merged stats for reconnected player ${oldPlayerName}: ${oldId} -> ${newId} (drinks: ${oldPlayerStats.totalDrinks || 0} -> ${mergedStats[newId].totalDrinks})`);
-        } else {
-          console.log(`❌ No reconnection found for player ${oldPlayerName}`);
-        }
-      });
+      }
       
-      setPlayerStats(mergedStats);
+      console.log(`🧹 CLEANUP: After update, will have ${Object.keys(cleanStats).length} entries`);
+      setPlayerStats(cleanStats);
     }
     
     setRoundDrinkResults(roundResults);  // Update the round results
@@ -1613,67 +1618,7 @@ useEffect(() => {
       }
     });
 
-    socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
-      
-      // ✅ ENHANCED: Store player name mappings when round results are received
-      if (roundResults) {
-        const newNameMap = {};
-        Object.keys(roundResults).forEach(playerId => {
-          let playerName = players[playerId]?.name || playersRef.current?.find(p => p.id === playerId)?.name;
-          
-          // ✅ FALLBACK: If name not found by ID, try to match by process of elimination
-          if (!playerName) {
-            const knownPlayerNames = Object.values(players).map(p => p.name).filter(Boolean);
-            const mappedNames = Object.values(playerNameMap).filter(Boolean);
-            const unmappedName = knownPlayerNames.find(name => !mappedNames.includes(name));
-            
-            if (unmappedName) {
-              playerName = unmappedName;
-              console.log(`🔍 Found unmapped player by elimination (handler 2): ${playerId} -> ${playerName}`);
-            }
-          }
-          
-          if (playerName) {
-            newNameMap[playerId] = playerName;
-          }
-        });
-        setPlayerNameMap(prev => ({ ...prev, ...newNameMap }));
-        console.log("📝 Updated player name mappings (handler 2):", newNameMap);
-      }
-      
-      // ✅ ENHANCED: Update player stats properly (handler 2) - players is the actual stats object from server
-      if (players) {
-        const mergedStats = { ...players };  // players is actually the stats object from server
-        
-        // Check for reconnected players that need stats merging
-        Object.entries(playerStats).forEach(([oldId, oldPlayerStats]) => {
-          const oldPlayerName = oldPlayerStats.name;
-          
-          // Find if this player exists with a new ID
-          const reconnectedPlayerEntry = Object.entries(mergedStats).find(([newId, newPlayerStats]) => 
-            newId !== oldId && newPlayerStats.name === oldPlayerName
-          );
-          
-          if (reconnectedPlayerEntry) {
-            const [newId, newPlayerStats] = reconnectedPlayerEntry;
-            // Always merge stats for reconnected players - preserve any accumulated totals
-            mergedStats[newId] = {
-              ...newPlayerStats,
-              totalDrinks: Math.max(oldPlayerStats.totalDrinks || 0, newPlayerStats.totalDrinks || 0),
-              totalShotguns: Math.max(oldPlayerStats.totalShotguns || 0, newPlayerStats.totalShotguns || 0)
-            };
-            console.log(`🔄 Merged stats (handler 2) for reconnected player ${oldPlayerName}: ${oldId} -> ${newId} (drinks: ${oldPlayerStats.totalDrinks || 0} -> ${mergedStats[newId].totalDrinks})`);
-          }
-        });
-        
-        setPlayerStats(mergedStats);
-      }
-      
-      setRoundDrinkResults(roundResults);
-      console.log("Round drink results (for all players):", roundResults);
-      
-      // This handler doesn't reset drink assignment state - that's handled by the main handler above
-    });
+    // ✅ REMOVED: Duplicate updatePlayerStats handler #2 to fix duplicate entries issue
 
     socket.on('error', (msg) => {
       setErrorMessage(msg);
@@ -1767,13 +1712,7 @@ useEffect(() => {
     });
 
     // Listen for player stats updates (specifically for reconnections)
-    socket.on('updatePlayerStats', (stats) => {
-      // Only update if it's a direct stats object (not the round results format)
-      if (stats && typeof stats === 'object' && !stats.players) {
-        setPlayerStats(stats);
-        console.log('Updated player stats after reconnection:', stats);
-      }
-    });
+    // ✅ REMOVED: Duplicate updatePlayerStats handler #3 to fix duplicate entries issue
 
     // ✅ REMOVED triggerPersonalRefresh handler - gameStarted already handles reconnection perfectly
     console.log(`🎯 Reconnection handling simplified - gameStarted event provides all necessary data`);
