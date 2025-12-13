@@ -1961,7 +1961,10 @@ socket.on('gameOver', (message) => {
               
               // If no stats found by current ID, try to find by player name (for reconnected players)
               if (!stats) {
+                console.log(`🔍 TOP UI LOOKUP DEBUG: No stats for ID ${player.id}, searching by name "${player.name}"`);
+                console.log('🔍 Available playerStats:', Object.entries(playerStats).map(([id, s]) => ({ id: id.slice(-4), name: s.name, totalDrinks: s.totalDrinks })));
                 stats = Object.values(playerStats).find(s => s && s.name === player.name);
+                console.log(`🔍 Found stats by name lookup:`, stats ? { name: stats.name, totalDrinks: stats.totalDrinks } : 'NOT FOUND');
               }
               
               const totalDrinks = stats?.totalDrinks || 0;
@@ -2038,7 +2041,10 @@ socket.on('gameOver', (message) => {
               
               // If no stats found by current ID, try to find by player name (for reconnected players)
               if (!stats) {
+                console.log(`🔍 UI LOOKUP DEBUG: No stats for ID ${player.id}, searching by name "${player.name}"`);
+                console.log('🔍 Available playerStats:', Object.entries(playerStats).map(([id, s]) => ({ id: id.slice(-4), name: s.name, totalDrinks: s.totalDrinks })));
                 stats = Object.values(playerStats).find(s => s && s.name === player.name);
+                console.log(`🔍 Found stats by name lookup:`, stats ? { name: stats.name, totalDrinks: stats.totalDrinks } : 'NOT FOUND');
               }
               
               const totalDrinks = stats?.totalDrinks || 0;
