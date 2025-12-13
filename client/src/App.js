@@ -2107,11 +2107,24 @@ socket.on('gameOver', (message) => {
         <div className="player-stats-container">
           <h3>Room: {roomCode}</h3>
           <ul>
-            {players.map((player) => (
-              <li key={player.id || player.name}>
-                {player.name}: {playerStats[player.id]?.totalDrinks || 0}🍺 {playerStats[player.id]?.totalShotguns || 0}<img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px', marginLeft: '4px'}} />
-              </li>
-            ))}
+            {players.map((player) => {
+              // ✅ TARGETED FIX: Find stats by current ID, fallback to finding by name for reconnected players
+              let stats = playerStats[player.id];
+              
+              // If no stats found by current ID, try to find by player name (for reconnected players)
+              if (!stats) {
+                stats = Object.values(playerStats).find(s => s && s.name === player.name);
+              }
+              
+              const totalDrinks = stats?.totalDrinks || 0;
+              const totalShotguns = stats?.totalShotguns || 0;
+              
+              return (
+                <li key={player.id || player.name}>
+                  {player.name}: {totalDrinks}🍺 {totalShotguns}<img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px', marginLeft: '4px'}} />
+                </li>
+              );
+            })}
           </ul>
         </div>
         
