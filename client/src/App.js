@@ -1209,30 +1209,34 @@ useEffect(() => {
 
   // Listen for the updated player stats and round results after the timer ends
   socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
-    // ✅ ENHANCED: Store player name mappings when round results are received
-    if (roundResults) {
+    // ✅ ENHANCED: Always update player name mappings for ALL backend players
+    if (players) {
       const newNameMap = {};
-      Object.keys(roundResults).forEach(playerId => {
+      
+      Object.keys(players).forEach(playerId => {
         let playerName = players[playerId]?.name || playersRef.current?.find(p => p.id === playerId)?.name;
         
         // ✅ FALLBACK: If name not found by ID, try to match by process of elimination
         if (!playerName) {
-          const knownPlayerNames = Object.values(players).map(p => p.name).filter(Boolean);
+          const knownPlayerNames = playersRef.current?.map(p => p.name).filter(Boolean) || [];
           const mappedNames = Object.values(playerNameMap).filter(Boolean);
           const unmappedName = knownPlayerNames.find(name => !mappedNames.includes(name));
           
           if (unmappedName) {
             playerName = unmappedName;
-            console.log(`🔍 Found unmapped player by elimination: ${playerId} -> ${playerName}`);
+            console.log(`🔍 Found unmapped player by elimination: ${playerId.slice(-4)} -> ${playerName}`);
           }
         }
         
         if (playerName) {
           newNameMap[playerId] = playerName;
+        } else {
+          console.log(`⚠️ Could not find name for player ${playerId.slice(-4)}`);
         }
       });
+      
       setPlayerNameMap(prev => ({ ...prev, ...newNameMap }));
-      console.log("📝 Updated player name mappings:", newNameMap);
+      console.log("📝 Updated player name mappings for ALL players:", newNameMap);
     }
     
     // ✅ ENHANCED: Update player stats properly - players is the actual stats object from server
@@ -1241,59 +1245,61 @@ useEffect(() => {
       console.log(`🧹 CLEANUP: Backend sent ${Object.keys(players).length} players:`, Object.keys(players));
       console.log(`🧹 CLEANUP: Backend data:`, players);
       
-      // ✅ ENHANCED MERGE: Use backend stats but preserve player names from playerNameMap
-      console.log(`🧹 ENHANCED: Merging backend stats with player names`);
-      const enhancedStats = {};
+      // ✅ RECONNECTION FIX: Update old entries with new IDs instead of creating duplicates
+      console.log(`🧹 RECONNECTION: Processing backend data for ID updates`);
       
-      Object.keys(players).forEach(playerId => {
-        enhancedStats[playerId] = {
-          ...players[playerId],
-          name: playerNameMap[playerId] || players[playerId]?.name || undefined
-        };
-      });
-      
-      // 🧹 CRITICAL FIX: Remove duplicate entries for same player names
-      console.log(`🧹 DUPLICATE CHECK: Checking for duplicate player names before cleanup`);
-      const nameToIdMap = new Map();
-      const duplicateIds = [];
-      
-      Object.entries(enhancedStats).forEach(([playerId, stats]) => {
-        if (stats.name) {
-          if (nameToIdMap.has(stats.name)) {
-            const existingId = nameToIdMap.get(stats.name);
-            const existingStats = enhancedStats[existingId];
+      setPlayerStats(prevStats => {
+        const updatedStats = { ...prevStats };
+        
+        // Process each backend player
+        Object.keys(players).forEach(newPlayerId => {
+          const backendStats = players[newPlayerId];
+          const playerName = playerNameMap[newPlayerId] || backendStats?.name;
+          
+          if (playerName) {
+            console.log(`🔄 Processing player "${playerName}" with ID ${newPlayerId.slice(-4)}`);
             
-            console.log(`🧹 DUPLICATE FOUND: Player "${stats.name}" has entries for ${existingId.slice(-4)} (${existingStats.totalDrinks} drinks) and ${playerId.slice(-4)} (${stats.totalDrinks} drinks)`);
+            // Check if this player already exists under a different ID
+            const existingEntry = Object.entries(updatedStats).find(([id, stats]) => 
+              id !== newPlayerId && stats.name === playerName
+            );
             
-            // Keep the entry with higher totalDrinks (more recent)
-            if (stats.totalDrinks >= existingStats.totalDrinks) {
-              console.log(`🧹 KEEPING: ${playerId.slice(-4)} with ${stats.totalDrinks} drinks (newer/higher)`);
-              duplicateIds.push(existingId);
-              nameToIdMap.set(stats.name, playerId);
-            } else {
-              console.log(`🧹 KEEPING: ${existingId.slice(-4)} with ${existingStats.totalDrinks} drinks (newer/higher)`);
-              duplicateIds.push(playerId);
+            if (existingEntry) {
+              const [oldId, oldStats] = existingEntry;
+              console.log(`🔄 RECONNECTION DETECTED: "${playerName}" changing from ${oldId.slice(-4)} to ${newPlayerId.slice(-4)}`);
+              console.log(`🔄 Old stats: ${oldStats.totalDrinks} drinks | New stats: ${backendStats.totalDrinks} drinks`);
+              
+              // Remove the old entry
+              delete updatedStats[oldId];
+              console.log(`🧹 REMOVED: Old entry ${oldId.slice(-4)} for "${playerName}"`);
             }
+            
+            // Add/update with new ID and backend stats
+            updatedStats[newPlayerId] = {
+              ...backendStats,
+              name: playerName
+            };
+            console.log(`✅ UPDATED: Player "${playerName}" now mapped to ${newPlayerId.slice(-4)} with ${backendStats.totalDrinks} drinks`);
           } else {
-            nameToIdMap.set(stats.name, playerId);
+            // No name found - still add the stats but log the issue
+            updatedStats[newPlayerId] = {
+              ...backendStats,
+              name: undefined
+            };
+            console.log(`⚠️ NO NAME: Player ${newPlayerId.slice(-4)} has no name mapping`);
           }
-        }
+        });
+        
+        console.log(`🧹 FINAL: Updated playerStats with ${Object.keys(updatedStats).length} entries:`, 
+          Object.entries(updatedStats).map(([id, stats]) => ({ 
+            id: id.slice(-4), 
+            name: stats.name || 'NO_NAME', 
+            totalDrinks: stats.totalDrinks 
+          }))
+        );
+        
+        return updatedStats;
       });
-      
-      // Remove duplicate entries
-      duplicateIds.forEach(id => {
-        console.log(`🧹 REMOVING: Duplicate entry ${id.slice(-4)}`);
-        delete enhancedStats[id];
-      });
-      
-      setPlayerStats(enhancedStats);
-      console.log(`🧹 ENHANCED: Created stats with names (after duplicate cleanup):`, Object.entries(enhancedStats).map(([id, stats]) => ({ 
-        id: id.slice(-4), 
-        name: stats.name, 
-        totalDrinks: stats.totalDrinks 
-      })));
-      
-      console.log(`🧹 CLEANUP: After enhanced merge and duplicate removal, will have exactly ${Object.keys(enhancedStats).length} entries`);
     }
     
     setRoundDrinkResults(roundResults);  // Update the round results
