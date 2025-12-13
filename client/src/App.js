@@ -1252,14 +1252,48 @@ useEffect(() => {
         };
       });
       
+      // 🧹 CRITICAL FIX: Remove duplicate entries for same player names
+      console.log(`🧹 DUPLICATE CHECK: Checking for duplicate player names before cleanup`);
+      const nameToIdMap = new Map();
+      const duplicateIds = [];
+      
+      Object.entries(enhancedStats).forEach(([playerId, stats]) => {
+        if (stats.name) {
+          if (nameToIdMap.has(stats.name)) {
+            const existingId = nameToIdMap.get(stats.name);
+            const existingStats = enhancedStats[existingId];
+            
+            console.log(`🧹 DUPLICATE FOUND: Player "${stats.name}" has entries for ${existingId.slice(-4)} (${existingStats.totalDrinks} drinks) and ${playerId.slice(-4)} (${stats.totalDrinks} drinks)`);
+            
+            // Keep the entry with higher totalDrinks (more recent)
+            if (stats.totalDrinks >= existingStats.totalDrinks) {
+              console.log(`🧹 KEEPING: ${playerId.slice(-4)} with ${stats.totalDrinks} drinks (newer/higher)`);
+              duplicateIds.push(existingId);
+              nameToIdMap.set(stats.name, playerId);
+            } else {
+              console.log(`🧹 KEEPING: ${existingId.slice(-4)} with ${existingStats.totalDrinks} drinks (newer/higher)`);
+              duplicateIds.push(playerId);
+            }
+          } else {
+            nameToIdMap.set(stats.name, playerId);
+          }
+        }
+      });
+      
+      // Remove duplicate entries
+      duplicateIds.forEach(id => {
+        console.log(`🧹 REMOVING: Duplicate entry ${id.slice(-4)}`);
+        delete enhancedStats[id];
+      });
+      
       setPlayerStats(enhancedStats);
-      console.log(`🧹 ENHANCED: Created stats with names:`, Object.entries(enhancedStats).map(([id, stats]) => ({ 
+      console.log(`🧹 ENHANCED: Created stats with names (after duplicate cleanup):`, Object.entries(enhancedStats).map(([id, stats]) => ({ 
         id: id.slice(-4), 
         name: stats.name, 
         totalDrinks: stats.totalDrinks 
       })));
       
-      console.log(`🧹 CLEANUP: After enhanced merge, will have exactly ${Object.keys(enhancedStats).length} entries`);
+      console.log(`🧹 CLEANUP: After enhanced merge and duplicate removal, will have exactly ${Object.keys(enhancedStats).length} entries`);
     }
     
     setRoundDrinkResults(roundResults);  // Update the round results
@@ -1976,8 +2010,17 @@ socket.on('gameOver', (message) => {
               if (!stats) {
                 console.log(`🔍 TOP UI LOOKUP DEBUG: No stats for ID ${player.id}, searching by name "${player.name}"`);
                 console.log('🔍 Available playerStats:', Object.entries(playerStats).map(([id, s]) => ({ id: id.slice(-4), name: s.name, totalDrinks: s.totalDrinks })));
-                stats = Object.values(playerStats).find(s => s && s.name === player.name);
-                console.log(`🔍 Found stats by name lookup:`, stats ? { name: stats.name, totalDrinks: stats.totalDrinks } : 'NOT FOUND');
+                
+                // Find ALL entries with matching name, then pick the one with highest totalDrinks
+                const matchingEntries = Object.values(playerStats).filter(s => s && s.name === player.name);
+                if (matchingEntries.length > 0) {
+                  stats = matchingEntries.reduce((best, current) => 
+                    (current.totalDrinks > best.totalDrinks) ? current : best
+                  );
+                  console.log(`🔍 Found ${matchingEntries.length} entries for "${player.name}", using highest: ${stats.totalDrinks} drinks`);
+                } else {
+                  console.log(`🔍 No entries found for name "${player.name}"`);
+                }
               }
               
               const totalDrinks = stats?.totalDrinks || 0;
@@ -2056,8 +2099,17 @@ socket.on('gameOver', (message) => {
               if (!stats) {
                 console.log(`🔍 UI LOOKUP DEBUG: No stats for ID ${player.id}, searching by name "${player.name}"`);
                 console.log('🔍 Available playerStats:', Object.entries(playerStats).map(([id, s]) => ({ id: id.slice(-4), name: s.name, totalDrinks: s.totalDrinks })));
-                stats = Object.values(playerStats).find(s => s && s.name === player.name);
-                console.log(`🔍 Found stats by name lookup:`, stats ? { name: stats.name, totalDrinks: stats.totalDrinks } : 'NOT FOUND');
+                
+                // Find ALL entries with matching name, then pick the one with highest totalDrinks
+                const matchingEntries = Object.values(playerStats).filter(s => s && s.name === player.name);
+                if (matchingEntries.length > 0) {
+                  stats = matchingEntries.reduce((best, current) => 
+                    (current.totalDrinks > best.totalDrinks) ? current : best
+                  );
+                  console.log(`🔍 Found ${matchingEntries.length} entries for "${player.name}", using highest: ${stats.totalDrinks} drinks`);
+                } else {
+                  console.log(`🔍 No entries found for name "${player.name}"`);
+                }
               }
               
               const totalDrinks = stats?.totalDrinks || 0;
