@@ -1241,12 +1241,25 @@ useEffect(() => {
       console.log(`🧹 CLEANUP: Backend sent ${Object.keys(players).length} players:`, Object.keys(players));
       console.log(`🧹 CLEANUP: Backend data:`, players);
       
-      // ✅ AGGRESSIVE CLEANUP: Use ONLY backend data to eliminate all duplicates
-      // The backend is the authoritative source - frontend should never override it
-      console.log(`🧹 AGGRESSIVE: Replacing frontend playerStats entirely with backend data`);
-      setPlayerStats(players);
+      // ✅ ENHANCED MERGE: Use backend stats but preserve player names from playerNameMap
+      console.log(`🧹 ENHANCED: Merging backend stats with player names`);
+      const enhancedStats = {};
       
-      console.log(`🧹 CLEANUP: After aggressive cleanup, will have exactly ${Object.keys(players).length} entries`);
+      Object.keys(players).forEach(playerId => {
+        enhancedStats[playerId] = {
+          ...players[playerId],
+          name: playerNameMap[playerId] || players[playerId]?.name || undefined
+        };
+      });
+      
+      setPlayerStats(enhancedStats);
+      console.log(`🧹 ENHANCED: Created stats with names:`, Object.entries(enhancedStats).map(([id, stats]) => ({ 
+        id: id.slice(-4), 
+        name: stats.name, 
+        totalDrinks: stats.totalDrinks 
+      })));
+      
+      console.log(`🧹 CLEANUP: After enhanced merge, will have exactly ${Object.keys(enhancedStats).length} entries`);
     }
     
     setRoundDrinkResults(roundResults);  // Update the round results
