@@ -1239,41 +1239,14 @@ useEffect(() => {
     if (players) {
       console.log(`🧹 CLEANUP: Before update, playerStats had ${Object.keys(playerStats).length} entries`);
       console.log(`🧹 CLEANUP: Backend sent ${Object.keys(players).length} players:`, Object.keys(players));
+      console.log(`🧹 CLEANUP: Backend data:`, players);
       
-      // ✅ CRITICAL: Use backend data as authoritative source to prevent duplicates
-      const cleanStats = { ...players };  // Start with clean backend data
+      // ✅ AGGRESSIVE CLEANUP: Use ONLY backend data to eliminate all duplicates
+      // The backend is the authoritative source - frontend should never override it
+      console.log(`🧹 AGGRESSIVE: Replacing frontend playerStats entirely with backend data`);
+      setPlayerStats(players);
       
-      // Only merge if we have existing frontend data that needs to be preserved
-      if (Object.keys(playerStats).length > 0) {
-        Object.entries(playerStats).forEach(([oldId, oldPlayerStats]) => {
-          // Skip if backend already has this exact ID (no change needed)
-          if (cleanStats[oldId]) {
-            console.log(`✅ Player ${oldPlayerStats.name} (${oldId}) exists in backend - using backend data`);
-            return;
-          }
-          
-          // Check if this is a reconnected player with a new ID
-          if (oldPlayerStats.name) {
-            const backendPlayerWithSameName = Object.entries(cleanStats).find(([newId, newStats]) => 
-              newStats.name === oldPlayerStats.name
-            );
-            
-            if (backendPlayerWithSameName) {
-              const [newId, newStats] = backendPlayerWithSameName;
-              // Merge the accumulated stats
-              cleanStats[newId] = {
-                ...newStats,
-                totalDrinks: Math.max(oldPlayerStats.totalDrinks || 0, newStats.totalDrinks || 0),
-                totalShotguns: Math.max(oldPlayerStats.totalShotguns || 0, newStats.totalShotguns || 0)
-              };
-              console.log(`🔄 MERGED: ${oldPlayerStats.name} from ${oldId} to ${newId} (drinks: ${oldPlayerStats.totalDrinks || 0} -> ${cleanStats[newId].totalDrinks})`);
-            }
-          }
-        });
-      }
-      
-      console.log(`🧹 CLEANUP: After update, will have ${Object.keys(cleanStats).length} entries`);
-      setPlayerStats(cleanStats);
+      console.log(`🧹 CLEANUP: After aggressive cleanup, will have exactly ${Object.keys(players).length} entries`);
     }
     
     setRoundDrinkResults(roundResults);  // Update the round results
