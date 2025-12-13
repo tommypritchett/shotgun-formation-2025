@@ -1305,6 +1305,18 @@ useEffect(() => {
   socket.on('declaredCard', (cardType) => {
     console.log('New card declared:', cardType);
     setDeclaredCard(cardType);  // Update the state with the declared card
+    
+    // ✅ CRITICAL FIX: Reset hasMatchingCardForCurrentEvent when new card is declared
+    // This ensures that only players with the NEW card can distribute drinks
+    setHasMatchingCardForCurrentEvent(false);
+    
+    // ✅ ADDITIONAL FIX: Clear distribution state to prevent continuing drinks from previous round
+    setIsDistributing(false);
+    setDrinkMessage('');
+    setDrinksToGive(0);
+    setshotgunsToGive(0);
+    
+    console.log('🔧 CARD RESET: Cleared all distribution state for new card declaration:', cardType);
   });
 
   // Cleanup the listener when the component unmounts
