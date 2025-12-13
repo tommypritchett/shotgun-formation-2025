@@ -1955,23 +1955,36 @@ socket.on('gameOver', (message) => {
               return acc;
             }, []);
             
-            return uniquePlayers.map((player) => (
-            <div key={player.id || player.name} className="player-icon glass-effect">
-              <div className="player-content">
-                <div className="player-image"></div>
-                <div className="player-stats">
-                  <div className="stat-item">
-                    🍺 {playerStats[player.id]?.totalDrinks || 0}
+            return uniquePlayers.map((player) => {
+              // ✅ CONSISTENT FIX: Use same robust lookup as left side stats (matches line 2024-2028)
+              let stats = playerStats[player.id];
+              
+              // If no stats found by current ID, try to find by player name (for reconnected players)
+              if (!stats) {
+                stats = Object.values(playerStats).find(s => s && s.name === player.name);
+              }
+              
+              const totalDrinks = stats?.totalDrinks || 0;
+              const totalShotguns = stats?.totalShotguns || 0;
+              
+              return (
+                <div key={player.id || player.name} className="player-icon glass-effect">
+                  <div className="player-content">
+                    <div className="player-image"></div>
+                    <div className="player-stats">
+                      <div className="stat-item">
+                        🍺 {totalDrinks}
+                      </div>
+                      <div className="stat-item">
+                        <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
+                        {totalShotguns}
+                      </div>
+                    </div>
                   </div>
-                  <div className="stat-item">
-                    <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
-                    {playerStats[player.id]?.totalShotguns || 0}
-                  </div>
+                  <h3>{player.name}</h3>
                 </div>
-              </div>
-              <h3>{player.name}</h3>
-            </div>
-            ));
+              );
+            });
           })()}
         </div>
       </div>
