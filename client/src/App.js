@@ -1211,32 +1211,50 @@ useEffect(() => {
   socket.on('updatePlayerStats', ({ players, roundResults, roundFinalized }) => {
     // ✅ ENHANCED: Always update player name mappings for ALL backend players
     if (players) {
-      const newNameMap = {};
+      console.log(`🔍 NAME MAPPING: Starting name mapping for ${Object.keys(players).length} backend players`);
+      console.log(`🔍 NAME MAPPING: playersRef.current:`, playersRef.current?.map(p => `${p.name}(${p.id?.slice(-4)})`) || []);
+      console.log(`🔍 NAME MAPPING: existing playerNameMap:`, Object.entries(playerNameMap).map(([id, name]) => `${name}(${id.slice(-4)})`));
       
-      Object.keys(players).forEach(playerId => {
-        let playerName = players[playerId]?.name || playersRef.current?.find(p => p.id === playerId)?.name;
+      const newNameMap = { ...playerNameMap }; // Start with existing mappings
+      const frontendPlayers = playersRef.current || [];
+      
+      // Step 1: Direct matches first (backend player has name or direct ID match)
+      Object.keys(players).forEach(backendId => {
+        const backendPlayer = players[backendId];
         
-        // ✅ FALLBACK: If name not found by ID, try to match by process of elimination
-        if (!playerName) {
-          const knownPlayerNames = playersRef.current?.map(p => p.name).filter(Boolean) || [];
-          const mappedNames = Object.values(playerNameMap).filter(Boolean);
-          const unmappedName = knownPlayerNames.find(name => !mappedNames.includes(name));
-          
-          if (unmappedName) {
-            playerName = unmappedName;
-            console.log(`🔍 Found unmapped player by elimination: ${playerId.slice(-4)} -> ${playerName}`);
-          }
-        }
-        
-        if (playerName) {
-          newNameMap[playerId] = playerName;
+        // Try backend name first
+        if (backendPlayer.name) {
+          newNameMap[backendId] = backendPlayer.name;
+          console.log(`🔍 BACKEND NAME: ${backendId.slice(-4)} -> "${backendPlayer.name}"`);
         } else {
-          console.log(`⚠️ Could not find name for player ${playerId.slice(-4)}`);
+          // Try direct ID match from frontend
+          const directMatch = frontendPlayers.find(p => p.id === backendId);
+          if (directMatch) {
+            newNameMap[backendId] = directMatch.name;
+            console.log(`🔍 DIRECT MATCH: ${backendId.slice(-4)} -> "${directMatch.name}"`);
+          }
         }
       });
       
-      setPlayerNameMap(prev => ({ ...prev, ...newNameMap }));
-      console.log("📝 Updated player name mappings for ALL players:", newNameMap);
+      // Step 2: Process of elimination for unmapped backend players
+      Object.keys(players).forEach(backendId => {
+        if (!newNameMap[backendId]) {
+          const alreadyMappedNames = Object.values(newNameMap);
+          const unmappedFrontendPlayer = frontendPlayers.find(p => 
+            p.name && !alreadyMappedNames.includes(p.name)
+          );
+          
+          if (unmappedFrontendPlayer) {
+            newNameMap[backendId] = unmappedFrontendPlayer.name;
+            console.log(`🔍 ELIMINATION: ${backendId.slice(-4)} -> "${unmappedFrontendPlayer.name}"`);
+          } else {
+            console.log(`❌ FAILED: No name found for backend ${backendId.slice(-4)}`);
+          }
+        }
+      });
+      
+      setPlayerNameMap(newNameMap);
+      console.log("📝 FINAL name mappings:", Object.entries(newNameMap).map(([id, name]) => `${name}(${id.slice(-4)})`));
     }
     
     // ✅ ENHANCED: Update player stats properly - players is the actual stats object from server
@@ -1248,13 +1266,28 @@ useEffect(() => {
       // ✅ RECONNECTION FIX: Update old entries with new IDs instead of creating duplicates
       console.log(`🧹 RECONNECTION: Processing backend data for ID updates`);
       
+      // Get the current name mappings (including the ones we just set above)
+      const currentNameMappings = { ...playerNameMap };
+      // Apply the new mappings from above
+      Object.keys(players).forEach(backendId => {
+        const backendPlayer = players[backendId];
+        if (backendPlayer.name) {
+          currentNameMappings[backendId] = backendPlayer.name;
+        } else {
+          const directMatch = playersRef.current?.find(p => p.id === backendId);
+          if (directMatch) {
+            currentNameMappings[backendId] = directMatch.name;
+          }
+        }
+      });
+      
       setPlayerStats(prevStats => {
         const updatedStats = { ...prevStats };
         
-        // Process each backend player
+        // Process each backend player using the updated name mappings
         Object.keys(players).forEach(newPlayerId => {
           const backendStats = players[newPlayerId];
-          const playerName = playerNameMap[newPlayerId] || backendStats?.name;
+          const playerName = currentNameMappings[newPlayerId] || backendStats?.name;
           
           if (playerName) {
             console.log(`🔄 Processing player "${playerName}" with ID ${newPlayerId.slice(-4)}`);
