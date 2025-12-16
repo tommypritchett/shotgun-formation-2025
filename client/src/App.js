@@ -2012,20 +2012,36 @@ socket.on('gameOver', (message) => {
               // ✅ CONSISTENT FIX: Use same robust lookup as left side stats (matches line 2024-2028)
               let stats = playerStats[player.id];
               
-              // If no stats found by current ID, try to find by player name (for reconnected players)
+              // If no stats found by current ID, try smart lookup for reconnected players
               if (!stats) {
                 console.log(`🔍 TOP UI LOOKUP DEBUG: No stats for ID ${player.id}, searching by name "${player.name}"`);
                 console.log('🔍 Available playerStats:', Object.entries(playerStats).map(([id, s]) => ({ id: id.slice(-4), name: s.name, totalDrinks: s.totalDrinks })));
                 
-                // Find ALL entries with matching name, then pick the one with highest totalDrinks
-                const matchingEntries = Object.values(playerStats).filter(s => s && s.name === player.name);
-                if (matchingEntries.length > 0) {
-                  stats = matchingEntries.reduce((best, current) => 
+                // Strategy 1: Find by exact name match
+                const namedEntries = Object.values(playerStats).filter(s => s && s.name === player.name);
+                if (namedEntries.length > 0) {
+                  stats = namedEntries.reduce((best, current) => 
                     (current.totalDrinks > best.totalDrinks) ? current : best
                   );
-                  console.log(`🔍 Found ${matchingEntries.length} entries for "${player.name}", using highest: ${stats.totalDrinks} drinks`);
+                  console.log(`🔍 NAMED MATCH: Found ${namedEntries.length} entries for "${player.name}", using highest: ${stats.totalDrinks} drinks`);
                 } else {
-                  console.log(`🔍 No entries found for name "${player.name}"`);
+                  // Strategy 2: For players without names, use process of elimination
+                  const currentPlayerNames = players.map(p => p.name);
+                  const statsWithNames = Object.values(playerStats).filter(s => s && s.name);
+                  const unnamedStats = Object.values(playerStats).filter(s => s && !s.name);
+                  
+                  console.log(`🔍 ELIMINATION: Player "${player.name}" not found by name. Current players: [${currentPlayerNames.join(', ')}]`);
+                  console.log(`🔍 ELIMINATION: Stats with names: ${statsWithNames.length}, without names: ${unnamedStats.length}`);
+                  
+                  // Find unnamed stats entries and match by position/elimination
+                  if (unnamedStats.length > 0) {
+                    // Sort unnamed stats by totalDrinks (highest first) to get most likely current stats
+                    const sortedUnnamed = unnamedStats.sort((a, b) => b.totalDrinks - a.totalDrinks);
+                    
+                    // Use the first unnamed entry with the highest drinks (most likely to be current)
+                    stats = sortedUnnamed[0];
+                    console.log(`🔍 ELIMINATION: Using unnamed entry with ${stats.totalDrinks} drinks for "${player.name}"`);
+                  }
                 }
               }
               
@@ -2101,20 +2117,36 @@ socket.on('gameOver', (message) => {
               // ✅ TARGETED FIX: Find stats by current ID, fallback to finding by name for reconnected players
               let stats = playerStats[player.id];
               
-              // If no stats found by current ID, try to find by player name (for reconnected players)
+              // If no stats found by current ID, try smart lookup for reconnected players
               if (!stats) {
                 console.log(`🔍 UI LOOKUP DEBUG: No stats for ID ${player.id}, searching by name "${player.name}"`);
                 console.log('🔍 Available playerStats:', Object.entries(playerStats).map(([id, s]) => ({ id: id.slice(-4), name: s.name, totalDrinks: s.totalDrinks })));
                 
-                // Find ALL entries with matching name, then pick the one with highest totalDrinks
-                const matchingEntries = Object.values(playerStats).filter(s => s && s.name === player.name);
-                if (matchingEntries.length > 0) {
-                  stats = matchingEntries.reduce((best, current) => 
+                // Strategy 1: Find by exact name match
+                const namedEntries = Object.values(playerStats).filter(s => s && s.name === player.name);
+                if (namedEntries.length > 0) {
+                  stats = namedEntries.reduce((best, current) => 
                     (current.totalDrinks > best.totalDrinks) ? current : best
                   );
-                  console.log(`🔍 Found ${matchingEntries.length} entries for "${player.name}", using highest: ${stats.totalDrinks} drinks`);
+                  console.log(`🔍 NAMED MATCH: Found ${namedEntries.length} entries for "${player.name}", using highest: ${stats.totalDrinks} drinks`);
                 } else {
-                  console.log(`🔍 No entries found for name "${player.name}"`);
+                  // Strategy 2: For players without names, use process of elimination
+                  const currentPlayerNames = players.map(p => p.name);
+                  const statsWithNames = Object.values(playerStats).filter(s => s && s.name);
+                  const unnamedStats = Object.values(playerStats).filter(s => s && !s.name);
+                  
+                  console.log(`🔍 ELIMINATION: Player "${player.name}" not found by name. Current players: [${currentPlayerNames.join(', ')}]`);
+                  console.log(`🔍 ELIMINATION: Stats with names: ${statsWithNames.length}, without names: ${unnamedStats.length}`);
+                  
+                  // Find unnamed stats entries and match by position/elimination
+                  if (unnamedStats.length > 0) {
+                    // Sort unnamed stats by totalDrinks (highest first) to get most likely current stats
+                    const sortedUnnamed = unnamedStats.sort((a, b) => b.totalDrinks - a.totalDrinks);
+                    
+                    // Use the first unnamed entry with the highest drinks (most likely to be current)
+                    stats = sortedUnnamed[0];
+                    console.log(`🔍 ELIMINATION: Using unnamed entry with ${stats.totalDrinks} drinks for "${player.name}"`);
+                  }
                 }
               }
               
