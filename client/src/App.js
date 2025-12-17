@@ -1219,9 +1219,9 @@ useEffect(() => {
         disconnected: data.disconnected 
       })));
       
-      const newNameMap = {};
+      const newNameMap = { ...playerNameMap }; // PRESERVE existing mappings
       
-      // Use backend names directly - no guessing or elimination
+      // Update with backend names where provided, keep existing otherwise
       Object.keys(players).forEach(backendId => {
         const backendPlayer = players[backendId];
         
@@ -1229,7 +1229,12 @@ useEffect(() => {
           newNameMap[backendId] = backendPlayer.name;
           console.log(`✅ BACKEND NAME: ${backendId.slice(-4)} -> "${backendPlayer.name}"`);
         } else {
-          console.log(`⚠️ MISSING NAME: Backend player ${backendId.slice(-4)} has no name - backend should provide this`);
+          // Keep existing mapping if we have one
+          if (newNameMap[backendId]) {
+            console.log(`🔄 PRESERVED: ${backendId.slice(-4)} -> "${newNameMap[backendId]}" (backend didn't send name)`);
+          } else {
+            console.log(`⚠️ MISSING NAME: Backend player ${backendId.slice(-4)} has no name and no existing mapping`);
+          }
         }
       });
       
@@ -1432,6 +1437,23 @@ useEffect(() => {
     socket.on('updatePlayers', (playersList) => {
       console.log('👥 DEBUG: Received updatePlayers event with:', playersList);
       console.log('👥 DEBUG: Current players before update:', playersRef.current);
+      
+      // ✅ CAPTURE NAMES: Store player names when they join/reconnect
+      const newNameMappings = {};
+      playersList.forEach(player => {
+        if (player.id && player.name) {
+          newNameMappings[player.id] = player.name;
+        }
+      });
+      
+      if (Object.keys(newNameMappings).length > 0) {
+        setPlayerNameMap(prev => {
+          const updated = { ...prev, ...newNameMappings };
+          console.log('🎯 CAPTURED NAMES from updatePlayers:', Object.entries(newNameMappings).map(([id, name]) => `${name}(${id.slice(-4)})`));
+          console.log('🎯 TOTAL NAME MAPPINGS:', Object.entries(updated).map(([id, name]) => `${name}(${id.slice(-4)})`));
+          return updated;
+        });
+      }
       
       // 🛡️ SELECTIVE PROTECTION: Allow player updates but preserve distributing player's cards
       if (isDistributingRef.current) {
