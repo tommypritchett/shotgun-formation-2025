@@ -313,15 +313,15 @@ function handleJoinRoom(socket, roomCode, playerName) {
     console.log(`🔄 Removed old entries and added player ${playerName} with new socket ${socket.id}`);
     
     // ✅ MERGE FIX: Preserve drinks accumulated while disconnected
-    // Find current disconnected player stats (may have accumulated drinks while offline)
-    const currentDisconnectedStats = Object.values(playerStats).find(stats => 
+    // Find current disconnected player stats by looking for their old disconnected entry
+    const currentDisconnectedStats = Object.entries(playerStats).find(([socketId, stats]) => 
       stats.name === playerName && stats.disconnected
     );
     
     const formerDrinks = formerPlayer.totalDrinks || 0;
     const formerShotguns = formerPlayer.totalShotguns || 0;
-    const currentDrinks = currentDisconnectedStats ? currentDisconnectedStats.totalDrinks || 0 : 0;
-    const currentShotguns = currentDisconnectedStats ? currentDisconnectedStats.totalShotguns || 0 : 0;
+    const currentDrinks = currentDisconnectedStats ? currentDisconnectedStats[1].totalDrinks || 0 : 0;
+    const currentShotguns = currentDisconnectedStats ? currentDisconnectedStats[1].totalShotguns || 0 : 0;
     
     // Use the HIGHER value to preserve accumulated drinks while offline
     const finalDrinks = Math.max(formerDrinks, currentDrinks);
@@ -339,14 +339,10 @@ function handleJoinRoom(socket, roomCode, playerName) {
     
     // Clean up old disconnected playerStats entry and formerPlayers
     if (currentDisconnectedStats) {
-      // Find and remove the old disconnected entry
-      const oldSocketId = Object.keys(playerStats).find(id => 
-        playerStats[id] === currentDisconnectedStats
-      );
-      if (oldSocketId) {
-        delete playerStats[oldSocketId];
-        console.log(`🧹 CLEANUP: Removed old disconnected entry for ${playerName} (${oldSocketId.slice(-4)})`);
-      }
+      // Remove the old disconnected entry using the socket ID we found
+      const oldSocketId = currentDisconnectedStats[0];
+      delete playerStats[oldSocketId];
+      console.log(`🧹 CLEANUP: Removed old disconnected entry for ${playerName} (${oldSocketId.slice(-4)})`);
     }
     
     delete formerPlayers[playerName];
