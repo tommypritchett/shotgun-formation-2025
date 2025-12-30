@@ -1252,14 +1252,13 @@ useEffect(() => {
         
         console.log(`🎯 USING BACKEND NAMES: Processing ${Object.keys(players).length} players with backend names`);
         
-        // Process each player from backend - backend now includes names for ALL active players
+        // Process each player from backend - includes both active AND disconnected players
         Object.keys(players).forEach(playerId => {
           const backendStats = players[playerId];
           
-          // Skip disconnected players
+          // Include disconnected players to show their current stats while away
           if (backendStats.disconnected) {
-            console.log(`⏭️ SKIPPING: Disconnected player ${playerId.slice(-4)} (${backendStats.name || 'UNNAMED'})`);
-            return;
+            console.log(`📱 DISCONNECTED: Player ${backendStats.name || 'UNNAMED'} (${playerId.slice(-4)}) -> ${backendStats.totalDrinks} drinks (offline)`);
           }
           
           // Use backend name directly - no guessing needed!
@@ -1268,7 +1267,8 @@ useEffect(() => {
               ...backendStats,
               name: backendStats.name
             };
-            console.log(`✅ BACKEND NAME: ${backendStats.name} (${playerId.slice(-4)}) -> ${backendStats.totalDrinks} drinks`);
+            const status = backendStats.disconnected ? 'offline' : 'online';
+            console.log(`✅ BACKEND NAME: ${backendStats.name} (${playerId.slice(-4)}) -> ${backendStats.totalDrinks} drinks (${status})`);
           } else {
             console.log(`⚠️ NO BACKEND NAME: Player ${playerId.slice(-4)} has no name from backend`);
           }
