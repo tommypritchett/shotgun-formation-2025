@@ -204,8 +204,9 @@ const [isHostSelection, setIsHostSelection] = useState(false);
       return;
     }
     
+    // ✅ FIX: Prioritize form input over URL params for manual room entry
     const urlParams = getURLParams();
-    const currentRoomCode = urlParams.roomCode || roomCode;
+    const currentRoomCode = roomCode.trim() || urlParams.roomCode; // Form input takes priority
     
     if (!currentRoomCode.trim()) {
       setErrorMessage('Please enter a room code');
@@ -214,7 +215,9 @@ const [isHostSelection, setIsHostSelection] = useState(false);
     if (currentRoomCode && playerName) {
       setRoomCode(currentRoomCode); // Set the room code state
       socket.emit('joinRoom', currentRoomCode, playerName);
-      updateURL(currentRoomCode, playerName); // Store in URL for automatic rejoin
+      
+      // ✅ FIX: Update URL with new room code (clears old URL params)
+      updateURL(currentRoomCode, playerName);
   
       // ✅ FIX: Removed old conflicting gameStarted handler - main handler will process
     } else {
@@ -1424,6 +1427,9 @@ useEffect(() => {
       setGameState('lobby');
       console.log('🎯 Setting gameState to: lobby');
       document.body.style.zoom = "70%"; // Adjust the percentage as needed
+      
+      // ✅ FIX: Show rules popup when joining a game (same as starting a game)
+      alert(instructionsmessage);
       
       console.log('✅ Lobby state updated successfully');
     });
