@@ -1246,15 +1246,30 @@ socket.on('disconnect', (reason) => {
           console.log(playerStats[socket.id]);
           console.log("Player array:", players);
 
-          // Store player data in formerPlayers by their name
+          // ✅ ENHANCED DISCONNECT: Find player's maximum accumulated stats from all entries
+          const allPlayerEntries = Object.entries(playerStats).filter(([id, stats]) => 
+            stats.name === leavingPlayer.name || id === socket.id
+          );
+          
+          // Find the entry with highest totalDrinks (most accumulated)
+          const maxDrinksEntry = allPlayerEntries.reduce((max, current) => {
+            const currentDrinks = current[1].totalDrinks || 0;
+            const maxDrinks = max ? max[1].totalDrinks || 0 : 0;
+            return currentDrinks > maxDrinks ? current : max;
+          }, null);
+          
+          const maxStats = maxDrinksEntry ? maxDrinksEntry[1] : playerStats[socket.id];
+          console.log(`💾 DISCONNECT SAVE: Found max stats for ${leavingPlayer.name}: ${maxStats.totalDrinks} drinks from ${maxDrinksEntry ? maxDrinksEntry[0].slice(-4) : socket.id.slice(-4)}`);
+
+          // Store player data in formerPlayers by their name with maximum accumulated stats
           formerPlayers[leavingPlayer.name] = {
-            id: socket.id,  // Original socket ID (for reference)
+            id: socket.id,  // Current socket ID (for reference)
             name: leavingPlayer.name,
             roomCode: roomCode,            // Last room the player was in
-            totalDrinks: playerStats[socket.id].totalDrinks || 0,
-            totalShotguns: playerStats[socket.id].totalShotguns || 0,
-            standard: playerStats[socket.id].standard || [],
-            wild: playerStats[socket.id].wild || []
+            totalDrinks: maxStats.totalDrinks || 0,
+            totalShotguns: maxStats.totalShotguns || 0,
+            standard: maxStats.standard || [],
+            wild: maxStats.wild || []
           };
           console.log("Former Players:", formerPlayers);
 
