@@ -374,6 +374,56 @@ function handleJoinRoom(socket, roomCode, playerName) {
         socket.emit('declaredCard', activeRounds[roomCode].declaredCard);
         console.log(`🎯 Sent declared card "${activeRounds[roomCode].declaredCard}" to reconnected player ${playerName}`);
         
+        // ✅ RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
+        const declaredCard = activeRounds[roomCode].declaredCard;
+        const playerHand = playerStats[socket.id];
+        
+        if (playerHand && declaredCard !== 'First Down') {
+          // Check standard cards
+          if (playerHand.standard) {
+            const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
+            if (playerCards.length > 0) {
+              let totalDrinksForPlayer = 0;
+              playerCards.forEach(card => {
+                totalDrinksForPlayer += card.drinks;
+              });
+              
+              let shotguns = Math.floor(totalDrinksForPlayer / 10);
+              let remainingDrinks = totalDrinksForPlayer % 10;
+              
+              socket.emit('distributeDrinks', {
+                playerId: socket.id,
+                cardType: declaredCard,
+                drinkCount: remainingDrinks,
+                shotguns: shotguns
+              });
+              console.log(`🎯 Sent distributeDrinks to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns`);
+            }
+          }
+          
+          // Check wild cards
+          if (playerHand.wild) {
+            const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
+            if (playerCards.length > 0) {
+              let totalDrinksForPlayer = 0;
+              playerCards.forEach(card => {
+                totalDrinksForPlayer += card.drinks;
+              });
+              
+              let shotguns = Math.floor(totalDrinksForPlayer / 10);
+              let remainingDrinks = totalDrinksForPlayer % 10;
+              
+              socket.emit('distributeDrinks', {
+                playerId: socket.id,
+                wildcardtype: declaredCard,
+                drinkCount: remainingDrinks,
+                shotguns: shotguns
+              });
+              console.log(`🎯 Sent distributeDrinks (wild) to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns`);
+            }
+          }
+        }
+        
         // Send round state information
         const timeElapsed = Math.floor((Date.now() - activeRounds[roomCode].startTime) / 1000);
         const timeRemaining = Math.max(0, activeRounds[roomCode].timeRemaining - timeElapsed);
@@ -1029,13 +1079,50 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
     if (!roundResults[roomCode]) {
       roundResults[roomCode] = {};  // Initialize for each round
     }
-  
-    console.log(`Player ${socket.id} is assigning drinks:`, drinksToGive);
-    console.log(`Player ${socket.id} is assigning shotguns:`, shotgunsToGive);
-    console.log("selected player ids:",selectedPlayerIds);
+    
+    // ✅ DEBUGGING: Enhanced logging for socket ID mapping issues
+    console.log(`\n🍺 ASSIGN DRINKS DEBUG - Room ${roomCode}`);
+    console.log(`🍺 Assigner: ${socket.id.slice(-4)} (${socket.id})`);
+    console.log(`🍺 Selected player IDs:`, selectedPlayerIds.map(id => id.slice(-4)));
+    console.log(`🍺 Drinks to give:`, drinksToGive);
+    console.log(`🍺 Shotguns to give:`, shotgunsToGive);
+    console.log(`🍺 Active socket mappings:`, socketIdMappings[roomCode] ? Object.entries(socketIdMappings[roomCode]).map(([old, new_]) => `${old.slice(-4)}→${new_.slice(-4)}`) : 'none');
+    console.log(`🍺 Current round results:`, Object.entries(roundResults[roomCode] || {}).map(([id, data]) => `${id.slice(-4)}:${JSON.stringify(data)}`));
 
-    // Iterate over each selected player and update their drinks and shotguns
-    selectedPlayerIds.forEach(selectedPlayerId => {
+    // ✅ SOCKET MAPPING FIX: Resolve selected player IDs through socket mappings if needed
+    const resolvedPlayerIds = selectedPlayerIds.map(selectedPlayerId => {
+      if (socketIdMappings[roomCode] && socketIdMappings[roomCode][selectedPlayerId]) {
+        const newSocketId = socketIdMappings[roomCode][selectedPlayerId];
+        console.log(`🔄 Resolving socket ID: ${selectedPlayerId.slice(-4)} → ${newSocketId.slice(-4)}`);
+        return newSocketId;
+      }
+      return selectedPlayerId;
+    });
+    
+    console.log(`🍺 Resolved player IDs:`, resolvedPlayerIds.map(id => id.slice(-4)));
+    
+    // ✅ SOCKET MAPPING FIX: Resolve drinks and shotguns objects to use new socket IDs
+    const resolvedDrinksToGive = {};
+    const resolvedShotgunsToGive = {};
+    
+    Object.entries(drinksToGive || {}).forEach(([originalId, drinks]) => {
+      const resolvedId = socketIdMappings[roomCode]?.[originalId] || originalId;
+      resolvedDrinksToGive[resolvedId] = drinks;
+      if (originalId !== resolvedId) {
+        console.log(`🔄 Resolved drinks mapping: ${originalId.slice(-4)} → ${resolvedId.slice(-4)} (${drinks} drinks)`);
+      }
+    });
+    
+    Object.entries(shotgunsToGive || {}).forEach(([originalId, shotguns]) => {
+      const resolvedId = socketIdMappings[roomCode]?.[originalId] || originalId;
+      resolvedShotgunsToGive[resolvedId] = shotguns;
+      if (originalId !== resolvedId) {
+        console.log(`🔄 Resolved shotguns mapping: ${originalId.slice(-4)} → ${resolvedId.slice(-4)} (${shotguns} shotguns)`);
+      }
+    });
+
+    // Iterate over each resolved player and update their drinks and shotguns
+    resolvedPlayerIds.forEach(selectedPlayerId => {
       // Ensure the roundResults entry for the player exists
       if (!roundResults[roomCode][selectedPlayerId]) {
         roundResults[roomCode][selectedPlayerId] = { drinks: 0, shotguns: 0 };
@@ -1043,9 +1130,9 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
       } 
   
       // Add drinks to the player's round results, if applicable
-      if (drinksToGive && drinksToGive[selectedPlayerId]) {
-        roundResults[roomCode][selectedPlayerId].drinks += drinksToGive[selectedPlayerId];
-        console.log(`Player ${selectedPlayerId} received ${drinksToGive[selectedPlayerId]} drinks.`);
+      if (resolvedDrinksToGive && resolvedDrinksToGive[selectedPlayerId]) {
+        roundResults[roomCode][selectedPlayerId].drinks += resolvedDrinksToGive[selectedPlayerId];
+        console.log(`Player ${selectedPlayerId} received ${resolvedDrinksToGive[selectedPlayerId]} drinks.`);
   
         // Check if player reached or exceeded 10 drinks in this round
         if (roundResults[roomCode][selectedPlayerId].drinks >= 10) {
@@ -1055,12 +1142,12 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
           console.log(`Player ${selectedPlayerId} reached 10 drinks and has to shotgun!`);
         }
       }
-      console.log("shotguns to give",shotgunsToGive, "shotguns to give[selectedPlayerId]", shotgunsToGive[selectedPlayerId]);
+      console.log("resolved shotguns to give", resolvedShotgunsToGive, "for selectedPlayerId", selectedPlayerId.slice(-4), "value:", resolvedShotgunsToGive[selectedPlayerId]);
 
       // Add shotguns to the player's round results, if applicable
-      if (shotgunsToGive && shotgunsToGive[selectedPlayerId]) {
-        roundResults[roomCode][selectedPlayerId].shotguns += shotgunsToGive[selectedPlayerId];
-        console.log(`Player ${selectedPlayerId} received ${shotgunsToGive[selectedPlayerId]} shotguns.`);
+      if (resolvedShotgunsToGive && resolvedShotgunsToGive[selectedPlayerId]) {
+        roundResults[roomCode][selectedPlayerId].shotguns += resolvedShotgunsToGive[selectedPlayerId];
+        console.log(`Player ${selectedPlayerId} received ${resolvedShotgunsToGive[selectedPlayerId]} shotguns.`);
       }
     });
   
@@ -1255,6 +1342,56 @@ socket.on('requestGameState', ({ roomCode }) => {
           // Send current declared card and round state
           socket.emit('declaredCard', activeRounds[roomCode].declaredCard);
           console.log(`🎯 FAST: Sent declared card "${activeRounds[roomCode].declaredCard}" to reconnected player`);
+          
+          // ✅ FAST RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
+          const declaredCard = activeRounds[roomCode].declaredCard;
+          const playerHand = playerStats[socket.id];
+          
+          if (playerHand && declaredCard !== 'First Down') {
+            // Check standard cards
+            if (playerHand.standard) {
+              const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
+              if (playerCards.length > 0) {
+                let totalDrinksForPlayer = 0;
+                playerCards.forEach(card => {
+                  totalDrinksForPlayer += card.drinks;
+                });
+                
+                let shotguns = Math.floor(totalDrinksForPlayer / 10);
+                let remainingDrinks = totalDrinksForPlayer % 10;
+                
+                socket.emit('distributeDrinks', {
+                  playerId: socket.id,
+                  cardType: declaredCard,
+                  drinkCount: remainingDrinks,
+                  shotguns: shotguns
+                });
+                console.log(`🎯 FAST: Sent distributeDrinks to reconnected player: ${remainingDrinks} drinks, ${shotguns} shotguns`);
+              }
+            }
+            
+            // Check wild cards
+            if (playerHand.wild) {
+              const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
+              if (playerCards.length > 0) {
+                let totalDrinksForPlayer = 0;
+                playerCards.forEach(card => {
+                  totalDrinksForPlayer += card.drinks;
+                });
+                
+                let shotguns = Math.floor(totalDrinksForPlayer / 10);
+                let remainingDrinks = totalDrinksForPlayer % 10;
+                
+                socket.emit('distributeDrinks', {
+                  playerId: socket.id,
+                  wildcardtype: declaredCard,
+                  drinkCount: remainingDrinks,
+                  shotguns: shotguns
+                });
+                console.log(`🎯 FAST: Sent distributeDrinks (wild) to reconnected player: ${remainingDrinks} drinks, ${shotguns} shotguns`);
+              }
+            }
+          }
           
           const timeElapsed = Math.floor((Date.now() - activeRounds[roomCode].startTime) / 1000);
           const timeRemaining = Math.max(0, activeRounds[roomCode].timeRemaining - timeElapsed);
