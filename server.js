@@ -338,16 +338,12 @@ function handleJoinRoom(socket, roomCode, playerName) {
       `${maxDrinksEntry[0].slice(-4)}: ${maxDrinksEntry[1].totalDrinks} drinks` : 'none'
     );
     
-    const formerDrinks = formerPlayer.totalDrinks || 0;
-    const formerShotguns = formerPlayer.totalShotguns || 0;
-    const currentMaxDrinks = maxDrinksEntry ? maxDrinksEntry[1].totalDrinks || 0 : 0;
-    const currentMaxShotguns = maxDrinksEntry ? maxDrinksEntry[1].totalShotguns || 0 : 0;
+    // ✅ FIX: Use disconnected playerStats as authoritative source, NOT formerPlayers
+    // formerPlayers is outdated if rounds happened while player was offline
+    const finalDrinks = maxDrinksEntry ? maxDrinksEntry[1].totalDrinks || 0 : formerPlayer.totalDrinks || 0;
+    const finalShotguns = maxDrinksEntry ? maxDrinksEntry[1].totalShotguns || 0 : formerPlayer.totalShotguns || 0;
     
-    // Use the HIGHER value to preserve accumulated drinks while offline
-    const finalDrinks = Math.max(formerDrinks, currentMaxDrinks);
-    const finalShotguns = Math.max(formerShotguns, currentMaxShotguns);
-    
-    console.log(`🔄 MERGE STATS: ${playerName} - Former: ${formerDrinks} drinks, MaxCurrent: ${currentMaxDrinks} drinks, Final: ${finalDrinks} drinks`);
+    console.log(`🔄 MERGE STATS: ${playerName} - Using disconnected playerStats: ${finalDrinks} drinks (formerPlayers had ${formerPlayer.totalDrinks || 0} drinks)`);
     
     // Restore their game data with merged stats
     playerStats[socket.id] = {
