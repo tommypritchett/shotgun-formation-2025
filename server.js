@@ -350,6 +350,10 @@ function handleJoinRoom(socket, roomCode, playerName) {
       socket.emit('updatePlayers', rooms[roomCode].players);
       console.log(`📡 Sent complete players list to reconnected player ${playerName}`);
       
+      // ✅ CRITICAL: Notify ALL players of the new socket ID mapping
+      io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
+      console.log(`📡 Notified all players of ${playerName}'s new socket ID: ${socket.id}`);
+      
       console.log(`📡 Sent gameStarted to reconnected player ${playerName} with socket ${socket.id}`);
       
       // ✅ REMOVED: Auto-refresh after reconnection to prevent infinite loops
@@ -421,13 +425,8 @@ function handleJoinRoom(socket, roomCode, playerName) {
     socket.to(roomCode).emit('updatePlayers', room.players);
     console.log(`📡 Notified all existing players about new player ${playerName} joining`);
     
-    // ✅ NEW: Update all players' playerStats to include the new player
-    io.to(roomCode).emit('updatePlayerStats', {
-      players: playerStats,
-      roundResults: roundResults[roomCode] || {},
-      allPlayers: room.players
-    });
-    console.log(`📡 Sent updated player stats to all players including new player ${playerName}`);
+    // ✅ REMOVED: updatePlayerStats on join - only send on round completion
+    console.log(`📡 Player join complete - stats will update on next round completion`);
     
     console.log(`📡 Sent gameStarted to new player ${playerName}`);
   } else {
@@ -971,11 +970,7 @@ socket.on('leaveGame', ({ roomCode }) => {
         delete rooms[roomCode];  // End the game and delete the room
         delete usedCards[roomCode];  // Clean up used cards storage
         console.log(`Room ${roomCode} deleted because only one player is left.`);
-                 // Emit updated player stats for the round
-    io.to(roomCode).emit('updatePlayerStats', {
-        players: playerStats,
-        roundResults: roundResults[roomCode],
-      });  
+        // ✅ REMOVED: updatePlayerStats on game over - no need when game ends
         return;  // Exit the function to prevent further execution
     }
 
@@ -1007,12 +1002,7 @@ socket.on('leaveGame', ({ roomCode }) => {
     room.players.forEach(player => {
       const playerHand = playerStats[player.id];
       io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
-      // Emit updated player stats for the round
-      io.to(roomCode).emit('updatePlayerStats', {
-        players: playerStats,
-        roundResults: roundResults[roomCode],
-      });
-    
+      // ✅ REMOVED: updatePlayerStats on disconnect - only send on round completion
     });
 });
 
@@ -1149,11 +1139,8 @@ socket.on('requestGameState', ({ roomCode }) => {
     wild: playerStats[socket.id]?.wild || [] 
   });
   
-  // Send current player stats and game state
-  socket.emit('updatePlayerStats', {
-    players: playerStats,
-    roundResults: roundResults[roomCode] || {}
-  });
+  // ✅ REMOVED: updatePlayerStats on requestGameState - only send on round completion
+  // Player stats will be current when next round ends
   
   // Send current quarter
   socket.emit('quarterUpdated', room.quarter || 1);
@@ -1268,12 +1255,7 @@ socket.on('disconnect', (reason) => {
             }
           });
           
-          // Emit updated player stats for the round (to all active players)
-          io.to(roomCode).emit('updatePlayerStats', {
-            players: playerStats,
-            roundResults: roundResults[roomCode] || {},
-            allPlayers: players // Include all players (connected and disconnected)
-          });
+          // ✅ REMOVED: updatePlayerStats on disconnect - only send on round completion
         }
       }
     }
