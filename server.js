@@ -130,25 +130,59 @@ const finalizeRound = (roomCode) => {
       console.log(`✅ Active round cleared for room ${roomCode}`);
     }
     
-    // ✅ ROUND-AWARE: Merge round results for socket ID changes before clearing mappings
+    // ✅ ROUND-AWARE: Merge round results for socket ID changes with transitive resolution
     if (socketIdMappings[roomCode] && roundResults[roomCode]) {
       console.log(`🔄 Merging round results for socket ID mappings in room ${roomCode}`);
+      console.log(`🔄 Socket mappings:`, Object.entries(socketIdMappings[roomCode]).map(([old, new_]) => `${old.slice(-4)}→${new_.slice(-4)}`));
+      console.log(`🔄 Round results before merge:`, Object.entries(roundResults[roomCode]).map(([id, data]) => `${id.slice(-4)}:${data.drinks}d,${data.shotguns}s`));
       
-      Object.entries(socketIdMappings[roomCode]).forEach(([oldSocketId, newSocketId]) => {
-        if (roundResults[roomCode][oldSocketId] && !roundResults[roomCode][newSocketId]) {
-          // Transfer drinks from old socket ID to new socket ID
-          roundResults[roomCode][newSocketId] = roundResults[roomCode][oldSocketId];
-          delete roundResults[roomCode][oldSocketId];
-          console.log(`✅ Transferred round result from ${oldSocketId} to ${newSocketId}`);
-        } else if (roundResults[roomCode][oldSocketId] && roundResults[roomCode][newSocketId]) {
-          // Both exist - merge by taking the maximum (safety measure)
-          const oldDrinks = roundResults[roomCode][oldSocketId].roundDrinks || 0;
-          const newDrinks = roundResults[roomCode][newSocketId].roundDrinks || 0;
-          roundResults[roomCode][newSocketId].roundDrinks = Math.max(oldDrinks, newDrinks);
-          delete roundResults[roomCode][oldSocketId];
-          console.log(`✅ Merged round results: ${oldSocketId}(${oldDrinks}) + ${newSocketId}(${newDrinks}) = ${roundResults[roomCode][newSocketId].roundDrinks}`);
+      // Build transitive mapping chains to find final socket IDs
+      const finalSocketMappings = {};
+      
+      // For each socket ID in round results, find its final destination
+      Object.keys(roundResults[roomCode]).forEach(socketId => {
+        let currentId = socketId;
+        const visited = new Set();
+        let resolutionPath = [currentId.slice(-4)];
+        
+        // Follow the chain to the final socket ID
+        while (socketIdMappings[roomCode][currentId] && !visited.has(currentId)) {
+          visited.add(currentId);
+          const nextId = socketIdMappings[roomCode][currentId];
+          resolutionPath.push(nextId.slice(-4));
+          currentId = nextId;
+        }
+        
+        if (currentId !== socketId) {
+          finalSocketMappings[socketId] = currentId;
+          console.log(`🔗 Socket chain for results: ${resolutionPath.join(' → ')}`);
         }
       });
+      
+      // Merge all results to their final socket IDs
+      Object.entries(finalSocketMappings).forEach(([oldSocketId, finalSocketId]) => {
+        if (roundResults[roomCode][oldSocketId]) {
+          const oldData = roundResults[roomCode][oldSocketId];
+          
+          if (!roundResults[roomCode][finalSocketId]) {
+            // Simple transfer
+            roundResults[roomCode][finalSocketId] = { ...oldData };
+            console.log(`✅ Transferred: ${oldSocketId.slice(-4)}(${oldData.drinks}d,${oldData.shotguns}s) → ${finalSocketId.slice(-4)}`);
+          } else {
+            // Merge existing data
+            const finalData = roundResults[roomCode][finalSocketId];
+            roundResults[roomCode][finalSocketId] = {
+              drinks: (finalData.drinks || 0) + (oldData.drinks || 0),
+              shotguns: (finalData.shotguns || 0) + (oldData.shotguns || 0)
+            };
+            console.log(`✅ Merged: ${oldSocketId.slice(-4)}(${oldData.drinks}d,${oldData.shotguns}s) + ${finalSocketId.slice(-4)}(${finalData.drinks}d,${finalData.shotguns}s) = ${roundResults[roomCode][finalSocketId].drinks}d,${roundResults[roomCode][finalSocketId].shotguns}s`);
+          }
+          
+          delete roundResults[roomCode][oldSocketId];
+        }
+      });
+      
+      console.log(`🔄 Round results after merge:`, Object.entries(roundResults[roomCode]).map(([id, data]) => `${id.slice(-4)}:${data.drinks}d,${data.shotguns}s`));
     }
     
     // ✅ ROUND-AWARE: Clear socket ID mappings when round ends
@@ -374,56 +408,6 @@ function handleJoinRoom(socket, roomCode, playerName) {
         socket.emit('declaredCard', activeRounds[roomCode].declaredCard);
         console.log(`🎯 Sent declared card "${activeRounds[roomCode].declaredCard}" to reconnected player ${playerName}`);
         
-        // ✅ RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
-        const declaredCard = activeRounds[roomCode].declaredCard;
-        const playerHand = playerStats[socket.id];
-        
-        if (playerHand && declaredCard !== 'First Down') {
-          // Check standard cards
-          if (playerHand.standard) {
-            const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
-            if (playerCards.length > 0) {
-              let totalDrinksForPlayer = 0;
-              playerCards.forEach(card => {
-                totalDrinksForPlayer += card.drinks;
-              });
-              
-              let shotguns = Math.floor(totalDrinksForPlayer / 10);
-              let remainingDrinks = totalDrinksForPlayer % 10;
-              
-              socket.emit('distributeDrinks', {
-                playerId: socket.id,
-                cardType: declaredCard,
-                drinkCount: remainingDrinks,
-                shotguns: shotguns
-              });
-              console.log(`🎯 Sent distributeDrinks to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns`);
-            }
-          }
-          
-          // Check wild cards
-          if (playerHand.wild) {
-            const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
-            if (playerCards.length > 0) {
-              let totalDrinksForPlayer = 0;
-              playerCards.forEach(card => {
-                totalDrinksForPlayer += card.drinks;
-              });
-              
-              let shotguns = Math.floor(totalDrinksForPlayer / 10);
-              let remainingDrinks = totalDrinksForPlayer % 10;
-              
-              socket.emit('distributeDrinks', {
-                playerId: socket.id,
-                wildcardtype: declaredCard,
-                drinkCount: remainingDrinks,
-                shotguns: shotguns
-              });
-              console.log(`🎯 Sent distributeDrinks (wild) to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns`);
-            }
-          }
-        }
-        
         // Send round state information
         const timeElapsed = Math.floor((Date.now() - activeRounds[roomCode].startTime) / 1000);
         const timeRemaining = Math.max(0, activeRounds[roomCode].timeRemaining - timeElapsed);
@@ -492,6 +476,67 @@ function handleJoinRoom(socket, roomCode, playerName) {
     
     delete formerPlayers[playerName];
     console.log(`✅ Restored ${playerName} with merged data:`, playerStats[socket.id]);
+    
+    // ✅ RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
+    if (activeRounds[roomCode]) {
+      const declaredCard = activeRounds[roomCode].declaredCard;
+      const playerHand = playerStats[socket.id]; // Now player data is fully restored
+      
+      if (playerHand && declaredCard !== 'First Down') {
+        console.log(`🎯 CARD CHECK: Checking if ${playerName} can assign drinks for ${declaredCard}`);
+        console.log(`🎯 CARD CHECK: Player standard cards:`, playerHand.standard?.map(c => `${c.card}(${c.drinks})`));
+        console.log(`🎯 CARD CHECK: Player wild cards:`, playerHand.wild?.map(c => `${c.card}(${c.drinks})`));
+        
+        // Check standard cards
+        if (playerHand.standard) {
+          const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
+          if (playerCards.length > 0) {
+            let totalDrinksForPlayer = 0;
+            playerCards.forEach(card => {
+              totalDrinksForPlayer += card.drinks;
+            });
+            
+            let shotguns = Math.floor(totalDrinksForPlayer / 10);
+            let remainingDrinks = totalDrinksForPlayer % 10;
+            
+            socket.emit('distributeDrinks', {
+              playerId: socket.id,
+              cardType: declaredCard,
+              drinkCount: remainingDrinks,
+              shotguns: shotguns
+            });
+            console.log(`🎯 SUCCESS: Sent distributeDrinks to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
+          }
+        }
+        
+        // Check wild cards
+        if (playerHand.wild) {
+          const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
+          if (playerCards.length > 0) {
+            let totalDrinksForPlayer = 0;
+            playerCards.forEach(card => {
+              totalDrinksForPlayer += card.drinks;
+            });
+            
+            let shotguns = Math.floor(totalDrinksForPlayer / 10);
+            let remainingDrinks = totalDrinksForPlayer % 10;
+            
+            socket.emit('distributeDrinks', {
+              playerId: socket.id,
+              wildcardtype: declaredCard,
+              drinkCount: remainingDrinks,
+              shotguns: shotguns
+            });
+            console.log(`🎯 SUCCESS: Sent distributeDrinks (wild) to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
+          }
+        }
+        
+        if (!playerHand.standard?.some(card => card.card === declaredCard) && 
+            !playerHand.wild?.some(card => card.card === declaredCard)) {
+          console.log(`🎯 NO MATCH: Player ${playerName} does not have ${declaredCard} cards`);
+        }
+      }
+    }
     
     // Join the socket to the room
     socket.join(roomCode);
@@ -1089,24 +1134,59 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
     console.log(`🍺 Active socket mappings:`, socketIdMappings[roomCode] ? Object.entries(socketIdMappings[roomCode]).map(([old, new_]) => `${old.slice(-4)}→${new_.slice(-4)}`) : 'none');
     console.log(`🍺 Current round results:`, Object.entries(roundResults[roomCode] || {}).map(([id, data]) => `${id.slice(-4)}:${JSON.stringify(data)}`));
 
-    // ✅ SOCKET MAPPING FIX: Resolve selected player IDs through socket mappings if needed
+    // ✅ SOCKET MAPPING FIX: Resolve selected player IDs through socket mappings with transitive resolution
     const resolvedPlayerIds = selectedPlayerIds.map(selectedPlayerId => {
-      if (socketIdMappings[roomCode] && socketIdMappings[roomCode][selectedPlayerId]) {
-        const newSocketId = socketIdMappings[roomCode][selectedPlayerId];
-        console.log(`🔄 Resolving socket ID: ${selectedPlayerId.slice(-4)} → ${newSocketId.slice(-4)}`);
-        return newSocketId;
+      if (socketIdMappings[roomCode]) {
+        // Implement transitive resolution for chained mappings (e.g., A→B→C should resolve A to C)
+        let currentId = selectedPlayerId;
+        const visited = new Set(); // Prevent infinite loops
+        let resolutionPath = [currentId.slice(-4)];
+        
+        while (socketIdMappings[roomCode][currentId] && !visited.has(currentId)) {
+          visited.add(currentId);
+          const nextId = socketIdMappings[roomCode][currentId];
+          resolutionPath.push(nextId.slice(-4));
+          currentId = nextId;
+        }
+        
+        if (currentId !== selectedPlayerId) {
+          console.log(`🔄 Transitive socket ID resolution: ${resolutionPath.join(' → ')}`);
+          return currentId;
+        }
       }
       return selectedPlayerId;
     });
     
     console.log(`🍺 Resolved player IDs:`, resolvedPlayerIds.map(id => id.slice(-4)));
     
-    // ✅ SOCKET MAPPING FIX: Resolve drinks and shotguns objects to use new socket IDs
+    // ✅ SOCKET MAPPING FIX: Resolve drinks and shotguns objects to use new socket IDs with transitive resolution
     const resolvedDrinksToGive = {};
     const resolvedShotgunsToGive = {};
     
+    // Helper function for transitive resolution
+    const resolveTransitively = (originalId) => {
+      if (!socketIdMappings[roomCode]) return originalId;
+      
+      let currentId = originalId;
+      const visited = new Set();
+      let resolutionPath = [currentId.slice(-4)];
+      
+      while (socketIdMappings[roomCode][currentId] && !visited.has(currentId)) {
+        visited.add(currentId);
+        const nextId = socketIdMappings[roomCode][currentId];
+        resolutionPath.push(nextId.slice(-4));
+        currentId = nextId;
+      }
+      
+      if (currentId !== originalId) {
+        console.log(`🔄 Transitive resolution for drinks/shotguns: ${resolutionPath.join(' → ')}`);
+      }
+      
+      return currentId;
+    };
+    
     Object.entries(drinksToGive || {}).forEach(([originalId, drinks]) => {
-      const resolvedId = socketIdMappings[roomCode]?.[originalId] || originalId;
+      const resolvedId = resolveTransitively(originalId);
       resolvedDrinksToGive[resolvedId] = drinks;
       if (originalId !== resolvedId) {
         console.log(`🔄 Resolved drinks mapping: ${originalId.slice(-4)} → ${resolvedId.slice(-4)} (${drinks} drinks)`);
@@ -1114,7 +1194,7 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
     });
     
     Object.entries(shotgunsToGive || {}).forEach(([originalId, shotguns]) => {
-      const resolvedId = socketIdMappings[roomCode]?.[originalId] || originalId;
+      const resolvedId = resolveTransitively(originalId);
       resolvedShotgunsToGive[resolvedId] = shotguns;
       if (originalId !== resolvedId) {
         console.log(`🔄 Resolved shotguns mapping: ${originalId.slice(-4)} → ${resolvedId.slice(-4)} (${shotguns} shotguns)`);
@@ -1343,56 +1423,6 @@ socket.on('requestGameState', ({ roomCode }) => {
           socket.emit('declaredCard', activeRounds[roomCode].declaredCard);
           console.log(`🎯 FAST: Sent declared card "${activeRounds[roomCode].declaredCard}" to reconnected player`);
           
-          // ✅ FAST RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
-          const declaredCard = activeRounds[roomCode].declaredCard;
-          const playerHand = playerStats[socket.id];
-          
-          if (playerHand && declaredCard !== 'First Down') {
-            // Check standard cards
-            if (playerHand.standard) {
-              const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
-              if (playerCards.length > 0) {
-                let totalDrinksForPlayer = 0;
-                playerCards.forEach(card => {
-                  totalDrinksForPlayer += card.drinks;
-                });
-                
-                let shotguns = Math.floor(totalDrinksForPlayer / 10);
-                let remainingDrinks = totalDrinksForPlayer % 10;
-                
-                socket.emit('distributeDrinks', {
-                  playerId: socket.id,
-                  cardType: declaredCard,
-                  drinkCount: remainingDrinks,
-                  shotguns: shotguns
-                });
-                console.log(`🎯 FAST: Sent distributeDrinks to reconnected player: ${remainingDrinks} drinks, ${shotguns} shotguns`);
-              }
-            }
-            
-            // Check wild cards
-            if (playerHand.wild) {
-              const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
-              if (playerCards.length > 0) {
-                let totalDrinksForPlayer = 0;
-                playerCards.forEach(card => {
-                  totalDrinksForPlayer += card.drinks;
-                });
-                
-                let shotguns = Math.floor(totalDrinksForPlayer / 10);
-                let remainingDrinks = totalDrinksForPlayer % 10;
-                
-                socket.emit('distributeDrinks', {
-                  playerId: socket.id,
-                  wildcardtype: declaredCard,
-                  drinkCount: remainingDrinks,
-                  shotguns: shotguns
-                });
-                console.log(`🎯 FAST: Sent distributeDrinks (wild) to reconnected player: ${remainingDrinks} drinks, ${shotguns} shotguns`);
-              }
-            }
-          }
-          
           const timeElapsed = Math.floor((Date.now() - activeRounds[roomCode].startTime) / 1000);
           const timeRemaining = Math.max(0, activeRounds[roomCode].timeRemaining - timeElapsed);
           
@@ -1449,6 +1479,67 @@ socket.on('requestGameState', ({ roomCode }) => {
         standard: possibleFormerPlayers[0].standard || [],
         wild: possibleFormerPlayers[0].wild || []
       };
+      
+      // ✅ FAST RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
+      if (activeRounds[roomCode]) {
+        const declaredCard = activeRounds[roomCode].declaredCard;
+        const playerHand = playerStats[socket.id]; // Now player data is fully restored
+        
+        if (playerHand && declaredCard !== 'First Down') {
+          console.log(`🎯 FAST CARD CHECK: Checking if ${playerName} can assign drinks for ${declaredCard}`);
+          console.log(`🎯 FAST CARD CHECK: Player standard cards:`, playerHand.standard?.map(c => `${c.card}(${c.drinks})`));
+          console.log(`🎯 FAST CARD CHECK: Player wild cards:`, playerHand.wild?.map(c => `${c.card}(${c.drinks})`));
+          
+          // Check standard cards
+          if (playerHand.standard) {
+            const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
+            if (playerCards.length > 0) {
+              let totalDrinksForPlayer = 0;
+              playerCards.forEach(card => {
+                totalDrinksForPlayer += card.drinks;
+              });
+              
+              let shotguns = Math.floor(totalDrinksForPlayer / 10);
+              let remainingDrinks = totalDrinksForPlayer % 10;
+              
+              socket.emit('distributeDrinks', {
+                playerId: socket.id,
+                cardType: declaredCard,
+                drinkCount: remainingDrinks,
+                shotguns: shotguns
+              });
+              console.log(`🎯 FAST SUCCESS: Sent distributeDrinks to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
+            }
+          }
+          
+          // Check wild cards
+          if (playerHand.wild) {
+            const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
+            if (playerCards.length > 0) {
+              let totalDrinksForPlayer = 0;
+              playerCards.forEach(card => {
+                totalDrinksForPlayer += card.drinks;
+              });
+              
+              let shotguns = Math.floor(totalDrinksForPlayer / 10);
+              let remainingDrinks = totalDrinksForPlayer % 10;
+              
+              socket.emit('distributeDrinks', {
+                playerId: socket.id,
+                wildcardtype: declaredCard,
+                drinkCount: remainingDrinks,
+                shotguns: shotguns
+              });
+              console.log(`🎯 FAST SUCCESS: Sent distributeDrinks (wild) to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
+            }
+          }
+          
+          if (!playerHand.standard?.some(card => card.card === declaredCard) && 
+              !playerHand.wild?.some(card => card.card === declaredCard)) {
+            console.log(`🎯 FAST NO MATCH: Player ${playerName} does not have ${declaredCard} cards`);
+          }
+        }
+      }
       
       console.log(`Reconnected player ${socket.id} to room ${roomCode}`);
       console.log(`🔧 DEBUG: Room ${roomCode} now has ${room.players.length} players:`, room.players.map(p => `${p.name}(${p.id}, disconnected: ${p.disconnected})`));
