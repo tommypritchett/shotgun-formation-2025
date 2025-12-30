@@ -1250,18 +1250,9 @@ useEffect(() => {
       setPlayerStats(prevStats => {
         const updatedStats = {};
         
-        // Get current known players from frontend
-        const knownPlayers = {};
-        playersRef.current.forEach(player => {
-          if (player.id && player.name) {
-            knownPlayers[player.name] = player.id;
-          }
-        });
+        console.log(`🎯 USING BACKEND NAMES: Processing ${Object.keys(players).length} players with backend names`);
         
-        console.log(`🎯 KNOWN PLAYERS: ${Object.entries(knownPlayers).map(([name, id]) => `${name}(${id.slice(-4)})`).join(', ')}`);
-        
-        // First pass: Identify active backend players and detect ID changes
-        const backendPlayers = [];
+        // Process each player from backend - backend now includes names for ALL active players
         Object.keys(players).forEach(playerId => {
           const backendStats = players[playerId];
           
@@ -1271,65 +1262,32 @@ useEffect(() => {
             return;
           }
           
-          backendPlayers.push({ id: playerId, stats: backendStats });
-        });
-        
-        console.log(`🔍 ACTIVE BACKEND PLAYERS: ${backendPlayers.length}`);
-        
-        // Second pass: Map backend players to known frontend players
-        const usedBackendIds = new Set();
-        
-        // Try direct ID matching first
-        Object.entries(knownPlayers).forEach(([playerName, frontendId]) => {
-          const directMatch = backendPlayers.find(bp => bp.id === frontendId && !usedBackendIds.has(bp.id));
-          
-          if (directMatch) {
-            updatedStats[directMatch.id] = {
-              ...directMatch.stats,
-              name: playerName
+          // Use backend name directly - no guessing needed!
+          if (backendStats.name) {
+            updatedStats[playerId] = {
+              ...backendStats,
+              name: backendStats.name
             };
-            usedBackendIds.add(directMatch.id);
-            console.log(`✅ DIRECT MATCH: ${playerName} (${directMatch.id.slice(-4)}) -> ${directMatch.stats.totalDrinks} drinks`);
+            console.log(`✅ BACKEND NAME: ${backendStats.name} (${playerId.slice(-4)}) -> ${backendStats.totalDrinks} drinks`);
+          } else {
+            console.log(`⚠️ NO BACKEND NAME: Player ${playerId.slice(-4)} has no name from backend`);
           }
         });
         
-        // Handle unmapped backend players (likely reconnected with new IDs)
-        const unmappedBackend = backendPlayers.filter(bp => !usedBackendIds.has(bp.id));
-        const unmappedFrontend = Object.entries(knownPlayers).filter(([name, id]) => 
-          !Object.keys(updatedStats).includes(id)
-        );
-        
-        console.log(`🔄 ID REMAPPING NEEDED: ${unmappedBackend.length} unmapped backend, ${unmappedFrontend.length} unmapped frontend`);
-        
-        // Map remaining players (reconnected players with new IDs)
-        unmappedFrontend.forEach(([playerName, oldId]) => {
-          if (unmappedBackend.length > 0) {
-            const backendMatch = unmappedBackend.shift(); // Take first available
-            updatedStats[backendMatch.id] = {
-              ...backendMatch.stats,
-              name: playerName
-            };
-            console.log(`🔄 ID REMAP: ${playerName} (${oldId.slice(-4)} -> ${backendMatch.id.slice(-4)}) -> ${backendMatch.stats.totalDrinks} drinks`);
-          }
-        });
-        
-        console.log(`🎯 FINAL STATS: ${Object.keys(updatedStats).length} players mapped`);
+        console.log(`🎯 FINAL STATS: ${Object.keys(updatedStats).length} players with backend names`);
         console.log(`🎯 FINAL MAPPINGS:`, Object.entries(updatedStats).map(([id, stats]) => `${stats.name}(${id.slice(-4)}): ${stats.totalDrinks} drinks`));
         
-        // Store the updated stats for use in players ref update
-        const finalStats = updatedStats;
-        
-        // Update playersRef to reflect any ID changes
+        // Update playersRef to reflect current backend mappings
         setTimeout(() => {
           setPlayers(prevPlayers => {
             const updatedPlayers = [...prevPlayers];
             
-            // Check if any player IDs need updating based on the new mappings
-            Object.entries(finalStats).forEach(([newId, stats]) => {
+            // Update player IDs based on backend data
+            Object.entries(updatedStats).forEach(([currentId, stats]) => {
               const playerIndex = updatedPlayers.findIndex(p => p.name === stats.name);
-              if (playerIndex !== -1 && updatedPlayers[playerIndex].id !== newId) {
-                console.log(`🔄 UPDATING PLAYERS REF: ${stats.name} (${updatedPlayers[playerIndex].id.slice(-4)} -> ${newId.slice(-4)})`);
-                updatedPlayers[playerIndex] = { ...updatedPlayers[playerIndex], id: newId };
+              if (playerIndex !== -1 && updatedPlayers[playerIndex].id !== currentId) {
+                console.log(`🔄 UPDATING PLAYERS REF: ${stats.name} (${updatedPlayers[playerIndex].id.slice(-4)} -> ${currentId.slice(-4)})`);
+                updatedPlayers[playerIndex] = { ...updatedPlayers[playerIndex], id: currentId };
               }
             });
             

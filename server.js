@@ -95,9 +95,24 @@ const finalizeRound = (roomCode) => {
     console.log(`Updated stats for player ${playerId}:`, playerStats[playerId]);
     });
 
+    // ✅ ENHANCED: Include player names in stats data
+    const playersWithNames = {};
+    Object.keys(playerStats).forEach(playerId => {
+      const player = room.players.find(p => p.id === playerId);
+      playersWithNames[playerId] = {
+        ...playerStats[playerId],
+        name: player ? player.name : undefined,
+        disconnected: player ? player.disconnected : false
+      };
+    });
+
+    console.log(`📊 SENDING COMPLETE DATA: ${Object.keys(playersWithNames).length} players with names:`, 
+      Object.entries(playersWithNames).map(([id, stats]) => `${stats.name || 'UNNAMED'}(${id.slice(-4)}): ${stats.totalDrinks} drinks`)
+    );
+
     // Emit the final round results and updated player stats to everyone in the room
     io.to(roomCode).emit('updatePlayerStats', {
-       players: playerStats,
+       players: playersWithNames,  // ✅ Now includes names for ALL players
        roundResults: roundResults[roomCode],  // Send combined round results
        roundFinalized: true  // ✅ NEW: Flag to indicate official round end
     });
