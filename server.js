@@ -1137,10 +1137,45 @@ socket.on('requestGameState', ({ roomCode }) => {
         room.players.push(player);
       }
       
-      // Restore their data
+      // ✅ ENHANCED: Use same merge logic as handleJoinRoom to preserve accumulated drinks
+      const playerName = possibleFormerPlayers[0].name;
+      console.log(`🔍 FAST RECONNECT MERGE: Looking for accumulated stats for ${playerName}`);
+      console.log(`🔍 FAST RECONNECT MERGE: All playerStats:`, Object.entries(playerStats).map(([id, stats]) => 
+        `${id.slice(-4)}: ${JSON.stringify({totalDrinks: stats.totalDrinks, name: stats.name, disconnected: stats.disconnected})}`
+      ));
+      
+      // Find ALL entries that belong specifically to this player name
+      const allPlayerEntries = Object.entries(playerStats).filter(([socketId, stats]) => 
+        stats.name === playerName  // ONLY entries with exact name match
+      );
+      
+      console.log(`🔍 FAST RECONNECT MERGE: All entries for player name "${playerName}":`, allPlayerEntries.map(([id, stats]) => 
+        `${id.slice(-4)}: ${stats.totalDrinks || 0} drinks, disconnected: ${stats.disconnected}, name: ${stats.name}`
+      ));
+      
+      // Find the entry with the highest totalDrinks for this specific player
+      const maxDrinksEntry = allPlayerEntries.length > 0 
+        ? allPlayerEntries.reduce((max, current) => {
+            const currentDrinks = current[1].totalDrinks || 0;
+            const maxDrinks = max ? max[1].totalDrinks || 0 : 0;
+            return currentDrinks > maxDrinks ? current : max;
+          })
+        : null;
+      
+      console.log(`🔍 FAST RECONNECT MERGE: Max drinks entry:`, maxDrinksEntry ? 
+        `${maxDrinksEntry[0].slice(-4)}: ${maxDrinksEntry[1].totalDrinks} drinks` : 'none'
+      );
+      
+      // Use disconnected playerStats as authoritative source, fall back to formerPlayers
+      const finalDrinks = maxDrinksEntry ? maxDrinksEntry[1].totalDrinks || 0 : possibleFormerPlayers[0].totalDrinks || 0;
+      const finalShotguns = maxDrinksEntry ? maxDrinksEntry[1].totalShotguns || 0 : possibleFormerPlayers[0].totalShotguns || 0;
+      
+      console.log(`🔄 FAST RECONNECT MERGE: ${playerName} - Using accumulated stats: ${finalDrinks} drinks (formerPlayers had ${possibleFormerPlayers[0].totalDrinks || 0} drinks)`);
+
+      // Restore their data with preserved accumulated stats
       playerStats[socket.id] = {
-        totalDrinks: possibleFormerPlayers[0].totalDrinks || 0,
-        totalShotguns: possibleFormerPlayers[0].totalShotguns || 0,
+        totalDrinks: finalDrinks,
+        totalShotguns: finalShotguns,
         standard: possibleFormerPlayers[0].standard || [],
         wild: possibleFormerPlayers[0].wild || []
       };
@@ -1184,13 +1219,12 @@ socket.on('requestGameState', ({ roomCode }) => {
       // Remove from formerPlayers and clean up any old playerStats
       delete formerPlayers[possibleFormerPlayers[0].name];
       
-      // ✅ FIX: Clean up any old playerStats entries for previous socket IDs
-      const oldSocketIds = Object.keys(playerStats).filter(id => 
-        id !== socket.id && playerStats[id]?.name === possibleFormerPlayers[0].name
-      );
-      oldSocketIds.forEach(oldId => {
-        console.log(`🧹 Cleaning up old playerStats for ${possibleFormerPlayers[0].name} with old socket ID: ${oldId}`);
-        delete playerStats[oldId];
+      // ✅ ENHANCED CLEANUP: Only clean up entries that specifically belong to this player name
+      allPlayerEntries.forEach(([oldSocketId, oldStats]) => {
+        if (oldSocketId !== socket.id && oldStats.name === playerName) { // Extra safety check
+          console.log(`🧹 FAST RECONNECT CLEANUP: Removing old entry for ${playerName} (${oldSocketId.slice(-4)}) with ${oldStats.totalDrinks || 0} drinks, name: ${oldStats.name}`);
+          delete playerStats[oldSocketId];
+        }
       });
     } else {
       console.log(`Unable to find player data for ${socket.id}`);
