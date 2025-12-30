@@ -1296,6 +1296,7 @@ useEffect(() => {
         }, 0);
         
         return updatedStats;
+      });
     }
     
     setRoundDrinkResults(roundResults);  // Update the round results
