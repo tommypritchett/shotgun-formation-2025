@@ -318,21 +318,23 @@ function handleJoinRoom(socket, roomCode, playerName) {
       `${id.slice(-4)}: ${JSON.stringify({totalDrinks: stats.totalDrinks, name: stats.name, disconnected: stats.disconnected})}`
     ));
     
-    // Find ALL entries for this player (disconnected and any others)
+    // ✅ STRICT NAME MATCH: Find ALL entries that belong specifically to this player name
     const allPlayerEntries = Object.entries(playerStats).filter(([socketId, stats]) => 
-      stats.name === playerName || socketId === formerPlayer.id
+      stats.name === playerName  // ONLY entries with exact name match, no socket ID guessing
     );
     
-    console.log(`🔍 DEBUG MERGE: All entries for ${playerName}:`, allPlayerEntries.map(([id, stats]) => 
-      `${id.slice(-4)}: ${stats.totalDrinks} drinks, disconnected: ${stats.disconnected}`
+    console.log(`🔍 DEBUG MERGE: All entries for player name "${playerName}":`, allPlayerEntries.map(([id, stats]) => 
+      `${id.slice(-4)}: ${stats.totalDrinks || 0} drinks, disconnected: ${stats.disconnected}, name: ${stats.name}`
     ));
     
-    // Find the entry with the highest totalDrinks (most accumulated)
-    const maxDrinksEntry = allPlayerEntries.reduce((max, current) => {
-      const currentDrinks = current[1].totalDrinks || 0;
-      const maxDrinks = max ? max[1].totalDrinks || 0 : 0;
-      return currentDrinks > maxDrinks ? current : max;
-    }, null);
+    // Find the entry with the highest totalDrinks for this specific player
+    const maxDrinksEntry = allPlayerEntries.length > 0 
+      ? allPlayerEntries.reduce((max, current) => {
+          const currentDrinks = current[1].totalDrinks || 0;
+          const maxDrinks = max ? max[1].totalDrinks || 0 : 0;
+          return currentDrinks > maxDrinks ? current : max;
+        })
+      : null;
     
     console.log(`🔍 DEBUG MERGE: Max drinks entry:`, maxDrinksEntry ? 
       `${maxDrinksEntry[0].slice(-4)}: ${maxDrinksEntry[1].totalDrinks} drinks` : 'none'
@@ -353,10 +355,10 @@ function handleJoinRoom(socket, roomCode, playerName) {
       wild: formerPlayer.wild || []
     };
     
-    // Clean up ALL old entries for this player
+    // ✅ STRICT CLEANUP: Only clean up entries that specifically belong to this player name
     allPlayerEntries.forEach(([oldSocketId, oldStats]) => {
-      if (oldSocketId !== socket.id) { // Don't remove the new entry we just created
-        console.log(`🧹 CLEANUP: Removing old entry for ${playerName} (${oldSocketId.slice(-4)}) with ${oldStats.totalDrinks} drinks`);
+      if (oldSocketId !== socket.id && oldStats.name === playerName) { // Extra safety check
+        console.log(`🧹 CLEANUP: Removing old entry for ${playerName} (${oldSocketId.slice(-4)}) with ${oldStats.totalDrinks || 0} drinks, name: ${oldStats.name}`);
         delete playerStats[oldSocketId];
       }
     });
