@@ -313,21 +313,41 @@ function handleJoinRoom(socket, roomCode, playerName) {
     console.log(`🔄 Removed old entries and added player ${playerName} with new socket ${socket.id}`);
     
     // ✅ MERGE FIX: Preserve drinks accumulated while disconnected
-    // Find current disconnected player stats by looking for their old disconnected entry
-    const currentDisconnectedStats = Object.entries(playerStats).find(([socketId, stats]) => 
-      stats.name === playerName && stats.disconnected
+    console.log(`🔍 DEBUG MERGE: Looking for disconnected stats for ${playerName}`);
+    console.log(`🔍 DEBUG MERGE: All playerStats:`, Object.entries(playerStats).map(([id, stats]) => 
+      `${id.slice(-4)}: ${JSON.stringify({totalDrinks: stats.totalDrinks, name: stats.name, disconnected: stats.disconnected})}`
+    ));
+    
+    // Find ALL entries for this player (disconnected and any others)
+    const allPlayerEntries = Object.entries(playerStats).filter(([socketId, stats]) => 
+      stats.name === playerName || socketId === formerPlayer.id
+    );
+    
+    console.log(`🔍 DEBUG MERGE: All entries for ${playerName}:`, allPlayerEntries.map(([id, stats]) => 
+      `${id.slice(-4)}: ${stats.totalDrinks} drinks, disconnected: ${stats.disconnected}`
+    ));
+    
+    // Find the entry with the highest totalDrinks (most accumulated)
+    const maxDrinksEntry = allPlayerEntries.reduce((max, current) => {
+      const currentDrinks = current[1].totalDrinks || 0;
+      const maxDrinks = max ? max[1].totalDrinks || 0 : 0;
+      return currentDrinks > maxDrinks ? current : max;
+    }, null);
+    
+    console.log(`🔍 DEBUG MERGE: Max drinks entry:`, maxDrinksEntry ? 
+      `${maxDrinksEntry[0].slice(-4)}: ${maxDrinksEntry[1].totalDrinks} drinks` : 'none'
     );
     
     const formerDrinks = formerPlayer.totalDrinks || 0;
     const formerShotguns = formerPlayer.totalShotguns || 0;
-    const currentDrinks = currentDisconnectedStats ? currentDisconnectedStats[1].totalDrinks || 0 : 0;
-    const currentShotguns = currentDisconnectedStats ? currentDisconnectedStats[1].totalShotguns || 0 : 0;
+    const currentMaxDrinks = maxDrinksEntry ? maxDrinksEntry[1].totalDrinks || 0 : 0;
+    const currentMaxShotguns = maxDrinksEntry ? maxDrinksEntry[1].totalShotguns || 0 : 0;
     
     // Use the HIGHER value to preserve accumulated drinks while offline
-    const finalDrinks = Math.max(formerDrinks, currentDrinks);
-    const finalShotguns = Math.max(formerShotguns, currentShotguns);
+    const finalDrinks = Math.max(formerDrinks, currentMaxDrinks);
+    const finalShotguns = Math.max(formerShotguns, currentMaxShotguns);
     
-    console.log(`🔄 MERGE STATS: ${playerName} - Former: ${formerDrinks} drinks, Current: ${currentDrinks} drinks, Final: ${finalDrinks} drinks`);
+    console.log(`🔄 MERGE STATS: ${playerName} - Former: ${formerDrinks} drinks, MaxCurrent: ${currentMaxDrinks} drinks, Final: ${finalDrinks} drinks`);
     
     // Restore their game data with merged stats
     playerStats[socket.id] = {
@@ -337,13 +357,13 @@ function handleJoinRoom(socket, roomCode, playerName) {
       wild: formerPlayer.wild || []
     };
     
-    // Clean up old disconnected playerStats entry and formerPlayers
-    if (currentDisconnectedStats) {
-      // Remove the old disconnected entry using the socket ID we found
-      const oldSocketId = currentDisconnectedStats[0];
-      delete playerStats[oldSocketId];
-      console.log(`🧹 CLEANUP: Removed old disconnected entry for ${playerName} (${oldSocketId.slice(-4)})`);
-    }
+    // Clean up ALL old entries for this player
+    allPlayerEntries.forEach(([oldSocketId, oldStats]) => {
+      if (oldSocketId !== socket.id) { // Don't remove the new entry we just created
+        console.log(`🧹 CLEANUP: Removing old entry for ${playerName} (${oldSocketId.slice(-4)}) with ${oldStats.totalDrinks} drinks`);
+        delete playerStats[oldSocketId];
+      }
+    });
     
     delete formerPlayers[playerName];
     console.log(`✅ Restored ${playerName} with merged data:`, playerStats[socket.id]);
