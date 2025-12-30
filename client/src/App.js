@@ -1257,7 +1257,41 @@ useEffect(() => {
         // Process each backend player - use backend data directly
         Object.keys(players).forEach(newPlayerId => {
           const backendStats = players[newPlayerId];
-          const playerName = backendStats.name;
+          let playerName = backendStats.name;
+          
+          // Skip disconnected players - they will be handled by name transfer logic
+          if (backendStats.disconnected) {
+            console.log(`⏭️ SKIPPING: Disconnected player ${newPlayerId.slice(-4)} (name: ${playerName || 'NO_NAME'}) - used only for name transfer`);
+            return;
+          }
+          
+          // ✅ CRITICAL: For unnamed entries, check if they should get the name from a disconnected player
+          if (!playerName) {
+            // Look for disconnected players with names that this entry should inherit
+            // Match by drink progression: unnamed entry should have >= drinks than the disconnected one
+            const candidateDisconnected = Object.entries(players)
+              .filter(([id, p]) => id !== newPlayerId && p.disconnected && p.name)
+              .map(([id, p]) => ({ ...p, id }))
+              .find(p => {
+                const drinkProgression = backendStats.totalDrinks >= (p.totalDrinks || 0);
+                console.log(`🔍 CANDIDATE: ${p.name} (${p.id.slice(-4)}) had ${p.totalDrinks} drinks, current unnamed has ${backendStats.totalDrinks} - progression: ${drinkProgression}`);
+                return drinkProgression;
+              });
+            
+            if (candidateDisconnected) {
+              playerName = candidateDisconnected.name;
+              console.log(`🔄 NAME TRANSFER: Unnamed player ${newPlayerId.slice(-4)} (${backendStats.totalDrinks} drinks) IS "${playerName}" (was ${candidateDisconnected.totalDrinks} drinks on ${candidateDisconnected.id.slice(-4)})`);
+              
+              // Remove any existing frontend entry with this name to avoid duplicates
+              const oldNamedEntry = Object.entries(updatedStats).find(([id, stats]) => stats.name === playerName);
+              if (oldNamedEntry) {
+                delete updatedStats[oldNamedEntry[0]];
+                console.log(`🧹 FRONTEND CLEANUP: Removed old entry ${oldNamedEntry[0].slice(-4)} for "${playerName}"`);
+              }
+            } else {
+              console.log(`⚠️ NO MATCH: Unnamed player ${newPlayerId.slice(-4)} (${backendStats.totalDrinks} drinks) has no matching disconnected player to inherit name from`);
+            }
+          }
           
           if (playerName) {
             console.log(`🔄 Processing player "${playerName}" with ID ${newPlayerId.slice(-4)}`);
