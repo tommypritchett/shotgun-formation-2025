@@ -1242,98 +1242,52 @@ useEffect(() => {
       console.log("📝 BACKEND NAME MAPPINGS:", Object.entries(newNameMap).map(([id, name]) => `${name}(${id.slice(-4)})`));
     }
     
-    // ✅ ENHANCED: Update player stats properly - players is the actual stats object from server
+    // ✅ SIMPLE: Use backend as single source of truth for player stats
     if (players) {
-      console.log(`🧹 CLEANUP: Before update, playerStats had ${Object.keys(playerStats).length} entries`);
-      console.log(`🧹 CLEANUP: Backend sent ${Object.keys(players).length} players:`, Object.keys(players));
-      console.log(`🧹 CLEANUP: Backend data:`, players);
-      
-      // ✅ RECONNECTION FIX: Update old entries with new IDs instead of creating duplicates
-      console.log(`🧹 RECONNECTION: Processing backend data for ID updates`);
+      console.log(`📊 BACKEND DATA: Received ${Object.keys(players).length} player entries from backend`);
+      console.log(`📊 BACKEND PLAYERS:`, Object.entries(players).map(([id, stats]) => `${stats.name || 'UNNAMED'}(${id.slice(-4)}): ${stats.totalDrinks} drinks`));
       
       setPlayerStats(prevStats => {
-        const updatedStats = { ...prevStats };
+        // Start fresh - only keep stats for current players
+        const updatedStats = {};
         
-        // Process each backend player - use backend data directly
-        Object.keys(players).forEach(newPlayerId => {
-          const backendStats = players[newPlayerId];
-          let playerName = backendStats.name;
-          
-          // Skip disconnected players - they will be handled by name transfer logic
-          if (backendStats.disconnected) {
-            console.log(`⏭️ SKIPPING: Disconnected player ${newPlayerId.slice(-4)} (name: ${playerName || 'NO_NAME'}) - used only for name transfer`);
-            return;
-          }
-          
-          // ✅ CRITICAL: For unnamed entries, check if they should get the name from a disconnected player
-          if (!playerName) {
-            // Look for disconnected players with names that this entry should inherit
-            // Match by drink progression: unnamed entry should have >= drinks than the disconnected one
-            const candidateDisconnected = Object.entries(players)
-              .filter(([id, p]) => id !== newPlayerId && p.disconnected && p.name)
-              .map(([id, p]) => ({ ...p, id }))
-              .find(p => {
-                const drinkProgression = backendStats.totalDrinks >= (p.totalDrinks || 0);
-                console.log(`🔍 CANDIDATE: ${p.name} (${p.id.slice(-4)}) had ${p.totalDrinks} drinks, current unnamed has ${backendStats.totalDrinks} - progression: ${drinkProgression}`);
-                return drinkProgression;
-              });
-            
-            if (candidateDisconnected) {
-              playerName = candidateDisconnected.name;
-              console.log(`🔄 NAME TRANSFER: Unnamed player ${newPlayerId.slice(-4)} (${backendStats.totalDrinks} drinks) IS "${playerName}" (was ${candidateDisconnected.totalDrinks} drinks on ${candidateDisconnected.id.slice(-4)})`);
-              
-              // Remove any existing frontend entry with this name to avoid duplicates
-              const oldNamedEntry = Object.entries(updatedStats).find(([id, stats]) => stats.name === playerName);
-              if (oldNamedEntry) {
-                delete updatedStats[oldNamedEntry[0]];
-                console.log(`🧹 FRONTEND CLEANUP: Removed old entry ${oldNamedEntry[0].slice(-4)} for "${playerName}"`);
-              }
-            } else {
-              console.log(`⚠️ NO MATCH: Unnamed player ${newPlayerId.slice(-4)} (${backendStats.totalDrinks} drinks) has no matching disconnected player to inherit name from`);
-            }
-          }
-          
-          if (playerName) {
-            console.log(`🔄 Processing player "${playerName}" with ID ${newPlayerId.slice(-4)}`);
-            
-            // Check if this player already exists under a different ID
-            const existingEntry = Object.entries(updatedStats).find(([id, stats]) => 
-              id !== newPlayerId && stats.name === playerName
-            );
-            
-            if (existingEntry) {
-              const [oldId, oldStats] = existingEntry;
-              console.log(`🔄 RECONNECTION DETECTED: "${playerName}" changing from ${oldId.slice(-4)} to ${newPlayerId.slice(-4)}`);
-              console.log(`🔄 Old stats: ${oldStats.totalDrinks} drinks | New stats: ${backendStats.totalDrinks} drinks`);
-              
-              // Remove the old entry
-              delete updatedStats[oldId];
-              console.log(`🧹 REMOVED: Old entry ${oldId.slice(-4)} for "${playerName}"`);
-            }
-            
-            // Add/update with new ID and backend stats
-            updatedStats[newPlayerId] = {
-              ...backendStats,
-              name: playerName
-            };
-            console.log(`✅ UPDATED: Player "${playerName}" now mapped to ${newPlayerId.slice(-4)} with ${backendStats.totalDrinks} drinks`);
-          } else {
-            // No name found - still add the stats but log the issue
-            updatedStats[newPlayerId] = {
-              ...backendStats,
-              name: undefined
-            };
-            console.log(`⚠️ NO NAME: Player ${newPlayerId.slice(-4)} has no name mapping`);
+        // Get current player mappings from the authoritative players list (from updatePlayers event)
+        const currentPlayerMappings = {};
+        playersRef.current.forEach(player => {
+          if (player.id && player.name) {
+            currentPlayerMappings[player.id] = player.name;
           }
         });
         
-        console.log(`🧹 FINAL: Updated playerStats with ${Object.keys(updatedStats).length} entries:`, 
-          Object.entries(updatedStats).map(([id, stats]) => ({ 
-            id: id.slice(-4), 
-            name: stats.name || 'NO_NAME', 
-            totalDrinks: stats.totalDrinks 
-          }))
-        );
+        console.log(`🎯 CURRENT MAPPINGS: ${Object.entries(currentPlayerMappings).map(([id, name]) => `${name}(${id.slice(-4)})`).join(', ')}`);
+        
+        // Process each backend stats entry
+        Object.keys(players).forEach(playerId => {
+          const backendStats = players[playerId];
+          
+          // Skip disconnected players - they're not active
+          if (backendStats.disconnected) {
+            console.log(`⏭️ SKIPPING: Disconnected player ${playerId.slice(-4)} (${backendStats.name || 'UNNAMED'})`);
+            return;
+          }
+          
+          // Use the authoritative name mapping from current players list
+          const playerName = currentPlayerMappings[playerId];
+          
+          if (playerName) {
+            // This player is currently active - use their backend stats
+            updatedStats[playerId] = {
+              ...backendStats,
+              name: playerName
+            };
+            console.log(`✅ MAPPED: ${playerName} (${playerId.slice(-4)}) -> ${backendStats.totalDrinks} drinks`);
+          } else {
+            console.log(`⚠️ ORPHANED: Player ${playerId.slice(-4)} has backend stats but no current player mapping`);
+          }
+        });
+        
+        console.log(`🎯 FINAL STATS: ${Object.keys(updatedStats).length} active players with stats`);
+        console.log(`🎯 FINAL MAPPINGS:`, Object.entries(updatedStats).map(([id, stats]) => `${stats.name}(${id.slice(-4)}): ${stats.totalDrinks} drinks`));
         
         return updatedStats;
       });
