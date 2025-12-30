@@ -37,6 +37,10 @@ const roundResults = {};  // Store drink assignments for each round
 const formerPlayers = {};  // Store former players by name when they disconnect
 const usedCards = {};  // Store used cards for each room to enable deck replenishment
 
+// ✅ ROUND-AWARE RECONNECTION: Track active rounds and declared cards
+const activeRounds = {};  // Track which rooms have active rounds: { roomCode: { declaredCard, timeRemaining, startTime } }
+const socketIdMappings = {};  // Track old->new socket ID mappings during active rounds: { roomCode: { oldSocketId: newSocketId } }
+
 
 // Enable CORS for all routes
 app.use(cors());
@@ -119,6 +123,39 @@ const finalizeRound = (roomCode) => {
  
     // Reset the declaredCard for all players
     io.to(roomCode).emit('declaredCard', null);  // Reset the declared card to null
+ 
+    // ✅ ROUND-AWARE: Clear active round tracking when round ends
+    if (activeRounds[roomCode]) {
+      delete activeRounds[roomCode];
+      console.log(`✅ Active round cleared for room ${roomCode}`);
+    }
+    
+    // ✅ ROUND-AWARE: Merge round results for socket ID changes before clearing mappings
+    if (socketIdMappings[roomCode] && roundResults[roomCode]) {
+      console.log(`🔄 Merging round results for socket ID mappings in room ${roomCode}`);
+      
+      Object.entries(socketIdMappings[roomCode]).forEach(([oldSocketId, newSocketId]) => {
+        if (roundResults[roomCode][oldSocketId] && !roundResults[roomCode][newSocketId]) {
+          // Transfer drinks from old socket ID to new socket ID
+          roundResults[roomCode][newSocketId] = roundResults[roomCode][oldSocketId];
+          delete roundResults[roomCode][oldSocketId];
+          console.log(`✅ Transferred round result from ${oldSocketId} to ${newSocketId}`);
+        } else if (roundResults[roomCode][oldSocketId] && roundResults[roomCode][newSocketId]) {
+          // Both exist - merge by taking the maximum (safety measure)
+          const oldDrinks = roundResults[roomCode][oldSocketId].roundDrinks || 0;
+          const newDrinks = roundResults[roomCode][newSocketId].roundDrinks || 0;
+          roundResults[roomCode][newSocketId].roundDrinks = Math.max(oldDrinks, newDrinks);
+          delete roundResults[roomCode][oldSocketId];
+          console.log(`✅ Merged round results: ${oldSocketId}(${oldDrinks}) + ${newSocketId}(${newDrinks}) = ${roundResults[roomCode][newSocketId].roundDrinks}`);
+        }
+      });
+    }
+    
+    // ✅ ROUND-AWARE: Clear socket ID mappings when round ends
+    if (socketIdMappings[roomCode]) {
+      delete socketIdMappings[roomCode];
+      console.log(`✅ Socket ID mappings cleared for room ${roomCode}`);
+    }
  
     // Clear round results for the next round
     roundResults[roomCode] = {};
@@ -311,6 +348,46 @@ function handleJoinRoom(socket, roomCode, playerName) {
     const restoredPlayer = { id: socket.id, name: playerName, disconnected: false };
     rooms[roomCode].players.push(restoredPlayer);
     console.log(`🔄 Removed old entries and added player ${playerName} with new socket ${socket.id}`);
+    
+    // ✅ ROUND-AWARE RECONNECTION: Handle mid-round reconnection specially
+    if (activeRounds[roomCode]) {
+      console.log(`🎯 MID-ROUND RECONNECTION: Player ${playerName} reconnecting during active round`);
+      console.log(`🎯 Active round info:`, activeRounds[roomCode]);
+      
+      // Find the player's old socket ID from their disconnected entry
+      const oldEntry = Object.entries(playerStats).find(([id, stats]) => 
+        stats.name === playerName && stats.disconnected
+      );
+      
+      if (oldEntry) {
+        const oldSocketId = oldEntry[0];
+        console.log(`🎯 Found old socket ID for ${playerName}: ${oldSocketId.slice(-4)}`);
+        
+        // ✅ CRITICAL: Track socket ID mapping for round results preservation
+        if (!socketIdMappings[roomCode]) {
+          socketIdMappings[roomCode] = {};
+        }
+        socketIdMappings[roomCode][oldSocketId] = socket.id;
+        console.log(`🎯 Created socket mapping: ${oldSocketId.slice(-4)} → ${socket.id.slice(-4)}`);
+        
+        // ✅ ISSUE 2 FIX: Send current declared card to reconnecting player
+        socket.emit('declaredCard', activeRounds[roomCode].declaredCard);
+        console.log(`🎯 Sent declared card "${activeRounds[roomCode].declaredCard}" to reconnected player ${playerName}`);
+        
+        // Send round state information
+        const timeElapsed = Math.floor((Date.now() - activeRounds[roomCode].startTime) / 1000);
+        const timeRemaining = Math.max(0, activeRounds[roomCode].timeRemaining - timeElapsed);
+        
+        if (timeRemaining > 0) {
+          socket.emit('roundState', {
+            timeRemaining: timeRemaining,
+            roundInProgress: true,
+            declaredCard: activeRounds[roomCode].declaredCard
+          });
+          console.log(`🎯 Sent round state to ${playerName}: ${timeRemaining}s remaining`);
+        }
+      }
+    }
     
     // ✅ MERGE FIX: Preserve drinks accumulated while disconnected
     console.log(`🔍 DEBUG MERGE: Looking for disconnected stats for ${playerName}`);
@@ -689,6 +766,13 @@ socket.on('firstDownEvent', ({ roomCode }) => {
   }
   rooms.isActionInProgress = true;
 
+  // ✅ ROUND-AWARE: Track active round state
+  activeRounds[roomCode] = {
+    declaredCard: 'First Down',
+    startTime: Date.now(),
+    timeRemaining: 8 // First Down rounds typically last 8 seconds
+  };
+
   // Send the declared card to all players in the room
   io.to(roomCode).emit('declaredCard', 'First Down');  // Broadcast the first down
     
@@ -746,6 +830,13 @@ socket.on('firstDownEvent', ({ roomCode }) => {
       // Set the action as in progress
       rooms.isActionInProgress = true;
       console.log(`Action status ${rooms.isActionInProgress} `);
+
+      // ✅ ROUND-AWARE: Track active round state for regular cards
+      activeRounds[roomCode] = {
+        declaredCard: cardType,
+        startTime: Date.now(),
+        timeRemaining: 30 // Regular rounds typically last 30 seconds
+      };
 
     console.log(`Host in room ${roomCode} has declared ${cardType}.`);
 
@@ -854,6 +945,13 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
     
     // Set the action as in progress
     rooms.isActionInProgress = true;
+
+    // ✅ ROUND-AWARE: Track active round state for wild cards
+    activeRounds[roomCode] = {
+      declaredCard: wildcardtype,
+      startTime: Date.now(),
+      timeRemaining: 30 // Wild card rounds typically last 30 seconds
+    };
 
     // Notify all players about the wild card action
     io.to(roomCode).emit('declaredCard', wildcardtype);  // Broadcast the declared card
@@ -1135,6 +1233,41 @@ socket.on('requestGameState', ({ roomCode }) => {
         console.log(`📡 Adding former player ${possibleFormerPlayers[0].name} back to room`);
         player = { id: socket.id, name: possibleFormerPlayers[0].name };
         room.players.push(player);
+      }
+      
+      // ✅ ROUND-AWARE FAST RECONNECTION: Handle mid-round reconnection in fast path
+      if (activeRounds[roomCode]) {
+        console.log(`🎯 FAST MID-ROUND RECONNECTION: Player ${possibleFormerPlayers[0].name} reconnecting during active round`);
+        
+        // Find old socket ID and create mapping
+        const oldEntry = Object.entries(playerStats).find(([id, stats]) => 
+          stats.name === possibleFormerPlayers[0].name && stats.disconnected
+        );
+        
+        if (oldEntry) {
+          const oldSocketId = oldEntry[0];
+          if (!socketIdMappings[roomCode]) {
+            socketIdMappings[roomCode] = {};
+          }
+          socketIdMappings[roomCode][oldSocketId] = socket.id;
+          console.log(`🎯 FAST: Created socket mapping: ${oldSocketId.slice(-4)} → ${socket.id.slice(-4)}`);
+          
+          // Send current declared card and round state
+          socket.emit('declaredCard', activeRounds[roomCode].declaredCard);
+          console.log(`🎯 FAST: Sent declared card "${activeRounds[roomCode].declaredCard}" to reconnected player`);
+          
+          const timeElapsed = Math.floor((Date.now() - activeRounds[roomCode].startTime) / 1000);
+          const timeRemaining = Math.max(0, activeRounds[roomCode].timeRemaining - timeElapsed);
+          
+          if (timeRemaining > 0) {
+            socket.emit('roundState', {
+              timeRemaining: timeRemaining,
+              roundInProgress: true,
+              declaredCard: activeRounds[roomCode].declaredCard
+            });
+            console.log(`🎯 FAST: Sent round state: ${timeRemaining}s remaining`);
+          }
+        }
       }
       
       // ✅ ENHANCED: Use same merge logic as handleJoinRoom to preserve accumulated drinks
