@@ -354,6 +354,18 @@ function handleJoinRoom(socket, roomCode, playerName) {
       io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
       console.log(`📡 Notified all players of ${playerName}'s new socket ID: ${socket.id}`);
       
+      // ✅ FIX: Send updatePlayerHand to ALL active players to refresh their cards
+      rooms[roomCode].players.forEach((player) => {
+        if (!player.disconnected && playerStats[player.id]) {
+          const playerHand = {
+            standard: playerStats[player.id].standard || [],
+            wild: playerStats[player.id].wild || []
+          };
+          io.to(player.id).emit('updatePlayerHand', playerHand);
+          console.log(`📡 Refreshed hand for ${player.name} (${player.id.slice(-4)}) after reconnection`);
+        }
+      });
+      
       console.log(`📡 Sent gameStarted to reconnected player ${playerName} with socket ${socket.id}`);
       
       // ✅ REMOVED: Auto-refresh after reconnection to prevent infinite loops
@@ -654,9 +666,20 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     // Emit a message to all players that it's a First Down and they should drink once
     io.to(roomCode).emit('firstDownMessage', 'First Down! Everyone drinks once!');
     
+    // ✅ ENHANCED: Include player names in First Down stats update
+    const playersWithNames = {};
+    Object.keys(playerStats).forEach(playerId => {
+      const player = room.players.find(p => p.id === playerId);
+      playersWithNames[playerId] = {
+        ...playerStats[playerId],
+        name: player ? player.name : undefined,
+        disconnected: player ? player.disconnected : false
+      };
+    });
+
     // Emit updated player stats for the round
     io.to(roomCode).emit('updatePlayerStats', {
-      players: playerStats,
+      players: playersWithNames,  // ✅ Now includes names for ALL players
       roundResults: roundResults[roomCode],
     });
   
