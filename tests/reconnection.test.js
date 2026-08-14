@@ -6,9 +6,16 @@
  * the remaining players are told, and whether the score is right — never on
  * server internals.
  *
- * Tests marked `it.fails` document behaviour I believe is wrong but did not
- * change, because "correct" is your call. They assert the behaviour I think you
- * want, and they are expected to fail today. See OVERNIGHT_REPORT.md.
+ * Tests marked `it.fails` document behaviour that differs from what the test
+ * asserts. They are expected to fail today, which keeps the suite green while
+ * recording the gap. See OVERNIGHT_REPORT.md.
+ *
+ * 9a and 9b were `it.fails` until Session 3, when the owner approved the
+ * mid-round merge reorder. They are now ordinary passing tests.
+ * 11 stays `it.fails` PERMANENTLY: the owner reviewed it and DECLINED the fix
+ * (Session 3, approval item 3). Missing your swap because you were away is the
+ * intended cost, not a bug. Do not "fix" this one — the assertion records a
+ * deliberate design decision, not an outstanding defect.
  */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createHarness } from './helpers/harness.js';
@@ -207,8 +214,8 @@ describe('leaving and rejoining', () => {
   });
 
   // ── 9a ───────────────────────────────────────────────────────────────────
-  it.fails(
-    '9a. TIER B: drinks assigned before a mid-round reconnect still count (single hop)',
+  it(
+    '9a. drinks assigned before a mid-round reconnect still count (single hop)',
     async () => {
       const room = await h.newGame(['Ava', 'Ben', 'Cy']);
       const [ben] = room.guests;
@@ -232,8 +239,8 @@ describe('leaving and rejoining', () => {
   );
 
   // ── 9b ───────────────────────────────────────────────────────────────────
-  it.fails(
-    '9b. TIER B: drinks follow a player through two reconnects in one round (A to B to C)',
+  it(
+    '9b. drinks follow a player through two reconnects in one round (A to B to C)',
     async () => {
       const room = await h.newGame(['Ava', 'Ben', 'Cy']);
       const [ben] = room.guests;
@@ -282,7 +289,7 @@ describe('leaving and rejoining', () => {
 
   // ── 11 ───────────────────────────────────────────────────────────────────
   it.fails(
-    '11. TIER B: a player who was away when the quarter advanced still gets their wild-card swap',
+    '11. DECLINED BY OWNER: a player away at the quarter change loses their wild-card swap',
     async () => {
       const room = await h.newGame(['Ava', 'Ben', 'Cy']);
       const [ben] = room.guests;
@@ -299,7 +306,9 @@ describe('leaving and rejoining', () => {
 
       // The client opens the swap modal off `quarterUpdated`, and a reconnecting
       // player is never sent one, so they silently lose their swap for that
-      // quarter. Asserting the behaviour I think you want; expected to fail.
+      // quarter. The owner DECLINED fixing this — it is the accepted cost of
+      // being away. This assertion is the record of the behaviour we chose NOT
+      // to have; it is expected to fail, permanently.
       expect(fresh.saw('quarterUpdated', since) || fresh.saw('wildCardSelection', since)).toBe(true);
     }
   );

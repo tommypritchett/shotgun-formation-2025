@@ -116,44 +116,6 @@ const finalizeRound = (roomCode) => {
     }
 
  
-    // Update player stats for the entire game by summing the round results
-    room.players.forEach((player) => {
-      const playerId = player.id;
-      const roundResult = roundResults[roomCode][playerId] || { drinks: 0, shotguns: 0 };
-      console.log(`Results stats for player ${playerId}:`, roundResults[roomCode][playerId]);
-      console.log(`Result stats for player ${playerId}:`, roundResult);
-
-
-      // Update total drinks and shotguns for the player
-      playerStats[playerId].totalDrinks = (playerStats[playerId].totalDrinks || 0) + roundResult.drinks;
-      playerStats[playerId].totalShotguns = (playerStats[playerId].totalShotguns || 0) + roundResult.shotguns;
-    // Log player stats for each player
-    console.log(`Updated stats for player ${playerId}:`, playerStats[playerId]);
-    });
-
-    // ✅ ENHANCED: Include player names in stats data (scoped to this room)
-    const playersWithNames = buildRoomStats(room);
-
-    console.log(`📊 SENDING COMPLETE DATA: ${Object.keys(playersWithNames).length} players with names:`, 
-      Object.entries(playersWithNames).map(([id, stats]) => `${stats.name || 'UNNAMED'}(${id.slice(-4)}): ${stats.totalDrinks} drinks`)
-    );
-
-    // Emit the final round results and updated player stats to everyone in the room
-    io.to(roomCode).emit('updatePlayerStats', {
-       players: playersWithNames,  // ✅ Now includes names for ALL players
-       roundResults: roundResults[roomCode],  // Send combined round results
-       roundFinalized: true  // ✅ NEW: Flag to indicate official round end
-    });
- 
-    // Reset the declaredCard for all players
-    io.to(roomCode).emit('declaredCard', null);  // Reset the declared card to null
- 
-    // ✅ ROUND-AWARE: Clear active round tracking when round ends
-    if (activeRounds[roomCode]) {
-      delete activeRounds[roomCode];
-      console.log(`✅ Active round cleared for room ${roomCode}`);
-    }
-    
     // ✅ ROUND-AWARE: Merge round results for socket ID changes with transitive resolution
     if (socketIdMappings[roomCode] && roundResults[roomCode]) {
       console.log(`🔄 Merging round results for socket ID mappings in room ${roomCode}`);
@@ -207,6 +169,44 @@ const finalizeRound = (roomCode) => {
       });
       
       console.log(`🔄 Round results after merge:`, Object.entries(roundResults[roomCode]).map(([id, data]) => `${id.slice(-4)}:${data.drinks}d,${data.shotguns}s`));
+    }
+    
+    // Update player stats for the entire game by summing the round results
+    room.players.forEach((player) => {
+      const playerId = player.id;
+      const roundResult = roundResults[roomCode][playerId] || { drinks: 0, shotguns: 0 };
+      console.log(`Results stats for player ${playerId}:`, roundResults[roomCode][playerId]);
+      console.log(`Result stats for player ${playerId}:`, roundResult);
+
+
+      // Update total drinks and shotguns for the player
+      playerStats[playerId].totalDrinks = (playerStats[playerId].totalDrinks || 0) + roundResult.drinks;
+      playerStats[playerId].totalShotguns = (playerStats[playerId].totalShotguns || 0) + roundResult.shotguns;
+    // Log player stats for each player
+    console.log(`Updated stats for player ${playerId}:`, playerStats[playerId]);
+    });
+
+    // ✅ ENHANCED: Include player names in stats data (scoped to this room)
+    const playersWithNames = buildRoomStats(room);
+
+    console.log(`📊 SENDING COMPLETE DATA: ${Object.keys(playersWithNames).length} players with names:`, 
+      Object.entries(playersWithNames).map(([id, stats]) => `${stats.name || 'UNNAMED'}(${id.slice(-4)}): ${stats.totalDrinks} drinks`)
+    );
+
+    // Emit the final round results and updated player stats to everyone in the room
+    io.to(roomCode).emit('updatePlayerStats', {
+       players: playersWithNames,  // ✅ Now includes names for ALL players
+       roundResults: roundResults[roomCode],  // Send combined round results
+       roundFinalized: true  // ✅ NEW: Flag to indicate official round end
+    });
+ 
+    // Reset the declaredCard for all players
+    io.to(roomCode).emit('declaredCard', null);  // Reset the declared card to null
+ 
+    // ✅ ROUND-AWARE: Clear active round tracking when round ends
+    if (activeRounds[roomCode]) {
+      delete activeRounds[roomCode];
+      console.log(`✅ Active round cleared for room ${roomCode}`);
     }
     
     // ✅ ROUND-AWARE: Clear socket ID mappings when round ends
@@ -322,7 +322,12 @@ io.on('connection', (socket) => {
 
   // Create Room
   socket.on('createRoom', (playerName) => {
-    const roomCode = generateRoomCode();
+    // Retry until the code is free. Without this, a collision silently
+    // overwrites a live room and drops two groups into the same game.
+    let roomCode = generateRoomCode();
+    while (rooms[roomCode]) {
+      roomCode = generateRoomCode();
+    }
     rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false };
     playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
     usedCards[roomCode] = { standard: [], wild: [] };  // Initialize used cards storage for deck replenishment
