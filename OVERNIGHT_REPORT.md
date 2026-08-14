@@ -11,18 +11,27 @@
    `playerStats`. The next room to finish a round threw an uncaught `TypeError` inside a
    `setInterval` — so **the whole Node process died and every game on the server ended at
    once.** Two groups on a Sunday afternoon was enough. Fixed, with a test that proves it.
-2. **There is now a real test suite** where there was none: **37 tests, all green, 161s.**
+2. **There is now a real test suite** where there was none: **83 tests, all green, 159s.**
    It boots the actual `server.js` in a child process and drives it with real
    `socket.io-client` players. Run it with `npm test`.
-3. **Phase 1 done** (tag `phase-1-server`): all four fixes plus one more in the same family.
-   **Phase 2 done** (tag `phase-2-tests`): all 12 reconnection scenarios, a full game, and
-   the edge cases.
-4. **Four things need your decision** — see the next section. The big one is **#2: any
+3. **Six games now run at once with completely separate scoreboards** — tested directly,
+   because that is the actual product scenario you described. That test is the proof the
+   ceiling is lifted, not just the unit-level fixes.
+4. **Phase 1 done** (tag `phase-1-server`): all four fixes plus one more in the same family.
+   **Phase 2 done** (tag `phase-2-tests`): all 12 reconnection scenarios, a full game, the
+   edge cases, and the remaining socket contract.
+5. **`cards.js` is verified correct against the wire, and can no longer drift.** Every id,
+   drink value and copy count is asserted against `generateDecks()` read live from
+   `server.js`. This is the only piece of Phase 3 I did, because it is pure test work and it
+   protects the physical printed deck.
+6. **Four things need your decision** — see the next section. The big one is **#2: any
    player who reconnects mid-round loses every drink assigned to them that round.** The
    machinery built to prevent exactly this runs *after* the totals are already calculated
    and broadcast, and its result is then thrown away. It is dead code.
-5. **Phase 3 (UI) and Phase 4 (screenshots) are cut**, per your 08:21 instruction to do
-   Phase 2 thoroughly rather than both badly. `client/` is completely untouched.
+7. **Phase 3 (UI) and Phase 4 (screenshots) are cut**, per your 08:21 instruction to do
+   Phase 2 thoroughly rather than both badly. **No component was built and nothing in
+   `client/src` was modified** — the only client file I touched at all is a test that
+   *reads* `cards.js`.
 
 **Phase 2 produced zero Tier A fixes.** Everything I found either touches the reconnection
 identity machinery or is a judgment call about how you want the game to behave — both of
@@ -202,9 +211,31 @@ truthful.
 
 ---
 
+### Six concurrent games — the scenario that actually matters
+
+`concurrency.test.js > runs six games at once and keeps every scoreboard separate` starts
+six independent games (18 players), has all six declare simultaneously, pours a **different**
+amount in each room, finalizes them together, and asserts each room's totals are exactly
+right and that **no room's scoreboard contains a player from another room**. Before Phase 1
+this scenario did not merely produce wrong numbers — the server process died.
+
+There is also a test that a player dropping in one room does not disturb another room's open
+round, because the disconnect handler walks every room on the server.
+
 ## Phase 2 — Gameplay and reconnection findings ✅
 
-Tag **`phase-2-tests`** (commit `33a9b07`). **37 tests, all green, 161s wall clock.**
+Tag **`phase-2-tests`** (commit `33a9b07`), extended after tagging. **83 tests, all green,
+159s wall clock**, across 7 files:
+
+| File | Tests | Covers |
+|---|---|---|
+| `harness.test.js` | 6 | the harness itself |
+| `concurrency.test.js` | 6 | Phase 1 — isolation, phantom rounds, six games at once |
+| `gameplay.test.js` | 7 | Phase 2a — a complete game |
+| `reconnection.test.js` | 13 | Phase 2b — all 12 leave/rejoin scenarios |
+| `edge-cases.test.js` | 7 | Phase 2c |
+| `protocol.test.js` | 11 | the remaining socket contract |
+| `card-data.test.js` | 33 | `cards.js` vs the server deck |
 
 ### 2b — Reconnection: every scenario and its result
 
@@ -286,12 +317,54 @@ are ignored without crashing.
 
 ---
 
+### The socket contract, locked down
+
+`protocol.test.js` pins the events no other suite reached, so Phase 3 can move client code
+around freely and find out immediately if it changes what goes over the wire:
+`assignNewHost` (and a non-host being correctly ignored), `hostLeft` closing a lobby,
+`wildCardSelected` being turned away mid-round *without* prompting the Host,
+the timer counting from `duration - 1` (so a 6s round shows 5..0 and never "6"),
+`distributeDrinks` reaching holders **and nobody else**, `requestGameState` resync in both
+lobby and game without disturbing other players, the 5-second `forceRefresh` cooldown,
+`heartbeat`, and `gameOver` when the last player leaves.
+
+---
+
 ## Phase 3 — UI
 
-**CUT** when the budget was reduced to 4 hours at 08:21 CDT, per your instruction. `client/`
-is untouched; `docs/DESIGN.md`, `client/src/data/cards.js` and
-`client/src/components/CardIcon.jsx` are exactly as you left them. Phase 3 can start from a
-clean base against a server that now has a test suite behind it.
+**CUT** when the budget was reduced to 4 hours at 08:21 CDT, per your instruction.
+**No component was built. Nothing in `client/src` was modified.** `docs/DESIGN.md`,
+`cards.js` and `CardIcon.jsx` are exactly as you left them, and `App.js` / `App.css` are
+untouched. Phase 3 can start from a clean base against a server that now has 83 tests
+behind it.
+
+### The one exception: 3a's drift guard, done as pure test work
+
+`tests/card-data.test.js` (33 tests) is the "add a test asserting `cards.js` copy counts
+match `generateDecks()`" item from 3a. I did this piece and only this piece, because it is
+a test rather than a UI change and it protects something physical: if an `id` in `cards.js`
+stops matching the wire, the app silently stops recognising a card sitting in someone's hand
+on a table.
+
+It lifts `generateDecks()` and `ROUND_DURATIONS` out of `server.js` **source text** and
+evaluates them standalone — `server.js` exports nothing and calls `listen()` at module load,
+so there is no import seam. That keeps the guard honest: it reads whatever is in the file
+today, with no duplicated copy to fall out of date.
+
+**Result: `cards.js` is currently a perfect match for the server deck** — all 23 cards, every
+drink value, every copy count, both deck totals (35 Standard + 43 Wild per player), and the
+awkward wire values (`Sacks` plural, `Blocked Kicks` plural, `Fake Punt/FG` with no spaces,
+`Disqualified` not "Disqualiffety"). It also confirms `DECLARABLE` is exactly the 6 buttons
+the Declare Action modal currently hardcodes, so wiring that up in a later session is a
+mechanical swap.
+
+**I verified the guard is not vacuous.** Renaming `Sacks` to `Sack` and changing Touchdown's
+copies from 7 to 6 produced 7 distinct failures. `cards.js` was restored immediately and is
+unmodified in git.
+
+**Not done from 3a:** replacing the hardcoded card strings and the inline shotgun threshold
+in `App.js` with reads from `cards.js`. That is a client change, and with no browser and no
+client tests I had no way to verify it, so I left it.
 
 ## Phase 4 — Screenshots
 
@@ -339,8 +412,13 @@ because it defeated me.**
    there is still no listener. This is what makes reconnecting mid-round actually show the
    right timer instead of a stale one. Small, and it retires a documented SPEC discrepancy.
 4. **Then Phase 3, on its own night.** The design system, `cards.js` and `CardIcon.jsx` are
-   ready and untouched. Do 3b (the `document.body.style.zoom` removal) first and alone — it
-   is still the riskiest change in the plan, and now you have 37 tests underneath you.
+   ready and untouched, and `cards.js` is now proven correct against the wire. Start with
+   3a's client wiring — it is mechanical now that `DECLARABLE` is verified to be exactly the
+   6 buttons `App.js` hardcodes. Then do 3b (the `document.body.style.zoom` removal) alone,
+   in its own commit; it is still the riskiest change in the plan.
+   **Before you start, get the client under test.** 83 tests protect the server; the client
+   has none, and Phase 3 is entirely client work. That asymmetry is the biggest risk in the
+   plan as written.
 5. **Not yet: stable player UUIDs.** You were right that it deserves its own night. But note
    that items 2 and 3 are both symptoms of socket-id-as-identity, and after tonight I'd say
    the UUID refactor is *more* attractive than it looked — the reconnection code is large,
@@ -370,10 +448,25 @@ a duration. I'd ship those.
    `roundState` listener — is read from source, not observed.
 3. **The 13-player result.** It passes, but it is one First Down round. I did not reach deck
    exhaustion (O4), which is where I'd actually expect a large room to break.
+   Likewise the six-concurrent-games test is six rooms of three on loopback — it proves the
+   isolation bug is gone, **not** that the server scales. No memory, latency, or socket-limit
+   claim is being made. `playerStats` is still one global map and `finalizeRound` still does
+   a linear scan of it per round.
 4. **`it.fails` as documentation.** It keeps the suite green while recording a known gap,
    but it inverts normally — if someone fixes the bug, those three tests start *failing*
    until they're flipped to `it`. That is deliberate (it's a tripwire), but it will confuse
    anyone who hits it without reading this paragraph.
 5. **Timing-sensitive assertions.** Several tests assert on a 21-second window with a
-   4-second sleep. They pass consistently on this machine; on a loaded CI box the timer
-   bounds in `reconnection.test.js` 6 are the first thing I'd expect to go flaky.
+   4-second sleep. On a loaded CI box the timer bounds in `reconnection.test.js` 6 are the
+   first thing I'd expect to go flaky. I re-ran the full suite to check for this — result
+   recorded under "Suite stability" below.
+6. **The `card-data.test.js` guard reads `server.js` by regex.** If someone reformats
+   `generateDecks` or renames it, the test throws a clear "update the pattern, do not delete
+   this test" error rather than silently passing — but it is still a text match against
+   source, which is inherently more brittle than an import would be. `server.js` exporting
+   nothing gave me no better option without changing production code.
+
+## Suite stability
+
+Full suite run twice back to back on this machine. See "Suite stability" result appended by
+the final commit of the night.
