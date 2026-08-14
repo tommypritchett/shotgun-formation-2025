@@ -59,3 +59,37 @@ to `vitest run`.
 
 **Why:** There is now a real suite. Render runs `npm run build`, never `npm test`, so
 deployment is unaffected.
+
+---
+
+## D5 — Fixed a fifth bug in the same family: cross-room scoreboard leakage
+
+**Found:** `finalizeRound` and `firstDownEvent` both built their
+`updatePlayerStats.players` payload with `Object.keys(playerStats).forEach(...)`.
+`playerStats` is keyed by socket id across **every room on the server**, so each room's
+scoreboard broadcast contained every other room's socket ids and drink totals.
+
+**Chose:** Extracted `buildRoomStats(room)` (server.js, above `finalizeRound`) and used it
+at both sites. It keeps entries for players currently in the room, **plus** stale entries
+whose `name` matches a current member — because the client's reconnect merge looks players
+up by name and would break if those vanished. The `name`/`disconnected` fields are computed
+exactly as before, so the payload shape is byte-identical for a single-room server.
+
+**Why this was in scope:** Phase 1 said to fix other global-state-that-should-be-room-scoped
+bugs in the same family and flag them for review. This is that. **Please review it** — it is
+the one Phase 1 change you did not explicitly ask for.
+
+**Risk:** Low. Pure filter, no shape change. Covered by
+`concurrency.test.js > does not leak one room's players into another room's scoreboard`.
+
+---
+
+## D6 — `Safety` used as the "card nobody holds" in the phantom-round test
+
+**Chose:** The phantom-round test declares `'Safety'` as a Standard card.
+
+**Why:** The test needs a declaration nobody can answer, deterministically. Picking a real
+Standard card and hoping no one drew it is flaky at 3 players. `Safety` is a real card in
+`generateDecks` but lives in the **wild** deck, so it can never appear in
+`playerHand.standard` — the `noCard` branch fires every time, using a real wire value
+rather than a made-up string.
