@@ -38,6 +38,11 @@ const formerPlayers = {};  // Store former players by name when they disconnect
 const usedCards = {};  // Store used cards for each room to enable deck replenishment
 
 // ✅ ROUND-AWARE RECONNECTION: Track active rounds and declared cards
+// Round lengths in seconds. These are the ONLY source of truth: `startTimer`
+// counts down from them and `activeRounds.timeRemaining` is measured against
+// them, so a reconnecting player is told the same time everyone else sees.
+const ROUND_DURATIONS = { standard: 21, wild: 11, firstDown: 6 };
+
 const activeRounds = {};  // Track which rooms have active rounds: { roomCode: { declaredCard, timeRemaining, startTime } }
 const socketIdMappings = {};  // Track old->new socket ID mappings during active rounds: { roomCode: { oldSocketId: newSocketId } }
 
@@ -74,6 +79,33 @@ const generateRoomCode = () => {
   return Math.floor(10000 + Math.random() * 90000).toString();
 };
 
+/**
+ * Build the `updatePlayerStats.players` payload for ONE room.
+ *
+ * `playerStats` is keyed by socket id across every room on the server, so
+ * iterating it directly leaked every other room's ids and drink counts into
+ * this room's scoreboard. Stale entries that still carry a current member's
+ * name are kept, because the client's reconnect merge looks players up by name.
+ */
+const buildRoomStats = (room) => {
+  const memberNames = new Set(room.players.map(p => p.name));
+  const scoped = {};
+
+  Object.keys(playerStats).forEach(playerId => {
+    const player = room.players.find(p => p.id === playerId);
+    const belongsToRoom = player || memberNames.has(playerStats[playerId].name);
+    if (!belongsToRoom) return;
+
+    scoped[playerId] = {
+      ...playerStats[playerId],
+      name: player ? player.name : undefined,
+      disconnected: player ? player.disconnected : false
+    };
+  });
+
+  return scoped;
+};
+
 // Finalize round logic
 const finalizeRound = (roomCode) => {
     // Get the room from the rooms object
@@ -99,16 +131,8 @@ const finalizeRound = (roomCode) => {
     console.log(`Updated stats for player ${playerId}:`, playerStats[playerId]);
     });
 
-    // ✅ ENHANCED: Include player names in stats data
-    const playersWithNames = {};
-    Object.keys(playerStats).forEach(playerId => {
-      const player = room.players.find(p => p.id === playerId);
-      playersWithNames[playerId] = {
-        ...playerStats[playerId],
-        name: player ? player.name : undefined,
-        disconnected: player ? player.disconnected : false
-      };
-    });
+    // ✅ ENHANCED: Include player names in stats data (scoped to this room)
+    const playersWithNames = buildRoomStats(room);
 
     console.log(`📊 SENDING COMPLETE DATA: ${Object.keys(playersWithNames).length} players with names:`, 
       Object.entries(playersWithNames).map(([id, stats]) => `${stats.name || 'UNNAMED'}(${id.slice(-4)}): ${stats.totalDrinks} drinks`)
@@ -194,7 +218,7 @@ const finalizeRound = (roomCode) => {
     // Clear round results for the next round
     roundResults[roomCode] = {};
     console.log(`Round results cleared for room ${roomCode}.`);
-    rooms.isActionInProgress = false;
+    room.isActionInProgress = false;
 
  
     // Update player hands for the next round
@@ -717,9 +741,10 @@ socket.on('joinRoom', (roomCode, playerName) => {
     rooms[roomCode].gameStarted = true;
     rooms[roomCode].quarter = 1;  // Initialize quarter as 1
 
-// Fully reset playerStats by removing all existing player stats
-Object.keys(playerStats).forEach(playerId => {
-    delete playerStats[playerId];
+// Reset playerStats for THIS ROOM's players only. Wiping the whole map would
+// delete every other room's players mid-game, which crashes finalizeRound.
+room.players.forEach(player => {
+    delete playerStats[player.id];
   });
    // Initialize playerStats for all players (total drinks and shotguns to 0)
    room.players.forEach(player => {
@@ -855,17 +880,17 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     }
 
     // Check if an action is already in progress
-  if (rooms.isActionInProgress) {
+  if (room.isActionInProgress) {
     io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
     return;
   }
-  rooms.isActionInProgress = true;
+  room.isActionInProgress = true;
 
   // ✅ ROUND-AWARE: Track active round state
   activeRounds[roomCode] = {
     declaredCard: 'First Down',
     startTime: Date.now(),
-    timeRemaining: 8 // First Down rounds typically last 8 seconds
+    timeRemaining: ROUND_DURATIONS.firstDown
   };
 
   // Send the declared card to all players in the room
@@ -887,16 +912,8 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     // Emit a message to all players that it's a First Down and they should drink once
     io.to(roomCode).emit('firstDownMessage', 'First Down! Everyone drinks once!');
     
-    // ✅ ENHANCED: Include player names in First Down stats update
-    const playersWithNames = {};
-    Object.keys(playerStats).forEach(playerId => {
-      const player = room.players.find(p => p.id === playerId);
-      playersWithNames[playerId] = {
-        ...playerStats[playerId],
-        name: player ? player.name : undefined,
-        disconnected: player ? player.disconnected : false
-      };
-    });
+    // ✅ ENHANCED: Include player names in First Down stats update (this room only)
+    const playersWithNames = buildRoomStats(room);
 
     // Emit updated player stats for the round
     io.to(roomCode).emit('updatePlayerStats', {
@@ -906,7 +923,7 @@ socket.on('firstDownEvent', ({ roomCode }) => {
   
     console.log(`First Down - Everyone drinks once in room ${roomCode}`);
 
-    startTimer(roomCode, 6);  // Start the 5-second timer for drink assignment
+    startTimer(roomCode, ROUND_DURATIONS.firstDown);
 
   });
 
@@ -916,22 +933,15 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     if (!room) return;
 
       // Check if an action is already in progress
-      if (rooms.isActionInProgress) {
+      if (room.isActionInProgress) {
         // Emit a message to the frontend asking the player to wait
         io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
         return;
       }
   
       // Set the action as in progress
-      rooms.isActionInProgress = true;
-      console.log(`Action status ${rooms.isActionInProgress} `);
-
-      // ✅ ROUND-AWARE: Track active round state for regular cards
-      activeRounds[roomCode] = {
-        declaredCard: cardType,
-        startTime: Date.now(),
-        timeRemaining: 30 // Regular rounds typically last 30 seconds
-      };
+      room.isActionInProgress = true;
+      console.log(`Action status ${room.isActionInProgress} `);
 
     console.log(`Host in room ${roomCode} has declared ${cardType}.`);
 
@@ -946,7 +956,7 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     if (!anyPlayerHasCard) {
       // If no one has the card, inform the room and reset the action status
       io.to(roomCode).emit('noCard', 'No one had this card');
-      rooms.isActionInProgress = false;
+      room.isActionInProgress = false;
   
       // Show the message for 5 seconds, then clear it
       setTimeout(() => {
@@ -955,6 +965,15 @@ socket.on('firstDownEvent', ({ roomCode }) => {
   
       return;
     }
+
+    // ✅ ROUND-AWARE: Track active round state only once the round is really on.
+    // Setting this before the "does anyone hold it" check left a phantom round
+    // behind on every noCard declaration.
+    activeRounds[roomCode] = {
+      declaredCard: cardType,
+      startTime: Date.now(),
+      timeRemaining: ROUND_DURATIONS.standard
+    };
 
      // Send the declared card to all players in the room
   io.to(roomCode).emit('declaredCard', cardType);  // Broadcast the declared card
@@ -1006,7 +1025,7 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     }
     });
 
-    startTimer(roomCode, 21);  // Start the 20-second timer for drink assignment
+    startTimer(roomCode, ROUND_DURATIONS.standard);
 
 });
 // Handle wild card selection
@@ -1016,7 +1035,7 @@ socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype }) => {
   
     // Broadcast the wild card selection to the host
      // Check if an action is already in progress
-     if (rooms.isActionInProgress) {
+     if (room.isActionInProgress) {
         // Emit a message to the frontend asking the player to wait
         io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
         return;
@@ -1030,7 +1049,7 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
     if (!room) return;
 
     // Check if an action is already in progress
-    if (rooms.isActionInProgress) {
+    if (room.isActionInProgress) {
         // Emit a message to the frontend asking the player to wait
         io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
         return;
@@ -1039,13 +1058,13 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
     console.log(`Host confirmed wild card: ${wildcardtype} by player ${player}`);
     
     // Set the action as in progress
-    rooms.isActionInProgress = true;
+    room.isActionInProgress = true;
 
     // ✅ ROUND-AWARE: Track active round state for wild cards
     activeRounds[roomCode] = {
       declaredCard: wildcardtype,
       startTime: Date.now(),
-      timeRemaining: 30 // Wild card rounds typically last 30 seconds
+      timeRemaining: ROUND_DURATIONS.wild
     };
 
     // Notify all players about the wild card action
@@ -1113,7 +1132,7 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
     });
 
     console.log(`Starting timer for wild card action in room ${roomCode}`);
-    startTimer(roomCode, 11);  // Start the 10-second timer for drink assignment
+    startTimer(roomCode, ROUND_DURATIONS.wild);
 });
 
 // Handle drink and shotgun assignments for a round

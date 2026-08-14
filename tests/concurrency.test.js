@@ -70,11 +70,17 @@ describe('concurrent games', () => {
     expect(await roomA.declareFirstDown()).toBe('declared');
 
     const sinceB = roomB.host.mark();
+    const sinceGuest = roomB.guests[0].mark();
     const outcome = await roomB.declareFirstDown();
 
     expect(outcome).toBe('declared');
     expect(roomB.host.saw('actionInProgress', sinceB)).toBe(false);
-    expect(roomB.guests[0].view.declaredCard).toBe('First Down');
+
+    // Room B's players must actually be shown the round, not just its host.
+    await roomB.guests[0].waitFor('declaredCard', {
+      since: sinceGuest,
+      where: (c) => c === 'First Down',
+    });
   });
 
   it('leaves no phantom round behind when nobody holds the declared card', async () => {
