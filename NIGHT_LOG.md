@@ -26,3 +26,10 @@ always true as of right now, never batched at the end.
 | 08:45 | 1c | Applied the four fixes + one same-family fix (`buildRoomStats`). `node -c server.js` clean. |
 | 09:07 | 1c | 9/10 green. Last failure was my test racing a per-socket broadcast again, not a server bug — switched to `waitFor`. |
 | 09:09 | 1 ✅ | **Phase 1 complete. 10/10 green.** Committed `5d0a8ef`, tagged `phase-1-server`. |
+| 09:11 | 2b | Wrote `tests/reconnection.test.js`, all 12 scenarios. 10 pass. Two real failures. |
+| 09:13 | 2b | **Major finding.** Scenario 9 failed: a mid-round reconnect loses every drink assigned that round. Root cause confirmed by line ordering in `finalizeRound` — totals summed at `:128`, broadcast at `:142`, `socketIdMappings` merge doesn't run until `:159`, merged result discarded at `:219`. The whole remapping mechanism is dead code for the round it exists to fix. **Tier B (reconnection identity machinery) — documented, not fixed.** Split into 9a (single hop) + 9b (chained) as `it.fails`. |
+| 09:15 | 2b | Scenario 7 failed on the same root cause; narrowed it to the rejoin path so it tests one thing. Scenario 11 (`it.fails`) confirmed: a player away at quarter change never receives `quarterUpdated`, so they silently lose their wild-card swap. 13/13. |
+| 09:18 | 2a | Wrote `tests/gameplay.test.js`. Two failures — both my harness bug: `gameStarted` carries every player's hand keyed by socket id and `fake-player` was reading `Object.values(hands)[0]`, so guests saw the host's hand. Fixed to index by own socket id. 7/7. |
+| 09:24 | 2c | Wrote `tests/edge-cases.test.js`. 7/7 first run. Verified the deck-replenishment test was not passing vacuously: `Wild deck low (12 cards). Shuffling 111 used cards back in.` |
+| 09:43 | 2 ✅ | **Phase 2 complete. Full suite 37/37 green in 161s.** Committed `33a9b07`, tagged `phase-2-tests`. |
+| 09:50 | 2 | Rewrote `OVERNIGHT_REPORT.md` in full: 4 approval items, all 12 reconnection results, 4 observations, and an explicit list of what I could not test. |
