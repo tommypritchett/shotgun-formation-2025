@@ -1,32 +1,9 @@
-# Overnight Session — Setup + Prompt
+# Overnight Session — Run Sheet
 
-## Before you go to bed — 2 minutes
+Setup is already done: branch `overnight-rebuild` is checked out, and `cards.js`,
+`CardIcon.jsx`, and `DESIGN.md` are in place. Do NOT re-run any setup or switch branches.
+Start at Phase 1.
 
-Copy the three handoff files I sent into the repo, then make the branch:
-
-```bash
-cd ~/UI-Rebuild
-git checkout main
-
-mkdir -p src/data src/components docs client/src/data client/src/components
-# put cards.js -> client/src/data/cards.js
-# put CardIcon.jsx -> client/src/components/CardIcon.jsx
-# put DESIGN.md -> docs/DESIGN.md
-
-git checkout -b overnight-rebuild
-git add -A && git commit -m "Add card data, icon set, and design system"
-```
-
-Then start Claude Code and paste everything below the line:
-
-```bash
-claude --model opus
-```
-
-When it asks for permissions, choose **"Yes, don't ask again"** on file edits and bash —
-otherwise it'll stall waiting for you at 3am.
-
----
 
 You're running unattended overnight. I'm asleep. Work through the phases below in order and
 get as far as you can. Efficiency doesn't matter — thoroughness does. I'd rather you spend
