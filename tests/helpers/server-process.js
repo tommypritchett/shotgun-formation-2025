@@ -52,6 +52,16 @@ const startServer = async (options = {}) => {
 
   const logs = () => captured.join('');
 
+  // An uncaught throw inside a round timer takes the whole process down, which
+  // presents as every socket going quiet. Surface it as a crash, not a timeout.
+  let crash = null;
+  child.on('exit', (code, signal) => {
+    if (code !== 0 && code !== null && signal !== 'SIGTERM') {
+      const stack = captured.join('').match(/^\s*(?:\w*Error|Uncaught).*(?:\n\s+at .*)*/m);
+      crash = { code, signal, stack: stack ? stack[0].trim() : '(no stack captured)' };
+    }
+  });
+
   await new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       cleanup();
@@ -96,7 +106,17 @@ const startServer = async (options = {}) => {
       child.kill('SIGTERM');
     });
 
-  return { url: `http://127.0.0.1:${port}`, port, logs, stop };
+  /** Non-null once the server process has died from an uncaught error. */
+  const crashed = () => crash;
+
+  /** Throw a useful error if the server died; otherwise no-op. */
+  const assertAlive = () => {
+    if (crash) {
+      throw new Error(`server.js crashed (exit ${crash.code}):\n${crash.stack}`);
+    }
+  };
+
+  return { url: `http://127.0.0.1:${port}`, port, logs, crashed, assertAlive, stop };
 };
 
 module.exports = { startServer, findFreePort };

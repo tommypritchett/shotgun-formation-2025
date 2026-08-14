@@ -136,6 +136,8 @@ const createHarness = async (options = {}) => {
     server,
     url: server.url,
     logs: server.logs,
+    crashed: server.crashed,
+    assertAlive: server.assertAlive,
     connect,
     newRoom,
     newGame,
