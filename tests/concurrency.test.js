@@ -109,6 +109,53 @@ describe('concurrent games', () => {
     expect(room.host.saw('actionInProgress', sinceHost)).toBe(false);
   });
 
+  it('runs six games at once and keeps every scoreboard separate', async () => {
+    // The actual usage pattern: a pile of groups all kicking off at 1pm.
+    const rooms = await Promise.all(
+      Array.from({ length: 6 }, (_, i) => h.newGame([`Host${i}`, `Guest${i}`, `Sub${i}`]))
+    );
+
+    const marks = rooms.map((room) => room.host.mark());
+    await Promise.all(rooms.map((room) => room.declareFirstDown()));
+
+    // Each room pours a different amount, so a leak would be unmistakable.
+    rooms.forEach((room, i) => {
+      room.assignDrinks(room.host, [{ player: room.guests[0], drinks: i + 1 }]);
+    });
+
+    await Promise.all(
+      rooms.map((room, i) => room.waitForFinalize(room.host, h.ROUND_SECONDS.firstDown, marks[i]))
+    );
+
+    rooms.forEach((room, i) => {
+      // 1 from First Down + the (i+1) this room poured.
+      expect(h.totalsFor(room.host, room.guests[0].id).totalDrinks).toBe(1 + i + 1);
+      expect(h.totalsFor(room.host, room.host.id).totalDrinks).toBe(1);
+
+      const ownIds = new Set(room.all.map((p) => p.id));
+      const strangers = Object.keys(room.host.view.stats).filter((id) => !ownIds.has(id));
+      expect(strangers, `room ${i} sees players from another game`).toEqual([]);
+    });
+  }, 120_000);
+
+  it('does not disturb another room\'s open round when a player drops', async () => {
+    const roomA = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const roomB = await h.newGame(['Dee', 'Eli', 'Fay']);
+
+    const sinceB = roomB.host.mark();
+    expect(await roomB.declareFirstDown()).toBe('declared');
+
+    // The disconnect handler walks every room on the server, so a drop in one
+    // game is a plausible way to corrupt another game's round.
+    await roomA.host.disconnect();
+    await roomA.guests[0].disconnect();
+
+    await roomB.waitForFinalize(roomB.host, h.ROUND_SECONDS.firstDown, sinceB);
+    for (const player of roomB.all) {
+      expect(h.totalsFor(roomB.host, player.id).totalDrinks).toBe(1);
+    }
+  });
+
   it('does not leak one room\'s players into another room\'s scoreboard', async () => {
     const roomA = await h.newGame(['Ava', 'Ben', 'Cy']);
     const roomB = await h.newGame(['Dee', 'Eli', 'Fay']);
