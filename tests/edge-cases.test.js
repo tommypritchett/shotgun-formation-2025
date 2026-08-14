@@ -81,7 +81,12 @@ describe('edge cases', () => {
     // pile (verified: "Wild deck low (12 cards). Shuffling 111 used cards back
     // in."). Swapping has no round timer, which is the only way to drive this
     // many draws in seconds rather than an hour of 21-second rounds.
+    //
+    // Since Phase B each player gets ONE swap per quarter, so the quarter is
+    // advanced before each one. That keeps every swap a legitimate one and the
+    // test still runs in seconds — `nextQuarter` has no timer either.
     for (let i = 0; i < 200; i += 1) {
+      await room.nextQuarter();
       const hand = await room.swapWildCard(ben, ben.view.hand.wild[0]);
       expect(hand.wild, `hand emptied on swap ${i + 1}`).toHaveLength(2);
       for (const card of hand.wild) {

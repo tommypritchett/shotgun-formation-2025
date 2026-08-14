@@ -106,6 +106,32 @@ const buildRoomStats = (room) => {
   return scoped;
 };
 
+/**
+ * The wild-card swap allowance: ONE swap per player per quarter.
+ *
+ * Lives on the room as `room.wildSwapQuarter = { [playerName]: quarterNumber }`.
+ * Two deliberate choices:
+ *
+ *  - Keyed by player NAME, not socket id. Socket ids change on every reconnect,
+ *    so a socket-keyed allowance would hand a free reroll to anyone who drops
+ *    and rejoins — which is the exact exploit this guard exists to close, and a
+ *    client can reconnect at will. Names are unique among a room's active
+ *    players (`handleJoinRoom` refuses a duplicate) and the reconnection
+ *    machinery already treats name as identity (`formerPlayers` is keyed by it).
+ *  - Stores the quarter the swap was spent in rather than a boolean, so the
+ *    allowance resets the moment `room.quarter` advances, with no bookkeeping
+ *    to forget.
+ */
+const currentQuarter = (room) => room.quarter || 1;
+
+const hasSpentSwapThisQuarter = (room, playerName) =>
+  Boolean(room.wildSwapQuarter) && room.wildSwapQuarter[playerName] === currentQuarter(room);
+
+const recordSwap = (room, playerName) => {
+  if (!room.wildSwapQuarter) room.wildSwapQuarter = {};
+  room.wildSwapQuarter[playerName] = currentQuarter(room);
+};
+
 // Finalize round logic
 const finalizeRound = (roomCode) => {
     // Get the room from the rooms object
@@ -328,7 +354,7 @@ io.on('connection', (socket) => {
     while (rooms[roomCode]) {
       roomCode = generateRoomCode();
     }
-    rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false };
+    rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false, wildSwapQuarter: {} };
     playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
     usedCards[roomCode] = { standard: [], wild: [] };  // Initialize used cards storage for deck replenishment
         socket.join(roomCode);
@@ -745,6 +771,9 @@ socket.on('joinRoom', (roomCode, playerName) => {
     // Set the gameStarted flag to true for this room
     rooms[roomCode].gameStarted = true;
     rooms[roomCode].quarter = 1;  // Initialize quarter as 1
+    // A new game is a new set of swap allowances, so a room that plays twice
+    // does not start its second game with quarter 1 already spent.
+    rooms[roomCode].wildSwapQuarter = {};
 
 // Reset playerStats for THIS ROOM's players only. Wiping the whole map would
 // delete every other room's players mid-game, which crashes finalizeRound.
@@ -837,8 +866,18 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
     const player = room.players.find(p => p.id === socket.id);
     console.log("Player", player);
 
-    if (!player) 
+    if (!player)
     return;
+
+    // ONE swap per player per quarter. Silently ignore anything past the first:
+    // the real client closes its own swap modal the instant it emits and never
+    // waits for a reply (App.js:461), so a second swap is a replayed or
+    // malformed message rather than a user action. An error event here would be
+    // new surface no client listens for.
+    if (hasSpentSwapThisQuarter(room, player.name)) {
+      console.log(`⛔ Ignoring extra wild card swap from ${player.name} in room ${roomCode} — already swapped in quarter ${currentQuarter(room)}`);
+      return;
+    }
 
     const playerHand = playerStats[player.id];
     console.log("Player Hand", playerHand);
@@ -858,6 +897,9 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
     playerHand.wild[cardIndex] = newWildCard;
 
     console.log("New Wild card in", playerHand.wild);
+
+    // The swap really happened, so spend this player's allowance for the quarter.
+    recordSwap(room, player.name);
 
     // Check if deck needs replenishment after card is drawn
     checkAndReplenishDecks(roomCode);

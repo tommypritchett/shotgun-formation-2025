@@ -3,6 +3,10 @@
 Judgment calls taken overnight, most conservative option each time. Everything here
 is reversible; nothing here changed game behaviour unless explicitly stated.
 
+**D1–D6 are from the overnight session. D7–D9 are from Session 3**, where you were
+supervising — they are recorded for the same reason, but you approved the work they sit
+inside.
+
 ---
 
 ## D1 — Test runner: Vitest, root devDependency only
@@ -93,3 +97,71 @@ Standard card and hoping no one drew it is flaky at 3 players. `Safety` is a rea
 `generateDecks` but lives in the **wild** deck, so it can never appear in
 `playerHand.standard` — the `noCard` branch fires every time, using a real wire value
 rather than a made-up string.
+
+---
+
+## D7 — The swap allowance is keyed by player NAME, so it survives a reconnect
+
+**Chose:** `room.wildSwapQuarter = { [playerName]: quarterNumber }`, on the room object.
+A swap is refused when the recorded quarter equals the room's current quarter.
+
+**The reconnect question you asked me to answer: the allowance SURVIVES a reconnect.**
+A player who swaps in Q2, drops, and rejoins in Q2 does **not** get a second swap. When
+the quarter advances they get their next one normally. Asserted directly by
+`swap-guard.test.js > does not hand out a fresh swap to a player who reconnects`.
+
+**Why this is not a guess.** The alternative — keying by socket id — resets the allowance
+on every reconnect, and a client can reconnect at will. That is not a weaker version of
+the guard; it is a guard with a one-line bypass, which defeats the entire point of
+closing the exploit. So the requirement "one swap per player per quarter" only has one
+implementation that actually delivers it. That is why this is D7 and not a Tier B item.
+
+Name is a sound identity key here: `handleJoinRoom` refuses a name already active in the
+room, and the existing reconnection machinery already treats name as identity
+(`formerPlayers` is keyed by name, and the client's stats merge looks players up by name).
+
+**Storing the quarter rather than a boolean** means the allowance resets the instant
+`room.quarter` advances, with no reset step to forget. `startGame` clears the map as well,
+so a room that plays a second game does not start it with quarter 1 already spent.
+
+**One consequence you should know about, and it is cosmetic — see also Tier B item T2.**
+`requestGameState` emits `quarterUpdated` (server.js:1630) and the client opens the swap
+modal on any `quarterUpdated > 1` (App.js:944). So a player who already swapped this
+quarter and then reconnects will be **re-offered a modal that the server will now no-op**:
+they pick a card, the modal closes (the client closes it locally on emit, App.js:461, and
+never waits for a reply), and their hand simply does not change. Nothing hangs and nothing
+breaks. Today that same path hands out an unlimited extra swap instead, so this is
+strictly an improvement — but it is a real, if small, UI wart, and fixing it is a client
+change, which is out of scope this session.
+
+**Reversible by:** deleting `hasSpentSwapThisQuarter` / `recordSwap` and their two call
+sites in the `wildCardSwap` handler.
+
+---
+
+## D8 — The deck-replenishment test now advances the quarter between swaps
+
+**Chose:** `edge-cases.test.js > never deals an empty card under sustained play` did 200
+back-to-back swaps by one player — which was only possible *because* `wildCardSwap` was
+unguarded. With the guard in place that test was asserting an exploit still worked.
+
+It now calls `nextQuarter()` before each swap, so all 200 draws are legitimate. The test
+still runs in seconds, because `nextQuarter` has no timer either, and it still drives a
+full recycle of the wild discard pile.
+
+**Why not just delete it:** it is the only test that reaches deck replenishment at all.
+
+---
+
+## D9 — Fixed a latent bug in the `nextQuarter` test helper
+
+**Found:** `game-actions.js > nextQuarter` did `host.waitFor('quarterUpdated')` with no
+`since` mark, so it matched the **first** `quarterUpdated` in the whole event log. The
+second call in a test therefore returned a stale `2` instead of `3`.
+
+Nothing was previously wrong on the wire — no existing test advanced the quarter twice and
+checked the result, and the round trip was still genuinely awaited via the watcher path.
+Two of the new Phase B tests advance the quarter twice, which is what exposed it.
+
+**Chose:** give the host its own mark, exactly like the watchers already had. Test-only
+change; `server.js` is not involved.

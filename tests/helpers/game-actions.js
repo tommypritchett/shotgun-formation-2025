@@ -115,8 +115,12 @@ const waitForRoundFinalized = (player, seconds = ROUND_SECONDS.standard, since =
 
 const nextQuarter = async (host, roomCode, watchers = []) => {
   const marks = watchers.map((p) => [p, p.mark()]);
+  // The host needs its own mark too. Without one, `waitFor` matches the FIRST
+  // `quarterUpdated` in the whole log, so the second call to this helper
+  // returned a stale 2 instead of 3.
+  const hostSince = host.mark();
   host.emit('nextQuarter', { roomCode });
-  const quarter = await host.waitFor('quarterUpdated');
+  const quarter = await host.waitFor('quarterUpdated', { since: hostSince });
   await Promise.all(marks.map(([p, since]) => p.waitFor('quarterUpdated', { since })));
   return quarter;
 };
