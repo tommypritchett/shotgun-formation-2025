@@ -28,10 +28,12 @@
    player who reconnects mid-round loses every drink assigned to them that round.** The
    machinery built to prevent exactly this runs *after* the totals are already calculated
    and broadcast, and its result is then thrown away. It is dead code.
-7. **Phase 3 (UI) and Phase 4 (screenshots) are cut**, per your 08:21 instruction to do
+7. **The big fix is written, tested green, and deliberately left unapplied** in
+   `docs/proposed/`. Approving it is `git apply` + flipping two tests, not an afternoon.
+8. **Phase 3 (UI) and Phase 4 (screenshots) are cut**, per your 08:21 instruction to do
    Phase 2 thoroughly rather than both badly. **No component was built and nothing in
    `client/src` was modified** — the only client file I touched at all is a test that
-   *reads* `cards.js`.
+   *reads* `cards.js`. The client still builds clean (exit 0, no new warnings).
 
 **Phase 2 produced zero Tier A fixes.** Everything I found either touches the reconnection
 identity machinery or is a judgment call about how you want the game to behave — both of
@@ -86,15 +88,26 @@ right answer, logs it, and throws it away.
 which would normally make it Tier A. But your run sheet says *anything touching the
 reconnection identity machinery is Tier B*, so I left it alone.
 
-**What I'd change it to:** move the merge block (`server.js:157–212`) so it runs **before**
-the stat-summing loop at `:126`. That is a pure statement reorder — no new logic. The merge
-already handles transitive `A→B→C` chains correctly; it is simply running too late.
+**What I'd change it to:** move the merge block so it runs **before** the stat-summing loop.
+A pure statement reorder — no new logic. The merge already handles transitive `A→B→C` chains
+correctly; it is simply running too late.
+
+**✅ I have already verified this fix works, and then reverted it.** The patch is sitting in
+`docs/proposed/fix-2-mid-round-drink-loss.patch`, **not applied**. With it applied and
+`reconnection.test.js` 9a/9b flipped from `it.fails` to `it`, the **full suite passes
+83/83 with no regressions.** To adopt:
+
+```bash
+git apply docs/proposed/fix-2-mid-round-drink-loss.patch
+# flip 9a and 9b in tests/reconnection.test.js from `it.fails(` to `it(`
+npm test
+```
 
 **Cost / risk:** small diff, but it changes what players see, and it is the exact machinery
-you told me not to touch unsupervised. It needs one careful read plus a manual two-phone
-test. **Tests are already written and waiting:** `reconnection.test.js` 9a (single hop) and
-9b (chained `A→B→C`), both currently `it.fails`. Flip them to `it` when you approve and they
-should go green.
+you told me not to touch unsupervised — which is why it is a patch file and not a commit.
+**Still verify by hand:** two phones, one player accumulating drinks across several rounds,
+dropping and returning mid-round. The tests prove the socket contract, not that the UI
+renders it.
 
 **Scope:** affects scenario 7 too (browser refresh mid-round) — the most common real case.
 
@@ -133,13 +146,16 @@ mid-play, and both groups end up pointed at the same room code.
 **Why you might not want a fix:** at a dozen concurrent rooms the probability is ~0.08% —
 genuinely negligible today.
 
-**What I'd change it to:** a `do { code = generateRoomCode() } while (rooms[code])` loop.
-Three lines, no payload change, no client change.
+**What I'd change it to:** retry `generateRoomCode()` until the code is free. Three lines, no
+payload change, no client change. Patch ready but **not applied**:
+`docs/proposed/fix-4-room-code-collision.patch`.
 
-**Cost / risk:** near zero. I did not do it because `createRoom` was outside the four fixes
-you scoped, and Phase 1 said "these four, nothing more."
+**Cost / risk:** near zero. I did not apply it because `createRoom` was outside the four
+fixes you scoped, and Phase 1 said "these four, nothing more."
 
-**I could not write a test for this** — see "What I could not test" below.
+**⚠️ This one is NOT test-verified.** I could not write a test that honestly proves the bug —
+see "What I could not test" below. I verified only that the patch doesn't break room creation
+(13/13 in `edge-cases` + `concurrency`). **The bug is read from the code, not observed.**
 
 ---
 
@@ -404,10 +420,11 @@ because it defeated me.**
 
 **In this order:**
 
-1. **Approve or reject item 2 (mid-round drink loss) and ship it.** It is the single
-   highest-value change available, the fix is a statement reorder, and the tests are already
-   written. Everything else on this list is smaller.
-2. **Item 4 (room code collision), three lines.** Do it while you're in there.
+1. **Approve item 2 (mid-round drink loss) and ship it.** Single highest-value change
+   available. The patch is written, the suite is green with it applied, and adopting it is
+   two commands. Everything else on this list is smaller. Do the two-phone check first.
+2. **Item 4 (room code collision), three lines, patch ready.** Do it while you're in there —
+   but read it rather than trusting it, since it is the one finding I could not test.
 3. **Wire up `socket.on('roundState')` in the client.** Phase 1 made the payload truthful;
    there is still no listener. This is what makes reconnecting mid-round actually show the
    right timer instead of a stale one. Small, and it retires a documented SPEC discrepancy.
