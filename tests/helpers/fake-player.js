@@ -8,8 +8,13 @@ const { io } = require('socket.io-client');
 
 const DEFAULT_WAIT_MS = 5000;
 
-/** Events whose payloads we fold into a derived client-side view. */
-const applyToView = (view, event, payload) => {
+/**
+ * Fold a server event into the derived client-side view.
+ * @param {string} selfId - this player's socket id; `gameStarted.hands` is keyed
+ *   by socket id and carries EVERY player's hand on the initial deal, so we must
+ *   pick our own rather than the first entry.
+ */
+const applyToView = (view, event, payload, selfId) => {
   switch (event) {
     case 'roomCreated':
       return { ...view, roomCode: payload, isHost: true };
@@ -18,7 +23,8 @@ const applyToView = (view, event, payload) => {
     case 'updatePlayers':
       return { ...view, players: payload };
     case 'gameStarted': {
-      const hand = payload?.hands ? Object.values(payload.hands)[0] : undefined;
+      const hands = payload?.hands;
+      const hand = hands ? hands[selfId] : undefined;
       return {
         ...view,
         gameStarted: true,
@@ -84,7 +90,7 @@ const connectPlayer = async (url, name) => {
   socket.onAny((event, payload) => {
     const entry = { event, payload, at: Date.now(), socketId: socket.id };
     log.push(entry);
-    view = applyToView(view, event, payload);
+    view = applyToView(view, event, payload, socket.id);
     for (const waiter of [...waiters]) {
       if (waiter.matches(entry)) {
         waiters.delete(waiter);
