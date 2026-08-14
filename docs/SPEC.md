@@ -210,7 +210,15 @@ Both the countdown and the reconnection math now read one constant,
 | `rooms[code].isActionInProgress` | boolean **on the room** | per-room round lock |
 
 `playerStats` remains keyed by socket id across all rooms, but the scoreboard payload is now
-built per-room by `buildRoomStats(room)` (`server.js:78`).
+built per-room by `buildRoomStats(room)`, straight from `room.players`.
+
+Every lookup into `playerStats` **by player name** is narrowed to the socket ids the room
+owns, via `roomSocketIds(room)` / `roomEntriesForName(ownedIds, name)`. Matching on name
+alone spanned every game on the server — see the state-bug list below.
+
+| Object | Shape | Purpose |
+|--------|-------|---------|
+| `rooms[code].wildSwapQuarter` | `{ [playerName]: quarterNumber }` **on the room** | the one-swap-per-player-per-quarter allowance. Keyed by name so it survives a reconnect; stores the quarter so it resets when the quarter advances. |
 
 ### State bugs — status
 
@@ -223,17 +231,31 @@ built per-room by `buildRoomStats(room)` (`server.js:78`).
   that reconnecting players were shown. Now set only once the round really starts.
 - ✅ **FIXED** `updatePlayerStats` was built from **all** of `playerStats`, leaking every other
   room's socket ids and drink totals into each room's scoreboard.
-- ⚠️ **STILL OPEN** `finalizeRound` sums totals (`:128`) and broadcasts them (`:142`) **before**
-  the `socketIdMappings` merge runs (`:159`), and then discards the merged result (`:219`). So
-  a player who reconnects mid-round loses every drink assigned to them that round, and the
-  entire remapping mechanism is dead code. See `OVERNIGHT_REPORT.md` approval item 2; tests
-  exist as `it.fails` in `tests/reconnection.test.js` (9a, 9b).
-- ⚠️ **STILL OPEN** `generateRoomCode` has no collision check, so `createRoom` can silently
-  overwrite a live room. Approval item 4.
-- ⚠️ **STILL OPEN** a player disconnected when the quarter advanced never receives
-  `quarterUpdated` on rejoin, so they silently lose their wild-card swap. Approval item 3.
-- ⚠️ **STILL OPEN** `wildCardSwap` is unguarded — any player can swap any number of wild cards
-  at any time. Only the client modal enforces one per quarter.
+- ✅ **FIXED 2026-08-14 (Session 3)** `finalizeRound` summed totals and broadcast them
+  **before** the `socketIdMappings` merge ran, then discarded the merged result. A player who
+  reconnected mid-round lost every drink assigned to them that round, and the entire
+  remapping mechanism was dead code. The merge now runs first — a pure statement reorder.
+  `tests/reconnection.test.js` 9a and 9b.
+- ✅ **FIXED 2026-08-14 (Session 3)** `generateRoomCode` had no collision check, so
+  `createRoom` could silently overwrite a live room. It now retries until the code is free.
+  **Not test-verified** — forcing a real collision needs ~1,200 open rooms; the bug and the
+  fix are both read from the code.
+- ✅ **FIXED 2026-08-14 (Session 3)** `wildCardSwap` was unguarded — any player could swap any
+  number of wild cards at any time, and only the client modal enforced one per quarter.
+  Now **one swap per player per quarter**, tracked on the room as `wildSwapQuarter` and keyed
+  by name so a reconnect cannot buy a second one. A refused swap is **silently ignored**; no
+  new socket event was added. `tests/swap-guard.test.js`.
+- ✅ **FIXED 2026-08-14 (Session 3)** Every `playerStats` lookup by name spanned all rooms.
+  Two rooms each with a "Mike" corrupted each other: the reconnecting Mike was awarded the
+  **other** Mike's higher score, and the other Mike's entry was then deleted as cleanup. The
+  same unscoped match also picked a stranger as your previous identity when building
+  `socketIdMappings` mid-round. All five sites are now scoped to the room's socket ids.
+  `tests/stats-scoping.test.js`.
+- ⚠️ **OPEN BY DECISION — will not be fixed.** A player disconnected when the quarter advanced
+  never receives `quarterUpdated` on rejoin through `joinRoom`, so they silently lose their
+  wild-card swap. The owner reviewed this (approval item 3) and **declined** the fix: missing
+  your swap because you were away is the intended cost. `tests/reconnection.test.js` 11 stays
+  `it.fails` permanently as the record of that decision. Do not "fix" it.
 - **Unchanged, harmless:** `playerStats[id].drinks = remainder` uses `=` while `.shotguns` uses
   `+=`; both fields are unused downstream (the scoreboard reads `totalDrinks`/`totalShotguns`).
 

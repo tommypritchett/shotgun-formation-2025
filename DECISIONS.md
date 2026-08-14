@@ -165,3 +165,60 @@ Two of the new Phase B tests advance the quarter twice, which is what exposed it
 
 **Chose:** give the host its own mark, exactly like the watchers already had. Test-only
 change; `server.js` is not involved.
+
+---
+
+## D10 — Phase C was not a payload leak. It was cross-room score theft.
+
+**Read this one.** You asked me to stop room B's stale Mike appearing in room A's
+`updatePlayerStats` payload. Writing your second assertion first — A's own Mike
+disconnects and reconnects with his totals intact — showed the leak is the *small* half
+of the problem. That test came back **10 drinks instead of 5**.
+
+**What is actually happening.** `handleJoinRoom`'s reconnect merge (was server.js:488) did:
+
+```js
+const allPlayerEntries = Object.entries(playerStats).filter(([id, stats]) =>
+  stats.name === playerName);          // every room on the server
+```
+
+then took the entry with the **highest** `totalDrinks` as the returning player's score,
+then **deleted every other matching entry** as "cleanup". So with a Mike in each of two
+games:
+
+- room A's Mike reconnects and is awarded **room B's Mike's 9 drinks**, and
+- room B's Mike's stats entry is **deleted**, so room B loses his score too.
+
+Both rooms corrupted, from one reconnect, silently. The same unscoped name match appears
+at four more sites: the mid-round `oldEntry` lookup that builds `socketIdMappings`
+(so a stranger becomes your previous identity for the round), and all three equivalents
+in the `requestGameState` fast-reconnect path.
+
+**Chose:** narrow every name lookup into the global `playerStats` map to the socket ids
+the room owns. Two small helpers, `roomSocketIds(room)` and
+`roomEntriesForName(ownedIds, name)`, and a snapshot of the room's ids taken at the top of
+`handleJoinRoom` and `requestGameState`.
+
+The snapshot has to be taken **before** the reconnect paths run, because they destroy the
+very thing being looked up: `handleJoinRoom` filters the player's old entry out of
+`room.players` (:434), and `requestGameState` overwrites its id in place (:1461).
+
+**On your "make it Tier B" clause.** You said to say so and stop if this could not be done
+without tracking room membership on `playerStats` entries. It can: `room.players` already
+*is* room membership, including disconnected members, and nothing was added to a
+`playerStats` entry. Its shape is untouched. So I fixed it rather than deferring it.
+
+**But be aware this reaches into the reconnection identity machinery** — further than the
+`buildRoomStats` one-liner you were expecting. It is the change in this session I would
+most want you to look at yourself. Reverting it is `git revert phase-c-stats-scoping`.
+
+**`buildRoomStats` itself is now simpler, not more complex.** It builds the payload from
+`room.players` instead of filtering the global map, so the stale-entry fallback is gone
+rather than repaired. Those stale entries were already inert: they went out with
+`name: undefined`, and the client keeps only entries that carry a name (App.js:1268).
+It also removes the per-round linear scan of the global map.
+
+**Verified by:** `tests/stats-scoping.test.js`, both tests RED first (`['8a-f6…']` leaked,
+and 10 drinks instead of 5). Full suite 89/89 with no regressions — in particular
+reconnection scenarios 5, 7, 9a, 9b and 10, which are the ones that would break if this
+had been "fixed" by damaging the reconnect merge.

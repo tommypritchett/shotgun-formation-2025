@@ -80,26 +80,55 @@ const generateRoomCode = () => {
 };
 
 /**
+ * The socket ids this room currently owns.
+ *
+ * `playerStats` is ONE global map keyed by socket id across every room on the
+ * server, so any lookup into it by player NAME must be narrowed to this set —
+ * otherwise it matches a same-named player in a completely different game. Two
+ * Sunday parties both having a Mike is not exotic.
+ *
+ * Take this snapshot BEFORE the reconnect paths touch `room.players`: they
+ * filter the old entry out (`handleJoinRoom`) or overwrite its id in place
+ * (`requestGameState`), and the old id is exactly what the lookup needs.
+ */
+const roomSocketIds = (room) => new Set((room && room.players ? room.players : []).map(p => p.id));
+
+/**
+ * Entries in the global `playerStats` map that belong to this player name AND
+ * to this room. `ownedIds` comes from `roomSocketIds`.
+ */
+const roomEntriesForName = (ownedIds, playerName) =>
+  Object.entries(playerStats).filter(
+    ([socketId, stats]) => stats.name === playerName && ownedIds.has(socketId)
+  );
+
+/**
  * Build the `updatePlayerStats.players` payload for ONE room.
  *
- * `playerStats` is keyed by socket id across every room on the server, so
- * iterating it directly leaked every other room's ids and drink counts into
- * this room's scoreboard. Stale entries that still carry a current member's
- * name are kept, because the client's reconnect merge looks players up by name.
+ * `room.players` is the authority on who is in the room — a disconnected player
+ * stays in it, with their id, until they rejoin — so the payload is built from
+ * it directly rather than by filtering the global map.
+ *
+ * This used to scan all of `playerStats` and additionally keep stale entries
+ * whose name matched a current member. That match was on NAME ALONE with no
+ * room association, so room B's disconnected Mike leaked into room A's payload
+ * whenever room A also had a Mike. Those stale entries were also inert: they
+ * were sent with `name: undefined`, and the client only keeps entries that
+ * carry a name (App.js:1268). Nothing the client uses was lost by dropping them.
  */
 const buildRoomStats = (room) => {
-  const memberNames = new Set(room.players.map(p => p.name));
   const scoped = {};
 
-  Object.keys(playerStats).forEach(playerId => {
-    const player = room.players.find(p => p.id === playerId);
-    const belongsToRoom = player || memberNames.has(playerStats[playerId].name);
-    if (!belongsToRoom) return;
+  room.players.forEach(player => {
+    const stats = playerStats[player.id];
+    if (!stats) return;
 
-    scoped[playerId] = {
-      ...playerStats[playerId],
-      name: player ? player.name : undefined,
-      disconnected: player ? player.disconnected : false
+    scoped[player.id] = {
+      ...stats,
+      name: player.name,
+      // Left exactly as `player.disconnected` — including `undefined` for a
+      // player who has never dropped — so the wire payload is unchanged.
+      disconnected: player.disconnected
     };
   });
 
@@ -414,6 +443,13 @@ function handleJoinRoom(socket, roomCode, playerName) {
 
   console.log(`🎯 Player ${playerName} attempting to join room ${roomCode}`);
 
+  // Snapshot the room's socket ids up front. Every name lookup into the global
+  // `playerStats` map below is narrowed to these, so a same-named player in a
+  // different game can never be mistaken for this one. It has to be taken here:
+  // the reconnect path filters this player's old entry out of `room.players`
+  // before the merge runs, and the old id is what the merge is looking for.
+  const ownedSocketIds = roomSocketIds(rooms[roomCode]);
+
   // Check if this socket is already in the room to prevent duplicates
   const socketAlreadyInRoom = rooms[roomCode].players.find(p => p.id === socket.id);
   if (socketAlreadyInRoom) {
@@ -443,10 +479,11 @@ function handleJoinRoom(socket, roomCode, playerName) {
       console.log(`🎯 MID-ROUND RECONNECTION: Player ${playerName} reconnecting during active round`);
       console.log(`🎯 Active round info:`, activeRounds[roomCode]);
       
-      // Find the player's old socket ID from their disconnected entry
-      const oldEntry = Object.entries(playerStats).find(([id, stats]) => 
-        stats.name === playerName && stats.disconnected
-      );
+      // Find the player's old socket ID from their disconnected entry, within
+      // this room only — a disconnected same-named player in another game would
+      // otherwise be adopted as this player's previous identity.
+      const oldEntry = roomEntriesForName(ownedSocketIds, playerName)
+        .find(([, stats]) => stats.disconnected);
       
       if (oldEntry) {
         const oldSocketId = oldEntry[0];
@@ -484,10 +521,11 @@ function handleJoinRoom(socket, roomCode, playerName) {
       `${id.slice(-4)}: ${JSON.stringify({totalDrinks: stats.totalDrinks, name: stats.name, disconnected: stats.disconnected})}`
     ));
     
-    // ✅ STRICT NAME MATCH: Find ALL entries that belong specifically to this player name
-    const allPlayerEntries = Object.entries(playerStats).filter(([socketId, stats]) => 
-      stats.name === playerName  // ONLY entries with exact name match, no socket ID guessing
-    );
+    // ✅ STRICT NAME MATCH: entries for this player name IN THIS ROOM.
+    // A name match alone spans every game on the server: it handed this player
+    // a stranger's higher score, and then deleted the stranger's entry in the
+    // cleanup below — corrupting both rooms at once.
+    const allPlayerEntries = roomEntriesForName(ownedSocketIds, playerName);
     
     console.log(`🔍 DEBUG MERGE: All entries for player name "${playerName}":`, allPlayerEntries.map(([id, stats]) => 
       `${id.slice(-4)}: ${stats.totalDrinks || 0} drinks, disconnected: ${stats.disconnected}, name: ${stats.name}`
@@ -1412,9 +1450,14 @@ socket.on('requestGameState', ({ roomCode }) => {
     return;
   }
   
+  // Same snapshot as handleJoinRoom, and for the same reason. Here the fast
+  // reconnect path overwrites the disconnected entry's id in place, so the old
+  // id is gone from `room.players` by the time the merge below runs.
+  const ownedSocketIds = roomSocketIds(room);
+
   // Find the player in the room
   let player = room.players.find(p => p.id === socket.id);
-  
+
   // If player is found, they're requesting game state (likely after reconnection)
   if (player) {
     console.log(`Player ${player.name} (${socket.id}) requesting game state - sending direct game state`);
@@ -1472,10 +1515,9 @@ socket.on('requestGameState', ({ roomCode }) => {
       if (activeRounds[roomCode]) {
         console.log(`🎯 FAST MID-ROUND RECONNECTION: Player ${possibleFormerPlayers[0].name} reconnecting during active round`);
         
-        // Find old socket ID and create mapping
-        const oldEntry = Object.entries(playerStats).find(([id, stats]) => 
-          stats.name === possibleFormerPlayers[0].name && stats.disconnected
-        );
+        // Find old socket ID and create mapping — this room's entries only.
+        const oldEntry = roomEntriesForName(ownedSocketIds, possibleFormerPlayers[0].name)
+          .find(([, stats]) => stats.disconnected);
         
         if (oldEntry) {
           const oldSocketId = oldEntry[0];
@@ -1510,10 +1552,9 @@ socket.on('requestGameState', ({ roomCode }) => {
         `${id.slice(-4)}: ${JSON.stringify({totalDrinks: stats.totalDrinks, name: stats.name, disconnected: stats.disconnected})}`
       ));
       
-      // Find ALL entries that belong specifically to this player name
-      const allPlayerEntries = Object.entries(playerStats).filter(([socketId, stats]) => 
-        stats.name === playerName  // ONLY entries with exact name match
-      );
+      // Entries for this player name IN THIS ROOM. Matching on name alone
+      // spans every game on the server — see the same fix in handleJoinRoom.
+      const allPlayerEntries = roomEntriesForName(ownedSocketIds, playerName);
       
       console.log(`🔍 FAST RECONNECT MERGE: All entries for player name "${playerName}":`, allPlayerEntries.map(([id, stats]) => 
         `${id.slice(-4)}: ${stats.totalDrinks || 0} drinks, disconnected: ${stats.disconnected}, name: ${stats.name}`
