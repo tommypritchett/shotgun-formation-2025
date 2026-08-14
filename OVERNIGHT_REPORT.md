@@ -1,8 +1,14 @@
 # Overnight Report
 
-> **Status: Phases 1 and 2 complete and green.** Last updated **2026-08-14 09:50 CDT**.
-> Rewritten at the end of every phase, so it is always true as of the timestamp above.
-> Nothing has been pushed. Everything is local on `overnight-rebuild`.
+> **Status: FINAL. Phases 1 and 2 complete and green. Phases 3 and 4 cut.**
+> Session ended **2026-08-14 11:10 CDT**, inside the 11:51 stop mark you set.
+>
+> **Verified state at hand-off:**
+> - `npm test` → **83 passed (83), 7 files**
+> - `server.js` is byte-identical to the `phase-1-server` tag — **no Tier B fix is applied**
+> - **nothing in `client/src` was modified** at any point tonight
+> - working tree **clean**, branch `overnight-rebuild`, tags `phase-1-server` / `phase-2-tests`
+> - **nothing pushed, `main` never checked out, nothing force-anythinged**
 
 ## TL;DR
 
