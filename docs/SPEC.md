@@ -3,6 +3,11 @@
 > Derived from the actual code (`server.js`, `client/src/App.js`) as of the `ui-rebuild` branch.
 > Where the code contradicts the owner's verbal description, it is flagged with **⚠️ DISCREPANCY**.
 > This document describes *what the code does*, which is the contract the UI rebuild must preserve.
+>
+> **Updated 2026-08-14 for the Phase 1 concurrency fixes** (tag `phase-1-server`). Items that
+> were bugs and are now fixed are marked **✅ FIXED**; items still open are marked
+> **⚠️ STILL OPEN** and cross-referenced to `OVERNIGHT_REPORT.md`. Server behaviour is now
+> covered by 83 tests in `tests/` — run `npm test`.
 
 ---
 
@@ -19,7 +24,10 @@ Real-time multiplayer drinking game played in one room while watching an NFL gam
 
 1. **Create:** A player emits `createRoom`. Server generates a 5-digit numeric code (`10000`–`99999`), makes the creator the **host** (the "Ref"), returns `roomCreated`.
 2. **Join:** Others emit `joinRoom` (or `validateAndJoinRoom` for auto-rejoin) with the code. **Minimum 3 players** to start.
-3. **Start:** Host emits `startGame`. Server builds a deck of `78 × playerCount` cards, deals **5 Standard + 2 Wild** per player, sets `gameStarted = true`, `quarter = 1`, and **wipes all `playerStats` globally** (see §7 bug). Emits `gameStarted`.
+3. **Start:** Host emits `startGame`. Server builds a deck of `78 × playerCount` cards, deals **5 Standard + 2 Wild** per player, sets `gameStarted = true`, `quarter = 1`, and resets `playerStats` **for this room's players only**. Emits `gameStarted`.
+   > **✅ FIXED 2026-08-14.** This used to wipe `playerStats` globally, deleting every other
+   > room's players mid-game. The next room to finalize a round then threw an uncaught
+   > `TypeError` inside a `setInterval`, killing the whole server process.
 4. **Standard event (host-driven):** Host emits `playStandardCard { cardType }`. Server finds every player holding that card, computes drinks (with 10→shotgun folding), emits `distributeDrinks` to each holder, opens a **21-second** distribution window (`startTimer(roomCode, 21)`). If nobody holds the card, emits `noCard` for 5s and aborts.
 5. **Wild event (player-driven):** A player taps a wild card → `wildCardSelected` → server relays to host → host confirms → `wildCardConfirmed` → server computes drinks and opens an **11-second** window (`startTimer(roomCode, 11)`).
 6. **First Down (global, no card):** Host emits `firstDownEvent`. Everyone's round drinks += 1. **6-second** window (`startTimer(roomCode, 6)`).
@@ -83,15 +91,23 @@ Plus **First Down** — not a card, a global event, everyone drinks 1.
 
 ## 4. Timer Durations
 
-| Event | Actual timer (`startTimer`) | `activeRounds.timeRemaining` (used for reconnection math) |
-|-------|-----------------------------|-----------------------------------------------------------|
-| Standard card | **21s** (`:1009`) | **30** (`:933`) |
-| Wild card | **11s** (`:1116`) | **30** (`:1048`) |
-| First Down | **6s** (`:909`) | **8** (`:868`) |
+Both the countdown and the reconnection math now read one constant,
+`ROUND_DURATIONS` (`server.js:44`):
 
-> **⚠️ DISCREPANCY 3:** The two numbers **do not match**. `activeRounds.timeRemaining` is used to compute how much time a *reconnecting* player has left (`timeRemaining - elapsed`). Because it's 30 vs the real 21 (and 8 vs 6), a reconnecting player is told they have far more time than they really do. (And it's moot anyway — see Dead Emit `roundState` in §6.)
+| Event | Duration | Constant |
+|-------|----------|----------|
+| Standard card | **21s** | `ROUND_DURATIONS.standard` |
+| Wild card | **11s** | `ROUND_DURATIONS.wild` |
+| First Down | **6s** | `ROUND_DURATIONS.firstDown` |
+
+> **✅ DISCREPANCY 3 FIXED 2026-08-14.** `activeRounds.timeRemaining` used to be hardcoded to
+> 30 / 30 / 8 against real timers of 21 / 11 / 6, so a reconnecting player was told they had
+> far more time than they did. One constant now feeds both. **The durations themselves are
+> unchanged.** Asserted by `tests/reconnection.test.js` scenario 6 and
+> `tests/card-data.test.js`, which also pins the client's copy in `cards.js` to the server's.
 >
-> The timer emits `updateTimer` starting at `duration - 1`, so a 21s timer displays a max of 20.
+> The timer emits `updateTimer` starting at `duration - 1`, so a 21s timer displays a max of
+> 20 and a 6s timer a max of 5. Asserted by `tests/protocol.test.js`.
 
 ---
 
@@ -168,6 +184,11 @@ Plus **First Down** — not a card, a global event, everyone drinks 1.
 
 ### ⚠️ Dead emits (server emits, client has NO handler)
 - **`roundState`** (`server.js:416, 1430`) — the reconnection "resume the timer" payload. **No `socket.on('roundState')` exists on the client.** The round-aware reconnection code that computes and sends this is effectively inert on the UI.
+  > **Its payload is now correct**, as of the timer-duration fix — `timeRemaining` is measured
+  > against the real round length instead of a hardcoded 30. Adding the missing client
+  > listener is a small change that would finally make mid-round reconnection show the right
+  > timer. Wiring it up is the fix, not deleting it. Verified on the wire by
+  > `tests/reconnection.test.js` scenario 6.
 - **`wildCardSelection`** (`server.js:796`) — sent to each player on `nextQuarter`. **No handler.** The client opens the wild-swap modal off `quarterUpdated > 1` instead.
 
 ### ⚠️ Dead handlers (client listens, server never emits)
@@ -186,13 +207,35 @@ Plus **First Down** — not a card, a global event, everyone drinks 1.
 | `usedCards` | `{ [code]: { standard, wild } }` | discard pile for replenishment |
 | `activeRounds` | `{ [code]: { declaredCard, startTime, timeRemaining } }` | round-aware reconnection |
 | `socketIdMappings` | `{ [code]: { [oldId]: newId } }` | remap old→new socket ids mid-round |
-| `rooms.isActionInProgress` | boolean **on the `rooms` dict itself** | **global** round lock (⚠️ see below) |
+| `rooms[code].isActionInProgress` | boolean **on the room** | per-room round lock |
 
-### Known state bugs (see audit report for detail)
-- `rooms.isActionInProgress` is a property of the `rooms` **dictionary**, not `rooms[roomCode]` → **global lock**, blocks concurrent games.
-- `startGame` does `Object.keys(playerStats).forEach(delete)` → **wipes every room's stats**, not just its own.
-- `playerStats[id].drinks = remainder` uses `=` (overwrite) while `.shotguns` uses `+=`; both fields are effectively unused downstream (the scoreboard reads `totalDrinks`/`totalShotguns`).
-- `activeRounds[roomCode]` is set in `playStandardCard` *before* the "does anyone have the card" check, so a `noCard` declaration leaves stale `activeRounds` behind.
+`playerStats` remains keyed by socket id across all rooms, but the scoreboard payload is now
+built per-room by `buildRoomStats(room)` (`server.js:78`).
+
+### State bugs — status
+
+- ✅ **FIXED** `isActionInProgress` was a property of the `rooms` **dictionary**, not
+  `rooms[roomCode]` → a global lock that blocked every other game. Now `room.isActionInProgress`.
+- ✅ **FIXED** `startGame` did `Object.keys(playerStats).forEach(delete)`, wiping every room's
+  stats. Now scoped to `room.players`.
+- ✅ **FIXED** `activeRounds[roomCode]` was set in `playStandardCard` *before* the "does anyone
+  have the card" check and never cleared on the `noCard` early return, leaving a phantom round
+  that reconnecting players were shown. Now set only once the round really starts.
+- ✅ **FIXED** `updatePlayerStats` was built from **all** of `playerStats`, leaking every other
+  room's socket ids and drink totals into each room's scoreboard.
+- ⚠️ **STILL OPEN** `finalizeRound` sums totals (`:128`) and broadcasts them (`:142`) **before**
+  the `socketIdMappings` merge runs (`:159`), and then discards the merged result (`:219`). So
+  a player who reconnects mid-round loses every drink assigned to them that round, and the
+  entire remapping mechanism is dead code. See `OVERNIGHT_REPORT.md` approval item 2; tests
+  exist as `it.fails` in `tests/reconnection.test.js` (9a, 9b).
+- ⚠️ **STILL OPEN** `generateRoomCode` has no collision check, so `createRoom` can silently
+  overwrite a live room. Approval item 4.
+- ⚠️ **STILL OPEN** a player disconnected when the quarter advanced never receives
+  `quarterUpdated` on rejoin, so they silently lose their wild-card swap. Approval item 3.
+- ⚠️ **STILL OPEN** `wildCardSwap` is unguarded — any player can swap any number of wild cards
+  at any time. Only the client modal enforces one per quarter.
+- **Unchanged, harmless:** `playerStats[id].drinks = remainder` uses `=` while `.shotguns` uses
+  `+=`; both fields are unused downstream (the scoreboard reads `totalDrinks`/`totalShotguns`).
 
 ---
 

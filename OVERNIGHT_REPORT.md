@@ -468,5 +468,20 @@ a duration. I'd ship those.
 
 ## Suite stability
 
-Full suite run twice back to back on this machine. See "Suite stability" result appended by
-the final commit of the night.
+Full suite run twice back to back on this machine:
+
+```
+run 1   Test Files 7 passed (7)   Tests 83 passed (83)   159.35s
+run 2   Test Files 7 passed (7)   Tests 83 passed (83)   137.18s
+```
+
+**No flaky test across either run.** Run 2 overlapped with `react-scripts build` competing
+for CPU, which is a reasonable stress signal for the timing-sensitive assertions — they held.
+That is two runs, not twenty, so treat it as "no evidence of flakiness" rather than proof.
+
+## Build check (Phase 4a, the part that didn't need a browser)
+
+`cd client && npx react-scripts build` → **exit 0**, `build folder is ready to be deployed`.
+71.72 kB gzipped JS, 3.23 kB CSS. All ESLint warnings are pre-existing
+(`react-hooks/exhaustive-deps`, two unused vars around `App.js:1413`) — **no new warnings**,
+which is expected since nothing in `client/src` was modified.
