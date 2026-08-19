@@ -1,18 +1,83 @@
 # Manual test — run this before pushing
 
-> **Why this exists.** The 89-test suite covers the socket contract and nothing else. **No
-> client code has been executed at any point across all three sessions** — not in a browser,
-> not in a headless runner. Every claim about what the app *shows* is read from
+> **Why this exists.** The 94-test suite covers the socket contract and nothing else. **No
+> client code has been executed at any point across four sessions** — not in a browser, not
+> in a headless runner. Every claim about what the app *shows* is read from
 > `client/src/App.js` source, not observed. This checklist is the only thing standing
 > between those changes and your players.
 
 ## Before you start
 
-- [ ] Server running: `npm start` from the repo root (port 3001).
-- [ ] Client running: `cd client && npm start`, with `REACT_APP_API_URL=http://localhost:3001`.
-      Without that env var the client talks to the **live Render server**, and you will be
-      testing production by accident.
-- [ ] All devices on the same network, pointed at the laptop's LAN address, not `localhost`.
+**Everything — laptop and both phones — uses one address: `http://10.0.0.42:3000`.**
+No `localhost` anywhere. A phone's `localhost` is the phone, and the bundle is built once
+and served to every device, so the URL baked into it has to work from all of them.
+
+| Piece | Address | Notes |
+|---|---|---|
+| Game server | `10.0.0.42:3002` | Not 3001 — your KitchoAI backend (PID 93549) has held 3001 since May. Nothing was stopped. |
+| App (all devices) | `10.0.0.42:3000` | Laptop windows and phones both. |
+
+### Network
+
+- [ ] Laptop and **both** phones on the **same Wi-Fi**. Not one on cellular.
+- [ ] **VPN off on every device.** A VPN on the laptop or either phone routes `10.0.0.42`
+      somewhere it doesn't exist, and the app will just sit there failing to connect.
+- [ ] If macOS asks *"Do you want the application node to accept incoming network
+      connections?"* — click **Allow**. It usually appears once, when the first phone
+      connects. If you clicked Deny before, fix it in
+      System Settings → Network → Firewall → Options.
+
+### Starting the servers
+
+They are already running from the setup session. To start them yourself:
+
+```bash
+# game server — the PORT is required, 3001 is taken
+PORT=3002 npm start
+
+# app, in a second terminal
+cd /Users/tommypritchett/UI-Rebuild/client && HOST=0.0.0.0 npm start
+```
+
+- [ ] **If the client dev server was already running before `client/.env.local` existed,
+      restart it.** Create React App reads env files only at boot. A dev server started
+      earlier still has the old value compiled in, and you would run the whole evening
+      against the **live production server** without any visible sign. This is the single
+      easiest way to waste the night.
+
+### ⚠️ Pre-flight check — 30 seconds, do not skip
+
+If this fails, every test below is meaningless *and test 3 would hammer production.*
+
+**On the laptop:**
+
+1. Open `http://10.0.0.42:3000`.
+2. Open DevTools (`Cmd+Opt+I`) → **Network** tab → filter **WS**.
+3. Reload the page.
+4. You should see one WebSocket request. **Its URL must start with**
+   `ws://10.0.0.42:3002/socket.io/`.
+
+**If it says `wss://shotgunformation.onrender.com` — STOP.** You are pointed at
+production. Restart the client dev server and check again.
+
+You can also confirm it in **Console** — the app logs its socket activity there, and any
+connection error will name the host it was trying to reach.
+
+**For the phones** (you can't easily open DevTools on them), use the server log instead —
+this is the more reliable check anyway, because it proves the phone reached *this* machine:
+
+```bash
+tail -f /private/tmp/claude-501/-Users-tommypritchett-UI-Rebuild/c130e13d-fce8-479c-b2ef-5cbcfc12e0af/scratchpad/shotgun-server.log
+```
+
+Load the app on each phone. Each one should produce a fresh line:
+
+```
+A user connected: <socket id>
+```
+
+**No new line when a phone loads the page = that phone is not talking to your laptop.**
+Either it's on a different network, a VPN is on, or the firewall blocked it.
 
 ### What needs real hardware
 
