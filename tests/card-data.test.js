@@ -12,10 +12,8 @@
  * them in isolation. That keeps the guard honest: it reads whatever is actually
  * in the file today, with no duplicated copy to fall out of date.
  */
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { liftFromServer } from './helpers/lift-from-server.js';
 import {
   DECK,
   DECK_TOTALS,
@@ -28,29 +26,17 @@ import {
   getCard,
 } from '../client/src/data/cards.js';
 
-const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SERVER_SOURCE = fs.readFileSync(path.join(REPO_ROOT, 'server.js'), 'utf8');
-
-/** Lift a top-level declaration out of server.js and evaluate it standalone. */
-const liftFromServer = (pattern, name) => {
-  const match = SERVER_SOURCE.match(pattern);
-  if (!match) {
-    throw new Error(
-      `Could not find ${name} in server.js. If it was renamed or reformatted, ` +
-        `update the pattern in tests/card-data.test.js — do not delete this test.`
-    );
-  }
-  // eslint-disable-next-line no-new-func
-  return new Function(`${match[0]}\nreturn ${name};`)();
-};
+const THIS_FILE = 'tests/card-data.test.js';
 
 const generateDecks = liftFromServer(
   /const generateDecks = \(playerCount\) => \{[\s\S]*?\n\};/,
-  'generateDecks'
+  'generateDecks',
+  THIS_FILE
 );
 const serverRoundDurations = liftFromServer(
   /const ROUND_DURATIONS = \{[^}]*\};/,
-  'ROUND_DURATIONS'
+  'ROUND_DURATIONS',
+  THIS_FILE
 );
 
 /** `{ [cardName]: { drinks, copies } }` for a one-player deck. */

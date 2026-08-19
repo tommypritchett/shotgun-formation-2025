@@ -79,6 +79,28 @@ const generateRoomCode = () => {
   return Math.floor(10000 + Math.random() * 90000).toString();
 };
 
+// How many times to try for a free room code before giving up. There are 90,000
+// 5-digit codes, so 50 consecutive collisions means the space is genuinely
+// close to full: with even half of it in use the odds are (1/2)^50, about one
+// in a quadrillion. Anything short of that returns on the first or second try.
+const ROOM_CODE_ATTEMPTS = 50;
+
+/**
+ * Find a room code not already in use, or null if the space is full.
+ *
+ * The cap is the point. This used to be `while (rooms[roomCode])` with no
+ * bound, and on a single-threaded server that does not fail slowly — it pins
+ * the event loop and freezes every game on the box at once, which is the same
+ * blast radius as the crash bug this branch started out fixing.
+ */
+const allocateRoomCode = (rooms) => {
+  for (let attempt = 0; attempt < ROOM_CODE_ATTEMPTS; attempt += 1) {
+    const roomCode = generateRoomCode();
+    if (!rooms[roomCode]) return roomCode;
+  }
+  return null;
+};
+
 /**
  * The socket ids this room currently owns.
  *
@@ -377,11 +399,16 @@ io.on('connection', (socket) => {
 
   // Create Room
   socket.on('createRoom', (playerName) => {
-    // Retry until the code is free. Without this, a collision silently
-    // overwrites a live room and drops two groups into the same game.
-    let roomCode = generateRoomCode();
-    while (rooms[roomCode]) {
-      roomCode = generateRoomCode();
+    // Find a free code. Without this, a collision silently overwrites a live
+    // room and drops two groups into the same game.
+    const roomCode = allocateRoomCode(rooms);
+    if (!roomCode) {
+      // Reuse the existing `error` event rather than inventing a new one: the
+      // client already renders it, and the player is still sitting on the
+      // screen they pressed the button from.
+      console.error(`Could not allocate a free room code after ${ROOM_CODE_ATTEMPTS} attempts (${Object.keys(rooms).length} rooms open). Refusing to create a room for ${playerName}.`);
+      io.to(socket.id).emit('error', 'Could not create a game right now. Please try again.');
+      return;
     }
     rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false, wildSwapQuarter: {} };
     playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
