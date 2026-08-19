@@ -1,51 +1,86 @@
-# Deploy — Session 3
+# Deploy — Session 4
 
 > **Prepared, not executed.** Nothing here has been run. Nothing is pushed, `main` was
-> never checked out. Branch `overnight-rebuild` at `cde95c3`, working tree clean.
+> never checked out. Branch `overnight-rebuild` at `d8320f2`, working tree clean.
 
 ---
 
-## ⚠️ READ THIS BEFORE YOU MERGE
+## ✅ The dependency risk is resolved
 
-**Commit `aac133a` removed `node_modules/` from git — 857 tracked files that exist on
-`main` today and will not exist after you merge.** That commit is from the overnight
-session, not this one, but it ships when you push.
+Session 3 led with a blocker: `main` tracks 857 files under `node_modules/`, this branch
+removes them (commit `aac133a`), and if Render never ran a **root** `npm install` the server
+would crash on `require('express')` after the merge.
 
-**If Render's Build Command does not run `npm install` at the repo root, the server will
-not start after this deploy.** It will crash on `require('express')`. The root
-`node_modules` currently in `main` is what `node server.js` loads from, and after the merge
-git will no longer provide it.
+**That is fixed, and it no longer depends on a setting either of us can see.**
 
-This is not a hypothetical: committing `node_modules` is usually what people do *because*
-their host isn't installing dependencies. I cannot see your Render dashboard, so I cannot
-close this out for you.
+### What the risk actually was
 
-**Check this first — Render → your service → Settings → Build Command:**
+Root `npm run build` used to be `cd client && npm install && npm run build`. That installs
+the **client's** dependencies and nothing else — never `express`, `cors` or `socket.io` for
+the server. Production worked anyway because `node_modules` was committed to git. Remove it
+from git without a root install somewhere in the chain, and `node server.js` has nothing to
+load.
 
-| What it says | Verdict |
-|---|---|
-| `npm install && npm run build` | ✅ Safe. Root deps get installed. Deploy. |
-| `npm ci && npm run build` | ✅ Safe. `package-lock.json` is in sync with `package.json`. |
-| `npm run build` | ❌ **Will break.** Change it to `npm install && npm run build`. |
-| `yarn && npm run build` | ⚠️ Probably fine, but there is no `yarn.lock`. Prefer npm. |
+### Why it is no longer a risk
 
-Root `npm run build` is `cd client && npm install && npm run build` — it installs the
-**client's** dependencies and nothing else. It never installs `express`, `cors` or
-`socket.io` for the server.
+The root build script now installs root dependencies itself:
 
-**The `devDependencies` half of the question is fine.** `vitest` and `socket.io-client`
-were added to the root `devDependencies` only. Render sets `NODE_ENV=production`, so
-`npm install` skips them. Even if they were installed they are never loaded: `npm start`
-is `node server.js`, which imports neither. `dependencies`, `start` and `build` are
-byte-identical to `main`:
+```json
+"build": "npm install && cd client && npm install && npm run build"
+```
+
+Your reasoning that the rest was answerable from the repo was right: `client/build` is
+gitignored and untracked on `main` (`git ls-tree main -- client/build` → zero files), the
+server serves it statically, and the site works today — so Render must already be running
+`npm run build`, which also proves `cd client && npm install` happens there. The only gap was
+the root install, and the script now closes it regardless of how the dashboard is configured
+or who changes it later.
+
+**Verified from a genuinely clean state**, not reasoned about:
+
+```
+mv node_modules ..              # root deps gone
+mv client/node_modules ..       # client deps gone
+mv client/build ..              # build output gone
+npm run build                   # the exact command Render runs
+PORT=3999 NODE_ENV=production node server.js
+```
+
+Result: both dependency trees installed, `client/build` produced, server started, `GET /`
+returned **200** with the real `index.html` (706 bytes, referencing `main.e4171912.js`), and
+`GET /static/js/main.e4171912.js` returned **200** with all 236 kB. Same bundle hashes as
+every previous build. `package-lock.json` was not modified by the install.
+
+### The 30-second dashboard check you can still do
+
+Not required any more — this is confirmation, not a gate.
+
+**Render → your service → Settings:**
+
+| Field | Should read | Note |
+|---|---|---|
+| **Build Command** | `npm run build` | `npm install && npm run build` is also fine — the extra install is now redundant but harmless. |
+| **Start Command** | `npm start` or `node server.js` | Both are identical; `start` is `node server.js` and is unchanged from `main`. |
+
+The only setting that would still be wrong is a Build Command that does **not** invoke
+`npm run build` at all — e.g. one that calls `react-scripts build` directly. If you see
+that, change it to `npm run build`.
+
+**The `devDependencies` half was never a risk.** `vitest` and `socket.io-client` are root
+`devDependencies` only. Render sets `NODE_ENV=production`, so `npm install` skips them; and
+even installed they are never loaded, because `npm start` is `node server.js`, which imports
+neither. Render never runs `npm test`.
+
+`dependencies`, and the `start` script, are byte-identical to `main`:
 
 ```diff
    "scripts": {
 -    "test": "echo \"Error: no test specified\" && exit 1",
 +    "test": "vitest run",
 +    "test:watch": "vitest",
-     "start": "node server.js",            <- unchanged
-     "build": "cd client && npm install && npm run build"   <- unchanged
+     "start": "node server.js",                                      <- unchanged
+-    "build": "cd client && npm install && npm run build"
++    "build": "npm install && cd client && npm install && npm run build"
    },
    "dependencies": {                        <- unchanged, same versions
      "cors": "^2.8.5", "express": "^4.21.1", "socket.io": "^4.8.1"
@@ -54,8 +89,6 @@ byte-identical to `main`:
 +    "socket.io-client": "^4.8.3", "vitest": "^2.1.9"
    }
 ```
-
-Render never runs `npm test`, so pointing it at `vitest` changes nothing in production.
 
 ---
 
@@ -96,7 +129,7 @@ and `App.css` are byte-identical to `main`, and the client bundle is unchanged
 - Being away when the quarter turns still costs you that quarter's swap — you reviewed
   this (approval item 3) and declined a fix.
 
-### The five behavioural deltas, and nothing else
+### The six behavioural deltas, and nothing else
 
 Audited line by line with `git diff main HEAD -- server.js`. Every changed line maps to one
 of these; there is nothing unaccounted for.
@@ -108,6 +141,7 @@ of these; there is nothing unaccounted for.
 | 3 | Room code collision retry | `b71899a` |
 | 4 | One wild-card swap per player per quarter | `a5889ce` |
 | 5 | Every `playerStats` name lookup scoped to the room that owns it | `cde95c3` |
+| 6 | Room-code retry bounded at 50 attempts; on exhaustion it refuses cleanly via the existing `error` event instead of pinning the event loop | `d8320f2` |
 
 Two new files exist under `client/src` — `data/cards.js` and `components/CardIcon.jsx`,
 both from `aac133a`, both from your own earlier work. **Neither is imported by anything.**
@@ -118,13 +152,16 @@ size it was before they existed.
 
 ## Verification behind this
 
-- `npm test` → **89 passed (89), 9 files**. Run twice back to back, clean both times
-  (137s, 159s). No flakes across the two runs.
-- `cd client && npx react-scripts build` → **exit 0**, "build folder is ready to be
-  deployed". All ESLint warnings pre-existing; **no new warnings**, as expected since
-  nothing in `client/src` changed.
-- Test count went 83 → 89: +4 for the swap guard, +2 for the stats scoping. Zero tests
-  were deleted or weakened.
+- `npm test` → **94 passed (94), 10 files**. Run twice back to back, clean both times.
+  No flakes across the runs.
+- **`npm run build` from a completely clean checkout** — no root `node_modules`, no client
+  `node_modules`, no `client/build` — then `node server.js` under `NODE_ENV=production`,
+  serving both `/` and the JS bundle with **200**. This is the deploy rehearsal, not just a
+  compile check.
+- All ESLint warnings pre-existing; **no new warnings**, as expected since nothing in
+  `client/src` changed. Bundle hashes identical to every previous build.
+- Test count went 83 → 89 → **94**: +4 swap guard, +2 stats scoping, +5 room-code allocator.
+  Zero tests were deleted or weakened.
 
 **What the suite does not cover:** any client code. It has never been run, in a browser or
 otherwise. Every assertion is against the socket contract. That is what `MANUAL_TEST.md`
@@ -143,8 +180,9 @@ Two separate mechanisms. Both are deliberate.
 exit 1
 ```
 
-Executable, created this session at your request. **This blocks every push, from any tool,
-including you.** Remove it when you are ready:
+Still in place, still executable — verified this session (running it directly exits `1`,
+which is what makes git abort). **This blocks every push, from any tool, including you.**
+You must delete it before you can push anything:
 
 ```bash
 rm .git/hooks/pre-push
@@ -166,7 +204,8 @@ rm .git/hooks/pre-push
 no effect on you typing commands in your own terminal. Removing them buys you nothing and
 removes a guardrail — in particular `npm audit fix`, which breaks `react-scripts`.
 
-So: **delete the hook, leave the settings alone.**
+So, when you are ready to ship: **delete the hook, leave the settings alone.** The hook is
+the only thing you need to remove; the deny rules never touch your own terminal.
 
 ---
 
@@ -178,7 +217,7 @@ Run from the repo root, in order. Read the diff step; do not skip it.
 # 0. Confirm you are where you think you are, and that nothing is uncommitted
 git status
 git branch --show-current        # expect: overnight-rebuild
-git log --oneline -1             # expect: cde95c3
+git log --oneline -1             # expect: d8320f2 (or later)
 
 # 1. Look at what you are about to ship (server.js is the only production file)
 git diff main HEAD -- server.js
@@ -205,7 +244,7 @@ rm .git/hooks/pre-push
 git push -u origin overnight-rebuild
 gh pr create --base main --head overnight-rebuild \
   --title "Server concurrency, mid-round reconnect, and cross-room stats fixes" \
-  --body-file SESSION_3_REPORT.md
+  --body-file SESSION_4_REPORT.md
 ```
 
 ---
@@ -244,10 +283,10 @@ git push --force-with-lease origin main
 
 `--force-with-lease`, never bare `--force`. Only do this if nobody else has pulled.
 
-**Rollback caveat:** rolling back restores the `main` tree, which includes the committed
-`node_modules`. So a rollback is self-healing with respect to the dependency risk at the
-top of this document — which also means a successful rollback does **not** prove the
-dependency problem is gone. Fix the Build Command before trying again.
+**Rollback caveat:** rolling back restores the `main` tree, which still contains the
+committed `node_modules`. That is fine — it is how production runs today — but it means a
+successful rollback tells you nothing about whether the dependency chain works. That
+question is settled separately, by the clean-checkout rehearsal at the top of this document.
 
 ### How fast
 
@@ -258,14 +297,25 @@ dependency problem is gone. Fix the Build Command before trying again.
 
 ---
 
-## One thing I could not verify
+## One thing I still could not verify
 
-**The room-code collision fix is not test-verified.** Forcing a real collision needs on the
-order of 1,200 simultaneously-open rooms to be reliably reproducible; anything smaller is a
-coin flip that would fail randomly. The bug and the fix are both read from the code:
-`createRoom` did `rooms[roomCode] = {...}` with no existence check. The patch retries until
-the code is free, and the suite confirms it does not break room creation (13/13 across
+**The room-code *collision* still cannot be provoked through a socket.** Forcing a real one
+needs on the order of 1,200 simultaneously-open rooms to be reliably reproducible; anything
+smaller is a coin flip that would fail randomly in CI. `Math.random` has no seam the harness
+can control. So the collision bug itself remains read from the code: `createRoom` did
+`rooms[roomCode] = {...}` with no existence check.
+
+**What changed in Session 4 is that the retry loop is now genuinely tested.**
+`tests/room-code.test.js` lifts the allocator straight out of `server.js` source and drives
+it with all 90,000 codes taken, which reaches the exhaustion branch honestly. Before the cap
+that branch did not exist: measured standalone, the old `while` loop spun 45,592,070 times
+in 3 seconds and never returned — on a single-threaded server that pins the event loop and
+stops every game on the box.
+
+The original three-line retry is still worth reading yourself, and the suite confirms it does
+not break room creation (13/13 across
 `edge-cases` and `concurrency`).
 
-**Read the retry loop yourself before you ship it** — it is three lines, and it is the only
-change in this deploy with no test standing behind it.
+**Every change in this deploy now has a test behind it.** The residual gap is narrower than
+Session 3's: not "the fix is unverified", but "the specific event that triggers the fix has
+never been observed in the wild". That is an acceptable place to be for a branch this size.
