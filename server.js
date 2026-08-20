@@ -183,6 +183,34 @@ const recordSwap = (room, playerName) => {
   room.wildSwapQuarter[playerName] = currentQuarter(room);
 };
 
+/**
+ * Record what a player was told to pour this round, so a reconnect can replay it.
+ *
+ * Keyed by player NAME, not socket id, for the same reason as the swap
+ * allowance: the id changes on every reconnect and the name does not.
+ *
+ * This exists because the prompt CANNOT be re-derived from the player's hand.
+ * `playStandardCard` and `wildCardConfirmed` emit `distributeDrinks` and then
+ * immediately remove the played cards and draw replacements, so by the time
+ * anyone reconnects the hand no longer shows what they played. The old
+ * reconnect code filtered the current hand anyway, which meant a refreshing
+ * player either got nothing (usually) or — if the replacement draw happened to
+ * redeal the same card type — a prompt for an amount they never played.
+ */
+const rememberPendingPour = (roomCode, playerName, payload) => {
+  const round = activeRounds[roomCode];
+  if (!round || !playerName) return;
+  if (!round.pending) round.pending = {};
+  round.pending[playerName] = payload;
+};
+
+/** What this player still owes this round, or null. */
+const pendingPourFor = (roomCode, playerName) => {
+  const round = activeRounds[roomCode];
+  if (!round || !round.pending) return null;
+  return round.pending[playerName] || null;
+};
+
 // Finalize round logic
 const finalizeRound = (roomCode) => {
     // Get the room from the rooms object
@@ -600,60 +628,21 @@ function handleJoinRoom(socket, roomCode, playerName) {
     // ✅ RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
     if (activeRounds[roomCode]) {
       const declaredCard = activeRounds[roomCode].declaredCard;
-      const playerHand = playerStats[socket.id]; // Now player data is fully restored
-      
-      if (playerHand && declaredCard !== 'First Down') {
-        console.log(`🎯 CARD CHECK: Checking if ${playerName} can assign drinks for ${declaredCard}`);
-        console.log(`🎯 CARD CHECK: Player standard cards:`, playerHand.standard?.map(c => `${c.card}(${c.drinks})`));
-        console.log(`🎯 CARD CHECK: Player wild cards:`, playerHand.wild?.map(c => `${c.card}(${c.drinks})`));
-        
-        // Check standard cards
-        if (playerHand.standard) {
-          const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
-          if (playerCards.length > 0) {
-            let totalDrinksForPlayer = 0;
-            playerCards.forEach(card => {
-              totalDrinksForPlayer += card.drinks;
-            });
-            
-            let shotguns = Math.floor(totalDrinksForPlayer / 10);
-            let remainingDrinks = totalDrinksForPlayer % 10;
-            
-            socket.emit('distributeDrinks', {
-              playerId: socket.id,
-              cardType: declaredCard,
-              drinkCount: remainingDrinks,
-              shotguns: shotguns
-            });
-            console.log(`🎯 SUCCESS: Sent distributeDrinks to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
-          }
-        }
-        
-        // Check wild cards
-        if (playerHand.wild) {
-          const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
-          if (playerCards.length > 0) {
-            let totalDrinksForPlayer = 0;
-            playerCards.forEach(card => {
-              totalDrinksForPlayer += card.drinks;
-            });
-            
-            let shotguns = Math.floor(totalDrinksForPlayer / 10);
-            let remainingDrinks = totalDrinksForPlayer % 10;
-            
-            socket.emit('distributeDrinks', {
-              playerId: socket.id,
-              wildcardtype: declaredCard,
-              drinkCount: remainingDrinks,
-              shotguns: shotguns
-            });
-            console.log(`🎯 SUCCESS: Sent distributeDrinks (wild) to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
-          }
-        }
-        
-        if (!playerHand.standard?.some(card => card.card === declaredCard) && 
-            !playerHand.wild?.some(card => card.card === declaredCard)) {
-          console.log(`🎯 NO MATCH: Player ${playerName} does not have ${declaredCard} cards`);
+    
+      // Replay exactly what this player was told to pour when the card was
+      // played. This CANNOT be re-derived from their current hand: the played
+      // cards are removed and replaced the instant they are played, so the
+      // hand no longer shows what was played. Filtering it gave a refreshing
+      // player either nothing at all (usually) or, when the replacement draw
+      // happened to redeal the same card type, a prompt for an amount they
+      // never played.
+      if (declaredCard !== 'First Down') {
+        const pending = pendingPourFor(roomCode, playerName);
+        if (pending) {
+          socket.emit('distributeDrinks', { playerId: socket.id, ...pending });
+          console.log(`🎯 REPLAY: sent {${pending.drinkCount}} drinks, {${pending.shotguns}} shotguns to reconnected ${playerName} for ${declaredCard}`);
+        } else {
+          console.log(`🎯 REPLAY: ${playerName} owes nothing this round for ${declaredCard}`);
         }
       }
     }
@@ -1122,6 +1111,14 @@ socket.on('firstDownEvent', ({ roomCode }) => {
           shotguns,  // Emit the number of shotguns if any
         });
 
+        // Remember it: the cards are about to be removed from the hand, so this
+        // is the last moment the amount is knowable.
+        rememberPendingPour(roomCode, player.name, {
+          cardType,
+          drinkCount: remainingDrinks,
+          shotguns
+        });
+
         // Store used cards before removing them
         if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
         usedCards[roomCode].standard.push(...playerCards);
@@ -1221,6 +1218,13 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
               wildcardtype,
               drinkCount: remainingDrinks,  // Send remaining drinks after shotguns
               shotguns,  // Send number of shotguns if any
+            });
+
+            // Same as the standard path: record before the hand changes.
+            rememberPendingPour(roomCode, currentPlayer.name, {
+              wildcardtype,
+              drinkCount: remainingDrinks,
+              shotguns
             });
           
             // Store used wild cards before removing them
@@ -1617,60 +1621,21 @@ socket.on('requestGameState', ({ roomCode }) => {
       // ✅ FAST RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
       if (activeRounds[roomCode]) {
         const declaredCard = activeRounds[roomCode].declaredCard;
-        const playerHand = playerStats[socket.id]; // Now player data is fully restored
-        
-        if (playerHand && declaredCard !== 'First Down') {
-          console.log(`🎯 FAST CARD CHECK: Checking if ${playerName} can assign drinks for ${declaredCard}`);
-          console.log(`🎯 FAST CARD CHECK: Player standard cards:`, playerHand.standard?.map(c => `${c.card}(${c.drinks})`));
-          console.log(`🎯 FAST CARD CHECK: Player wild cards:`, playerHand.wild?.map(c => `${c.card}(${c.drinks})`));
-          
-          // Check standard cards
-          if (playerHand.standard) {
-            const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
-            if (playerCards.length > 0) {
-              let totalDrinksForPlayer = 0;
-              playerCards.forEach(card => {
-                totalDrinksForPlayer += card.drinks;
-              });
-              
-              let shotguns = Math.floor(totalDrinksForPlayer / 10);
-              let remainingDrinks = totalDrinksForPlayer % 10;
-              
-              socket.emit('distributeDrinks', {
-                playerId: socket.id,
-                cardType: declaredCard,
-                drinkCount: remainingDrinks,
-                shotguns: shotguns
-              });
-              console.log(`🎯 FAST SUCCESS: Sent distributeDrinks to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
-            }
-          }
-          
-          // Check wild cards
-          if (playerHand.wild) {
-            const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
-            if (playerCards.length > 0) {
-              let totalDrinksForPlayer = 0;
-              playerCards.forEach(card => {
-                totalDrinksForPlayer += card.drinks;
-              });
-              
-              let shotguns = Math.floor(totalDrinksForPlayer / 10);
-              let remainingDrinks = totalDrinksForPlayer % 10;
-              
-              socket.emit('distributeDrinks', {
-                playerId: socket.id,
-                wildcardtype: declaredCard,
-                drinkCount: remainingDrinks,
-                shotguns: shotguns
-              });
-              console.log(`🎯 FAST SUCCESS: Sent distributeDrinks (wild) to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
-            }
-          }
-          
-          if (!playerHand.standard?.some(card => card.card === declaredCard) && 
-              !playerHand.wild?.some(card => card.card === declaredCard)) {
-            console.log(`🎯 FAST NO MATCH: Player ${playerName} does not have ${declaredCard} cards`);
+      
+        // Replay exactly what this player was told to pour when the card was
+        // played. This CANNOT be re-derived from their current hand: the played
+        // cards are removed and replaced the instant they are played, so the
+        // hand no longer shows what was played. Filtering it gave a refreshing
+        // player either nothing at all (usually) or, when the replacement draw
+        // happened to redeal the same card type, a prompt for an amount they
+        // never played.
+        if (declaredCard !== 'First Down') {
+          const pending = pendingPourFor(roomCode, playerName);
+          if (pending) {
+            socket.emit('distributeDrinks', { playerId: socket.id, ...pending });
+            console.log(`🎯 FAST REPLAY: sent {${pending.drinkCount}} drinks, {${pending.shotguns}} shotguns to reconnected ${playerName} for ${declaredCard}`);
+          } else {
+            console.log(`🎯 FAST REPLAY: ${playerName} owes nothing this round for ${declaredCard}`);
           }
         }
       }
