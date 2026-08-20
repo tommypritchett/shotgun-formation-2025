@@ -14,6 +14,7 @@ import { CAN } from './components/CanMark';
 import { assignAvatars, avatarFor } from './components/Avatars';
 import { buildRoundRows, resolvePlayerStats } from './lib/stats';
 import { consumedPendingIds, mergePlayerCards } from './lib/players';
+import { readPourPrompt } from './lib/pour';
 import CardSheet from './components/CardSheet';
 import DrinkAssigner from './components/DrinkAssigner';
 import GameCard from './components/GameCard';
@@ -1652,82 +1653,39 @@ useEffect(() => {
       console.log('✅ Final players:', players);
     });
 
-    socket.on('distributeDrinks', ({ cardType, drinkCount, wildcardtype, shotguns }) => {
-      const player = playersRef.current.find(p => p.id === socket.id);
-      console.log('🍺 DISTRIBUTE DRINKS: Player found:', player?.name, 'Has cards:', !!player?.cards);
-      console.log('🍺 DISTRIBUTE DRINKS: Looking for cardType:', cardType, 'wildcardtype:', wildcardtype);
-      console.log('🍺 DISTRIBUTE DRINKS: Player cards:', player?.cards);
-    
-      // Check if the player has the declared standard card
-      if (player && player.cards && player.cards.standard && player.cards.standard.some(card => card.card === cardType)) {
-        setDeclaredCard(cardType);  // Set the declared card globally
-    
-        let message = '';
-    
-        // Check if there are shotguns to assign
-        if (shotguns > 0) {
-          message += `You need to assign ${shotguns} shotgun${shotguns > 1 ? 's' : ''} for the ${cardType}! `;
-        }
-    
-        // Check if there are drinks to assign
-        if (drinkCount > 0) {
-          message += `You need to assign ${drinkCount} drink${drinkCount > 1 ? 's' : ''} for the ${cardType}!`;
-        }
-    
-        setDrinkMessage(message);
-        setDrinksToGive(drinkCount);
-        setshotgunsToGive(shotguns);
-        setIsDistributing(true);  // Set flag to true to indicate distribution is active
-        setHasMatchingCardForCurrentEvent(true);  // Mark that this player has matching card
-        setAssignedDrinks({});
-        console.log("Drinks", drinkCount, "Shotgun", shotguns);
-        console.log('Drink Message', message);
+    socket.on('distributeDrinks', (payload) => {
+      // Trust the server. This event is sent with io.to(player.id), so it only
+      // reaches players who actually owe something.
+      //
+      // The old handler re-checked that the player's CURRENT HAND still held
+      // the declared card, and cleared the distribution state when it did not.
+      // That check can never pass after a reconnect: the server removes a
+      // played card and deals a replacement the instant it is played, so the
+      // hand no longer holds it by design. On a refresh the roster is empty
+      // too, because the replay arrives before gameStarted. The result was a
+      // player who rejoined mid-round and could not pour -- Session 8 item 3,
+      // and the reason the Phase 7a server fix looked right on the wire but
+      // still failed on a phone.
+      const prompt = readPourPrompt(payload);
+      console.log('🍺 DISTRIBUTE DRINKS:', payload, '->', prompt);
 
-      // Check if the player has the declared wild card
-      } else if (player && player.cards && player.cards.wild && player.cards.wild.some(card => card.card === wildcardtype)) {
-        setDeclaredCard(wildcardtype);  // Set the declared card globally
-    
-        let message = '';
-    
-        // Check if there are shotguns to assign
-        if (shotguns > 0) {
-          message += `You need to assign ${shotguns} shotgun${shotguns > 1 ? 's' : ''} for the ${wildcardtype}! `;
-        }
-    
-        // Check if there are drinks to assign
-        if (drinkCount > 0) {
-          message += `You need to assign ${drinkCount} drink${drinkCount > 1 ? 's' : ''} for the ${wildcardtype}!`;
-        }
-    
-        setDrinkMessage(message);
-        setDrinksToGive(drinkCount);
-        setshotgunsToGive(shotguns);
-        setIsDistributing(true);  // Set flag to true to indicate distribution is active
-        setHasMatchingCardForCurrentEvent(true);  // Mark that this player has matching card
-        setAssignedDrinks({});
-        console.log("Drinks", drinkCount, "Shotgun", shotguns);
-        console.log('Drink Message', message);
-
-    
-      } else {
-        // 🛡️ ENHANCED PROTECTION: Only clear if no one else is distributing AND validate current player doesn't have card
-        console.log('🔍 CARD CHECK: Player does not have required card:', cardType, 'or', wildcardtype);
-        console.log('🔍 CARD CHECK: Player cards:', player?.cards);
-        console.log('🔍 CARD CHECK: isDistributingRef.current:', isDistributingRef.current);
-        
+      if (!prompt) {
+        // Nothing owed. Only stand down if nobody else is mid-distribution.
         if (!isDistributingRef.current) {
-          // Clear the message and distribution flag for players without the card
-          setDrinkMessage('');  
+          setDrinkMessage('');
           setIsDistributing(false);
-          setHasMatchingCardForCurrentEvent(false);  // ✅ FIX: Clear matching card flag
-          console.log('🛡️ CLEARED: Player without matching card - clearing distribution state');
-        } else {
-          console.log('🛡️ PROTECTED: Not clearing distribution state - other players may be distributing');
-          // ✅ ENHANCED: Even with protection, current player shouldn't have matching card flag if they don't have the card
-          setHasMatchingCardForCurrentEvent(false);
-          console.log('🛡️ CARD FIX: Removed matching card flag for player without card (but preserved distribution for others)');
         }
+        setHasMatchingCardForCurrentEvent(false);
+        return;
       }
+
+      setDeclaredCard(prompt.card);
+      setDrinkMessage(prompt.message);
+      setDrinksToGive(prompt.drinks);
+      setshotgunsToGive(prompt.shotguns);
+      setIsDistributing(true);
+      setHasMatchingCardForCurrentEvent(true);
+      setAssignedDrinks({ drinks: {}, shotguns: {} });
     });
 
     // ✅ REMOVED: Duplicate updatePlayerStats handler #2 to fix duplicate entries issue
