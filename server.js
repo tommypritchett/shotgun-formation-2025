@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const path = require('path'); // Import the path module
+const fs = require('fs');
 const app = express();
 const server = http.createServer(app);
 
@@ -1981,6 +1982,37 @@ const distributeCards = (players, standardDeck, wildDeck) => {
   return hands;
 };
 
+/**
+ * Which commit is actually running.
+ *
+ * `node server.js` does not hot-reload — only the CRA dev server does — so it
+ * is entirely possible to spend an evening debugging a fix that is not loaded.
+ * That has now cost two sessions. This line is permanent: read it before
+ * trusting anything you observe against a running server.
+ *
+ * Reads .git directly rather than shelling out, so it works with no git binary
+ * on PATH. Render exposes the SHA as an env var instead, since its checkout is
+ * shallow, so that wins when present.
+ *
+ * CAVEAT: this reports the CHECKED-OUT COMMIT, not the working tree. If you
+ * have edited server.js without committing, the SHA is still the last commit.
+ * It answers "is this a stale process?", not "is this file dirty?".
+ */
+const bootCommit = () => {
+  const fromEnv = process.env.RENDER_GIT_COMMIT || process.env.SOURCE_VERSION;
+  if (fromEnv) return `${fromEnv.slice(0, 7)} (from env)`;
+  try {
+    const head = fs.readFileSync(path.join(__dirname, '.git', 'HEAD'), 'utf8').trim();
+    if (!head.startsWith('ref: ')) return head.slice(0, 7);
+    const ref = head.slice(5).trim();
+    const sha = fs.readFileSync(path.join(__dirname, '.git', ref), 'utf8').trim();
+    return `${sha.slice(0, 7)} (${ref.replace('refs/heads/', '')})`;
+  } catch (err) {
+    return 'unknown';
+  }
+};
+
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Running code: ${bootCommit()}  |  node ${process.version}  |  started ${new Date().toISOString()}`);
 });
