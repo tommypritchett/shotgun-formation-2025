@@ -7,8 +7,25 @@
 /** Real server timer durations (`startTimer` call sites in server.js). */
 const ROUND_SECONDS = Object.freeze({ standard: 21, wild: 11, firstDown: 6 });
 
-/** How long to wait for a round to finalize, given its duration. */
-const finalizeTimeout = (seconds) => seconds * 1000 + 8000;
+/**
+ * How long to wait for a round to finalize.
+ *
+ * A round takes `duration + 1` SECONDS on the wire, not `duration`: startTimer
+ * decrements once per `setInterval(1000)` tick, and finalizeRound only runs on
+ * the tick AFTER the counter reaches zero. So a 21s round needs 22 ticks.
+ *
+ * The old budget of `duration + 8s` left just 7s of headroom across those 22
+ * ticks — about 320ms of drift per tick. setInterval makes no promise of
+ * punctuality, and under a parallel suite (12 files, a server process each)
+ * that much drift is ordinary. The result was a test that failed roughly one
+ * run in ten with a timeout, always in the 21-second rounds, which is exactly
+ * what the overnight report predicted would go flaky first.
+ *
+ * This budgets the real round length plus 12s of drift. It is not a way of
+ * making a failure go away: if finalizeRound genuinely never runs, this still
+ * fails, just without the false alarms.
+ */
+const finalizeTimeout = (seconds) => (seconds + 1) * 1000 + 12000;
 
 const createRoom = async (host) => {
   host.emit('createRoom', host.name);

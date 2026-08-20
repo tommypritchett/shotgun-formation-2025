@@ -602,11 +602,13 @@ button.card:active{transform:translateY(2px) scale(.985)}
 .btn:active{transform:translateY(2px)}
 .btn.ghost{background:var(--sf-board-2);color:var(--sf-chalk);border:1.5px solid var(--sf-line);clip-path:none;
   border-radius:var(--sf-r-md)}
-.btn:disabled{opacity:.45}
+.btn:disabled{background:var(--sf-board-2);color:var(--sf-muted);
+  border:1.5px solid var(--sf-line);box-shadow:none;cursor:default}
+.btn.ghost:disabled{opacity:.45}
 .err{color:var(--sf-blood);font-size:13px;margin:10px 0 0;text-align:center;font-weight:500}
 .roomcode{text-align:center;padding:6px 0 18px}
 .roomcode .k{font-family:var(--sf-display);font-weight:600;font-size:10px;letter-spacing:.2em;
-  color:var(--sf-muted);display:block;margin-bottom:4px}
+  text-transform:uppercase;color:var(--sf-muted);display:block;margin-bottom:4px}
 .roomcode .n{font-family:var(--sf-display);font-weight:700;font-size:52px;letter-spacing:.14em;
   line-height:1;color:var(--sf-chalk)}
 .roster{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:4px 0 18px}
