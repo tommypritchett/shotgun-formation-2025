@@ -5,15 +5,17 @@
  * in a loud room, by someone who is not looking carefully.
  */
 import { CAN } from './Avatars';
-import { DRINKS_PER_SHOTGUN, shotgunsFor } from '../data/cards';
+
 
 export default function PlayerTile({
   player, given, unit, isShotgun, animation, onGive,
 }) {
   const classes = ['ptile', animation].filter(Boolean).join(' ');
-  const total = player.totalDrinks || 0;
-  const sg = (player.totalShotguns || 0) + shotgunsFor(total);
-  const dr = total % DRINKS_PER_SHOTGUN;
+  // Raw totals, exactly as the standings show them. The server has already
+  // done the conversion; doing it again here invents shotguns that were never
+  // drunk. See cards.js `shotgunsFor`.
+  const sg = player.totalShotguns || 0;
+  const dr = player.totalDrinks || 0;
 
   return (
     <button

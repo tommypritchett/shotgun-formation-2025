@@ -171,11 +171,27 @@ const BY_ID = new Map([...ALL_CARDS, FIRST_DOWN].map((c) => [c.id, c]));
 export const getCard = (id) => BY_ID.get(id);
 
 /** How many whole shotguns a drink value represents. 40 -> 4, 6 -> 0. */
+/**
+ * ⚠️ CARD FACE VALUES ONLY. Never apply this to an accumulated total.
+ *
+ * Drinks are converted to shotguns exactly ONCE, on the server, on the ROUND
+ * result: ten drinks taken in a single round become one shotgun there and
+ * nowhere else. By the time `totalDrinks` / `totalShotguns` reach the client
+ * they are FINAL and must be rendered raw.
+ *
+ * Folding them again is what made a running total of 11 display as "1 shotgun
+ * and 1 drink" instead of 11 drinks (Session 8, issue 1). If you are reaching
+ * for this function while holding a player's total, you want the total.
+ */
 export const shotgunsFor = (drinks) => Math.floor(drinks / DRINKS_PER_SHOTGUN);
 
 /**
- * How a card's value should be displayed. Mirrors the existing client rule:
- * values >= 10 render as shotguns, everything else as drinks.
+ * How a CARD's value should be displayed: values >= 10 render as shotguns,
+ * everything else as drinks. A 40-drink Doink shows as 4 shotguns.
+ *
+ * ⚠️ Same warning as `shotgunsFor`: this is for a card's face value, or for a
+ * single round's result BEFORE the server has split it. It must never be
+ * applied to `totalDrinks` / `totalShotguns`, which are already final.
  */
 export const formatValue = (drinks) => {
   const shotguns = shotgunsFor(drinks);

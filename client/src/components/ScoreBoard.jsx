@@ -9,7 +9,7 @@ import CardIcon from './CardIcon';
 import DrinkGlyph from './DrinkGlyph';
 import PlayerRow from './PlayerRow';
 import { CAN } from './Avatars';
-import { formatValue, getCard, shotgunsFor, DRINKS_PER_SHOTGUN } from '../data/cards';
+import { getCard } from '../data/cards';
 
 /**
  * What just happened, as far as the wire can tell us.
@@ -35,9 +35,11 @@ function RoundLog({ cardId, rows, quarter, players, selfId }) {
         <div className="lrow"><span className="txt">Nothing was poured</span></div>
       ) : (
         rows.map((row) => {
-          const value = formatValue(row.drinks);
           const player = byId[row.id];
           const isSelf = row.id === selfId;
+          const mine = isSelf ? ' me' : '';
+          // Shown exactly as the server split them. A round can be both a
+          // shotgun AND loose drinks, so both chips can appear.
           return (
             <div className="lrow" key={row.id}>
               <img className="av" src={player ? player.avatar : undefined} alt="" />
@@ -45,10 +47,16 @@ function RoundLog({ cardId, rows, quarter, players, selfId }) {
                 <b>{isSelf ? 'YOU' : row.name}</b> drank
               </span>
               <span className="amt">
-                <span className={`amt-chip ${value.isShotgun ? 's' : 'd'}${isSelf ? ' me' : ''}`}>
-                  {value.isShotgun ? <img src={CAN} alt="" /> : <DrinkGlyph />}
-                  {value.amount}
-                </span>
+                {row.shotguns > 0 ? (
+                  <span className={`amt-chip s${mine}`}>
+                    <img src={CAN} alt="" />{row.shotguns}
+                  </span>
+                ) : null}
+                {row.drinks > 0 ? (
+                  <span className={`amt-chip d${mine}`}>
+                    <DrinkGlyph />{row.drinks}
+                  </span>
+                ) : null}
               </span>
             </div>
           );
@@ -68,6 +76,9 @@ export default function ScoreBoard({
   quarter,
   selfId,
 }) {
+  // Totals are rendered RAW. The server converts ten drinks into a shotgun
+  // once, on the round result; folding again here invented shotguns nobody
+  // drank (Session 8, issue 1). See `shotgunsFor` in data/cards.js.
   const ranked = [...players].sort((a, b) => b.totalDrinks - a.totalDrinks);
   const showLast = tab === 'last';
 
@@ -106,8 +117,8 @@ export default function ScoreBoard({
                 rank={i + 1}
                 name={p.name}
                 avatar={p.avatar}
-                shotguns={(p.totalShotguns || 0) + shotgunsFor(p.totalDrinks || 0)}
-                drinks={(p.totalDrinks || 0) % DRINKS_PER_SHOTGUN}
+                shotguns={p.totalShotguns || 0}
+                drinks={p.totalDrinks || 0}
                 isLeader={i === 0}
                 isSelf={p.isSelf}
                 isRef={p.isRef}

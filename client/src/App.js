@@ -11,6 +11,7 @@ import {
   tierFor,
 } from './data/cards';
 import { CAN, avatarMapFor } from './components/Avatars';
+import { buildRoundRows, resolvePlayerStats } from './lib/stats';
 import CardSheet from './components/CardSheet';
 import DrinkAssigner from './components/DrinkAssigner';
 import GameCard from './components/GameCard';
@@ -45,51 +46,6 @@ const POUR_FLUSH_MS = 700;
  * reachable, and it stops being reachable only once `gameStarted` is scoped
  * server-side. Do not delete it before then.
  */
-/**
- * Rows for the Round Results tab.
- *
- * NOTE, and this is a real deviation from the mockup: the mockup shows
- * "X gave Y", but the wire does not carry who gave what. `updatePlayerStats`
- * sends `roundResults` keyed by RECIPIENT only, and the socket contract is
- * frozen this session, so the log shows who drank rather than who poured.
- * See SESSION_7_REPORT.md.
- */
-export const buildRoundRows = (roundResults, players) => {
-  if (!roundResults) return [];
-  const byId = {};
-  players.forEach((p) => { byId[p.id] = p; });
-  return Object.entries(roundResults)
-    .map(([id, result]) => ({ id, result: result || {} }))
-    .filter(({ result }) => (result.drinks || 0) > 0 || (result.shotguns || 0) > 0)
-    .map(({ id, result }) => {
-      const player = byId[id];
-      return {
-        id,
-        name: player ? player.name : 'Someone',
-        drinks: (result.drinks || 0) + (result.shotguns || 0) * DRINKS_PER_SHOTGUN,
-      };
-    })
-    .sort((a, b) => b.drinks - a.drinks);
-};
-
-export const resolvePlayerStats = (player, playerStats, players) => {
-  if (!player) return null;
-  const direct = playerStats[player.id];
-  if (direct) return direct;
-
-  // Strategy 1 — by name, taking the highest total (a reconnect can leave two).
-  const named = Object.values(playerStats).filter((s) => s && s.name === player.name);
-  if (named.length > 0) {
-    return named.reduce((best, cur) => ((cur.totalDrinks > best.totalDrinks) ? cur : best));
-  }
-
-  // Strategy 2 — process of elimination over entries with no name at all.
-  const unnamed = Object.values(playerStats).filter((s) => s && !s.name);
-  if (unnamed.length > 0) {
-    return [...unnamed].sort((a, b) => (b.totalDrinks || 0) - (a.totalDrinks || 0))[0];
-  }
-  return null;
-};
 
 // Error Boundary to catch JavaScript crashes
 class ErrorBoundary extends Component {
