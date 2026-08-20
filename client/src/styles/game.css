@@ -663,3 +663,19 @@ button.card:active{transform:translateY(2px) scale(.985)}
 /* A tile that has been poured into switches to the round's accent — the
    pour matters more than identity in that moment. */
 .ptile[data-given]:not([data-given="0"]) .pav { border-color: var(--acc); }
+
+/* ==================================================================
+   THE SHELL FILLS THE SCREEN
+   `.dock` is sticky at bottom:0, but a sticky element only pins if the
+   page is taller than the viewport. With six players and a short hand
+   the game screen is shorter, so the Declare button floated in the
+   middle with dead space beneath it — and the toast, which IS fixed to
+   the viewport, landed on top of it.
+
+   Making the shell at least a screen tall and letting the body take the
+   slack puts the dock on the bottom edge where the mockup has it.
+   ================================================================== */
+.app{display:flex;flex-direction:column;min-height:100dvh}
+.app > .body,
+.app > .pad{flex:1 1 auto}
+@supports not (min-height: 100dvh){ .app{min-height:100vh} }
