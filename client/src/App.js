@@ -1,7 +1,59 @@
 import React, { useState, useEffect, useRef, Component } from 'react';
 import io from 'socket.io-client';
-import './App.css';  // Import the updated CSS
-import shotgunIcon from './shotgun_icon.png';  // Import shotgun icon
+import './styles/tokens.css';
+import './styles/game.css';
+import {
+  DECK,
+  DECLARABLE,
+  DRINKS_PER_SHOTGUN,
+  ROUND_DURATIONS,
+  getCard,
+  tierFor,
+} from './data/cards';
+import { CAN, avatarMapFor } from './components/Avatars';
+import CardSheet from './components/CardSheet';
+import DrinkAssigner from './components/DrinkAssigner';
+import GameCard from './components/GameCard';
+import MenuSheet from './components/MenuSheet';
+import Toast from './components/Toast';
+import GameScreen from './screens/GameScreen';
+import JoinScreen from './screens/JoinScreen';
+import LobbyScreen from './screens/LobbyScreen';
+
+/** A room will not start below this. Enforced by the server at startGame. */
+const MIN_PLAYERS = 3;
+
+/**
+ * Find a player's stats in the `playerStats` map.
+ *
+ * This was copy-pasted three times in the render. It is one function now, so
+ * the call sites cannot drift apart.
+ *
+ * The unnamed-entry fallback is DELIBERATELY KEPT. It looks dead — the
+ * `updatePlayerStats` handler only stores entries that carry a name — but the
+ * `gameStarted` handler writes its payload in unfiltered, and the server builds
+ * those entries with no `name` field. See FOLLOW_UPS.md F1 and F2: it is
+ * reachable, and it stops being reachable only once `gameStarted` is scoped
+ * server-side. Do not delete it before then.
+ */
+export const resolvePlayerStats = (player, playerStats, players) => {
+  if (!player) return null;
+  const direct = playerStats[player.id];
+  if (direct) return direct;
+
+  // Strategy 1 — by name, taking the highest total (a reconnect can leave two).
+  const named = Object.values(playerStats).filter((s) => s && s.name === player.name);
+  if (named.length > 0) {
+    return named.reduce((best, cur) => ((cur.totalDrinks > best.totalDrinks) ? cur : best));
+  }
+
+  // Strategy 2 — process of elimination over entries with no name at all.
+  const unnamed = Object.values(playerStats).filter((s) => s && !s.name);
+  if (unnamed.length > 0) {
+    return [...unnamed].sort((a, b) => (b.totalDrinks || 0) - (a.totalDrinks || 0))[0];
+  }
+  return null;
+};
 
 // Error Boundary to catch JavaScript crashes
 class ErrorBoundary extends Component {
@@ -439,7 +491,18 @@ const fallbackCopyTextToClipboard = (text) => {
     }
   };
 
-const [actionMessage, setActionMessage] = useState('');  // Store messages like "Action in progress"
+const [actionMessage, setActionMessage] = useState('');
+
+// ── UI state introduced by the mockup port ────────────────────────────────
+const [boardTab, setBoardTab] = useState('stand');      // 'stand' | 'last'
+const [boardPulse, setBoardPulse] = useState(false);    // pulse the Round Results tab
+const [lastRoundCard, setLastRoundCard] = useState(null);
+const [lastRoundRows, setLastRoundRows] = useState([]);
+const [openCard, setOpenCard] = useState(null);         // full-card sheet
+const [pourSent, setPourSent] = useState(false);        // locked in, early or by expiry
+const [pourStack, setPourStack] = useState([]);         // for UNDO, newest last
+const [tileAnim, setTileAnim] = useState({});           // per-tile hit/deny animation
+const [toastMessage, setToastMessage] = useState('');  // Store messages like "Action in progress"
 // ✅ REMOVED isRefreshProcessing - no longer needed since triggerPersonalRefresh removed
 
 // Handle opening the wild card selection modal
@@ -930,7 +993,6 @@ useEffect(() => {
 useEffect(() => {
   // Set zoom to 70% when the page loads
   window.onload = function() {
-    document.body.style.zoom = "70%"; // Adjust the percentage as needed
   };
 }, []);
 */
@@ -1393,7 +1455,6 @@ useEffect(() => {
   const handleRoomCreated = (newRoomCode) => {
     setRoomCode(newRoomCode);
     setGameState('lobby');
-    document.body.style.zoom = "70%"; // Adjust the percentage as needed
     
     // Update URL immediately when room is created
     if (playerName) {
@@ -1426,8 +1487,7 @@ useEffect(() => {
       updateURL(joinedRoomCode, playerName); // Store in URL
       setGameState('lobby');
       console.log('🎯 Setting gameState to: lobby');
-      document.body.style.zoom = "70%"; // Adjust the percentage as needed
-      
+        
       // ✅ FIX: Show rules popup when joining a game (same as starting a game)
       alert(instructionsmessage);
       
@@ -1579,8 +1639,7 @@ useEffect(() => {
       updateURL(roomCode, playerName);
       
        // Adjust the page zoom when the game starts
-      document.body.style.zoom = "70%"; // Adjust the percentage as needed
-      
+        
       console.log('✅ Game state updated successfully');
       console.log('✅ Final gameState:', gameState);
       console.log('✅ Final players:', players);
@@ -1890,529 +1949,336 @@ socket.on('gameOver', (message) => {
     );
   }
 
-  // UI for the initial screen with name entry and game actions
+  // ── derived view data ──────────────────────────────────────────────────
+  // Avatars are assigned from the player's NAME, so the same person is the
+  // same football in every game, and no two players in a room share one while
+  // there are 8 or fewer of them.
+  const avatarMap = avatarMapFor(players.map((p) => p.name));
+  const withAvatar = (p) => ({ ...p, avatar: avatarMap[p.name] });
+
+  const boardPlayers = players.map((player) => {
+    const stats = resolvePlayerStats(player, playerStats, players) || {};
+    return {
+      ...withAvatar(player),
+      totalDrinks: stats.totalDrinks || 0,
+      totalShotguns: stats.totalShotguns || 0,
+      isSelf: player.id === socket.id,
+      isRef: player.id === socket.id && isHost,
+    };
+  });
+
+  const declaredCardRecord = declaredCard ? getCard(declaredCard) : null;
+  const roundDuration = declaredCard === 'First Down'
+    ? ROUND_DURATIONS.firstDown
+    : declaredCardRecord && declaredCardRecord.deck === DECK.WILD
+      ? ROUND_DURATIONS.wild
+      : ROUND_DURATIONS.standard;
+
+  const isShotgunRound = shotgunsToGive > 0;
+  const pool = isShotgunRound ? shotgunsToGive : drinksToGive;
+  const givenMap = isShotgunRound ? (assignedDrinks.shotguns || {}) : (assignedDrinks.drinks || {});
+  const pourCount = Object.values(givenMap).reduce((acc, n) => acc + (n || 0), 0);
+  const assignerOpen = timeRemaining > 0 && !!declaredCard;
+  const isPassive = pool <= 0;
+  const totalForCard = drinksToGive + shotgunsToGive * DRINKS_PER_SHOTGUN;
+  const copiesHeld = declaredCardRecord && declaredCardRecord.drinks
+    ? Math.max(1, Math.round(totalForCard / declaredCardRecord.drinks))
+    : 1;
+
+  /**
+   * Send whatever is currently assigned, using the exact payload shape the
+   * server has always received. Nothing about the wire changes here.
+   */
+  const flushPours = ({ lockIn = false } = {}) => {
+    const drinks = assignedDrinks.drinks || {};
+    const shotguns = assignedDrinks.shotguns || {};
+    const totalDrinks = Object.values(drinks).reduce((acc, n) => acc + n, 0);
+    const totalShotguns = Object.values(shotguns).reduce((acc, n) => acc + n, 0);
+    if (totalDrinks === 0 && totalShotguns === 0) return;
+
+    socket.emit('assignDrinks', {
+      roomCode,
+      selectedPlayerIds: [...new Set([...Object.keys(drinks), ...Object.keys(shotguns)])],
+      drinksToGive: drinks,
+      shotgunsToGive: shotguns,
+    });
+    if (lockIn) setAssignedDrinks({ drinks: {}, shotguns: {} });
+  };
+
+  /**
+   * Undo a tap. Nothing has reached the server yet at this point — the batch is
+   * still local — so there is nothing to compensate for; removing it from the
+   * local tally is the whole job.
+   */
+  const undoPour = () => {};
+
+  /** Flash a tile, then clear it so the animation can retrigger next tap. */
+  const flashTile = (playerId, kind) => {
+    setTileAnim((prev) => ({ ...prev, [playerId]: kind }));
+    setTimeout(() => {
+      setTileAnim((prev) => {
+        const next = { ...prev };
+        delete next[playerId];
+        return next;
+      });
+    }, 320);
+  };
+
+  const showToast = (message) => {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(''), 2200);
+  };
+
+  /**
+   * One tap = one drink (or one shotgun). Refuses past your allowance with a
+   * shake rather than silently doing nothing — a dead tap reads as a bug.
+   */
+  const handleTapTarget = (playerId) => {
+    if (pourSent) return;
+    if (pourCount >= pool) {
+      flashTile(playerId, 'deny');
+      return;
+    }
+    handleGiveDrink(playerId, isShotgunRound ? 'shotgun' : 'drink');
+    setPourStack((prev) => [...prev, playerId]);
+    flashTile(playerId, 'hit');
+    if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) { /* not supported */ } }
+  };
+
+  const handleUndoPour = () => {
+    if (pourSent || pourStack.length === 0) return;
+    const playerId = pourStack[pourStack.length - 1];
+    setPourStack((prev) => prev.slice(0, -1));
+    setAssignedDrinks((prev) => {
+      const key = isShotgunRound ? 'shotguns' : 'drinks';
+      const bucket = { ...(prev[key] || {}) };
+      bucket[playerId] = Math.max(0, (bucket[playerId] || 0) - 1);
+      if (bucket[playerId] === 0) delete bucket[playerId];
+      return { ...prev, [key]: bucket };
+    });
+    undoPour();
+  };
+
+  /** Optional early commit. Never required — expiry commits whatever is there. */
+  const handleLockIn = () => {
+    flushPours({ lockIn: true });
+    setPourSent(true);
+  };
+
+  const menu = (
+    <MenuSheet
+      open={isMenuOpen}
+      onClose={closeMenu}
+      roomCode={roomCode}
+      playerCount={players.length}
+      onRules={handleShowInstructions}
+      onLeave={handleLeaveGame}
+      onHandOff={isHost ? handleHostSwap : undefined}
+    />
+  );
+
+  // ── initial ────────────────────────────────────────────────────────────
   if (gameState === 'initial') {
-    console.log('🎯 RENDERING: Initial screen');
     const urlParams = getURLParams();
-    const hasSharedRoomCode = urlParams.roomCode && !urlParams.playerName;
-    console.log('🎯 Initial screen data:', { urlParams, hasSharedRoomCode });
-    
+    const hasSharedRoomCode = !!(urlParams.roomCode && !urlParams.playerName);
     return (
-      <div className="intro-with-image centered-container"> 
-        <h1>ShotGun Formation</h1>
-        
-        {/* Name Entry */}
-        <input
-          type="text"
-          placeholder="Enter your name"
-          value={playerName}
-          onChange={(e) => {
-            setPlayerName(e.target.value);
-            setErrorMessage(''); // Clear error when user types
-          }}
-          autoFocus
-        />
-        
-        {/* Game Actions */}
-        {!hasSharedRoomCode && <button onClick={startGame}>Start a Lobby</button>}
-        
-        <div style={{marginTop: '20px'}}>
-          <input
-            type="text"
-            placeholder="Enter room code"
-            value={hasSharedRoomCode ? urlParams.roomCode : roomCode}
-            onChange={(e) => {
-              setRoomCode(e.target.value);
-              setErrorMessage(''); // Clear error when user types
-            }}
-            readOnly={hasSharedRoomCode}
-          />
-          <button onClick={joinGame}>
-            {hasSharedRoomCode ? 'Join Shared Game' : 'Join Game'}
-          </button>
-        </div>
-        
-        {errorMessage && <p style={{color: '#ff6666', marginTop: '10px'}}>{errorMessage}</p>}
-      </div>
+      <JoinScreen
+        playerName={playerName}
+        onPlayerName={setPlayerName}
+        roomCode={roomCode}
+        onRoomCode={(v) => { setRoomCode(v); setErrorMessage(''); }}
+        onCreate={startGame}
+        onJoin={joinGame}
+        hasSharedRoomCode={hasSharedRoomCode}
+        errorMessage={errorMessage}
+      />
     );
   }
 
-  // UI for connecting state (auto-rejoin in progress)
+  // ── connecting ─────────────────────────────────────────────────────────
   if (gameState === 'connecting') {
-    console.log('🎯 RENDERING: Connecting screen');
-    console.log('🎯 Connecting data:', { playerName, roomCode });
     return (
-      <div className="centered-container fade-in">
-        <h1>Connecting...</h1>
-        <p>Attempting to rejoin game for {playerName}</p>
-        <p>Room: {roomCode}</p>
-        <div className="loading-spinner" style={{margin: '20px auto'}}></div>
-        <p style={{fontSize: '14px', color: '#ddd'}}>Please wait while we connect you to your game...</p>
-        <button 
-          onClick={() => {
-            setGameState('initial');
-            clearURL();  // Clear URL when manually canceling reconnection
-          }} 
-          style={{marginTop: '20px', padding: '10px 20px', backgroundColor: '#ff6b35', border: 'none', borderRadius: '5px', color: 'white', cursor: 'pointer'}}
-        >
-          Cancel & Return to Start
-        </button>
+      <div className="app">
+        <div className="pad">
+          <div className="hero">
+            <img src={CAN} alt="" />
+            <span className="l1">Getting you</span>
+            <span className="l2">back in</span>
+            <p>Rejoining your game…</p>
+          </div>
+        </div>
       </div>
     );
   }
 
-
-  // UI for the lobby screen
+  // ── lobby ──────────────────────────────────────────────────────────────
   if (gameState === 'lobby') {
-    console.log('🎯 RENDERING: Lobby screen');
-    console.log('🎯 Lobby data:', { roomCode, players, isHost });
     return (
-      <div className="lobby-container">
-        <h1>Lobby</h1>
-        <p>Room Code: {roomCode}</p>
-        <p>Players in the lobby:</p>
-        <ul className="players-list">
-          {players.map((player) => (
-            <li key={player.id} style={{ fontWeight: player.id === socket.id ? 'bold' : 'normal' }}>
-              {player.name} {player.id === socket.id ? '(You)' : ''}
-            </li>
-          ))}
-        </ul>
-        <p>Total Players: {players.length}</p>
-        {isHost && players.length >= 3 && (
-          <button onClick={startTheGame}>Start Game</button>
-        )}
-        <button className="share-button" onClick={handleShareGame}>Share Game</button>
-        <button onClick={leaveLobby}>Leave Lobby</button>
-      </div>
+      <LobbyScreen
+        roomCode={roomCode}
+        players={players.map(withAvatar)}
+        isHost={isHost}
+        canStart={players.length >= MIN_PLAYERS}
+        minPlayers={MIN_PLAYERS}
+        onStart={startTheGame}
+        onLeave={leaveLobby}
+        onShare={handleShareGame}
+      />
     );
   }
 
-  // UI for the game screen
+  // ── game ───────────────────────────────────────────────────────────────
   if (gameState === 'game') {
-    console.log('🎯 RENDERING: Game screen');
-    console.log('🎯 Game data:', { players, playerStats, quarter, isHost });
-    const isDisabled = isHostSelection && !isMenuOpen; // Disable game elements when host selection is open, but not when the menu is open
+    const me = players.find((p) => p.id === socket.id);
+    const hand = (me && me.cards) ? me.cards : { standard: [], wild: [] };
+    const targets = boardPlayers.filter((p) => p.id !== socket.id);
 
     return (
-    <div className="game-table fade-in">
-      {/* Header Section */}
-      <div className="game-header">
-        <div className="game-title">ShotGun Formation</div>
-        <div className="quarter-display">QTR {quarter}</div>
-      </div>
+      <>
+        <GameScreen
+          quarter={quarter}
+          roomCode={roomCode}
+          onMenu={toggleMenu}
+          players={boardPlayers}
+          boardTab={boardTab}
+          onBoardTab={(t) => { setBoardTab(t); setBoardPulse(false); }}
+          boardPulse={boardPulse}
+          lastRoundCardId={lastRoundCard}
+          lastRoundRows={lastRoundRows}
+          hand={hand}
+          onCardTap={(card) => setOpenCard(card)}
+          isHost={isHost}
+          onDeclare={handleDeclareAction}
+          noCardMessage={noCardMessage || actionMessage}
+        />
 
-      {/* Players Section - Always 2 rows */}
-      <div className="players-section">
-        <div className={`player-icons-container ${
-          players.length <= 2 ? 'players-1-2' :
-          players.length <= 4 ? 'players-3-4' :
-          players.length <= 6 ? 'players-5-6' :
-          players.length <= 8 ? 'players-7-8' :
-          players.length <= 10 ? 'players-9-10' :
-          players.length <= 12 ? 'players-11-12' :
-          'players-13-plus'
-        }`}>
-          {(() => {
-            // ✅ FIX: Deduplicate players for main game UI
-            const uniquePlayers = players.reduce((acc, player) => {
-              const existingIndex = acc.findIndex(p => p.id === player.id);
-              if (existingIndex === -1) {
-                acc.push(player);
-              } else {
-                // Keep player with more complete data
-                if (!acc[existingIndex].name && player.name) {
-                  acc[existingIndex] = player;
-                }
-              }
-              return acc;
-            }, []);
-            
-            return uniquePlayers.map((player) => {
-              // ✅ CONSISTENT FIX: Use same robust lookup as left side stats (matches line 2024-2028)
-              let stats = playerStats[player.id];
-              
-              // If no stats found by current ID, try smart lookup for reconnected players
-              if (!stats) {
-                console.log(`🔍 TOP UI LOOKUP DEBUG: No stats for ID ${player.id}, searching by name "${player.name}"`);
-                console.log('🔍 Available playerStats:', Object.entries(playerStats).map(([id, s]) => ({ id: id.slice(-4), name: s.name, totalDrinks: s.totalDrinks })));
-                
-                // Strategy 1: Find by exact name match
-                const namedEntries = Object.values(playerStats).filter(s => s && s.name === player.name);
-                if (namedEntries.length > 0) {
-                  stats = namedEntries.reduce((best, current) => 
-                    (current.totalDrinks > best.totalDrinks) ? current : best
-                  );
-                  console.log(`🔍 NAMED MATCH: Found ${namedEntries.length} entries for "${player.name}", using highest: ${stats.totalDrinks} drinks`);
-                } else {
-                  // Strategy 2: For players without names, use process of elimination
-                  const currentPlayerNames = players.map(p => p.name);
-                  const statsWithNames = Object.values(playerStats).filter(s => s && s.name);
-                  const unnamedStats = Object.values(playerStats).filter(s => s && !s.name);
-                  
-                  console.log(`🔍 ELIMINATION: Player "${player.name}" not found by name. Current players: [${currentPlayerNames.join(', ')}]`);
-                  console.log(`🔍 ELIMINATION: Stats with names: ${statsWithNames.length}, without names: ${unnamedStats.length}`);
-                  
-                  // Find unnamed stats entries and match by position/elimination
-                  if (unnamedStats.length > 0) {
-                    // Sort unnamed stats by totalDrinks (highest first) to get most likely current stats
-                    const sortedUnnamed = unnamedStats.sort((a, b) => b.totalDrinks - a.totalDrinks);
-                    
-                    // Use the first unnamed entry with the highest drinks (most likely to be current)
-                    stats = sortedUnnamed[0];
-                    console.log(`🔍 ELIMINATION: Using unnamed entry with ${stats.totalDrinks} drinks for "${player.name}"`);
-                  }
-                }
-              }
-              
-              const totalDrinks = stats?.totalDrinks || 0;
-              const totalShotguns = stats?.totalShotguns || 0;
-              
-              return (
-                <div key={player.id || player.name} className="player-icon glass-effect">
-                  <div className="player-content">
-                    <div className="player-image"></div>
-                    <div className="player-stats">
-                      <div className="stat-item">
-                        🍺 {totalDrinks}
-                      </div>
-                      <div className="stat-item">
-                        <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
-                        {totalShotguns}
-                      </div>
-                    </div>
-                  </div>
-                  <h3>{player.name}</h3>
-                </div>
-              );
-            });
-          })()}
-        </div>
-      </div>
-
-      {/* Standard Cards Section */}
-      <div className="standard-cards-section">
-        <div className="cards-header standard-cards-header">Your Standard Cards {isHost && "(Host)"}</div>
-        <div className="cards-row">
-          {players.map((player) => (
-            player.id === socket.id && player.cards?.standard?.map((card, index) => (
-              <div key={index} className="card" onClick={() => handleCardClick(card.card)}>
-                <div className="card-name">{card.card}</div>
-                <div className="drink-count">{card.drinks} drinks</div>
-              </div>
-            ))
-          ))}
-        </div>
-      </div>
-
-      {/* Wild Cards Section */}
-      <div className="wild-cards-section">
-        <div className="cards-header wild-cards-header">Your Wild Cards</div>
-        <div className="cards-row">
-          {players.map((player) => (
-            player.id === socket.id && player.cards?.wild?.map((card, index) => (
-              <div
-                key={`wild-${index}`}
-                className="wild-card-content"
-                onClick={() => handleWildCardSelect(card.card)}
-              >
-                <div className="card-name">{card.card}</div>
-                <div className="drink-count">
-                  {card.drinks >= 10 
-                    ? `${Math.floor(card.drinks / 10)} Shotgun${Math.floor(card.drinks / 10) > 1 ? 's' : ''}`
-                    : `${card.drinks} Drink${card.drinks > 1 ? 's' : ''}`}
-                </div>
-              </div>
-            ))
-          ))}
-        </div>
-      </div>
-
-      {/* Stats and Results Row */}
-      <div className="stats-row">
-        <div className="player-stats-container">
-          <h3>Room: {roomCode}</h3>
-          <ul>
-            {players.map((player) => {
-              // ✅ TARGETED FIX: Find stats by current ID, fallback to finding by name for reconnected players
-              let stats = playerStats[player.id];
-              
-              // If no stats found by current ID, try smart lookup for reconnected players
-              if (!stats) {
-                console.log(`🔍 UI LOOKUP DEBUG: No stats for ID ${player.id}, searching by name "${player.name}"`);
-                console.log('🔍 Available playerStats:', Object.entries(playerStats).map(([id, s]) => ({ id: id.slice(-4), name: s.name, totalDrinks: s.totalDrinks })));
-                
-                // Strategy 1: Find by exact name match
-                const namedEntries = Object.values(playerStats).filter(s => s && s.name === player.name);
-                if (namedEntries.length > 0) {
-                  stats = namedEntries.reduce((best, current) => 
-                    (current.totalDrinks > best.totalDrinks) ? current : best
-                  );
-                  console.log(`🔍 NAMED MATCH: Found ${namedEntries.length} entries for "${player.name}", using highest: ${stats.totalDrinks} drinks`);
-                } else {
-                  // Strategy 2: For players without names, use process of elimination
-                  const currentPlayerNames = players.map(p => p.name);
-                  const statsWithNames = Object.values(playerStats).filter(s => s && s.name);
-                  const unnamedStats = Object.values(playerStats).filter(s => s && !s.name);
-                  
-                  console.log(`🔍 ELIMINATION: Player "${player.name}" not found by name. Current players: [${currentPlayerNames.join(', ')}]`);
-                  console.log(`🔍 ELIMINATION: Stats with names: ${statsWithNames.length}, without names: ${unnamedStats.length}`);
-                  
-                  // Find unnamed stats entries and match by position/elimination
-                  if (unnamedStats.length > 0) {
-                    // Sort unnamed stats by totalDrinks (highest first) to get most likely current stats
-                    const sortedUnnamed = unnamedStats.sort((a, b) => b.totalDrinks - a.totalDrinks);
-                    
-                    // Use the first unnamed entry with the highest drinks (most likely to be current)
-                    stats = sortedUnnamed[0];
-                    console.log(`🔍 ELIMINATION: Using unnamed entry with ${stats.totalDrinks} drinks for "${player.name}"`);
-                  }
-                }
-              }
-              
-              const totalDrinks = stats?.totalDrinks || 0;
-              const totalShotguns = stats?.totalShotguns || 0;
-              
-              return (
-                <li key={player.id || player.name}>
-                  {player.name}: {totalDrinks}🍺 {totalShotguns}<img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px', marginLeft: '4px'}} />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        
-        {Object.keys(roundDrinkResults).length > 0 && (
-          <div className="round-results-container">
-            <h3>Round Results</h3>
-            <ul>
-              {Object.entries(roundDrinkResults).map(([id, result]) => {
-                // ✅ ENHANCED FIX: Use stored player name mappings for robust lookup
-                const playerName = playerStats[id]?.name || 
-                                 players.find(p => p.id === id)?.name || 
-                                 playerNameMap[id] || 
-                                 `Player ${id.slice(-4)}`;
-                                 
-                return (
-                <li key={id} style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px'}}>
-                  <span>{playerName}:</span>
-                  <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-                    🍺 {result.drinks}
-                  </div>
-                  {result.shotguns > 0 && (
-                    <div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-                      <img src={shotgunIcon} alt="shotgun" style={{width: '20px', height: '20px'}} />
-                      {result.shotguns}
-                    </div>
-                  )}
-                </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
-      </div>
-      {/* Wrapping game elements in a container */}
-      <div className={`game-elements-container ${isDisabled ? 'game-elements-disabled' : ''}`}>
-        {/* Show the action cards for all players, but only allow the host to click */}
-        <div className="standard-cards-row">
-          {actionMessage && (
-            <p className="action-in-progress-message">
-              An action is already in progress. Please wait for the round to end.
-            </p>
-          )}
-        </div>
-              {/* Wild Card Confirmation Modal */}
-{wildCardSelected && isHost && (
-  <div className="modal-overlay">
-    <div className="wild-card-confirmation-modal modal-content">
-      <h3>Wild Card Confirmation</h3>
-      <p>A player declared wild card "{wildCardSelected.wildcardtype}". Confirm this action?</p>
-      <div className="modal-buttons">
-        <button onClick={() => confirmWildCard(true)}>Yes</button>
-        <button onClick={() => confirmWildCard(false)}>No</button>
-      </div>
-    </div>
-  </div>
-)}
-
-          {/* Combined Timer and Drink Assignment Popup - Always Visible */}
-{timeRemaining > 0 && declaredCard !== 'First Down' && (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      {/* Timer Section - Always Visible */}
-      <h3>Card Played: {declaredCard}</h3>
-      <div className="timer-display">⏰ Time Remaining: {timeRemaining} seconds</div>
-      
-      {/* Drink Assignment Section - Always Visible */}
-      <div style={{marginTop: '20px'}}>
-        {/* Show different content based on whether player can distribute */}
-        {hasMatchingCardForCurrentEvent && isDistributing && (drinksToGive > 0 || shotgunsToGive > 0) ? (
-          <div>
-            <div className="drink-message">{drinkMessage}</div>
-            <div className="player-assignment-grid">
-              {(() => {
-                // ✅ FIX: Deduplicate players and filter out current player
-                const uniquePlayers = players.reduce((acc, player) => {
-                  // Skip current player
-                  if (player.id === socket.id) return acc;
-                  
-                  // Check if we already have a player with this ID
-                  const existingIndex = acc.findIndex(p => p.id === player.id);
-                  if (existingIndex === -1) {
-                    // New unique player
-                    acc.push(player);
-                  } else {
-                    // Player already exists, keep the one with more data
-                    if (!acc[existingIndex].name && player.name) {
-                      acc[existingIndex] = player;
-                    }
-                  }
-                  return acc;
-                }, []);
-                
-                console.log('🎯 DEBUG: Original players count:', players.length);
-                console.log('🎯 DEBUG: Unique players count:', uniquePlayers.length);
-                
-                return uniquePlayers.map(p => (
-                <div key={p.id || p.name}>
-                  {drinksToGive > 0 && (
-                    <button className="assignment-button" onClick={() => handleGiveDrink(p.id || p.name, 'drink')}>
-                      🍺 Give Drink to {p.name} ({assignedDrinks?.drinks?.[p.id || p.name] || 0})
-                    </button>
-                  )}
-                  {shotgunsToGive > 0 && (
-                    <button className="assignment-button" onClick={() => handleGiveDrink(p.id || p.name, 'shotgun')}>
-                      <img src={shotgunIcon} alt="shotgun" style={{width: '24px', height: '24px', marginRight: '8px'}} /> Give Shotgun to {p.name} ({assignedDrinks?.shotguns?.[p.id || p.name] || 0})
-                    </button>
-                  )}
-                </div>
-                ));
-              })()}
-            </div>
-          </div>
-        ) : (
-          <div style={{textAlign: 'center', padding: '15px', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '8px'}}>
-            <p style={{color: '#FFD700', fontWeight: 'bold', fontSize: '1.1rem'}}>
-              Waiting for players with this card to assign drinks...
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Close the modal automatically if time reaches 0 */}
-      {timeRemaining === 0 && closeModal('drinkAssignmentModal')}
-    </div>
-  </div>
-)}
-
-      {/* No Card Message Modal */}
-      {noCardMessage && (
-  <div className="drink-assignment-modal">
-    <div className="modal-content">
-      <h3>No Drinks</h3>
-      <p>No one had this card.</p>
-    </div>
-  </div>
-)}
-
-{/* First Down message modal */}
-{declaredCard === 'First Down' && timeRemaining > 0 && (
-  <div className="first-down-modal">
-    <div className="modal-content">
-      <h3>First Down!</h3>
-      <p>Everyone drinks once!</p>
-      <div className="timer-display">⏰ Time Remaining: {timeRemaining} seconds</div>
-      {timeRemaining === 0 && closeModal('firstDownModal')}
-    </div>
-  </div>
-)}
-
-        {/* Wild Card Swap Modal */}
-{isWildCardSelectionOpen && (
-  <div className="modal-overlay">
-    <div className="wild-card-swap-modal">
-      <h3>Select a Wild Card to Discard and return a new one</h3>
-      <ul>
-        {players.find(p => p.id === socket.id)?.cards.wild.map((card, index) => (
-          <li key={index}>
-            <button
-              onClick={() => handleSelectWildCardToDiscard(card)}
-              style={{
-                backgroundColor: selectedWildCardToDiscard === card ? '#f00' : '#fff', // Highlight selected card
-                color: selectedWildCardToDiscard === card ? '#fff' : '#000', // Adjust text color
-              }}
-            >
-              {card.card ? card.card : JSON.stringify(card)} {/* Fix wild card rendering */}
-            </button>
-          </li>
-        ))}
-      </ul>
-      <button onClick={confirmWildCardSwap} disabled={!selectedWildCardToDiscard}>
-        Confirm Swap
-      </button>
-      <button onClick={() => setIsWildCardSelectionOpen(false)}>Cancel</button>
-    </div>
-  </div>
-)}
-
-{/* Declare Action Button for Host */}
-{isHost && (
-  <button className="declare-action-button" onClick={handleDeclareAction}>
-    Declare Action
-  </button>
-)}
-{isActionModalOpen && (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      <h3>Select an Action</h3>
-      <button onClick={() => handleCardClick('Touchdown')}>Touchdown</button>
-      <button onClick={() => handleCardClick('Field Goal')}>Field Goal</button>
-      <button onClick={() => handleCardClick('Turnover')}>Turnover</button>
-      <button onClick={() => handleCardClick('Sacks')}>Sacks</button>
-      <button onClick={() => handleCardClick('Penalty')}>Penalty</button>
-      <button onClick={() => handleCardClick('First Down')}>First Down</button>
-      <button onClick={() => setIsActionModalOpen(false)}>Close</button> {/* Close button */}
-    </div>
-  </div>
-)}
-        {/* Menu Button in the bottom right */}
-        <button className="menu-button" onClick={toggleMenu}>Menu</button>
-
-        {isMenuOpen && (
-          <div className="menu-modal">
-            <div className="menu-content">
-              <h3>Game Menu</h3>
-              <button onClick={handleShareGame}>Share Game</button>
-              <button onClick={handleLeaveGame}>Leave Game</button>
-              {isHost && <button onClick={handleHostSwap}>Swap Host</button>}
-              {isHost && <button onClick={handleNextQuarter}>Next QTR</button>}
-              <button onClick={handleShowInstructions}>Instructions</button>
-              <button onClick={closeMenu}>Close</button>
-            </div>
+        {assignerOpen && (
+          <div className="assigner-overlay">
+            <DrinkAssigner
+              card={declaredCardRecord}
+              copies={copiesHeld}
+              source={declaredCardRecord && declaredCardRecord.deck === DECK.WILD
+                ? 'Called · Ref confirmed'
+                : 'The Ref declared'}
+              secondsLeft={timeRemaining}
+              fraction={timeRemaining / roundDuration}
+              tier={declaredCardRecord ? tierFor(declaredCardRecord) : 'amber'}
+              passive={isPassive}
+              targets={targets}
+              given={givenMap}
+              pourCount={pourCount}
+              pool={pool}
+              isShotgun={isShotgunRound}
+              unit={isShotgunRound ? 'shotgun' : 'drink'}
+              sent={pourSent}
+              animations={tileAnim}
+              onGive={handleTapTarget}
+              onUndo={handleUndoPour}
+              onLockIn={handleLockIn}
+            />
           </div>
         )}
 
-        {/* Show host selection modal if in progress */}
-        {isHostSelection && (
-          <div className="host-selection-modal">
-            <h3>Select a New Host</h3>
-            <ul>
-              {players.filter(p => p.id !== socket.id).map((player) => (
-                <li key={player.id}>
-                  <button onClick={() => handleSelectNewHost(player.id)}>
-                    Assign {player.name} as Host
-                  </button>
-                </li>
+        {/* Tapping a hand card opens it full size. A WILD card is also how you
+            call an event: the Ref then confirms it. */}
+        <CardSheet
+          card={openCard}
+          onClose={() => setOpenCard(null)}
+          actionLabel={openCard && openCard.deck === DECK.WILD && !declaredCard ? 'Call it' : null}
+          onAction={() => { handleWildCardSelect(openCard.id); setOpenCard(null); }}
+        />
+        {menu}
+        <Toast message={toastMessage} />
+
+        {/* Declare Action — the Ref picks what just happened on the TV.
+            Buttons come from cards.js DECLARABLE; no card name is written here. */}
+        {isActionModalOpen && (
+          <>
+            <div className="scrim on" onClick={() => closeModal('actionModal')} />
+            <div className="sheet on" role="dialog" aria-label="Declare action" aria-modal="true">
+              <div className="grab" />
+              {DECLARABLE.map((card) => (
+                <button
+                  type="button" className="mi" key={card.id}
+                  onClick={() => handleCardClick(card.id)}
+                >
+                  {card.label}
+                  <span className="k">
+                    {card.isGlobalEvent ? 'EVERYONE' : `${card.drinks} ${card.drinks === 1 ? 'DRINK' : 'DRINKS'}`}
+                  </span>
+                </button>
               ))}
-            </ul>
-            <button className="close-button" onClick={closeHostSelection}>Cancel</button>
-          </div>
+              <button type="button" className="mi" onClick={handleNextQuarter}>
+                End quarter <span className="k">Q{quarter} → Q{quarter + 1}</span>
+              </button>
+            </div>
+          </>
         )}
 
+        {/* Wild card confirmation — a player called it, the Ref confirms */}
+        {wildCardSelected && isHost && (
+          <>
+            <div className="scrim on" />
+            <div className="sheet on" role="dialog" aria-label="Confirm wild card" aria-modal="true">
+              <div className="grab" />
+              <p className="waiting">
+                {(players.find((p) => p.id === wildCardSelected.playerId) || {}).name || 'A player'}
+                {' '}called <b>{wildCardSelected.wildcardtype}</b>
+              </p>
+              <button type="button" className="mi" onClick={() => confirmWildCard(true)}>Confirm</button>
+              <button type="button" className="mi" onClick={() => confirmWildCard(false)}>Reject</button>
+            </div>
+          </>
+        )}
 
-        </div>
-      </div>
+        {/* Wild card swap, once per quarter */}
+        {isWildCardSelectionOpen && (
+          <>
+            <div className="scrim on" />
+            <div className="sheet on cardsheet" role="dialog" aria-label="Swap a wild card" aria-modal="true">
+              <div className="grab" />
+              <p className="waiting">Swap one wild card</p>
+              <div className="cardsheet-card" style={{ gap: 10 }}>
+                {(hand.wild || []).map((entry, i) => {
+                  const card = getCard(entry && entry.card);
+                  if (!card) return null;
+                  const chosen = selectedWildCardToDiscard === entry;
+                  return (
+                    <div key={`${card.id}-${i}`} style={{ outline: chosen ? '2px solid var(--sf-amber)' : 'none', borderRadius: 12 }}>
+                      <GameCard card={card} onClick={() => handleSelectWildCardToDiscard(entry)} />
+                    </div>
+                  );
+                })}
+              </div>
+              <button
+                type="button" className="mi"
+                onClick={confirmWildCardSwap}
+                disabled={!selectedWildCardToDiscard}
+              >
+                Swap it
+              </button>
+              <button type="button" className="mi" onClick={() => closeModal('wildCardSelection')}>Keep my hand</button>
+            </div>
+          </>
+        )}
+
+        {/* Host hand-off */}
+        {isHostSelection && (
+          <>
+            <div className="scrim on" onClick={closeHostSelection} />
+            <div className="sheet on" role="dialog" aria-label="Select a new Ref" aria-modal="true">
+              <div className="grab" />
+              <p className="waiting">Hand the whistle to</p>
+              {players.filter((p) => p.id !== socket.id).map((player) => (
+                <button type="button" className="mi" key={player.id} onClick={() => handleSelectNewHost(player.id)}>
+                  {player.name}
+                </button>
+              ))}
+              <button type="button" className="mi" onClick={closeHostSelection}>Cancel</button>
+            </div>
+          </>
+        )}
+      </>
     );
   }
 
