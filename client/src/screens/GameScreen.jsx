@@ -16,7 +16,7 @@ export default function GameScreen({
   quarter, roomCode, onMenu,
   players, boardTab, onBoardTab, boardPulse,
   lastRoundCardId, lastRoundRows,
-  hand, onCardTap,
+  hand, onCardTap, selfId,
   isHost, onDeclare,
   noCardMessage,
 }) {
@@ -34,6 +34,7 @@ export default function GameScreen({
             lastRoundCardId={lastRoundCardId}
             lastRoundRows={lastRoundRows}
             quarter={quarter}
+            selfId={selfId}
           />
           <div className="blk-hand">
             <HandGrid standard={hand.standard} wild={hand.wild} onCardTap={onCardTap} />

@@ -24,6 +24,15 @@ import LobbyScreen from './screens/LobbyScreen';
 const MIN_PLAYERS = 3;
 
 /**
+ * How long a tap may sit on the phone before it is sent.
+ *
+ * This is the entire window in which a refresh can still cost you a pour, so it
+ * is deliberately short. It is not zero because one emit per tap would put a
+ * packet on the wire for every finger-press during a 21-second scramble.
+ */
+const POUR_FLUSH_MS = 700;
+
+/**
  * Find a player's stats in the `playerStats` map.
  *
  * This was copy-pasted three times in the render. It is one function now, so
@@ -36,6 +45,33 @@ const MIN_PLAYERS = 3;
  * reachable, and it stops being reachable only once `gameStarted` is scoped
  * server-side. Do not delete it before then.
  */
+/**
+ * Rows for the Round Results tab.
+ *
+ * NOTE, and this is a real deviation from the mockup: the mockup shows
+ * "X gave Y", but the wire does not carry who gave what. `updatePlayerStats`
+ * sends `roundResults` keyed by RECIPIENT only, and the socket contract is
+ * frozen this session, so the log shows who drank rather than who poured.
+ * See SESSION_7_REPORT.md.
+ */
+export const buildRoundRows = (roundResults, players) => {
+  if (!roundResults) return [];
+  const byId = {};
+  players.forEach((p) => { byId[p.id] = p; });
+  return Object.entries(roundResults)
+    .map(([id, result]) => ({ id, result: result || {} }))
+    .filter(({ result }) => (result.drinks || 0) > 0 || (result.shotguns || 0) > 0)
+    .map(({ id, result }) => {
+      const player = byId[id];
+      return {
+        id,
+        name: player ? player.name : 'Someone',
+        drinks: (result.drinks || 0) + (result.shotguns || 0) * DRINKS_PER_SHOTGUN,
+      };
+    })
+    .sort((a, b) => b.drinks - a.drinks);
+};
+
 export const resolvePlayerStats = (player, playerStats, players) => {
   if (!player) return null;
   const direct = playerStats[player.id];
@@ -151,6 +187,19 @@ function App() {
   
   // 🔧 CRITICAL FIX: Use refs to prevent useEffect re-runs from destroying handlers
   const playersRef = useRef([]);
+  // The socket handlers below are registered once, so they cannot read
+  // `declaredCard` from state without getting the value it had at mount.
+  const declaredCardRef = useRef('');
+  const roomCodeRef = useRef('');
+  /**
+   * Taps that have NOT yet gone to the server.
+   *
+   * Pours used to sit here for the whole round and be sent in one batch when
+   * the timer hit zero, which meant a refresh mid-round threw them away. They
+   * are now flushed on a short interval, so at most POUR_FLUSH_MS of taps can
+   * ever be at risk, and `beforeunload` closes even that window.
+   */
+  const pendingPoursRef = useRef({ drinks: {}, shotguns: {} });
   const isDistributingRef = useRef(false);
   
   const [isHost, setIsHost] = useState(false);
@@ -491,7 +540,7 @@ const fallbackCopyTextToClipboard = (text) => {
     }
   };
 
-const [actionMessage, setActionMessage] = useState('');
+const [actionMessage, setActionMessage] = useState('');  // Store messages like "Action in progress"
 
 // ── UI state introduced by the mockup port ────────────────────────────────
 const [boardTab, setBoardTab] = useState('stand');      // 'stand' | 'last'
@@ -502,7 +551,10 @@ const [openCard, setOpenCard] = useState(null);         // full-card sheet
 const [pourSent, setPourSent] = useState(false);        // locked in, early or by expiry
 const [pourStack, setPourStack] = useState([]);         // for UNDO, newest last
 const [tileAnim, setTileAnim] = useState({});           // per-tile hit/deny animation
-const [toastMessage, setToastMessage] = useState('');  // Store messages like "Action in progress"
+const [toastMessage, setToastMessage] = useState('');
+
+useEffect(() => { declaredCardRef.current = declaredCard; }, [declaredCard]);
+useEffect(() => { roomCodeRef.current = roomCode; }, [roomCode]);
 // ✅ REMOVED isRefreshProcessing - no longer needed since triggerPersonalRefresh removed
 
 // Handle opening the wild card selection modal
@@ -1238,38 +1290,70 @@ useEffect(() => {
   };
 }, []);
 
-// send stats after timer ends
-
+/**
+ * Pours reach the server as they happen.
+ *
+ * This used to hold every assignment in local state for the whole round and
+ * emit one batch when the timer hit zero. Anything the player had tapped was
+ * therefore lost if they refreshed, backgrounded the app long enough to be
+ * dropped, or closed the tab — the taps had never left the phone.
+ *
+ * Now the pending buffer is flushed on a short interval, so no tap is at risk
+ * for longer than POUR_FLUSH_MS, and it is flushed again on unload and when the
+ * round ends. Lock In is an optional early commit, never a requirement.
+ */
 useEffect(() => {
-  if (timeRemaining === 0) {
-    // Check if there are any assignments to be sent
-    const totalAssignedDrinks = Object.values(assignedDrinks.drinks || {}).reduce((acc, cur) => acc + cur, 0);
-    const totalAssignedShotguns = Object.values(assignedDrinks.shotguns || {}).reduce((acc, cur) => acc + cur, 0);
+  if (timeRemaining <= 0) return undefined;
+  const id = setInterval(flushPours, POUR_FLUSH_MS);
+  return () => clearInterval(id);
+}, [timeRemaining > 0]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (totalAssignedDrinks > 0 || totalAssignedShotguns > 0) {
-      console.log("Sending drink and shotgun assignments after timer hit zero");
+// A refresh must not cost you the last tap.
+useEffect(() => {
+  const onUnload = () => flushPours();
+  window.addEventListener('beforeunload', onUnload);
+  window.addEventListener('pagehide', onUnload);
+  return () => {
+    window.removeEventListener('beforeunload', onUnload);
+    window.removeEventListener('pagehide', onUnload);
+  };
+}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-      const allSelectedPlayerIds = [
-        ...new Set([...Object.keys(assignedDrinks.drinks || {}), ...Object.keys(assignedDrinks.shotguns || {})])
-      ];
-
-      socket.emit('assignDrinks', {
-        roomCode,  // Room code to identify the game
-        selectedPlayerIds: allSelectedPlayerIds,  // All player IDs receiving drinks/shotguns
-        drinksToGive: assignedDrinks.drinks,  // The entire set of drink assignments
-        shotgunsToGive: assignedDrinks.shotguns  // The entire set of shotgun assignments
-      });
-
-      // Reset the assignments after emitting
-      setAssignedDrinks({ drinks: {}, shotguns: {} });
-    }
+// The round ended. Whatever was poured counts; nothing needed confirming.
+useEffect(() => {
+  if (timeRemaining !== 0) return;
+  flushPours();
+  if (pourStack.length > 0 && !pourSent) {
+    setPourSent(true);
+    showToast(`Time! ${pourStack.length} pour${pourStack.length === 1 ? '' : 's'} locked in automatically`);
   }
-}, [timeRemaining]);
+}, [timeRemaining]); // eslint-disable-line react-hooks/exhaustive-deps
+
+// A new round is a clean slate.
+useEffect(() => {
+  if (!declaredCard) return;
+  pendingPoursRef.current = { drinks: {}, shotguns: {} };
+  setAssignedDrinks({ drinks: {}, shotguns: {} });
+  setPourStack([]);
+  setPourSent(false);
+  setTileAnim({});
+}, [declaredCard]);
 
 // Listen for the timer updates from the server
 useEffect(() => {
   socket.on('updateTimer', (remainingTime) => {
     setTimeRemaining(remainingTime);
+  });
+
+  // ✅ The server has emitted `roundState` on reconnect since the first audit
+  // and nothing has ever listened for it, which is why the timer was wrong
+  // after a mid-round refresh. It carries the ACTUAL time left, measured
+  // against the real round length.
+  socket.on('roundState', ({ timeRemaining: left, roundInProgress, declaredCard: card }) => {
+    console.log('🕒 roundState on reconnect:', { left, roundInProgress, card });
+    if (!roundInProgress) return;
+    if (card) setDeclaredCard(card);
+    if (typeof left === 'number' && left > 0) setTimeRemaining(left);
   });
 
   // Listen for the updated player stats and round results after the timer ends
@@ -1369,6 +1453,16 @@ useEffect(() => {
 
     // ✅ FIX: Only reset drink assignment state if round is officially finalized
     // 🛡️ ULTRA PROTECTION: Never reset during active drink distribution
+    if (roundFinalized === true) {
+      // The board flips itself to Round Results the moment a round lands --
+      // that is when everyone looks at their phone. Standings is one tap back.
+      setLastRoundCard(declaredCardRef.current || null);
+      setLastRoundRows(buildRoundRows(roundResults, playersRef.current));
+      setBoardTab('last');
+      setBoardPulse(true);
+      setTimeout(() => setBoardPulse(false), 1200);
+    }
+
     if (roundFinalized === true && !isDistributingRef.current) {  
       console.log("🔄 Round officially finalized - resetting drink assignment state");
       // Reset drink assignment state when the round is finalized
@@ -1986,31 +2080,46 @@ socket.on('gameOver', (message) => {
     : 1;
 
   /**
-   * Send whatever is currently assigned, using the exact payload shape the
-   * server has always received. Nothing about the wire changes here.
+   * Send the taps that have not gone out yet.
+   *
+   * The payload shape is EXACTLY what the server has always received; only the
+   * cadence changes. The server accumulates (`roundResults[...].drinks += ...`),
+   * so many small calls land the same total as one big one — and they fold 10
+   * into a shotgun more correctly than a single batch does, because the fold
+   * re-checks the running total on every call.
    */
-  const flushPours = ({ lockIn = false } = {}) => {
-    const drinks = assignedDrinks.drinks || {};
-    const shotguns = assignedDrinks.shotguns || {};
-    const totalDrinks = Object.values(drinks).reduce((acc, n) => acc + n, 0);
-    const totalShotguns = Object.values(shotguns).reduce((acc, n) => acc + n, 0);
-    if (totalDrinks === 0 && totalShotguns === 0) return;
+  const flushPours = () => {
+    const { drinks, shotguns } = pendingPoursRef.current;
+    const ids = [...new Set([...Object.keys(drinks), ...Object.keys(shotguns)])];
+    if (ids.length === 0) return;
 
+    pendingPoursRef.current = { drinks: {}, shotguns: {} };
     socket.emit('assignDrinks', {
-      roomCode,
-      selectedPlayerIds: [...new Set([...Object.keys(drinks), ...Object.keys(shotguns)])],
+      roomCode: roomCodeRef.current,
+      selectedPlayerIds: ids,
       drinksToGive: drinks,
       shotgunsToGive: shotguns,
     });
-    if (lockIn) setAssignedDrinks({ drinks: {}, shotguns: {} });
   };
 
   /**
-   * Undo a tap. Nothing has reached the server yet at this point — the batch is
-   * still local — so there is nothing to compensate for; removing it from the
-   * local tally is the whole job.
+   * Take back a tap that has not been sent yet.
+   *
+   * Undo is deliberately local-only. The obvious alternative — emitting a
+   * negative — is not safe here: `assignDrinks` folds every 10 drinks into a
+   * shotgun as it accumulates, so a -1 arriving after a fold leaves the
+   * recipient on 1 shotgun and -1 drinks instead of 9 drinks. Rather than send
+   * a correction the server cannot apply cleanly, undo only reaches taps still
+   * inside the flush window, and the button disables itself once they are gone.
    */
-  const undoPour = () => {};
+  const undoPour = (playerId, isShotgun) => {
+    const bucket = isShotgun ? 'shotguns' : 'drinks';
+    const pending = pendingPoursRef.current[bucket];
+    if (!pending[playerId]) return false;
+    pending[playerId] -= 1;
+    if (pending[playerId] <= 0) delete pending[playerId];
+    return true;
+  };
 
   /** Flash a tile, then clear it so the animation can retrigger next tap. */
   const flashTile = (playerId, kind) => {
@@ -2040,6 +2149,8 @@ socket.on('gameOver', (message) => {
       return;
     }
     handleGiveDrink(playerId, isShotgunRound ? 'shotgun' : 'drink');
+    const bucket = pendingPoursRef.current[isShotgunRound ? 'shotguns' : 'drinks'];
+    bucket[playerId] = (bucket[playerId] || 0) + 1;
     setPourStack((prev) => [...prev, playerId]);
     flashTile(playerId, 'hit');
     if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) { /* not supported */ } }
@@ -2048,6 +2159,13 @@ socket.on('gameOver', (message) => {
   const handleUndoPour = () => {
     if (pourSent || pourStack.length === 0) return;
     const playerId = pourStack[pourStack.length - 1];
+
+    // Only taps still inside the flush window can be taken back.
+    if (!undoPour(playerId, isShotgunRound)) {
+      showToast('Too late to undo that one');
+      return;
+    }
+
     setPourStack((prev) => prev.slice(0, -1));
     setAssignedDrinks((prev) => {
       const key = isShotgunRound ? 'shotguns' : 'drinks';
@@ -2056,12 +2174,11 @@ socket.on('gameOver', (message) => {
       if (bucket[playerId] === 0) delete bucket[playerId];
       return { ...prev, [key]: bucket };
     });
-    undoPour();
   };
 
   /** Optional early commit. Never required — expiry commits whatever is there. */
   const handleLockIn = () => {
-    flushPours({ lockIn: true });
+    flushPours();
     setPourSent(true);
   };
 
@@ -2145,6 +2262,7 @@ socket.on('gameOver', (message) => {
           boardPulse={boardPulse}
           lastRoundCardId={lastRoundCard}
           lastRoundRows={lastRoundRows}
+          selfId={socket.id}
           hand={hand}
           onCardTap={(card) => setOpenCard(card)}
           isHost={isHost}

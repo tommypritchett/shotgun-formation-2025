@@ -11,8 +11,19 @@ import PlayerRow from './PlayerRow';
 import { CAN } from './Avatars';
 import { formatValue, getCard, shotgunsFor, DRINKS_PER_SHOTGUN } from '../data/cards';
 
-function RoundLog({ cardId, rows, quarter }) {
+/**
+ * What just happened, as far as the wire can tell us.
+ *
+ * The mockup shows "X gave Y". The socket contract does not carry that:
+ * `updatePlayerStats.roundResults` is keyed by RECIPIENT only, with no record
+ * of who poured. Rather than invent an attribution the server never sent, this
+ * shows who drank and how much. See SESSION_7_REPORT.md.
+ */
+function RoundLog({ cardId, rows, quarter, players, selfId }) {
   const card = getCard(cardId);
+  const byId = {};
+  players.forEach((p) => { byId[p.id] = p; });
+
   return (
     <div className="log">
       <div className="log-head">
@@ -21,28 +32,20 @@ function RoundLog({ cardId, rows, quarter }) {
         <span className="clock">{quarter ? `Q${quarter}` : ''}</span>
       </div>
       {rows.length === 0 ? (
-        <div className="lrow">
-          <span className="txt">Nothing was poured</span>
-        </div>
+        <div className="lrow"><span className="txt">Nothing was poured</span></div>
       ) : (
-        rows.map((row, i) => {
+        rows.map((row) => {
           const value = formatValue(row.drinks);
+          const player = byId[row.id];
+          const isSelf = row.id === selfId;
           return (
-            <div className="lrow" key={`${row.fromName}-${row.toName}-${i}`}>
-              <img className="av" src={row.fromAvatar} alt="" />
-              <svg
-                className="arr" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M4 12h14m-5-6l6 6-6 6" />
-              </svg>
-              <img className="av" src={row.toAvatar} alt="" />
+            <div className="lrow" key={row.id}>
+              <img className="av" src={player ? player.avatar : undefined} alt="" />
               <span className="txt">
-                <b>{row.fromName}</b> gave <b>{row.toIsSelf ? 'YOU' : row.toName}</b>
+                <b>{isSelf ? 'YOU' : row.name}</b> drank
               </span>
               <span className="amt">
-                <span className={`amt-chip ${value.isShotgun ? 's' : 'd'}${row.involvesSelf ? ' me' : ''}`}>
+                <span className={`amt-chip ${value.isShotgun ? 's' : 'd'}${isSelf ? ' me' : ''}`}>
                   {value.isShotgun ? <img src={CAN} alt="" /> : <DrinkGlyph />}
                   {value.amount}
                 </span>
@@ -63,6 +66,7 @@ export default function ScoreBoard({
   lastRoundCardId,
   lastRoundRows = [],
   quarter,
+  selfId,
 }) {
   const ranked = [...players].sort((a, b) => b.totalDrinks - a.totalDrinks);
   const showLast = tab === 'last';
@@ -114,7 +118,13 @@ export default function ScoreBoard({
       </div>
 
       <div className={`boardpane${showLast ? ' on' : ''}`}>
-        <RoundLog cardId={lastRoundCardId} rows={lastRoundRows} quarter={quarter} />
+        <RoundLog
+          cardId={lastRoundCardId}
+          rows={lastRoundRows}
+          quarter={quarter}
+          players={players}
+          selfId={selfId}
+        />
       </div>
     </div>
   );
