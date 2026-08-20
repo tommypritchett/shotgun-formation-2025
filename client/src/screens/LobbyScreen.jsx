@@ -19,7 +19,7 @@ export default function LobbyScreen({
         <div className="roster">
           {players.map((p, i) => (
             <span className={`rosteri${i === 0 ? ' host' : ''}`} key={p.id || p.name}>
-              <img src={p.avatar} alt="" />
+              <img src={p.avatar} alt="" style={{ '--ring': p.avatarRing }} />
               <span className="n">{p.name}</span>
             </span>
           ))}

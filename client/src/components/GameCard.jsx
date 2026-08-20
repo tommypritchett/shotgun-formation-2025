@@ -10,7 +10,7 @@
  */
 import CardIcon from './CardIcon';
 import DrinkGlyph from './DrinkGlyph';
-import { CAN } from './Avatars';
+import { CAN } from './CanMark';
 import { DECK, formatValue, tierFor } from '../data/cards';
 
 /** The unit mark for a value: a can for shotguns, a cup for drinks. */

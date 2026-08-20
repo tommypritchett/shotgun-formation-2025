@@ -1,5 +1,5 @@
 /** The game header: logo, quarter, room code, menu. Shared by lobby and game. */
-import { CAN } from '../components/Avatars';
+import { CAN } from '../components/CanMark';
 
 export default function GameHeader({ quarter, roomCode, onMenu }) {
   return (

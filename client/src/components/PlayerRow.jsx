@@ -6,7 +6,7 @@
  * players actually talk about a score ("three shotguns and four").
  */
 import DrinkGlyph from './DrinkGlyph';
-import { CAN } from './Avatars';
+import { CAN } from './CanMark';
 
 function StatCell({ kind, value }) {
   const zero = value === 0 ? ' zero' : '';
@@ -26,13 +26,13 @@ function StatCell({ kind, value }) {
   );
 }
 
-export default function PlayerRow({ rank, name, avatar, shotguns, drinks, isLeader, isSelf, isRef }) {
+export default function PlayerRow({ rank, name, avatar, avatarRing, shotguns, drinks, isLeader, isSelf, isRef }) {
   const classes = ['prow', isLeader ? 'lead' : '', isSelf ? 'self' : ''].filter(Boolean).join(' ');
   return (
     <div className={classes}>
       <span className="rank num">{rank}</span>
       <div className="who">
-        <img className="av" src={avatar} alt="" />
+        <img className="av" src={avatar} alt="" style={{ '--ring': avatarRing }} />
         <span className="nm">
           {name}
           {isRef ? <span className="badge-ref">REF</span> : null}

@@ -2,7 +2,7 @@
  * Name, then create or join. The mockup does not cover this screen, so it
  * borrows the tokens, the wordmark and nothing else — no new concepts.
  */
-import { CAN } from '../components/Avatars';
+import { CAN } from '../components/CanMark';
 
 export default function JoinScreen({
   playerName, onPlayerName,

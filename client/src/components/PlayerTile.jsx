@@ -4,7 +4,7 @@
  * The tile is the whole hit area — 120px minimum, because this is tapped fast,
  * in a loud room, by someone who is not looking carefully.
  */
-import { CAN } from './Avatars';
+import { CAN } from './CanMark';
 
 
 export default function PlayerTile({
@@ -35,7 +35,7 @@ export default function PlayerTile({
         {given}
       </span>
       <span className="fx" aria-hidden="true">+1</span>
-      <img className="pav" src={player.avatar} alt="" />
+      <img className="pav" src={player.avatar} alt="" style={{ '--ring': player.avatarRing }} />
       <span className="pnm">{player.name}</span>
       <span className="ptot">{sg} SG · {dr} DR</span>
     </button>

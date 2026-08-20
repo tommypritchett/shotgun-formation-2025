@@ -11,7 +11,7 @@
  */
 import GameCard from './GameCard';
 import PlayerTile from './PlayerTile';
-import { CAN } from './Avatars';
+import { CAN } from './CanMark';
 
 export default function DrinkAssigner({
   card,
@@ -91,7 +91,7 @@ export default function DrinkAssigner({
             <div className="watchers">
               {targets.map((p) => (
                 <span className="watcher" key={p.id}>
-                  <img src={p.avatar} alt="" />
+                  <img src={p.avatar} alt="" style={{ '--ring': p.avatarRing }} />
                   <span className="n">{p.name}</span>
                   <span className="st" />
                 </span>

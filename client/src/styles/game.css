@@ -644,3 +644,22 @@ button.card:active{transform:translateY(2px) scale(.985)}
    reach and the dead space goes up top where nothing is tapped. */
 .assigner-overlay .assign{display:flex;flex-direction:column}
 .assigner-overlay .abody{flex:1;min-height:0}
+
+/* ==================================================================
+   PLAYER ACCENT RING
+   The sheet has a fixed number of characters and the game allows more
+   players than that, so above a full table two people share a face. The
+   ring is what still tells them apart at a glance. It is set inline as
+   `--ring` from the player's name hash.
+
+   Declared as a variable, not as an inline border-color, so the pour
+   feedback below can still win: an inline style would beat every rule.
+   ================================================================== */
+.av,
+.pav,
+.rosteri img,
+.watcher img { border-color: var(--ring, rgba(242,239,231,.22)); }
+
+/* A tile that has been poured into switches to the round's accent — the
+   pour matters more than identity in that moment. */
+.ptile[data-given]:not([data-given="0"]) .pav { border-color: var(--acc); }

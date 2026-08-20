@@ -8,7 +8,7 @@
 import CardIcon from './CardIcon';
 import DrinkGlyph from './DrinkGlyph';
 import PlayerRow from './PlayerRow';
-import { CAN } from './Avatars';
+import { CAN } from './CanMark';
 import { getCard } from '../data/cards';
 
 /**
@@ -42,7 +42,12 @@ function RoundLog({ cardId, rows, quarter, players, selfId }) {
           // shotgun AND loose drinks, so both chips can appear.
           return (
             <div className="lrow" key={row.id}>
-              <img className="av" src={player ? player.avatar : undefined} alt="" />
+              <img
+                className="av"
+                src={player ? player.avatar : undefined}
+                alt=""
+                style={player ? { '--ring': player.avatarRing } : undefined}
+              />
               <span className="txt">
                 <b>{isSelf ? 'YOU' : row.name}</b> drank
               </span>
@@ -117,6 +122,7 @@ export default function ScoreBoard({
                 rank={i + 1}
                 name={p.name}
                 avatar={p.avatar}
+                avatarRing={p.avatarRing}
                 shotguns={p.totalShotguns || 0}
                 drinks={p.totalDrinks || 0}
                 isLeader={i === 0}
