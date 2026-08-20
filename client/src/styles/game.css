@@ -418,7 +418,7 @@ button.card:active{transform:translateY(2px) scale(.985)}
 
 /* auto-lock toast */
 #toast{
-  position:fixed;left:50%;bottom:110px;transform:translate(-50%,16px);z-index:90;
+  position:fixed;left:50%;bottom:calc(148px + env(safe-area-inset-bottom));transform:translate(-50%,16px);z-index:90;
   background:var(--sf-neon);color:var(--sf-neon-ink);
   font-family:var(--sf-display);font-weight:600;font-size:13px;letter-spacing:.06em;
   text-transform:uppercase;padding:10px 18px;border-radius:999px;
@@ -617,3 +617,28 @@ button.card:active{transform:translateY(2px) scale(.985)}
 .rosteri .n{font-family:var(--sf-display);font-weight:600;font-size:12px;text-transform:uppercase;
   letter-spacing:.02em;max-width:74px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .waiting{text-align:center;color:var(--sf-muted);font-size:13px;padding:0 0 16px}
+
+/* ==================================================================
+   ASSIGNER OVERLAY
+   In the mockup these are two separate `.screen`s. In the real app the
+   assigner is a round that opens over the game board, so it has to cover
+   it completely — otherwise the board's sticky Declare dock shows through
+   above the timer bar.
+   ================================================================== */
+.assigner-overlay{
+  position:fixed;inset:0;z-index:80;overflow-y:auto;overscroll-behavior:contain;
+  background:var(--sf-board);
+  background-image:
+    repeating-linear-gradient(90deg,rgba(242,239,231,.045) 0 1px,transparent 1px 56px),
+    repeating-linear-gradient(0deg,rgba(242,239,231,.022) 0 1px,transparent 1px 56px),
+    radial-gradient(120% 70% at 50% -10%,rgba(255,176,32,.07),transparent 60%);
+}
+.assigner-overlay .assign{max-width:440px;margin:0 auto;min-height:100%}
+@media (min-width:900px){.assigner-overlay .assign{max-width:none}}
+
+/* The mockup sized `.abody` with a measured `--abtop` set from JS on every
+   resize. Flex gets the same result declaratively: the grid grows to fill the
+   space between the declared banner and the dock, so the targets sit in thumb
+   reach and the dead space goes up top where nothing is tapped. */
+.assigner-overlay .assign{display:flex;flex-direction:column}
+.assigner-overlay .abody{flex:1;min-height:0}

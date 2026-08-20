@@ -102,7 +102,7 @@ evidence behind it. **If only one test gets run, run this one.**
 | 1.2 | Host declares **First Down**. Let the 6s timer run out. | Everyone's total goes to **1**. |
 | 1.3 | Host declares a card the host is holding. Host pours **3 drinks into Phone A**. Let the timer expire. | Phone A total = **4**. Write this number down. |
 | 1.4 | Host declares another card and starts pouring. **While the timer is still counting**, put Phone A into airplane mode. | Phone A goes offline. The other two keep playing. |
-| 1.5 | Host pours **2 drinks into Phone A** (tap A's avatar twice) while A is offline. Let the timer expire. | Host and Phone B see the round finish normally. |
+| 1.5 | Host pours **2 drinks into Phone A** (tap A's tile in the pour grid twice) while A is offline. Let the timer expire. | Each tap bumps the tile's tally and drops the "left to assign" number. Host and Phone B see the round finish normally. |
 | 1.6 | Turn airplane mode off. Let Phone A reconnect. | Phone A returns to the game with its hand. |
 | 1.7 | **Check Phone A's total on all three screens.** | **6** — the 4 from before plus the 2 poured while it was away. ⚠️ On `main` this reads **4**: the 2 are silently deleted. Seeing 4 here means the fix did not take. |
 | 1.8 | Play one more normal round and re-check. | Totals keep accumulating correctly from 6. No number ever goes down. |
@@ -120,7 +120,7 @@ Nobody airplane-modes their phone. They do hit refresh when the app looks stuck.
 |---|---|---|
 | 2.1 | Fresh game, 3 players. Give **Phone B** a total of at least 5 across two rounds. | Phone B's total is right on all screens. |
 | 2.2 | Host declares a card. **While the timer is running**, hit reload on Phone B. | Phone B reloads and rejoins on its own — the room code and name come from the URL, so it should not ask you to type anything. |
-| 2.3 | After reload, look at Phone B's screen while the round is still live. | Phone B is back in the game with its hand. ⚠️ **Known gap, not a regression:** the timer on Phone B will be wrong or absent. The server sends a `roundState` event with the correct time, but the client has no listener for it. Note what it actually shows — that is new information. |
+| 2.3 | After reload, look at Phone B's screen while the round is still live. | Phone B is back in the game **with the right time left on the clock**. ✅ Fixed in Session 7 — the client now listens for `roundState`, which it never did before. If the countdown is obviously wrong (stuck, or starting from 21 again), that is a regression: say so. |
 | 2.4 | Let the round finish. Check Phone B's total everywhere. | Includes everything poured into B during that round. |
 | 2.5 | Repeat 2.2 twice in a row without letting a round finish. | Still correct. This is the A→B→C double-reconnect case. |
 
@@ -201,3 +201,71 @@ terminal printed anything. The step number maps to a specific change:
 | 3.1–3.6 | Phase 1 concurrency fixes | `git revert 5d0a8ef` — **do not**, this is the outage fix |
 
 Each is an independent commit, so you can drop one without losing the others.
+
+
+---
+
+# Session 7 addendum — the two things only you can check
+
+The UI was rebuilt against the approved mockup this session, and two behaviour
+changes went in that the suite can reach on the wire but **cannot** confirm on a
+phone. These are the ones to run.
+
+Everything above still applies. Where the old checklist described the previous
+UI, it has been corrected in place rather than duplicated here.
+
+## A. The mid-round refresh fix (Phase 7a) — the bug you reported
+
+You hit this on two phones: hold the declared card, get the prompt, refresh, and
+you can no longer give your drinks out.
+
+The cause was worse than "the prompt is missing". The server re-derived what you
+owed from your **current hand**, but playing a card removes it and deals a
+replacement — so on reconnect it usually found nothing, and *sometimes*, when the
+replacement draw happened to be the same card, it found the wrong amount. Measured
+across three identical runs before the fix: no prompt twice, a wrong-amount prompt
+once. Which one you got was down to the shuffle.
+
+| # | Do this | Expect |
+|---|---|---|
+| A.1 | 3 players. Host declares a Standard card **you are holding** on Phone A. | Phone A gets the assigner: the card, "You hold ×N · worth M drinks", and a grid of tiles. **Write M down.** |
+| A.2 | Pour **one** drink, then **refresh Phone A** while the timer is still running. | Phone A comes back into the game. |
+| A.3 | Look at the assigner on Phone A. | It is back, showing the **same card** and the **same M** as A.1 — not a different number, not nothing. ⚠️ A different number means the fix is not working; that is the exact failure this addresses. |
+| A.4 | Pour the rest and let the timer run out. | The totals are right, and the one you poured before refreshing is **still counted**. |
+| A.5 | Repeat A.1–A.3, but refresh **twice** in the same round. | Same result both times. |
+
+## B. Pours land without Lock In (Phase 7c)
+
+Previously every tap sat on your phone until the timer hit zero. If you left before
+then — refresh, or the phone put the browser to sleep — everything you had tapped
+was thrown away. Taps now reach the server as they happen.
+
+| # | Do this | Expect |
+|---|---|---|
+| B.1 | Declare a card you hold. Tap two players. **Do not press Lock In.** Let the clock run to zero. | A green toast: "TIME! 2 POURS LOCKED IN AUTOMATICALLY". Both players' totals go up. |
+| B.2 | Same again, but press **LOCK IN** once all your drinks are assigned. | The button becomes "SENT ✓ · N POURS" and the tiles dim. Totals land the same way. |
+| B.3 | Assign **fewer** than you hold, then let it expire. | "SENT ✓ · N POURS · M EXPIRED". Only what you poured counts. |
+| B.4 | Tap a player, then immediately press **UNDO**. | The tally drops and the "left to assign" number goes back up. |
+| B.5 | Tap a player, **wait three seconds**, then press UNDO. | A toast: "Too late to undo that one", and nothing changes. This is intended — see the note below. |
+| B.6 | Tap two players, then **refresh** before the round ends. | Both pours are still counted when the round finalizes. This is the whole point of the change. |
+
+**Why B.5 behaves that way.** Undo only reaches taps that have not been sent yet
+(a window of well under a second). Sending a "negative pour" to take one back is
+not safe: the server folds every 10 drinks into a shotgun as they arrive, so a
+-1 landing after a fold would leave someone on 1 shotgun and *minus one* drinks.
+Given the choice between an undo that silently corrupts a score and an undo with
+a short window, the short window won.
+
+## C. Quick look at the rebuilt screens
+
+Not pass/fail — tell me if any of it looks wrong on a real phone.
+
+| # | Check | Expect |
+|---|---|---|
+| C.1 | The game screen, 6 players. | Board, your whole 7-card hand, and Declare all on one screen with **no vertical scrolling**. |
+| C.2 | Your avatar, across two different games. | The same football both times. Nobody in a room of ≤8 shares one. |
+| C.3 | Tap one of your cards. | The full card opens, including the trigger text the grid tiles leave out. |
+| C.4 | Tap a **wild** card. | The card opens with a "Call it" action. That is how you call a wild event now. |
+| C.5 | When a round ends. | The board flips itself to **Round Results** with a pulse; Standings is one tap back. |
+| C.6 | The Round Results list. | It shows who **drank**, not "X gave Y". The server does not tell the client who poured — see SESSION_7_REPORT.md. |
+| C.7 | Compare against the mockup on the same phone: `http://10.0.0.42:3000/mockup.html` | They should be hard to tell apart. |
