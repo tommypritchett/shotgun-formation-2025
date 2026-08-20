@@ -15,6 +15,7 @@ import { assignAvatars, avatarFor } from './components/Avatars';
 import { buildRoundRows, resolvePlayerStats } from './lib/stats';
 import { consumedPendingIds, mergePlayerCards } from './lib/players';
 import { readPourPrompt } from './lib/pour';
+import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
 import CardSheet from './components/CardSheet';
 import DrinkAssigner from './components/DrinkAssigner';
 import GameCard from './components/GameCard';
@@ -35,6 +36,7 @@ const MIN_PLAYERS = 3;
  * packet on the wire for every finger-press during a 21-second scramble.
  */
 const POUR_FLUSH_MS = 700;
+
 
 /**
  * Find a player's stats in the `playerStats` map.
@@ -504,6 +506,7 @@ const [actionMessage, setActionMessage] = useState('');  // Store messages like 
 // ── UI state introduced by the mockup port ────────────────────────────────
 const [boardTab, setBoardTab] = useState('stand');      // 'stand' | 'last'
 const [boardPulse, setBoardPulse] = useState(false);    // pulse the Round Results tab
+const [boardPinned, setBoardPinned] = useState(false);  // the owner opened a tab by hand
 const [lastRoundCard, setLastRoundCard] = useState(null);
 const [lastRoundRows, setLastRoundRows] = useState([]);
 const [openCard, setOpenCard] = useState(null);         // full-card sheet
@@ -514,6 +517,27 @@ const [toastMessage, setToastMessage] = useState('');
 
 useEffect(() => { declaredCardRef.current = declaredCard; }, [declaredCard]);
 useEffect(() => { roomCodeRef.current = roomCode; }, [roomCode]);
+
+/**
+ * Round Results is a bulletin, not a home screen.
+ *
+ * The board flips itself there when a round lands, which is right — that is
+ * the moment everyone looks down. But it is the wrong thing to be staring at
+ * while waiting for the next call, so it falls back to Standings once nothing
+ * has happened for a while.
+ *
+ * Two things cancel it: a new round starting (the flip is about to happen
+ * again anyway) and the player opening a tab THEMSELVES. If someone
+ * deliberately opened Round Results to argue about a pour, yanking it away
+ * mid-argument is worse than leaving it.
+ */
+useEffect(() => {
+  if (!shouldRevertToStandings({ boardTab, boardPinned, declaredCard, timeRemaining })) {
+    return undefined;
+  }
+  const id = setTimeout(() => setBoardTab('stand'), BOARD_IDLE_REVERT_MS);
+  return () => clearTimeout(id);
+}, [boardTab, boardPinned, declaredCard, timeRemaining]);
 // ✅ REMOVED isRefreshProcessing - no longer needed since triggerPersonalRefresh removed
 
 // Handle opening the wild card selection modal
@@ -1419,6 +1443,7 @@ useEffect(() => {
       setLastRoundRows(buildRoundRows(roundResults, playersRef.current));
       setBoardTab('last');
       setBoardPulse(true);
+      setBoardPinned(false); // an automatic flip, so the idle timer may undo it
       setTimeout(() => setBoardPulse(false), 1200);
     }
 
@@ -2136,7 +2161,7 @@ socket.on('gameOver', (message) => {
           onMenu={toggleMenu}
           players={boardPlayers}
           boardTab={boardTab}
-          onBoardTab={(t) => { setBoardTab(t); setBoardPulse(false); }}
+          onBoardTab={(t) => { setBoardTab(t); setBoardPulse(false); setBoardPinned(true); }}
           boardPulse={boardPulse}
           lastRoundCardId={lastRoundCard}
           lastRoundRows={lastRoundRows}

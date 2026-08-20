@@ -91,6 +91,88 @@ code**, so deleting it on that basis is unsafe.
 
 ---
 
+## P1 — Round Results stays anonymous. PRODUCT DECISION, not tech debt.
+
+**Do not "improve" this.** Round Results reads *"Marcus drank 2"*, never
+*"Shannon gave Marcus 2."*
+
+Session 7 logged the missing attribution as a limitation of the frozen wire, and
+a later session proposed changing the payload to carry the pourer. **The owner
+reviewed that and rejected it, deliberately.**
+
+**The reasoning:** keeping it anonymous stops players targeting each other in
+online games. In person the table already knows who poured — that is where the
+fun lives, and it needs no help from the app. Over the internet, naming the
+pourer turns into griefing.
+
+So the payload staying recipient-only is the DESIRED behaviour, not a gap. If a
+future session finds itself thinking "the server should really send who poured",
+this is the answer: it should not.
+
+**The same reasoning applies to the passive screen.** Do not add per-player pour
+attribution there either.
+
+---
+
+## P2 — The box says 3–10 players; the app has no upper limit at all
+
+Flagged for a decision, changed nothing.
+
+**Where the numbers actually come from:**
+
+| | |
+|---|---|
+| Printed box | "3–10 PLAYERS · 160 CARDS" |
+| Server | **no upper bound**. The only check is `room.players.length >= 3` at `startGame`. |
+| Client | `MIN_PLAYERS = 3`. No maximum. |
+| Avatar sheet | 10 characters, so 11+ share a character (the accent ring keeps them apart) |
+| The number 13 | appears in the menu label `{playerCount} / 13` and a 13-player test. It is **not enforced anywhere** — it is a leftover figure, not a cap. |
+
+**Would capping at 10 break anything?** Nothing structural. The deck is generated
+as `78 × playerCount`, so it scales either way, and the assigner grid already
+switches to a 3-column layout above 6 targets. Three concrete things would need
+touching:
+
+1. a new guard in `handleJoinRoom` (there is no cap to change, one would be added)
+2. the menu's `/ 13` label
+3. `tests/edge-cases.test.js` "runs a 13-player room", which would have to become
+   a "refuses an 11th player" test
+
+**The real question is a product one:** should the app enforce what the box
+promises, or quietly allow bigger tables than the printed deck supports? Worth
+noting that at 11+ players two people share an avatar character, so 10 is also
+where the UI stops being able to give everyone their own face.
+
+---
+
+## P3 — Repo weight: ~18 MB of images that the app never loads
+
+Recommendation only, changed nothing.
+
+| Path | Size | Needed at runtime? |
+|---|---|---|
+| `client/src/assets/` | **9.2 MB** | **No.** Source art, a logo reference, and a cutouts zip. The avatars are inlined as data URIs in `Avatars.js`. |
+| `screenshots/` | 8.6 MB | No. Session 7 deliverable. |
+| `docs/avatars-contact-sheet.png` | 360 KB | No. For eyeballing. |
+
+`client/src/assets/` is the one worth acting on, for a reason beyond size: it
+sits **inside `client/src`**, so CRA walks it on every build and every hot
+reload. A 2.6 MB zip and two large PNGs in the watched tree cost time on every
+save for no benefit.
+
+**Three options, in the order I would pick them:**
+
+1. **Move them out of `client/src`** — to `docs/art/` or a top-level `art/`.
+   Keeps them in the repo and in history, stops CRA watching them. Cheapest fix,
+   no loss.
+2. **Gitignore them**, keeping them only on disk. Smallest repo, but the source
+   art is then one laptop away from being lost.
+3. **Leave them.** 18 MB is not fatal; it is just permanent.
+
+Option 1 is a `git mv` and costs nothing.
+
+---
+
 ## F3 — The error message renders twice
 
 `App.js:1934` and `:1935` are the identical line:
