@@ -2265,11 +2265,25 @@ socket.on('gameOver', (message) => {
             <div className="sheet on" role="dialog" aria-label="Select a new Ref" aria-modal="true">
               <div className="grab" />
               <p className="waiting">Hand the whistle to</p>
-              {players.filter((p) => p.id !== socket.id).map((player) => (
-                <button type="button" className="mi" key={player.id} onClick={() => handleSelectNewHost(player.id)}>
-                  {player.name}
-                </button>
-              ))}
+              {/* Present players only. Offering someone who has dropped out
+                  hands the whistle to an empty chair, and only the Ref can
+                  declare — the game simply stops. The server refuses these
+                  too; this stops the offer being made in the first place. */}
+              {(() => {
+                const candidates = players.filter((p) => p.id !== socket.id && !p.disconnected);
+                if (candidates.length === 0) {
+                  return (
+                    <p className="waiting">
+                      Nobody else is connected right now. Wait for someone to come back.
+                    </p>
+                  );
+                }
+                return candidates.map((player) => (
+                  <button type="button" className="mi" key={player.id} onClick={() => handleSelectNewHost(player.id)}>
+                    {player.name}
+                  </button>
+                ));
+              })()}
               <button type="button" className="mi" onClick={closeHostSelection}>Cancel</button>
             </div>
           </>

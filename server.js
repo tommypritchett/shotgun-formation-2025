@@ -212,6 +212,18 @@ const pendingPourFor = (roomCode, playerName) => {
   return round.pending[playerName] || null;
 };
 
+/**
+ * The players who are actually here.
+ *
+ * Disconnected players stay in `room.players` (with `disconnected: true`) so
+ * their drinks survive a dropped phone. That means every "pick a player"
+ * lookup has to say whether it wants an ACTIVE one — and the ones that decide
+ * who holds the whistle always do. A Ref who is not in the building stops the
+ * game dead, because only the Ref can declare.
+ */
+const activePlayers = (room) =>
+  (room && room.players ? room.players : []).filter(p => !p.disconnected);
+
 // Finalize round logic
 const finalizeRound = (roomCode) => {
     // Get the room from the rooms object
@@ -871,9 +883,16 @@ socket.on('assignNewHost', ({ roomCode, newHostId }) => {
   
     // Check if the current socket is the host
     if (room.host === socket.id) {
-      // Assign the new host
+      // Assign the new host — but only to somebody who is actually here.
       const newHost = room.players.find(player => player.id === newHostId);
-      if (newHost) {
+      if (!newHost || newHost.disconnected) {
+        // Reuse the existing `error` event; the client already renders it.
+        const why = newHost
+          ? `${newHost.name} has dropped out — pick someone who is still in the game.`
+          : 'That player is no longer in the game.';
+        console.log(`⛔ Refused host handoff to ${newHostId}: ${newHost ? 'disconnected' : 'not in room'}`);
+        io.to(socket.id).emit('error', why);
+      } else {
         room.host = newHostId;
         io.to(roomCode).emit('newHost', { newHostId, message: `${newHost.name} is now the new host.` });
         console.log(`Host has been swapped to player: ${newHostId}`);
@@ -1442,9 +1461,12 @@ socket.on('leaveGame', ({ roomCode }) => {
 
     // Handle if the host leaves
     if (room.host === socket.id) {
-      if (room.players.length > 0) {
+      // ACTIVE players only. `room.players[0]` could be somebody who dropped
+      // out ten minutes ago, which hands the whistle to an empty chair.
+      const stillHere = activePlayers(room);
+      if (stillHere.length > 0) {
         // Reassign the host if there are players left
-        room.host = room.players[0].id;
+        room.host = stillHere[0].id;
         io.to(roomCode).emit('newHost', { newHostId: room.host, message: 'The host has left. A new host has been assigned.' });
       // Notify the remaining players that a player has left
       io.to(roomCode).emit('playerLeft', { playerId: socket.id, remainingPlayers: room.players });
