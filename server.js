@@ -224,6 +224,20 @@ const pendingPourFor = (roomCode, playerName) => {
 const activePlayers = (room) =>
   (room && room.players ? room.players : []).filter(p => !p.disconnected);
 
+/**
+ * Table size.
+ *
+ * The printed box promises "3-10 PLAYERS", and until now the app enforced no
+ * upper bound at all -- the only check was the minimum at `startGame`. Matching
+ * the box is cheaper than explaining the gap, and 10 is also where the avatar
+ * sheet stops being able to give everyone their own character.
+ *
+ * A disconnected player still holds their seat: they own drinks and are
+ * expected back, so they count against the cap.
+ */
+const MIN_PLAYERS = 3;
+const MAX_PLAYERS = 10;
+
 // Finalize round logic
 const finalizeRound = (roomCode) => {
     // Get the room from the rooms object
@@ -714,6 +728,14 @@ function handleJoinRoom(socket, roomCode, playerName) {
     return;
   }
 
+  // ✅ NEW PLAYER: the table is only so big. A disconnected player still holds
+  // their seat -- they own drinks and are expected back.
+  if (rooms[roomCode].players.length >= MAX_PLAYERS) {
+    console.log(`❌ Room ${roomCode} is full (${rooms[roomCode].players.length}/${MAX_PLAYERS})`);
+    socket.emit('error', `That game is full (${MAX_PLAYERS} players max).`);
+    return;
+  }
+
   // ✅ NEW PLAYER: Check if name is already taken by active player
   const existingActivePlayer = rooms[roomCode].players.find(p => p.name === playerName && !p.disconnected);
   if (existingActivePlayer) {
@@ -826,7 +848,7 @@ socket.on('joinRoom', (roomCode, playerName) => {
   // Start Game
   socket.on('startGame', (roomCode) => {
     const room = rooms[roomCode];
-    if (room && room.players.length >= 3) {
+    if (room && room.players.length >= MIN_PLAYERS) {
       const { standardDeck, wildDeck } = generateDecks(room.players.length);
 
       // Log the decks in the terminal before shuffling and dealing out the cards

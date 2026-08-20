@@ -25,8 +25,12 @@ import GameScreen from './screens/GameScreen';
 import JoinScreen from './screens/JoinScreen';
 import LobbyScreen from './screens/LobbyScreen';
 
-/** A room will not start below this. Enforced by the server at startGame. */
+/**
+ * Table size, matching the printed box ("3-10 PLAYERS"). Both are enforced
+ * server-side; these are for what the UI says and offers.
+ */
 const MIN_PLAYERS = 3;
+const MAX_PLAYERS = 10;
 
 /**
  * How long a tap may sit on the phone before it is sent.
@@ -2091,6 +2095,7 @@ socket.on('gameOver', (message) => {
       onClose={closeMenu}
       roomCode={roomCode}
       playerCount={players.length}
+      maxPlayers={MAX_PLAYERS}
       onRules={handleShowInstructions}
       onLeave={handleLeaveGame}
       onHandOff={isHost ? handleHostSwap : undefined}

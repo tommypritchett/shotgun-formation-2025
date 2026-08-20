@@ -1,5 +1,5 @@
 /** The bottom menu sheet, opened from the header. */
-export default function MenuSheet({ open, onClose, roomCode, playerCount, onRules, onLeave, onHandOff }) {
+export default function MenuSheet({ open, onClose, roomCode, playerCount, maxPlayers, onRules, onLeave, onHandOff }) {
   return (
     <>
       <div className={`scrim${open ? ' on' : ''}`} onClick={onClose} />
@@ -9,7 +9,7 @@ export default function MenuSheet({ open, onClose, roomCode, playerCount, onRule
           Rules &amp; card values <span className="k">23 cards</span>
         </button>
         <button type="button" className="mi" onClick={onClose}>
-          Players <span className="k">{playerCount} / 13</span>
+          Players <span className="k">{playerCount} / {maxPlayers}</span>
         </button>
         <button type="button" className="mi" onClick={onClose}>
           Room code <span className="k">{roomCode}</span>

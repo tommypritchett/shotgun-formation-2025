@@ -114,62 +114,38 @@ attribution there either.
 
 ---
 
-## P2 — The box says 3–10 players; the app has no upper limit at all
+## P2 — RESOLVED: the app is capped at 10 players, matching the box
 
-Flagged for a decision, changed nothing.
+**Decided by the owner:** the box is a printed promise, and it is cheaper to
+match it than to explain the gap.
 
-**Where the numbers actually come from:**
+`handleJoinRoom` now refuses an 11th player with the existing `error` event.
+`MIN_PLAYERS` / `MAX_PLAYERS` are constants on both sides; the menu reads
+`N / 10` from the client constant rather than a hardcoded number.
 
-| | |
-|---|---|
-| Printed box | "3–10 PLAYERS · 160 CARDS" |
-| Server | **no upper bound**. The only check is `room.players.length >= 3` at `startGame`. |
-| Client | `MIN_PLAYERS = 3`. No maximum. |
-| Avatar sheet | 10 characters, so 11+ share a character (the accent ring keeps them apart) |
-| The number 13 | appears in the menu label `{playerCount} / 13` and a 13-player test. It is **not enforced anywhere** — it is a leftover figure, not a cap. |
+**A disconnected player still holds their seat** — they own drinks and are
+expected back, so they count against the cap. Tested both ways.
 
-**Would capping at 10 break anything?** Nothing structural. The deck is generated
-as `78 × playerCount`, so it scales either way, and the assigner grid already
-switches to a 3-column layout above 6 targets. Three concrete things would need
-touching:
+Ten is also exactly the size of the avatar sheet, so a full table now has ten
+distinct characters and nobody shares one. The accent-ring machinery stays: it
+costs nothing and it is what saves us if the cap ever moves.
 
-1. a new guard in `handleJoinRoom` (there is no cap to change, one would be added)
-2. the menu's `/ 13` label
-3. `tests/edge-cases.test.js` "runs a 13-player room", which would have to become
-   a "refuses an 11th player" test
-
-**The real question is a product one:** should the app enforce what the box
-promises, or quietly allow bigger tables than the printed deck supports? Worth
-noting that at 11+ players two people share an avatar character, so 10 is also
-where the UI stops being able to give everyone their own face.
+`tests/edge-cases.test.js` traded its 13-player test for a full-10 test plus two
+cap tests.
 
 ---
 
-## P3 — Repo weight: ~18 MB of images that the app never loads
+## P3 — RESOLVED: source art moved out of `client/`
 
-Recommendation only, changed nothing.
+**Decided by the owner:** keep it in the repo, get it out of `client/`.
 
-| Path | Size | Needed at runtime? |
-|---|---|---|
-| `client/src/assets/` | **9.2 MB** | **No.** Source art, a logo reference, and a cutouts zip. The avatars are inlined as data URIs in `Avatars.js`. |
-| `screenshots/` | 8.6 MB | No. Session 7 deliverable. |
-| `docs/avatars-contact-sheet.png` | 360 KB | No. For eyeballing. |
+`client/src/assets/` and `docs/avatars-contact-sheet.png` are now `art/`, with a
+README explaining what each file is and that regenerating avatars means
+regenerating `Avatars.js`, not these.
 
-`client/src/assets/` is the one worth acting on, for a reason beyond size: it
-sits **inside `client/src`**, so CRA walks it on every build and every hot
-reload. A 2.6 MB zip and two large PNGs in the watched tree cost time on every
-save for no benefit.
-
-**Three options, in the order I would pick them:**
-
-1. **Move them out of `client/src`** — to `docs/art/` or a top-level `art/`.
-   Keeps them in the repo and in history, stops CRA watching them. Cheapest fix,
-   no loss.
-2. **Gitignore them**, keeping them only on disk. Smallest repo, but the source
-   art is then one laptop away from being lost.
-3. **Leave them.** 18 MB is not fatal; it is just permanent.
-
-Option 1 is a `git mv` and costs nothing.
+`client/src` went from 13 MB to **4 MB**. CRA no longer walks ~9.5 MB of PNGs and
+a zip on every build and every hot reload, for files no bundle has ever
+referenced. Nothing in the app pointed at them: the avatars are inlined data URIs.
 
 ---
 

@@ -53,11 +53,14 @@ describe('edge cases', () => {
     }
   });
 
-  it('runs a 13-player room', async () => {
-    const names = Array.from({ length: 13 }, (_, i) => `P${i + 1}`);
+  it('runs a full 10-player room', async () => {
+    // 10 is the cap, matching the printed box ("3-10 PLAYERS"). It is also
+    // exactly the size of the avatar sheet, so a full table has ten distinct
+    // characters and nobody shares one.
+    const names = Array.from({ length: 10 }, (_, i) => `P${i + 1}`);
     const room = await h.newGame(names);
 
-    expect(room.all).toHaveLength(13);
+    expect(room.all).toHaveLength(10);
     for (const player of room.all) {
       expect(player.view.hand.standard).toHaveLength(5);
       expect(player.view.hand.wild).toHaveLength(2);
@@ -71,6 +74,33 @@ describe('edge cases', () => {
       expect(h.totalsFor(room.host, player.id).totalDrinks).toBe(1);
     }
   }, 120_000);
+
+  it('turns away an eleventh player instead of letting the table grow', async () => {
+    const room = await h.newRoom(Array.from({ length: 10 }, (_, i) => `P${i + 1}`));
+
+    const eleventh = await h.connect('OneTooMany');
+    const since = eleventh.mark();
+    eleventh.emit('joinRoom', room.code, 'OneTooMany');
+
+    const message = await eleventh.waitFor('error', { since, timeout: 6000 });
+    expect(String(message)).toMatch(/full/i);
+
+    await sleep(400);
+    expect(room.host.view.players).toHaveLength(10);
+  });
+
+  it('counts a disconnected player against the cap — they are coming back', async () => {
+    const room = await h.newRoom(Array.from({ length: 10 }, (_, i) => `P${i + 1}`));
+    await room.guests[0].disconnect();
+    await sleep(400);
+
+    const eleventh = await h.connect('OneTooMany');
+    const since = eleventh.mark();
+    eleventh.emit('joinRoom', room.code, 'OneTooMany');
+
+    const message = await eleventh.waitFor('error', { since, timeout: 6000 });
+    expect(String(message)).toMatch(/full/i);
+  });
 
   it('never deals an empty card under sustained play', async () => {
     const room = await h.newGame(['Ava', 'Ben', 'Cy']);
