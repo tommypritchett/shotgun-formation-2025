@@ -1,94 +1,33 @@
-# Deploy — Session 4
+# Deploy
 
-> **Prepared, not executed.** Nothing here has been run. Nothing is pushed, `main` was
-> never checked out. Branch `overnight-rebuild` at `d8320f2`, working tree clean.
+> **Verified ready 2026-08-20 at `904f9d8`.** Branch `overnight-rebuild`, 42 commits ahead
+> of `main`. **159 tests green.** Clean-checkout build rehearsed end to end (below).
+>
+> This supersedes the Session 4 version of this document.
 
 ---
 
-## ✅ The dependency risk is resolved
+## What you are actually fixing
 
-Session 3 led with a blocker: `main` tracks 857 files under `node_modules/`, this branch
-removes them (commit `aac133a`), and if Render never ran a **root** `npm install` the server
-would crash on `require('express')` after the merge.
+`main` is `e994b5f`. **Production has been running a build where the whole Node process
+dies the moment a second room starts a game** — since Session 3. Everything below is
+secondary to that.
 
-**That is fixed, and it no longer depends on a setting either of us can see.**
+## Pre-flight, all verified at `904f9d8`
 
-### What the risk actually was
+| Check | Result |
+|---|---|
+| `npm test` | **159 passed (159)**, 18 files |
+| `npm run build` from a genuinely clean checkout | ✅ both dependency trees installed, `client/build` produced |
+| `node server.js` on that clean build | ✅ `GET /` → 200, JS bundle → 200 |
+| Bundle points at **production**, not a LAN address | ✅ verified by rebuilding with `client/.env.local` moved aside |
+| `client/.env.local` reaches Render? | ❌ **No** — gitignored and untracked. Confirmed. This is what keeps the LAN URL out of production. |
+| Root deps installed by the build script | ✅ `express`, `socket.io`, `cors` — this is why `node_modules` leaving git is safe |
 
-Root `npm run build` used to be `cd client && npm install && npm run build`. That installs
-the **client's** dependencies and nothing else — never `express`, `cors` or `socket.io` for
-the server. Production worked anyway because `node_modules` was committed to git. Remove it
-from git without a root install somewhere in the chain, and `node server.js` has nothing to
-load.
-
-### Why it is no longer a risk
-
-The root build script now installs root dependencies itself:
-
-```json
-"build": "npm install && cd client && npm install && npm run build"
-```
-
-Your reasoning that the rest was answerable from the repo was right: `client/build` is
-gitignored and untracked on `main` (`git ls-tree main -- client/build` → zero files), the
-server serves it statically, and the site works today — so Render must already be running
-`npm run build`, which also proves `cd client && npm install` happens there. The only gap was
-the root install, and the script now closes it regardless of how the dashboard is configured
-or who changes it later.
-
-**Verified from a genuinely clean state**, not reasoned about:
-
-```
-mv node_modules ..              # root deps gone
-mv client/node_modules ..       # client deps gone
-mv client/build ..              # build output gone
-npm run build                   # the exact command Render runs
-PORT=3999 NODE_ENV=production node server.js
-```
-
-Result: both dependency trees installed, `client/build` produced, server started, `GET /`
-returned **200** with the real `index.html` (706 bytes, referencing `main.e4171912.js`), and
-`GET /static/js/main.e4171912.js` returned **200** with all 236 kB. Same bundle hashes as
-every previous build. `package-lock.json` was not modified by the install.
-
-### The 30-second dashboard check you can still do
-
-Not required any more — this is confirmation, not a gate.
-
-**Render → your service → Settings:**
-
-| Field | Should read | Note |
-|---|---|---|
-| **Build Command** | `npm run build` | `npm install && npm run build` is also fine — the extra install is now redundant but harmless. |
-| **Start Command** | `npm start` or `node server.js` | Both are identical; `start` is `node server.js` and is unchanged from `main`. |
-
-The only setting that would still be wrong is a Build Command that does **not** invoke
-`npm run build` at all — e.g. one that calls `react-scripts build` directly. If you see
-that, change it to `npm run build`.
-
-**The `devDependencies` half was never a risk.** `vitest` and `socket.io-client` are root
-`devDependencies` only. Render sets `NODE_ENV=production`, so `npm install` skips them; and
-even installed they are never loaded, because `npm start` is `node server.js`, which imports
-neither. Render never runs `npm test`.
-
-`dependencies`, and the `start` script, are byte-identical to `main`:
-
-```diff
-   "scripts": {
--    "test": "echo \"Error: no test specified\" && exit 1",
-+    "test": "vitest run",
-+    "test:watch": "vitest",
-     "start": "node server.js",                                      <- unchanged
--    "build": "cd client && npm install && npm run build"
-+    "build": "npm install && cd client && npm install && npm run build"
-   },
-   "dependencies": {                        <- unchanged, same versions
-     "cors": "^2.8.5", "express": "^4.21.1", "socket.io": "^4.8.1"
-+  },
-+  "devDependencies": {
-+    "socket.io-client": "^4.8.3", "vitest": "^2.1.9"
-   }
-```
+**The `node_modules` question from Session 4 is closed.** `main` tracks 857 of them and this
+branch removes them, but the root build script now runs its own `npm install`
+(`npm install && cd client && npm install && npm run build`), so it no longer matters what
+Render's build command does.
 
 ---
 
@@ -152,8 +91,8 @@ size it was before they existed.
 
 ## Verification behind this
 
-- `npm test` → **94 passed (94), 10 files**. Run twice back to back, clean both times.
-  No flakes across the runs.
+- `npm test` → **159 passed (159), 18 files**, including 44 client-side tests that did not
+  exist before Session 8.
 - **`npm run build` from a completely clean checkout** — no root `node_modules`, no client
   `node_modules`, no `client/build` — then `node server.js` under `NODE_ENV=production`,
   serving both `/` and the JS bundle with **200**. This is the deploy rehearsal, not just a
@@ -217,7 +156,7 @@ Run from the repo root, in order. Read the diff step; do not skip it.
 # 0. Confirm you are where you think you are, and that nothing is uncommitted
 git status
 git branch --show-current        # expect: overnight-rebuild
-git log --oneline -1             # expect: d8320f2 (or later)
+git log --oneline -1             # expect: 904f9d8 (or later)
 
 # 1. Look at what you are about to ship (server.js is the only production file)
 git diff main HEAD -- server.js
@@ -244,7 +183,7 @@ rm .git/hooks/pre-push
 git push -u origin overnight-rebuild
 gh pr create --base main --head overnight-rebuild \
   --title "Server concurrency, mid-round reconnect, and cross-room stats fixes" \
-  --body-file SESSION_4_REPORT.md
+  --body-file SESSION_8_REPORT.md
 ```
 
 ---
