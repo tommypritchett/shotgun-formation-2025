@@ -10,8 +10,10 @@ import {
   getCard,
   tierFor,
 } from './data/cards';
-import { CAN, avatarMapFor } from './components/Avatars';
+import { CAN } from './components/CanMark';
+import { assignAvatars, avatarFor } from './components/Avatars';
 import { buildRoundRows, resolvePlayerStats } from './lib/stats';
+import { consumedPendingIds, mergePlayerCards } from './lib/players';
 import CardSheet from './components/CardSheet';
 import DrinkAssigner from './components/DrinkAssigner';
 import GameCard from './components/GameCard';
@@ -1568,68 +1570,23 @@ useEffect(() => {
       // 🛡️ SELECTIVE PROTECTION: Allow player updates but preserve distributing player's cards
       if (isDistributingRef.current) {
         console.log('🛡️ SELECTIVE PROTECTION: Player update during drink distribution - preserving current player cards');
-        console.log('🛡️ REASON: Allowing reconnection updates while protecting drink assignment state');
       }
-      
-      // ✅ FIX: Preserve existing card data when updating players list
-      const updatedPlayers = playersList.map(serverPlayer => {
-        // Find if this player already exists in our local players array
-        const existingPlayer = players.find(p => p.id === serverPlayer.id);
-        
-        // If player exists locally and has cards, preserve the cards
-        if (existingPlayer && existingPlayer.cards) {
-          console.log(`👥 DEBUG: Preserving cards for player ${serverPlayer.name}`);
-          
-          // 🛡️ EXTRA PROTECTION: If this is the current player and they're distributing, ensure cards are preserved
-          if (serverPlayer.id === socket.id && isDistributingRef.current) {
-            console.log('🛡️ CRITICAL PROTECTION: Preserving current player cards during drink distribution');
-          }
-          
-          return {
-            ...serverPlayer,
-            cards: existingPlayer.cards  // Keep the cards from local state
-          };
-        }
-        
-        // ✅ FIX: Check for pending cards from gameStarted event
-        if (window.pendingPlayerCards && window.pendingPlayerCards[serverPlayer.id]) {
-          console.log(`👥 DEBUG: Adding pending cards for player ${serverPlayer.name}`);
-          const cardsForPlayer = window.pendingPlayerCards[serverPlayer.id];
-          delete window.pendingPlayerCards[serverPlayer.id]; // Clean up
-          return {
-            ...serverPlayer,
-            cards: cardsForPlayer
-          };
-        }
-        
-        // New player or player without cards - use server data as-is
-        return serverPlayer;
+
+      // ⚠️ playersRef.current, NOT `players`. This handler is registered in a
+      // useEffect with [] deps, so the `players` it closes over is frozen at
+      // the first render — an empty array, forever. Reading it meant the
+      // card-preservation lookup never matched anyone, so every roster
+      // broadcast stripped the hands off the WHOLE TABLE until finalizeRound
+      // re-sent them. That is Session 8 item 2. Do not "simplify" this back.
+      const pending = window.pendingPlayerCards || {};
+      const merged = mergePlayerCards(playersList, playersRef.current, pending);
+      consumedPendingIds(playersList, playersRef.current, pending).forEach((id) => {
+        delete window.pendingPlayerCards[id];
       });
-      
-      // ✅ FIX: Deduplicate players before storing to prevent duplicates in the array
-      const deduplicatedPlayers = updatedPlayers.reduce((acc, player) => {
-        const existingIndex = acc.findIndex(p => p.id === player.id);
-        if (existingIndex === -1) {
-          // New unique player
-          acc.push(player);
-        } else {
-          // Player already exists, keep the one with more complete data
-          const existing = acc[existingIndex];
-          const current = player;
-          
-          // Choose the player with more complete data (has cards, name, etc.)
-          if ((current.cards && !existing.cards) || 
-              (current.name && !existing.name) ||
-              (current.cards && current.cards.standard && current.cards.wild)) {
-            acc[existingIndex] = current;
-          }
-        }
-        return acc;
-      }, []);
-      
-      console.log(`👥 DEBUG: Original count: ${updatedPlayers.length}, Deduplicated count: ${deduplicatedPlayers.length}`);
-      setPlayers(deduplicatedPlayers);
-      console.log('👥 DEBUG: Players updated successfully with deduplication and preserved cards');
+
+      console.log(`👥 DEBUG: roster ${playersList.length} in, ${merged.length} after merge; `
+        + `hands kept for ${merged.filter((p) => p.cards).length}`);
+      setPlayers(merged);
     });
 
     socket.on('gameStarted', ({ hands, playerStats }) => {
@@ -2003,8 +1960,15 @@ socket.on('gameOver', (message) => {
   // Avatars are assigned from the player's NAME, so the same person is the
   // same football in every game, and no two players in a room share one while
   // there are 8 or fewer of them.
-  const avatarMap = avatarMapFor(players.map((p) => p.name));
-  const withAvatar = (p) => ({ ...p, avatar: avatarMap[p.name] });
+  // Characters are assigned across the whole roster at once so nobody shares
+  // one while there are enough to go round; past that the accent ring keeps
+  // repeats apart. Both are derived from the player's name, so a person is the
+  // same character in every game.
+  const avatarMap = assignAvatars(players);
+  const withAvatar = (p) => {
+    const a = avatarMap[p.name] || avatarFor(p.name);
+    return { ...p, avatar: a.src, avatarRing: a.ring, avatarLabel: a.label };
+  };
 
   const boardPlayers = players.map((player) => {
     const stats = resolvePlayerStats(player, playerStats, players) || {};
