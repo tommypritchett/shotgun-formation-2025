@@ -1,8 +1,17 @@
 /**
- * Name, then create or join. The mockup does not cover this screen, so it
- * borrows the tokens, the wordmark and nothing else — no new concepts.
+ * Name, then create or join.
+ *
+ * This is the only screen in the app that carries the FULL lockup — characters
+ * and all. It is the one screen with room for it, and it sets the tone before
+ * anyone is playing. Every other screen keeps the quiet header treatment, which
+ * is what docs/logo-lockup.html specifies for small placements.
+ *
+ * The image is served from client/public as a plain URL rather than imported:
+ * CRA cannot import from outside src/, and a 927 KB data URI in the bundle
+ * would be worse than either. `scripts/make-icons.py` generates the web-sized
+ * copy from art/shotgun-logo-transparent.png, which stays the source of truth.
  */
-import { CAN } from '../components/CanMark';
+
 
 export default function JoinScreen({
   playerName, onPlayerName,
@@ -15,9 +24,19 @@ export default function JoinScreen({
     <div className="app">
       <div className="pad">
         <div className="hero">
-          <img src={CAN} alt="" />
-          <span className="l1">Shotgun</span>
-          <span className="l2">Formation</span>
+          {/* width/height are the real pixel dimensions, so the layout is
+              reserved before the image arrives and nothing jumps. An <img>
+              never blocks first paint; `decoding="async"` keeps it off the
+              main thread too. Deliberately NOT loading="lazy" — this is the
+              hero, and deferring it would make the screen pop in. */}
+          <img
+            className="lockup"
+            src={`${process.env.PUBLIC_URL}/logo-lockup.png`}
+            width={900}
+            height={643}
+            decoding="async"
+            alt="Shotgun Formation — the football party game"
+          />
           <p>Everyone gets a hand. The Ref calls what just happened on the TV. If you&apos;re holding it, you hand out the drinks.</p>
         </div>
 

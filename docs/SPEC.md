@@ -84,6 +84,42 @@ Plus **First Down** — not a card, a global event, everyone drinks 1.
 >
 > **⚠️ DISCREPANCY 2:** The owner spells it **"Disqualiffety"**; the code card name is **`"Disqualified"`**. The socket contract uses `"Disqualified"` — the printed physical card art must match that exact string or the app won't recognize the card.
 
+### 3.1 The printed deck is not the app deck
+
+Two different things, easy to confuse, so both are written down.
+
+**The app deck** is generated per game: `78 × playerCount` (35 Standard + 43 Wild
+per player), built by `generateDecks()` and reshuffled from the discard pile as it
+runs down. It has no fixed size and no First Down card — First Down is a Ref-only
+global action (`firstDownEvent`).
+
+**The printed deck is 160 cards, and the box is canon.** Its back-panel breakdown:
+
+| Line | Count | In `cards.js`? |
+|---|---|---|
+| Standard | 105 | ✅ yes, as `printCopies` |
+| Wild | 45 | ✅ yes, as `printCopies` |
+| **First Down** | **5** | ❌ no — see the flag below |
+| Ref | 1 | ❌ not an event card |
+| Rules | 2 | ❌ |
+| Blank House Rule | 2 | ❌ |
+| **Total** | **160** | 150 of them are event cards |
+
+`cards.js` `printCopies` sums to exactly 105 + 45 = **150**, which agrees with the box
+on every line it covers. It simply never mentioned the other ten.
+
+> **⚠️ DISCREPANCY 4 — five First Down cards is a RULES CHANGE, not a typo.**
+>
+> The app has no First Down card. It is a global action only the Ref can call, and
+> everybody drinks one. **Five printed copies implies players hold them**, which is a
+> different game: it would make First Down a card you can be dealt, hold, and play —
+> and it raises questions the app has no answer for. Who plays it? Does holding one
+> let a non-Ref trigger the round? Does it follow the Standard "everyone holding it
+> pours" rule, or stay a global?
+>
+> **Nothing has been implemented.** `cards.js` and `generateDecks()` are unchanged.
+> This needs an owner decision before either the deck or the app moves.
+
 ### Deck replenishment
 `checkAndReplenishDecks` reshuffles used cards back in when a deck drops to **≤12** cards (`server.js:1796`). Used cards are tracked per-room in `usedCards[roomCode]`.
 

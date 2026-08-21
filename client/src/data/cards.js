@@ -15,8 +15,19 @@
  * built as `copiesPerPlayer * playerCount`. It's here so the client can display
  * rarity and so a test can assert client and server never drift apart.
  *
- * `printCopies` is the fixed count for the physical 150-card deck. It is NOT
- * used by the app.
+ * `printCopies` is the fixed count for the printed deck. These 150 event cards
+ * are 105 Standard + 45 Wild, exactly as the box back panel lists them. The box
+ * says 160 CARDS in total; the other 10 are not event cards and so are not in
+ * this file:
+ *
+ *     5 First Down · 1 Ref · 2 Rules · 2 blank House Rule
+ *
+ * ⚠️ The 5 First Down cards are a RULES QUESTION, not a printing detail. The
+ * app treats First Down as a Ref-only global action with no card at all
+ * (`firstDownEvent`); five printed copies implies players hold them. Nothing
+ * has been implemented either way — see docs/SPEC.md §3.1.
+ *
+ * `printCopies` is NOT used by the app.
  */
 
 export const DECK = { STANDARD: 'standard', WILD: 'wild' };

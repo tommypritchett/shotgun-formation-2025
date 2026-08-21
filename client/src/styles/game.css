@@ -575,7 +575,7 @@ button.card:active{transform:translateY(2px) scale(.985)}
    ================================================================== */
 .pad{padding:18px 14px calc(28px + env(safe-area-inset-bottom))}
 .hero{text-align:center;padding:26px 0 20px}
-.hero img{width:104px;margin:0 auto 14px}
+.hero img:not(.lockup){width:104px;margin:0 auto 14px}
 .hero .l1{font-family:var(--sf-display);font-weight:700;font-size:34px;line-height:.9;
   text-transform:uppercase;display:block;color:var(--sf-chalk)}
 .hero .l2{font-family:var(--sf-display);font-weight:600;font-size:34px;line-height:.9;
@@ -679,3 +679,27 @@ button.card:active{transform:translateY(2px) scale(.985)}
 .app > .body,
 .app > .pad{flex:1 1 auto}
 @supports not (min-height: 100dvh){ .app{min-height:100vh} }
+
+/* ==================================================================
+   JOIN SCREEN LOCKUP
+   The only place in the app the full lockup appears. Sized so it can
+   never push the room-code input below the fold: it gives up height
+   before the form does.
+   ================================================================== */
+.hero .lockup{
+  display:block;width:100%;height:auto;max-width:300px;
+  margin:0 auto 14px;
+  /* the hard ceiling — on a short phone the lockup shrinks, the form does not move */
+  max-height:min(28vh,190px);object-fit:contain;
+}
+@media (max-height:700px){ .hero .lockup{max-height:20vh;margin-bottom:8px} }
+@media (max-width:359.98px){ .hero .lockup{max-width:250px} }
+@media (min-width:900px){ .hero .lockup{max-width:420px;max-height:300px} }
+
+/* On desktop `.app` widens to 1180px for the two-column game board. The join
+   and lobby forms should not follow it out there — a 1180px-wide "NAME" field
+   is absurd. Pre-existing since the Session 7 port; the new lockup just made
+   it obvious. */
+@media (min-width:900px){
+  .pad{max-width:460px;margin:0 auto}
+}
