@@ -108,17 +108,19 @@ global action (`firstDownEvent`).
 `cards.js` `printCopies` sums to exactly 105 + 45 = **150**, which agrees with the box
 on every line it covers. It simply never mentioned the other ten.
 
-> **⚠️ DISCREPANCY 4 — five First Down cards is a RULES CHANGE, not a typo.**
+> **✅ DISCREPANCY 4 — RESOLVED. Five First Down cards are SPARES, not a rules change.**
 >
-> The app has no First Down card. It is a global action only the Ref can call, and
-> everybody drinks one. **Five printed copies implies players hold them**, which is a
-> different game: it would make First Down a card you can be dealt, hold, and play —
-> and it raises questions the app has no answer for. Who plays it? Does holding one
-> let a non-Ref trigger the round? Does it follow the Standard "everyone holding it
-> pours" rule, or stay a global?
+> Answered by the owner (2026-08-21): **the Ref is the only one who ever sees a First Down
+> card.** The box carries five because a card can be lost, and a Ref with no First Down card
+> cannot call the most common event in the game. They are replacements, not hands.
 >
-> **Nothing has been implemented.** `cards.js` and `generateDecks()` are unchanged.
-> This needs an owner decision before either the deck or the app moves.
+> **So the app is already correct and nothing changes.** First Down stays a Ref-only global
+> action (`firstDownEvent`): the Ref calls it, everybody drinks one, nobody holds anything.
+> There is no First Down entry in `cards.js` and `generateDecks()` never produces one — and
+> that is right, because only one of the five is ever in play and it never enters a hand.
+>
+> **For anyone printing or reprinting the deck:** the five are identical. They are not a
+> set, they are not numbered, and dealing them to players would be wrong.
 
 ### Deck replenishment
 `checkAndReplenishDecks` reshuffles used cards back in when a deck drops to **≤12** cards (`server.js:1796`). Used cards are tracked per-room in `usedCards[roomCode]`.

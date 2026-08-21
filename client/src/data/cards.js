@@ -22,10 +22,11 @@
  *
  *     5 First Down · 1 Ref · 2 Rules · 2 blank House Rule
  *
- * ⚠️ The 5 First Down cards are a RULES QUESTION, not a printing detail. The
- * app treats First Down as a Ref-only global action with no card at all
- * (`firstDownEvent`); five printed copies implies players hold them. Nothing
- * has been implemented either way — see docs/SPEC.md §3.1.
+ * The 5 First Down cards are SPARES, not five playable cards. Only the Ref ever
+ * holds one, and the box carries five because a lost card would leave the Ref
+ * unable to call the most common event in the game. First Down is therefore
+ * deliberately absent from this file: it is a global action (`firstDownEvent`),
+ * not a card anyone is dealt. See docs/SPEC.md §3.1.
  *
  * `printCopies` is NOT used by the app.
  */

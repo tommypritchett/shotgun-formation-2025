@@ -33,27 +33,21 @@ back-panel breakdown and which lines `cards.js` covers.
 If a `PHYSICAL_GAME_PLAN.md` exists somewhere outside this repo, it is still unreconciled
 and I could not have seen it.
 
-### The First Down question, stated plainly
+### The First Down question — ANSWERED, and the app was already right
 
-**The box says 5 First Down cards. The app has no First Down card at all.**
+**Owner's answer (2026-08-21): the Ref is the only one who ever sees a First Down card. The
+box carries five because a card can be lost.** They are spares, not hands.
 
-Today First Down is a Ref-only global action (`firstDownEvent`): the Ref calls it, everyone
-drinks one, nobody holds anything. There is no First Down entry in `cards.js` and
-`generateDecks()` never produces one.
+So this was never a rules change, and **nothing needs implementing**. First Down stays a
+Ref-only global action: the Ref calls it, everybody drinks one, nobody holds anything. Its
+absence from `cards.js` is correct — only one of the five is ever in play, and it never
+enters a hand.
 
-**Five printed copies implies players hold them, and that is a different game.** It raises
-questions the app has no answer for:
+`SPEC.md` DISCREPANCY 4 is now marked **RESOLVED** rather than open, with a note for whoever
+prints the deck: the five are identical, not a numbered set, and dealing them to players
+would be wrong.
 
-- Who plays it — the Ref, or whoever holds one?
-- Does holding one let a non-Ref trigger the round?
-- Does it follow the Standard rule where *everyone* holding that card pours, or stay a
-  single global "everybody drinks one"?
-- If players hold them, First Down becomes part of the dealt hand — which changes hand
-  composition, the deck ratios, and the 5-Standard-2-Wild deal.
-
-**Nothing has been implemented.** `cards.js` and `generateDecks()` are byte-identical.
-This is recorded as **DISCREPANCY 4** in `SPEC.md` and needs your decision before either the
-printed deck or the app moves. It is the only item from this session that blocks anything.
+**Nothing blocks on this any more.**
 
 ---
 
@@ -144,8 +138,28 @@ Moved to `art/`, consistent with your Session 8 decision. `client/src` is 3.5 MB
 
 ## What needs you
 
-1. **The First Down decision.** Five cards on the box versus a Ref-only global in the app.
-   Everything else this session is cosmetic; this one changes the game.
-2. **Whether you want a dedicated small mark** for the 16px favicon.
+1. ~~The First Down decision.~~ **Answered** — spares, Ref-only, app already correct.
+2. **Whether you want a dedicated small mark** for the 16px favicon. The wordmark is a
+   smudge at that size and no crop fixes it.
 3. **The deploy** — still unrun. Production is still on `e994b5f`, where a second room
    starting a game takes the server down.
+
+---
+
+## Postscript: I broke your dev server, and fixed it
+
+You hit `Can't resolve '.../html-webpack-plugin/lib/loader.js'` on `10.0.0.42:3000`. Both
+causes were mine, from the deploy rehearsal in the previous session:
+
+1. **A stale process.** The dev server had been running since **Aug 19 14:39** — before I
+   moved `client/node_modules` aside and back on the 20th to rehearse a clean install. The
+   file was present on disk the whole time; webpack's resolver was holding paths that got
+   invalidated when the directory was swapped underneath it. Restarted.
+
+2. **A 458 MB duplicate tree.** When I restored the backup with
+   `mv ../dep-client.bak client/node_modules`, npm had already reinstalled that directory
+   during the rehearsal — so `mv` put the backup *inside* it as
+   `client/node_modules/dep-client.bak`. Moved out; `client/node_modules` is back to 359 MB.
+
+I also restarted the **game** server, which was still on `b5ad89e` and therefore did not
+have the 10-player cap. The boot line added in Session 8 is what caught it.
