@@ -579,7 +579,23 @@ const closeModal = (modalType) => {
     case 'firstDownModal':
       setDeclaredCard(null);  // Clear the first down modal
       break;
+    case 'wildCardSelection':
+      // Declining the quarter-break swap. Nothing goes to the server: the
+      // one-swap-per-quarter allowance is only consumed by an actual swap, so
+      // keeping your hand costs you nothing and next quarter still offers one.
+      setIsWildCardSelectionOpen(false);
+      setSelectedWildCardToDiscard(null);
+      break;
+    case 'actionModal':
+      // Backing out of Declare Action. Must NOT declare anything.
+      setIsActionModalOpen(false);
+      break;
     default:
+      // A modal type with no case here is a DEAD BUTTON — whatever called it
+      // silently did nothing. That is how "Keep my hand" and the Declare
+      // Action scrim both shipped broken. tests/ui/modals.test.jsx now fails
+      // if a call site has no case, so this branch should stay unreachable.
+      console.warn(`closeModal: nothing handles "${modalType}" — the control that called it did nothing.`);
       break;
   }
 };
@@ -2242,6 +2258,10 @@ socket.on('gameOver', (message) => {
               ))}
               <button type="button" className="mi" onClick={handleNextQuarter}>
                 End quarter <span className="k">Q{quarter} → Q{quarter + 1}</span>
+              </button>
+              {/* Backing out must not declare anything or start a round. */}
+              <button type="button" className="mi" onClick={() => closeModal('actionModal')}>
+                Never mind
               </button>
             </div>
           </>

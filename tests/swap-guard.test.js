@@ -129,3 +129,49 @@ describe('wild-card swap allowance', () => {
     expect(afterQ3.wild).toHaveLength(2);
   });
 });
+
+/**
+ * Declining the quarter-break swap.
+ *
+ * Reported from live play as "Keep my hand does nothing". The run sheet
+ * wondered whether a decline that never reaches the server leaves the
+ * one-swap-per-quarter allowance in a state the player cannot escape.
+ *
+ * It does not, and these tests pin that: the allowance is consumed by an ACTUAL
+ * swap and by nothing else, so keeping your hand is free and costs you nothing
+ * next quarter. The bug was entirely client-side — `closeModal` had no case for
+ * the swap modal, so the button was wired to a function that did nothing.
+ */
+describe('keeping your hand', () => {
+  /** @type {Awaited<ReturnType<typeof createHarness>>} */
+  let h;
+  beforeEach(async () => { h = await createHarness(); });
+  afterEach(async () => { await h.teardown(); h.assertAlive(); });
+
+  it('costs nothing — the player can still swap in the same quarter', async () => {
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const [ben] = room.guests;
+    expect(await room.nextQuarter()).toBe(2);
+
+    // Ben declines. A decline sends nothing at all, so simply wait.
+    const handBefore = ben.view.hand.wild;
+    await sleep(600);
+    expect(ben.view.hand.wild, 'a decline changed the hand').toEqual(handBefore);
+
+    // He changes his mind in the same quarter: still allowed.
+    const after = await room.swapWildCard(ben, ben.view.hand.wild[0]);
+    expect(after.wild).toHaveLength(2);
+  });
+
+  it('leaves next quarter untouched', async () => {
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const [ben] = room.guests;
+
+    expect(await room.nextQuarter()).toBe(2);
+    await sleep(400);                       // declined — nothing emitted
+
+    expect(await room.nextQuarter()).toBe(3);
+    const after = await room.swapWildCard(ben, ben.view.hand.wild[0]);
+    expect(after.wild).toHaveLength(2);
+  });
+});

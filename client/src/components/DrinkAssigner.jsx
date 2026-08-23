@@ -38,7 +38,12 @@ export default function DrinkAssigner({
   onUndo,
   onLockIn,
 }) {
-  const panic = secondsLeft <= 5 && secondsLeft > 0;
+  // The red frame means "hurry, you still have drinks to hand out". On First
+  // Down, and on the passive screen, there is nothing to hurry — the only
+  // action is to drink. Flashing an alarm at someone the app has just told to
+  // sit tight is the same contradiction as the old First Down wording.
+  const canAct = !firstDown && !passive;
+  const panic = canAct && secondsLeft <= 5 && secondsLeft > 0;
   const remaining = Math.max(0, pool - pourCount);
   const classes = ['assign', panic ? 'panic' : '', sent || remaining === 0 ? 'spent' : '']
     .filter(Boolean).join(' ');
