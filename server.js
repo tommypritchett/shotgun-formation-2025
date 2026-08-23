@@ -44,6 +44,9 @@ const usedCards = {};  // Store used cards for each room to enable deck replenis
 // them, so a reconnecting player is told the same time everyone else sees.
 const ROUND_DURATIONS = { standard: 21, wild: 11, firstDown: 6 };
 
+/** Ten drinks make a shotgun. The one place that number lives on the server. */
+const DRINKS_PER_SHOTGUN = 10;
+
 const activeRounds = {};  // Track which rooms have active rounds: { roomCode: { declaredCard, timeRemaining, startTime } }
 const socketIdMappings = {};  // Track old->new socket ID mappings during active rounds: { roomCode: { oldSocketId: newSocketId } }
 
@@ -1406,6 +1409,23 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
         roundResults[roomCode][selectedPlayerId].shotguns += resolvedShotgunsToGive[selectedPlayerId];
         console.log(`Player ${selectedPlayerId} received ${resolvedShotgunsToGive[selectedPlayerId]} shotguns.`);
       }
+
+      // ✅ UNDO: a pour can be taken back, which arrives here as a NEGATIVE.
+      //
+      // Ten drinks are folded into a shotgun as they accumulate, so a -1
+      // landing just after a fold used to leave the player on 1 shotgun and
+      // MINUS ONE drinks — arithmetically 9, but displayed as nonsense. Borrow
+      // the shotgun back instead, and never let either count go below zero.
+      // Without this, undo could only reach taps that had not been sent yet,
+      // which gave players a sub-second window and was reported as "you cannot
+      // undo who you click to give a drink to".
+      const result = roundResults[roomCode][selectedPlayerId];
+      while (result.drinks < 0 && result.shotguns > 0) {
+        result.shotguns -= 1;
+        result.drinks += DRINKS_PER_SHOTGUN;
+      }
+      if (result.drinks < 0) result.drinks = 0;
+      if (result.shotguns < 0) result.shotguns = 0;
     });
   
     console.log(`Current round results for room ${roomCode}:`, roundResults[roomCode]);

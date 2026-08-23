@@ -40,3 +40,38 @@ export const readPourPrompt = (payload = {}) => {
     message: `You need to assign ${parts.join(' and ')} for the ${card}!`,
   };
 };
+
+/**
+ * What still needs sending: the difference between what this phone has recorded
+ * and what the server already knows.
+ *
+ * Entries can be NEGATIVE — that is a pour being taken back. The server borrows
+ * a shotgun back rather than leaving a negative drink count, so sending one is
+ * safe, and sending deltas is what lets undo work for a whole round instead of
+ * only inside the flush window.
+ *
+ * @param {{drinks:Object, shotguns:Object}} local  what the player has tapped
+ * @param {{drinks:Object, shotguns:Object}} sent   what the server has already
+ * @returns {null | {selectedPlayerIds:string[], drinksToGive:Object, shotgunsToGive:Object}}
+ *          null when there is nothing to send.
+ */
+export const pourDeltas = (local = {}, sent = {}) => {
+  const bucket = (name) => {
+    const mine = local[name] || {};
+    const theirs = sent[name] || {};
+    const out = {};
+    new Set([...Object.keys(mine), ...Object.keys(theirs)]).forEach((id) => {
+      const delta = (mine[id] || 0) - (theirs[id] || 0);
+      if (delta !== 0) out[id] = delta;
+    });
+    return out;
+  };
+
+  const drinksToGive = bucket('drinks');
+  const shotgunsToGive = bucket('shotguns');
+  const selectedPlayerIds = [
+    ...new Set([...Object.keys(drinksToGive), ...Object.keys(shotgunsToGive)]),
+  ];
+  if (selectedPlayerIds.length === 0) return null;
+  return { selectedPlayerIds, drinksToGive, shotgunsToGive };
+};

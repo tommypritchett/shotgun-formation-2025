@@ -84,3 +84,68 @@ describe('the distributeDrinks handler trusts the server', () => {
     expect(handler).toMatch(/readPourPrompt\(/);
   });
 });
+
+/**
+ * Undo, and why the client sends differences rather than taps.
+ *
+ * Reported from play: "unless it is like 1 second after you can not undo who
+ * you click to give a drink to." Undo used to reach only taps that had not yet
+ * been flushed — under a second — because a compensating negative was unsafe
+ * on the server. The server now borrows a shotgun back instead of leaving a
+ * negative drink count, so the client can send the difference and undo works
+ * for the whole round.
+ */
+import { pourDeltas } from '../../client/src/lib/pour.js';
+
+describe('what still needs sending', () => {
+  const empty = { drinks: {}, shotguns: {} };
+
+  it('sends nothing when the server is already up to date', () => {
+    expect(pourDeltas(empty, empty)).toBeNull();
+    expect(pourDeltas({ drinks: { a: 2 } }, { drinks: { a: 2 } })).toBeNull();
+  });
+
+  it('sends the new taps only, not the running total', () => {
+    const d = pourDeltas({ drinks: { a: 5 } }, { drinks: { a: 3 } });
+    expect(d.drinksToGive).toEqual({ a: 2 });
+    expect(d.selectedPlayerIds).toEqual(['a']);
+  });
+
+  it('sends a NEGATIVE when a pour is taken back after it was sent', () => {
+    // Three taps went out, then the player undid one.
+    const d = pourDeltas({ drinks: { a: 2 } }, { drinks: { a: 3 } });
+    expect(d.drinksToGive).toEqual({ a: -1 });
+  });
+
+  it('takes a player back to zero when everything is undone', () => {
+    const d = pourDeltas({ drinks: {} }, { drinks: { a: 4 } });
+    expect(d.drinksToGive).toEqual({ a: -4 });
+  });
+
+  it('handles drinks and shotguns independently', () => {
+    const d = pourDeltas(
+      { drinks: { a: 1 }, shotguns: { b: 2 } },
+      { drinks: { a: 1 }, shotguns: { b: 1 } }
+    );
+    expect(d.drinksToGive).toEqual({});
+    expect(d.shotgunsToGive).toEqual({ b: 1 });
+    expect(d.selectedPlayerIds).toEqual(['b']);
+  });
+
+  it('covers several players in one flush', () => {
+    const d = pourDeltas(
+      { drinks: { a: 2, b: 1, c: 0 } },
+      { drinks: { a: 1, b: 1, c: 2 } }
+    );
+    expect(d.drinksToGive).toEqual({ a: 1, c: -2 });
+    expect(d.selectedPlayerIds.sort()).toEqual(['a', 'c']);
+  });
+
+  it('is idempotent — flushing twice with no taps between sends nothing', () => {
+    const local = { drinks: { a: 3 } };
+    const first = pourDeltas(local, empty);
+    expect(first.drinksToGive).toEqual({ a: 3 });
+    // after the flush, sent mirrors local
+    expect(pourDeltas(local, { drinks: { ...local.drinks } })).toBeNull();
+  });
+});

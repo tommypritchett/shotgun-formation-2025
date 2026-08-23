@@ -1,10 +1,14 @@
 /**
  * The drink assigner — the screen where the round is actually played.
  *
- * Two states, decided by whether you hold the declared card:
- *   ACTIVE  — a grid of pour targets, an ammo readout, undo, and the dock.
- *   PASSIVE — you hold none of it, so there is nothing to tap. The screen says
- *             so plainly instead of showing a dead grid.
+ * Three states:
+ *   ACTIVE     — a grid of pour targets, an ammo readout, undo, and the dock.
+ *   PASSIVE    — you hold none of the declared card, so there is nothing to
+ *                tap. The screen says so instead of showing a dead grid.
+ *   FIRST DOWN — a GLOBAL event. Everyone drinks one, nobody holds anything and
+ *                nobody points at anybody. It gets its own screen because the
+ *                passive copy ("someone is about to point at you") is simply
+ *                untrue here, which is what a player reported.
  *
  * Presentational: every tap is reported upward. The decision about what goes on
  * the wire lives in App.js, next to the socket.
@@ -21,6 +25,7 @@ export default function DrinkAssigner({
   fraction,
   tier,
   passive,
+  firstDown,
   targets,
   given,
   pourCount,
@@ -62,7 +67,9 @@ export default function DrinkAssigner({
           <span className="src">{source}</span>
           <span className="cname">{card ? card.label : ''}</span>
           <span className="hold">
-            {passive ? (
+            {firstDown ? (
+              <>Everyone at the table drinks <b>1</b>.</>
+            ) : passive ? (
               <>You hold <b>0</b> of this card.</>
             ) : (
               <>
@@ -78,7 +85,22 @@ export default function DrinkAssigner({
         </div>
       </div>
 
-      {passive ? (
+      {firstDown ? (
+        <>
+          <div className="passive firstdown">
+            <img className="mark" src={CAN} alt="" />
+            <h2>First Down</h2>
+            <p className="lede">Everyone drinks one.</p>
+            <p>The Ref called it — no card needed, nobody to pick. Drink up.</p>
+          </div>
+          <div className="passive-dock">
+            <div className="in">
+              <span>Next call in</span>
+              <span className="c num">{secondsLeft}</span>
+            </div>
+          </div>
+        </>
+      ) : passive ? (
         <>
           <div className="passive">
             <img className="mark" src={CAN} alt="" />

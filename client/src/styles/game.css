@@ -703,3 +703,13 @@ button.card:active{transform:translateY(2px) scale(.985)}
 @media (min-width:900px){
   .pad{max-width:460px;margin:0 auto}
 }
+
+/* First Down is a global event — everyone drinks, nobody is chosen. It reuses
+   the passive layout but says something completely different, so the headline
+   gets the amber accent and the one-line instruction is the loud part. */
+.passive.firstdown h2{color:var(--sf-amber)}
+.passive.firstdown .lede{
+  font-family:var(--sf-display);font-weight:700;text-transform:uppercase;
+  font-size:clamp(20px,6vw,28px);letter-spacing:.02em;color:var(--sf-chalk);
+  margin:0 auto 10px;max-width:none;
+}

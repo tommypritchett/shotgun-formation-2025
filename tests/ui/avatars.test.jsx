@@ -13,7 +13,9 @@
  *     players on the same character apart.
  */
 import { describe, expect, it } from 'vitest';
-import { AVATARS, assignAvatars, avatarFor, hashName } from '../../client/src/components/Avatars.js';
+// Data comes from the generated file; the LOGIC lives in lib/avatars.js so a
+// regenerated sheet cannot revert it. It has twice.
+import { AVATARS, assignAvatars, avatarFor, hashName } from '../../client/src/lib/avatars.js';
 
 const roster = (n) => Array.from({ length: n }, (_, i) => ({ name: `Player${i + 1}` }));
 const N = AVATARS.length;

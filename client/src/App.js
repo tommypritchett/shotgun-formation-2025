@@ -11,10 +11,10 @@ import {
   tierFor,
 } from './data/cards';
 import { CAN } from './components/CanMark';
-import { assignAvatars, avatarFor } from './components/Avatars';
+import { assignAvatars, avatarFor } from './lib/avatars';
 import { buildRoundRows, resolvePlayerStats } from './lib/stats';
 import { consumedPendingIds, mergePlayerCards } from './lib/players';
-import { readPourPrompt } from './lib/pour';
+import { pourDeltas, readPourPrompt } from './lib/pour';
 import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
 import CardSheet from './components/CardSheet';
 import DrinkAssigner from './components/DrinkAssigner';
@@ -157,14 +157,20 @@ function App() {
   const declaredCardRef = useRef('');
   const roomCodeRef = useRef('');
   /**
-   * Taps that have NOT yet gone to the server.
+   * Pours, tracked twice: what this phone has recorded, and what the server
+   * already knows about.
    *
-   * Pours used to sit here for the whole round and be sent in one batch when
-   * the timer hit zero, which meant a refresh mid-round threw them away. They
-   * are now flushed on a short interval, so at most POUR_FLUSH_MS of taps can
-   * ever be at risk, and `beforeunload` closes even that window.
+   * Each flush sends the DIFFERENCE, which may be negative. That is what lets
+   * undo work for the whole round instead of only for taps that had not been
+   * sent yet — a window of under a second, which a player reported as undo
+   * simply not working.
+   *
+   * Pours used to sit locally for the entire round and go out in one batch at
+   * the end, which meant a refresh threw them away. Flushing on a short
+   * interval keeps that fixed; tracking what was sent is what restores undo.
    */
-  const pendingPoursRef = useRef({ drinks: {}, shotguns: {} });
+  const localPoursRef = useRef({ drinks: {}, shotguns: {} });
+  const sentPoursRef = useRef({ drinks: {}, shotguns: {} });
   const isDistributingRef = useRef(false);
   
   const [isHost, setIsHost] = useState(false);
@@ -1319,7 +1325,8 @@ useEffect(() => {
 // A new round is a clean slate.
 useEffect(() => {
   if (!declaredCard) return;
-  pendingPoursRef.current = { drinks: {}, shotguns: {} };
+  localPoursRef.current = { drinks: {}, shotguns: {} };
+  sentPoursRef.current = { drinks: {}, shotguns: {} };
   setAssignedDrinks({ drinks: {}, shotguns: {} });
   setPourStack([]);
   setPourSent(false);
@@ -1980,7 +1987,10 @@ socket.on('gameOver', (message) => {
   const givenMap = isShotgunRound ? (assignedDrinks.shotguns || {}) : (assignedDrinks.drinks || {});
   const pourCount = Object.values(givenMap).reduce((acc, n) => acc + (n || 0), 0);
   const assignerOpen = timeRemaining > 0 && !!declaredCard;
-  const isPassive = pool <= 0;
+  // First Down is a GLOBAL event, not a card anybody holds. It is not the same
+  // thing as "you don't hold the declared card" and must not use that screen.
+  const isFirstDown = declaredCard === 'First Down';
+  const isPassive = !isFirstDown && pool <= 0;
   const totalForCard = drinksToGive + shotgunsToGive * DRINKS_PER_SHOTGUN;
   const copiesHeld = declaredCardRecord && declaredCardRecord.drinks
     ? Math.max(1, Math.round(totalForCard / declaredCardRecord.drinks))
@@ -1996,35 +2006,34 @@ socket.on('gameOver', (message) => {
    * re-checks the running total on every call.
    */
   const flushPours = () => {
-    const { drinks, shotguns } = pendingPoursRef.current;
-    const ids = [...new Set([...Object.keys(drinks), ...Object.keys(shotguns)])];
-    if (ids.length === 0) return;
+    const local = localPoursRef.current;
+    const delta = pourDeltas(local, sentPoursRef.current);
+    if (!delta) return;
 
-    pendingPoursRef.current = { drinks: {}, shotguns: {} };
-    socket.emit('assignDrinks', {
-      roomCode: roomCodeRef.current,
-      selectedPlayerIds: ids,
-      drinksToGive: drinks,
-      shotgunsToGive: shotguns,
-    });
+    // Record what the server will have BEFORE emitting, so a flush that races
+    // a tap cannot send the same drink twice.
+    sentPoursRef.current = {
+      drinks: { ...local.drinks },
+      shotguns: { ...local.shotguns },
+    };
+    socket.emit('assignDrinks', { roomCode: roomCodeRef.current, ...delta });
   };
 
   /**
-   * Take back a tap that has not been sent yet.
+   * Take a pour back, whether or not it has already reached the server.
    *
-   * Undo is deliberately local-only. The obvious alternative — emitting a
-   * negative — is not safe here: `assignDrinks` folds every 10 drinks into a
-   * shotgun as it accumulates, so a -1 arriving after a fold leaves the
-   * recipient on 1 shotgun and -1 drinks instead of 9 drinks. Rather than send
-   * a correction the server cannot apply cleanly, undo only reaches taps still
-   * inside the flush window, and the button disables itself once they are gone.
+   * This used to work only inside the flush window — well under a second —
+   * because a compensating negative was unsafe: `assignDrinks` folds every ten
+   * drinks into a shotgun as it accumulates, so a -1 landing after a fold left
+   * the recipient on 1 shotgun and MINUS ONE drinks. The server now borrows
+   * the shotgun back, so the negative is safe and undo works all round.
    */
   const undoPour = (playerId, isShotgun) => {
     const bucket = isShotgun ? 'shotguns' : 'drinks';
-    const pending = pendingPoursRef.current[bucket];
-    if (!pending[playerId]) return false;
-    pending[playerId] -= 1;
-    if (pending[playerId] <= 0) delete pending[playerId];
+    const local = localPoursRef.current[bucket];
+    if (!local[playerId]) return false;
+    local[playerId] -= 1;
+    if (local[playerId] <= 0) delete local[playerId];
     return true;
   };
 
@@ -2056,7 +2065,7 @@ socket.on('gameOver', (message) => {
       return;
     }
     handleGiveDrink(playerId, isShotgunRound ? 'shotgun' : 'drink');
-    const bucket = pendingPoursRef.current[isShotgunRound ? 'shotguns' : 'drinks'];
+    const bucket = localPoursRef.current[isShotgunRound ? 'shotguns' : 'drinks'];
     bucket[playerId] = (bucket[playerId] || 0) + 1;
     setPourStack((prev) => [...prev, playerId]);
     flashTile(playerId, 'hit');
@@ -2067,11 +2076,7 @@ socket.on('gameOver', (message) => {
     if (pourSent || pourStack.length === 0) return;
     const playerId = pourStack[pourStack.length - 1];
 
-    // Only taps still inside the flush window can be taken back.
-    if (!undoPour(playerId, isShotgunRound)) {
-      showToast('Too late to undo that one');
-      return;
-    }
+    if (!undoPour(playerId, isShotgunRound)) return;
 
     setPourStack((prev) => prev.slice(0, -1));
     setAssignedDrinks((prev) => {
@@ -2190,6 +2195,7 @@ socket.on('gameOver', (message) => {
               fraction={timeRemaining / roundDuration}
               tier={declaredCardRecord ? tierFor(declaredCardRecord) : 'amber'}
               passive={isPassive}
+              firstDown={isFirstDown}
               targets={targets}
               given={givenMap}
               pourCount={pourCount}
