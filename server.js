@@ -296,6 +296,30 @@ const ensureRefIsPresent = (roomCode, candidate) => {
 const MIN_PLAYERS = 3;
 const MAX_PLAYERS = 10;
 
+/**
+ * Claim the right to finalize this round. Returns false if somebody already has.
+ *
+ * `finalizeRound` has no idempotency guard of its own. Today that is harmless
+ * only because it has exactly ONE caller — the else branch of startTimer's
+ * interval. The moment a second caller exists (a round that ends early because
+ * everyone has poured), there is a race: the last player settles at t=20.9
+ * while the timer fires at t=21.0, the round finalizes twice, every total is
+ * doubled and two results screens are broadcast.
+ *
+ * So this lands BEFORE the early-end path does. Checked and set synchronously,
+ * on the round itself, so it dies with the round.
+ */
+const claimRoundFinalize = (roomCode) => {
+  const round = activeRounds[roomCode];
+  if (!round) return true;          // no round tracked; the timer path still owns it
+  if (round.finalized) {
+    console.log(`⛔ Round in ${roomCode} is already finalized — ignoring the second call`);
+    return false;
+  }
+  round.finalized = true;
+  return true;
+};
+
 // Finalize round logic
 const finalizeRound = (roomCode) => {
     // Get the room from the rooms object
@@ -304,6 +328,9 @@ const finalizeRound = (roomCode) => {
       console.log(`Room ${roomCode} not found for finalization.`);
       return;
     }
+
+    // Exactly once per round. See claimRoundFinalize.
+    if (!claimRoundFinalize(roomCode)) return;
 
  
     // ✅ ROUND-AWARE: Merge round results for socket ID changes with transitive resolution
