@@ -37,11 +37,19 @@ describe('what you still owe', () => {
    * Retries across cards so the test never depends on a particular deal.
    */
   const declareSomethingTheHostHolds = async (room) => {
+    // Try the most valuable card first. Picking whatever is at index 0 makes
+    // the test deal-dependent: a single 1-drink Penalty leaves nothing to
+    // partially pour, and the run fails on the precondition rather than the
+    // behaviour.
+    const byValue = {};
+    room.host.view.hand.standard.forEach((c) => {
+      byValue[c.card] = (byValue[c.card] || 0) + c.drinks;
+    });
+    const order = Object.entries(byValue).sort((a, b) => b[1] - a[1]).map(([name]) => name);
+
     const seen = new Set();
-    for (let attempt = 0; attempt < 5; attempt += 1) {
-      const card = room.host.view.hand.standard
-        .map((c) => c.card)
-        .find((c) => !seen.has(c));
+    for (let attempt = 0; attempt < order.length; attempt += 1) {
+      const card = order.find((c) => !seen.has(c));
       if (!card) break;
       seen.add(card);
       const since = room.host.mark();

@@ -252,6 +252,37 @@ const activePlayers = (room) =>
   (room && room.players ? room.players : []).filter(p => !p.disconnected);
 
 /**
+ * Make sure a live game has a Ref, and that it is somebody who is here.
+ *
+ * When the host disconnects, an active player is promoted — unless there are
+ * none, in which case the old code emitted `gameOver` and left `room.host`
+ * pointing at a dead socket id. The room is deliberately kept alive for
+ * reconnections, so the first person back found a live game with no Ref, no
+ * way to declare, and no way out.
+ *
+ * Owner's rule: if the game is still active, the first player to rejoin
+ * becomes the Ref. Called on BOTH rejoin paths, since they are genuinely
+ * different routes (see the T1.1 room-join fix).
+ *
+ * @returns {boolean} whether the whistle was handed over
+ */
+const ensureRefIsPresent = (roomCode, candidate) => {
+  const room = rooms[roomCode];
+  if (!room || !room.gameStarted || !candidate) return false;
+
+  const refIsHere = room.players.some(p => p.id === room.host && !p.disconnected);
+  if (refIsHere) return false;
+
+  room.host = candidate.id;
+  io.to(roomCode).emit('newHost', {
+    newHostId: room.host,
+    message: `${candidate.name} is the Ref.`,
+  });
+  console.log(`🏈 Room ${roomCode} had no Ref present — ${candidate.name} takes the whistle`);
+  return true;
+};
+
+/**
  * Table size.
  *
  * The printed box promises "3-10 PLAYERS", and until now the app enforced no
@@ -741,6 +772,10 @@ function handleJoinRoom(socket, roomCode, playerName) {
       // ✅ CRITICAL: Notify ALL players of the new socket ID mapping
       io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
       console.log(`📡 Notified all players of ${playerName}'s new socket ID: ${socket.id}`);
+
+      // If everyone had dropped, the whistle is pointing at a dead socket.
+      // First one back takes it.
+      ensureRefIsPresent(roomCode, { id: socket.id, name: playerName });
       
       // ✅ FIX: Send updatePlayerHand to ALL active players to refresh their cards
       rooms[roomCode].players.forEach((player) => {
@@ -1869,6 +1904,9 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
   // No more refresh signals - game state already sent above
   console.log(`✅ Game state sent to reconnected player ${player.name} (${socket.id})`);
   
+  // Same rule on the wake-up path: a live game must have a Ref who is here.
+  if (player) ensureRefIsPresent(roomCode, { id: socket.id, name: player.name });
+
   // Notify all other players about the reconnection
   socket.to(roomCode).emit('playerRejoined', { 
     playerId: socket.id, 
