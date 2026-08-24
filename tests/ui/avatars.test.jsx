@@ -13,6 +13,9 @@
  *     players on the same character apart.
  */
 import { describe, expect, it } from 'vitest';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 // Data comes from the generated file; the LOGIC lives in lib/avatars.js so a
 // regenerated sheet cannot revert it. It has twice.
 import { AVATARS, assignAvatars, avatarFor, hashName } from '../../client/src/lib/avatars.js';
@@ -125,5 +128,49 @@ describe('the single-name fallback', () => {
 
   it('agrees with assignAvatars when there is no contention', () => {
     expect(assignAvatars([{ name: 'Solo' }]).Solo.id).toBe(avatarFor('Solo').id);
+  });
+});
+
+/**
+ * There must be exactly ONE name→character implementation.
+ *
+ * `components/Avatars.js` is regenerated and dropped in wholesale, and the
+ * generator keeps including `hashName`, `assignAvatars` and `avatarFor` — the
+ * versions WITHOUT the ring-collision fix. Nothing imports them, so nothing is
+ * broken today, but a shadowed second copy silently breaks "same name, same
+ * character every game" and is miserable to diagnose.
+ *
+ * The logic lives in lib/avatars.js. The generated file is DATA.
+ */
+describe('only one implementation of the hash', () => {
+  const read = (rel) => fs.readFileSync(
+    path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'client', 'src', rel),
+    'utf8'
+  );
+
+  it('the generated file exports data, not logic', () => {
+    const generated = read('components/Avatars.js');
+    for (const fn of ['hashName', 'assignAvatars', 'avatarFor']) {
+      expect(
+        new RegExp(`export\\s+(function|const)\\s+${fn}\\b`).test(generated),
+        `components/Avatars.js exports ${fn}. That shadows lib/avatars.js, and the `
+          + 'generated copy does not carry the ring-collision fix. Strip it — the '
+          + 'contract is in art/README.md.'
+      ).toBe(false);
+    }
+    expect(generated).toMatch(/export const AVATARS/);
+  });
+
+  it('nothing imports assignment logic from the generated file', () => {
+    const roots = ['App.js', 'lib/avatars.js'];
+    for (const rel of roots) {
+      const src = read(rel);
+      const bad = src.match(/import\s*\{([^}]*)\}\s*from\s*'[^']*components\/Avatars'/);
+      if (!bad) continue;
+      const named = bad[1].split(',').map((x) => x.trim());
+      for (const fn of ['hashName', 'assignAvatars', 'avatarFor', 'RING_COLORS']) {
+        expect(named, `${rel} imports ${fn} from the generated file`).not.toContain(fn);
+      }
+    }
   });
 });

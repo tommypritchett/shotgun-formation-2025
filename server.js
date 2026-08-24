@@ -208,11 +208,35 @@ const rememberPendingPour = (roomCode, playerName, payload) => {
   round.pending[playerName] = payload;
 };
 
-/** What this player still owes this round, or null. */
+/** What this player still owes this round, or null if nothing is outstanding. */
 const pendingPourFor = (roomCode, playerName) => {
   const round = activeRounds[roomCode];
   if (!round || !round.pending) return null;
-  return round.pending[playerName] || null;
+  const owed = round.pending[playerName];
+  if (!owed) return null;
+  if ((owed.drinkCount || 0) <= 0 && (owed.shotguns || 0) <= 0) return null;
+  return owed;
+};
+
+/**
+ * Settle part of what a player owes.
+ *
+ * `pending` means WHAT YOU STILL OWE, not what you were originally told. It was
+ * written once when the card was played and never touched again, while the
+ * running count of what had actually been poured lived only in the browser —
+ * so a refresh mid-pour made the server replay the ORIGINAL amount and a
+ * 4-drink card could be poured six times.
+ *
+ * Negative amounts are undo, and add back. Nothing is allowed below zero: the
+ * shotgun fold and undo both round-trip through here and a stray negative
+ * would make `pendingPourFor` think the debt was settled.
+ */
+const settlePendingPour = (roomCode, playerName, drinks, shotguns) => {
+  const owed = (activeRounds[roomCode] || {}).pending?.[playerName];
+  if (!owed) return;
+  owed.drinkCount = Math.max(0, (owed.drinkCount || 0) - (drinks || 0));
+  owed.shotguns = Math.max(0, (owed.shotguns || 0) - (shotguns || 0));
+  console.log(`🧾 ${playerName} now owes ${owed.drinkCount} drinks, ${owed.shotguns} shotguns this round`);
 };
 
 /**
@@ -1428,6 +1452,16 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
       if (result.shotguns < 0) result.shotguns = 0;
     });
   
+    // ✅ Take what this player just poured off what they still owe, so a
+    // reconnect replays the REMAINDER rather than the original amount.
+    // Uses the raw payload, not the socket-id-resolved copy: this is the
+    // giver's outlay, and it is theirs whoever the drinks landed on.
+    const giver = room.players.find(p => p.id === socket.id);
+    if (giver) {
+      const sum = (obj) => Object.values(obj || {}).reduce((a, b) => a + (Number(b) || 0), 0);
+      settlePendingPour(roomCode, giver.name, sum(drinksToGive), sum(shotgunsToGive));
+    }
+
     console.log(`Current round results for room ${roomCode}:`, roundResults[roomCode]);
   });
 
@@ -1877,9 +1911,23 @@ socket.on('disconnect', (reason) => {
                 io.to(roomCode).emit('gameOver', 'All players have disconnected. Game will remain open for reconnections.');
               }
             } else {
-              // ✅ FIXED: If a non-host player disconnects, minimal notification (no heavy state updates)
+              // A non-host dropped. Tell the room.
+              //
+              // This used to broadcast NOTHING, on the reasoning that a roster
+              // update caused "UI churn". The cost was that every other client
+              // kept a roster where this player was `disconnected: undefined`
+              // for the rest of the game — so the Ref's handoff sheet, which
+              // filters on `!p.disconnected`, happily offered a player who had
+              // left the building, and the game stopped when the whistle
+              // landed on an empty chair.
+              //
+              // `updatePlayers` is the right event rather than a lighter
+              // targeted one: it is the roster, the roster genuinely changed,
+              // it is already broadcast from five other sites, and the client's
+              // handler preserves each player's cards (Session 8), so there is
+              // no churn left to avoid.
               console.log(`📡 Non-host player ${leavingPlayer.name} (${socket.id}) disconnected from game in progress.`);
-              // Don't broadcast playerDisconnected - causes unnecessary UI churn for other players
+              io.to(roomCode).emit('updatePlayers', players);
             }
           }
 

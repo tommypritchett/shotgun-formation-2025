@@ -713,3 +713,9 @@ button.card:active{transform:translateY(2px) scale(.985)}
   font-size:clamp(20px,6vw,28px);letter-spacing:.02em;color:var(--sf-chalk);
   margin:0 auto 10px;max-width:none;
 }
+
+/* An away player in the handoff sheet: listed, so it is clear they are still in
+   the game and still hold their drinks — but plainly not selectable. Hiding
+   them reads as "they left", which is not what happened. */
+.sheet .mi.away{opacity:.42;cursor:default}
+.sheet .mi.away .k{color:var(--sf-muted);letter-spacing:.12em}

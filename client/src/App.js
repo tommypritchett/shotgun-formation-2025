@@ -15,6 +15,7 @@ import { assignAvatars, avatarFor } from './lib/avatars';
 import { buildRoundRows, resolvePlayerStats } from './lib/stats';
 import { consumedPendingIds, mergePlayerCards } from './lib/players';
 import { pourDeltas, readPourPrompt } from './lib/pour';
+import useEscape from './lib/useEscape';
 import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
 import CardSheet from './components/CardSheet';
 import DrinkAssigner from './components/DrinkAssigner';
@@ -433,10 +434,17 @@ const handleHostSwap = () => {
 };
 // Handle selecting a new host from the available players
 const handleSelectNewHost = (playerId) => {
+  // Ask, then wait. Host status changes ONLY when the server's `newHost` event
+  // arrives — the handler for it sets isHost for everyone in the room.
+  //
+  // This used to call setIsHost(false) and close the sheet immediately. If the
+  // server refused (the target had dropped out), the Ref's own screen gave up
+  // the whistle anyway: nobody at the table believed they were Ref, only the
+  // Ref can declare, and the game stopped — from the exact code path meant to
+  // prevent that.
+  setErrorMessage('');
+  setHandoffPending(playerId);
   socket.emit('assignNewHost', { roomCode, newHostId: playerId });
-  setIsHost(false);  // After selecting a new host, set this player's host status to false
-  setIsHostSelection(false);  // Close the host selection modal
-  setIsHostSelection(false);  // Close the selection modal after assigning the host
 };
 
 // Close the host selection modal without action
@@ -524,9 +532,34 @@ const [pourSent, setPourSent] = useState(false);        // locked in, early or b
 const [pourStack, setPourStack] = useState([]);         // for UNDO, newest last
 const [tileAnim, setTileAnim] = useState({});           // per-tile hit/deny animation
 const [toastMessage, setToastMessage] = useState('');
+const [handoffPending, setHandoffPending] = useState(null);  // awaiting the server's newHost
 
 useEffect(() => { declaredCardRef.current = declaredCard; }, [declaredCard]);
+
+// Escape closes whichever sheet is open. Cancel-or-Escape is the pattern;
+// scrim-click is deliberately absent (see lib/useEscape.js).
+//
+// These sit up here with the other effects, not down in the render, because
+// the render has early returns for the join/lobby/connecting screens and a
+// hook after an early return breaks the rules-of-hooks ordering. Every
+// callback is wrapped so nothing is read before it is defined.
+useEscape(isActionModalOpen, () => closeModal('actionModal'));
+useEscape(isWildCardSelectionOpen, () => closeModal('wildCardSelection'));
+useEscape(isHostSelection, () => closeHostSelection());
+useEscape(isMenuOpen, () => closeMenu());
+useEscape(!!openCard, () => setOpenCard(null));
+useEscape(!!wildCardSelected && isHost, () => confirmWildCard(false));
 useEffect(() => { roomCodeRef.current = roomCode; }, [roomCode]);
+
+/**
+ * The handoff sheet closes when the server confirms, not when the Ref taps.
+ * On refusal it stays open with the reason, and the Ref keeps the whistle.
+ */
+useEffect(() => {
+  if (!handoffPending) return undefined;
+  if (!isHost) { setHandoffPending(null); setIsHostSelection(false); }
+  return undefined;
+}, [isHost, handoffPending]);
 
 /**
  * Round Results is a bulletin, not a home screen.
@@ -2321,25 +2354,44 @@ socket.on('gameOver', (message) => {
             <div className="sheet on" role="dialog" aria-label="Select a new Ref" aria-modal="true">
               <div className="grab" />
               <p className="waiting">Hand the whistle to</p>
-              {/* Present players only. Offering someone who has dropped out
-                  hands the whistle to an empty chair, and only the Ref can
-                  declare — the game simply stops. The server refuses these
-                  too; this stops the offer being made in the first place. */}
+              {/* Everyone is listed. Away players are shown greyed and
+                  labelled rather than hidden: filtering them out reads as
+                  "they left the game" when they have not — they still hold
+                  their seat and their drinks. They are not clickable, and the
+                  server refuses them anyway. */}
               {(() => {
-                const candidates = players.filter((p) => p.id !== socket.id && !p.disconnected);
-                if (candidates.length === 0) {
+                const others = players.filter((p) => p.id !== socket.id);
+                if (others.length === 0) {
+                  return <p className="waiting">Nobody else is in the game yet.</p>;
+                }
+                if (others.every((p) => p.disconnected)) {
                   return (
-                    <p className="waiting">
-                      Nobody else is connected right now. Wait for someone to come back.
-                    </p>
+                    <>
+                      <p className="waiting">
+                        Everyone else is away right now. Wait for someone to come back.
+                      </p>
+                      {others.map((player) => (
+                        <button type="button" className="mi away" key={player.id} disabled>
+                          {player.name} <span className="k">AWAY</span>
+                        </button>
+                      ))}
+                    </>
                   );
                 }
-                return candidates.map((player) => (
-                  <button type="button" className="mi" key={player.id} onClick={() => handleSelectNewHost(player.id)}>
+                return others.map((player) => (
+                  <button
+                    type="button"
+                    className={`mi${player.disconnected ? ' away' : ''}`}
+                    key={player.id}
+                    disabled={!!player.disconnected}
+                    onClick={player.disconnected ? undefined : () => handleSelectNewHost(player.id)}
+                  >
                     {player.name}
+                    {player.disconnected ? <span className="k">AWAY</span> : null}
                   </button>
                 ));
               })()}
+              {errorMessage ? <p className="err">{errorMessage}</p> : null}
               <button type="button" className="mi" onClick={closeHostSelection}>Cancel</button>
             </div>
           </>

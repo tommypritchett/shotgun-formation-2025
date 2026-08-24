@@ -103,3 +103,74 @@ describe('handing over the whistle', () => {
       .toBe(cy.id);
   });
 });
+
+/**
+ * The roster every other client holds must track who is actually here.
+ *
+ * The handoff guards were never the problem — `assignNewHost` refuses a
+ * disconnected target and the picker filters on `!p.disconnected`. The DATA
+ * reaching them was stale: when a non-host dropped mid-game the server set
+ * `disconnected = true` in its own memory and broadcast nothing, on the
+ * reasoning that a roster update would cause "UI churn". So every other client
+ * kept a roster where that player was `disconnected: undefined` for the rest of
+ * the game, and `!p.disconnected` passed on a player who had left.
+ *
+ * The tell the owner gave: the sheet FILTERS away players out entirely, and he
+ * still saw the phone listed. That is only possible if the laptop never learned
+ * it had gone.
+ */
+describe('the roster tracks who is actually here', () => {
+  /** @type {Awaited<ReturnType<typeof createHarness>>} */
+  let h;
+  beforeEach(async () => { h = await createHarness(); });
+  afterEach(async () => {
+    const crash = h.crashed();
+    await h.teardown();
+    if (crash) throw new Error(`server.js crashed (exit ${crash.code}):\n${crash.stack}`);
+  });
+
+  /** How a given watcher currently sees somebody. */
+  const rowFor = (watcher, name) =>
+    (watcher.view.players || []).find((p) => p.name === name);
+
+  it('tells everyone else when a non-host drops mid-game', async () => {
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const [ben, cy] = room.guests;
+
+    await ben.disconnect();
+    await sleep(900);
+
+    for (const watcher of [room.host, cy]) {
+      const benRow = rowFor(watcher, 'Ben');
+      expect(benRow, `${watcher.name} lost Ben from the roster entirely`).toBeTruthy();
+      expect(
+        benRow.disconnected,
+        `${watcher.name} still thinks Ben is here — this is what let the Ref hand `
+          + 'the whistle to a player who had left'
+      ).toBe(true);
+    }
+  });
+
+  it('tells everyone else when they come back', async () => {
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const [ben, cy] = room.guests;
+
+    await ben.disconnect();
+    await sleep(700);
+    const fresh = await h.connect('Ben');
+    const since = fresh.mark();
+    fresh.emit('joinRoom', room.code, 'Ben');
+    await fresh.waitFor('gameStarted', { since });
+    await sleep(900);
+
+    for (const watcher of [room.host, cy]) {
+      const benRow = rowFor(watcher, 'Ben');
+      expect(benRow, `${watcher.name} lost Ben`).toBeTruthy();
+      expect(
+        benRow.disconnected,
+        `${watcher.name} still shows Ben as away after he came back — the row stays `
+          + 'greyed forever, which is the same bug wearing a different hat'
+      ).toBeFalsy();
+    }
+  });
+});

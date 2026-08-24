@@ -80,3 +80,36 @@ describe('the modals a player can open all offer a way out', () => {
     expect(b).toMatch(/Cancel/);
   });
 });
+
+/**
+ * Escape closes every sheet.
+ *
+ * The owner's answer to "should Escape work everywhere?" was yes: it working on
+ * four and not the other two is its own bug. Scrim-click is deliberately NOT
+ * added — an accidental edge tap on a phone mid-pour would throw away a
+ * half-finished assignment, which is worse than the trap.
+ */
+describe('Escape closes every sheet', () => {
+  const hooks = [...APP.matchAll(/useEscape\(([^,]+),/g)].map((m) => m[1].trim());
+
+  it('is wired to all six', () => {
+    expect(hooks.length, `only ${hooks.length} sheets honour Escape`).toBe(6);
+  });
+
+  it.each([
+    ['Declare Action', 'isActionModalOpen'],
+    ['the wild swap', 'isWildCardSelectionOpen'],
+    ['the host picker', 'isHostSelection'],
+    ['the menu', 'isMenuOpen'],
+    ['the card sheet', 'openCard'],
+    ['the wild confirmation', 'wildCardSelected'],
+  ])('%s honours Escape', (_label, flag) => {
+    expect(hooks.some((h) => h.includes(flag)), `no useEscape for ${flag}`).toBe(true);
+  });
+
+  it('does not add scrim-click dismissal to the assigner path', () => {
+    // The two sheets that can be open mid-pour must not close on a stray tap.
+    const swap = APP.slice(APP.indexOf('aria-label="Swap a wild card"'));
+    expect(swap.slice(0, 400)).not.toMatch(/scrim on"\s+onClick=/);
+  });
+});
