@@ -208,6 +208,54 @@ const rememberPendingPour = (roomCode, playerName, payload) => {
   round.pending[playerName] = payload;
 };
 
+/**
+ * Is this player finished with the round?
+ *
+ * Finished means: they owe nothing, or they have explicitly locked in. A player
+ * holding no copy of the declared card owes nothing and is trivially done — they
+ * must not block the round and must not have to press anything.
+ */
+const playerIsDoneThisRound = (roomCode, playerName) => {
+  const round = activeRounds[roomCode];
+  if (!round) return true;
+  if ((round.lockedIn || {})[playerName]) return true;
+  const owed = (round.pending || {})[playerName];
+  if (!owed) return true;
+  return (owed.drinkCount || 0) <= 0 && (owed.shotguns || 0) <= 0;
+};
+
+/**
+ * End the round the moment there is nothing left to wait for.
+ *
+ * Owner request: if everyone has locked in — or has nothing to give — the round
+ * should not wait out the clock.
+ *
+ * FIRST DOWN IS EXCLUDED. Nobody owes anything on a First Down, so the rule
+ * below is satisfied the instant the round opens and it would finalize before
+ * anybody read it. It is a six-second "everyone drinks" beat whose whole value
+ * is the display time, so it always runs its full duration.
+ *
+ * DISCONNECTED PLAYERS ARE SKIPPED. Somebody whose phone died must not hold
+ * nine people hostage for 21 seconds. Their debt lapses exactly as it does when
+ * the clock runs out today.
+ */
+const maybeFinishRoundEarly = (roomCode) => {
+  const round = activeRounds[roomCode];
+  const room = rooms[roomCode];
+  if (!round || !room || round.finalized) return false;
+  if (round.declaredCard === 'First Down') return false;
+
+  const here = activePlayers(room);
+  if (here.length === 0) return false;
+  if (!here.every(p => playerIsDoneThisRound(roomCode, p.name))) return false;
+
+  console.log(`⏱️ Room ${roomCode}: everyone is done — ending the round early`);
+  // Clear the countdown, or it fires into the next round.
+  if (round.intervalId) clearInterval(round.intervalId);
+  finalizeRound(roomCode);
+  return true;
+};
+
 /** What this player still owes this round, or null if nothing is outstanding. */
 const pendingPourFor = (roomCode, playerName) => {
   const round = activeRounds[roomCode];
@@ -482,6 +530,10 @@ const finalizeRound = (roomCode) => {
       if (rooms[roomCode]) rooms[roomCode].isActionInProgress = false;
      }
     }, 1000);
+
+    // Kept so an early end can stop the countdown rather than leaving an
+    // orphaned timer to fire into the next round.
+    if (activeRounds[roomCode]) activeRounds[roomCode].intervalId = interval;
   };
   // connection logs 
 
@@ -1545,6 +1597,9 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
     }
 
     console.log(`Current round results for room ${roomCode}:`, roundResults[roomCode]);
+
+    // That pour may have been the last thing anyone owed.
+    maybeFinishRoundEarly(roomCode);
   });
 
   // Log player hands
@@ -1654,6 +1709,32 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
 
 // Add this handler in the io.on('connection') block
 // In server.js - update the requestGameState handler to be more robust
+/**
+ * A player is done with this round, whatever they have left.
+ *
+ * There was no `lockIn` event at all — the client's Lock In button only
+ * flushed pours and set a local flag, so an explicit lock-in never reached the
+ * server and could not end the round.
+ *
+ * Locking in with drinks outstanding is FORFEITING them, which is the existing
+ * behaviour when the clock runs out. This only makes it end your participation
+ * rather than clearing a debt you have not poured.
+ */
+socket.on('lockIn', ({ roomCode } = {}) => {
+  const room = rooms[roomCode];
+  const round = activeRounds[roomCode];
+  if (!room || !round) return;
+
+  const player = room.players.find(p => p.id === socket.id);
+  if (!player) return;
+
+  if (!round.lockedIn) round.lockedIn = {};
+  round.lockedIn[player.name] = true;
+  console.log(`🔒 ${player.name} locked in for the round in ${roomCode}`);
+
+  maybeFinishRoundEarly(roomCode);
+});
+
 socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
   console.log(`Player ${socket.id} requested game state for room ${roomCode}${claimedName ? ` as ${claimedName}` : ''}`);
   const room = rooms[roomCode];

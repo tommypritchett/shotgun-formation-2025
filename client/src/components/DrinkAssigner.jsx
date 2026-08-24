@@ -4,11 +4,14 @@
  * Three states:
  *   ACTIVE     — a grid of pour targets, an ammo readout, undo, and the dock.
  *   PASSIVE    — you hold none of the declared card, so there is nothing to
- *                tap. The screen says so instead of showing a dead grid.
- *   FIRST DOWN — a GLOBAL event. Everyone drinks one, nobody holds anything and
- *                nobody points at anybody. It gets its own screen because the
- *                passive copy ("someone is about to point at you") is simply
- *                untrue here, which is what a player reported.
+ *                tap. The screen says so instead of showing a dead grid, and
+ *                tells you to watch your own phone: the game is anonymous by
+ *                design (FOLLOW_UPS.md P1), so nobody points at anybody. You
+ *                find out what you were given when the round lands.
+ *   FIRST DOWN — a GLOBAL event. Everyone drinks one and nobody holds anything.
+ *                It gets its own screen because the passive copy is about
+ *                waiting to receive drinks, which is not what is happening
+ *                here — everyone drinks, right now. Reported by a player.
  *
  * Presentational: every tap is reported upward. The decision about what goes on
  * the wire lives in App.js, next to the socket.
@@ -120,7 +123,7 @@ export default function DrinkAssigner({
           <div className="passive">
             <img className="mark" src={CAN} alt="" />
             <h2>You don&apos;t<br />hold this card</h2>
-            <p>Nothing to do. Keep your eyes on the TV — someone is about to point at you.</p>
+            <p>Nothing to give this round. Keep an eye on your phone — you&apos;ll see if you picked any up.</p>
             <div className="hr" />
             <div className="sec" style={{ justifyContent: 'center' }}>
               <span className="tag">{targets.length} at the table</span>

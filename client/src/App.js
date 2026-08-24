@@ -2152,6 +2152,10 @@ socket.on('gameOver', (message) => {
   const handleLockIn = () => {
     flushPours();
     setPourSent(true);
+    // Tell the server too, so the round can end without waiting out the clock.
+    // This used to be purely local, which is why an explicit lock-in could
+    // never finish a round early.
+    socket.emit('lockIn', { roomCode: roomCodeRef.current });
   };
 
   const menu = (
