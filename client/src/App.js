@@ -901,7 +901,7 @@ useEffect(() => {
         // Request game state after reconnection
         if (gameState === 'game' && roomCode) {
           setTimeout(() => {
-            socket.emit('requestGameState', { roomCode });
+            socket.emit('requestGameState', { roomCode, playerName });
           }, 1000);
         }
       } else {
@@ -1011,7 +1011,7 @@ useEffect(() => {
         // Give it a moment to connect then request game state
         setTimeout(() => {
           if (gameState === 'game') {
-            socket.emit('requestGameState', { roomCode });
+            socket.emit('requestGameState', { roomCode, playerName });
           }
         }, 1000);
       }
@@ -1041,7 +1041,7 @@ useEffect(() => {
       // Give connection time to establish
       setTimeout(() => {
         if (gameState === 'game') {
-          socket.emit('requestGameState', { roomCode });
+          socket.emit('requestGameState', { roomCode, playerName });
         }
       }, 1000);
     }
@@ -1149,7 +1149,7 @@ useEffect(() => {
     
     // If we're in a game, request the current state
     if (gameState === 'game' && roomCode) {
-      socket.emit('requestGameState', { roomCode });
+      socket.emit('requestGameState', { roomCode, playerName });
     }
   };
   
@@ -1174,7 +1174,7 @@ useEffect(() => {
       // Wait a moment for the connection to stabilize
       setTimeout(() => {
         console.log('Requesting game state after successful reconnection');
-        socket.emit('requestGameState', { roomCode });
+        socket.emit('requestGameState', { roomCode, playerName });
         
         // Try to recover from local storage as immediate fallback while waiting for refresh
         const localState = loadGameStateLocally();

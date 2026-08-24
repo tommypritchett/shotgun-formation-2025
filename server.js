@@ -1592,8 +1592,8 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
 
 // Add this handler in the io.on('connection') block
 // In server.js - update the requestGameState handler to be more robust
-socket.on('requestGameState', ({ roomCode } = {}) => {
-  console.log(`Player ${socket.id} requested game state for room ${roomCode}`);
+socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
+  console.log(`Player ${socket.id} requested game state for room ${roomCode}${claimedName ? ` as ${claimedName}` : ''}`);
   const room = rooms[roomCode];
   if (!room) {
     console.log(`Room ${roomCode} not found`);
@@ -1604,6 +1604,27 @@ socket.on('requestGameState', ({ roomCode } = {}) => {
   // reconnect path overwrites the disconnected entry's id in place, so the old
   // id is gone from `room.players` by the time the merge below runs.
   const ownedSocketIds = roomSocketIds(room);
+
+  /**
+   * Re-join the socket.io room. THIS IS THE WHOLE BUG in T1.1.
+   *
+   * Room membership belongs to a CONNECTION, not a player. A reconnect is a
+   * brand-new socket with a new id and zero rooms, and this handler — 240
+   * lines of careful reconnect work — never joined it to anything.
+   *
+   * Direct emits still landed, because a socket always belongs to a room named
+   * after its own id, so `roundState` and the pour replay arrived and the
+   * screen looked right for a moment. Then every `io.to(roomCode)` broadcast
+   * stopped: no updateTimer, no declaredCard, no updatePlayerStats, no
+   * roundFinalized, no updatePlayers. The clock froze, and because
+   * `assignerOpen` never went false the assigner stayed open for the rest of
+   * the game with every tap pouring into whatever round was live.
+   *
+   * Joining before the identity work means it holds on every path below that
+   * resolves a player, and is harmless on the paths that do not.
+   */
+  socket.join(roomCode);
+  console.log(`🔌 ${socket.id} re-joined room ${roomCode}`);
 
   // Find the player in the room
   let player = room.players.find(p => p.id === socket.id);
@@ -1644,29 +1665,51 @@ socket.on('requestGameState', ({ roomCode } = {}) => {
     const possibleFormerPlayers = Object.values(formerPlayers)
       .filter(p => p.roomCode === roomCode);
     
-    if (possibleFormerPlayers.length > 0) {
+    /**
+     * WHICH of those disconnected players is this socket?
+     *
+     * The payload used to be `{ roomCode }` with no name, so the server took
+     * `returning` — whichever `Object.values` happened to list
+     * first — and bound that seat, those stats and that outstanding pour to
+     * this socket. With one person dropped, index 0 IS them, which is why this
+     * was never seen. With two phones asleep in the same room, the first to
+     * wake was handed the other's identity and the second was locked out of
+     * their own game with "name already taken".
+     *
+     * Match on the name the client sends. Fall back to the old behaviour only
+     * when no name is supplied, so a stale cached bundle still limps.
+     */
+    const claimed = claimedName
+      ? possibleFormerPlayers.find(p => p.name === claimedName)
+      : null;
+    if (claimedName && !claimed) {
+      console.log(`⚠️ ${claimedName} claimed a seat in ${roomCode} but is not among the disconnected`);
+    }
+    const returning = claimed || (claimedName ? null : returning);
+
+    if (returning) {
       // ✅ FIX: Check if player already exists in room (as disconnected) before adding
-      const existingDisconnectedPlayer = room.players.find(p => p.name === possibleFormerPlayers[0].name);
+      const existingDisconnectedPlayer = room.players.find(p => p.name === returning.name);
       
       if (existingDisconnectedPlayer) {
         // Player is already in room as disconnected - just update their socket ID and reconnect them
-        console.log(`📡 Found existing disconnected player ${possibleFormerPlayers[0].name}, updating socket ID`);
+        console.log(`📡 Found existing disconnected player ${returning.name}, updating socket ID`);
         existingDisconnectedPlayer.id = socket.id;
         existingDisconnectedPlayer.disconnected = false;
         player = existingDisconnectedPlayer;
       } else {
         // Player not in room - add them back
-        console.log(`📡 Adding former player ${possibleFormerPlayers[0].name} back to room`);
-        player = { id: socket.id, name: possibleFormerPlayers[0].name };
+        console.log(`📡 Adding former player ${returning.name} back to room`);
+        player = { id: socket.id, name: returning.name };
         room.players.push(player);
       }
       
       // ✅ ROUND-AWARE FAST RECONNECTION: Handle mid-round reconnection in fast path
       if (activeRounds[roomCode]) {
-        console.log(`🎯 FAST MID-ROUND RECONNECTION: Player ${possibleFormerPlayers[0].name} reconnecting during active round`);
+        console.log(`🎯 FAST MID-ROUND RECONNECTION: Player ${returning.name} reconnecting during active round`);
         
         // Find old socket ID and create mapping — this room's entries only.
-        const oldEntry = roomEntriesForName(ownedSocketIds, possibleFormerPlayers[0].name)
+        const oldEntry = roomEntriesForName(ownedSocketIds, returning.name)
           .find(([, stats]) => stats.disconnected);
         
         if (oldEntry) {
@@ -1696,7 +1739,7 @@ socket.on('requestGameState', ({ roomCode } = {}) => {
       }
       
       // ✅ ENHANCED: Use same merge logic as handleJoinRoom to preserve accumulated drinks
-      const playerName = possibleFormerPlayers[0].name;
+      const playerName = returning.name;
       console.log(`🔍 FAST RECONNECT MERGE: Looking for accumulated stats for ${playerName}`);
       console.log(`🔍 FAST RECONNECT MERGE: All playerStats:`, Object.entries(playerStats).map(([id, stats]) => 
         `${id.slice(-4)}: ${JSON.stringify({totalDrinks: stats.totalDrinks, name: stats.name, disconnected: stats.disconnected})}`
@@ -1724,17 +1767,17 @@ socket.on('requestGameState', ({ roomCode } = {}) => {
       );
       
       // Use disconnected playerStats as authoritative source, fall back to formerPlayers
-      const finalDrinks = maxDrinksEntry ? maxDrinksEntry[1].totalDrinks || 0 : possibleFormerPlayers[0].totalDrinks || 0;
-      const finalShotguns = maxDrinksEntry ? maxDrinksEntry[1].totalShotguns || 0 : possibleFormerPlayers[0].totalShotguns || 0;
+      const finalDrinks = maxDrinksEntry ? maxDrinksEntry[1].totalDrinks || 0 : returning.totalDrinks || 0;
+      const finalShotguns = maxDrinksEntry ? maxDrinksEntry[1].totalShotguns || 0 : returning.totalShotguns || 0;
       
-      console.log(`🔄 FAST RECONNECT MERGE: ${playerName} - Using accumulated stats: ${finalDrinks} drinks (formerPlayers had ${possibleFormerPlayers[0].totalDrinks || 0} drinks)`);
+      console.log(`🔄 FAST RECONNECT MERGE: ${playerName} - Using accumulated stats: ${finalDrinks} drinks (formerPlayers had ${returning.totalDrinks || 0} drinks)`);
 
       // Restore their data with preserved accumulated stats
       playerStats[socket.id] = {
         totalDrinks: finalDrinks,
         totalShotguns: finalShotguns,
-        standard: possibleFormerPlayers[0].standard || [],
-        wild: possibleFormerPlayers[0].wild || []
+        standard: returning.standard || [],
+        wild: returning.wild || []
       };
       
       // ✅ FAST RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
@@ -1766,9 +1809,9 @@ socket.on('requestGameState', ({ roomCode } = {}) => {
       setTimeout(() => {
         socket.emit('forceRefresh', { 
           reason: 'Reconnected after stealth disconnect - refreshing to ensure clean UI state',
-          playerName: possibleFormerPlayers[0].name
+          playerName: returning.name
         });
-        console.log(`📡 Sent forceRefresh command to formerly disconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
+        console.log(`📡 Sent forceRefresh command to formerly disconnected player ${returning.name} (${socket.id})`);
       }, 1000); // Small delay to ensure all data is sent first
       
       // Send game state directly to reconnected player without refresh signal
@@ -1784,19 +1827,19 @@ socket.on('requestGameState', ({ roomCode } = {}) => {
         
         // ✅ FIX: Send complete players list so reconnected player sees everyone
         socket.emit('updatePlayers', room.players);
-        console.log(`📡 Sent complete players list to reconnected player ${possibleFormerPlayers[0].name}`);
+        console.log(`📡 Sent complete players list to reconnected player ${returning.name}`);
         
-        console.log(`📡 Sent direct game state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
+        console.log(`📡 Sent direct game state to reconnected player ${returning.name} (${socket.id})`);
         
         // ✅ REMOVED: Auto-refresh after reconnection to prevent infinite loops
         // Let client-side stealth detection handle refreshes when truly needed
       } else {
         socket.emit('joinedRoom', roomCode);
-        console.log(`📡 Sent lobby state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
+        console.log(`📡 Sent lobby state to reconnected player ${returning.name} (${socket.id})`);
       }
       
       // Remove from formerPlayers and clean up any old playerStats
-      delete formerPlayers[possibleFormerPlayers[0].name];
+      delete formerPlayers[returning.name];
       
       // ✅ ENHANCED CLEANUP: Only clean up entries that specifically belong to this player name
       allPlayerEntries.forEach(([oldSocketId, oldStats]) => {
