@@ -33,6 +33,9 @@ export default function DrinkAssigner({
   isShotgun,
   unit,
   sent,
+  rolledOver,
+  shotgunsOwed,
+  drinksOwed,
   animations,
   onGive,
   onUndo,
@@ -79,7 +82,14 @@ export default function DrinkAssigner({
             ) : (
               <>
                 You hold <b>×{copies}</b> · worth{' '}
-                <b>{pool} {isShotgun ? (pool === 1 ? 'shotgun' : 'shotguns') : (pool === 1 ? 'drink' : 'drinks')}</b>
+                {shotgunsOwed > 0 && drinksOwed > 0 ? (
+                  <b>
+                    {shotgunsOwed} {shotgunsOwed === 1 ? 'shotgun' : 'shotguns'}
+                    {' + '}{drinksOwed} {drinksOwed === 1 ? 'drink' : 'drinks'}
+                  </b>
+                ) : (
+                  <b>{pool} {isShotgun ? (pool === 1 ? 'shotgun' : 'shotguns') : (pool === 1 ? 'drink' : 'drinks')}</b>
+                )}
               </>
             )}
           </span>
@@ -136,7 +146,11 @@ export default function DrinkAssigner({
         <>
           <div className="abody">
             <div className="gridhead">
-              <span className="tag">Tap to pour</span>
+              {/* The header changes with the phase, so nobody thinks they are
+                  pouring the same thing twice. */}
+              <span className="tag">
+                {rolledOver ? 'Now your drinks' : `Tap to pour${isShotgun ? ' shotguns' : ''}`}
+              </span>
               <span className="hint">One tap = one {unit}</span>
             </div>
             <div className={gridClasses}>

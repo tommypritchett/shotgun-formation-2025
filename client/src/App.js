@@ -15,6 +15,7 @@ import { assignAvatars, avatarFor } from './lib/avatars';
 import { buildRoundRows, resolvePlayerStats } from './lib/stats';
 import { consumedPendingIds, mergePlayerCards } from './lib/players';
 import { pourDeltas, readPourPrompt } from './lib/pour';
+import { pourPhase } from './lib/phases';
 import useEscape from './lib/useEscape';
 import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
 import CardSheet from './components/CardSheet';
@@ -2031,10 +2032,15 @@ socket.on('gameOver', (message) => {
       ? ROUND_DURATIONS.wild
       : ROUND_DURATIONS.standard;
 
-  const isShotgunRound = shotgunsToGive > 0;
-  const pool = isShotgunRound ? shotgunsToGive : drinksToGive;
-  const givenMap = isShotgunRound ? (assignedDrinks.shotguns || {}) : (assignedDrinks.drinks || {});
-  const pourCount = Object.values(givenMap).reduce((acc, n) => acc + (n || 0), 0);
+  // A round can owe BOTH shotguns and drinks — 4x Turnover is 16, which the
+  // server splits into {shotguns: 1, drinkCount: 6}. Shotguns go out first and
+  // the assigner then rolls over to the drinks. There used to be one pool with
+  // no way to switch, so the six drinks could not be poured at all.
+  const phase = pourPhase(shotgunsToGive, drinksToGive, assignedDrinks);
+  const isShotgunRound = phase.isShotgun;
+  const pool = phase.pool;
+  const givenMap = assignedDrinks[phase.bucket] || {};
+  const pourCount = phase.poured;
   const assignerOpen = timeRemaining > 0 && !!declaredCard;
   // First Down is a GLOBAL event, not a card anybody holds. It is not the same
   // thing as "you don't hold the declared card" and must not use that screen.
@@ -2114,22 +2120,27 @@ socket.on('gameOver', (message) => {
       return;
     }
     handleGiveDrink(playerId, isShotgunRound ? 'shotgun' : 'drink');
-    const bucket = localPoursRef.current[isShotgunRound ? 'shotguns' : 'drinks'];
+    const bucketName = phase.bucket;
+    const bucket = localPoursRef.current[bucketName];
     bucket[playerId] = (bucket[playerId] || 0) + 1;
-    setPourStack((prev) => [...prev, playerId]);
+    // Remember WHICH bucket, so undo can walk back across the phase boundary —
+    // it is one debt, and undoing a drink must not hand back a shotgun.
+    setPourStack((prev) => [...prev, { playerId, bucket: bucketName }]);
     flashTile(playerId, 'hit');
     if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) { /* not supported */ } }
   };
 
   const handleUndoPour = () => {
     if (pourSent || pourStack.length === 0) return;
-    const playerId = pourStack[pourStack.length - 1];
+    const last = pourStack[pourStack.length - 1];
+    // Older entries were bare ids, before pours carried their bucket.
+    const playerId = typeof last === 'string' ? last : last.playerId;
+    const key = typeof last === 'string' ? (isShotgunRound ? 'shotguns' : 'drinks') : last.bucket;
 
-    if (!undoPour(playerId, isShotgunRound)) return;
+    if (!undoPour(playerId, key === 'shotguns')) return;
 
     setPourStack((prev) => prev.slice(0, -1));
     setAssignedDrinks((prev) => {
-      const key = isShotgunRound ? 'shotguns' : 'drinks';
       const bucket = { ...(prev[key] || {}) };
       bucket[playerId] = Math.max(0, (bucket[playerId] || 0) - 1);
       if (bucket[playerId] === 0) delete bucket[playerId];
@@ -2250,7 +2261,10 @@ socket.on('gameOver', (message) => {
               pourCount={pourCount}
               pool={pool}
               isShotgun={isShotgunRound}
-              unit={isShotgunRound ? 'shotgun' : 'drink'}
+              unit={phase.unit}
+              rolledOver={phase.rolledOver}
+              shotgunsOwed={phase.shotgunsOwed}
+              drinksOwed={phase.drinksOwed}
               sent={pourSent}
               animations={tileAnim}
               onGive={handleTapTarget}
