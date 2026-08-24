@@ -397,6 +397,7 @@ const finalizeRound = (roomCode) => {
   
     // Send the remaining time every second
     const interval = setInterval(() => {
+     try {
       if (rooms[roomCode]) {
         if (timeRemaining > 0) {
           timeRemaining--;
@@ -412,6 +413,16 @@ const finalizeRound = (roomCode) => {
       } else {
         clearInterval(interval);  // Stop the timer if the room is deleted
       }
+     } catch (err) {
+      // A malformed payload often detonates HERE, seconds after the emit that
+      // caused it, where nothing in the log connects the two. Name the room so
+      // the morning-after read is possible, and stop this room's timer rather
+      // than throwing on every tick forever.
+      console.error(`💥 Round timer threw for room ${roomCode} — clearing it:`);
+      console.error(err && err.stack ? err.stack : err);
+      clearInterval(interval);
+      if (rooms[roomCode]) rooms[roomCode].isActionInProgress = false;
+     }
     }, 1000);
   };
   // connection logs 
@@ -926,7 +937,7 @@ room.players.forEach(player => {
   });
 
   // Handle assigning a new host
-socket.on('assignNewHost', ({ roomCode, newHostId }) => {
+socket.on('assignNewHost', ({ roomCode, newHostId } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
   
@@ -955,7 +966,7 @@ socket.on('assignNewHost', ({ roomCode, newHostId }) => {
   });
 
 // Handle Next Quarter event
-socket.on('nextQuarter', ({ roomCode }) => {
+socket.on('nextQuarter', ({ roomCode } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
 
@@ -980,7 +991,7 @@ socket.on('nextQuarter', ({ roomCode }) => {
 });
 
 // Handle Wild Card Swap
-socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
+socket.on('wildCardSwap', ({ roomCode, discardedCard } = {}) => {
     console.log("Wild card selected", discardedCard);
 
     const room = rooms[roomCode];
@@ -1006,7 +1017,13 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
     console.log("Player Hand", playerHand);
 
    // Find the index of the discarded card by comparing specific properties
-   const cardIndex = playerHand.wild.findIndex(card => card.card === discardedCard.card && card.drinks === discardedCard.drinks);
+   // The room, player and allowance guards above all pass before this, so a
+   // swap with no card reached it and threw.
+   if (!discardedCard || typeof discardedCard !== 'object') {
+     console.log(`⛔ wildCardSwap from ${player.name} with no card — ignoring`);
+     return;
+   }
+   const cardIndex = (playerHand.wild || []).findIndex(card => card && card.card === discardedCard.card && card.drinks === discardedCard.drinks);
    console.log("Card Index", cardIndex);
 
     if (cardIndex === -1) return;  // If card not found, do nothing
@@ -1040,7 +1057,7 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
 
 
 // Handle First Down event
-socket.on('firstDownEvent', ({ roomCode }) => {
+socket.on('firstDownEvent', ({ roomCode } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
   
@@ -1098,7 +1115,7 @@ socket.on('firstDownEvent', ({ roomCode }) => {
   });
 
   // Play Standard Card Event (Triggered by the host)
-  socket.on('playStandardCard', ({ roomCode, cardType }) => {
+  socket.on('playStandardCard', ({ roomCode, cardType } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
 
@@ -1207,7 +1224,7 @@ socket.on('firstDownEvent', ({ roomCode }) => {
 
 });
 // Handle wild card selection
-socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype }) => {
+socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype } = {}) => {
     const room = rooms[roomCode];  // Now roomCode is available
     if (!room) return;
   
@@ -1222,7 +1239,7 @@ socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype }) => {
   });
 
 // Listen for the confirmed wild card action from the host
-socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
+socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
 
@@ -1321,7 +1338,7 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
 });
 
 // Handle drink and shotgun assignments for a round
-socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotgunsToGive }) => {
+socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotgunsToGive } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
   
@@ -1332,7 +1349,10 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
     // ✅ DEBUGGING: Enhanced logging for socket ID mapping issues
     console.log(`\n🍺 ASSIGN DRINKS DEBUG - Room ${roomCode}`);
     console.log(`🍺 Assigner: ${socket.id.slice(-4)} (${socket.id})`);
-    console.log(`🍺 Selected player IDs:`, selectedPlayerIds.map(id => id.slice(-4)));
+    // A debug log line that ran before every guard, so a missing or non-string
+    // array killed the process before `if (!room) return` was ever reached.
+    console.log(`🍺 Selected player IDs:`, (Array.isArray(selectedPlayerIds) ? selectedPlayerIds : [])
+      .map(id => String(id).slice(-4)));
     console.log(`🍺 Drinks to give:`, drinksToGive);
     console.log(`🍺 Shotguns to give:`, shotgunsToGive);
     console.log(`🍺 Active socket mappings:`, socketIdMappings[roomCode] ? Object.entries(socketIdMappings[roomCode]).map(([old, new_]) => `${old.slice(-4)}→${new_.slice(-4)}`) : 'none');
@@ -1493,7 +1513,7 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
   };
 
   // Handle custom 'leaveGame' event
-socket.on('leaveGame', ({ roomCode }) => {
+socket.on('leaveGame', ({ roomCode } = {}) => {
     console.log(`Player ${socket.id} has left the game manually.`);
     
     const room = rooms[roomCode];
@@ -1572,7 +1592,7 @@ socket.on('leaveGame', ({ roomCode }) => {
 
 // Add this handler in the io.on('connection') block
 // In server.js - update the requestGameState handler to be more robust
-socket.on('requestGameState', ({ roomCode }) => {
+socket.on('requestGameState', ({ roomCode } = {}) => {
   console.log(`Player ${socket.id} requested game state for room ${roomCode}`);
   const room = rooms[roomCode];
   if (!room) {
@@ -1958,7 +1978,7 @@ socket.on('disconnect', (reason) => {
 // ✅ NEW: Handle client requests for forced refresh (prevents infinite loops)
 const refreshCooldowns = new Map(); // Track recent refresh requests
 
-socket.on('requestRefresh', ({ roomCode, playerName, reason }) => {
+socket.on('requestRefresh', ({ roomCode, playerName, reason } = {}) => {
   console.log(`🔄 Client ${playerName} (${socket.id}) requesting refresh: ${reason}`);
   
   // Check cooldown to prevent loops (1 refresh per 5 seconds per player)
@@ -2123,6 +2143,28 @@ const bootCommit = () => {
     return 'unknown';
   }
 };
+
+/**
+ * One bad message must not end everybody's night.
+ *
+ * A single process hosts every concurrent game, so an unhandled throw in any
+ * socket handler kills every room on the box — the same blast radius as the
+ * startGame crash this branch was created to fix. Staying up turns "every game
+ * dies" into "one action failed".
+ *
+ * This is a backstop, not a licence to stop guarding inputs. Anything it
+ * catches is a bug and the log says so loudly.
+ */
+process.on('uncaughtException', (err) => {
+  console.error('💥 UNCAUGHT EXCEPTION — staying up. This is a bug, fix it:');
+  console.error(err && err.stack ? err.stack : err);
+  console.error(`   rooms currently open: ${Object.keys(rooms).join(', ') || 'none'}`);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('💥 UNHANDLED REJECTION — staying up. This is a bug, fix it:');
+  console.error(reason && reason.stack ? reason.stack : reason);
+});
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
