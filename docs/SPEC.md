@@ -164,8 +164,16 @@ Both the countdown and the reconnection math now read one constant,
                                   └── roomNotFound/error/timeout ──────────────→ initial
 ```
 
-- On mount, an effect checks **URL params first**, then **localStorage** (`shotgunFormation_gameState`, 30-min TTL), and auto-rejoins via `validateAndJoinRoom`.
-- `hostLeft`, `gameOver`, invalid state → back to `initial` (+ `clearURL()`).
+- On mount, an effect checks **URL params first**, then **localStorage** (`SAVED_GAME_KEY = 'shotgunFormation_gameState'`, 30-min TTL), and auto-rejoins via `validateAndJoinRoom`.
+- `gameOver`, invalid state → back to `initial` (+ `clearURL()` + `forgetSavedGame()`).
+- The `connecting` screen (`components/ConnectingScreen.jsx`) has a **Back to start** button
+  wired to `abandonRejoin()`, which forgets the saved game, clears the URL, and returns to
+  `initial`. The ten-second bail-out reads `gameStateRef.current`, not the frozen `gameState`
+  from its `[]`-deps closure — it used to read the latter and could therefore never fire.
+  `roomNotFound` stays registered (it is a `once`); the bail-out used to tear it down.
+- **`isHost` is derived, never stored.** The server names the host in `hostId`; the client
+  keeps that one id and computes `isHost = hostId === socket.id`, so the Ref badge can be
+  drawn on whoever actually holds it rather than only on your own row.
 - There is an `ErrorBoundary` wrapper and an "emergency recovery" render path if `gameState` is ever falsy (the render never returns `null` on purpose).
 
 ---
@@ -201,7 +209,7 @@ Both the countdown and the reconnection math now read one constant,
 | `error` | `string` | |
 | `joinedRoom` | `roomCode: string` | lobby entry |
 | `updatePlayers` | `players: [{ id, name, disconnected? }]` | |
-| `gameStarted` | `{ hands, playerStats }` | `hands = { [socketId]: { standard, wild } }` |
+| `gameStarted` | `{ hostId, hands, playerStats }` | `hands = { [socketId]: { standard, wild } }`. `hostId` is the current Ref — the only event that carries it to a player who joins mid-game or reconnects. Present on all five emit sites. |
 | `updatePlayerHand` | `{ standard, wild }` | per-player hand refresh |
 | `declaredCard` | `cardType: string \| null` | `null` resets on finalize |
 | `noCard` | `message: string` | `''` clears after 5s |
@@ -212,7 +220,6 @@ Both the countdown and the reconnection math now read one constant,
 | `wildCardSelected` | `{ playerId, wildcardtype }` | **to host only** |
 | `actionInProgress` | `message: string` | shown as `alert()` |
 | `newHost` | `{ newHostId, message }` | |
-| `hostLeft` | `message: string` | |
 | `gameOver` | `message: string` | |
 | `playerLeft` | `{ playerId, remainingPlayers }` | |
 | `playerRejoined` | `{ playerId, playerName }` | |
@@ -231,6 +238,8 @@ Both the countdown and the reconnection math now read one constant,
 
 ### ⚠️ Dead handlers (client listens, server never emits)
 - `playerDisconnected`, `playerReconnected`, `roundEnded` — client has `socket.on` for these but the server never emits them. Safe to delete during rebuild.
+- `hostLeft` was removed entirely in Session 13. Neither side has it: the host leaving no
+  longer closes anything, so there was nothing left to announce.
 
 ---
 
@@ -238,7 +247,7 @@ Both the countdown and the reconnection math now read one constant,
 
 | Object | Shape | Purpose |
 |--------|-------|---------|
-| `rooms` | `{ [code]: { players, host, gameStarted, quarter, deck } }` | rooms |
+| `rooms` | `{ [code]: { players, host, gameStarted, quarter, deck, createdAt, emptiedAt? } }` | rooms. The two timestamps let the idle reaper age out a room whose roster is empty. |
 | `playerStats` | `{ [socketId]: { totalDrinks, totalShotguns, drinks, shotguns, standard, wild, name?, disconnected? } }` | **global across all rooms** |
 | `roundResults` | `{ [code]: { [socketId]: { drinks, shotguns } } }` | current round tally |
 | `formerPlayers` | `{ [name]: { id, name, roomCode, totalDrinks, totalShotguns, standard, wild } }` | disconnect snapshot, keyed by **name** |
@@ -246,6 +255,23 @@ Both the countdown and the reconnection math now read one constant,
 | `activeRounds` | `{ [code]: { declaredCard, startTime, timeRemaining } }` | round-aware reconnection |
 | `socketIdMappings` | `{ [code]: { [oldId]: newId } }` | remap old→new socket ids mid-round |
 | `rooms[code].isActionInProgress` | boolean **on the room** | per-room round lock |
+
+### Room lifecycle (Session 13)
+
+A room closes **only** when nobody has been active in it for `ROOM_IDLE_TIMEOUT_MS`
+(30 minutes; both it and `ROOM_REAP_INTERVAL_MS` are overridable from the environment so
+the reaper can be tested on a short clock). It does **not** close when the host leaves.
+
+- `roomLastActiveAt(room)` — anyone connected means *now*; otherwise the latest
+  `disconnectedAt` across **every** player; otherwise `emptiedAt` / `createdAt`.
+- `reapIdleRooms()` — one server-wide interval, the only thing that closes rooms.
+- `destroyRoom(code, reason)` → `purgeRoomState(code, state)` — the **single** teardown.
+  It clears all seven maps, including `playerStats` for socket ids a player reconnected
+  *from* and ids only `roundResults` remembers, and the `formerPlayers` entries (keyed by
+  **name**) belonging to that room. `tests/room-teardown.test.js` pins that `delete rooms[`
+  appears exactly once in the whole file.
+- `handOverWhistle(code, message)` — the host leaving the lobby or the game hands the Ref
+  to an active player and broadcasts the roster.
 
 `playerStats` remains keyed by socket id across all rooms, but the scoreboard payload is now
 built per-room by `buildRoomStats(room)`, straight from `room.players`.
