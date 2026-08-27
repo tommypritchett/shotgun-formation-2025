@@ -164,6 +164,11 @@ Both the countdown and the reconnection math now read one constant,
                                   └── roomNotFound/error/timeout ──────────────→ initial
 ```
 
+- The socket options live in `client/src/lib/socket-options.js`, not inline. Transports are
+  **polling first** with `tryAllTransports: true`: socket.io-client 4.8.1 leaves
+  `tryAllTransports` undefined by default and therefore does NOT fall through to the next
+  transport when the first fails to open, and `rememberUpgrade: true` makes a returning
+  client open on WebSocket regardless of list order.
 - On mount, an effect checks **URL params first**, then **localStorage** (`SAVED_GAME_KEY = 'shotgunFormation_gameState'`, 30-min TTL), and auto-rejoins via `validateAndJoinRoom`.
 - `gameOver`, invalid state → back to `initial` (+ `clearURL()` + `forgetSavedGame()`).
 - The `connecting` screen (`components/ConnectingScreen.jsx`) has a **Back to start** button
@@ -209,7 +214,7 @@ Both the countdown and the reconnection math now read one constant,
 | `error` | `string` | |
 | `joinedRoom` | `roomCode: string` | lobby entry |
 | `updatePlayers` | `players: [{ id, name, disconnected? }]` | |
-| `gameStarted` | `{ hostId, hands, playerStats }` | `hands = { [socketId]: { standard, wild } }`. `hostId` is the current Ref — the only event that carries it to a player who joins mid-game or reconnects. Present on all five emit sites. |
+| `gameStarted` | `{ hostId, hands, playerStats }` | `hands = { [socketId]: { standard, wild } }`. `hostId` is the current Ref — the only event that carries it to a player who joins mid-game or reconnects. `playerStats` is **this room's** (`buildRoomStats(room)`) — until Session 14 all five sites sent the module-global map, i.e. every game the server had ever hosted. Present on all five emit sites. |
 | `updatePlayerHand` | `{ standard, wild }` | per-player hand refresh |
 | `declaredCard` | `cardType: string \| null` | `null` resets on finalize |
 | `noCard` | `message: string` | `''` clears after 5s |
@@ -250,7 +255,7 @@ Both the countdown and the reconnection math now read one constant,
 | `rooms` | `{ [code]: { players, host, gameStarted, quarter, deck, createdAt, emptiedAt? } }` | rooms. The two timestamps let the idle reaper age out a room whose roster is empty. |
 | `playerStats` | `{ [socketId]: { totalDrinks, totalShotguns, drinks, shotguns, standard, wild, name?, disconnected? } }` | **global across all rooms** |
 | `roundResults` | `{ [code]: { [socketId]: { drinks, shotguns } } }` | current round tally |
-| `formerPlayers` | `{ [name]: { id, name, roomCode, totalDrinks, totalShotguns, standard, wild } }` | disconnect snapshot, keyed by **name** |
+| `formerPlayers` | `{ [code]: { [name]: { id, name, totalDrinks, totalShotguns, standard, wild } } }` | disconnect snapshot, **nested by room** since Session 14. It was one global slot per name, so two games each with a Mike overwrote each other. Access only through `formerPlayersIn` / `rememberFormerPlayer` / `forgetFormerPlayer`. |
 | `usedCards` | `{ [code]: { standard, wild } }` | discard pile for replenishment |
 | `activeRounds` | `{ [code]: { declaredCard, startTime, timeRemaining } }` | round-aware reconnection |
 | `socketIdMappings` | `{ [code]: { [oldId]: newId } }` | remap old→new socket ids mid-round |
@@ -267,9 +272,10 @@ the reaper can be tested on a short clock). It does **not** close when the host 
 - `reapIdleRooms()` — one server-wide interval, the only thing that closes rooms.
 - `destroyRoom(code, reason)` → `purgeRoomState(code, state)` — the **single** teardown.
   It clears all seven maps, including `playerStats` for socket ids a player reconnected
-  *from* and ids only `roundResults` remembers, and the `formerPlayers` entries (keyed by
-  **name**) belonging to that room. `tests/room-teardown.test.js` pins that `delete rooms[`
-  appears exactly once in the whole file.
+  *from* and ids only `roundResults` remembers. Since Session 14 the `formerPlayers` half is
+  a single `delete formerPlayers[roomCode]` rather than a scan over every name on the
+  server. `tests/room-teardown.test.js` pins that `delete rooms[` appears exactly once in
+  the whole file.
 - `handOverWhistle(code, message)` — the host leaving the lobby or the game hands the Ref
   to an active player and broadcasts the roster.
 
