@@ -87,6 +87,14 @@ const connectPlayer = async (url, name) => {
   const waiters = new Set();
   let view = { ...EMPTY_VIEW };
 
+  // Answer the server's heartbeat exactly as the real client does
+  // (App.js: `socket.emit('heartbeat-ack', { timestamp: data.timestamp })`).
+  // Without this the harness is quieter than a real table, which is precisely
+  // where a per-socket logging loop hides.
+  socket.on('heartbeat', (data) => {
+    socket.emit('heartbeat-ack', { timestamp: data?.timestamp });
+  });
+
   socket.onAny((event, payload) => {
     const entry = { event, payload, at: Date.now(), socketId: socket.id };
     log.push(entry);

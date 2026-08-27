@@ -610,8 +610,7 @@ const finalizeRound = (roomCode) => {
     room.players.forEach((player) => {
       const playerId = player.id;
       const roundResult = roundResults[roomCode][playerId] || { drinks: 0, shotguns: 0 };
-      console.log(`Results stats for player ${playerId}:`, roundResults[roomCode][playerId]);
-      console.log(`Result stats for player ${playerId}:`, roundResult);
+      // (Two near-identical dumps of the same object used to print here.)
 
 
       // Update total drinks and shotguns for the player
@@ -728,11 +727,13 @@ io.on('connection', (socket) => {
   // Start the heartbeat when a client connects
   startHeartbeat();
   
-  // Handle heartbeat acknowledgement
-  socket.on('heartbeat-ack', () => {
-    // We could track the round-trip time here if needed
-    console.log(`Heartbeat acknowledged by ${socket.id}`);
-  });
+  // Handle heartbeat acknowledgement.
+  //
+  // Deliberately silent. This used to log a line per socket per 10 seconds,
+  // forever, including an idle lobby — which is most of what a night's log
+  // was. The listener stays so the event is consumed rather than falling
+  // through to socket.io's unhandled path.
+  socket.on('heartbeat-ack', () => {});
   
   // Clean up the interval when the socket disconnects
   socket.on('disconnect', () => {
@@ -1648,17 +1649,10 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
       roundResults[roomCode] = {};  // Initialize for each round
     }
     
-    // ✅ DEBUGGING: Enhanced logging for socket ID mapping issues
-    console.log(`\n🍺 ASSIGN DRINKS DEBUG - Room ${roomCode}`);
-    console.log(`🍺 Assigner: ${socket.id.slice(-4)} (${socket.id})`);
-    // A debug log line that ran before every guard, so a missing or non-string
-    // array killed the process before `if (!room) return` was ever reached.
-    console.log(`🍺 Selected player IDs:`, (Array.isArray(selectedPlayerIds) ? selectedPlayerIds : [])
-      .map(id => String(id).slice(-4)));
-    console.log(`🍺 Drinks to give:`, drinksToGive);
-    console.log(`🍺 Shotguns to give:`, shotgunsToGive);
-    console.log(`🍺 Active socket mappings:`, socketIdMappings[roomCode] ? Object.entries(socketIdMappings[roomCode]).map(([old, new_]) => `${old.slice(-4)}→${new_.slice(-4)}`) : 'none');
-    console.log(`🍺 Current round results:`, Object.entries(roundResults[roomCode] || {}).map(([id, data]) => `${id.slice(-4)}:${JSON.stringify(data)}`));
+    // The eight-line ASSIGN DRINKS DEBUG block that used to sit here was the
+    // loudest thing on the server: the client flushes a delta every 700ms per
+    // pouring player, so one 21-second round with six players ran to about a
+    // thousand lines. One outcome line at the end of this handler replaces it.
 
     // ✅ SOCKET MAPPING FIX: Resolve selected player IDs through socket mappings with transitive resolution
     const resolvedPlayerIds = selectedPlayerIds.map(selectedPlayerId => {
@@ -1682,8 +1676,6 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
       }
       return selectedPlayerId;
     });
-    
-    console.log(`🍺 Resolved player IDs:`, resolvedPlayerIds.map(id => id.slice(-4)));
     
     // ✅ SOCKET MAPPING FIX: Resolve drinks and shotguns objects to use new socket IDs with transitive resolution
     const resolvedDrinksToGive = {};
@@ -1732,13 +1724,11 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
       // Ensure the roundResults entry for the player exists
       if (!roundResults[roomCode][selectedPlayerId]) {
         roundResults[roomCode][selectedPlayerId] = { drinks: 0, shotguns: 0 };
-        console.log(`Initializing round results for player ${selectedPlayerId}`);
       } 
   
       // Add drinks to the player's round results, if applicable
       if (resolvedDrinksToGive && resolvedDrinksToGive[selectedPlayerId]) {
         roundResults[roomCode][selectedPlayerId].drinks += resolvedDrinksToGive[selectedPlayerId];
-        console.log(`Player ${selectedPlayerId} received ${resolvedDrinksToGive[selectedPlayerId]} drinks.`);
   
         // Check if player reached or exceeded 10 drinks in this round
         if (roundResults[roomCode][selectedPlayerId].drinks >= 10) {
@@ -1748,12 +1738,9 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
           console.log(`Player ${selectedPlayerId} reached 10 drinks and has to shotgun!`);
         }
       }
-      console.log("resolved shotguns to give", resolvedShotgunsToGive, "for selectedPlayerId", selectedPlayerId.slice(-4), "value:", resolvedShotgunsToGive[selectedPlayerId]);
-
       // Add shotguns to the player's round results, if applicable
       if (resolvedShotgunsToGive && resolvedShotgunsToGive[selectedPlayerId]) {
         roundResults[roomCode][selectedPlayerId].shotguns += resolvedShotgunsToGive[selectedPlayerId];
-        console.log(`Player ${selectedPlayerId} received ${resolvedShotgunsToGive[selectedPlayerId]} shotguns.`);
       }
 
       // ✅ UNDO: a pour can be taken back, which arrives here as a NEGATIVE.
@@ -1779,12 +1766,13 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
     // Uses the raw payload, not the socket-id-resolved copy: this is the
     // giver's outlay, and it is theirs whoever the drinks landed on.
     const giver = room.players.find(p => p.id === socket.id);
+    const sum = (obj) => Object.values(obj || {}).reduce((a, b) => a + (Number(b) || 0), 0);
     if (giver) {
-      const sum = (obj) => Object.values(obj || {}).reduce((a, b) => a + (Number(b) || 0), 0);
       settlePendingPour(roomCode, giver.name, sum(drinksToGive), sum(shotgunsToGive));
     }
 
-    console.log(`Current round results for room ${roomCode}:`, roundResults[roomCode]);
+    // The one line a pour is worth: who, how much, where.
+    console.log(`🍺 ${giver ? giver.name : socket.id.slice(-4)} poured ${sum(drinksToGive)}d/${sum(shotgunsToGive)}s in ${roomCode}`);
 
     // That pour may have been the last thing anyone owed.
     maybeFinishRoundEarly(roomCode);
