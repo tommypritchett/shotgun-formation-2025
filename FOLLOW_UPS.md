@@ -1,28 +1,26 @@
 # Follow-ups
 
-One place to look for work that was deliberately deferred. Ordered: **F1 is the first thing
-to do once the deploy lands.** Everything here was found with a reason for not fixing it at
-the time; none of it was silently dropped.
+One place to look for work that was deliberately deferred. Everything here was found with a
+reason for not fixing it at the time; none of it was silently dropped.
+
+**F1 is DONE** (Session 14, `phase-14-scoped-game-stats`). F2 is now unblocked and provable.
 
 Not to be confused with `BLOCKED.md`, which records things that could not be *done or
 tested* rather than things chosen for later.
 
 ---
 
-## F1 — `gameStarted` leaks every room's `playerStats` ⚠️ **do this first, after the deploy**
+## F1 — `gameStarted` leaks every room's `playerStats` ✅ **FIXED, Session 14**
 
-**Status:** live on `main` today. **Not a regression** — this branch does not make it worse,
+**Status:** fixed on `overnight-rebuild`, tag `phase-14-scoped-game-stats`. Still live on
+`main` until the deploy lands. **Was not a regression** — this branch never made it worse,
 which is why it was correct not to touch it hours before a push.
 
-**What:** all four `gameStarted` emit sites send the **module-global `playerStats`** —
-every room on the server — not this room's:
-
-| Site | Context |
-|---|---|
-| `server.js:679` | mid-game rejoin through `handleJoinRoom` |
-| `server.js:762` | rejoin, hand restored |
-| `server.js:867` | `startGame` — the main one |
-| `server.js:1501` | `requestGameState` fast reconnect |
+**What it was:** the `gameStarted` emit sites sent the **module-global `playerStats`** —
+every room on the server — not this room's. There turned out to be **five**, not four: the
+room-wide kickoff broadcast wrote it in ES6 shorthand (`playerStats` rather than
+`playerStats: playerStats`), so it did not match the grep every previous audit used, and it
+is the largest of the five.
 
 Session 1 scoped `startGame`'s stats reset; Session 3 scoped `updatePlayerStats` via
 `buildRoomStats(room)` and scoped every `playerStats` name lookup. **Nobody checked
@@ -32,17 +30,16 @@ It matters more than a payload leak, because `App.js:1573` writes that payload *
 into client state** with no filtering — so another game's players land in your client's
 `playerStats`, where the scoreboard's name-resolution then reads them.
 
-**The fix:** point all four sites at the existing `buildRoomStats(room)`. It is already
-written, already tested, and already the shape the client expects.
-
-**Why it is worth doing properly rather than quickly:** it changes payload *contents* at a
-site the client consumes directly into state, so it wants a failing test first (two rooms,
-assert room A's `gameStarted.playerStats` contains nobody from room B) and a real review.
+**The fix, as shipped:** all five sites point at the existing `buildRoomStats(room)`.
+Covered by `tests/game-started-scoping.test.js` (5 tests), including one that asserts the
+payload does **not** shrink to nothing for your own room, and one that asserts it stops
+growing with rooms the server has hosted since.
 
 **The bonus — and the reason this unblocks a deletion:** `buildRoomStats` only emits entries
-that carry a `name`. Fixing this makes the "process of elimination" fallback at
-`App.js:2051` / `:2156` genuinely unreachable, at which point the UI rebuild can delete that
-whole block **with proof instead of on somebody's say-so.** See F2.
+that carry a `name`. Now that this is fixed, the "process of elimination" fallback in
+`App.js` is genuinely unreachable, and the UI rebuild can delete that whole block **with
+proof instead of on somebody's say-so.** See F2. Deliberately NOT deleted in Session 14:
+removing client code the day before a deploy is not a trade worth making.
 
 ---
 

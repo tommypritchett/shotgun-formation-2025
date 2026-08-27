@@ -1015,7 +1015,10 @@ function handleJoinRoom(socket, roomCode, playerName) {
       socket.emit('gameStarted', {
         hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
         hands: { [socket.id]: handData },
-        playerStats: playerStats
+        // THIS room's stats. It used to be the module-global map, which put
+        // every other game on the server into this client's state and grew
+        // with every game the process had ever hosted.
+        playerStats: buildRoomStats(rooms[roomCode])
       });
       
       // ✅ FIX: Send complete players list so reconnected player sees everyone
@@ -1108,7 +1111,7 @@ function handleJoinRoom(socket, roomCode, playerName) {
         standard: playerStats[socket.id].standard,
         wild: playerStats[socket.id].wild
       }},
-      playerStats: playerStats
+      playerStats: buildRoomStats(room)
     });
     
     // ✅ FIX: Deduplicate and send complete players list so new player sees everyone
@@ -1214,7 +1217,10 @@ room.players.forEach(player => {
      io.to(roomCode).emit('gameStarted', {
         hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
         hands,         // The player hands
-        playerStats    // The initial player stats with totals set to 0
+        // THIS room's initial stats, all zero. Written in shorthand, this was
+        // the module-global map — the fifth and largest of the sites that sent
+        // every other game on the server to every client.
+        playerStats: buildRoomStats(room)
       });
 
     // Log that the game has started
@@ -1973,7 +1979,7 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
           standard: playerStats[socket.id]?.standard || [],
           wild: playerStats[socket.id]?.wild || []
         }},
-        playerStats: playerStats
+        playerStats: buildRoomStats(room)
       });
       
       // ✅ FIX: Send complete players list so reconnected player sees everyone
@@ -2163,7 +2169,7 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
             standard: playerStats[socket.id]?.standard || [],
             wild: playerStats[socket.id]?.wild || []
           }},
-          playerStats: playerStats
+          playerStats: buildRoomStats(room)
         });
         
         // ✅ FIX: Send complete players list so reconnected player sees everyone
