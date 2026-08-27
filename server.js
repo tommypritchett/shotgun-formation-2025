@@ -22,7 +22,10 @@ const io = socketIo(server, {
   pingInterval: 8000, // More frequent pings for mobile (optimized)
   pingTimeout: 30000, // Shorter timeout for faster mobile detection
   connectTimeout: 45000, // Shorter connect timeout for mobile
-  maxHttpBufferSize: 1e8,
+  // 1 MB. This was 1e8 — 100 MB per message, 100x the socket.io default.
+  // Nothing this app sends is remotely near it, and on a 512 MB instance a
+  // couple of oversized messages are an out-of-memory kill.
+  maxHttpBufferSize: 1e6,
   // Additional mobile optimizations
   allowEIO3: true, // Better compatibility
   serveClient: false, // Reduce overhead

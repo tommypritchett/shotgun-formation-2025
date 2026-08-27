@@ -17,6 +17,7 @@ import { pourDeltas, readPourPrompt } from './lib/pour';
 import { pourPhase } from './lib/phases';
 import useEscape from './lib/useEscape';
 import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
+import { SOCKET_OPTIONS } from './lib/socket-options';
 import CardSheet from './components/CardSheet';
 import ConnectingScreen from './components/ConnectingScreen';
 import DrinkAssigner from './components/DrinkAssigner';
@@ -123,21 +124,10 @@ class ErrorBoundary extends Component {
   }
 }
 
-const socket = io(process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com', {
-  transports: ['websocket', 'polling'], // WebSocket first for better performance, polling as fallback
-  reconnection: true,
-  reconnectionAttempts: Infinity,
-  reconnectionDelay: 100, // Even faster initial retry for mobile
-  reconnectionDelayMax: 3000, // Shorter max delay for mobile
-  timeout: 45000, // Match server connectTimeout
-  pingInterval: 8000, // Match server pingInterval
-  pingTimeout: 30000, // Match server pingTimeout
-  autoConnect: true,
-  // Mobile-specific optimizations
-  forceNew: false, // Reuse existing connection when possible
-  upgrade: true, // Allow transport upgrades
-  rememberUpgrade: true // Remember successful upgrades
-});
+const socket = io(
+  process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com',
+  SOCKET_OPTIONS
+);
 
 // const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:3001');
 
