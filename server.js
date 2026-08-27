@@ -50,6 +50,138 @@ const DRINKS_PER_SHOTGUN = 10;
 const activeRounds = {};  // Track which rooms have active rounds: { roomCode: { declaredCard, timeRemaining, startTime } }
 const socketIdMappings = {};  // Track old->new socket ID mappings during active rounds: { roomCode: { oldSocketId: newSocketId } }
 
+/**
+ * A room closes when NOBODY has been active in it for this long.
+ *
+ * It does NOT close when the host leaves. The person who made the room is the
+ * one most likely to put their phone down, hand it to somebody, or step
+ * outside; closing on their exit takes a game away from nine other people who
+ * are still holding cards. Room membership belongs to the table.
+ *
+ * Both values are overridable from the environment so the reaper can be tested
+ * on a short clock against the real code path, rather than a test keeping its
+ * own copy of half an hour.
+ */
+const ROOM_IDLE_TIMEOUT_MS = Number(process.env.ROOM_IDLE_TIMEOUT_MS) || 30 * 60 * 1000;
+const ROOM_REAP_INTERVAL_MS = Number(process.env.ROOM_REAP_INTERVAL_MS) || 60 * 1000;
+
+/**
+ * Everything the server holds for one room, deleted in one place.
+ *
+ * Room state is spread across seven maps keyed three different ways — by room
+ * code, by socket id, and by player NAME — so partial teardown is the default
+ * failure. A leaked `formerPlayers` entry hands a stale hand and stale totals
+ * to the next player who happens to reuse that name.
+ *
+ * Takes its maps as an argument so the teardown can be tested on its own.
+ *
+ * @returns {boolean} whether the room existed
+ */
+const purgeRoomState = (roomCode, state) => {
+  const rooms = state.rooms || {};
+  const playerStats = state.playerStats || {};
+  const roundResults = state.roundResults || {};
+  const formerPlayers = state.formerPlayers || {};
+  const usedCards = state.usedCards || {};
+  const activeRounds = state.activeRounds || {};
+  const socketIdMappings = state.socketIdMappings || {};
+  const room = rooms[roomCode];
+
+  // Every socket id this room has ever used: its current players, the old ids
+  // they reconnected FROM, and anyone the round results still remember.
+  const ids = new Set();
+  ((room && room.players) || []).forEach((p) => { if (p && p.id) ids.add(p.id); });
+  Object.entries(socketIdMappings[roomCode] || {}).forEach(([oldId, newId]) => {
+    ids.add(oldId);
+    ids.add(newId);
+  });
+  Object.keys(roundResults[roomCode] || {}).forEach((id) => ids.add(id));
+  ids.forEach((id) => { delete playerStats[id]; });
+
+  // formerPlayers is keyed by name across ALL rooms, so drop only the entries
+  // that point at this one.
+  Object.keys(formerPlayers).forEach((name) => {
+    if (formerPlayers[name] && formerPlayers[name].roomCode === roomCode) {
+      delete formerPlayers[name];
+    }
+  });
+
+  delete roundResults[roomCode];
+  delete activeRounds[roomCode];
+  delete socketIdMappings[roomCode];
+  delete usedCards[roomCode];
+  delete rooms[roomCode];
+  return Boolean(room);
+};
+
+/** Close a room for good, stopping its round timer first so it cannot tick on. */
+const destroyRoom = (roomCode, reason) => {
+  const round = activeRounds[roomCode];
+  if (round && round.intervalId) clearInterval(round.intervalId);
+  const existed = purgeRoomState(roomCode, {
+    rooms, playerStats, roundResults, formerPlayers, usedCards, activeRounds, socketIdMappings,
+  });
+  if (existed) console.log(`🧹 Room ${roomCode} closed: ${reason}`);
+  return existed;
+};
+
+/**
+ * When this room was last worth keeping alive.
+ *
+ * Anyone still connected means "right now" — sitting between rounds is not
+ * idleness. Otherwise it is the most recent departure across EVERY player, not
+ * just the host, so the clock only runs once the whole table has gone.
+ */
+const roomLastActiveAt = (room) => {
+  if (!room) return 0;
+  const players = room.players || [];
+  if (players.some((p) => !p.disconnected)) return Date.now();
+  const departures = players.map((p) => p.disconnectedAt || 0).filter(Boolean);
+  if (departures.length) return Math.max(...departures);
+  // Nobody in the roster at all: everyone used Leave rather than dropping.
+  return room.emptiedAt || room.createdAt || 0;
+};
+
+/** The one thing that closes rooms. */
+const reapIdleRooms = () => {
+  const now = Date.now();
+  Object.keys(rooms).forEach((roomCode) => {
+    const idleFor = now - roomLastActiveAt(rooms[roomCode]);
+    if (idleFor >= ROOM_IDLE_TIMEOUT_MS) {
+      destroyRoom(roomCode, `nobody active for ${Math.round(idleFor / 60000)} minutes`);
+    }
+  });
+};
+
+const roomReaper = setInterval(reapIdleRooms, ROOM_REAP_INTERVAL_MS);
+if (roomReaper.unref) roomReaper.unref();
+
+/**
+ * Note that a room now has nobody in its roster. It is NOT closed here; the
+ * reaper closes it once the idle window has passed with nobody back.
+ */
+const markRoomEmpty = (roomCode) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  room.emptiedAt = Date.now();
+  console.log(`Room ${roomCode} is empty. Holding it for ${ROOM_IDLE_TIMEOUT_MS}ms in case anyone comes back.`);
+};
+
+/**
+ * Move the whistle to somebody who is actually here.
+ * @returns {string|null} the new host id, or null if nobody is left to take it
+ */
+const handOverWhistle = (roomCode, message) => {
+  const room = rooms[roomCode];
+  if (!room) return null;
+  const stillHere = activePlayers(room);
+  if (stillHere.length === 0) return null;
+  room.host = stillHere[0].id;
+  io.to(roomCode).emit('newHost', { newHostId: room.host, message });
+  console.log(`🏈 Whistle moved to ${stillHere[0].name} (${room.host}) in room ${roomCode}: ${message}`);
+  return room.host;
+};
+
 
 // Enable CORS for all routes
 app.use(cors());
@@ -627,7 +759,7 @@ io.on('connection', (socket) => {
       io.to(socket.id).emit('error', 'Could not create a game right now. Please try again.');
       return;
     }
-    rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false, wildSwapQuarter: {} };
+    rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false, wildSwapQuarter: {}, createdAt: Date.now() };
     playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
     usedCards[roomCode] = { standard: [], wild: [] };  // Initialize used cards storage for deck replenishment
         socket.join(roomCode);
@@ -999,15 +1131,15 @@ socket.on('joinRoom', (roomCode, playerName) => {
 
 
         if (rooms[roomCode].players.length === 0) {
-          delete rooms[roomCode];
-          delete usedCards[roomCode];  // Clean up used cards storage
-          console.log(`Room ${roomCode} deleted`);
-        } else if (rooms[roomCode].host === socket.id) {
-          io.to(roomCode).emit('hostLeft', 'The host has left the game. Lobby is closing.');
-          delete rooms[roomCode];  // Delete the room when the host leaves
-          delete usedCards[roomCode];  // Clean up used cards storage
-          console.log(`Host left. Room ${roomCode} closed.`);
+          // Empty is not dead. The reaper closes it once the idle window has
+          // passed with nobody back.
+          markRoomEmpty(roomCode);
         } else {
+          if (rooms[roomCode].host === socket.id) {
+            // The lobby used to close here. It no longer does: the whistle
+            // moves and everyone else keeps their seat.
+            handOverWhistle(roomCode, 'The host has left. A new host has been assigned.');
+          }
           io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
         }
       }
@@ -1671,15 +1803,19 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
     console.log(playerStats[socket.id]);
     console.log("Player array:", room.players);
 
-    // Store player data in formerPlayers by their name
+    // Store player data in formerPlayers by their name.
+    // The stats may be missing — this is the one path that reads them without
+    // having just written them, and a missing entry must not take the process
+    // down and every other room with it.
+    const leavingStats = playerStats[socket.id] || {};
     formerPlayers[leavingPlayer.name] = {
       id: socket.id,  // Original socket ID (for reference)
       name: leavingPlayer.name,
       roomCode: roomCode,            // Last room the player was in
-      totalDrinks: playerStats[socket.id].totalDrinks || 0,
-      totalShotguns: playerStats[socket.id].totalShotguns || 0,
-      standard: playerStats[socket.id].standard || [],
-      wild: playerStats[socket.id].wild || []
+      totalDrinks: leavingStats.totalDrinks || 0,
+      totalShotguns: leavingStats.totalShotguns || 0,
+      standard: leavingStats.standard || [],
+      wild: leavingStats.wild || []
     };
     console.log("Former Players:", formerPlayers);
 
@@ -1690,11 +1826,11 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
     delete playerStats[socket.id];  // Remove player stats
     // Check if only no player is left
     if (room.players.length === 0) {
+        // Everyone walked. Tell the last one out that the game is over, but
+        // KEEP the room: they may have left by accident, and half an hour of
+        // memory costs nothing next to losing a game in progress.
         io.to(roomCode).emit('gameOver', 'The game is ending as no player is left.');
-        delete rooms[roomCode];  // End the game and delete the room
-        delete usedCards[roomCode];  // Clean up used cards storage
-        console.log(`Room ${roomCode} deleted because only one player is left.`);
-        // ✅ REMOVED: updatePlayerStats on game over - no need when game ends
+        markRoomEmpty(roomCode);
         return;  // Exit the function to prevent further execution
     }
 
@@ -1712,11 +1848,10 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
 
       console.log(`Player ${socket.id} left the game in progress.`);
     } else {
-        // If no players are left, end the game and delete the room
+        // Everyone else is disconnected rather than gone. The room stays open
+        // for them; the reaper deals with it if none of them come back.
         io.to(roomCode).emit('gameOver', 'The game is ending as all other players have disconnected.');
-        delete rooms[roomCode];
-        delete usedCards[roomCode];  // Clean up used cards storage
-        console.log(`Room ${roomCode} deleted as no players are left.`);
+        console.log(`Room ${roomCode} has no active players. Holding it for reconnections.`);
       }
     } else {
       // Notify the remaining players that a player has left
@@ -1728,6 +1863,7 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
     // Update the hands of the remaining players
     room.players.forEach(player => {
       const playerHand = playerStats[player.id];
+      if (!playerHand) return;  // nothing to send, and dereferencing it kills the server
       io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
       // ✅ REMOVED: updatePlayerStats on disconnect - only send on round completion
     });
@@ -2058,7 +2194,6 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
 socket.on('disconnect', (reason) => {
   
   console.log(`User disconnected: ${socket.id}. Reason: ${reason}`);
-  let roomToDelete = null;
   
     for (let roomCode in rooms) {
       const room = rooms[roomCode];
@@ -2127,13 +2262,11 @@ socket.on('disconnect', (reason) => {
           // If the game has NOT started (still in the lobby)
           if (!room.gameStarted) {
             if (room.host === socket.id) {
-              // Host left in the lobby, close the room
-              io.to(roomCode).emit('hostLeft', 'The host has left the game. Lobby is closing.');
-              roomToDelete = roomCode;
-            } else {
-              // Non-host player left in the lobby, update player list
-              io.to(roomCode).emit('updatePlayers', players);
+              // The lobby used to close here. A host whose phone locks during
+              // the pre-game shuffle is the most ordinary thing at a real table.
+              handOverWhistle(roomCode, 'The host has disconnected. A new host has been assigned.');
             }
+            io.to(roomCode).emit('updatePlayers', players);
           } else {
             // If the game HAS started, handle the disconnection accordingly
             if (room.host === socket.id) {
@@ -2184,13 +2317,6 @@ socket.on('disconnect', (reason) => {
           // ✅ REMOVED: updatePlayerStats on disconnect - only send on round completion
         }
       }
-    }
-
-    // If the room needs to be deleted
-    if (roomToDelete) {
-      delete rooms[roomToDelete];
-      delete usedCards[roomToDelete];  // Clean up used cards storage
-      console.log(`Room ${roomToDelete} deleted`);
     }
 });
 

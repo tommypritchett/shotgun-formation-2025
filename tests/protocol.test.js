@@ -53,18 +53,23 @@ describe('socket contract', () => {
       expect(room.host.saw('newHost', since)).toBe(false);
     });
 
-    it('closes the lobby when the host leaves before kickoff', async () => {
+    it('keeps the lobby open when the host leaves before kickoff', async () => {
+      // This used to emit `hostLeft` and delete the room. See
+      // tests/room-lifecycle.test.js for why that was the wrong rule: the room
+      // belongs to the table, and only the idle reaper closes it.
       const room = await h.newRoom(['Ava', 'Ben', 'Cy']);
       const [ben] = room.guests;
 
       const since = ben.mark();
       room.host.emit('leaveRoom', room.code);
 
-      expect(String(await ben.waitFor('hostLeft', { since }))).toMatch(/host has left/i);
+      expect(String((await ben.waitFor('newHost', { since })).message))
+        .toMatch(/host has left/i);
+      expect(ben.saw('hostLeft', since), 'still telling the room it is closing')
+        .toBe(false);
 
-      // The room is really gone, not just hidden.
       const latecomer = await h.connect('Dee');
-      expect(await h.validateAndJoinRoom(latecomer, room.code)).toBe('notFound');
+      expect(await h.validateAndJoinRoom(latecomer, room.code)).toBe('lobby');
     });
   });
 
@@ -187,7 +192,7 @@ describe('socket contract', () => {
   });
 
   describe('ending a game', () => {
-    it('closes the room once the last player has left', async () => {
+    it('holds the room open after the last player has left', async () => {
       const room = await h.newGame(['Ava', 'Ben', 'Cy']);
       const [ben, cy] = room.guests;
 
@@ -200,8 +205,10 @@ describe('socket contract', () => {
       room.host.emit('leaveGame', { roomCode: room.code });
       expect(String(await room.host.waitFor('gameOver', { since }))).toMatch(/ending/i);
 
+      // The last one out is told the game is over — but the room is kept, in
+      // case any of them left by accident. The reaper closes it later.
       const latecomer = await h.connect('Dee');
-      expect(await h.validateAndJoinRoom(latecomer, room.code)).toBe('notFound');
+      expect(await h.validateAndJoinRoom(latecomer, room.code)).not.toBe('notFound');
     });
   });
 });

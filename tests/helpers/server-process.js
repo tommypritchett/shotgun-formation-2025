@@ -28,7 +28,11 @@ const findFreePort = () =>
   });
 
 /**
- * @param {{ debug?: boolean }} [options] - debug:true streams server logs to stderr.
+ * @param {{ debug?: boolean, env?: Record<string, string> }} [options]
+ *   debug:true streams server logs to stderr. `env` adds variables to the
+ *   child's environment — the only way to test something like the room idle
+ *   timeout, which is half an hour in production and must not be reproduced as
+ *   a second copy of the number inside the test.
  * @returns {Promise<{ url: string, port: number, logs: () => string, stop: () => Promise<void> }>}
  */
 const startServer = async (options = {}) => {
@@ -37,7 +41,7 @@ const startServer = async (options = {}) => {
 
   const child = spawn(process.execPath, [SERVER_ENTRY], {
     cwd: REPO_ROOT,
-    env: { ...process.env, PORT: String(port), NODE_ENV: 'test' },
+    env: { ...process.env, PORT: String(port), NODE_ENV: 'test', ...(options.env || {}) },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
 

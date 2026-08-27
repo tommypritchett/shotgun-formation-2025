@@ -1895,13 +1895,9 @@ socket.on('gameOver', (message) => {
 
 
 
-    socket.on('hostLeft', () => {
-      alert('The host has left the game. Returning to the start screen.');
-      setGameState('initial');
-      setPlayers([]);
-      setRoomCode('');
-      clearURL();  // Clear URL when host leaves so they can join new games
-    });
+    // NOTE: there is no `hostLeft` listener any more, and the server no longer
+    // emits one. The host leaving does not close the room — the whistle moves
+    // and everyone keeps their seat. See tests/room-lifecycle.test.js.
 
     return () => {
       socket.off('joinedRoom');
@@ -1910,7 +1906,6 @@ socket.on('gameOver', (message) => {
       socket.off('distributeDrinks');
       socket.off('updatePlayerStats');
       socket.off('error');
-      socket.off('hostLeft');
       socket.off('newHost');
       socket.off('playerDisconnected');
       socket.off('playerReconnected');
