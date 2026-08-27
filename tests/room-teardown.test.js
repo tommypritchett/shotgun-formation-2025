@@ -12,6 +12,9 @@
  *
  * `purgeRoomState` takes its maps as an argument precisely so this can be
  * tested directly, on the real function lifted out of `server.js`.
+ *
+ * Session 14 nested `formerPlayers` by room code, which turned its half of the
+ * teardown from a scan over every name on the server into one delete.
  */
 import { describe, expect, it } from 'vitest';
 import { liftFromServer, SERVER_SOURCE } from './helpers/lift-from-server.js';
@@ -35,9 +38,11 @@ const makeState = () => ({
     s9: { totalDrinks: 2 },
   },
   roundResults: { AAA: { s1: 3, ghost: 1 }, BBB: { s9: 2 } },
+  // Nested by room since Session 14, which is what makes the teardown one
+  // delete instead of a scan that can miss an entry.
   formerPlayers: {
-    Ava: { name: 'Ava', roomCode: 'AAA', totalDrinks: 4 },
-    Zed: { name: 'Zed', roomCode: 'BBB', totalDrinks: 2 },
+    AAA: { Ava: { name: 'Ava', totalDrinks: 4 } },
+    BBB: { Zed: { name: 'Zed', totalDrinks: 2 } },
   },
   usedCards: { AAA: { standard: [], wild: [] }, BBB: { standard: [], wild: [] } },
   activeRounds: { AAA: { declaredCard: 'Touchdown' }, BBB: { declaredCard: 'Sack' } },
@@ -68,7 +73,7 @@ describe('purging a room', () => {
   it('forgets the players by name, so nobody inherits their drinks', () => {
     const state = makeState();
     purgeRoomState('AAA', state);
-    expect(state.formerPlayers.Ava).toBeUndefined();
+    expect(state.formerPlayers.AAA).toBeUndefined();
   });
 
   it('leaves every other room completely alone', () => {
@@ -80,7 +85,7 @@ describe('purging a room', () => {
     expect(state.activeRounds.BBB).toEqual({ declaredCard: 'Sack' });
     expect(state.socketIdMappings.BBB).toEqual({});
     expect(state.usedCards.BBB).toBeTruthy();
-    expect(state.formerPlayers.Zed).toBeTruthy();
+    expect(state.formerPlayers.BBB).toEqual({ Zed: { name: 'Zed', totalDrinks: 2 } });
     expect(state.playerStats.s9).toEqual({ totalDrinks: 2 });
   });
 

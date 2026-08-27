@@ -35,7 +35,20 @@ const cors = require('cors');
 const rooms = {};  // Store rooms and players
 const playerStats = {};  // Store drink and shotgun counts for each player
 const roundResults = {};  // Store drink assignments for each round
-const formerPlayers = {};  // Store former players by name when they disconnect
+/**
+ * Disconnected players, NESTED BY ROOM: `formerPlayers[roomCode][playerName]`.
+ *
+ * This used to be one global slot per NAME across the whole server. Two games
+ * each with a Mike shared that slot, so the second Mike to drop overwrote the
+ * first Mike's drinks, shotguns and hand; the first then came back to an entry
+ * stamped with the other room's code, failed the room check, and was admitted
+ * as a brand-new player on zero.
+ *
+ * Nesting makes the owner's two rules structural rather than something every
+ * call site has to remember: a scoped lookup is the only lookup available, and
+ * a room that is gone has no key here at all, so it cannot resurrect anybody.
+ */
+const formerPlayers = {};
 const usedCards = {};  // Store used cards for each room to enable deck replenishment
 
 // ✅ ROUND-AWARE RECONNECTION: Track active rounds and declared cards
@@ -71,7 +84,8 @@ const ROOM_REAP_INTERVAL_MS = Number(process.env.ROOM_REAP_INTERVAL_MS) || 60 * 
  * Room state is spread across seven maps keyed three different ways — by room
  * code, by socket id, and by player NAME — so partial teardown is the default
  * failure. A leaked `formerPlayers` entry hands a stale hand and stale totals
- * to the next player who happens to reuse that name.
+ * to the next player who happens to reuse that name — which is why the map is
+ * nested by room code and dropped whole, rather than scanned.
  *
  * Takes its maps as an argument so the teardown can be tested on its own.
  *
@@ -98,13 +112,9 @@ const purgeRoomState = (roomCode, state) => {
   Object.keys(roundResults[roomCode] || {}).forEach((id) => ids.add(id));
   ids.forEach((id) => { delete playerStats[id]; });
 
-  // formerPlayers is keyed by name across ALL rooms, so drop only the entries
-  // that point at this one.
-  Object.keys(formerPlayers).forEach((name) => {
-    if (formerPlayers[name] && formerPlayers[name].roomCode === roomCode) {
-      delete formerPlayers[name];
-    }
-  });
+  // Nested by room, so this cannot miss an entry the way the old name-keyed
+  // scan could.
+  delete formerPlayers[roomCode];
 
   delete roundResults[roomCode];
   delete activeRounds[roomCode];
@@ -235,6 +245,20 @@ const allocateRoomCode = (rooms) => {
     if (!rooms[roomCode]) return roomCode;
   }
   return null;
+};
+
+/** The disconnected-player snapshots belonging to ONE room. */
+const formerPlayersIn = (roomCode) => formerPlayers[roomCode] || {};
+
+/** Remember a player who has just left this room. */
+const rememberFormerPlayer = (roomCode, entry) => {
+  if (!formerPlayers[roomCode]) formerPlayers[roomCode] = {};
+  formerPlayers[roomCode][entry.name] = entry;
+};
+
+/** Forget one, once they are back. */
+const forgetFormerPlayer = (roomCode, playerName) => {
+  if (formerPlayers[roomCode]) delete formerPlayers[roomCode][playerName];
 };
 
 /**
@@ -833,13 +857,13 @@ function handleJoinRoom(socket, roomCode, playerName) {
     return;
   }
 
-  // ✅ SIMPLE RECONNECTION: Check if player exists in formerPlayers
-  console.log(`🔍 DEBUG: Checking formerPlayers for ${playerName}:`);
-  console.log(`🔍 DEBUG: formerPlayers keys:`, Object.keys(formerPlayers));
-  console.log(`🔍 DEBUG: formerPlayer data:`, formerPlayers[playerName]);
+  // ✅ SIMPLE RECONNECTION: is this player one of THIS room's former players?
+  // The room check used to be a field comparison on a globally-keyed entry.
+  // It is now the lookup itself.
+  console.log(`🔍 DEBUG: Former players in room ${roomCode}:`, Object.keys(formerPlayersIn(roomCode)));
   
-  const formerPlayer = formerPlayers[playerName];
-  if (formerPlayer && formerPlayer.roomCode === roomCode) {
+  const formerPlayer = formerPlayersIn(roomCode)[playerName];
+  if (formerPlayer) {
     console.log(`🔄 RECONNECTING: ${playerName} found in formerPlayers for room ${roomCode}`);
     
     // ✅ FIX: Remove any existing player entries with same name before adding
@@ -943,7 +967,7 @@ function handleJoinRoom(socket, roomCode, playerName) {
       }
     });
     
-    delete formerPlayers[playerName];
+    forgetFormerPlayer(roomCode, playerName);
     console.log(`✅ Restored ${playerName} with merged data:`, playerStats[socket.id]);
     
     // ✅ RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
@@ -1808,16 +1832,15 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
     // having just written them, and a missing entry must not take the process
     // down and every other room with it.
     const leavingStats = playerStats[socket.id] || {};
-    formerPlayers[leavingPlayer.name] = {
+    rememberFormerPlayer(roomCode, {
       id: socket.id,  // Original socket ID (for reference)
       name: leavingPlayer.name,
-      roomCode: roomCode,            // Last room the player was in
       totalDrinks: leavingStats.totalDrinks || 0,
       totalShotguns: leavingStats.totalShotguns || 0,
       standard: leavingStats.standard || [],
       wild: leavingStats.wild || []
-    };
-    console.log("Former Players:", formerPlayers);
+    });
+    console.log(`Former players in ${roomCode}:`, Object.keys(formerPlayersIn(roomCode)));
 
 
     // Find and remove the player by their socket ID
@@ -1969,9 +1992,8 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
   
   // Player might be reconnecting with a new socket ID
   if (!player) {
-    // Look in formerPlayers for a potential match by room
-    const possibleFormerPlayers = Object.values(formerPlayers)
-      .filter(p => p.roomCode === roomCode);
+    // This room's former players, and only this room's.
+    const possibleFormerPlayers = Object.values(formerPlayersIn(roomCode));
     
     /**
      * WHICH of those disconnected players is this socket?
@@ -1984,8 +2006,15 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
      * wake was handed the other's identity and the second was locked out of
      * their own game with "name already taken".
      *
-     * Match on the name the client sends. Fall back to the old behaviour only
-     * when no name is supplied, so a stale cached bundle still limps.
+     * Match on the name the client sends. Fall back to index 0 only when no
+     * name is supplied, so a stale cached bundle still limps.
+     *
+     * NOTE: the fallback was written as a self-reference (`... : returning`),
+     * which is a TDZ error, not a fallback — a no-name request threw
+     * `Cannot access 'returning' before initialization` and the client got
+     * nothing back at all. Every current client sends a name (App.js has five
+     * emit sites, all with `playerName`), so this only ever fired for a stale
+     * cached bundle.
      */
     const claimed = claimedName
       ? possibleFormerPlayers.find(p => p.name === claimedName)
@@ -1993,7 +2022,7 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
     if (claimedName && !claimed) {
       console.log(`⚠️ ${claimedName} claimed a seat in ${roomCode} but is not among the disconnected`);
     }
-    const returning = claimed || (claimedName ? null : returning);
+    const returning = claimed || (claimedName ? null : possibleFormerPlayers[0]);
 
     if (returning) {
       // ✅ FIX: Check if player already exists in room (as disconnected) before adding
@@ -2151,7 +2180,7 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
       }
       
       // Remove from formerPlayers and clean up any old playerStats
-      delete formerPlayers[returning.name];
+      forgetFormerPlayer(roomCode, returning.name);
       
       // ✅ ENHANCED CLEANUP: Only clean up entries that specifically belong to this player name
       allPlayerEntries.forEach(([oldSocketId, oldStats]) => {
@@ -2211,10 +2240,23 @@ socket.on('disconnect', (reason) => {
           console.log(playerStats[socket.id]);
           console.log("Player array:", players);
 
-          // ✅ ENHANCED DISCONNECT: Find player's maximum accumulated stats from all entries
-          const allPlayerEntries = Object.entries(playerStats).filter(([id, stats]) => 
-            stats.name === leavingPlayer.name || id === socket.id
-          );
+          // ✅ ENHANCED DISCONNECT: this player's maximum accumulated stats.
+          //
+          // This filter used to match on NAME ALONE with no room narrowing —
+          // the one site of five that `roomEntriesForName` was never applied
+          // to. It would take the highest-scoring stranger of the same name
+          // from any game on the server and copy THEIR hand and totals into
+          // this player's snapshot.
+          //
+          // The socket's own entry is added explicitly because `startGame`
+          // does not stamp a name onto it; the name arrives further down, in
+          // this same handler. That is what the old `|| id === socket.id`
+          // clause was carrying, and it is still load-bearing.
+          const ownedSocketIds = roomSocketIds(room);
+          const allPlayerEntries = roomEntriesForName(ownedSocketIds, leavingPlayer.name);
+          if (playerStats[socket.id] && !allPlayerEntries.some(([id]) => id === socket.id)) {
+            allPlayerEntries.push([socket.id, playerStats[socket.id]]);
+          }
           
           // Find the entry with highest totalDrinks (most accumulated)
           const maxDrinksEntry = allPlayerEntries.reduce((max, current) => {
@@ -2226,17 +2268,16 @@ socket.on('disconnect', (reason) => {
           const maxStats = maxDrinksEntry ? maxDrinksEntry[1] : playerStats[socket.id];
           console.log(`💾 DISCONNECT SAVE: Found max stats for ${leavingPlayer.name}: ${maxStats.totalDrinks} drinks from ${maxDrinksEntry ? maxDrinksEntry[0].slice(-4) : socket.id.slice(-4)}`);
 
-          // Store player data in formerPlayers by their name with maximum accumulated stats
-          formerPlayers[leavingPlayer.name] = {
+          // Store player data against THIS ROOM, with maximum accumulated stats
+          rememberFormerPlayer(roomCode, {
             id: socket.id,  // Current socket ID (for reference)
             name: leavingPlayer.name,
-            roomCode: roomCode,            // Last room the player was in
             totalDrinks: maxStats.totalDrinks || 0,
             totalShotguns: maxStats.totalShotguns || 0,
             standard: maxStats.standard || [],
             wild: maxStats.wild || []
-          };
-          console.log("Former Players:", formerPlayers);
+          });
+          console.log(`Former players in ${roomCode}:`, Object.keys(formerPlayersIn(roomCode)));
 
           // Mark player as disconnected but keep them in the game for drink assignments
           players[playerIndex].disconnected = true;
