@@ -852,7 +852,12 @@ function handleJoinRoom(socket, roomCode, playerName) {
       console.log(`🔧 DEBUG: Standard cards count:`, handData.standard.length);
       console.log(`🔧 DEBUG: Wild cards count:`, handData.wild.length);
       
+      // If everyone had dropped, the whistle is pointing at a dead socket.
+      // First one back takes it — and it must happen before the payload below
+      // is built, or hostId ships stale.
+      ensureRefIsPresent(roomCode, { id: socket.id, name: playerName });
       socket.emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
         hands: { [socket.id]: handData },
         playerStats: playerStats
       });
@@ -866,9 +871,6 @@ function handleJoinRoom(socket, roomCode, playerName) {
       io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
       console.log(`📡 Notified all players of ${playerName}'s new socket ID: ${socket.id}`);
 
-      // If everyone had dropped, the whistle is pointing at a dead socket.
-      // First one back takes it.
-      ensureRefIsPresent(roomCode, { id: socket.id, name: playerName });
       
       // ✅ FIX: Send updatePlayerHand to ALL active players to refresh their cards
       rooms[roomCode].players.forEach((player) => {
@@ -945,6 +947,7 @@ function handleJoinRoom(socket, roomCode, playerName) {
     playerStats[socket.id].wild = wildDeck.splice(0, 2);
     
     socket.emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
       hands: { [socket.id]: {
         standard: playerStats[socket.id].standard,
         wild: playerStats[socket.id].wild
@@ -1053,6 +1056,7 @@ room.players.forEach(player => {
 
      // Emit the start game event with player hands and player stats
      io.to(roomCode).emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
         hands,         // The player hands
         playerStats    // The initial player stats with totals set to 0
       });
@@ -1802,7 +1806,10 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
     const room = rooms[roomCode];
     if (room && room.gameStarted) {
       // ✅ FIX: Send only card data in hands, not full playerStats
+      // Resolve the whistle BEFORE building this payload (see above).
+      if (player) ensureRefIsPresent(roomCode, { id: socket.id, name: player.name });
       socket.emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
         hands: { [socket.id]: {
           standard: playerStats[socket.id]?.standard || [],
           wild: playerStats[socket.id]?.wild || []
@@ -1982,7 +1989,11 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
       // Send game state directly to reconnected player without refresh signal
       if (room.gameStarted) {
         // ✅ FIX: Send only card data in hands, not full playerStats
+        // Resolve the whistle BEFORE building this payload, or it carries a
+        // stale host id and the client has to be corrected by a later newHost.
+        if (player) ensureRefIsPresent(roomCode, { id: socket.id, name: player.name });
         socket.emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
           hands: { [socket.id]: {
             standard: playerStats[socket.id]?.standard || [],
             wild: playerStats[socket.id]?.wild || []
@@ -2034,9 +2045,6 @@ socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
   // No more refresh signals - game state already sent above
   console.log(`✅ Game state sent to reconnected player ${player.name} (${socket.id})`);
   
-  // Same rule on the wake-up path: a live game must have a Ref who is here.
-  if (player) ensureRefIsPresent(roomCode, { id: socket.id, name: player.name });
-
   // Notify all other players about the reconnection
   socket.to(roomCode).emit('playerRejoined', { 
     playerId: socket.id, 

@@ -1,14 +1,15 @@
 /**
  * The Ref must not give up the whistle before the server agrees.
  *
- * `handleSelectNewHost` used to emit `assignNewHost` and then immediately call
- * `setIsHost(false)` and close the sheet. If the server refused — because the
+ * `handleSelectNewHost` used to emit `assignNewHost` and then immediately drop
+ * its own host status and close the sheet. If the server refused — because the
  * target had dropped out — the Ref's own screen dropped the whistle anyway.
  * Nobody at the table then believed they were Ref, only the Ref can declare,
  * and the game stopped: from the exact code path meant to prevent that.
  *
- * Host status changes ONLY on the server's `newHost` event, whose handler sets
- * isHost for every client in the room.
+ * Host status changes ONLY when the server says so. Since Session 13 that is
+ * one piece of state — `hostId` — and `isHost` is derived from it, so the rule
+ * is now: nothing but a server event may call `setHostId`.
  */
 import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
@@ -34,8 +35,8 @@ const handler = () => {
 describe('handing the whistle over', () => {
   it('does not drop host status optimistically', () => {
     expect(
-      /setIsHost\(\s*false\s*\)/.test(handler()),
-      'handleSelectNewHost calls setIsHost(false) itself. If the server refuses '
+      /setHostId\(/.test(handler()),
+      'handleSelectNewHost sets hostId itself. If the server refuses '
         + 'the handoff, the Ref loses the whistle and nobody has it — which is the '
         + 'failure this whole path exists to prevent. Let the newHost handler do it.'
     ).toBe(false);
@@ -56,7 +57,14 @@ describe('handing the whistle over', () => {
   it('leaves host status to the newHost handler', () => {
     const at = APP.indexOf("socket.on('newHost'");
     expect(at, 'no newHost handler').toBeGreaterThan(-1);
-    expect(APP.slice(at, at + 400)).toMatch(/setIsHost\(/);
+    expect(APP.slice(at, at + 400)).toMatch(/setHostId\(\s*newHostId\s*\)/);
+  });
+
+  it('keeps isHost derived, so it can never disagree with the badge', () => {
+    // Two booleans about the same fact drift. One id does not.
+    expect(APP).not.toMatch(/useState\(false\);?\s*\/\/?.*isHost/);
+    expect(APP, 'isHost must be computed from hostId, not stored separately')
+      .toMatch(/const isHost = Boolean\(hostId\) && hostId === socket\.id/);
   });
 });
 

@@ -175,7 +175,11 @@ function App() {
   const sentPoursRef = useRef({ drinks: {}, shotguns: {} });
   const isDistributingRef = useRef(false);
   
-  const [isHost, setIsHost] = useState(false);
+  // Who holds the whistle, as the SERVER last told us. `isHost` is derived from
+  // it rather than stored, so there is exactly one thing to keep honest — and
+  // the Ref badge can be drawn on whoever actually holds it, not just on you.
+  const [hostId, setHostId] = useState(null);
+  const isHost = Boolean(hostId) && hostId === socket.id;
   const [errorMessage, setErrorMessage] = useState('');
   const [drinkMessage, setDrinkMessage] = useState(''); // Message for drink assignments
   //const [drinkAssignments, setDrinkAssignments] = useState([]); // Track drink assignments
@@ -266,7 +270,6 @@ const [isHostSelection, setIsHostSelection] = useState(false);
     alert(instructionsmessage)
     if (playerName) {
       socket.emit('createRoom', playerName);
-      setIsHost(true);
     } else {
       setErrorMessage('Please enter your name');
     }
@@ -462,7 +465,7 @@ const handleLeaveGame = () => {
   setGameState('initial');  // Reset the game state to 'startOrJoin'
   setRoomCode('');  // Clear the room code
   setPlayers([]);  // Reset players
-  setIsHost(false);  // Reset host status
+  setHostId(null);  // Reset host status
   setDeclaredCard('');  // Clear declared card
 };
 
@@ -1592,6 +1595,8 @@ useEffect(() => {
 // Separate useEffect for room events that doesn't depend on players array
 useEffect(() => {
   const handleRoomCreated = (newRoomCode) => {
+    // Only the creator is sent this event, so it IS the server naming the host.
+    setHostId(socket.id);
     setRoomCode(newRoomCode);
     setGameState('lobby');
     
@@ -1676,7 +1681,10 @@ useEffect(() => {
       setPlayers(merged);
     });
 
-    socket.on('gameStarted', ({ hands, playerStats }) => {
+    socket.on('gameStarted', ({ hands, playerStats, hostId: incomingHostId }) => {
+      // Reconnects and mid-game joins learn the Ref from here; there may be no
+      // `newHost` to follow, so this is the only chance to get it right.
+      if (incomingHostId) setHostId(incomingHostId);
       console.log('🎮 GAME STARTED EVENT RECEIVED:', { hands, playerStats });
       console.log('🔌 DEBUG: Current socket ID when receiving gameStarted:', socket.id);
       console.log('🔌 DEBUG: Available hands for socket IDs:', Object.keys(hands));
@@ -1783,11 +1791,7 @@ useEffect(() => {
 
     // Handle when a new host is assigned
     socket.on('newHost', ({ newHostId, message }) => {
-      if (socket.id === newHostId) {
-        setIsHost(true);  // Update the front-end logic to reflect the new host
-      } else {
-        setIsHost(false); // Ensure non-hosts are not hosts
-      }
+      setHostId(newHostId);  // isHost is derived from this
       alert(message);  // Display the host change message
     });
 
@@ -2021,7 +2025,7 @@ socket.on('gameOver', (message) => {
       totalDrinks: stats.totalDrinks || 0,
       totalShotguns: stats.totalShotguns || 0,
       isSelf: player.id === socket.id,
-      isRef: player.id === socket.id && isHost,
+      isRef: player.id === hostId,
     };
   });
 
