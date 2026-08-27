@@ -152,9 +152,18 @@ export default function DrinkAssigner({
               {/* The header changes with the phase, so nobody thinks they are
                   pouring the same thing twice. */}
               <span className="tag">
-                {rolledOver ? 'Now your drinks' : `Tap to pour${isShotgun ? ' shotguns' : ''}`}
+                {remaining === 0 && !sent
+                  ? 'All poured'
+                  : rolledOver ? 'Now your drinks' : `Tap to pour${isShotgun ? ' shotguns' : ''}`}
               </span>
-              <span className="hint">One tap = one {unit}</span>
+              {/* Pouring your last drink no longer ends the round — only Lock In
+                  does — so at that moment the hint has to stop explaining taps
+                  and start saying the table is waiting. */}
+              <span className="hint">
+                {remaining === 0 && !sent
+                  ? 'Lock in when you\u2019re happy \u2014 the round is waiting'
+                  : `One tap = one ${unit}`}
+              </span>
             </div>
             <div className={gridClasses}>
               {targets.map((p) => (

@@ -60,7 +60,12 @@ describe('ending a round early', () => {
     }
   };
 
-  it('ends as soon as everyone who owed has poured', async () => {
+  it('does NOT end just because everyone has poured — nobody said they were done', async () => {
+    // The Session 12 rule ended the round the instant the last drink landed.
+    // That was wrong: pouring is not a statement that you are finished. People
+    // pour, look at the board, change their mind and undo — Session 11 exists
+    // so undo works for the whole round, and ending on the last pour takes
+    // that away.
     const room = await h.newGame(['Ava', 'Ben', 'Cy']);
     const { owed, since } = await declareAndCollect(room);
 
@@ -72,8 +77,109 @@ describe('ending a round early', () => {
 
     await room.waitForFinalize(room.host, h.ROUND_SECONDS.standard, since);
     const took = (Date.now() - started) / 1000;
+    expect(took, `ended after ${took.toFixed(1)}s — it should have run the full clock`)
+      .toBeGreaterThanOrEqual(h.ROUND_SECONDS.standard - 4);
+  }, 60_000);
+
+  it('ends early once everyone who poured also locks in', async () => {
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const { owed, since } = await declareAndCollect(room);
+
+    const started = Date.now();
+    for (const [player, prompt] of owed) {
+      pourAll(player, room, room.guests[1], prompt);
+      await sleep(120);
+    }
+    for (const [player] of owed) player.emit('lockIn', { roomCode: room.code });
+
+    await room.waitForFinalize(room.host, h.ROUND_SECONDS.standard, since);
+    const took = (Date.now() - started) / 1000;
     expect(took, `waited ${took.toFixed(1)}s — the full clock is ${h.ROUND_SECONDS.standard}s`)
       .toBeLessThan(h.ROUND_SECONDS.standard - 4);
+  }, 60_000);
+
+  it('does not need a press from players who were never asked to pour', async () => {
+    // Somebody holding no copy of the declared card has no action to take and
+    // must not have to press anything to release the round.
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const { owed, since } = await declareAndCollect(room);
+    const nonHolders = room.all.filter((p) => !owed.has(p));
+    if (nonHolders.length === 0) return; // everyone held it this deal
+
+    const started = Date.now();
+    for (const [player, prompt] of owed) {
+      pourAll(player, room, room.guests[1], prompt);
+      await sleep(120);
+    }
+    // ONLY the holders lock in. The non-holders press nothing at all.
+    for (const [player] of owed) player.emit('lockIn', { roomCode: room.code });
+
+    await room.waitForFinalize(room.host, h.ROUND_SECONDS.standard, since);
+    expect((Date.now() - started) / 1000).toBeLessThan(h.ROUND_SECONDS.standard - 4);
+  }, 60_000);
+
+  it('refuses further pours once a player has locked in', async () => {
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const { owed, since } = await declareAndCollect(room);
+    const [holder, prompt] = [...owed.entries()][0];
+    expect(prompt.drinkCount).toBeGreaterThanOrEqual(2);
+    const target = room.all.find((p) => p !== holder);
+
+    holder.emit('assignDrinks', {
+      roomCode: room.code,
+      selectedPlayerIds: [target.id],
+      drinksToGive: { [target.id]: 1 },
+      shotgunsToGive: {},
+    });
+    await sleep(200);
+    holder.emit('lockIn', { roomCode: room.code });
+    await sleep(200);
+
+    // Locked in means done. Anything after it is ignored.
+    holder.emit('assignDrinks', {
+      roomCode: room.code,
+      selectedPlayerIds: [target.id],
+      drinksToGive: { [target.id]: 1 },
+      shotgunsToGive: {},
+    });
+    await sleep(300);
+
+    for (const [other] of owed) if (other !== holder) other.emit('lockIn', { roomCode: room.code });
+    await room.waitForFinalize(room.host, h.ROUND_SECONDS.standard, since);
+
+    expect(h.totalsFor(room.host, target.id).totalDrinks, 'a pour landed after locking in')
+      .toBe(1);
+  }, 60_000);
+
+  it('lets a player undo right up until they lock in', async () => {
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const { owed, since } = await declareAndCollect(room);
+    const [holder, prompt] = [...owed.entries()][0];
+    expect(prompt.drinkCount).toBeGreaterThanOrEqual(2);
+    const target = room.all.find((p) => p !== holder);
+
+    // Pour everything, then think better of one of them.
+    holder.emit('assignDrinks', {
+      roomCode: room.code,
+      selectedPlayerIds: [target.id],
+      drinksToGive: { [target.id]: prompt.drinkCount },
+      shotgunsToGive: prompt.shotguns ? { [target.id]: prompt.shotguns } : {},
+    });
+    await sleep(250);
+    holder.emit('assignDrinks', {
+      roomCode: room.code,
+      selectedPlayerIds: [target.id],
+      drinksToGive: { [target.id]: -1 },
+      shotgunsToGive: {},
+    });
+    await sleep(250);
+
+    for (const [player] of owed) player.emit('lockIn', { roomCode: room.code });
+    await room.waitForFinalize(room.host, h.ROUND_SECONDS.standard, since);
+
+    const expected = prompt.drinkCount - 1 + (prompt.shotguns || 0) * 10;
+    const t = h.totalsFor(room.host, target.id);
+    expect(t.totalDrinks + t.totalShotguns * 10, 'the undo did not stick').toBe(expected);
   }, 60_000);
 
   it('is not blocked by a player whose phone died', async () => {

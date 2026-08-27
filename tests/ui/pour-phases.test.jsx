@@ -173,3 +173,27 @@ describe('the assigner rolls over on screen', () => {
     expect(document.querySelector('.lockin')).toBeTruthy();
   });
 });
+
+
+/**
+ * The Lock In affordance, now that pouring out no longer ends the round.
+ */
+describe('when everything is poured but nothing is locked in', () => {
+  it('offers Lock In and says the round is waiting', () => {
+    const p = pourPhase(0, 3, { shotguns: {}, drinks: { a: 3 } });
+    assigner(p, { a: 3 });
+    expect(p.remaining).toBe(0);
+    expect(document.querySelector('.lockin'), 'no Lock In to press').toBeTruthy();
+    expect(document.querySelector('.gridhead .tag').textContent).toMatch(/All poured/i);
+    expect(
+      document.querySelector('.gridhead .hint').textContent,
+      'the hint still explained taps, with nothing left to tap'
+    ).toMatch(/waiting/i);
+  });
+
+  it('goes back to explaining taps if a pour is undone', () => {
+    const p = pourPhase(0, 3, { shotguns: {}, drinks: { a: 2 } });
+    assigner(p, { a: 2 });
+    expect(document.querySelector('.gridhead .hint').textContent).toBe('One tap = one drink');
+  });
+});

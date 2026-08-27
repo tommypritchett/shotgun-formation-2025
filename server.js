@@ -211,18 +211,32 @@ const rememberPendingPour = (roomCode, playerName, payload) => {
 /**
  * Is this player finished with the round?
  *
- * Finished means: they owe nothing, or they have explicitly locked in. A player
- * holding no copy of the declared card owes nothing and is trivially done — they
- * must not block the round and must not have to press anything.
+ * ⚠️ POURING EVERYTHING IS NOT BEING DONE. Session 12 treated a zero balance as
+ * finished, and that was wrong: the round ended the instant the last drink
+ * landed. Pouring is not a statement that you have finished — people pour, look
+ * at the board, change their mind and undo. Session 11 exists precisely so undo
+ * works for the whole round, and ending on the last pour takes that away and
+ * makes the round feel snatched.
+ *
+ * Finished means:
+ *   - they were never asked to pour (hold no copy of the declared card) —
+ *     automatic, they have no action and must not have to press anything; or
+ *   - they explicitly locked in.
+ *
+ * A pending entry exists only for players who were told to pour, so its mere
+ * presence is what distinguishes "had something to do" from "had nothing".
  */
 const playerIsDoneThisRound = (roomCode, playerName) => {
   const round = activeRounds[roomCode];
   if (!round) return true;
   if ((round.lockedIn || {})[playerName]) return true;
-  const owed = (round.pending || {})[playerName];
-  if (!owed) return true;
-  return (owed.drinkCount || 0) <= 0 && (owed.shotguns || 0) <= 0;
+  // Asked to pour at all? Then only Lock In finishes them.
+  return !(round.pending || {})[playerName];
 };
+
+/** Has this player already declared themselves done for this round? */
+const playerHasLockedIn = (roomCode, playerName) =>
+  Boolean(((activeRounds[roomCode] || {}).lockedIn || {})[playerName]);
 
 /**
  * End the round the moment there is nothing left to wait for.
@@ -1455,6 +1469,14 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player } = {}) => {
 socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotgunsToGive } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
+
+    // Locked in means done. Anything after it is ignored — including an undo,
+    // because locking in is the point at which the decision is final.
+    const assigner = room.players.find(p => p.id === socket.id);
+    if (assigner && playerHasLockedIn(roomCode, assigner.name)) {
+      console.log(`⛔ ${assigner.name} already locked in this round — ignoring further pours`);
+      return;
+    }
   
     if (!roundResults[roomCode]) {
       roundResults[roomCode] = {};  // Initialize for each round
