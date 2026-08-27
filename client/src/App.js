@@ -10,7 +10,6 @@ import {
   getCard,
   tierFor,
 } from './data/cards';
-import { CAN } from './components/CanMark';
 import { assignAvatars, avatarFor } from './lib/avatars';
 import { buildRoundRows, resolvePlayerStats } from './lib/stats';
 import { consumedPendingIds, mergePlayerCards } from './lib/players';
@@ -19,6 +18,7 @@ import { pourPhase } from './lib/phases';
 import useEscape from './lib/useEscape';
 import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
 import CardSheet from './components/CardSheet';
+import ConnectingScreen from './components/ConnectingScreen';
 import DrinkAssigner from './components/DrinkAssigner';
 import GameCard from './components/GameCard';
 import MenuSheet from './components/MenuSheet';
@@ -174,6 +174,7 @@ function App() {
   const localPoursRef = useRef({ drinks: {}, shotguns: {} });
   const sentPoursRef = useRef({ drinks: {}, shotguns: {} });
   const isDistributingRef = useRef(false);
+  const gameStateRef = useRef('initial');
   
   // Who holds the whistle, as the SERVER last told us. `isHost` is derived from
   // it rather than stored, so there is exactly one thing to keep honest — and
@@ -250,6 +251,24 @@ const [isHostSelection, setIsHostSelection] = useState(false);
       roomCode: urlParams.get('room'),
       playerName: urlParams.get('player')
     };
+  };
+
+  /** Where a game in progress is remembered across a reload. */
+  const SAVED_GAME_KEY = 'shotgunFormation_gameState';
+
+  /**
+   * Forget the saved game.
+   *
+   * Nothing used to remove this key. It was written every 15 seconds and lived
+   * forever, so once its room was gone the app walked back into the same failed
+   * rejoin on every single load. Every path that ends a game calls this.
+   */
+  const forgetSavedGame = () => {
+    try {
+      localStorage.removeItem(SAVED_GAME_KEY);
+    } catch (error) {
+      console.error('Failed to clear saved game state:', error);
+    }
   };
 
   const clearURL = () => {
@@ -456,6 +475,22 @@ const closeHostSelection = () => {
   setIsHostSelection(false);
 };
 
+/**
+ * Give up on rejoining and go back to the start screen.
+ *
+ * Used by the ten-second bail-out, by a rejoin that fails outright, and by the
+ * button on the connecting screen. All three have to forget the saved game as
+ * well as the URL, or the next load lands on the same dead room.
+ */
+const abandonRejoin = () => {
+  forgetSavedGame();
+  clearURL();
+  setRoomCode('');
+  setPlayers([]);
+  setHostId(null);
+  setGameState('initial');
+};
+
 // Handle Leave Game logic
 const handleLeaveGame = () => {
   // Emit a custom 'leaveGame' event to the server
@@ -467,6 +502,8 @@ const handleLeaveGame = () => {
   setPlayers([]);  // Reset players
   setHostId(null);  // Reset host status
   setDeclaredCard('');  // Clear declared card
+  forgetSavedGame();  // ...and do not try to rejoin this game on the next load
+  clearURL();
 };
 
 // Function to close the menu (X button)
@@ -554,6 +591,9 @@ useEscape(isMenuOpen, () => closeMenu());
 useEscape(!!openCard, () => setOpenCard(null));
 useEscape(!!wildCardSelected && isHost, () => confirmWildCard(false));
 useEffect(() => { roomCodeRef.current = roomCode; }, [roomCode]);
+// The auto-rejoin effect runs once and its timeouts fire ten seconds later,
+// long after their closure went stale. They read the game state from here.
+useEffect(() => { gameStateRef.current = gameState; }, [gameState]);
 
 /**
  * The handoff sheet closes when the server confirms, not when the Ref taps.
@@ -669,7 +709,7 @@ const saveGameStateLocally = () => {
         timestamp: Date.now()
       };
       
-      localStorage.setItem('shotgunFormation_gameState', JSON.stringify(localGameState));
+      localStorage.setItem(SAVED_GAME_KEY, JSON.stringify(localGameState));
       console.log('Game state saved locally');
     }
   } catch (error) {
@@ -679,7 +719,7 @@ const saveGameStateLocally = () => {
 
 const loadGameStateLocally = () => {
   try {
-    const savedState = localStorage.getItem('shotgunFormation_gameState');
+    const savedState = localStorage.getItem(SAVED_GAME_KEY);
     if (savedState) {
       const parsedState = JSON.parse(savedState);
       const isStale = Date.now() - parsedState.timestamp > 1000 * 60 * 30; // 30 minutes
@@ -773,8 +813,7 @@ useEffect(() => {
     
     const handleRejoinError = (error) => {
       console.log('Auto-rejoin failed:', error, '- going to join screen');
-      setGameState('initial');
-      clearURL();  // Clear URL when rejoin fails so they can join new games
+      abandonRejoin();
     };
     
     // ✅ FIX: Remove competing gameStarted handler - let main handler process cards
@@ -787,14 +826,15 @@ useEffect(() => {
       clearTimeout(validateTimeout);
       // ✅ FIX: Remove cleanup for competing gameStarted handler
       socket.off('joinedRoom', handleLobbyJoin);
-      socket.off('roomNotFound', handleRejoinError);
       socket.off('error', handleRejoinError);
+      // roomNotFound is deliberately NOT removed. It is a `once`, so it cleans
+      // itself up when it fires, and it used to be torn down here — which left
+      // a late answer from the server with nobody listening.
       
       // If still connecting after 10 seconds, assume failure
-      if (gameState === 'connecting') {
+      if (gameStateRef.current === 'connecting') {
         console.log('Auto-rejoin timed out - going to join screen');
-        setGameState('initial');
-        clearURL();  // Clear URL when auto-rejoin times out so they can join new games
+        abandonRejoin();
       }
     }, 10000);
     
@@ -838,8 +878,7 @@ useEffect(() => {
     
     const handleRejoinError = (error) => {
       console.log('LocalStorage rejoin failed:', error, '- going to join screen');
-      setGameState('initial');
-      clearURL();  // Clear URL when localStorage rejoin fails so they can join new games
+      abandonRejoin();
     };
     
     // ✅ FIX: Remove competing gameStarted handler - let main handler process cards
@@ -852,13 +891,12 @@ useEffect(() => {
       clearTimeout(validateTimeout);
       // ✅ FIX: Remove cleanup for competing gameStarted handler
       socket.off('joinedRoom', handleLobbyJoin);
-      socket.off('roomNotFound', handleRejoinError);
       socket.off('error', handleRejoinError);
+      // See above: roomNotFound stays registered.
       
-      if (gameState === 'connecting') {
+      if (gameStateRef.current === 'connecting') {
         console.log('LocalStorage rejoin timed out - going to join screen');
-        setGameState('initial');
-        clearURL();  // Clear URL when localStorage rejoin times out so they can join new games
+        abandonRejoin();
       }
     }, 10000);
     
@@ -1890,6 +1928,7 @@ socket.on('gameOver', (message) => {
   alert(message);  // Notify the players
   // Redirect everyone back to the main screen
   setGameState('initial');
+  forgetSavedGame();  // the game is over; do not rejoin it on the next load
   clearURL();  // Clear URL when game ends so they can join new games
 });
 
@@ -2190,18 +2229,7 @@ socket.on('gameOver', (message) => {
 
   // ── connecting ─────────────────────────────────────────────────────────
   if (gameState === 'connecting') {
-    return (
-      <div className="app">
-        <div className="pad">
-          <div className="hero">
-            <img src={CAN} alt="" />
-            <span className="l1">Getting you</span>
-            <span className="l2">back in</span>
-            <p>Rejoining your game…</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <ConnectingScreen roomCode={roomCode} onGiveUp={abandonRejoin} />;
   }
 
   // ── lobby ──────────────────────────────────────────────────────────────
