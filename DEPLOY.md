@@ -1,133 +1,102 @@
 # Deploy
 
-> **Verified ready 2026-08-20 at `904f9d8`.** Branch `overnight-rebuild`, 42 commits ahead
-> of `main`. **159 tests green.** Clean-checkout build rehearsed end to end (below).
+> **Verified ready 2026-08-27 at `c5b9fbf`.** Branch `overnight-rebuild`, **68 commits ahead
+> of `main`**. **305 tests green**, 37 files. Clean-checkout build rehearsed end to end under
+> `NODE_ENV=production` (below).
 >
-> This supersedes the Session 4 version of this document.
+> This supersedes the Session 8 version of this document, which was written when this branch
+> touched `server.js` only. **That is no longer true** — the whole visual rebuild has landed
+> since. Read the "What actually changes" section rather than remembering the old one.
 
 ---
 
-## What you are actually fixing
-
-`main` is `e994b5f`. **Production has been running a build where the whole Node process
-dies the moment a second room starts a game** — since Session 3. Everything below is
-secondary to that.
-
-## Pre-flight, all verified at `904f9d8`
+## Pre-flight, all verified at `c5b9fbf`
 
 | Check | Result |
 |---|---|
-| `npm test` | **159 passed (159)**, 18 files |
-| `npm run build` from a genuinely clean checkout | ✅ both dependency trees installed, `client/build` produced |
-| `node server.js` on that clean build | ✅ `GET /` → 200, JS bundle → 200 |
-| Bundle points at **production**, not a LAN address | ✅ verified by rebuilding with `client/.env.local` moved aside |
-| `client/.env.local` reaches Render? | ❌ **No** — gitignored and untracked. Confirmed. This is what keeps the LAN URL out of production. |
-| Root deps installed by the build script | ✅ `express`, `socket.io`, `cors` — this is why `node_modules` leaving git is safe |
+| `npm test` | **305 passed (305)**, 37 files |
+| `npm run build` from a genuinely clean `git clone`, **with `NODE_ENV=production`** | ✅ both dependency trees installed, `client/build` produced |
+| `node server.js` on that clean build | ✅ `GET /` → 200 and serves `<title>Shotgun Formation</title>`; `GET /socket.io/?EIO=4&transport=polling` → 200 |
+| Bundle points at **production**, not a LAN address | ✅ the clean build contains `https://shotgunformation.onrender.com` and **no** `10.0.0.*` / `192.168.*` |
+| `client/.env.local` reaches Render? | ❌ **No** — gitignored (`client/.gitignore:16`) and untracked. Verified again this session. |
+| `client/build` reaches Render? | ❌ **No** — gitignored (`client/.gitignore:12`), 0 files tracked. Render builds from source. |
+| LAN address anywhere in a tracked file? | ❌ **No.** `git grep` for `10.0.0.*`, `192.168.*` finds nothing outside tests and docs. |
+| `react-scripts` survives `NODE_ENV=production` | ✅ it is in `client/package.json` **dependencies**, not devDependencies — confirmed, not assumed |
 
-**The `node_modules` question from Session 4 is closed.** `main` tracks 857 of them and this
-branch removes them, but the root build script now runs its own `npm install`
-(`npm install && cd client && npm install && npm run build`), so it no longer matters what
-Render's build command does.
+> **Note on your local tree.** `client/.env.local` exists on your machine and points at
+> `http://10.0.0.42:3002`, so your **local** `client/build` currently has the LAN address
+> baked into it. That is correct for testing on the couch and it can never reach production,
+> because neither the env file nor the build directory is tracked. The rehearsal above was
+> run from a clean clone precisely to prove that.
 
 ---
 
 ## What actually changes in production
 
-`server.js` only. **No file under `client/src` that the app uses was modified** — `App.js`
-and `App.css` are byte-identical to `main`, and the client bundle is unchanged
-(71.72 kB gzipped, same hash inputs, same 3.23 kB CSS as before the session).
+Both files. `server.js` and the entire client.
 
-### What a player will notice
+```
+33 files changed, 4566 insertions(+), 1044 deletions(-)
+server.js                 | 1334 +++++++++++--------
+client/src/App.js         | 1441 +++++++++++----------
++ 24 new files under client/src (components/, lib/, screens/, data/)
+```
 
-1. **Two groups can play at the same time without killing the server.** This is the big
-   one and it predates this session. On `main`, the moment a second group starts a game
-   the server deletes the first group's players from its stats map; the next round to
-   finish throws inside a `setInterval` and **the entire Node process dies**, ending every
-   game on the server at once. Two Sunday parties was enough. Fixed.
-2. **If your phone drops mid-round, you keep the drinks you were given.** On `main` they
-   are silently deleted — not misattributed, gone. Your friends watched you get four
-   drinks and the scoreboard says zero. This is the single change most likely to be
-   noticed in a good way.
-3. **Two people called Mike in two different games no longer corrupt each other.** On
-   `main`, when Mike in game A reconnects he is awarded Mike-in-game-B's score if it is
-   higher, and Mike-in-game-B's score is then deleted. Both games are damaged, silently,
-   from one reconnect.
-4. **A reconnecting player is shown the correct time left in the round** (21s rounds used
-   to claim 30s remaining). Round lengths themselves are unchanged: 21 / 11 / 6.
-5. **You get one wild-card swap per quarter, and only one.** Previously the server
-   accepted unlimited swaps and only the app's modal stopped you; you could reroll your
-   whole hand and fish for a 40-drink Doink.
+### The player-visible list
 
-### What a player will NOT notice
+**The game looks completely different.** "Playbook Chalk": chalkboard base, stadium amber for
+the Standard deck, neon green for Wild, red reserved for the four 40-drink shotgun cards. The
+app cards now render like the printed cards. Everything below is on top of that.
 
-- No visual change of any kind. No new screens, no restyling.
-- No change to round lengths, card values, deck sizes, drink maths, or the 10→1 shotgun
-  fold.
-- No socket event renamed, added or removed. No payload shape changed. The `disconnected`
-  field is passed through exactly as before, `undefined` and all.
-- Being away when the quarter turns still costs you that quarter's swap — you reviewed
-  this (approval item 3) and declined a fix.
+1. **Two groups can play at the same time without killing the server.** The original reason
+   this branch exists. On `main`, the moment a second group starts a game the server deletes
+   the first group's players from its stats map, the next round to finish throws inside a
+   `setInterval`, and the whole Node process dies — ending every game on the box. Two Sunday
+   parties was enough.
+2. **Your drinks survive your phone dropping.** On `main` they are silently deleted.
+3. **The host leaving no longer ends the game.** The whistle moves to somebody who is
+   actually there, in the lobby and mid-game. A room now closes only when nobody has been
+   active in it for 30 minutes.
+4. **Everyone can see who the Ref is.** The REF badge lands on whoever holds it, not only on
+   your own row. It was structurally impossible to see before.
+5. **A round waits for Lock In.** Pouring everything you owe is not the same as being done;
+   rounds no longer end out from under somebody mid-decision.
+6. **"Rejoining your game…" is no longer a dead end.** It has a Back to start button, a
+   working ten-second timeout, and it forgets the saved game so the next load is not stuck
+   too.
+7. **Two people called Mike in two different games cannot corrupt each other** — the last
+   member of that family, `formerPlayers`, is now scoped per room.
+8. **A phone on a network that blocks WebSocket can now connect at all.** It used to fail
+   outright instead of falling back to polling.
+9. Correct round timer on reconnect, one wild-card swap per quarter, undo a pour, the 10→1
+   shotgun fold applied once server-side, and a 10-player cap matching the printed box.
 
-### The six behavioural deltas, and nothing else
+### What has NOT changed
 
-Audited line by line with `git diff main HEAD -- server.js`. Every changed line maps to one
-of these; there is nothing unaccounted for.
+- No socket event renamed, added or removed. **One additive field**: `gameStarted` now
+  carries `hostId`. No payload shape changed.
+- No change to round lengths (21 / 11 / 6), card values, deck sizes, or the drink maths.
+- `hostLeft` is no longer emitted — it existed only to announce the room closing, which no
+  longer happens. Nothing on the client listens for it either.
 
-| # | Change | Where |
-|---|---|---|
-| 1 | Phase 1 concurrency fixes: room-scoped `playerStats` reset, `room.isActionInProgress` instead of `rooms.isActionInProgress`, `activeRounds` set only once a round really starts, one `ROUND_DURATIONS` constant | `5d0a8ef` |
-| 2 | Mid-round merge reorder — a reconnecting player keeps that round's drinks | `b71899a` |
-| 3 | Room code collision retry | `b71899a` |
-| 4 | One wild-card swap per player per quarter | `a5889ce` |
-| 5 | Every `playerStats` name lookup scoped to the room that owns it | `cde95c3` |
-| 6 | Room-code retry bounded at 50 attempts; on exhaustion it refuses cleanly via the existing `error` event instead of pinning the event loop | `d8320f2` |
+### One thing worth knowing before you push
 
-Two new files exist under `client/src` — `data/cards.js` and `components/CardIcon.jsx`,
-both from `aac133a`, both from your own earlier work. **Neither is imported by anything.**
-They ship as dead code and do not enter the bundle; the build output is byte-for-byte the
-size it was before they existed.
+**The bundle is much bigger than it was.** `main` shipped ~72 kB gzipped of JavaScript; this
+ships **416 kB gzipped** (707 kB raw). The avatars and card art are inlined as base64 data
+URIs in `components/Avatars.js`. That is a one-time cost on first load, cached afterwards,
+and it is not a bug — but it is the number most likely to be felt on a bad cellular
+connection, which is exactly the condition in your post-deploy check below. If the first load
+feels slow on cellular, this is why, and moving that art to real image files is the fix.
 
 ---
 
-## Verification behind this
+## What blocks a push
 
-- `npm test` → **159 passed (159), 18 files**, including 44 client-side tests that did not
-  exist before Session 8.
-- **`npm run build` from a completely clean checkout** — no root `node_modules`, no client
-  `node_modules`, no `client/build` — then `node server.js` under `NODE_ENV=production`,
-  serving both `/` and the JS bundle with **200**. This is the deploy rehearsal, not just a
-  compile check.
-- All ESLint warnings pre-existing; **no new warnings**, as expected since nothing in
-  `client/src` changed. Bundle hashes identical to every previous build.
-- Test count went 83 → 89 → **94**: +4 swap guard, +2 stats scoping, +5 room-code allocator.
-  Zero tests were deleted or weakened.
+**`.git/hooks/pre-push` no longer exists.** It was deleted during the Session 8 deploy
+attempt and was never restored. Nothing in git is stopping you.
 
-**What the suite does not cover:** any client code. It has never been run, in a browser or
-otherwise. Every assertion is against the socket contract. That is what `MANUAL_TEST.md`
-is for, and **you should run it before you push, not after.**
-
----
-
-## What is currently blocking a push
-
-Two separate mechanisms. Both are deliberate.
-
-### 1. `.git/hooks/pre-push` — git itself refuses
-
-```sh
-#!/bin/sh
-exit 1
-```
-
-Still in place, still executable — verified this session (running it directly exits `1`,
-which is what makes git abort). **This blocks every push, from any tool, including you.**
-You must delete it before you can push anything:
-
-```bash
-rm .git/hooks/pre-push
-```
-
-### 2. `.claude/settings.local.json` deny rules — these stop *me*, not you
+The `.claude/settings.local.json` deny rules are still in place and still constrain **me**,
+not you:
 
 ```json
 "deny": [
@@ -139,33 +108,29 @@ rm .git/hooks/pre-push
 ]
 ```
 
-**Leave all five in place.** They constrain what an assistant can run in this repo and have
-no effect on you typing commands in your own terminal. Removing them buys you nothing and
-removes a guardrail — in particular `npm audit fix`, which breaks `react-scripts`.
-
-So, when you are ready to ship: **delete the hook, leave the settings alone.** The hook is
-the only thing you need to remove; the deny rules never touch your own terminal.
+**Leave all five.** They have no effect on your own terminal, and `npm audit fix` in
+particular breaks `react-scripts`.
 
 ---
 
-## The exact commands to merge and push
+## The exact commands
 
-Run from the repo root, in order. Read the diff step; do not skip it.
+Run from the repo root, in order.
 
 ```bash
-# 0. Confirm you are where you think you are, and that nothing is uncommitted
+# 0. Confirm where you are and that nothing is uncommitted
 git status
 git branch --show-current        # expect: overnight-rebuild
-git log --oneline -1             # expect: 904f9d8 (or later)
+git log --oneline -1             # expect: c5b9fbf (or later)
 
-# 1. Look at what you are about to ship (server.js is the only production file)
+# 1. Look at what you are shipping
+git diff main HEAD --stat
 git diff main HEAD -- server.js
 
-# 2. Remove the push block
-rm .git/hooks/pre-push
+# 2. Run the suite one more time on the machine you are pushing from
+npm test                         # expect: 305 passed (305)
 
-# 3. Merge. --no-ff keeps the branch's shape in history, which matters
-#    because the rollback plan below refers to these commits.
+# 3. Merge. --no-ff keeps the branch's shape, which the rollback plan relies on.
 git checkout main
 git merge --no-ff overnight-rebuild
 
@@ -176,58 +141,74 @@ git push origin main
 **Before step 4, have `MANUAL_TEST.md` done.** Once you push, Render rebuilds and the live
 game changes under whoever is playing.
 
-If you would rather have a review surface first, replace steps 3–4 with:
+If you would rather have a review surface first:
 
 ```bash
-rm .git/hooks/pre-push
 git push -u origin overnight-rebuild
 gh pr create --base main --head overnight-rebuild \
-  --title "Server concurrency, mid-round reconnect, and cross-room stats fixes" \
-  --body-file SESSION_8_REPORT.md
+  --title "Visual rebuild, room lifecycle, and the cross-room name-collision fixes" \
+  --body-file docs/SESSION_14_REPORT.md
 ```
+
+---
+
+## After the deploy — check these, in this order
+
+**1. The socket is talking to production, not to your house.**
+
+Open https://shotgunformation.onrender.com → DevTools → **Network** → filter **WS** → reload.
+The socket URL must be
+
+```
+wss://shotgunformation.onrender.com/socket.io/...
+```
+
+It must **not** contain `10.0.0.42`. If it does, a contaminated local build got pushed —
+roll back, and check that `client/build` and `client/.env.local` are still untracked.
+
+> Because the client now asks for **polling first** and upgrades, you will see the polling
+> request before the WS one. That is correct and is the fix from this session. What matters
+> is that the WS entry appears and its host is `shotgunformation.onrender.com`.
+
+**2. Join once from a phone on cellular, off the home wifi.** Not wifi. This is the path that
+was broken — WebSocket-first with no fallback — and the only way to know it is fixed is a
+network you do not control.
+
+**3. Two rooms, both with a game started, and the server stays up.** Two phones or two
+browsers, two separate room codes, both press Start. This is the crash that has been live
+since Session 3. Watch the Render log; the process must not restart.
+
+**4. Read the first line of the Render log.** It prints the commit it is running:
+
+```
+Running code: <sha> (<branch>)  |  node <version>  |  started <timestamp>
+```
+
+If that sha is not what you just pushed, you are looking at a stale server. This line has
+already caught exactly that once.
 
 ---
 
 ## Rollback
 
-Production goes back to `e994b5f`, which is both the current `main` tip and the tag
-`pre-ui-rebuild`. Verified: `git rev-parse pre-ui-rebuild` → `e994b5f…`.
+Production goes back to `e994b5f`, the current `main` tip and the tag `pre-ui-rebuild`.
 
-### Fastest — no git at all (seconds)
+### Fastest — no git at all
 
 Render dashboard → your service → **Deploys** → find the deploy built from `e994b5f` →
-**Redeploy**. This is the one to reach for mid-party: it does not touch the repo, so you
-can take your time fixing the branch afterwards. Render rebuilds and restarts; expect a
-minute or two of downtime while the service swaps over.
+**Redeploy**. Reach for this mid-party: it does not touch the repo, so you can fix the branch
+afterwards at your own pace. Expect a minute or two of downtime while the service swaps.
 
-### If you need git back at `e994b5f` too
+### If you need git back too
 
 ```bash
-# Undo the merge commit, keeping history honest. Safe on a pushed branch.
 git checkout main
 git revert -m 1 <merge-commit-sha>
 git push origin main
 ```
 
-Use `git revert`, **not** `git reset --hard` + force push. The deny list blocks force
-pushes for a reason and a rewritten `main` is a worse problem than the one you are solving.
-
-### If you must hard-reset anyway
-
-```bash
-git checkout main
-git reset --hard pre-ui-rebuild
-git push --force-with-lease origin main
-```
-
-`--force-with-lease`, never bare `--force`. Only do this if nobody else has pulled.
-
-**Rollback caveat:** rolling back restores the `main` tree, which still contains the
-committed `node_modules`. That is fine — it is how production runs today — but it means a
-successful rollback tells you nothing about whether the dependency chain works. That
-question is settled separately, by the clean-checkout rehearsal at the top of this document.
-
-### How fast
+Use `git revert`, **not** `git reset --hard` + force push. A rewritten `main` is a worse
+problem than the one you are solving.
 
 | Route | Time to live |
 |---|---|
@@ -236,25 +217,10 @@ question is settled separately, by the clean-checkout rehearsal at the top of th
 
 ---
 
-## One thing I still could not verify
+## What the suite still does not cover
 
-**The room-code *collision* still cannot be provoked through a socket.** Forcing a real one
-needs on the order of 1,200 simultaneously-open rooms to be reliably reproducible; anything
-smaller is a coin flip that would fail randomly in CI. `Math.random` has no seam the harness
-can control. So the collision bug itself remains read from the code: `createRoom` did
-`rooms[roomCode] = {...}` with no existence check.
-
-**What changed in Session 4 is that the retry loop is now genuinely tested.**
-`tests/room-code.test.js` lifts the allocator straight out of `server.js` source and drives
-it with all 90,000 codes taken, which reaches the exhaustion branch honestly. Before the cap
-that branch did not exist: measured standalone, the old `while` loop spun 45,592,070 times
-in 3 seconds and never returned — on a single-threaded server that pins the event loop and
-stops every game on the box.
-
-The original three-line retry is still worth reading yourself, and the suite confirms it does
-not break room creation (13/13 across
-`edge-cases` and `concurrency`).
-
-**Every change in this deploy now has a test behind it.** The residual gap is narrower than
-Session 3's: not "the fix is unverified", but "the specific event that triggers the fix has
-never been observed in the wild". That is an acceptable place to be for a branch this size.
+The 305 tests are the socket contract, the client's pure logic modules, and rendered
+components in jsdom. **There is still no end-to-end browser test of a real game.** Every
+claim about what a real phone shows during a real round is read from source or checked by
+hand. `MANUAL_TEST.md` is what stands between that gap and your players — run it before you
+push, not after.
