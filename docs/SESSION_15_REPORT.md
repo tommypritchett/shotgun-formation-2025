@@ -1,7 +1,7 @@
 # Session 15 — the live game feed and the detector
 
 Branch `live-game-feed`, off `main` at `55b091c`. Four commits, four tags.
-**Nothing pushed.** Suite **310 → 419 passing**, 44 files. **No existing test was
+**Nothing pushed.** Suite **310 → 426 passing**, 44 files. **No existing test was
 modified.**
 
 ---
@@ -70,17 +70,19 @@ see "the degrade path" below.)*
 
 ### What the table says that the plan did not
 
-**It is heavier than planned. ~89 auto-called rounds per NFL game, not ~70.**
-The plan estimated ~40–42 first downs; the real number across three games is
-**42–52, mean 48.7**. Add Big Play 20+ at a mean of 13 — a card the plan did not
-cost at all — and the volume is about 27% above the estimate.
+**It is heavier than planned. ~85 auto-called rounds per NFL game, not ~70.**
+The plan estimated ~40–42 first downs; the real per-game numbers are **31, 48
+and 56** (mean 45.0) — and the spread matters more than the mean, because the
+31 is the 24-point slog and the 56 is the shootout. Add Big Play 20+ at a mean
+of 13, a card the plan did not cost at all, and the volume is about 20% above
+the estimate.
 
-At 89 rounds across three-and-a-half hours that is **a round every 2 minutes 20
+At 85 rounds across three-and-a-half hours that is **a round every 2 minutes 30
 seconds**, all game. Worth knowing before the first live night, because it is
 your decision and the arithmetic changed. Two dials exist if it turns out to be
 too much, and they need no code:
 
-- **Big Play 20+ → suggest** takes it from 89 to ~76 and costs the least, since
+- **Big Play 20+ → suggest** takes it from ~85 to ~72 and costs the least, since
   a 20-yard gain is the least eventful thing on the list.
 - **First Down → suggest** takes it to ~40 and is the real lever.
 
@@ -88,12 +90,51 @@ too much, and they need no code:
 `isPenalty: false` on a *declined* penalty, so the detector counts accepted ones
 only, which is the right number to drink to.
 
-**Multi-card plays are not rare: ~14 a game in the NFL, ~11 in college.** So
-sequential rounds are an ordinary event, roughly one every ninety seconds of
-game action, not an edge case. Every one of those is two rounds back-to-back
-under the current settings. That is the strongest argument in the table for
-demoting Big Play 20+, since Touchdown + Big Play 50+ and Penalty + First Down
-are the two commonest pairs.
+**Multi-card plays are not rare: ~17 a game in the NFL, ~14 in college.** So
+sequential rounds are an ordinary event, not an edge case — every one is two
+rounds back to back. That number went UP with the first-down correction, because
+a touchdown that crossed the line to gain now correctly carries a First Down
+alongside it. Touchdown + First Down and Penalty + First Down are the two
+commonest pairs, which is the strongest argument in the table for demoting Big
+Play 20+ rather than First Down if you want fewer doubles.
+
+---
+
+## First downs against the box score
+
+Checked **per game** against ESPN's own box-score totals rather than a league
+average — which is what found this, because the detector was wrong in **both
+directions** and an average would have cancelled them out.
+
+| Game | Before | Box score | After |
+|---|---:|---:|---:|
+| IND 31 - ATL 25 | 52 | **47** | 48 |
+| CAR 7 - NO 17 | 42 | **30** | 31 |
+| SF 26 - LAR 42 | 52 | **55** | 56 |
+
+**Fault 1 — clock stoppages counted as plays.** ESPN puts Official Timeout,
+Timeout, Two-minute warning and End Period in the play list, and they carry the
+current down and distance forward unchanged, so a timeout on 1st-and-10 is
+indistinguishable from a play that ended on 1st-and-10. Worth **6 to 13 phantom
+first downs per game**. They are now excluded from detection entirely — a
+stoppage cannot be worth any card.
+
+**Fault 2 — touchdowns that crossed the line to gain were missed.** `end.down`
+is -1 on a score, so the ordinary rule never saw them, but the official box
+score counts the first down. Worth **3 to 10 a game**, in the opposite
+direction. This is why the SF/LAR game was *under*-counted while the other two
+were over.
+
+Also excluded kicks: on a blocked field goal ESPN can name the same team on both
+sides of the play although possession changed, which read as a phantom first
+down.
+
+**Residual: exactly +1 in every game, and I have not explained it.** It is not
+goal-to-go — excluding those over-corrects two of the three games. I have left
+it alone deliberately: three games is not enough to fit a correction to without
+inventing a rule whose only merit is that the numbers meet. The per-game totals
+are now a regression test, so if a wider fixture set later shows the +1 is
+systematic it will be visible immediately.
 
 ---
 
