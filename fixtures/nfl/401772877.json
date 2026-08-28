@@ -1,0 +1,6067 @@
+{
+ "league": "nfl",
+ "gameId": "401772877",
+ "capturedAt": "2026-08-28T18:41:49.132Z",
+ "name": "CAR 7 - NO 17",
+ "teams": [
+  {
+   "id": "29",
+   "abbreviation": "CAR",
+   "displayName": "Carolina Panthers",
+   "score": 7,
+   "homeAway": "home"
+  },
+  {
+   "id": "18",
+   "abbreviation": "NO",
+   "displayName": "New Orleans Saints",
+   "score": 17,
+   "homeAway": "away"
+  }
+ ],
+ "periods": 4,
+ "playCount": 166,
+ "driveCount": 19,
+ "plays": [
+  {
+   "id": "4017728771",
+   "sequence": 100,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "70",
+   "typeText": "Coin Toss",
+   "text": "GAME",
+   "shortText": "Game",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": null,
+   "wallclock": null
+  },
+  {
+   "id": "40177287739",
+   "sequence": 3900,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "B.Grupe kicks 57 yards from NO 35 to CAR 8. C.Hubbard to CAR 33 for 25 yards (T.Burgess; D.Stutsman).",
+   "shortText": "Blake Grupe 57 Yd Kickoff Chuba Hubbard 25 Yd Kickoff Return",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 25,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:02:42Z"
+  },
+  {
+   "id": "40177287762",
+   "sequence": 6200,
+   "period": 1,
+   "clock": {
+    "seconds": 895,
+    "display": "14:55"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short left to T.McMillan to CAR 40 for 7 yards (K.McKinstry).",
+   "shortText": "Bryce Young Pass Complete for 7 Yds to Tetairoa McMillan",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 60,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:03:27Z"
+  },
+  {
+   "id": "40177287787",
+   "sequence": 8700,
+   "period": 1,
+   "clock": {
+    "seconds": 856,
+    "display": "14:16"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle up the middle to CAR 44 for 4 yards (D.Godchaux; D.Davis).",
+   "shortText": "Rico Dowdle 4 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 60,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:04:06Z"
+  },
+  {
+   "id": "401772877110",
+   "sequence": 11000,
+   "period": 1,
+   "clock": {
+    "seconds": 821,
+    "display": "13:41"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "B.Young pass short left to J.Sanders to CAR 43 for -1 yards (P.Werner).",
+   "shortText": "Bryce Young Pass Complete for Loss of 1 Yd to Ja'Tavion Sanders",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 57,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:04:41Z"
+  },
+  {
+   "id": "401772877135",
+   "sequence": 13500,
+   "period": 1,
+   "clock": {
+    "seconds": 777,
+    "display": "12:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle right tackle to CAR 46 for 3 yards (B.Bresee).",
+   "shortText": "Rico Dowdle 3 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 57,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:05:25Z"
+  },
+  {
+   "id": "401772877157",
+   "sequence": 15700,
+   "period": 1,
+   "clock": {
+    "seconds": 738,
+    "display": "12:18"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) B.Young pass incomplete short right to J.Sanders.PENALTY on NO-B.Bresee, Defensive Offside, 5 yards, enforced at CAR 46 - No Play.",
+   "shortText": "Bryce Young Incomplete Pass, Intended For Ja'Tavion Sanders Bryan Bresee 5 Yd Pnlty",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 49,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:06:05Z"
+  },
+  {
+   "id": "401772877191",
+   "sequence": 19100,
+   "period": 1,
+   "clock": {
+    "seconds": 732,
+    "display": "12:12"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Young right end ran ob at NO 43 for 6 yards (K.McKinstry).",
+   "shortText": "Bryce Young 6 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 49,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:06:56Z"
+  },
+  {
+   "id": "401772877218",
+   "sequence": 21800,
+   "period": 1,
+   "clock": {
+    "seconds": 695,
+    "display": "11:35"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle up the middle to NO 43 for no gain (P.Werner; J.Bullard).",
+   "shortText": "Rico Dowdle Rush, No Gain",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:07:34Z"
+  },
+  {
+   "id": "401772877240",
+   "sequence": 24000,
+   "period": 1,
+   "clock": {
+    "seconds": 656,
+    "display": "10:56"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short left to T.McMillan ran ob at NO 32 for 11 yards.",
+   "shortText": "Bryce Young Pass Complete for 11 Yds to Tetairoa McMillan",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:08:13Z"
+  },
+  {
+   "id": "401772877270",
+   "sequence": 27000,
+   "period": 1,
+   "clock": {
+    "seconds": 618,
+    "display": "10:18"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short right to R.Dowdle to NO 31 for 1 yard (A.Taylor).",
+   "shortText": "Bryce Young Pass Complete for 1 Yd to Rico Dowdle",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 31,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:08:52Z"
+  },
+  {
+   "id": "401772877295",
+   "sequence": 29500,
+   "period": 1,
+   "clock": {
+    "seconds": 575,
+    "display": "9:35"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) B.Young pass incomplete short middle to M.Evans (J.Bullard).",
+   "shortText": "Bryce Young Incomplete Pass, Intended For Mitchell Evans",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 31,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 31,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:09:35Z"
+  },
+  {
+   "id": "401772877318",
+   "sequence": 31800,
+   "period": 1,
+   "clock": {
+    "seconds": 571,
+    "display": "9:31"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) B.Young pass deep middle intended for J.Sanders INTERCEPTED by D.Davis at NO 15. D.Davis pushed ob at NO 23 for 8 yards (J.Coker).PENALTY on NO-J.Reid, Roughing the Passer, 15 yards, enforced at NO 31 - No Play.",
+   "shortText": "Demario Davis 8 Yd Interception Return Justin Reid 15 Yd Pnlty",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 31,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 16,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:10:14Z"
+  },
+  {
+   "id": "401772877361",
+   "sequence": 36100,
+   "period": 1,
+   "clock": {
+    "seconds": 563,
+    "display": "9:23"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) R.Dowdle right guard to NO 13 for 3 yards (D.Davis; J.Reid).",
+   "shortText": "Rico Dowdle 3 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 16,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 13,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:11:27Z"
+  },
+  {
+   "id": "401772877383",
+   "sequence": 38300,
+   "period": 1,
+   "clock": {
+    "seconds": 529,
+    "display": "8:49"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short right to R.Dowdle to NO 5 for 8 yards (P.Werner; J.Reid).",
+   "shortText": "Bryce Young Pass Complete for 8 Yds to Rico Dowdle",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 13,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:12:02Z"
+  },
+  {
+   "id": "401772877408",
+   "sequence": 40800,
+   "period": 1,
+   "clock": {
+    "seconds": 479,
+    "display": "7:59"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "R.Dowdle right tackle for 5 yards, TOUCHDOWN. R.Fitzgerald extra point is GOOD, Center-J.Jansen, Holder-S.Martin.",
+   "shortText": "Rico Dowdle 5 Yd Rush (Ryan Fitzgerald Kick)",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "29"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:12:47Z"
+  },
+  {
+   "id": "401772877439",
+   "sequence": 43900,
+   "period": 1,
+   "clock": {
+    "seconds": 479,
+    "display": "7:59"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 07:59.",
+   "shortText": "Official Timeout At 07:59. ",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "29"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728771",
+   "wallclock": "2025-11-09T18:13:47Z"
+  },
+  {
+   "id": "401772877446",
+   "sequence": 44600,
+   "period": 1,
+   "clock": {
+    "seconds": 479,
+    "display": "7:59"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "R.Fitzgerald kicks 65 yards from CAR 35 to landing zone to end zone, Touchback to the NO 20.",
+   "shortText": "Ryan Fitzgerald 65 Yd Kickoff, Touchback",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:17:02Z"
+  },
+  {
+   "id": "401772877475",
+   "sequence": 47500,
+   "period": 1,
+   "clock": {
+    "seconds": 479,
+    "display": "7:59"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara left guard to NO 26 for 6 yards (N.Scourton).",
+   "shortText": "Alvin Kamara 6 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 74,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:17:50Z"
+  },
+  {
+   "id": "401772877497",
+   "sequence": 49700,
+   "period": 1,
+   "clock": {
+    "seconds": 445,
+    "display": "7:25"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) T.Shough sacked at NO 18 for -8 yards (T.Wallace).",
+   "shortText": "Tyler Shough Sacked by Trevin Wallace For 8 Yd Loss",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 74,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 82,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:18:24Z"
+  },
+  {
+   "id": "401772877517",
+   "sequence": 51700,
+   "period": 1,
+   "clock": {
+    "seconds": 403,
+    "display": "6:43"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass deep left to J.Johnson to CAR 30 for 52 yards (L.Ransom).",
+   "shortText": "Tyler Shough Pass Complete for 52 Yds to Juwan Johnson",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 52,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 82,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:19:06Z"
+  },
+  {
+   "id": "401772877542",
+   "sequence": 54200,
+   "period": 1,
+   "clock": {
+    "seconds": 370,
+    "display": "6:10"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle) D.Neal left tackle to CAR 16 for 14 yards (L.Ransom; Ja.Horn).",
+   "shortText": "Devin Neal 14 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 16,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:19:39Z"
+  },
+  {
+   "id": "401772877564",
+   "sequence": 56400,
+   "period": 1,
+   "clock": {
+    "seconds": 344,
+    "display": "5:44"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) T.Shough pass short left to J.Johnson pushed ob at CAR 12 for 4 yards (Ja.Horn).",
+   "shortText": "Tyler Shough Pass Complete for 4 Yds to Juwan Johnson",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 16,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 12,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:20:06Z"
+  },
+  {
+   "id": "401772877594",
+   "sequence": 59400,
+   "period": 1,
+   "clock": {
+    "seconds": 303,
+    "display": "5:03"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short middle to F.Moreau to CAR 2 for 10 yards (T.Wallace).",
+   "shortText": "Tyler Shough Pass Complete for 10 Yds to Foster Moreau",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 12,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:20:48Z"
+  },
+  {
+   "id": "401772877619",
+   "sequence": 61900,
+   "period": 1,
+   "clock": {
+    "seconds": 266,
+    "display": "4:26"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "W.Sherman reported in as eligible.  A.Kamara right tackle to CAR 3 for -1 yards (T.Wharton, A.Robinson).",
+   "shortText": "Alvin Kamara Rush, Loss of 1 Yd",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:21:24Z"
+  },
+  {
+   "id": "401772877643",
+   "sequence": 64300,
+   "period": 1,
+   "clock": {
+    "seconds": 224,
+    "display": "3:44"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Hill right guard to CAR 2 for 1 yard (T.Wharton; N.Scourton).",
+   "shortText": "Taysom Hill 1 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:22:05Z"
+  },
+  {
+   "id": "401772877665",
+   "sequence": 66500,
+   "period": 1,
+   "clock": {
+    "seconds": 181,
+    "display": "3:01"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) T.Shough pass incomplete short left to C.Olave.",
+   "shortText": "Tyler Shough Incomplete Pass, Intended For Chris Olave",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:22:49Z"
+  },
+  {
+   "id": "401772877688",
+   "sequence": 68800,
+   "period": 1,
+   "clock": {
+    "seconds": 172,
+    "display": "2:52"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "Blake Grupe 20 Yd Field Goal ",
+   "shortText": "Blake Grupe 20 Yd Field Goal ",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 20,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "18"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:23:31Z"
+  },
+  {
+   "id": "401772877698",
+   "sequence": 69800,
+   "period": 1,
+   "clock": {
+    "seconds": 172,
+    "display": "2:52"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 02:52.",
+   "shortText": "Official Timeout At 02:52. ",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728772",
+   "wallclock": "2025-11-09T18:23:54Z"
+  },
+  {
+   "id": "401772877708",
+   "sequence": 70800,
+   "period": 1,
+   "clock": {
+    "seconds": 172,
+    "display": "2:52"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "B.Grupe kicks 64 yards from NO 35 to CAR 1. C.Hubbard to CAR 28 for 27 yards (C.Rumph; D.Stutsman).",
+   "shortText": "Blake Grupe 64 Yd Kickoff Chuba Hubbard 27 Yd Kickoff Return",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 27,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728773",
+   "wallclock": "2025-11-09T18:26:25Z"
+  },
+  {
+   "id": "401772877738",
+   "sequence": 73800,
+   "period": 1,
+   "clock": {
+    "seconds": 166,
+    "display": "2:46"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle up the middle to CAR 42 for 14 yards (A.Taylor; J.Sanker).",
+   "shortText": "Rico Dowdle 14 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728773",
+   "wallclock": "2025-11-09T18:27:15Z"
+  },
+  {
+   "id": "401772877760",
+   "sequence": 76000,
+   "period": 1,
+   "clock": {
+    "seconds": 139,
+    "display": "2:19"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle) R.Dowdle left guard to CAR 43 for 1 yard (P.Werner).",
+   "shortText": "Rico Dowdle 1 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 57,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728773",
+   "wallclock": "2025-11-09T18:27:43Z"
+  },
+  {
+   "id": "401772877782",
+   "sequence": 78200,
+   "period": 1,
+   "clock": {
+    "seconds": 99,
+    "display": "1:39"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) R.Dowdle right guard to CAR 47 for 4 yards (J.Reid; C.Young).",
+   "shortText": "Rico Dowdle 4 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 57,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 53,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728773",
+   "wallclock": "2025-11-09T18:28:22Z"
+  },
+  {
+   "id": "401772877804",
+   "sequence": 80400,
+   "period": 1,
+   "clock": {
+    "seconds": 60,
+    "display": "1:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) B.Young pass incomplete short middle to J.Coker (D.Davis).",
+   "shortText": "Bryce Young Incomplete Pass, Intended For Jalen Coker",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 53,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 53,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728773",
+   "wallclock": "2025-11-09T18:29:02Z"
+  },
+  {
+   "id": "401772877839",
+   "sequence": 83900,
+   "period": 1,
+   "clock": {
+    "seconds": 56,
+    "display": "0:56"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "S.Martin punts 51 yards to NO 2, Center-J.Jansen, out of bounds.",
+   "shortText": "Sam Martin 51 Yd Punt, OB at 98",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 47,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728773",
+   "wallclock": "2025-11-09T18:29:40Z"
+  },
+  {
+   "id": "401772877849",
+   "sequence": 84900,
+   "period": 1,
+   "clock": {
+    "seconds": 47,
+    "display": "0:47"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 00:47.",
+   "shortText": "Official Timeout At 00:47. ",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728773",
+   "wallclock": "2025-11-09T18:30:21Z"
+  },
+  {
+   "id": "401772877858",
+   "sequence": 85800,
+   "period": 1,
+   "clock": {
+    "seconds": 47,
+    "display": "0:47"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) T.Shough pass incomplete short left to C.Olave.",
+   "shortText": "Tyler Shough Incomplete Pass, Intended For Chris Olave",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728774",
+   "wallclock": "2025-11-09T18:32:50Z"
+  },
+  {
+   "id": "401772877888",
+   "sequence": 88800,
+   "period": 1,
+   "clock": {
+    "seconds": 43,
+    "display": "0:43"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara right guard to NO 9 for 7 yards (T.Moehrig).",
+   "shortText": "Alvin Kamara 7 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 91,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728774",
+   "wallclock": "2025-11-09T18:33:26Z"
+  },
+  {
+   "id": "401772877910",
+   "sequence": 91000,
+   "period": 1,
+   "clock": {
+    "seconds": 3,
+    "display": "0:03"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) T.Shough pass incomplete short middle [T.Moehrig].",
+   "shortText": "Tyler Shough Incomplete Pass",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 91,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 91,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728774",
+   "wallclock": "2025-11-09T18:34:07Z"
+  },
+  {
+   "id": "401772877938",
+   "sequence": 93800,
+   "period": 1,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "END QUARTER 1",
+   "shortText": "End Quarter 1 ",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 91,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 91,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728774",
+   "wallclock": "2025-11-09T18:34:07Z"
+  },
+  {
+   "id": "401772877958",
+   "sequence": 95800,
+   "period": 2,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "K.Kroeger punts 54 yards to CAR 37, Center-Z.Wood. T.Etienne to CAR 47 for 10 yards (C.Rumph; M.Davis).",
+   "shortText": "Kai Kroeger 54 Yd Punt Trevor Etienne 10 Yd Punt Return",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 91,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728774",
+   "wallclock": "2025-11-09T18:37:31Z"
+  },
+  {
+   "id": "401772877984",
+   "sequence": 98400,
+   "period": 2,
+   "clock": {
+    "seconds": 888,
+    "display": "14:48"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) B.Young pass incomplete deep left to T.McMillan (Q.Riley).",
+   "shortText": "Bryce Young Incomplete Pass, Intended For Tetairoa McMillan",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728775",
+   "wallclock": "2025-11-09T18:38:23Z"
+  },
+  {
+   "id": "4017728771007",
+   "sequence": 100700,
+   "period": 2,
+   "clock": {
+    "seconds": 882,
+    "display": "14:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) R.Dowdle left tackle to CAR 48 for 1 yard (J.Reid; D.Godchaux). CAR-M.Evans was injured during the play.",
+   "shortText": "Rico Dowdle 1 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 52,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728775",
+   "wallclock": "2025-11-09T18:39:05Z"
+  },
+  {
+   "id": "4017728771020",
+   "sequence": 102000,
+   "period": 2,
+   "clock": {
+    "seconds": 868,
+    "display": "14:28"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 14:28.",
+   "shortText": "Official Timeout At 14:28. ",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 0,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 52,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728775",
+   "wallclock": "2025-11-09T18:39:57Z"
+  },
+  {
+   "id": "4017728771032",
+   "sequence": 103200,
+   "period": 2,
+   "clock": {
+    "seconds": 849,
+    "display": "14:09"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) B.Young sacked at CAR 35 for -13 yards (N.Shepherd).",
+   "shortText": "Bryce Young Sacked by Nathan Shepherd For 13 Yd Loss",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 52,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 4,
+    "distance": 22,
+    "yardsToEndzone": 65,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728775",
+   "wallclock": "2025-11-09T18:42:32Z"
+  },
+  {
+   "id": "4017728771059",
+   "sequence": 105900,
+   "period": 2,
+   "clock": {
+    "seconds": 807,
+    "display": "13:27"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "S.Martin punts 47 yards to NO 18, Center-J.Jansen. D.Pettis to NO 25 for 7 yards (M.Njongmeta; T.Incoom).",
+   "shortText": "Sam Martin 47 Yd Punt Dante Pettis 7 Yd Punt Return",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 22,
+    "yardsToEndzone": 35,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728775",
+   "wallclock": "2025-11-09T18:43:13Z"
+  },
+  {
+   "id": "4017728771085",
+   "sequence": 108500,
+   "period": 2,
+   "clock": {
+    "seconds": 798,
+    "display": "13:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara left guard to NO 28 for 3 yards (D.Brown). ** Injury Update: CAR-P.Umanmielen has returned to the game.",
+   "shortText": "Alvin Kamara 3 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 72,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728776",
+   "wallclock": "2025-11-09T18:44:27Z"
+  },
+  {
+   "id": "4017728771112",
+   "sequence": 111200,
+   "period": 2,
+   "clock": {
+    "seconds": 761,
+    "display": "12:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) A.Kamara right guard to NO 31 for 3 yards (D.Wonnum).",
+   "shortText": "Alvin Kamara 3 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 72,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 69,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728776",
+   "wallclock": "2025-11-09T18:45:04Z"
+  },
+  {
+   "id": "4017728771134",
+   "sequence": 113400,
+   "period": 2,
+   "clock": {
+    "seconds": 721,
+    "display": "12:01"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) A.Kamara right tackle to NO 34 for 3 yards (Ja.Horn).",
+   "shortText": "Alvin Kamara 3 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 69,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728776",
+   "wallclock": "2025-11-09T18:45:43Z"
+  },
+  {
+   "id": "4017728771159",
+   "sequence": 115900,
+   "period": 2,
+   "clock": {
+    "seconds": 689,
+    "display": "11:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Hill up the middle to NO 36 for 2 yards (T.Gipson; D.Brown).",
+   "shortText": "Taysom Hill 2 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728776",
+   "wallclock": "2025-11-09T18:46:23Z"
+  },
+  {
+   "id": "4017728771181",
+   "sequence": 118100,
+   "period": 2,
+   "clock": {
+    "seconds": 653,
+    "display": "10:53"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara up the middle to NO 35 for -1 yards (D.Brown, T.Wharton).",
+   "shortText": "Alvin Kamara Rush, Loss of 1 Yd",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 65,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728776",
+   "wallclock": "2025-11-09T18:47:00Z"
+  },
+  {
+   "id": "4017728771203",
+   "sequence": 120300,
+   "period": 2,
+   "clock": {
+    "seconds": 612,
+    "display": "10:12"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Shough scrambles up the middle to NO 38 for 3 yards (T.Wallace).",
+   "shortText": "Tyler Shough 3 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 65,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 62,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728776",
+   "wallclock": "2025-11-09T18:47:40Z"
+  },
+  {
+   "id": "4017728771225",
+   "sequence": 122500,
+   "period": 2,
+   "clock": {
+    "seconds": 561,
+    "display": "9:21"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(Shotgun) T.Shough pass deep right to C.Olave for 62 yards, TOUCHDOWN. B.Grupe extra point is GOOD, Center-Z.Wood, Holder-K.Kroeger.",
+   "shortText": "Chris Olave 62 Yd pass from Tyler Shough (Blake Grupe Kick)",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 62,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 62,
+    "teamId": "18"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728776",
+   "wallclock": "2025-11-09T18:48:22Z"
+  },
+  {
+   "id": "4017728771259",
+   "sequence": 125900,
+   "period": 2,
+   "clock": {
+    "seconds": 561,
+    "display": "9:21"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 09:21.",
+   "shortText": "Official Timeout At 09:21. ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728776",
+   "wallclock": "2025-11-09T18:49:29Z"
+  },
+  {
+   "id": "4017728771266",
+   "sequence": 126600,
+   "period": 2,
+   "clock": {
+    "seconds": 561,
+    "display": "9:21"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "B.Grupe kicks 57 yards from NO 35 to CAR 8. T.Etienne to CAR 38 for 30 yards (I.Yiadom). ** Injury Update: CAR-M.Evans has returned to the game.",
+   "shortText": "Blake Grupe 57 Yd Kickoff Trevor Etienne 30 Yd Kickoff Return",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 30,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728777",
+   "wallclock": "2025-11-09T18:52:09Z"
+  },
+  {
+   "id": "4017728771296",
+   "sequence": 129600,
+   "period": 2,
+   "clock": {
+    "seconds": 556,
+    "display": "9:16"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short right to J.Sanders to CAR 42 for 4 yards (K.McKinstry).",
+   "shortText": "Bryce Young Pass Complete for 4 Yds to Ja'Tavion Sanders",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 58,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728777",
+   "wallclock": "2025-11-09T18:52:57Z"
+  },
+  {
+   "id": "4017728771321",
+   "sequence": 132100,
+   "period": 2,
+   "clock": {
+    "seconds": 515,
+    "display": "8:35"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle right guard to CAR 45 for 3 yards (N.Shepherd).",
+   "shortText": "Rico Dowdle 3 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 58,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 55,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728777",
+   "wallclock": "2025-11-09T18:53:38Z"
+  },
+  {
+   "id": "4017728771343",
+   "sequence": 134300,
+   "period": 2,
+   "clock": {
+    "seconds": 475,
+    "display": "7:55"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) B.Young pass incomplete short right to T.McMillan.",
+   "shortText": "Bryce Young Incomplete Pass, Intended For Tetairoa McMillan",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 55,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 55,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728777",
+   "wallclock": "2025-11-09T18:54:18Z"
+  },
+  {
+   "id": "4017728771369",
+   "sequence": 136900,
+   "period": 2,
+   "clock": {
+    "seconds": 471,
+    "display": "7:51"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "S.Martin punts 47 yards to NO 8, Center-J.Jansen, fair catch by D.Pettis.",
+   "shortText": "Sam Martin 47 Yd Punt, Fair Catch by",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 45,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 92,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728777",
+   "wallclock": "2025-11-09T18:54:56Z"
+  },
+  {
+   "id": "4017728771379",
+   "sequence": 137900,
+   "period": 2,
+   "clock": {
+    "seconds": 463,
+    "display": "7:43"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 07:43.",
+   "shortText": "Official Timeout At 07:43. ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 92,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728777",
+   "wallclock": "2025-11-09T18:55:27Z"
+  },
+  {
+   "id": "4017728771389",
+   "sequence": 138900,
+   "period": 2,
+   "clock": {
+    "seconds": 463,
+    "display": "7:43"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "T.Shough pass incomplete deep middle to C.Olave [P.Umanmielen].",
+   "shortText": "Tyler Shough Incomplete Pass, Intended For Chris Olave",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 92,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 92,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728778",
+   "wallclock": "2025-11-09T18:57:54Z"
+  },
+  {
+   "id": "4017728771419",
+   "sequence": 141900,
+   "period": 2,
+   "clock": {
+    "seconds": 457,
+    "display": "7:37"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short left to A.Kamara to NO 34 for 26 yards (N.Scott).",
+   "shortText": "Tyler Shough Pass Complete for 26 Yds to Alvin Kamara",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 26,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 92,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 66,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728778",
+   "wallclock": "2025-11-09T18:58:39Z"
+  },
+  {
+   "id": "4017728771444",
+   "sequence": 144400,
+   "period": 2,
+   "clock": {
+    "seconds": 431,
+    "display": "7:11"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle) T.Shough pass incomplete short left to F.Moreau.",
+   "shortText": "Tyler Shough Incomplete Pass, Intended For Foster Moreau",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 66,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 66,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728778",
+   "wallclock": "2025-11-09T18:59:03Z"
+  },
+  {
+   "id": "4017728771467",
+   "sequence": 146700,
+   "period": 2,
+   "clock": {
+    "seconds": 427,
+    "display": "7:07"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "D.Neal up the middle to NO 40 for 6 yards (C.Smith-Wade).",
+   "shortText": "Devin Neal 6 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 66,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728778",
+   "wallclock": "2025-11-09T18:59:41Z"
+  },
+  {
+   "id": "4017728771489",
+   "sequence": 148900,
+   "period": 2,
+   "clock": {
+    "seconds": 386,
+    "display": "6:26"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) T.Shough pass incomplete short left to T.Hill.",
+   "shortText": "Tyler Shough Incomplete Pass, Intended For Taysom Hill",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728778",
+   "wallclock": "2025-11-09T19:00:22Z"
+  },
+  {
+   "id": "4017728771512",
+   "sequence": 151200,
+   "period": 2,
+   "clock": {
+    "seconds": 381,
+    "display": "6:21"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "K.Kroeger punts 52 yards to CAR 8, Center-Z.Wood. T.Etienne to CAR 13 for 5 yards (I.Stalbird).",
+   "shortText": "Kai Kroeger 52 Yd Punt Trevor Etienne 5 Yd Punt Return",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728778",
+   "wallclock": "2025-11-09T19:01:01Z"
+  },
+  {
+   "id": "4017728771525",
+   "sequence": 152500,
+   "period": 2,
+   "clock": {
+    "seconds": 369,
+    "display": "6:09"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 06:09.",
+   "shortText": "Official Timeout At 06:09. ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 86,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728778",
+   "wallclock": "2025-11-09T19:01:34Z"
+  },
+  {
+   "id": "4017728771538",
+   "sequence": 153800,
+   "period": 2,
+   "clock": {
+    "seconds": 369,
+    "display": "6:09"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle right guard to CAR 14 for 1 yard (D.Stutsman).",
+   "shortText": "Rico Dowdle 1 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 86,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728779",
+   "wallclock": "2025-11-09T19:04:07Z"
+  },
+  {
+   "id": "4017728771567",
+   "sequence": 156700,
+   "period": 2,
+   "clock": {
+    "seconds": 332,
+    "display": "5:32"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) B.Young sacked at CAR 5 for -9 yards (C.Jordan).",
+   "shortText": "Bryce Young Sacked by Cameron Jordan For 9 Yd Loss",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 86,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 18,
+    "yardsToEndzone": 95,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728779",
+   "wallclock": "2025-11-09T19:04:46Z"
+  },
+  {
+   "id": "4017728771587",
+   "sequence": 158700,
+   "period": 2,
+   "clock": {
+    "seconds": 288,
+    "display": "4:48"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short middle to J.Sanders to CAR 16 for 11 yards (D.Davis; I.Stalbird).",
+   "shortText": "Bryce Young Pass Complete for 11 Yds to Ja'Tavion Sanders",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 18,
+    "yardsToEndzone": 95,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 84,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "4017728779",
+   "wallclock": "2025-11-09T19:05:29Z"
+  },
+  {
+   "id": "4017728771612",
+   "sequence": 161200,
+   "period": 2,
+   "clock": {
+    "seconds": 249,
+    "display": "4:09"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "S.Martin punts 59 yards to NO 25, Center-J.Jansen. D.Pettis pushed ob at NO 26 for 1 yard (B.Martin-Scott; J.Sanders).PENALTY on NO-J.Ford, Offensive Holding, 10 yards, enforced at NO 26.Penalty on NO-I.Yiadom, Offensive Holding, declined.",
+   "shortText": "Sam Martin 59 Yd Punt Dante Pettis 1 Yd Punt Return Jaylan Ford 10 Yd Pnlty",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -9,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 16,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 84,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728779",
+   "wallclock": "2025-11-09T19:06:08Z"
+  },
+  {
+   "id": "4017728771636",
+   "sequence": 163600,
+   "period": 2,
+   "clock": {
+    "seconds": 234,
+    "display": "3:54"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 03:54.",
+   "shortText": "Official Timeout At 03:54. ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 84,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "4017728779",
+   "wallclock": "2025-11-09T19:08:07Z"
+  },
+  {
+   "id": "4017728771659",
+   "sequence": 165900,
+   "period": 2,
+   "clock": {
+    "seconds": 234,
+    "display": "3:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara up the middle to NO 19 for 3 yards (A.Robinson).",
+   "shortText": "Alvin Kamara 3 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 84,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 81,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:10:04Z"
+  },
+  {
+   "id": "4017728771688",
+   "sequence": 168800,
+   "period": 2,
+   "clock": {
+    "seconds": 199,
+    "display": "3:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short middle to D.Neal to NO 20 for 1 yard (C.Smith-Wade).",
+   "shortText": "Tyler Shough Pass Complete for 1 Yd to Devin Neal",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 81,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 80,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:10:39Z"
+  },
+  {
+   "id": "4017728771713",
+   "sequence": 171300,
+   "period": 2,
+   "clock": {
+    "seconds": 161,
+    "display": "2:41"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) T.Shough pass short middle to D.Neal to NO 30 for 10 yards (T.Moehrig). CAR-P.Umanmielen was injured during the play.",
+   "shortText": "Tyler Shough Pass Complete for 10 Yds to Devin Neal",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 80,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:11:17Z"
+  },
+  {
+   "id": "4017728771727",
+   "sequence": 172700,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "75",
+   "typeText": "Two-minute warning",
+   "text": "Two-Minute Warning",
+   "shortText": "Two-Minute Warning ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:12:55Z"
+  },
+  {
+   "id": "4017728771741",
+   "sequence": 174100,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short left to A.Kamara pushed ob at NO 33 for 3 yards (N.Scott).",
+   "shortText": "Tyler Shough Pass Complete for 3 Yds to Alvin Kamara",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 67,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:15:41Z"
+  },
+  {
+   "id": "4017728771778",
+   "sequence": 177800,
+   "period": 2,
+   "clock": {
+    "seconds": 116,
+    "display": "1:56"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short left to A.Kamara to NO 36 for 3 yards (T.Moehrig).",
+   "shortText": "Tyler Shough Pass Complete for 3 Yds to Alvin Kamara",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 67,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 64,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:16:18Z"
+  },
+  {
+   "id": "4017728771803",
+   "sequence": 180300,
+   "period": 2,
+   "clock": {
+    "seconds": 78,
+    "display": "1:18"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short left to C.Olave to CAR 46 for 18 yards (C.Smith-Wade).Penalty on CAR-Ja.Horn, Illegal Use of Hands, declined.",
+   "shortText": "Tyler Shough Pass Complete for 18 Yds to Chris Olave",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 64,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:16:56Z"
+  },
+  {
+   "id": "4017728771839",
+   "sequence": 183900,
+   "period": 2,
+   "clock": {
+    "seconds": 71,
+    "display": "1:11"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) T.Shough pass incomplete deep right to D.Vele (M.Jackson).",
+   "shortText": "Tyler Shough Incomplete Pass, Intended For Devaughn Vele",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:17:52Z"
+  },
+  {
+   "id": "4017728771862",
+   "sequence": 186200,
+   "period": 2,
+   "clock": {
+    "seconds": 64,
+    "display": "1:04"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short right to C.Olave to CAR 41 for 5 yards (C.Smith-Wade).",
+   "shortText": "Tyler Shough Pass Complete for 5 Yds to Chris Olave",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 41,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:18:37Z"
+  },
+  {
+   "id": "4017728771887",
+   "sequence": 188700,
+   "period": 2,
+   "clock": {
+    "seconds": 32,
+    "display": "0:32"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": " (No Huddle, Shotgun) A.Kamara up the middle to CAR 40 for 1 yard (A.Robinson; D.Wonnum).",
+   "shortText": "Alvin Kamara 1 Yd Rush ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 41,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 40,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:19:10Z"
+  },
+  {
+   "id": "4017728771898",
+   "sequence": 189800,
+   "period": 2,
+   "clock": {
+    "seconds": 27,
+    "display": "0:27"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by CAR at 00:27.",
+   "shortText": "Timeout #1 By Car At 00:27. Timeout CAR ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 40,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:19:31Z"
+  },
+  {
+   "id": "4017728771904",
+   "sequence": 190400,
+   "period": 2,
+   "clock": {
+    "seconds": 27,
+    "display": "0:27"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by NO at 00:27.",
+   "shortText": "Timeout #1 By No At 00:27. Timeout NO ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 40,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:20:28Z"
+  },
+  {
+   "id": "4017728771909",
+   "sequence": 190900,
+   "period": 2,
+   "clock": {
+    "seconds": 27,
+    "display": "0:27"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) PENALTY on NO-L.Fortner, False Start, 5 yards, enforced at CAR 40 - No Play.",
+   "shortText": "Luke Fortner 5 Yd Pnlty",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 40,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 45,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:21:23Z"
+  },
+  {
+   "id": "4017728771947",
+   "sequence": 194700,
+   "period": 2,
+   "clock": {
+    "seconds": 27,
+    "display": "0:27"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "K.Kroeger punts 26 yards to CAR 19, Center-Z.Wood, out of bounds.",
+   "shortText": "Kai Kroeger 26 Yd Punt, OB at 19",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 45,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287710",
+   "wallclock": "2025-11-09T19:22:17Z"
+  },
+  {
+   "id": "4017728771966",
+   "sequence": 196600,
+   "period": 2,
+   "clock": {
+    "seconds": 21,
+    "display": "0:21"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) B.Young pass incomplete short left.",
+   "shortText": "Bryce Young Incomplete Pass",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287711",
+   "wallclock": "2025-11-09T19:23:12Z"
+  },
+  {
+   "id": "4017728771989",
+   "sequence": 198900,
+   "period": 2,
+   "clock": {
+    "seconds": 14,
+    "display": "0:14"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short left to J.Sanders to CAR 32 for 13 yards (D.Davis).",
+   "shortText": "Bryce Young Pass Complete for 13 Yds to Ja'Tavion Sanders",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 68,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287711",
+   "wallclock": "2025-11-09T19:23:58Z"
+  },
+  {
+   "id": "4017728772002",
+   "sequence": 200200,
+   "period": 2,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #2 by CAR at 00:07.",
+   "shortText": "Timeout #2 By Car At 00:07. Timeout CAR ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287711",
+   "wallclock": "2025-11-09T19:24:26Z"
+  },
+  {
+   "id": "4017728772014",
+   "sequence": 201400,
+   "period": 2,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) PENALTY on CAR-X.Legette, False Start, 5 yards, enforced at CAR 32 - No Play.",
+   "shortText": "Xavier Legette 5 Yd Pnlty",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 68,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 73,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287711",
+   "wallclock": "2025-11-09T19:24:58Z"
+  },
+  {
+   "id": "4017728772045",
+   "sequence": 204500,
+   "period": 2,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Hubbard up the middle to CAR 33 for 6 yards (P.Werner).",
+   "shortText": "Chuba Hubbard 6 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 73,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 67,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287711",
+   "wallclock": "2025-11-09T19:25:28Z"
+  },
+  {
+   "id": "4017728772067",
+   "sequence": 206700,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "65",
+   "typeText": "End of Half",
+   "text": "END QUARTER 2",
+   "shortText": "End Quarter 2",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287711",
+   "wallclock": "2025-11-09T19:25:28Z"
+  },
+  {
+   "id": "4017728772087",
+   "sequence": 208700,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "R.Fitzgerald kicks 59 yards from CAR 35 to NO 6. D.Pettis ran ob at NO 37 for 31 yards (C.Thornton). ** Injury Update: CAR-P.Umanmielen has returned to the game.",
+   "shortText": "Ryan Fitzgerald 59 Yd Kickoff Dante Pettis 31 Yd Kickoff Return",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 31,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287712",
+   "wallclock": "2025-11-09T19:39:46Z"
+  },
+  {
+   "id": "4017728772115",
+   "sequence": 211500,
+   "period": 3,
+   "clock": {
+    "seconds": 895,
+    "display": "14:55"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) A.Kamara left guard to NO 40 for 3 yards (A.Robinson).",
+   "shortText": "Alvin Kamara 3 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287712",
+   "wallclock": "2025-11-09T19:40:32Z"
+  },
+  {
+   "id": "4017728772142",
+   "sequence": 214200,
+   "period": 3,
+   "clock": {
+    "seconds": 864,
+    "display": "14:24"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) T.Shough pass incomplete deep right to D.Vele.",
+   "shortText": "Tyler Shough Incomplete Pass, Intended For Devaughn Vele",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287712",
+   "wallclock": "2025-11-09T19:41:03Z"
+  },
+  {
+   "id": "4017728772165",
+   "sequence": 216500,
+   "period": 3,
+   "clock": {
+    "seconds": 856,
+    "display": "14:16"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) T.Shough scrambles left end pushed ob at NO 47 for 7 yards (T.Incoom).PENALTY on NO-D.Radunz, Offensive Holding, 10 yards, enforced at NO 40 - No Play.",
+   "shortText": "Tyler Shough 7 Yd Rush Dillon Radunz 10 Yd Pnlty",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 17,
+    "yardsToEndzone": 70,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287712",
+   "wallclock": "2025-11-09T19:41:49Z"
+  },
+  {
+   "id": "4017728772206",
+   "sequence": 220600,
+   "period": 3,
+   "clock": {
+    "seconds": 825,
+    "display": "13:45"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short middle to D.Vele to NO 45 for 15 yards (C.Smith-Wade).",
+   "shortText": "Tyler Shough Pass Complete for 15 Yds to Devaughn Vele",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 17,
+    "yardsToEndzone": 70,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 55,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287712",
+   "wallclock": "2025-11-09T19:42:48Z"
+  },
+  {
+   "id": "4017728772231",
+   "sequence": 223100,
+   "period": 3,
+   "clock": {
+    "seconds": 777,
+    "display": "12:57"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": " K.Kroeger punts 45 yards to CAR 10, Center-Z.Wood, fair catch by T.Etienne.",
+   "shortText": "Kai Kroeger 45 Yd Punt, Fair Catch by ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 55,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287712",
+   "wallclock": "2025-11-09T19:43:36Z"
+  },
+  {
+   "id": "4017728772241",
+   "sequence": 224100,
+   "period": 3,
+   "clock": {
+    "seconds": 770,
+    "display": "12:50"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 12:50.",
+   "shortText": "Official Timeout At 12:50. ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287712",
+   "wallclock": "2025-11-09T19:43:59Z"
+  },
+  {
+   "id": "4017728772251",
+   "sequence": 225100,
+   "period": 3,
+   "clock": {
+    "seconds": 770,
+    "display": "12:50"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "B.Young pass short right to T.McMillan to CAR 17 for 7 yards (A.Taylor).",
+   "shortText": "Bryce Young Pass Complete for 7 Yds to Tetairoa McMillan",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 83,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:46:30Z"
+  },
+  {
+   "id": "4017728772288",
+   "sequence": 228800,
+   "period": 3,
+   "clock": {
+    "seconds": 730,
+    "display": "12:10"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle right guard to CAR 21 for 4 yards (B.Bresee).",
+   "shortText": "Rico Dowdle 4 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 83,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:47:11Z"
+  },
+  {
+   "id": "4017728772310",
+   "sequence": 231000,
+   "period": 3,
+   "clock": {
+    "seconds": 694,
+    "display": "11:34"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle left end to CAR 22 for 1 yard (J.Sanker; P.Werner).",
+   "shortText": "Rico Dowdle 1 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 78,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:47:46Z"
+  },
+  {
+   "id": "4017728772332",
+   "sequence": 233200,
+   "period": 3,
+   "clock": {
+    "seconds": 656,
+    "display": "10:56"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short right to J.Coker to CAR 28 for 6 yards (Q.Riley).",
+   "shortText": "Bryce Young Pass Complete for 6 Yds to Jalen Coker",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 78,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 72,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:48:25Z"
+  },
+  {
+   "id": "4017728772357",
+   "sequence": 235700,
+   "period": 3,
+   "clock": {
+    "seconds": 611,
+    "display": "10:11"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short right to J.Coker pushed ob at CAR 38 for 10 yards (K.McKinstry).",
+   "shortText": "Bryce Young Pass Complete for 10 Yds to Jalen Coker",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 72,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:49:09Z"
+  },
+  {
+   "id": "4017728772387",
+   "sequence": 238700,
+   "period": 3,
+   "clock": {
+    "seconds": 569,
+    "display": "9:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Hubbard right guard to CAR 41 for 3 yards (D.Davis; C.Young).",
+   "shortText": "Chuba Hubbard 3 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:49:52Z"
+  },
+  {
+   "id": "4017728772409",
+   "sequence": 240900,
+   "period": 3,
+   "clock": {
+    "seconds": 531,
+    "display": "8:51"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "B.Young pass deep middle to T.McMillan to NO 33 for 26 yards (Q.Riley).",
+   "shortText": "Bryce Young Pass Complete for 26 Yds to Tetairoa McMillan",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 26,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 33,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:50:31Z"
+  },
+  {
+   "id": "4017728772434",
+   "sequence": 243400,
+   "period": 3,
+   "clock": {
+    "seconds": 486,
+    "display": "8:06"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "B.Young pass short left to R.Dowdle to NO 32 for 1 yard (D.Davis).",
+   "shortText": "Bryce Young Pass Complete for 1 Yd to Rico Dowdle",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 33,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 32,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:51:15Z"
+  },
+  {
+   "id": "4017728772459",
+   "sequence": 245900,
+   "period": 3,
+   "clock": {
+    "seconds": 445,
+    "display": "7:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) R.Dowdle left tackle to NO 30 for 2 yards (C.Jordan).",
+   "shortText": "Rico Dowdle 2 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 32,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 30,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:51:57Z"
+  },
+  {
+   "id": "4017728772481",
+   "sequence": 248100,
+   "period": 3,
+   "clock": {
+    "seconds": 402,
+    "display": "6:42"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) B.Young pass incomplete deep left to X.Legette [J.Williams].",
+   "shortText": "Bryce Young Incomplete Pass, Intended For Xavier Legette",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 30,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 30,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:52:39Z"
+  },
+  {
+   "id": "4017728772504",
+   "sequence": 250400,
+   "period": 3,
+   "clock": {
+    "seconds": 396,
+    "display": "6:36"
+   },
+   "typeId": "18",
+   "typeText": "Blocked Field Goal",
+   "text": "R.Fitzgerald 48 yard field goal is BLOCKED (N.Shepherd), Center-J.Jansen, Holder-S.Martin, recovered by CAR-D.Lewis at NO 30.The Replay Official reviewed the kick touched ruling, and the play was REVERSED.R.Fitzgerald 48 yard field goal is BLOCKED (N.Shepherd), Center-J.Jansen, Holder-S.Martin. C.Jordan MUFFS catch at NO 29, RECOVERED by CAR-D.Lewis at NO 30.",
+   "shortText": "Damien Lewis 0 Yd Fumble Recovery Blocked Kick Recovered by Cameron Jordan (NO) Ryan Fitzgerald Missed 48 Yd FG Muffed",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 30,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:53:20Z"
+  },
+  {
+   "id": "4017728772519",
+   "sequence": 251900,
+   "period": 3,
+   "clock": {
+    "seconds": 389,
+    "display": "6:29"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 06:29.",
+   "shortText": "Official Timeout At 06:29. ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287713",
+   "wallclock": "2025-11-09T19:54:45Z"
+  },
+  {
+   "id": "4017728772534",
+   "sequence": 253400,
+   "period": 3,
+   "clock": {
+    "seconds": 389,
+    "display": "6:29"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short left to J.Sanders to NO 25 for 5 yards (A.Taylor).",
+   "shortText": "Bryce Young Pass Complete for 5 Yds to Ja'Tavion Sanders",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 25,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287714",
+   "wallclock": "2025-11-09T19:59:06Z"
+  },
+  {
+   "id": "4017728772566",
+   "sequence": 256600,
+   "period": 3,
+   "clock": {
+    "seconds": 350,
+    "display": "5:50"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle up the middle to NO 24 for 1 yard (J.Reid).",
+   "shortText": "Rico Dowdle 1 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 25,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 24,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287714",
+   "wallclock": "2025-11-09T19:59:44Z"
+  },
+  {
+   "id": "4017728772593",
+   "sequence": 259300,
+   "period": 3,
+   "clock": {
+    "seconds": 315,
+    "display": "5:15"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short left to T.McMillan to NO 15 for 9 yards (K.McKinstry; I.Stalbird).",
+   "shortText": "Bryce Young Pass Complete for 9 Yds to Tetairoa McMillan",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 24,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 15,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287714",
+   "wallclock": "2025-11-09T20:00:20Z"
+  },
+  {
+   "id": "4017728772618",
+   "sequence": 261800,
+   "period": 3,
+   "clock": {
+    "seconds": 274,
+    "display": "4:34"
+   },
+   "typeId": "29",
+   "typeText": "Fumble Recovery (Opponent)",
+   "text": "B.Young FUMBLES (Aborted) at NO 19, touched at NO 19, RECOVERED by NO-P.Werner at NO 17.",
+   "shortText": "Bryce Young Aborted Snap Bryce Young Fumble Pete Werner 0 Yd Fumble Recovery",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 15,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 83,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287714",
+   "wallclock": "2025-11-09T20:01:01Z"
+  },
+  {
+   "id": "4017728772636",
+   "sequence": 263600,
+   "period": 3,
+   "clock": {
+    "seconds": 270,
+    "display": "4:30"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 04:30.",
+   "shortText": "Official Timeout At 04:30. ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 83,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287714",
+   "wallclock": "2025-11-09T20:02:05Z"
+  },
+  {
+   "id": "4017728772654",
+   "sequence": 265400,
+   "period": 3,
+   "clock": {
+    "seconds": 270,
+    "display": "4:30"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara right tackle to NO 25 for 8 yards (N.Scott; D.Brown).",
+   "shortText": "Alvin Kamara 8 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 83,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 75,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:04:07Z"
+  },
+  {
+   "id": "4017728772683",
+   "sequence": 268300,
+   "period": 3,
+   "clock": {
+    "seconds": 232,
+    "display": "3:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) A.Kamara up the middle to NO 41 for 16 yards (N.Scott).",
+   "shortText": "Alvin Kamara 16 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 75,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:04:46Z"
+  },
+  {
+   "id": "4017728772705",
+   "sequence": 270500,
+   "period": 3,
+   "clock": {
+    "seconds": 199,
+    "display": "3:19"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) A.Kamara left guard to NO 43 for 2 yards (D.Brown; T.Wharton).",
+   "shortText": "Alvin Kamara 2 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 57,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:05:19Z"
+  },
+  {
+   "id": "4017728772727",
+   "sequence": 272700,
+   "period": 3,
+   "clock": {
+    "seconds": 154,
+    "display": "2:34"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short right to J.Johnson to NO 49 for 6 yards (T.Moehrig, T.Wallace). CAR-T.Wallace was injured during the play.",
+   "shortText": "Tyler Shough Pass Complete for 6 Yds to Juwan Johnson",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 57,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 51,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:06:04Z"
+  },
+  {
+   "id": "4017728772741",
+   "sequence": 274100,
+   "period": 3,
+   "clock": {
+    "seconds": 143,
+    "display": "2:23"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 02:23.",
+   "shortText": "Official Timeout At 02:23. ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 51,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:06:36Z"
+  },
+  {
+   "id": "4017728772755",
+   "sequence": 275500,
+   "period": 3,
+   "clock": {
+    "seconds": 125,
+    "display": "2:05"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Hill right tackle to 50 for 1 yard (N.Scourton; C.Rozeboom).",
+   "shortText": "Taysom Hill 1 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 51,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 50,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:09:11Z"
+  },
+  {
+   "id": "4017728772784",
+   "sequence": 278400,
+   "period": 3,
+   "clock": {
+    "seconds": 80,
+    "display": "1:20"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara left tackle to CAR 48 for 2 yards (D.Brown; D.Wonnum).",
+   "shortText": "Alvin Kamara 2 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 50,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:09:55Z"
+  },
+  {
+   "id": "4017728772806",
+   "sequence": 280600,
+   "period": 3,
+   "clock": {
+    "seconds": 41,
+    "display": "0:41"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "T.Shough pass short right to F.Moreau pushed ob at CAR 42 for 6 yards (T.Moehrig).",
+   "shortText": "Tyler Shough Pass Complete for 6 Yds to Foster Moreau",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 42,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:10:35Z"
+  },
+  {
+   "id": "4017728772836",
+   "sequence": 283600,
+   "period": 3,
+   "clock": {
+    "seconds": 9,
+    "display": "0:09"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle) A.Kamara right tackle to CAR 38 for 4 yards (D.Wonnum; D.Brown).",
+   "shortText": "Alvin Kamara 4 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 42,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:11:07Z"
+  },
+  {
+   "id": "4017728772858",
+   "sequence": 285800,
+   "period": 3,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "END QUARTER 3",
+   "shortText": "End Quarter 3 ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 39,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 39,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:11:07Z"
+  },
+  {
+   "id": "4017728772878",
+   "sequence": 287800,
+   "period": 4,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) T.Hill pass incomplete short right [N.Scourton].",
+   "shortText": "Taysom Hill Incomplete Pass",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:15:50Z"
+  },
+  {
+   "id": "4017728772905",
+   "sequence": 290500,
+   "period": 4,
+   "clock": {
+    "seconds": 897,
+    "display": "14:57"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short left to C.Olave to CAR 33 for 5 yards (M.Jackson).",
+   "shortText": "Tyler Shough Pass Complete for 5 Yds to Chris Olave",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 33,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:16:24Z"
+  },
+  {
+   "id": "4017728772930",
+   "sequence": 293000,
+   "period": 4,
+   "clock": {
+    "seconds": 862,
+    "display": "14:22"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) A.Kamara up the middle to CAR 32 for 1 yard (T.Wharton).",
+   "shortText": "Alvin Kamara 1 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 33,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 32,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:16:59Z"
+  },
+  {
+   "id": "4017728772952",
+   "sequence": 295200,
+   "period": 4,
+   "clock": {
+    "seconds": 822,
+    "display": "13:42"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) T.Shough sacked at CAR 40 for -8 yards (N.Scourton).",
+   "shortText": "Tyler Shough Sacked by Nic Scourton For 8 Yd Loss",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 32,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:17:39Z"
+  },
+  {
+   "id": "4017728772962",
+   "sequence": 296200,
+   "period": 4,
+   "clock": {
+    "seconds": 818,
+    "display": "13:38"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 13:38.",
+   "shortText": "Official Timeout At 13:38. ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:18:12Z"
+  },
+  {
+   "id": "4017728772972",
+   "sequence": 297200,
+   "period": 4,
+   "clock": {
+    "seconds": 818,
+    "display": "13:38"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Hubbard left end pushed ob at CAR 45 for 5 yards (K.McKinstry; D.Stutsman).",
+   "shortText": "Chuba Hubbard 5 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 55,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287715",
+   "wallclock": "2025-11-09T20:20:39Z"
+  },
+  {
+   "id": "4017728773011",
+   "sequence": 301100,
+   "period": 4,
+   "clock": {
+    "seconds": 780,
+    "display": "13:00"
+   },
+   "typeId": "26",
+   "typeText": "Pass Interception Return",
+   "text": "(Shotgun) B.Young pass short right intended for T.McMillan INTERCEPTED by A.Taylor at NO 46. A.Taylor pushed ob at CAR 43 for 11 yards (T.McMillan).",
+   "shortText": "Alontae Taylor 11 Yd Interception Return",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 55,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287716",
+   "wallclock": "2025-11-09T20:21:17Z"
+  },
+  {
+   "id": "4017728773043",
+   "sequence": 304300,
+   "period": 4,
+   "clock": {
+    "seconds": 774,
+    "display": "12:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara left guard to CAR 42 for 1 yard (P.Umanmielen).",
+   "shortText": "Alvin Kamara 1 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 42,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287717",
+   "wallclock": "2025-11-09T20:22:21Z"
+  },
+  {
+   "id": "4017728773065",
+   "sequence": 306500,
+   "period": 4,
+   "clock": {
+    "seconds": 751,
+    "display": "12:31"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) T.Shough pass short right to Z.Mitchell-Paden to CAR 28 for 14 yards (P.Umanmielen).",
+   "shortText": "Tyler Shough Pass Complete for 14 Yds to Zaire Mitchell-Paden",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 42,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287717",
+   "wallclock": "2025-11-09T20:22:45Z"
+  },
+  {
+   "id": "4017728773090",
+   "sequence": 309000,
+   "period": 4,
+   "clock": {
+    "seconds": 710,
+    "display": "11:50"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "D.Neal right tackle to CAR 28 for no gain (P.Umanmielen; C.Cherelus).",
+   "shortText": "Devin Neal Rush, No Gain",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287717",
+   "wallclock": "2025-11-09T20:23:25Z"
+  },
+  {
+   "id": "4017728773112",
+   "sequence": 311200,
+   "period": 4,
+   "clock": {
+    "seconds": 673,
+    "display": "11:13"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short left to D.Neal to CAR 30 for -2 yards (T.Moehrig).",
+   "shortText": "Tyler Shough Pass Complete for Loss of 2 Yds to Devin Neal",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 30,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287717",
+   "wallclock": "2025-11-09T20:24:02Z"
+  },
+  {
+   "id": "4017728773137",
+   "sequence": 313700,
+   "period": 4,
+   "clock": {
+    "seconds": 620,
+    "display": "10:20"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(Shotgun) T.Shough pass deep left to J.Johnson for 30 yards, TOUCHDOWN. B.Grupe extra point is GOOD, Center-Z.Wood, Holder-K.Kroeger.",
+   "shortText": "Juwan Johnson 30 Yd pass from Tyler Shough (Blake Grupe Kick)",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 30,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 30,
+    "teamId": "18"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287717",
+   "wallclock": "2025-11-09T20:24:46Z"
+  },
+  {
+   "id": "4017728773210",
+   "sequence": 321000,
+   "period": 4,
+   "clock": {
+    "seconds": 620,
+    "display": "10:20"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 10:20.",
+   "shortText": "Official Timeout At 10:20. ",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287717",
+   "wallclock": "2025-11-09T20:26:06Z"
+  },
+  {
+   "id": "4017728773217",
+   "sequence": 321700,
+   "period": 4,
+   "clock": {
+    "seconds": 620,
+    "display": "10:20"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "B.Grupe kicks 59 yards from NO 35 to CAR 6. C.Hubbard to CAR 32 for 26 yards (I.Stalbird).",
+   "shortText": "Blake Grupe 59 Yd Kickoff Chuba Hubbard 26 Yd Kickoff Return",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 26,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 68,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287718",
+   "wallclock": "2025-11-09T20:28:38Z"
+  },
+  {
+   "id": "4017728773252",
+   "sequence": 325200,
+   "period": 4,
+   "clock": {
+    "seconds": 615,
+    "display": "10:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle up the middle to CAR 35 for 3 yards (C.Young).",
+   "shortText": "Rico Dowdle 3 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 68,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 65,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287718",
+   "wallclock": "2025-11-09T20:29:18Z"
+  },
+  {
+   "id": "4017728773274",
+   "sequence": 327400,
+   "period": 4,
+   "clock": {
+    "seconds": 578,
+    "display": "9:38"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) B.Young pass incomplete short right.",
+   "shortText": "Bryce Young Incomplete Pass",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 65,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 65,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287718",
+   "wallclock": "2025-11-09T20:29:56Z"
+  },
+  {
+   "id": "4017728773297",
+   "sequence": 329700,
+   "period": 4,
+   "clock": {
+    "seconds": 572,
+    "display": "9:32"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) B.Young pass incomplete short middle to T.McMillan.PENALTY on NO-D.Davis, Roughing the Passer, 15 yards, enforced at CAR 35 - No Play.",
+   "shortText": "Bryce Young Incomplete Pass, Intended For Tetairoa McMillan Demario Davis 15 Yd Pnlty",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 65,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287718",
+   "wallclock": "2025-11-09T20:30:40Z"
+  },
+  {
+   "id": "4017728773331",
+   "sequence": 333100,
+   "period": 4,
+   "clock": {
+    "seconds": 568,
+    "display": "9:28"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short right to J.Coker pushed ob at NO 45 for 5 yards (Q.Riley).",
+   "shortText": "Bryce Young Pass Complete for 5 Yds to Jalen Coker",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 45,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287718",
+   "wallclock": "2025-11-09T20:31:51Z"
+  },
+  {
+   "id": "4017728773361",
+   "sequence": 336100,
+   "period": 4,
+   "clock": {
+    "seconds": 542,
+    "display": "9:02"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) R.Dowdle right guard to NO 41 for 4 yards (D.Davis; B.Bresee).",
+   "shortText": "Rico Dowdle 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 45,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 41,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287718",
+   "wallclock": "2025-11-09T20:32:16Z"
+  },
+  {
+   "id": "4017728773383",
+   "sequence": 338300,
+   "period": 4,
+   "clock": {
+    "seconds": 500,
+    "display": "8:20"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Dowdle up the middle to NO 42 for -1 yards (A.Taylor, B.Bresee).",
+   "shortText": "Rico Dowdle Rush, Loss of 1 Yd",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 41,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 42,
+    "teamId": "29"
+   },
+   "teamId": "29",
+   "driveId": "40177287718",
+   "wallclock": "2025-11-09T20:32:58Z"
+  },
+  {
+   "id": "4017728773405",
+   "sequence": 340500,
+   "period": 4,
+   "clock": {
+    "seconds": 460,
+    "display": "7:40"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) B.Young pass short middle to C.Hubbard to NO 41 for 1 yard (C.Granderson).",
+   "shortText": "Bryce Young Pass Complete for 1 Yd to Chuba Hubbard",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 42,
+    "teamId": "29"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287718",
+   "wallclock": "2025-11-09T20:33:38Z"
+  },
+  {
+   "id": "4017728773430",
+   "sequence": 343000,
+   "period": 4,
+   "clock": {
+    "seconds": 455,
+    "display": "7:35"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara right tackle to NO 40 for -1 yards (D.Wonnum).",
+   "shortText": "Alvin Kamara Rush, Loss of 1 Yd",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:34:42Z"
+  },
+  {
+   "id": "4017728773452",
+   "sequence": 345200,
+   "period": 4,
+   "clock": {
+    "seconds": 410,
+    "display": "6:50"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) A.Kamara right tackle to NO 46 for 6 yards (N.Scott).",
+   "shortText": "Alvin Kamara 6 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 60,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 54,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:35:28Z"
+  },
+  {
+   "id": "4017728773474",
+   "sequence": 347400,
+   "period": 4,
+   "clock": {
+    "seconds": 370,
+    "display": "6:10"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) T.Shough pass short left to C.Olave pushed ob at CAR 40 for 14 yards (C.Smith-Wade).Penalty on CAR-C.Smith-Wade, Defensive Pass Interference, declined.",
+   "shortText": "Tyler Shough Pass Complete for 14 Yds to Chris Olave",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 54,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:36:07Z"
+  },
+  {
+   "id": "4017728773520",
+   "sequence": 352000,
+   "period": 4,
+   "clock": {
+    "seconds": 348,
+    "display": "5:48"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Kamara left tackle to CAR 38 for 2 yards (C.Rozeboom).",
+   "shortText": "Alvin Kamara 2 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 38,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:37:18Z"
+  },
+  {
+   "id": "4017728773542",
+   "sequence": 354200,
+   "period": 4,
+   "clock": {
+    "seconds": 309,
+    "display": "5:09"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) A.Kamara up the middle to CAR 27 for 11 yards (C.Cherelus; N.Scott).",
+   "shortText": "Alvin Kamara 11 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 38,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:37:57Z"
+  },
+  {
+   "id": "4017728773553",
+   "sequence": 355300,
+   "period": 4,
+   "clock": {
+    "seconds": 302,
+    "display": "5:02"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by CAR at 05:02.",
+   "shortText": "Timeout #1 By Car At 05:02. Timeout CAR ",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:38:24Z"
+  },
+  {
+   "id": "4017728773564",
+   "sequence": 356400,
+   "period": 4,
+   "clock": {
+    "seconds": 302,
+    "display": "5:02"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Hill right end to CAR 23 for 4 yards (D.Brown).",
+   "shortText": "Taysom Hill 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 23,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:39:09Z"
+  },
+  {
+   "id": "4017728773579",
+   "sequence": 357900,
+   "period": 4,
+   "clock": {
+    "seconds": 297,
+    "display": "4:57"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #2 by CAR at 04:57.",
+   "shortText": "Timeout #2 By Car At 04:57. Timeout CAR ",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 23,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:39:30Z"
+  },
+  {
+   "id": "4017728773593",
+   "sequence": 359300,
+   "period": 4,
+   "clock": {
+    "seconds": 297,
+    "display": "4:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Neal up the middle to CAR 21 for 2 yards (C.Rozeboom; T.Wharton).",
+   "shortText": "Devin Neal 2 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 23,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 21,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:40:07Z"
+  },
+  {
+   "id": "4017728773622",
+   "sequence": 362200,
+   "period": 4,
+   "clock": {
+    "seconds": 254,
+    "display": "4:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Hill left tackle to CAR 16 for 5 yards (C.Cherelus).",
+   "shortText": "Taysom Hill 5 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 21,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 16,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:40:50Z"
+  },
+  {
+   "id": "4017728773633",
+   "sequence": 363300,
+   "period": 4,
+   "clock": {
+    "seconds": 249,
+    "display": "4:09"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #3 by CAR at 04:09.",
+   "shortText": "Timeout #3 By Car At 04:09. Timeout CAR ",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 16,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:41:15Z"
+  },
+  {
+   "id": "4017728773644",
+   "sequence": 364400,
+   "period": 4,
+   "clock": {
+    "seconds": 249,
+    "display": "4:09"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) A.Kamara left guard to CAR 12 for 4 yards (C.Rozeboom).",
+   "shortText": "Alvin Kamara 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 16,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 12,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:41:49Z"
+  },
+  {
+   "id": "4017728773673",
+   "sequence": 367300,
+   "period": 4,
+   "clock": {
+    "seconds": 207,
+    "display": "3:27"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Hill up the middle to CAR 10 for 2 yards (D.Wonnum; D.Brown).",
+   "shortText": "Taysom Hill 2 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 12,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 10,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:42:31Z"
+  },
+  {
+   "id": "4017728773695",
+   "sequence": 369500,
+   "period": 4,
+   "clock": {
+    "seconds": 162,
+    "display": "2:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Hill up the middle to CAR 5 for 5 yards (T.Moehrig; T.Wharton).",
+   "shortText": "Taysom Hill 5 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 10,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:43:16Z"
+  },
+  {
+   "id": "4017728773706",
+   "sequence": 370600,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "75",
+   "typeText": "Two-minute warning",
+   "text": "Two-Minute Warning",
+   "shortText": "Two-Minute Warning ",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 0,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:44:02Z"
+  },
+  {
+   "id": "4017728773717",
+   "sequence": 371700,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Shough kneels to CAR 7 for -2 yards.",
+   "shortText": "Tyler Shough Rush, Loss of 2",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 7,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:47:01Z"
+  },
+  {
+   "id": "4017728773746",
+   "sequence": 374600,
+   "period": 4,
+   "clock": {
+    "seconds": 79,
+    "display": "1:19"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Shough kneels to CAR 9 for -2 yards.",
+   "shortText": "Tyler Shough Rush, Loss of 2",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 7,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:47:27Z"
+  },
+  {
+   "id": "4017728773768",
+   "sequence": 376800,
+   "period": 4,
+   "clock": {
+    "seconds": 38,
+    "display": "0:38"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Shough kneels to CAR 11 for -2 yards.",
+   "shortText": "Tyler Shough Rush, Loss of 2",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "18"
+   },
+   "end": {
+    "down": 4,
+    "distance": 11,
+    "yardsToEndzone": 11,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:48:11Z"
+  },
+  {
+   "id": "4017728773790",
+   "sequence": 379000,
+   "period": 4,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "66",
+   "typeText": "End of Game",
+   "text": "END GAME",
+   "shortText": "End Game",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 11,
+    "yardsToEndzone": 11,
+    "teamId": "18"
+   },
+   "teamId": "18",
+   "driveId": "40177287719",
+   "wallclock": "2025-11-09T20:48:11Z"
+  }
+ ],
+ "drives": [
+  {
+   "id": "4017728771",
+   "sequence": 1,
+   "teamId": "29",
+   "endTeamId": "29",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 12,
+   "yards": 67,
+   "description": "12 plays, 67 yards, 7:01"
+  },
+  {
+   "id": "4017728772",
+   "sequence": 2,
+   "teamId": "18",
+   "endTeamId": "18",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 10,
+   "yards": 78,
+   "description": "10 plays, 78 yards, 5:07"
+  },
+  {
+   "id": "4017728773",
+   "sequence": 3,
+   "teamId": "29",
+   "endTeamId": "29",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 4,
+   "yards": 19,
+   "description": "4 plays, 19 yards, 2:05"
+  },
+  {
+   "id": "4017728774",
+   "sequence": 4,
+   "teamId": "18",
+   "endTeamId": "18",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 7,
+   "description": "3 plays, 7 yards, 0:59"
+  },
+  {
+   "id": "4017728775",
+   "sequence": 5,
+   "teamId": "29",
+   "endTeamId": "29",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": -12,
+   "description": "3 plays, -12 yards, 1:30"
+  },
+  {
+   "id": "4017728776",
+   "sequence": 6,
+   "teamId": "18",
+   "endTeamId": "18",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 7,
+   "yards": 75,
+   "description": "7 plays, 75 yards, 3:57"
+  },
+  {
+   "id": "4017728777",
+   "sequence": 7,
+   "teamId": "29",
+   "endTeamId": "29",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 7,
+   "description": "3 plays, 7 yards, 1:38"
+  },
+  {
+   "id": "4017728778",
+   "sequence": 8,
+   "teamId": "18",
+   "endTeamId": "18",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 5,
+   "yards": 32,
+   "description": "5 plays, 32 yards, 1:34"
+  },
+  {
+   "id": "4017728779",
+   "sequence": 9,
+   "teamId": "29",
+   "endTeamId": "29",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 3,
+   "description": "3 plays, 3 yards, 2:15"
+  },
+  {
+   "id": "40177287710",
+   "sequence": 10,
+   "teamId": "18",
+   "endTeamId": "18",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 9,
+   "yards": 39,
+   "description": "9 plays, 39 yards, 3:33"
+  },
+  {
+   "id": "40177287711",
+   "sequence": 11,
+   "teamId": "29",
+   "endTeamId": "29",
+   "result": "END OF HALF",
+   "displayResult": "End of Half",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 14,
+   "description": "3 plays, 14 yards, 0:21"
+  },
+  {
+   "id": "40177287712",
+   "sequence": 12,
+   "teamId": "18",
+   "endTeamId": "18",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 8,
+   "description": "3 plays, 8 yards, 2:10"
+  },
+  {
+   "id": "40177287713",
+   "sequence": 13,
+   "teamId": "29",
+   "endTeamId": "29",
+   "result": "MISSED FG",
+   "displayResult": "Missed FG",
+   "isScore": false,
+   "offensivePlays": 11,
+   "yards": 60,
+   "description": "11 plays, 60 yards, 6:21"
+  },
+  {
+   "id": "40177287714",
+   "sequence": 14,
+   "teamId": "29",
+   "endTeamId": "29",
+   "result": "FUMBLE",
+   "displayResult": "Fumble",
+   "isScore": false,
+   "offensivePlays": 4,
+   "yards": 11,
+   "description": "4 plays, 11 yards, 1:59"
+  },
+  {
+   "id": "40177287715",
+   "sequence": 15,
+   "teamId": "29",
+   "endTeamId": "18",
+   "result": "INT",
+   "displayResult": "Interception",
+   "isScore": false,
+   "offensivePlays": 2,
+   "yards": 5,
+   "description": "2 plays, 5 yards, 0:44"
+  },
+  {
+   "id": "40177287716",
+   "sequence": 16,
+   "teamId": "29",
+   "endTeamId": "18",
+   "result": "INT",
+   "displayResult": "Interception",
+   "isScore": false,
+   "offensivePlays": 2,
+   "yards": 5,
+   "description": "2 plays, 5 yards, 0:44"
+  },
+  {
+   "id": "40177287717",
+   "sequence": 17,
+   "teamId": "18",
+   "endTeamId": "18",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 5,
+   "yards": 43,
+   "description": "5 plays, 43 yards, 2:34"
+  },
+  {
+   "id": "40177287718",
+   "sequence": 18,
+   "teamId": "29",
+   "endTeamId": "29",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 27,
+   "description": "6 plays, 27 yards, 2:45"
+  },
+  {
+   "id": "40177287719",
+   "sequence": 19,
+   "teamId": "18",
+   "endTeamId": "18",
+   "result": "END OF GAME",
+   "displayResult": "End of Game",
+   "isScore": false,
+   "offensivePlays": 14,
+   "yards": 48,
+   "description": "14 plays, 48 yards, 7:35"
+  }
+ ]
+}

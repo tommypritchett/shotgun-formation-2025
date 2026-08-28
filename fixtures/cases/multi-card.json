@@ -1,0 +1,195 @@
+{
+ "note": "Real plays lifted verbatim from the captured fixtures, for the multi-card and negation cases. Sources are named so each one can be re-checked against the game it came from.",
+ "cases": [
+  {
+   "name": "penalty negates a first down (college)",
+   "source": "college-football/401754581 seq 154",
+   "league": "college-football",
+   "expect": [
+    "Penalty"
+   ],
+   "expectNot": [
+    "First Down",
+    "Big Play 20+"
+   ],
+   "why": "11-yard completion on 3rd-and-11 wiped out by holding. ESPN reports the down as 3-21, so the first down never appears.",
+   "play": {
+    "id": "401754581722",
+    "sequence": 154,
+    "period": 4,
+    "clock": {
+     "seconds": 420,
+     "display": "7:00"
+    },
+    "typeId": "8",
+    "typeText": "Penalty",
+    "text": "(07:00) Shotgun #7 K.Jennings pass complete short right to #88 M.Hibner caught at MIA09, for 11 yards to the MIA04 (#10 R.Aguirre, Jr.; #1 M.Toure) PENALTY SMU Holding (#59 P.Williams) 10 yards from MIA15 to MIA25. NO PLAY",
+    "shortText": "K. Jennings pass to M. Hibner, SMU Penalty, holding (PJ Williams)",
+    "awayScore": 20,
+    "homeScore": 17,
+    "scoreValue": 0,
+    "scoringPlay": false,
+    "yards": 10,
+    "isPenalty": true,
+    "isTurnover": false,
+    "start": {
+     "down": 3,
+     "distance": 11,
+     "yardsToEndzone": 15,
+     "teamId": "2567"
+    },
+    "end": {
+     "down": 3,
+     "distance": 21,
+     "yardsToEndzone": 25,
+     "teamId": "2567"
+    },
+    "teamId": "2567",
+    "driveId": "40175458130",
+    "wallclock": "2025-11-01T19:07:57Z"
+   }
+  },
+  {
+   "name": "penalty negates a first down (nfl)",
+   "source": "nfl/401772877 seq 216500",
+   "league": "nfl",
+   "expect": [
+    "Penalty"
+   ],
+   "expectNot": [
+    "First Down"
+   ],
+   "why": "7-yard scramble wiped out by offensive holding, 3-7 to 3-17.",
+   "play": {
+    "id": "4017728772165",
+    "sequence": 216500,
+    "period": 3,
+    "clock": {
+     "seconds": 856,
+     "display": "14:16"
+    },
+    "typeId": "8",
+    "typeText": "Penalty",
+    "text": "(Shotgun) T.Shough scrambles left end pushed ob at NO 47 for 7 yards (T.Incoom).PENALTY on NO-D.Radunz, Offensive Holding, 10 yards, enforced at NO 40 - No Play.",
+    "shortText": "Tyler Shough 7 Yd Rush Dillon Radunz 10 Yd Pnlty",
+    "awayScore": 10,
+    "homeScore": 7,
+    "scoreValue": 0,
+    "scoringPlay": false,
+    "yards": -10,
+    "isPenalty": true,
+    "isTurnover": false,
+    "start": {
+     "down": 3,
+     "distance": 7,
+     "yardsToEndzone": 60,
+     "teamId": "18"
+    },
+    "end": {
+     "down": 3,
+     "distance": 17,
+     "yardsToEndzone": 70,
+     "teamId": "18"
+    },
+    "teamId": "18",
+    "driveId": "40177287712",
+    "wallclock": "2025-11-09T19:41:49Z"
+   }
+  },
+  {
+   "name": "penalty and first down both legitimately stand",
+   "source": "nfl/401772879 seq 401400",
+   "league": "nfl",
+   "expect": [
+    "Penalty",
+    "First Down"
+   ],
+   "expectNot": [],
+   "why": "Encroachment on 4th-and-1 gives 5 yards AND an automatic first down. Both are real; both fire, penalty first.",
+   "play": {
+    "id": "4017728794014",
+    "sequence": 401400,
+    "period": 4,
+    "clock": {
+     "seconds": 162,
+     "display": "2:42"
+    },
+    "typeId": "8",
+    "typeText": "Penalty",
+    "text": "(Run formation) PENALTY on SF-J.Elliott, Encroachment, 5 yards, enforced at SF 34 - No Play.",
+    "shortText": "Jordan Elliott 5 Yd Pnlty",
+    "awayScore": 42,
+    "homeScore": 26,
+    "scoreValue": 0,
+    "scoringPlay": false,
+    "yards": 5,
+    "isPenalty": true,
+    "isTurnover": false,
+    "start": {
+     "down": 4,
+     "distance": 1,
+     "yardsToEndzone": 34,
+     "teamId": "14"
+    },
+    "end": {
+     "down": 1,
+     "distance": 10,
+     "yardsToEndzone": 29,
+     "teamId": "14"
+    },
+    "teamId": "14",
+    "driveId": "40177287919",
+    "wallclock": "2025-11-10T00:14:45Z"
+   }
+  },
+  {
+   "name": "negated play whose penalty yardage would read as a big play",
+   "source": "nfl/401772636 seq of the 20-yard DPI",
+   "league": "nfl",
+   "expect": [
+    "Penalty",
+    "First Down"
+   ],
+   "expectNot": [
+    "Big Play 20+",
+    "Big Play 50+"
+   ],
+   "why": "20-yard pass interference on an INCOMPLETE pass. statYardage is 20, which a yardage-only rule reads as Big Play 20+.",
+   "play": {
+    "id": "401772636552",
+    "sequence": 55200,
+    "period": 1,
+    "clock": {
+     "seconds": 402,
+     "display": "6:42"
+    },
+    "typeId": "8",
+    "typeText": "Penalty",
+    "text": "(Shotgun) M.Penix pass incomplete deep left to D.Mooney.PENALTY on IND-M.Blackmon, Defensive Pass Interference, 20 yards, enforced at IND 34 - No Play.",
+    "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney Mekhi Blackmon 20 Yd Pnlty",
+    "awayScore": 0,
+    "homeScore": 6,
+    "scoreValue": 0,
+    "scoringPlay": false,
+    "yards": 20,
+    "isPenalty": true,
+    "isTurnover": false,
+    "start": {
+     "down": 2,
+     "distance": 6,
+     "yardsToEndzone": 34,
+     "teamId": "1"
+    },
+    "end": {
+     "down": 1,
+     "distance": 10,
+     "yardsToEndzone": 14,
+     "teamId": "1"
+    },
+    "teamId": "1",
+    "driveId": "4017726364",
+    "wallclock": "2025-11-09T14:54:05Z"
+   }
+  }
+ ]
+}

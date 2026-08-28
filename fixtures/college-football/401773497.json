@@ -1,0 +1,27 @@
+{
+ "league": "college-football",
+ "gameId": "401773497",
+ "capturedAt": "2026-08-28T18:44:19.358Z",
+ "name": "KYW 7 - WFLA 28",
+ "teams": [
+  {
+   "id": "2316",
+   "abbreviation": "KYW",
+   "displayName": "Kentucky Wesleyan Panthers",
+   "score": 7,
+   "homeAway": "home"
+  },
+  {
+   "id": "110242",
+   "abbreviation": "WFLA",
+   "displayName": "West Florida Argonauts",
+   "score": 28,
+   "homeAway": "away"
+  }
+ ],
+ "periods": 0,
+ "playCount": 0,
+ "driveCount": 0,
+ "plays": [],
+ "drives": []
+}
