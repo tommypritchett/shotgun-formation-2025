@@ -38,6 +38,29 @@ const {
 const HIGH = 'high';
 const MEDIUM = 'medium';
 
+/**
+ * Rows that are not plays.
+ *
+ * ESPN puts clock stoppages in the play list, and they carry the CURRENT down
+ * and distance forward unchanged. So an Official Timeout on 1st-and-10 looks
+ * exactly like a play that ended on 1st-and-10, and a naive first-down rule
+ * fires on every one of them. Measured against the box scores this was the
+ * single biggest source of error: 6 to 13 phantom first downs per game.
+ */
+const NON_PLAY_TYPES = new Set([
+  'official timeout', 'timeout', 'two-minute warning', 'end period',
+  'end of half', 'end of game', 'coin toss', 'end of regulation',
+]);
+
+const isNonPlay = (play) => NON_PLAY_TYPES.has(String(play?.typeText || '').toLowerCase());
+
+/**
+ * Kicks never give the KICKING team a first down, and ESPN's team ids on a
+ * blocked kick can name the same team on both sides of the play even though
+ * possession changed — which is a phantom first down. Excluded outright.
+ */
+const KICK_TYPES = /punt|kickoff|field goal|extra point|blocked/i;
+
 const text = (play) => (play && typeof play.text === 'string' ? play.text : '');
 const lower = (play) => text(play).toLowerCase();
 
@@ -61,10 +84,29 @@ const isOffsetting = (play) => /\boffsetting\b/i.test(text(play));
 const gainedFirstDown = (play) => {
   const { start, end } = play;
   if (!start || !end) return false;
-  if (end.down !== 1) return false;
+  // Without a type we cannot tell a play from a clock stoppage, and a stoppage
+  // carries the current down forward — so this degrades to NOT firing rather
+  // than to firing wrongly.
+  if (!play.typeText) return false;
+  if (isNonPlay(play)) return false;
+  if (KICK_TYPES.test(play.typeText)) return false;
   if (start.down === null || start.down < 1) return false;   // kickoffs, PATs
   if (!start.teamId || !end.teamId) return false;
-  return start.teamId === end.teamId;
+  if (start.teamId !== end.teamId) return false;
+
+  // The ordinary case: a new set of downs for the same team.
+  if (end.down === 1) return true;
+
+  // A touchdown that crossed the line to gain IS a first down in the official
+  // stats, but `end.down` is -1 on a score, so the rule above never sees it.
+  // Worth 3 to 10 a game — the second biggest source of error against the box
+  // scores, and in the opposite direction to the stoppages.
+  if (play.scoringPlay && /touchdown/i.test(play.typeText || '')
+      && typeof play.yards === 'number' && start.distance !== null
+      && play.yards >= start.distance) {
+    return true;
+  }
+  return false;
 };
 
 const typeIs = (play, ...names) => {
@@ -90,6 +132,8 @@ const card = (cardId, playId, reason, confidence = HIGH) => ({
  */
 const detectPlay = (play, context = {}) => {
   if (!play || typeof play !== 'object' || !play.id) return [];
+  // A clock stoppage is not a play and cannot be worth a card.
+  if (isNonPlay(play)) return [];
 
   const { previous = null, drive = null, league = 'nfl' } = context;
   const out = [];
@@ -285,6 +329,7 @@ const detectGame = (fixture) => {
 
 module.exports = {
   detectPlay, detectDrive, detectGame,
-  isNegated, isOffsetting, gainedFirstDown,
+  isNegated, isOffsetting, gainedFirstDown, isNonPlay,
+  NON_PLAY_TYPES,
   HIGH, MEDIUM,
 };

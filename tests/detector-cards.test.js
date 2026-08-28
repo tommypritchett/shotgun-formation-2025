@@ -211,6 +211,55 @@ describe('first down', () => {
     expect(ids(out)).not.toContain('First Down');
   });
 
+  it('does not fire on a clock stoppage carrying the down forward', () => {
+    // ESPN puts timeouts and the two-minute warning in the play list, and they
+    // repeat the CURRENT down and distance. An Official Timeout on 1st-and-10
+    // looks exactly like a play that ended on 1st-and-10. Measured against the
+    // box scores this was 6 to 13 phantom first downs per game.
+    for (const typeText of ['Official Timeout', 'Timeout', 'Two-minute warning', 'End Period']) {
+      const out = detect({
+        typeText, yards: 0,
+        start: { down: 1, distance: 10, yardsToEndzone: 60, teamId: '1' },
+        end: { down: 1, distance: 10, yardsToEndzone: 60, teamId: '1' },
+      });
+      expect(ids(out), `${typeText} produced a card`).toEqual([]);
+    }
+  });
+
+  it('counts a touchdown that crossed the line to gain', () => {
+    // end.down is -1 on a score, so the ordinary rule never sees it, but the
+    // official box score counts the first down. Worth 3 to 10 a game.
+    const out = detect({
+      typeText: 'Passing Touchdown', scoringPlay: true, scoreValue: 6, yards: 37,
+      text: 'Q.Back pass deep middle to W.Out for 37 yards, TOUCHDOWN.',
+      start: { down: 1, distance: 10, yardsToEndzone: 37, teamId: '1' },
+      end: { down: -1, distance: 10, yardsToEndzone: 0, teamId: '1' },
+    });
+    expect(ids(out)).toContain('First Down');
+  });
+
+  it('does not count a touchdown that did not reach the sticks', () => {
+    const out = detect({
+      typeText: 'Rushing Touchdown', scoringPlay: true, scoreValue: 6, yards: 2,
+      text: 'A.Runner up the middle for 2 yards, TOUCHDOWN.',
+      start: { down: 3, distance: 8, yardsToEndzone: 2, teamId: '1' },
+      end: { down: -1, distance: 10, yardsToEndzone: 0, teamId: '1' },
+    });
+    expect(ids(out)).not.toContain('First Down');
+  });
+
+  it('does not fire on a kick, even when the ids say one team', () => {
+    // On a blocked kick ESPN can name the same team on both sides of the play
+    // although possession changed, which reads as a phantom first down.
+    const out = detect({
+      typeText: 'Blocked Field Goal', yards: 0,
+      text: 'K.Icker 48 yard field goal is BLOCKED, recovered by D-N.Tackle.',
+      start: { down: 4, distance: 7, yardsToEndzone: 30, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 70, teamId: '1' },
+    });
+    expect(ids(out)).not.toContain('First Down');
+  });
+
   it('does not fire when a penalty took the first down away', () => {
     // Down and distance are already post-enforcement in both leagues, so this
     // needs no text parsing: the down simply never reaches 1.

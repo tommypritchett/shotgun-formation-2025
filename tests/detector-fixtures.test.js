@@ -45,7 +45,9 @@ describe('real NFL games', () => {
     // touchdowns in the whole game, but the room is not left with nothing.
     const counts = countsOf(detectGame(fixture('nfl', '401772877')));
     expect(counts.Touchdown).toBe(3);
-    expect(counts['First Down']).toBeGreaterThan(35);
+    // 31, against an official 30. Three touchdowns in the whole game, and the
+    // room still gets something to do roughly every three minutes.
+    expect(counts['First Down']).toBeGreaterThan(25);
     expect(counts['Blocked Kicks']).toBe(1);   // there really was one
   });
 
@@ -143,4 +145,31 @@ describe('detection is stable against the feed changing shape', () => {
     }).length;
     expect(stripped).toBeLessThan(full);
   });
+});
+
+describe('first downs against ESPN\'s own box score', () => {
+  /**
+   * The check that found two real faults. Counted per game, never against a
+   * league average — an average hides a detector that is wrong in both
+   * directions, which is exactly what this one was.
+   *
+   * Residual: +1 in every game. Consistent, unexplained, and deliberately NOT
+   * tuned away. Three games is not enough to fit a correction to without
+   * inventing a rule that happens to make the numbers meet.
+   */
+  const BOX_SCORE_FIRST_DOWNS = {
+    '401772636': 47,   // IND 31 - ATL 25
+    '401772877': 30,   // CAR 7 - NO 17
+    '401772879': 55,   // SF 26 - LAR 42
+  };
+
+  for (const [gameId, official] of Object.entries(BOX_SCORE_FIRST_DOWNS)) {
+    it(`is within one of the official total for ${gameId}`, () => {
+      const counted = detectGame(fixture('nfl', gameId))
+        .filter((d) => d.cardId === 'First Down').length;
+      expect(counted - official, `detector ${counted} vs box score ${official}`)
+        .toBeGreaterThanOrEqual(0);
+      expect(counted - official).toBeLessThanOrEqual(1);
+    });
+  }
 });

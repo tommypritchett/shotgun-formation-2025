@@ -11,11 +11,19 @@ modified.**
 Real 2025 games, run through the real detector. This is the number the pacing
 decision rests on.
 
+> **Corrected after a per-game check against ESPN's own box-score first-down
+> totals.** The first version of this table was wrong: it counted 52/42/52 first
+> downs against official totals of 47/30/55 — over-counting two games and
+> under-counting the third. Two faults, in opposite directions, which is exactly
+> what a comparison against a league average would have hidden. Both are fixed;
+> see "First downs against the box score" below. The numbers here are the
+> corrected ones.
+
 ### NFL
 
 | Card | Mode | IND 31 - ATL 25 | CAR 7 - NO 17 | SF 26 - LAR 42 | Mean |
 |---|---|---:|---:|---:|---:|
-| First Down | auto | 52 | 42 | 52 | **48.7** |
+| First Down | auto | 48 | 31 | 56 | **45.0** |
 | Big Play 20+ | auto | 20 | 9 | 10 | **13.0** |
 | Penalty | auto | 10 | 7 | 8 | **8.3** |
 | Touchdown | auto | 7 | 3 | 10 | **6.7** |
@@ -30,10 +38,10 @@ decision rests on.
 | Missed FG | auto | 1 | 0 | 0 | **0.3** |
 | Missed PAT | auto | 1 | 0 | 0 | **0.3** |
 | Onside Attempt | suggest | 0 | 0 | 1 | **0.3** |
-| **TOTAL cards** | | 115 | 77 | 88 | **93.3** |
-| **of which auto-called** | | 112 | 71 | 84 | **89.0** |
+| **TOTAL cards** | | 111 | 66 | 92 | **89.7** |
+| **of which auto-called** | | 108 | 60 | 88 | **85.3** |
 | **plays** | | 191 | 166 | 179 | **178.7** |
-| **multi-card plays** | | 22 | 10 | 9 | **13.7** |
+| **multi-card plays** | | 25 | 10 | 17 | **17.3** |
 | **negated plays** | | 6 | 6 | 7 | **6.3** |
 | **suppressed by negation** | | 1 | 0 | 0 | **0.3** |
 
@@ -41,7 +49,7 @@ decision rests on.
 
 | Card | Mode | OSU 38 - PSU 14 | SMU 26 - MIA 20 | KYW 7 - WFLA 28 | Mean |
 |---|---|---:|---:|---:|---:|
-| First Down | auto | 34 | 44 | 0 | **26.0** |
+| First Down | auto | 41 | 48 | 0 | **29.7** |
 | Big Play 20+ | auto | 7 | 20 | 0 | **9.0** |
 | Penalty | auto | 3 | 14 | 0 | **5.7** |
 | Touchdown | auto | 7 | 4 | 0 | **3.7** |
@@ -52,9 +60,9 @@ decision rests on.
 | Turnover | auto | 1 | 1 | 0 | **0.7** |
 | Missed FG | auto | 0 | 1 | 0 | **0.3** |
 | Turnover on Downs | auto | 0 | 1 | 0 | **0.3** |
-| **TOTAL cards** | | 62 | 95 | 0 | **52.3** |
-| **of which auto-called** | | 60 | 91 | 0 | **50.3** |
-| **multi-card plays** | | 12 | 20 | 0 | **10.7** |
+| **TOTAL cards** | | 69 | 99 | 0 | **56.0** |
+| **of which auto-called** | | 67 | 95 | 0 | **54.0** |
+| **multi-card plays** | | 18 | 23 | 0 | **13.7** |
 | **negated plays** | | 3 | 14 | 0 | **5.7** |
 
 *(The third college column is the empty-feed game. Its zeros are the point —
