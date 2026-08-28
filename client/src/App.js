@@ -124,9 +124,13 @@ class ErrorBoundary extends Component {
   }
 }
 
+// SPREAD, always. `io()` hands this object straight to the Manager, which
+// writes its default onto it (`opts.path = opts.path || "/socket.io"`).
+// SOCKET_OPTIONS is frozen, so passing it directly throws a TypeError here at
+// module scope — before React mounts — and the app is a white screen.
 const socket = io(
   process.env.REACT_APP_API_URL || 'https://shotgunformation.onrender.com',
-  SOCKET_OPTIONS
+  { ...SOCKET_OPTIONS }
 );
 
 // const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:3001');
