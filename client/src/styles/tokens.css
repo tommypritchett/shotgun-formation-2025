@@ -1,0 +1,51 @@
+/*
+ * Design tokens — the :root block lifted verbatim from the approved mockup
+ * (client/public/mockup.html), which takes them from docs/DESIGN.md §1.
+ *
+ * No component below may use a raw hex value. If a colour is needed and is not
+ * here, it belongs here first.
+ */
+:root{
+  /* surfaces */
+  --sf-board:#0D1017; --sf-board-2:#151A23;
+  --sf-card-std:#1D232E; --sf-card-std-2:#0B0E14;
+  --sf-card-wild:#12301C; --sf-card-wild-2:#050F09;
+  --sf-card-field:#0A0D12;
+  /* ink */
+  --sf-chalk:#F2EFE7; --sf-muted:#89909F; --sf-line:rgba(242,239,231,.13);
+  /* accents */
+  --sf-amber:#FFB020; --sf-amber-ink:#1A1002;
+  --sf-neon:#8AFF3D;  --sf-neon-ink:#08160B;
+  --sf-blood:#FF4A33; --sf-blood-ink:#FFFFFF;
+  /* type */
+  --sf-display:'Oswald','Arial Narrow',system-ui,sans-serif;
+  --sf-body:'Inter',system-ui,-apple-system,sans-serif;
+  /* rhythm */
+  --sf-r-sm:8px; --sf-r-md:12px; --sf-r-lg:16px; --sf-r-pill:999px;
+
+  /* derived, local */
+  --acc:var(--sf-amber); --acc-ink:var(--sf-amber-ink);
+  --card-w:clamp(126px,38vw,150px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { background: var(--sf-board); }
+body {
+  font-family: var(--sf-body);
+  color: var(--sf-chalk);
+  background-color: var(--sf-board);
+  /* chalkboard: yard lines + hash grain */
+  background-image:
+    repeating-linear-gradient(90deg,rgba(242,239,231,.045) 0 1px,transparent 1px 56px),
+    repeating-linear-gradient(0deg,rgba(242,239,231,.022) 0 1px,transparent 1px 56px),
+    radial-gradient(120% 70% at 50% -10%,rgba(255,176,32,.07),transparent 60%);
+  background-attachment: fixed;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+[hidden] { display: none !important; }
+button { font: inherit; color: inherit; background: none; border: 0; margin: 0; cursor: pointer; }
+img { display: block; }
+::selection { background: var(--sf-amber); color: var(--sf-amber-ink); }

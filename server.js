@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const path = require('path'); // Import the path module
+const fs = require('fs');
 const app = express();
 const server = http.createServer(app);
 
@@ -21,7 +22,10 @@ const io = socketIo(server, {
   pingInterval: 8000, // More frequent pings for mobile (optimized)
   pingTimeout: 30000, // Shorter timeout for faster mobile detection
   connectTimeout: 45000, // Shorter connect timeout for mobile
-  maxHttpBufferSize: 1e8,
+  // 1 MB. This was 1e8 — 100 MB per message, 100x the socket.io default.
+  // Nothing this app sends is remotely near it, and on a 512 MB instance a
+  // couple of oversized messages are an out-of-memory kill.
+  maxHttpBufferSize: 1e6,
   // Additional mobile optimizations
   allowEIO3: true, // Better compatibility
   serveClient: false, // Reduce overhead
@@ -34,12 +38,162 @@ const cors = require('cors');
 const rooms = {};  // Store rooms and players
 const playerStats = {};  // Store drink and shotgun counts for each player
 const roundResults = {};  // Store drink assignments for each round
-const formerPlayers = {};  // Store former players by name when they disconnect
+/**
+ * Disconnected players, NESTED BY ROOM: `formerPlayers[roomCode][playerName]`.
+ *
+ * This used to be one global slot per NAME across the whole server. Two games
+ * each with a Mike shared that slot, so the second Mike to drop overwrote the
+ * first Mike's drinks, shotguns and hand; the first then came back to an entry
+ * stamped with the other room's code, failed the room check, and was admitted
+ * as a brand-new player on zero.
+ *
+ * Nesting makes the owner's two rules structural rather than something every
+ * call site has to remember: a scoped lookup is the only lookup available, and
+ * a room that is gone has no key here at all, so it cannot resurrect anybody.
+ */
+const formerPlayers = {};
 const usedCards = {};  // Store used cards for each room to enable deck replenishment
 
 // ✅ ROUND-AWARE RECONNECTION: Track active rounds and declared cards
+// Round lengths in seconds. These are the ONLY source of truth: `startTimer`
+// counts down from them and `activeRounds.timeRemaining` is measured against
+// them, so a reconnecting player is told the same time everyone else sees.
+const ROUND_DURATIONS = { standard: 21, wild: 11, firstDown: 6 };
+
+/** Ten drinks make a shotgun. The one place that number lives on the server. */
+const DRINKS_PER_SHOTGUN = 10;
+
 const activeRounds = {};  // Track which rooms have active rounds: { roomCode: { declaredCard, timeRemaining, startTime } }
 const socketIdMappings = {};  // Track old->new socket ID mappings during active rounds: { roomCode: { oldSocketId: newSocketId } }
+
+/**
+ * A room closes when NOBODY has been active in it for this long.
+ *
+ * It does NOT close when the host leaves. The person who made the room is the
+ * one most likely to put their phone down, hand it to somebody, or step
+ * outside; closing on their exit takes a game away from nine other people who
+ * are still holding cards. Room membership belongs to the table.
+ *
+ * Both values are overridable from the environment so the reaper can be tested
+ * on a short clock against the real code path, rather than a test keeping its
+ * own copy of half an hour.
+ */
+const ROOM_IDLE_TIMEOUT_MS = Number(process.env.ROOM_IDLE_TIMEOUT_MS) || 30 * 60 * 1000;
+const ROOM_REAP_INTERVAL_MS = Number(process.env.ROOM_REAP_INTERVAL_MS) || 60 * 1000;
+
+/**
+ * Everything the server holds for one room, deleted in one place.
+ *
+ * Room state is spread across seven maps keyed three different ways — by room
+ * code, by socket id, and by player NAME — so partial teardown is the default
+ * failure. A leaked `formerPlayers` entry hands a stale hand and stale totals
+ * to the next player who happens to reuse that name — which is why the map is
+ * nested by room code and dropped whole, rather than scanned.
+ *
+ * Takes its maps as an argument so the teardown can be tested on its own.
+ *
+ * @returns {boolean} whether the room existed
+ */
+const purgeRoomState = (roomCode, state) => {
+  const rooms = state.rooms || {};
+  const playerStats = state.playerStats || {};
+  const roundResults = state.roundResults || {};
+  const formerPlayers = state.formerPlayers || {};
+  const usedCards = state.usedCards || {};
+  const activeRounds = state.activeRounds || {};
+  const socketIdMappings = state.socketIdMappings || {};
+  const room = rooms[roomCode];
+
+  // Every socket id this room has ever used: its current players, the old ids
+  // they reconnected FROM, and anyone the round results still remember.
+  const ids = new Set();
+  ((room && room.players) || []).forEach((p) => { if (p && p.id) ids.add(p.id); });
+  Object.entries(socketIdMappings[roomCode] || {}).forEach(([oldId, newId]) => {
+    ids.add(oldId);
+    ids.add(newId);
+  });
+  Object.keys(roundResults[roomCode] || {}).forEach((id) => ids.add(id));
+  ids.forEach((id) => { delete playerStats[id]; });
+
+  // Nested by room, so this cannot miss an entry the way the old name-keyed
+  // scan could.
+  delete formerPlayers[roomCode];
+
+  delete roundResults[roomCode];
+  delete activeRounds[roomCode];
+  delete socketIdMappings[roomCode];
+  delete usedCards[roomCode];
+  delete rooms[roomCode];
+  return Boolean(room);
+};
+
+/** Close a room for good, stopping its round timer first so it cannot tick on. */
+const destroyRoom = (roomCode, reason) => {
+  const round = activeRounds[roomCode];
+  if (round && round.intervalId) clearInterval(round.intervalId);
+  const existed = purgeRoomState(roomCode, {
+    rooms, playerStats, roundResults, formerPlayers, usedCards, activeRounds, socketIdMappings,
+  });
+  if (existed) console.log(`🧹 Room ${roomCode} closed: ${reason}`);
+  return existed;
+};
+
+/**
+ * When this room was last worth keeping alive.
+ *
+ * Anyone still connected means "right now" — sitting between rounds is not
+ * idleness. Otherwise it is the most recent departure across EVERY player, not
+ * just the host, so the clock only runs once the whole table has gone.
+ */
+const roomLastActiveAt = (room) => {
+  if (!room) return 0;
+  const players = room.players || [];
+  if (players.some((p) => !p.disconnected)) return Date.now();
+  const departures = players.map((p) => p.disconnectedAt || 0).filter(Boolean);
+  if (departures.length) return Math.max(...departures);
+  // Nobody in the roster at all: everyone used Leave rather than dropping.
+  return room.emptiedAt || room.createdAt || 0;
+};
+
+/** The one thing that closes rooms. */
+const reapIdleRooms = () => {
+  const now = Date.now();
+  Object.keys(rooms).forEach((roomCode) => {
+    const idleFor = now - roomLastActiveAt(rooms[roomCode]);
+    if (idleFor >= ROOM_IDLE_TIMEOUT_MS) {
+      destroyRoom(roomCode, `nobody active for ${Math.round(idleFor / 60000)} minutes`);
+    }
+  });
+};
+
+const roomReaper = setInterval(reapIdleRooms, ROOM_REAP_INTERVAL_MS);
+if (roomReaper.unref) roomReaper.unref();
+
+/**
+ * Note that a room now has nobody in its roster. It is NOT closed here; the
+ * reaper closes it once the idle window has passed with nobody back.
+ */
+const markRoomEmpty = (roomCode) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  room.emptiedAt = Date.now();
+  console.log(`Room ${roomCode} is empty. Holding it for ${ROOM_IDLE_TIMEOUT_MS}ms in case anyone comes back.`);
+};
+
+/**
+ * Move the whistle to somebody who is actually here.
+ * @returns {string|null} the new host id, or null if nobody is left to take it
+ */
+const handOverWhistle = (roomCode, message) => {
+  const room = rooms[roomCode];
+  if (!room) return null;
+  const stillHere = activePlayers(room);
+  if (stillHere.length === 0) return null;
+  room.host = stillHere[0].id;
+  io.to(roomCode).emit('newHost', { newHostId: room.host, message });
+  console.log(`🏈 Whistle moved to ${stillHere[0].name} (${room.host}) in room ${roomCode}: ${message}`);
+  return room.host;
+};
 
 
 // Enable CORS for all routes
@@ -74,6 +228,319 @@ const generateRoomCode = () => {
   return Math.floor(10000 + Math.random() * 90000).toString();
 };
 
+// How many times to try for a free room code before giving up. There are 90,000
+// 5-digit codes, so 50 consecutive collisions means the space is genuinely
+// close to full: with even half of it in use the odds are (1/2)^50, about one
+// in a quadrillion. Anything short of that returns on the first or second try.
+const ROOM_CODE_ATTEMPTS = 50;
+
+/**
+ * Find a room code not already in use, or null if the space is full.
+ *
+ * The cap is the point. This used to be `while (rooms[roomCode])` with no
+ * bound, and on a single-threaded server that does not fail slowly — it pins
+ * the event loop and freezes every game on the box at once, which is the same
+ * blast radius as the crash bug this branch started out fixing.
+ */
+const allocateRoomCode = (rooms) => {
+  for (let attempt = 0; attempt < ROOM_CODE_ATTEMPTS; attempt += 1) {
+    const roomCode = generateRoomCode();
+    if (!rooms[roomCode]) return roomCode;
+  }
+  return null;
+};
+
+/** The disconnected-player snapshots belonging to ONE room. */
+const formerPlayersIn = (roomCode) => formerPlayers[roomCode] || {};
+
+/** Remember a player who has just left this room. */
+const rememberFormerPlayer = (roomCode, entry) => {
+  if (!formerPlayers[roomCode]) formerPlayers[roomCode] = {};
+  formerPlayers[roomCode][entry.name] = entry;
+};
+
+/** Forget one, once they are back. */
+const forgetFormerPlayer = (roomCode, playerName) => {
+  if (formerPlayers[roomCode]) delete formerPlayers[roomCode][playerName];
+};
+
+/**
+ * The socket ids this room currently owns.
+ *
+ * `playerStats` is ONE global map keyed by socket id across every room on the
+ * server, so any lookup into it by player NAME must be narrowed to this set —
+ * otherwise it matches a same-named player in a completely different game. Two
+ * Sunday parties both having a Mike is not exotic.
+ *
+ * Take this snapshot BEFORE the reconnect paths touch `room.players`: they
+ * filter the old entry out (`handleJoinRoom`) or overwrite its id in place
+ * (`requestGameState`), and the old id is exactly what the lookup needs.
+ */
+const roomSocketIds = (room) => new Set((room && room.players ? room.players : []).map(p => p.id));
+
+/**
+ * Entries in the global `playerStats` map that belong to this player name AND
+ * to this room. `ownedIds` comes from `roomSocketIds`.
+ */
+const roomEntriesForName = (ownedIds, playerName) =>
+  Object.entries(playerStats).filter(
+    ([socketId, stats]) => stats.name === playerName && ownedIds.has(socketId)
+  );
+
+/**
+ * Build the `updatePlayerStats.players` payload for ONE room.
+ *
+ * `room.players` is the authority on who is in the room — a disconnected player
+ * stays in it, with their id, until they rejoin — so the payload is built from
+ * it directly rather than by filtering the global map.
+ *
+ * This used to scan all of `playerStats` and additionally keep stale entries
+ * whose name matched a current member. That match was on NAME ALONE with no
+ * room association, so room B's disconnected Mike leaked into room A's payload
+ * whenever room A also had a Mike. Those stale entries were also inert: they
+ * were sent with `name: undefined`, and the client only keeps entries that
+ * carry a name (App.js:1268). Nothing the client uses was lost by dropping them.
+ */
+const buildRoomStats = (room) => {
+  const scoped = {};
+
+  room.players.forEach(player => {
+    const stats = playerStats[player.id];
+    if (!stats) return;
+
+    scoped[player.id] = {
+      ...stats,
+      name: player.name,
+      // Left exactly as `player.disconnected` — including `undefined` for a
+      // player who has never dropped — so the wire payload is unchanged.
+      disconnected: player.disconnected
+    };
+  });
+
+  return scoped;
+};
+
+/**
+ * The wild-card swap allowance: ONE swap per player per quarter.
+ *
+ * Lives on the room as `room.wildSwapQuarter = { [playerName]: quarterNumber }`.
+ * Two deliberate choices:
+ *
+ *  - Keyed by player NAME, not socket id. Socket ids change on every reconnect,
+ *    so a socket-keyed allowance would hand a free reroll to anyone who drops
+ *    and rejoins — which is the exact exploit this guard exists to close, and a
+ *    client can reconnect at will. Names are unique among a room's active
+ *    players (`handleJoinRoom` refuses a duplicate) and the reconnection
+ *    machinery already treats name as identity (`formerPlayers` is keyed by it).
+ *  - Stores the quarter the swap was spent in rather than a boolean, so the
+ *    allowance resets the moment `room.quarter` advances, with no bookkeeping
+ *    to forget.
+ */
+const currentQuarter = (room) => room.quarter || 1;
+
+const hasSpentSwapThisQuarter = (room, playerName) =>
+  Boolean(room.wildSwapQuarter) && room.wildSwapQuarter[playerName] === currentQuarter(room);
+
+const recordSwap = (room, playerName) => {
+  if (!room.wildSwapQuarter) room.wildSwapQuarter = {};
+  room.wildSwapQuarter[playerName] = currentQuarter(room);
+};
+
+/**
+ * Record what a player was told to pour this round, so a reconnect can replay it.
+ *
+ * Keyed by player NAME, not socket id, for the same reason as the swap
+ * allowance: the id changes on every reconnect and the name does not.
+ *
+ * This exists because the prompt CANNOT be re-derived from the player's hand.
+ * `playStandardCard` and `wildCardConfirmed` emit `distributeDrinks` and then
+ * immediately remove the played cards and draw replacements, so by the time
+ * anyone reconnects the hand no longer shows what they played. The old
+ * reconnect code filtered the current hand anyway, which meant a refreshing
+ * player either got nothing (usually) or — if the replacement draw happened to
+ * redeal the same card type — a prompt for an amount they never played.
+ */
+const rememberPendingPour = (roomCode, playerName, payload) => {
+  const round = activeRounds[roomCode];
+  if (!round || !playerName) return;
+  if (!round.pending) round.pending = {};
+  round.pending[playerName] = payload;
+};
+
+/**
+ * Is this player finished with the round?
+ *
+ * ⚠️ POURING EVERYTHING IS NOT BEING DONE. Session 12 treated a zero balance as
+ * finished, and that was wrong: the round ended the instant the last drink
+ * landed. Pouring is not a statement that you have finished — people pour, look
+ * at the board, change their mind and undo. Session 11 exists precisely so undo
+ * works for the whole round, and ending on the last pour takes that away and
+ * makes the round feel snatched.
+ *
+ * Finished means:
+ *   - they were never asked to pour (hold no copy of the declared card) —
+ *     automatic, they have no action and must not have to press anything; or
+ *   - they explicitly locked in.
+ *
+ * A pending entry exists only for players who were told to pour, so its mere
+ * presence is what distinguishes "had something to do" from "had nothing".
+ */
+const playerIsDoneThisRound = (roomCode, playerName) => {
+  const round = activeRounds[roomCode];
+  if (!round) return true;
+  if ((round.lockedIn || {})[playerName]) return true;
+  // Asked to pour at all? Then only Lock In finishes them.
+  return !(round.pending || {})[playerName];
+};
+
+/** Has this player already declared themselves done for this round? */
+const playerHasLockedIn = (roomCode, playerName) =>
+  Boolean(((activeRounds[roomCode] || {}).lockedIn || {})[playerName]);
+
+/**
+ * End the round the moment there is nothing left to wait for.
+ *
+ * Owner request: if everyone has locked in — or has nothing to give — the round
+ * should not wait out the clock.
+ *
+ * FIRST DOWN IS EXCLUDED. Nobody owes anything on a First Down, so the rule
+ * below is satisfied the instant the round opens and it would finalize before
+ * anybody read it. It is a six-second "everyone drinks" beat whose whole value
+ * is the display time, so it always runs its full duration.
+ *
+ * DISCONNECTED PLAYERS ARE SKIPPED. Somebody whose phone died must not hold
+ * nine people hostage for 21 seconds. Their debt lapses exactly as it does when
+ * the clock runs out today.
+ */
+const maybeFinishRoundEarly = (roomCode) => {
+  const round = activeRounds[roomCode];
+  const room = rooms[roomCode];
+  if (!round || !room || round.finalized) return false;
+  if (round.declaredCard === 'First Down') return false;
+
+  const here = activePlayers(room);
+  if (here.length === 0) return false;
+  if (!here.every(p => playerIsDoneThisRound(roomCode, p.name))) return false;
+
+  console.log(`⏱️ Room ${roomCode}: everyone is done — ending the round early`);
+  // Clear the countdown, or it fires into the next round.
+  if (round.intervalId) clearInterval(round.intervalId);
+  finalizeRound(roomCode);
+  return true;
+};
+
+/** What this player still owes this round, or null if nothing is outstanding. */
+const pendingPourFor = (roomCode, playerName) => {
+  const round = activeRounds[roomCode];
+  if (!round || !round.pending) return null;
+  const owed = round.pending[playerName];
+  if (!owed) return null;
+  if ((owed.drinkCount || 0) <= 0 && (owed.shotguns || 0) <= 0) return null;
+  return owed;
+};
+
+/**
+ * Settle part of what a player owes.
+ *
+ * `pending` means WHAT YOU STILL OWE, not what you were originally told. It was
+ * written once when the card was played and never touched again, while the
+ * running count of what had actually been poured lived only in the browser —
+ * so a refresh mid-pour made the server replay the ORIGINAL amount and a
+ * 4-drink card could be poured six times.
+ *
+ * Negative amounts are undo, and add back. Nothing is allowed below zero: the
+ * shotgun fold and undo both round-trip through here and a stray negative
+ * would make `pendingPourFor` think the debt was settled.
+ */
+const settlePendingPour = (roomCode, playerName, drinks, shotguns) => {
+  const owed = (activeRounds[roomCode] || {}).pending?.[playerName];
+  if (!owed) return;
+  owed.drinkCount = Math.max(0, (owed.drinkCount || 0) - (drinks || 0));
+  owed.shotguns = Math.max(0, (owed.shotguns || 0) - (shotguns || 0));
+  console.log(`🧾 ${playerName} now owes ${owed.drinkCount} drinks, ${owed.shotguns} shotguns this round`);
+};
+
+/**
+ * The players who are actually here.
+ *
+ * Disconnected players stay in `room.players` (with `disconnected: true`) so
+ * their drinks survive a dropped phone. That means every "pick a player"
+ * lookup has to say whether it wants an ACTIVE one — and the ones that decide
+ * who holds the whistle always do. A Ref who is not in the building stops the
+ * game dead, because only the Ref can declare.
+ */
+const activePlayers = (room) =>
+  (room && room.players ? room.players : []).filter(p => !p.disconnected);
+
+/**
+ * Make sure a live game has a Ref, and that it is somebody who is here.
+ *
+ * When the host disconnects, an active player is promoted — unless there are
+ * none, in which case the old code emitted `gameOver` and left `room.host`
+ * pointing at a dead socket id. The room is deliberately kept alive for
+ * reconnections, so the first person back found a live game with no Ref, no
+ * way to declare, and no way out.
+ *
+ * Owner's rule: if the game is still active, the first player to rejoin
+ * becomes the Ref. Called on BOTH rejoin paths, since they are genuinely
+ * different routes (see the T1.1 room-join fix).
+ *
+ * @returns {boolean} whether the whistle was handed over
+ */
+const ensureRefIsPresent = (roomCode, candidate) => {
+  const room = rooms[roomCode];
+  if (!room || !room.gameStarted || !candidate) return false;
+
+  const refIsHere = room.players.some(p => p.id === room.host && !p.disconnected);
+  if (refIsHere) return false;
+
+  room.host = candidate.id;
+  io.to(roomCode).emit('newHost', {
+    newHostId: room.host,
+    message: `${candidate.name} is the Ref.`,
+  });
+  console.log(`🏈 Room ${roomCode} had no Ref present — ${candidate.name} takes the whistle`);
+  return true;
+};
+
+/**
+ * Table size.
+ *
+ * The printed box promises "3-10 PLAYERS", and until now the app enforced no
+ * upper bound at all -- the only check was the minimum at `startGame`. Matching
+ * the box is cheaper than explaining the gap, and 10 is also where the avatar
+ * sheet stops being able to give everyone their own character.
+ *
+ * A disconnected player still holds their seat: they own drinks and are
+ * expected back, so they count against the cap.
+ */
+const MIN_PLAYERS = 3;
+const MAX_PLAYERS = 10;
+
+/**
+ * Claim the right to finalize this round. Returns false if somebody already has.
+ *
+ * `finalizeRound` has no idempotency guard of its own. Today that is harmless
+ * only because it has exactly ONE caller — the else branch of startTimer's
+ * interval. The moment a second caller exists (a round that ends early because
+ * everyone has poured), there is a race: the last player settles at t=20.9
+ * while the timer fires at t=21.0, the round finalizes twice, every total is
+ * doubled and two results screens are broadcast.
+ *
+ * So this lands BEFORE the early-end path does. Checked and set synchronously,
+ * on the round itself, so it dies with the round.
+ */
+const claimRoundFinalize = (roomCode) => {
+  const round = activeRounds[roomCode];
+  if (!round) return true;          // no round tracked; the timer path still owns it
+  if (round.finalized) {
+    console.log(`⛔ Round in ${roomCode} is already finalized — ignoring the second call`);
+    return false;
+  }
+  round.finalized = true;
+  return true;
+};
+
 // Finalize round logic
 const finalizeRound = (roomCode) => {
     // Get the room from the rooms object
@@ -83,53 +550,10 @@ const finalizeRound = (roomCode) => {
       return;
     }
 
+    // Exactly once per round. See claimRoundFinalize.
+    if (!claimRoundFinalize(roomCode)) return;
+
  
-    // Update player stats for the entire game by summing the round results
-    room.players.forEach((player) => {
-      const playerId = player.id;
-      const roundResult = roundResults[roomCode][playerId] || { drinks: 0, shotguns: 0 };
-      console.log(`Results stats for player ${playerId}:`, roundResults[roomCode][playerId]);
-      console.log(`Result stats for player ${playerId}:`, roundResult);
-
-
-      // Update total drinks and shotguns for the player
-      playerStats[playerId].totalDrinks = (playerStats[playerId].totalDrinks || 0) + roundResult.drinks;
-      playerStats[playerId].totalShotguns = (playerStats[playerId].totalShotguns || 0) + roundResult.shotguns;
-    // Log player stats for each player
-    console.log(`Updated stats for player ${playerId}:`, playerStats[playerId]);
-    });
-
-    // ✅ ENHANCED: Include player names in stats data
-    const playersWithNames = {};
-    Object.keys(playerStats).forEach(playerId => {
-      const player = room.players.find(p => p.id === playerId);
-      playersWithNames[playerId] = {
-        ...playerStats[playerId],
-        name: player ? player.name : undefined,
-        disconnected: player ? player.disconnected : false
-      };
-    });
-
-    console.log(`📊 SENDING COMPLETE DATA: ${Object.keys(playersWithNames).length} players with names:`, 
-      Object.entries(playersWithNames).map(([id, stats]) => `${stats.name || 'UNNAMED'}(${id.slice(-4)}): ${stats.totalDrinks} drinks`)
-    );
-
-    // Emit the final round results and updated player stats to everyone in the room
-    io.to(roomCode).emit('updatePlayerStats', {
-       players: playersWithNames,  // ✅ Now includes names for ALL players
-       roundResults: roundResults[roomCode],  // Send combined round results
-       roundFinalized: true  // ✅ NEW: Flag to indicate official round end
-    });
- 
-    // Reset the declaredCard for all players
-    io.to(roomCode).emit('declaredCard', null);  // Reset the declared card to null
- 
-    // ✅ ROUND-AWARE: Clear active round tracking when round ends
-    if (activeRounds[roomCode]) {
-      delete activeRounds[roomCode];
-      console.log(`✅ Active round cleared for room ${roomCode}`);
-    }
-    
     // ✅ ROUND-AWARE: Merge round results for socket ID changes with transitive resolution
     if (socketIdMappings[roomCode] && roundResults[roomCode]) {
       console.log(`🔄 Merging round results for socket ID mappings in room ${roomCode}`);
@@ -185,6 +609,43 @@ const finalizeRound = (roomCode) => {
       console.log(`🔄 Round results after merge:`, Object.entries(roundResults[roomCode]).map(([id, data]) => `${id.slice(-4)}:${data.drinks}d,${data.shotguns}s`));
     }
     
+    // Update player stats for the entire game by summing the round results
+    room.players.forEach((player) => {
+      const playerId = player.id;
+      const roundResult = roundResults[roomCode][playerId] || { drinks: 0, shotguns: 0 };
+      // (Two near-identical dumps of the same object used to print here.)
+
+
+      // Update total drinks and shotguns for the player
+      playerStats[playerId].totalDrinks = (playerStats[playerId].totalDrinks || 0) + roundResult.drinks;
+      playerStats[playerId].totalShotguns = (playerStats[playerId].totalShotguns || 0) + roundResult.shotguns;
+    // Log player stats for each player
+    console.log(`Updated stats for player ${playerId}:`, playerStats[playerId]);
+    });
+
+    // ✅ ENHANCED: Include player names in stats data (scoped to this room)
+    const playersWithNames = buildRoomStats(room);
+
+    console.log(`📊 SENDING COMPLETE DATA: ${Object.keys(playersWithNames).length} players with names:`, 
+      Object.entries(playersWithNames).map(([id, stats]) => `${stats.name || 'UNNAMED'}(${id.slice(-4)}): ${stats.totalDrinks} drinks`)
+    );
+
+    // Emit the final round results and updated player stats to everyone in the room
+    io.to(roomCode).emit('updatePlayerStats', {
+       players: playersWithNames,  // ✅ Now includes names for ALL players
+       roundResults: roundResults[roomCode],  // Send combined round results
+       roundFinalized: true  // ✅ NEW: Flag to indicate official round end
+    });
+ 
+    // Reset the declaredCard for all players
+    io.to(roomCode).emit('declaredCard', null);  // Reset the declared card to null
+ 
+    // ✅ ROUND-AWARE: Clear active round tracking when round ends
+    if (activeRounds[roomCode]) {
+      delete activeRounds[roomCode];
+      console.log(`✅ Active round cleared for room ${roomCode}`);
+    }
+    
     // ✅ ROUND-AWARE: Clear socket ID mappings when round ends
     if (socketIdMappings[roomCode]) {
       delete socketIdMappings[roomCode];
@@ -194,7 +655,7 @@ const finalizeRound = (roomCode) => {
     // Clear round results for the next round
     roundResults[roomCode] = {};
     console.log(`Round results cleared for room ${roomCode}.`);
-    rooms.isActionInProgress = false;
+    room.isActionInProgress = false;
 
  
     // Update player hands for the next round
@@ -214,6 +675,7 @@ const finalizeRound = (roomCode) => {
   
     // Send the remaining time every second
     const interval = setInterval(() => {
+     try {
       if (rooms[roomCode]) {
         if (timeRemaining > 0) {
           timeRemaining--;
@@ -229,7 +691,21 @@ const finalizeRound = (roomCode) => {
       } else {
         clearInterval(interval);  // Stop the timer if the room is deleted
       }
+     } catch (err) {
+      // A malformed payload often detonates HERE, seconds after the emit that
+      // caused it, where nothing in the log connects the two. Name the room so
+      // the morning-after read is possible, and stop this room's timer rather
+      // than throwing on every tick forever.
+      console.error(`💥 Round timer threw for room ${roomCode} — clearing it:`);
+      console.error(err && err.stack ? err.stack : err);
+      clearInterval(interval);
+      if (rooms[roomCode]) rooms[roomCode].isActionInProgress = false;
+     }
     }, 1000);
+
+    // Kept so an early end can stop the countdown rather than leaving an
+    // orphaned timer to fire into the next round.
+    if (activeRounds[roomCode]) activeRounds[roomCode].intervalId = interval;
   };
   // connection logs 
 
@@ -254,11 +730,13 @@ io.on('connection', (socket) => {
   // Start the heartbeat when a client connects
   startHeartbeat();
   
-  // Handle heartbeat acknowledgement
-  socket.on('heartbeat-ack', () => {
-    // We could track the round-trip time here if needed
-    console.log(`Heartbeat acknowledged by ${socket.id}`);
-  });
+  // Handle heartbeat acknowledgement.
+  //
+  // Deliberately silent. This used to log a line per socket per 10 seconds,
+  // forever, including an idle lobby — which is most of what a night's log
+  // was. The listener stays so the event is consumed rather than falling
+  // through to socket.io's unhandled path.
+  socket.on('heartbeat-ack', () => {});
   
   // Clean up the interval when the socket disconnects
   socket.on('disconnect', () => {
@@ -298,8 +776,18 @@ io.on('connection', (socket) => {
 
   // Create Room
   socket.on('createRoom', (playerName) => {
-    const roomCode = generateRoomCode();
-    rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false };
+    // Find a free code. Without this, a collision silently overwrites a live
+    // room and drops two groups into the same game.
+    const roomCode = allocateRoomCode(rooms);
+    if (!roomCode) {
+      // Reuse the existing `error` event rather than inventing a new one: the
+      // client already renders it, and the player is still sitting on the
+      // screen they pressed the button from.
+      console.error(`Could not allocate a free room code after ${ROOM_CODE_ATTEMPTS} attempts (${Object.keys(rooms).length} rooms open). Refusing to create a room for ${playerName}.`);
+      io.to(socket.id).emit('error', 'Could not create a game right now. Please try again.');
+      return;
+    }
+    rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false, wildSwapQuarter: {}, createdAt: Date.now() };
     playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
     usedCards[roomCode] = { standard: [], wild: [] };  // Initialize used cards storage for deck replenishment
         socket.join(roomCode);
@@ -359,6 +847,13 @@ function handleJoinRoom(socket, roomCode, playerName) {
 
   console.log(`🎯 Player ${playerName} attempting to join room ${roomCode}`);
 
+  // Snapshot the room's socket ids up front. Every name lookup into the global
+  // `playerStats` map below is narrowed to these, so a same-named player in a
+  // different game can never be mistaken for this one. It has to be taken here:
+  // the reconnect path filters this player's old entry out of `room.players`
+  // before the merge runs, and the old id is what the merge is looking for.
+  const ownedSocketIds = roomSocketIds(rooms[roomCode]);
+
   // Check if this socket is already in the room to prevent duplicates
   const socketAlreadyInRoom = rooms[roomCode].players.find(p => p.id === socket.id);
   if (socketAlreadyInRoom) {
@@ -366,13 +861,13 @@ function handleJoinRoom(socket, roomCode, playerName) {
     return;
   }
 
-  // ✅ SIMPLE RECONNECTION: Check if player exists in formerPlayers
-  console.log(`🔍 DEBUG: Checking formerPlayers for ${playerName}:`);
-  console.log(`🔍 DEBUG: formerPlayers keys:`, Object.keys(formerPlayers));
-  console.log(`🔍 DEBUG: formerPlayer data:`, formerPlayers[playerName]);
+  // ✅ SIMPLE RECONNECTION: is this player one of THIS room's former players?
+  // The room check used to be a field comparison on a globally-keyed entry.
+  // It is now the lookup itself.
+  console.log(`🔍 DEBUG: Former players in room ${roomCode}:`, Object.keys(formerPlayersIn(roomCode)));
   
-  const formerPlayer = formerPlayers[playerName];
-  if (formerPlayer && formerPlayer.roomCode === roomCode) {
+  const formerPlayer = formerPlayersIn(roomCode)[playerName];
+  if (formerPlayer) {
     console.log(`🔄 RECONNECTING: ${playerName} found in formerPlayers for room ${roomCode}`);
     
     // ✅ FIX: Remove any existing player entries with same name before adding
@@ -388,10 +883,11 @@ function handleJoinRoom(socket, roomCode, playerName) {
       console.log(`🎯 MID-ROUND RECONNECTION: Player ${playerName} reconnecting during active round`);
       console.log(`🎯 Active round info:`, activeRounds[roomCode]);
       
-      // Find the player's old socket ID from their disconnected entry
-      const oldEntry = Object.entries(playerStats).find(([id, stats]) => 
-        stats.name === playerName && stats.disconnected
-      );
+      // Find the player's old socket ID from their disconnected entry, within
+      // this room only — a disconnected same-named player in another game would
+      // otherwise be adopted as this player's previous identity.
+      const oldEntry = roomEntriesForName(ownedSocketIds, playerName)
+        .find(([, stats]) => stats.disconnected);
       
       if (oldEntry) {
         const oldSocketId = oldEntry[0];
@@ -429,10 +925,11 @@ function handleJoinRoom(socket, roomCode, playerName) {
       `${id.slice(-4)}: ${JSON.stringify({totalDrinks: stats.totalDrinks, name: stats.name, disconnected: stats.disconnected})}`
     ));
     
-    // ✅ STRICT NAME MATCH: Find ALL entries that belong specifically to this player name
-    const allPlayerEntries = Object.entries(playerStats).filter(([socketId, stats]) => 
-      stats.name === playerName  // ONLY entries with exact name match, no socket ID guessing
-    );
+    // ✅ STRICT NAME MATCH: entries for this player name IN THIS ROOM.
+    // A name match alone spans every game on the server: it handed this player
+    // a stranger's higher score, and then deleted the stranger's entry in the
+    // cleanup below — corrupting both rooms at once.
+    const allPlayerEntries = roomEntriesForName(ownedSocketIds, playerName);
     
     console.log(`🔍 DEBUG MERGE: All entries for player name "${playerName}":`, allPlayerEntries.map(([id, stats]) => 
       `${id.slice(-4)}: ${stats.totalDrinks || 0} drinks, disconnected: ${stats.disconnected}, name: ${stats.name}`
@@ -474,66 +971,27 @@ function handleJoinRoom(socket, roomCode, playerName) {
       }
     });
     
-    delete formerPlayers[playerName];
+    forgetFormerPlayer(roomCode, playerName);
     console.log(`✅ Restored ${playerName} with merged data:`, playerStats[socket.id]);
     
     // ✅ RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
     if (activeRounds[roomCode]) {
       const declaredCard = activeRounds[roomCode].declaredCard;
-      const playerHand = playerStats[socket.id]; // Now player data is fully restored
-      
-      if (playerHand && declaredCard !== 'First Down') {
-        console.log(`🎯 CARD CHECK: Checking if ${playerName} can assign drinks for ${declaredCard}`);
-        console.log(`🎯 CARD CHECK: Player standard cards:`, playerHand.standard?.map(c => `${c.card}(${c.drinks})`));
-        console.log(`🎯 CARD CHECK: Player wild cards:`, playerHand.wild?.map(c => `${c.card}(${c.drinks})`));
-        
-        // Check standard cards
-        if (playerHand.standard) {
-          const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
-          if (playerCards.length > 0) {
-            let totalDrinksForPlayer = 0;
-            playerCards.forEach(card => {
-              totalDrinksForPlayer += card.drinks;
-            });
-            
-            let shotguns = Math.floor(totalDrinksForPlayer / 10);
-            let remainingDrinks = totalDrinksForPlayer % 10;
-            
-            socket.emit('distributeDrinks', {
-              playerId: socket.id,
-              cardType: declaredCard,
-              drinkCount: remainingDrinks,
-              shotguns: shotguns
-            });
-            console.log(`🎯 SUCCESS: Sent distributeDrinks to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
-          }
-        }
-        
-        // Check wild cards
-        if (playerHand.wild) {
-          const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
-          if (playerCards.length > 0) {
-            let totalDrinksForPlayer = 0;
-            playerCards.forEach(card => {
-              totalDrinksForPlayer += card.drinks;
-            });
-            
-            let shotguns = Math.floor(totalDrinksForPlayer / 10);
-            let remainingDrinks = totalDrinksForPlayer % 10;
-            
-            socket.emit('distributeDrinks', {
-              playerId: socket.id,
-              wildcardtype: declaredCard,
-              drinkCount: remainingDrinks,
-              shotguns: shotguns
-            });
-            console.log(`🎯 SUCCESS: Sent distributeDrinks (wild) to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
-          }
-        }
-        
-        if (!playerHand.standard?.some(card => card.card === declaredCard) && 
-            !playerHand.wild?.some(card => card.card === declaredCard)) {
-          console.log(`🎯 NO MATCH: Player ${playerName} does not have ${declaredCard} cards`);
+    
+      // Replay exactly what this player was told to pour when the card was
+      // played. This CANNOT be re-derived from their current hand: the played
+      // cards are removed and replaced the instant they are played, so the
+      // hand no longer shows what was played. Filtering it gave a refreshing
+      // player either nothing at all (usually) or, when the replacement draw
+      // happened to redeal the same card type, a prompt for an amount they
+      // never played.
+      if (declaredCard !== 'First Down') {
+        const pending = pendingPourFor(roomCode, playerName);
+        if (pending) {
+          socket.emit('distributeDrinks', { playerId: socket.id, ...pending });
+          console.log(`🎯 REPLAY: sent {${pending.drinkCount}} drinks, {${pending.shotguns}} shotguns to reconnected ${playerName} for ${declaredCard}`);
+        } else {
+          console.log(`🎯 REPLAY: ${playerName} owes nothing this round for ${declaredCard}`);
         }
       }
     }
@@ -554,9 +1012,17 @@ function handleJoinRoom(socket, roomCode, playerName) {
       console.log(`🔧 DEBUG: Standard cards count:`, handData.standard.length);
       console.log(`🔧 DEBUG: Wild cards count:`, handData.wild.length);
       
+      // If everyone had dropped, the whistle is pointing at a dead socket.
+      // First one back takes it — and it must happen before the payload below
+      // is built, or hostId ships stale.
+      ensureRefIsPresent(roomCode, { id: socket.id, name: playerName });
       socket.emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
         hands: { [socket.id]: handData },
-        playerStats: playerStats
+        // THIS room's stats. It used to be the module-global map, which put
+        // every other game on the server into this client's state and grew
+        // with every game the process had ever hosted.
+        playerStats: buildRoomStats(rooms[roomCode])
       });
       
       // ✅ FIX: Send complete players list so reconnected player sees everyone
@@ -567,6 +1033,7 @@ function handleJoinRoom(socket, roomCode, playerName) {
       // ✅ CRITICAL: Notify ALL players of the new socket ID mapping
       io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
       console.log(`📡 Notified all players of ${playerName}'s new socket ID: ${socket.id}`);
+
       
       // ✅ FIX: Send updatePlayerHand to ALL active players to refresh their cards
       rooms[roomCode].players.forEach((player) => {
@@ -589,6 +1056,14 @@ function handleJoinRoom(socket, roomCode, playerName) {
       socket.emit('updatePlayers', rooms[roomCode].players);
       console.log(`📡 Sent lobby state to reconnected player ${playerName}`);
     }
+    return;
+  }
+
+  // ✅ NEW PLAYER: the table is only so big. A disconnected player still holds
+  // their seat -- they own drinks and are expected back.
+  if (rooms[roomCode].players.length >= MAX_PLAYERS) {
+    console.log(`❌ Room ${roomCode} is full (${rooms[roomCode].players.length}/${MAX_PLAYERS})`);
+    socket.emit('error', `That game is full (${MAX_PLAYERS} players max).`);
     return;
   }
 
@@ -635,11 +1110,12 @@ function handleJoinRoom(socket, roomCode, playerName) {
     playerStats[socket.id].wild = wildDeck.splice(0, 2);
     
     socket.emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
       hands: { [socket.id]: {
         standard: playerStats[socket.id].standard,
         wild: playerStats[socket.id].wild
       }},
-      playerStats: playerStats
+      playerStats: buildRoomStats(room)
     });
     
     // ✅ FIX: Deduplicate and send complete players list so new player sees everyone
@@ -686,15 +1162,15 @@ socket.on('joinRoom', (roomCode, playerName) => {
 
 
         if (rooms[roomCode].players.length === 0) {
-          delete rooms[roomCode];
-          delete usedCards[roomCode];  // Clean up used cards storage
-          console.log(`Room ${roomCode} deleted`);
-        } else if (rooms[roomCode].host === socket.id) {
-          io.to(roomCode).emit('hostLeft', 'The host has left the game. Lobby is closing.');
-          delete rooms[roomCode];  // Delete the room when the host leaves
-          delete usedCards[roomCode];  // Clean up used cards storage
-          console.log(`Host left. Room ${roomCode} closed.`);
+          // Empty is not dead. The reaper closes it once the idle window has
+          // passed with nobody back.
+          markRoomEmpty(roomCode);
         } else {
+          if (rooms[roomCode].host === socket.id) {
+            // The lobby used to close here. It no longer does: the whistle
+            // moves and everyone else keeps their seat.
+            handOverWhistle(roomCode, 'The host has left. A new host has been assigned.');
+          }
           io.to(roomCode).emit('updatePlayers', rooms[roomCode].players);
         }
       }
@@ -704,7 +1180,7 @@ socket.on('joinRoom', (roomCode, playerName) => {
   // Start Game
   socket.on('startGame', (roomCode) => {
     const room = rooms[roomCode];
-    if (room && room.players.length >= 3) {
+    if (room && room.players.length >= MIN_PLAYERS) {
       const { standardDeck, wildDeck } = generateDecks(room.players.length);
 
       // Log the decks in the terminal before shuffling and dealing out the cards
@@ -716,10 +1192,14 @@ socket.on('joinRoom', (roomCode, playerName) => {
     // Set the gameStarted flag to true for this room
     rooms[roomCode].gameStarted = true;
     rooms[roomCode].quarter = 1;  // Initialize quarter as 1
+    // A new game is a new set of swap allowances, so a room that plays twice
+    // does not start its second game with quarter 1 already spent.
+    rooms[roomCode].wildSwapQuarter = {};
 
-// Fully reset playerStats by removing all existing player stats
-Object.keys(playerStats).forEach(playerId => {
-    delete playerStats[playerId];
+// Reset playerStats for THIS ROOM's players only. Wiping the whole map would
+// delete every other room's players mid-game, which crashes finalizeRound.
+room.players.forEach(player => {
+    delete playerStats[player.id];
   });
    // Initialize playerStats for all players (total drinks and shotguns to 0)
    room.players.forEach(player => {
@@ -739,8 +1219,12 @@ Object.keys(playerStats).forEach(playerId => {
 
      // Emit the start game event with player hands and player stats
      io.to(roomCode).emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
         hands,         // The player hands
-        playerStats    // The initial player stats with totals set to 0
+        // THIS room's initial stats, all zero. Written in shorthand, this was
+        // the module-global map — the fifth and largest of the sites that sent
+        // every other game on the server to every client.
+        playerStats: buildRoomStats(room)
       });
 
     // Log that the game has started
@@ -751,15 +1235,22 @@ Object.keys(playerStats).forEach(playerId => {
   });
 
   // Handle assigning a new host
-socket.on('assignNewHost', ({ roomCode, newHostId }) => {
+socket.on('assignNewHost', ({ roomCode, newHostId } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
   
     // Check if the current socket is the host
     if (room.host === socket.id) {
-      // Assign the new host
+      // Assign the new host — but only to somebody who is actually here.
       const newHost = room.players.find(player => player.id === newHostId);
-      if (newHost) {
+      if (!newHost || newHost.disconnected) {
+        // Reuse the existing `error` event; the client already renders it.
+        const why = newHost
+          ? `${newHost.name} has dropped out — pick someone who is still in the game.`
+          : 'That player is no longer in the game.';
+        console.log(`⛔ Refused host handoff to ${newHostId}: ${newHost ? 'disconnected' : 'not in room'}`);
+        io.to(socket.id).emit('error', why);
+      } else {
         room.host = newHostId;
         io.to(roomCode).emit('newHost', { newHostId, message: `${newHost.name} is now the new host.` });
         console.log(`Host has been swapped to player: ${newHostId}`);
@@ -773,7 +1264,7 @@ socket.on('assignNewHost', ({ roomCode, newHostId }) => {
   });
 
 // Handle Next Quarter event
-socket.on('nextQuarter', ({ roomCode }) => {
+socket.on('nextQuarter', ({ roomCode } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
 
@@ -798,7 +1289,7 @@ socket.on('nextQuarter', ({ roomCode }) => {
 });
 
 // Handle Wild Card Swap
-socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
+socket.on('wildCardSwap', ({ roomCode, discardedCard } = {}) => {
     console.log("Wild card selected", discardedCard);
 
     const room = rooms[roomCode];
@@ -807,14 +1298,30 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
     const player = room.players.find(p => p.id === socket.id);
     console.log("Player", player);
 
-    if (!player) 
+    if (!player)
     return;
+
+    // ONE swap per player per quarter. Silently ignore anything past the first:
+    // the real client closes its own swap modal the instant it emits and never
+    // waits for a reply (App.js:461), so a second swap is a replayed or
+    // malformed message rather than a user action. An error event here would be
+    // new surface no client listens for.
+    if (hasSpentSwapThisQuarter(room, player.name)) {
+      console.log(`⛔ Ignoring extra wild card swap from ${player.name} in room ${roomCode} — already swapped in quarter ${currentQuarter(room)}`);
+      return;
+    }
 
     const playerHand = playerStats[player.id];
     console.log("Player Hand", playerHand);
 
    // Find the index of the discarded card by comparing specific properties
-   const cardIndex = playerHand.wild.findIndex(card => card.card === discardedCard.card && card.drinks === discardedCard.drinks);
+   // The room, player and allowance guards above all pass before this, so a
+   // swap with no card reached it and threw.
+   if (!discardedCard || typeof discardedCard !== 'object') {
+     console.log(`⛔ wildCardSwap from ${player.name} with no card — ignoring`);
+     return;
+   }
+   const cardIndex = (playerHand.wild || []).findIndex(card => card && card.card === discardedCard.card && card.drinks === discardedCard.drinks);
    console.log("Card Index", cardIndex);
 
     if (cardIndex === -1) return;  // If card not found, do nothing
@@ -828,6 +1335,9 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
     playerHand.wild[cardIndex] = newWildCard;
 
     console.log("New Wild card in", playerHand.wild);
+
+    // The swap really happened, so spend this player's allowance for the quarter.
+    recordSwap(room, player.name);
 
     // Check if deck needs replenishment after card is drawn
     checkAndReplenishDecks(roomCode);
@@ -845,7 +1355,7 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard }) => {
 
 
 // Handle First Down event
-socket.on('firstDownEvent', ({ roomCode }) => {
+socket.on('firstDownEvent', ({ roomCode } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
   
@@ -855,17 +1365,17 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     }
 
     // Check if an action is already in progress
-  if (rooms.isActionInProgress) {
+  if (room.isActionInProgress) {
     io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
     return;
   }
-  rooms.isActionInProgress = true;
+  room.isActionInProgress = true;
 
   // ✅ ROUND-AWARE: Track active round state
   activeRounds[roomCode] = {
     declaredCard: 'First Down',
     startTime: Date.now(),
-    timeRemaining: 8 // First Down rounds typically last 8 seconds
+    timeRemaining: ROUND_DURATIONS.firstDown
   };
 
   // Send the declared card to all players in the room
@@ -887,16 +1397,8 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     // Emit a message to all players that it's a First Down and they should drink once
     io.to(roomCode).emit('firstDownMessage', 'First Down! Everyone drinks once!');
     
-    // ✅ ENHANCED: Include player names in First Down stats update
-    const playersWithNames = {};
-    Object.keys(playerStats).forEach(playerId => {
-      const player = room.players.find(p => p.id === playerId);
-      playersWithNames[playerId] = {
-        ...playerStats[playerId],
-        name: player ? player.name : undefined,
-        disconnected: player ? player.disconnected : false
-      };
-    });
+    // ✅ ENHANCED: Include player names in First Down stats update (this room only)
+    const playersWithNames = buildRoomStats(room);
 
     // Emit updated player stats for the round
     io.to(roomCode).emit('updatePlayerStats', {
@@ -906,32 +1408,25 @@ socket.on('firstDownEvent', ({ roomCode }) => {
   
     console.log(`First Down - Everyone drinks once in room ${roomCode}`);
 
-    startTimer(roomCode, 6);  // Start the 5-second timer for drink assignment
+    startTimer(roomCode, ROUND_DURATIONS.firstDown);
 
   });
 
   // Play Standard Card Event (Triggered by the host)
-  socket.on('playStandardCard', ({ roomCode, cardType }) => {
+  socket.on('playStandardCard', ({ roomCode, cardType } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
 
       // Check if an action is already in progress
-      if (rooms.isActionInProgress) {
+      if (room.isActionInProgress) {
         // Emit a message to the frontend asking the player to wait
         io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
         return;
       }
   
       // Set the action as in progress
-      rooms.isActionInProgress = true;
-      console.log(`Action status ${rooms.isActionInProgress} `);
-
-      // ✅ ROUND-AWARE: Track active round state for regular cards
-      activeRounds[roomCode] = {
-        declaredCard: cardType,
-        startTime: Date.now(),
-        timeRemaining: 30 // Regular rounds typically last 30 seconds
-      };
+      room.isActionInProgress = true;
+      console.log(`Action status ${room.isActionInProgress} `);
 
     console.log(`Host in room ${roomCode} has declared ${cardType}.`);
 
@@ -946,7 +1441,7 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     if (!anyPlayerHasCard) {
       // If no one has the card, inform the room and reset the action status
       io.to(roomCode).emit('noCard', 'No one had this card');
-      rooms.isActionInProgress = false;
+      room.isActionInProgress = false;
   
       // Show the message for 5 seconds, then clear it
       setTimeout(() => {
@@ -955,6 +1450,15 @@ socket.on('firstDownEvent', ({ roomCode }) => {
   
       return;
     }
+
+    // ✅ ROUND-AWARE: Track active round state only once the round is really on.
+    // Setting this before the "does anyone hold it" check left a phantom round
+    // behind on every noCard declaration.
+    activeRounds[roomCode] = {
+      declaredCard: cardType,
+      startTime: Date.now(),
+      timeRemaining: ROUND_DURATIONS.standard
+    };
 
      // Send the declared card to all players in the room
   io.to(roomCode).emit('declaredCard', cardType);  // Broadcast the declared card
@@ -991,6 +1495,14 @@ socket.on('firstDownEvent', ({ roomCode }) => {
           shotguns,  // Emit the number of shotguns if any
         });
 
+        // Remember it: the cards are about to be removed from the hand, so this
+        // is the last moment the amount is knowable.
+        rememberPendingPour(roomCode, player.name, {
+          cardType,
+          drinkCount: remainingDrinks,
+          shotguns
+        });
+
         // Store used cards before removing them
         if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
         usedCards[roomCode].standard.push(...playerCards);
@@ -1006,17 +1518,17 @@ socket.on('firstDownEvent', ({ roomCode }) => {
     }
     });
 
-    startTimer(roomCode, 21);  // Start the 20-second timer for drink assignment
+    startTimer(roomCode, ROUND_DURATIONS.standard);
 
 });
 // Handle wild card selection
-socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype }) => {
+socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype } = {}) => {
     const room = rooms[roomCode];  // Now roomCode is available
     if (!room) return;
   
     // Broadcast the wild card selection to the host
      // Check if an action is already in progress
-     if (rooms.isActionInProgress) {
+     if (room.isActionInProgress) {
         // Emit a message to the frontend asking the player to wait
         io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
         return;
@@ -1025,12 +1537,12 @@ socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype }) => {
   });
 
 // Listen for the confirmed wild card action from the host
-socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
+socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
 
     // Check if an action is already in progress
-    if (rooms.isActionInProgress) {
+    if (room.isActionInProgress) {
         // Emit a message to the frontend asking the player to wait
         io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
         return;
@@ -1039,13 +1551,13 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
     console.log(`Host confirmed wild card: ${wildcardtype} by player ${player}`);
     
     // Set the action as in progress
-    rooms.isActionInProgress = true;
+    room.isActionInProgress = true;
 
     // ✅ ROUND-AWARE: Track active round state for wild cards
     activeRounds[roomCode] = {
       declaredCard: wildcardtype,
       startTime: Date.now(),
-      timeRemaining: 30 // Wild card rounds typically last 30 seconds
+      timeRemaining: ROUND_DURATIONS.wild
     };
 
     // Notify all players about the wild card action
@@ -1091,6 +1603,13 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
               drinkCount: remainingDrinks,  // Send remaining drinks after shotguns
               shotguns,  // Send number of shotguns if any
             });
+
+            // Same as the standard path: record before the hand changes.
+            rememberPendingPour(roomCode, currentPlayer.name, {
+              wildcardtype,
+              drinkCount: remainingDrinks,
+              shotguns
+            });
           
             // Store used wild cards before removing them
             if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
@@ -1113,26 +1632,30 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player }) => {
     });
 
     console.log(`Starting timer for wild card action in room ${roomCode}`);
-    startTimer(roomCode, 11);  // Start the 10-second timer for drink assignment
+    startTimer(roomCode, ROUND_DURATIONS.wild);
 });
 
 // Handle drink and shotgun assignments for a round
-socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotgunsToGive }) => {
+socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotgunsToGive } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
+
+    // Locked in means done. Anything after it is ignored — including an undo,
+    // because locking in is the point at which the decision is final.
+    const assigner = room.players.find(p => p.id === socket.id);
+    if (assigner && playerHasLockedIn(roomCode, assigner.name)) {
+      console.log(`⛔ ${assigner.name} already locked in this round — ignoring further pours`);
+      return;
+    }
   
     if (!roundResults[roomCode]) {
       roundResults[roomCode] = {};  // Initialize for each round
     }
     
-    // ✅ DEBUGGING: Enhanced logging for socket ID mapping issues
-    console.log(`\n🍺 ASSIGN DRINKS DEBUG - Room ${roomCode}`);
-    console.log(`🍺 Assigner: ${socket.id.slice(-4)} (${socket.id})`);
-    console.log(`🍺 Selected player IDs:`, selectedPlayerIds.map(id => id.slice(-4)));
-    console.log(`🍺 Drinks to give:`, drinksToGive);
-    console.log(`🍺 Shotguns to give:`, shotgunsToGive);
-    console.log(`🍺 Active socket mappings:`, socketIdMappings[roomCode] ? Object.entries(socketIdMappings[roomCode]).map(([old, new_]) => `${old.slice(-4)}→${new_.slice(-4)}`) : 'none');
-    console.log(`🍺 Current round results:`, Object.entries(roundResults[roomCode] || {}).map(([id, data]) => `${id.slice(-4)}:${JSON.stringify(data)}`));
+    // The eight-line ASSIGN DRINKS DEBUG block that used to sit here was the
+    // loudest thing on the server: the client flushes a delta every 700ms per
+    // pouring player, so one 21-second round with six players ran to about a
+    // thousand lines. One outcome line at the end of this handler replaces it.
 
     // ✅ SOCKET MAPPING FIX: Resolve selected player IDs through socket mappings with transitive resolution
     const resolvedPlayerIds = selectedPlayerIds.map(selectedPlayerId => {
@@ -1156,8 +1679,6 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
       }
       return selectedPlayerId;
     });
-    
-    console.log(`🍺 Resolved player IDs:`, resolvedPlayerIds.map(id => id.slice(-4)));
     
     // ✅ SOCKET MAPPING FIX: Resolve drinks and shotguns objects to use new socket IDs with transitive resolution
     const resolvedDrinksToGive = {};
@@ -1206,13 +1727,11 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
       // Ensure the roundResults entry for the player exists
       if (!roundResults[roomCode][selectedPlayerId]) {
         roundResults[roomCode][selectedPlayerId] = { drinks: 0, shotguns: 0 };
-        console.log(`Initializing round results for player ${selectedPlayerId}`);
       } 
   
       // Add drinks to the player's round results, if applicable
       if (resolvedDrinksToGive && resolvedDrinksToGive[selectedPlayerId]) {
         roundResults[roomCode][selectedPlayerId].drinks += resolvedDrinksToGive[selectedPlayerId];
-        console.log(`Player ${selectedPlayerId} received ${resolvedDrinksToGive[selectedPlayerId]} drinks.`);
   
         // Check if player reached or exceeded 10 drinks in this round
         if (roundResults[roomCode][selectedPlayerId].drinks >= 10) {
@@ -1222,16 +1741,44 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
           console.log(`Player ${selectedPlayerId} reached 10 drinks and has to shotgun!`);
         }
       }
-      console.log("resolved shotguns to give", resolvedShotgunsToGive, "for selectedPlayerId", selectedPlayerId.slice(-4), "value:", resolvedShotgunsToGive[selectedPlayerId]);
-
       // Add shotguns to the player's round results, if applicable
       if (resolvedShotgunsToGive && resolvedShotgunsToGive[selectedPlayerId]) {
         roundResults[roomCode][selectedPlayerId].shotguns += resolvedShotgunsToGive[selectedPlayerId];
-        console.log(`Player ${selectedPlayerId} received ${resolvedShotgunsToGive[selectedPlayerId]} shotguns.`);
       }
+
+      // ✅ UNDO: a pour can be taken back, which arrives here as a NEGATIVE.
+      //
+      // Ten drinks are folded into a shotgun as they accumulate, so a -1
+      // landing just after a fold used to leave the player on 1 shotgun and
+      // MINUS ONE drinks — arithmetically 9, but displayed as nonsense. Borrow
+      // the shotgun back instead, and never let either count go below zero.
+      // Without this, undo could only reach taps that had not been sent yet,
+      // which gave players a sub-second window and was reported as "you cannot
+      // undo who you click to give a drink to".
+      const result = roundResults[roomCode][selectedPlayerId];
+      while (result.drinks < 0 && result.shotguns > 0) {
+        result.shotguns -= 1;
+        result.drinks += DRINKS_PER_SHOTGUN;
+      }
+      if (result.drinks < 0) result.drinks = 0;
+      if (result.shotguns < 0) result.shotguns = 0;
     });
   
-    console.log(`Current round results for room ${roomCode}:`, roundResults[roomCode]);
+    // ✅ Take what this player just poured off what they still owe, so a
+    // reconnect replays the REMAINDER rather than the original amount.
+    // Uses the raw payload, not the socket-id-resolved copy: this is the
+    // giver's outlay, and it is theirs whoever the drinks landed on.
+    const giver = room.players.find(p => p.id === socket.id);
+    const sum = (obj) => Object.values(obj || {}).reduce((a, b) => a + (Number(b) || 0), 0);
+    if (giver) {
+      settlePendingPour(roomCode, giver.name, sum(drinksToGive), sum(shotgunsToGive));
+    }
+
+    // The one line a pour is worth: who, how much, where.
+    console.log(`🍺 ${giver ? giver.name : socket.id.slice(-4)} poured ${sum(drinksToGive)}d/${sum(shotgunsToGive)}s in ${roomCode}`);
+
+    // That pour may have been the last thing anyone owed.
+    maybeFinishRoundEarly(roomCode);
   });
 
   // Log player hands
@@ -1262,7 +1809,7 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
   };
 
   // Handle custom 'leaveGame' event
-socket.on('leaveGame', ({ roomCode }) => {
+socket.on('leaveGame', ({ roomCode } = {}) => {
     console.log(`Player ${socket.id} has left the game manually.`);
     
     const room = rooms[roomCode];
@@ -1277,17 +1824,20 @@ socket.on('leaveGame', ({ roomCode }) => {
     console.log(playerStats[socket.id]);
     console.log("Player array:", room.players);
 
-    // Store player data in formerPlayers by their name
-    formerPlayers[leavingPlayer.name] = {
+    // Store player data in formerPlayers by their name.
+    // The stats may be missing — this is the one path that reads them without
+    // having just written them, and a missing entry must not take the process
+    // down and every other room with it.
+    const leavingStats = playerStats[socket.id] || {};
+    rememberFormerPlayer(roomCode, {
       id: socket.id,  // Original socket ID (for reference)
       name: leavingPlayer.name,
-      roomCode: roomCode,            // Last room the player was in
-      totalDrinks: playerStats[socket.id].totalDrinks || 0,
-      totalShotguns: playerStats[socket.id].totalShotguns || 0,
-      standard: playerStats[socket.id].standard || [],
-      wild: playerStats[socket.id].wild || []
-    };
-    console.log("Former Players:", formerPlayers);
+      totalDrinks: leavingStats.totalDrinks || 0,
+      totalShotguns: leavingStats.totalShotguns || 0,
+      standard: leavingStats.standard || [],
+      wild: leavingStats.wild || []
+    });
+    console.log(`Former players in ${roomCode}:`, Object.keys(formerPlayersIn(roomCode)));
 
 
     // Find and remove the player by their socket ID
@@ -1296,30 +1846,32 @@ socket.on('leaveGame', ({ roomCode }) => {
     delete playerStats[socket.id];  // Remove player stats
     // Check if only no player is left
     if (room.players.length === 0) {
+        // Everyone walked. Tell the last one out that the game is over, but
+        // KEEP the room: they may have left by accident, and half an hour of
+        // memory costs nothing next to losing a game in progress.
         io.to(roomCode).emit('gameOver', 'The game is ending as no player is left.');
-        delete rooms[roomCode];  // End the game and delete the room
-        delete usedCards[roomCode];  // Clean up used cards storage
-        console.log(`Room ${roomCode} deleted because only one player is left.`);
-        // ✅ REMOVED: updatePlayerStats on game over - no need when game ends
+        markRoomEmpty(roomCode);
         return;  // Exit the function to prevent further execution
     }
 
     // Handle if the host leaves
     if (room.host === socket.id) {
-      if (room.players.length > 0) {
+      // ACTIVE players only. `room.players[0]` could be somebody who dropped
+      // out ten minutes ago, which hands the whistle to an empty chair.
+      const stillHere = activePlayers(room);
+      if (stillHere.length > 0) {
         // Reassign the host if there are players left
-        room.host = room.players[0].id;
+        room.host = stillHere[0].id;
         io.to(roomCode).emit('newHost', { newHostId: room.host, message: 'The host has left. A new host has been assigned.' });
       // Notify the remaining players that a player has left
       io.to(roomCode).emit('playerLeft', { playerId: socket.id, remainingPlayers: room.players });
 
       console.log(`Player ${socket.id} left the game in progress.`);
     } else {
-        // If no players are left, end the game and delete the room
+        // Everyone else is disconnected rather than gone. The room stays open
+        // for them; the reaper deals with it if none of them come back.
         io.to(roomCode).emit('gameOver', 'The game is ending as all other players have disconnected.');
-        delete rooms[roomCode];
-        delete usedCards[roomCode];  // Clean up used cards storage
-        console.log(`Room ${roomCode} deleted as no players are left.`);
+        console.log(`Room ${roomCode} has no active players. Holding it for reconnections.`);
       }
     } else {
       // Notify the remaining players that a player has left
@@ -1331,6 +1883,7 @@ socket.on('leaveGame', ({ roomCode }) => {
     // Update the hands of the remaining players
     room.players.forEach(player => {
       const playerHand = playerStats[player.id];
+      if (!playerHand) return;  // nothing to send, and dereferencing it kills the server
       io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
       // ✅ REMOVED: updatePlayerStats on disconnect - only send on round completion
     });
@@ -1338,17 +1891,69 @@ socket.on('leaveGame', ({ roomCode }) => {
 
 // Add this handler in the io.on('connection') block
 // In server.js - update the requestGameState handler to be more robust
-socket.on('requestGameState', ({ roomCode }) => {
-  console.log(`Player ${socket.id} requested game state for room ${roomCode}`);
+/**
+ * A player is done with this round, whatever they have left.
+ *
+ * There was no `lockIn` event at all — the client's Lock In button only
+ * flushed pours and set a local flag, so an explicit lock-in never reached the
+ * server and could not end the round.
+ *
+ * Locking in with drinks outstanding is FORFEITING them, which is the existing
+ * behaviour when the clock runs out. This only makes it end your participation
+ * rather than clearing a debt you have not poured.
+ */
+socket.on('lockIn', ({ roomCode } = {}) => {
+  const room = rooms[roomCode];
+  const round = activeRounds[roomCode];
+  if (!room || !round) return;
+
+  const player = room.players.find(p => p.id === socket.id);
+  if (!player) return;
+
+  if (!round.lockedIn) round.lockedIn = {};
+  round.lockedIn[player.name] = true;
+  console.log(`🔒 ${player.name} locked in for the round in ${roomCode}`);
+
+  maybeFinishRoundEarly(roomCode);
+});
+
+socket.on('requestGameState', ({ roomCode, playerName: claimedName } = {}) => {
+  console.log(`Player ${socket.id} requested game state for room ${roomCode}${claimedName ? ` as ${claimedName}` : ''}`);
   const room = rooms[roomCode];
   if (!room) {
     console.log(`Room ${roomCode} not found`);
     return;
   }
   
+  // Same snapshot as handleJoinRoom, and for the same reason. Here the fast
+  // reconnect path overwrites the disconnected entry's id in place, so the old
+  // id is gone from `room.players` by the time the merge below runs.
+  const ownedSocketIds = roomSocketIds(room);
+
+  /**
+   * Re-join the socket.io room. THIS IS THE WHOLE BUG in T1.1.
+   *
+   * Room membership belongs to a CONNECTION, not a player. A reconnect is a
+   * brand-new socket with a new id and zero rooms, and this handler — 240
+   * lines of careful reconnect work — never joined it to anything.
+   *
+   * Direct emits still landed, because a socket always belongs to a room named
+   * after its own id, so `roundState` and the pour replay arrived and the
+   * screen looked right for a moment. Then every `io.to(roomCode)` broadcast
+   * stopped: no updateTimer, no declaredCard, no updatePlayerStats, no
+   * roundFinalized, no updatePlayers. The clock froze, and because
+   * `assignerOpen` never went false the assigner stayed open for the rest of
+   * the game with every tap pouring into whatever round was live.
+   *
+   * Joining before the identity work means it holds on every path below that
+   * resolves a player, and is harmless on the paths that do not.
+   */
+  socket.join(roomCode);
+  console.log(`🔌 ${socket.id} re-joined room ${roomCode}`);
+
   // Find the player in the room
   let player = room.players.find(p => p.id === socket.id);
-  
+
   // If player is found, they're requesting game state (likely after reconnection)
   if (player) {
     console.log(`Player ${player.name} (${socket.id}) requesting game state - sending direct game state`);
@@ -1357,12 +1962,15 @@ socket.on('requestGameState', ({ roomCode }) => {
     const room = rooms[roomCode];
     if (room && room.gameStarted) {
       // ✅ FIX: Send only card data in hands, not full playerStats
+      // Resolve the whistle BEFORE building this payload (see above).
+      if (player) ensureRefIsPresent(roomCode, { id: socket.id, name: player.name });
       socket.emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
         hands: { [socket.id]: {
           standard: playerStats[socket.id]?.standard || [],
           wild: playerStats[socket.id]?.wild || []
         }},
-        playerStats: playerStats
+        playerStats: buildRoomStats(room)
       });
       
       // ✅ FIX: Send complete players list so reconnected player sees everyone
@@ -1381,35 +1989,62 @@ socket.on('requestGameState', ({ roomCode }) => {
   
   // Player might be reconnecting with a new socket ID
   if (!player) {
-    // Look in formerPlayers for a potential match by room
-    const possibleFormerPlayers = Object.values(formerPlayers)
-      .filter(p => p.roomCode === roomCode);
+    // This room's former players, and only this room's.
+    const possibleFormerPlayers = Object.values(formerPlayersIn(roomCode));
     
-    if (possibleFormerPlayers.length > 0) {
+    /**
+     * WHICH of those disconnected players is this socket?
+     *
+     * The payload used to be `{ roomCode }` with no name, so the server took
+     * `returning` — whichever `Object.values` happened to list
+     * first — and bound that seat, those stats and that outstanding pour to
+     * this socket. With one person dropped, index 0 IS them, which is why this
+     * was never seen. With two phones asleep in the same room, the first to
+     * wake was handed the other's identity and the second was locked out of
+     * their own game with "name already taken".
+     *
+     * Match on the name the client sends. Fall back to index 0 only when no
+     * name is supplied, so a stale cached bundle still limps.
+     *
+     * NOTE: the fallback was written as a self-reference (`... : returning`),
+     * which is a TDZ error, not a fallback — a no-name request threw
+     * `Cannot access 'returning' before initialization` and the client got
+     * nothing back at all. Every current client sends a name (App.js has five
+     * emit sites, all with `playerName`), so this only ever fired for a stale
+     * cached bundle.
+     */
+    const claimed = claimedName
+      ? possibleFormerPlayers.find(p => p.name === claimedName)
+      : null;
+    if (claimedName && !claimed) {
+      console.log(`⚠️ ${claimedName} claimed a seat in ${roomCode} but is not among the disconnected`);
+    }
+    const returning = claimed || (claimedName ? null : possibleFormerPlayers[0]);
+
+    if (returning) {
       // ✅ FIX: Check if player already exists in room (as disconnected) before adding
-      const existingDisconnectedPlayer = room.players.find(p => p.name === possibleFormerPlayers[0].name);
+      const existingDisconnectedPlayer = room.players.find(p => p.name === returning.name);
       
       if (existingDisconnectedPlayer) {
         // Player is already in room as disconnected - just update their socket ID and reconnect them
-        console.log(`📡 Found existing disconnected player ${possibleFormerPlayers[0].name}, updating socket ID`);
+        console.log(`📡 Found existing disconnected player ${returning.name}, updating socket ID`);
         existingDisconnectedPlayer.id = socket.id;
         existingDisconnectedPlayer.disconnected = false;
         player = existingDisconnectedPlayer;
       } else {
         // Player not in room - add them back
-        console.log(`📡 Adding former player ${possibleFormerPlayers[0].name} back to room`);
-        player = { id: socket.id, name: possibleFormerPlayers[0].name };
+        console.log(`📡 Adding former player ${returning.name} back to room`);
+        player = { id: socket.id, name: returning.name };
         room.players.push(player);
       }
       
       // ✅ ROUND-AWARE FAST RECONNECTION: Handle mid-round reconnection in fast path
       if (activeRounds[roomCode]) {
-        console.log(`🎯 FAST MID-ROUND RECONNECTION: Player ${possibleFormerPlayers[0].name} reconnecting during active round`);
+        console.log(`🎯 FAST MID-ROUND RECONNECTION: Player ${returning.name} reconnecting during active round`);
         
-        // Find old socket ID and create mapping
-        const oldEntry = Object.entries(playerStats).find(([id, stats]) => 
-          stats.name === possibleFormerPlayers[0].name && stats.disconnected
-        );
+        // Find old socket ID and create mapping — this room's entries only.
+        const oldEntry = roomEntriesForName(ownedSocketIds, returning.name)
+          .find(([, stats]) => stats.disconnected);
         
         if (oldEntry) {
           const oldSocketId = oldEntry[0];
@@ -1438,16 +2073,15 @@ socket.on('requestGameState', ({ roomCode }) => {
       }
       
       // ✅ ENHANCED: Use same merge logic as handleJoinRoom to preserve accumulated drinks
-      const playerName = possibleFormerPlayers[0].name;
+      const playerName = returning.name;
       console.log(`🔍 FAST RECONNECT MERGE: Looking for accumulated stats for ${playerName}`);
       console.log(`🔍 FAST RECONNECT MERGE: All playerStats:`, Object.entries(playerStats).map(([id, stats]) => 
         `${id.slice(-4)}: ${JSON.stringify({totalDrinks: stats.totalDrinks, name: stats.name, disconnected: stats.disconnected})}`
       ));
       
-      // Find ALL entries that belong specifically to this player name
-      const allPlayerEntries = Object.entries(playerStats).filter(([socketId, stats]) => 
-        stats.name === playerName  // ONLY entries with exact name match
-      );
+      // Entries for this player name IN THIS ROOM. Matching on name alone
+      // spans every game on the server — see the same fix in handleJoinRoom.
+      const allPlayerEntries = roomEntriesForName(ownedSocketIds, playerName);
       
       console.log(`🔍 FAST RECONNECT MERGE: All entries for player name "${playerName}":`, allPlayerEntries.map(([id, stats]) => 
         `${id.slice(-4)}: ${stats.totalDrinks || 0} drinks, disconnected: ${stats.disconnected}, name: ${stats.name}`
@@ -1467,76 +2101,37 @@ socket.on('requestGameState', ({ roomCode }) => {
       );
       
       // Use disconnected playerStats as authoritative source, fall back to formerPlayers
-      const finalDrinks = maxDrinksEntry ? maxDrinksEntry[1].totalDrinks || 0 : possibleFormerPlayers[0].totalDrinks || 0;
-      const finalShotguns = maxDrinksEntry ? maxDrinksEntry[1].totalShotguns || 0 : possibleFormerPlayers[0].totalShotguns || 0;
+      const finalDrinks = maxDrinksEntry ? maxDrinksEntry[1].totalDrinks || 0 : returning.totalDrinks || 0;
+      const finalShotguns = maxDrinksEntry ? maxDrinksEntry[1].totalShotguns || 0 : returning.totalShotguns || 0;
       
-      console.log(`🔄 FAST RECONNECT MERGE: ${playerName} - Using accumulated stats: ${finalDrinks} drinks (formerPlayers had ${possibleFormerPlayers[0].totalDrinks || 0} drinks)`);
+      console.log(`🔄 FAST RECONNECT MERGE: ${playerName} - Using accumulated stats: ${finalDrinks} drinks (formerPlayers had ${returning.totalDrinks || 0} drinks)`);
 
       // Restore their data with preserved accumulated stats
       playerStats[socket.id] = {
         totalDrinks: finalDrinks,
         totalShotguns: finalShotguns,
-        standard: possibleFormerPlayers[0].standard || [],
-        wild: possibleFormerPlayers[0].wild || []
+        standard: returning.standard || [],
+        wild: returning.wild || []
       };
       
       // ✅ FAST RECONNECTION FIX: Check if reconnecting player has the declared card and can assign drinks
       if (activeRounds[roomCode]) {
         const declaredCard = activeRounds[roomCode].declaredCard;
-        const playerHand = playerStats[socket.id]; // Now player data is fully restored
-        
-        if (playerHand && declaredCard !== 'First Down') {
-          console.log(`🎯 FAST CARD CHECK: Checking if ${playerName} can assign drinks for ${declaredCard}`);
-          console.log(`🎯 FAST CARD CHECK: Player standard cards:`, playerHand.standard?.map(c => `${c.card}(${c.drinks})`));
-          console.log(`🎯 FAST CARD CHECK: Player wild cards:`, playerHand.wild?.map(c => `${c.card}(${c.drinks})`));
-          
-          // Check standard cards
-          if (playerHand.standard) {
-            const playerCards = playerHand.standard.filter(card => card.card === declaredCard);
-            if (playerCards.length > 0) {
-              let totalDrinksForPlayer = 0;
-              playerCards.forEach(card => {
-                totalDrinksForPlayer += card.drinks;
-              });
-              
-              let shotguns = Math.floor(totalDrinksForPlayer / 10);
-              let remainingDrinks = totalDrinksForPlayer % 10;
-              
-              socket.emit('distributeDrinks', {
-                playerId: socket.id,
-                cardType: declaredCard,
-                drinkCount: remainingDrinks,
-                shotguns: shotguns
-              });
-              console.log(`🎯 FAST SUCCESS: Sent distributeDrinks to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
-            }
-          }
-          
-          // Check wild cards
-          if (playerHand.wild) {
-            const playerCards = playerHand.wild.filter(card => card.card === declaredCard);
-            if (playerCards.length > 0) {
-              let totalDrinksForPlayer = 0;
-              playerCards.forEach(card => {
-                totalDrinksForPlayer += card.drinks;
-              });
-              
-              let shotguns = Math.floor(totalDrinksForPlayer / 10);
-              let remainingDrinks = totalDrinksForPlayer % 10;
-              
-              socket.emit('distributeDrinks', {
-                playerId: socket.id,
-                wildcardtype: declaredCard,
-                drinkCount: remainingDrinks,
-                shotguns: shotguns
-              });
-              console.log(`🎯 FAST SUCCESS: Sent distributeDrinks (wild) to reconnected player ${playerName}: ${remainingDrinks} drinks, ${shotguns} shotguns for ${declaredCard}`);
-            }
-          }
-          
-          if (!playerHand.standard?.some(card => card.card === declaredCard) && 
-              !playerHand.wild?.some(card => card.card === declaredCard)) {
-            console.log(`🎯 FAST NO MATCH: Player ${playerName} does not have ${declaredCard} cards`);
+      
+        // Replay exactly what this player was told to pour when the card was
+        // played. This CANNOT be re-derived from their current hand: the played
+        // cards are removed and replaced the instant they are played, so the
+        // hand no longer shows what was played. Filtering it gave a refreshing
+        // player either nothing at all (usually) or, when the replacement draw
+        // happened to redeal the same card type, a prompt for an amount they
+        // never played.
+        if (declaredCard !== 'First Down') {
+          const pending = pendingPourFor(roomCode, playerName);
+          if (pending) {
+            socket.emit('distributeDrinks', { playerId: socket.id, ...pending });
+            console.log(`🎯 FAST REPLAY: sent {${pending.drinkCount}} drinks, {${pending.shotguns}} shotguns to reconnected ${playerName} for ${declaredCard}`);
+          } else {
+            console.log(`🎯 FAST REPLAY: ${playerName} owes nothing this round for ${declaredCard}`);
           }
         }
       }
@@ -1548,37 +2143,41 @@ socket.on('requestGameState', ({ roomCode }) => {
       setTimeout(() => {
         socket.emit('forceRefresh', { 
           reason: 'Reconnected after stealth disconnect - refreshing to ensure clean UI state',
-          playerName: possibleFormerPlayers[0].name
+          playerName: returning.name
         });
-        console.log(`📡 Sent forceRefresh command to formerly disconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
+        console.log(`📡 Sent forceRefresh command to formerly disconnected player ${returning.name} (${socket.id})`);
       }, 1000); // Small delay to ensure all data is sent first
       
       // Send game state directly to reconnected player without refresh signal
       if (room.gameStarted) {
         // ✅ FIX: Send only card data in hands, not full playerStats
+        // Resolve the whistle BEFORE building this payload, or it carries a
+        // stale host id and the client has to be corrected by a later newHost.
+        if (player) ensureRefIsPresent(roomCode, { id: socket.id, name: player.name });
         socket.emit('gameStarted', {
+        hostId: rooms[roomCode] ? rooms[roomCode].host : undefined,
           hands: { [socket.id]: {
             standard: playerStats[socket.id]?.standard || [],
             wild: playerStats[socket.id]?.wild || []
           }},
-          playerStats: playerStats
+          playerStats: buildRoomStats(room)
         });
         
         // ✅ FIX: Send complete players list so reconnected player sees everyone
         socket.emit('updatePlayers', room.players);
-        console.log(`📡 Sent complete players list to reconnected player ${possibleFormerPlayers[0].name}`);
+        console.log(`📡 Sent complete players list to reconnected player ${returning.name}`);
         
-        console.log(`📡 Sent direct game state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
+        console.log(`📡 Sent direct game state to reconnected player ${returning.name} (${socket.id})`);
         
         // ✅ REMOVED: Auto-refresh after reconnection to prevent infinite loops
         // Let client-side stealth detection handle refreshes when truly needed
       } else {
         socket.emit('joinedRoom', roomCode);
-        console.log(`📡 Sent lobby state to reconnected player ${possibleFormerPlayers[0].name} (${socket.id})`);
+        console.log(`📡 Sent lobby state to reconnected player ${returning.name} (${socket.id})`);
       }
       
       // Remove from formerPlayers and clean up any old playerStats
-      delete formerPlayers[possibleFormerPlayers[0].name];
+      forgetFormerPlayer(roomCode, returning.name);
       
       // ✅ ENHANCED CLEANUP: Only clean up entries that specifically belong to this player name
       allPlayerEntries.forEach(([oldSocketId, oldStats]) => {
@@ -1621,7 +2220,6 @@ socket.on('requestGameState', ({ roomCode }) => {
 socket.on('disconnect', (reason) => {
   
   console.log(`User disconnected: ${socket.id}. Reason: ${reason}`);
-  let roomToDelete = null;
   
     for (let roomCode in rooms) {
       const room = rooms[roomCode];
@@ -1639,10 +2237,23 @@ socket.on('disconnect', (reason) => {
           console.log(playerStats[socket.id]);
           console.log("Player array:", players);
 
-          // ✅ ENHANCED DISCONNECT: Find player's maximum accumulated stats from all entries
-          const allPlayerEntries = Object.entries(playerStats).filter(([id, stats]) => 
-            stats.name === leavingPlayer.name || id === socket.id
-          );
+          // ✅ ENHANCED DISCONNECT: this player's maximum accumulated stats.
+          //
+          // This filter used to match on NAME ALONE with no room narrowing —
+          // the one site of five that `roomEntriesForName` was never applied
+          // to. It would take the highest-scoring stranger of the same name
+          // from any game on the server and copy THEIR hand and totals into
+          // this player's snapshot.
+          //
+          // The socket's own entry is added explicitly because `startGame`
+          // does not stamp a name onto it; the name arrives further down, in
+          // this same handler. That is what the old `|| id === socket.id`
+          // clause was carrying, and it is still load-bearing.
+          const ownedSocketIds = roomSocketIds(room);
+          const allPlayerEntries = roomEntriesForName(ownedSocketIds, leavingPlayer.name);
+          if (playerStats[socket.id] && !allPlayerEntries.some(([id]) => id === socket.id)) {
+            allPlayerEntries.push([socket.id, playerStats[socket.id]]);
+          }
           
           // Find the entry with highest totalDrinks (most accumulated)
           const maxDrinksEntry = allPlayerEntries.reduce((max, current) => {
@@ -1654,17 +2265,16 @@ socket.on('disconnect', (reason) => {
           const maxStats = maxDrinksEntry ? maxDrinksEntry[1] : playerStats[socket.id];
           console.log(`💾 DISCONNECT SAVE: Found max stats for ${leavingPlayer.name}: ${maxStats.totalDrinks} drinks from ${maxDrinksEntry ? maxDrinksEntry[0].slice(-4) : socket.id.slice(-4)}`);
 
-          // Store player data in formerPlayers by their name with maximum accumulated stats
-          formerPlayers[leavingPlayer.name] = {
+          // Store player data against THIS ROOM, with maximum accumulated stats
+          rememberFormerPlayer(roomCode, {
             id: socket.id,  // Current socket ID (for reference)
             name: leavingPlayer.name,
-            roomCode: roomCode,            // Last room the player was in
             totalDrinks: maxStats.totalDrinks || 0,
             totalShotguns: maxStats.totalShotguns || 0,
             standard: maxStats.standard || [],
             wild: maxStats.wild || []
-          };
-          console.log("Former Players:", formerPlayers);
+          });
+          console.log(`Former players in ${roomCode}:`, Object.keys(formerPlayersIn(roomCode)));
 
           // Mark player as disconnected but keep them in the game for drink assignments
           players[playerIndex].disconnected = true;
@@ -1690,13 +2300,11 @@ socket.on('disconnect', (reason) => {
           // If the game has NOT started (still in the lobby)
           if (!room.gameStarted) {
             if (room.host === socket.id) {
-              // Host left in the lobby, close the room
-              io.to(roomCode).emit('hostLeft', 'The host has left the game. Lobby is closing.');
-              roomToDelete = roomCode;
-            } else {
-              // Non-host player left in the lobby, update player list
-              io.to(roomCode).emit('updatePlayers', players);
+              // The lobby used to close here. A host whose phone locks during
+              // the pre-game shuffle is the most ordinary thing at a real table.
+              handOverWhistle(roomCode, 'The host has disconnected. A new host has been assigned.');
             }
+            io.to(roomCode).emit('updatePlayers', players);
           } else {
             // If the game HAS started, handle the disconnection accordingly
             if (room.host === socket.id) {
@@ -1713,9 +2321,23 @@ socket.on('disconnect', (reason) => {
                 io.to(roomCode).emit('gameOver', 'All players have disconnected. Game will remain open for reconnections.');
               }
             } else {
-              // ✅ FIXED: If a non-host player disconnects, minimal notification (no heavy state updates)
+              // A non-host dropped. Tell the room.
+              //
+              // This used to broadcast NOTHING, on the reasoning that a roster
+              // update caused "UI churn". The cost was that every other client
+              // kept a roster where this player was `disconnected: undefined`
+              // for the rest of the game — so the Ref's handoff sheet, which
+              // filters on `!p.disconnected`, happily offered a player who had
+              // left the building, and the game stopped when the whistle
+              // landed on an empty chair.
+              //
+              // `updatePlayers` is the right event rather than a lighter
+              // targeted one: it is the roster, the roster genuinely changed,
+              // it is already broadcast from five other sites, and the client's
+              // handler preserves each player's cards (Session 8), so there is
+              // no churn left to avoid.
               console.log(`📡 Non-host player ${leavingPlayer.name} (${socket.id}) disconnected from game in progress.`);
-              // Don't broadcast playerDisconnected - causes unnecessary UI churn for other players
+              io.to(roomCode).emit('updatePlayers', players);
             }
           }
 
@@ -1734,19 +2356,12 @@ socket.on('disconnect', (reason) => {
         }
       }
     }
-
-    // If the room needs to be deleted
-    if (roomToDelete) {
-      delete rooms[roomToDelete];
-      delete usedCards[roomToDelete];  // Clean up used cards storage
-      console.log(`Room ${roomToDelete} deleted`);
-    }
 });
 
 // ✅ NEW: Handle client requests for forced refresh (prevents infinite loops)
 const refreshCooldowns = new Map(); // Track recent refresh requests
 
-socket.on('requestRefresh', ({ roomCode, playerName, reason }) => {
+socket.on('requestRefresh', ({ roomCode, playerName, reason } = {}) => {
   console.log(`🔄 Client ${playerName} (${socket.id}) requesting refresh: ${reason}`);
   
   // Check cooldown to prevent loops (1 refresh per 5 seconds per player)
@@ -1882,6 +2497,59 @@ const distributeCards = (players, standardDeck, wildDeck) => {
   return hands;
 };
 
+/**
+ * Which commit is actually running.
+ *
+ * `node server.js` does not hot-reload — only the CRA dev server does — so it
+ * is entirely possible to spend an evening debugging a fix that is not loaded.
+ * That has now cost two sessions. This line is permanent: read it before
+ * trusting anything you observe against a running server.
+ *
+ * Reads .git directly rather than shelling out, so it works with no git binary
+ * on PATH. Render exposes the SHA as an env var instead, since its checkout is
+ * shallow, so that wins when present.
+ *
+ * CAVEAT: this reports the CHECKED-OUT COMMIT, not the working tree. If you
+ * have edited server.js without committing, the SHA is still the last commit.
+ * It answers "is this a stale process?", not "is this file dirty?".
+ */
+const bootCommit = () => {
+  const fromEnv = process.env.RENDER_GIT_COMMIT || process.env.SOURCE_VERSION;
+  if (fromEnv) return `${fromEnv.slice(0, 7)} (from env)`;
+  try {
+    const head = fs.readFileSync(path.join(__dirname, '.git', 'HEAD'), 'utf8').trim();
+    if (!head.startsWith('ref: ')) return head.slice(0, 7);
+    const ref = head.slice(5).trim();
+    const sha = fs.readFileSync(path.join(__dirname, '.git', ref), 'utf8').trim();
+    return `${sha.slice(0, 7)} (${ref.replace('refs/heads/', '')})`;
+  } catch (err) {
+    return 'unknown';
+  }
+};
+
+/**
+ * One bad message must not end everybody's night.
+ *
+ * A single process hosts every concurrent game, so an unhandled throw in any
+ * socket handler kills every room on the box — the same blast radius as the
+ * startGame crash this branch was created to fix. Staying up turns "every game
+ * dies" into "one action failed".
+ *
+ * This is a backstop, not a licence to stop guarding inputs. Anything it
+ * catches is a bug and the log says so loudly.
+ */
+process.on('uncaughtException', (err) => {
+  console.error('💥 UNCAUGHT EXCEPTION — staying up. This is a bug, fix it:');
+  console.error(err && err.stack ? err.stack : err);
+  console.error(`   rooms currently open: ${Object.keys(rooms).join(', ') || 'none'}`);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('💥 UNHANDLED REJECTION — staying up. This is a bug, fix it:');
+  console.error(reason && reason.stack ? reason.stack : reason);
+});
+
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Running code: ${bootCommit()}  |  node ${process.version}  |  started ${new Date().toISOString()}`);
 });

@@ -1,0 +1,18 @@
+diff --git a/server.js b/server.js
+index 2aaee16..423a00c 100644
+--- a/server.js
++++ b/server.js
+@@ -322,7 +322,12 @@ io.on('connection', (socket) => {
+ 
+   // Create Room
+   socket.on('createRoom', (playerName) => {
+-    const roomCode = generateRoomCode();
++    // Retry until the code is free. Without this, a collision silently
++    // overwrites a live room and drops two groups into the same game.
++    let roomCode = generateRoomCode();
++    while (rooms[roomCode]) {
++      roomCode = generateRoomCode();
++    }
+     rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false };
+     playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
+     usedCards[roomCode] = { standard: [], wild: [] };  // Initialize used cards storage for deck replenishment
