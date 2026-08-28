@@ -3,6 +3,13 @@ const http = require('http');
 const socketIo = require('socket.io');
 const path = require('path'); // Import the path module
 const fs = require('fs');
+// Live game tracking. Additive: a room that never attaches a game plays exactly
+// as it did before, and every one of these modules is inert until `attachGame`.
+const { Watchers } = require('./server/feed/watchers');
+const { ReplayFeed } = require('./server/feed/replay-feed');
+const { LiveFeed, listGames } = require('./server/feed/live-feed');
+const { runPipeline } = require('./server/feed/pipeline');
+const { modeFor, AUTO } = require('./server/feed/cards');
 const app = express();
 const server = http.createServer(app);
 
@@ -123,6 +130,11 @@ const purgeRoomState = (roomCode, state) => {
   delete activeRounds[roomCode];
   delete socketIdMappings[roomCode];
   delete usedCards[roomCode];
+  // A reaped room must not leave a poller running against ESPN.
+  if (state.watchers && typeof state.watchers.releaseAllForRoom === 'function') {
+    state.watchers.releaseAllForRoom(roomCode);
+  }
+
   delete rooms[roomCode];
   return Boolean(room);
 };
@@ -133,6 +145,7 @@ const destroyRoom = (roomCode, reason) => {
   if (round && round.intervalId) clearInterval(round.intervalId);
   const existed = purgeRoomState(roomCode, {
     rooms, playerStats, roundResults, formerPlayers, usedCards, activeRounds, socketIdMappings,
+    watchers,
   });
   if (existed) console.log(`🧹 Room ${roomCode} closed: ${reason}`);
   return existed;
@@ -249,6 +262,75 @@ const allocateRoomCode = (rooms) => {
   }
   return null;
 };
+
+/**
+ * ── Live game tracking ────────────────────────────────────────────────────
+ *
+ * One poller per GAME, shared by every room watching it, refcounted by
+ * `watchers`. Registered with `purgeRoomState` above, so a room the reaper
+ * closes takes its subscription down with it.
+ *
+ * ⚠️ NOTHING HERE DECLARES A CARD THIS SESSION. Detections are queued, held for
+ * the broadcast delay, and then broadcast to the room as "this is what I would
+ * have called". Phase 3 swaps that one call for the Ref's own declaration path.
+ */
+const watchers = new Watchers({
+  createFeed: ({ league, gameId, entry, replayFixture, speed }) => {
+    // A fixture turns the whole feature into something runnable on a Tuesday.
+    const feed = replayFixture
+      ? new ReplayFeed(replayFixture, { speed: speed || 1 })
+      : new LiveFeed({ league, gameId });
+
+    const tell = (event, payload) => {
+      for (const roomCode of entry.rooms) io.to(roomCode).emit(event, payload);
+    };
+
+    runPipeline(feed, {
+      onState: (state) => {
+        entry.state = { ...entry.state, ...state };
+        tell('gameFeedUpdate', { league, gameId: entry.gameId, ...entry.state });
+      },
+      onDetected: (detections, play) => {
+        entry.stats.detected += detections.length;
+        for (const d of detections) {
+          // Diagnosable on Monday: the raw play id is in every line.
+          console.log(`🏈 ${league}/${entry.gameId} detected ${d.cardId} (${d.mode}) from play ${d.playId}: ${d.reason}`);
+          if (modeFor(d.cardId) !== AUTO) {
+            entry.stats.suggested += 1;
+            // Ref only — the room does not see a suggestion until it is taken.
+            for (const roomCode of entry.rooms) {
+              const room = rooms[roomCode];
+              if (room && room.host) io.to(room.host).emit('playSuggested', {
+                league, gameId: entry.gameId, cardId: d.cardId, reason: d.reason,
+                playId: d.playId, period: play ? play.period : null,
+              });
+            }
+          }
+        }
+      },
+      onRelease: (detection) => {
+        entry.stats.released += 1;
+        // Phase 3 replaces this broadcast with the declaration itself.
+        tell('playAutoCalled', {
+          league, gameId: entry.gameId,
+          cardId: detection.cardId, playId: detection.playId, reason: detection.reason,
+          wouldHaveCalled: true,
+          queue: entry.queueRef ? entry.queueRef.snapshot() : null,
+        });
+        console.log(`🏈 ${league}/${entry.gameId} WOULD HAVE CALLED ${detection.cardId} (play ${detection.playId})`);
+      },
+      onEnd: (info) => {
+        tell('gameFeedEnded', { league, gameId: entry.gameId, reason: info ? info.reason : null });
+      },
+    });
+
+    feed.start();
+    return feed;
+  },
+});
+
+/** Stop every poller when the process goes down, so nothing outlives it. */
+process.on('SIGTERM', () => watchers.stopAll('server shutting down'));
 
 /** The disconnected-player snapshots belonging to ONE room. */
 const formerPlayersIn = (roomCode) => formerPlayers[roomCode] || {};
@@ -1902,6 +1984,60 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
  * behaviour when the clock runs out. This only makes it end your participation
  * rather than clearing a debt you have not poured.
  */
+// ── Live game tracking: attach, detach, and the picker ──────────────────────
+//
+// Ref-only, and entirely additive. A room that never attaches plays exactly as
+// it always has, and detaching at any moment leaves a perfectly normal game.
+
+/** Only the Ref may point the room at a game. */
+const refOf = (roomCode) => {
+  const room = rooms[roomCode];
+  return room ? room.host : null;
+};
+
+socket.on('listGames', async ({ league = 'nfl', date = null, groups = null } = {}) => {
+  try {
+    // FBS is groups=80 and FCS is 81; omitting it already returns all of FBS.
+    // (The plan's `groups=50` returns four events, not a full slate.)
+    const games = await listGames(league, { date, groups });
+    socket.emit('gameList', { league, date, games });
+  } catch (error) {
+    console.error(`🏈 could not list ${league} games: ${error && error.message}`);
+    // Never a crash and never a wrong call: an empty list still lets the Ref
+    // run the game by hand.
+    socket.emit('gameList', { league, date, games: [], error: 'Could not load games right now.' });
+  }
+});
+
+socket.on('attachGame', ({ roomCode, league = 'nfl', gameId, replayFixture, speed } = {}) => {
+  const room = rooms[roomCode];
+  if (!room || !gameId) return;
+  if (refOf(roomCode) !== socket.id) {
+    console.log(`⛔ ${socket.id} tried to attach a game to ${roomCode} without the whistle`);
+    return;
+  }
+
+  const entry = watchers.attach(roomCode, league, String(gameId), { replayFixture, speed });
+  if (!entry) return;
+
+  room.watching = { league, gameId: String(gameId) };
+  io.to(roomCode).emit('gameAttached', {
+    league, gameId: String(gameId), ...entry.state,
+  });
+  console.log(`🏈 room ${roomCode} is watching ${league}/${gameId} (${entry.rooms.size} room(s) on this game)`);
+});
+
+socket.on('detachGame', ({ roomCode } = {}) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  if (refOf(roomCode) !== socket.id) return;
+
+  watchers.release(roomCode);
+  room.watching = null;
+  io.to(roomCode).emit('gameDetached', { roomCode });
+  console.log(`🏈 room ${roomCode} stopped watching`);
+});
+
 socket.on('lockIn', ({ roomCode } = {}) => {
   const room = rooms[roomCode];
   const round = activeRounds[roomCode];
