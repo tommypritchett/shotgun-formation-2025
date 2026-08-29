@@ -17,7 +17,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { detectPlay, detectDrive } = require(path.join(ROOT, 'server/feed/detect.js'));
+const { detectPlay, detectDrive, gainedFirstDown } = require(path.join(ROOT, 'server/feed/detect.js'));
 const { MODES, modeFor, AUTO, SUGGEST, NEVER } = require(path.join(ROOT, 'server/feed/cards.js'));
 
 /** A play with every field present and nothing interesting happening. */
@@ -226,26 +226,28 @@ describe('first down', () => {
     }
   });
 
-  it('counts a touchdown that crossed the line to gain', () => {
+  it('recognises a touchdown that crossed the line to gain', () => {
     // end.down is -1 on a score, so the ordinary rule never sees it, but the
     // official box score counts the first down. Worth 3 to 10 a game.
-    const out = detect({
+    //
+    // The CARD is suppressed as redundant — the touchdown is the moment — so
+    // this asserts the underlying recognition, which is what the box-score
+    // comparison is built on.
+    expect(gainedFirstDown(play({
       typeText: 'Passing Touchdown', scoringPlay: true, scoreValue: 6, yards: 37,
       text: 'Q.Back pass deep middle to W.Out for 37 yards, TOUCHDOWN.',
       start: { down: 1, distance: 10, yardsToEndzone: 37, teamId: '1' },
       end: { down: -1, distance: 10, yardsToEndzone: 0, teamId: '1' },
-    });
-    expect(ids(out)).toContain('First Down');
+    }))).toBe(true);
   });
 
   it('does not count a touchdown that did not reach the sticks', () => {
-    const out = detect({
+    expect(gainedFirstDown(play({
       typeText: 'Rushing Touchdown', scoringPlay: true, scoreValue: 6, yards: 2,
       text: 'A.Runner up the middle for 2 yards, TOUCHDOWN.',
       start: { down: 3, distance: 8, yardsToEndzone: 2, teamId: '1' },
       end: { down: -1, distance: 10, yardsToEndzone: 0, teamId: '1' },
-    });
-    expect(ids(out)).not.toContain('First Down');
+    }))).toBe(false);
   });
 
   it('does not fire on a kick, even when the ids say one team', () => {
@@ -345,14 +347,65 @@ describe('multi-card plays', () => {
     expect(out.indexOf('Touchdown')).toBeLessThan(out.indexOf('Big Play 50+'));
   });
 
-  it('puts First Down last, because it is the cheapest thing to lose', () => {
+  it('orders the survivors by priority, biggest first', () => {
+    // First Down used to appear here as the trailing entry. It is now dropped
+    // as redundant whenever anything else fired, so the ordering rule is shown
+    // on a pair that both survive.
     const out = ids(detect({
+      typeText: 'Passing Touchdown', scoringPlay: true, scoreValue: 6, yards: 55,
+      text: 'Q.Back pass deep right to W.Out for 55 yards, TOUCHDOWN.',
+      end: { down: -1, distance: 10, yardsToEndzone: 0, teamId: '1' },
+    }));
+    expect(out).toEqual(['Touchdown', 'Big Play 50+']);
+  });
+
+  it('drops First Down when anything else fired on the same play', () => {
+    // Redundancy, not negation: the first down really was gained. The other
+    // card is the moment, and calling both is the app saying it twice.
+    const td = ids(detect({
+      typeText: 'Passing Touchdown', scoringPlay: true, scoreValue: 6, yards: 37,
+      text: 'Q.Back pass deep middle to W.Out for 37 yards, TOUCHDOWN.',
+      start: { down: 1, distance: 10, yardsToEndzone: 37, teamId: '1' },
+      end: { down: -1, distance: 10, yardsToEndzone: 0, teamId: '1' },
+    }));
+    expect(td).toContain('Touchdown');
+    expect(td).not.toContain('First Down');
+
+    const penalty = ids(detect({
       isPenalty: true, yards: 5,
       text: 'PENALTY on D-N.Guard, Encroachment, 5 yards.',
       start: { down: 4, distance: 1, yardsToEndzone: 60, teamId: '1' },
       end: { down: 1, distance: 10, yardsToEndzone: 55, teamId: '1' },
     }));
-    expect(out).toEqual(['Penalty', 'First Down']);
+    expect(penalty).toEqual(['Penalty']);
+
+    const bigPlay = ids(detect({
+      typeText: 'Pass Reception', yards: 24,
+      start: { down: 3, distance: 8, yardsToEndzone: 60, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 36, teamId: '1' },
+    }));
+    expect(bigPlay).toEqual(['Big Play 20+']);
+  });
+
+  it('still calls First Down when it is the only thing that happened', () => {
+    const out = ids(detect({
+      typeText: 'Rush', yards: 12,
+      start: { down: 3, distance: 4, yardsToEndzone: 60, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 48, teamId: '1' },
+    }));
+    expect(out).toEqual(['First Down']);
+  });
+
+  it('is a rule about First Down and nothing else', () => {
+    // NOT "lowest priority loses". A 60-yard touchdown still fires both, and
+    // whether it should is a separate question for a replay.
+    const out = ids(detect({
+      typeText: 'Passing Touchdown', scoringPlay: true, scoreValue: 6, yards: 60,
+      text: 'Q.Back pass deep right to W.Out for 60 yards, TOUCHDOWN.',
+      start: { down: 1, distance: 10, yardsToEndzone: 60, teamId: '1' },
+      end: { down: -1, distance: 10, yardsToEndzone: 0, teamId: '1' },
+    }));
+    expect(out).toEqual(['Touchdown', 'Big Play 50+']);
   });
 
   it('never returns the same card twice for one play', () => {

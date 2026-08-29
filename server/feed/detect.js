@@ -118,6 +118,31 @@ const typeHas = (play, ...fragments) => {
   return fragments.some((f) => t.includes(f.toLowerCase()));
 };
 
+/**
+ * First Down is not called when anything else fired on the same play.
+ *
+ * ── This is REDUNDANCY, not negation. Keep the two apart. ──────────────────
+ *
+ * Negation (`isNegated`, above) suppresses a card for something that did not
+ * happen — a touchdown called back, a gain wiped out by holding. This rule
+ * suppresses a card for something that DID happen, because another card on the
+ * same play already announced it.
+ *
+ * A touchdown, a penalty that awards the first down, a big play that crosses
+ * the line to gain: in every case the other card is the moment, and calling
+ * First Down alongside it is the app saying the same thing twice.
+ *
+ * Deliberately narrow. This is NOT "lowest priority loses" — it applies to
+ * First Down and to nothing else. A 60-yard touchdown firing both Touchdown and
+ * Big Play 50+ is a separate question, to be decided after watching a replay,
+ * and generalising this rule now would answer it by accident.
+ */
+const suppressRedundantFirstDown = (cards) => {
+  if (cards.length < 2) return cards;
+  if (!cards.some((c) => c.cardId === 'First Down')) return cards;
+  return cards.filter((c) => c.cardId !== 'First Down');
+};
+
 /** A detection. `reason` is what gets logged so a missed call is diagnosable. */
 const card = (cardId, playId, reason, confidence = HIGH) => ({
   cardId, playId, reason, confidence, mode: modeFor(cardId),
@@ -266,11 +291,14 @@ const detectPlay = (play, context = {}) => {
   // Deduplicate by card, keeping the first reason, then order deterministically
   // so a stale drop loses the first down rather than the touchdown.
   const seen = new Set();
-  return allowed.filter((c) => {
+  const deduped = allowed.filter((c) => {
     if (seen.has(c.cardId)) return false;
     seen.add(c.cardId);
     return true;
   }).sort(byPriority);
+
+  // Applied last, on the finished list, so it sees everything the play produced.
+  return suppressRedundantFirstDown(deduped);
 };
 
 /**
@@ -330,6 +358,7 @@ const detectGame = (fixture) => {
 module.exports = {
   detectPlay, detectDrive, detectGame,
   isNegated, isOffsetting, gainedFirstDown, isNonPlay,
+  suppressRedundantFirstDown,
   NON_PLAY_TYPES,
   HIGH, MEDIUM,
 };

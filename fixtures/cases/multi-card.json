@@ -1,5 +1,5 @@
 {
- "note": "Real plays lifted verbatim from the captured fixtures, for the multi-card and negation cases. Sources are named so each one can be re-checked against the game it came from.",
+ "note": "Real plays lifted verbatim from the captured fixtures, for the multi-card and negation cases. Sources are named so each one can be re-checked against the game it came from. Two distinct suppression rules apply across these cases: NEGATION (the thing did not happen) and REDUNDANCY (it happened, but another card on the same play already announced it).",
  "cases": [
   {
    "name": "penalty negates a first down (college)",
@@ -97,15 +97,16 @@
    }
   },
   {
-   "name": "penalty and first down both legitimately stand",
+   "name": "penalty awards a first down \u2014 the penalty is the card",
    "source": "nfl/401772879 seq 401400",
    "league": "nfl",
    "expect": [
-    "Penalty",
+    "Penalty"
+   ],
+   "expectNot": [
     "First Down"
    ],
-   "expectNot": [],
-   "why": "Encroachment on 4th-and-1 gives 5 yards AND an automatic first down. Both are real; both fire, penalty first.",
+   "why": "Encroachment on 4th-and-1 gives 5 yards AND an automatic first down. Both really happened \u2014 this is redundancy, not negation \u2014 but the penalty is the moment, so First Down is suppressed. Superseded the earlier expectation that both fire.",
    "play": {
     "id": "4017728794014",
     "sequence": 401400,
@@ -147,14 +148,14 @@
    "source": "nfl/401772636 seq of the 20-yard DPI",
    "league": "nfl",
    "expect": [
-    "Penalty",
-    "First Down"
+    "Penalty"
    ],
    "expectNot": [
     "Big Play 20+",
-    "Big Play 50+"
+    "Big Play 50+",
+    "First Down"
    ],
-   "why": "20-yard pass interference on an INCOMPLETE pass. statYardage is 20, which a yardage-only rule reads as Big Play 20+.",
+   "why": "20-yard pass interference on an INCOMPLETE pass. statYardage is 20, which a yardage-only rule reads as Big Play 20+ (negation suppresses that). The penalty also awards the first down, which is real but redundant alongside the Penalty card \u2014 two different suppression rules on one play.",
    "play": {
     "id": "401772636552",
     "sequence": 55200,

@@ -21,7 +21,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { detectPlay, detectGame } = require(path.join(ROOT, 'server/feed/detect.js'));
+const { detectPlay, detectGame, gainedFirstDown } = require(path.join(ROOT, 'server/feed/detect.js'));
 
 const fixture = (league, id) =>
   JSON.parse(fs.readFileSync(path.join(ROOT, 'fixtures', league, `${id}.json`), 'utf8'));
@@ -36,7 +36,9 @@ describe('real NFL games', () => {
     // SF 26 - LAR 42. Ten touchdowns between them.
     const counts = countsOf(detectGame(fixture('nfl', '401772879')));
     expect(counts.Touchdown).toBe(10);
-    expect(counts['First Down']).toBeGreaterThan(40);
+    // Lower than the box score's 55 by design: First Down is suppressed
+    // wherever another card already announced the moment.
+    expect(counts['First Down']).toBeGreaterThan(30);
     expect(counts.Penalty).toBeGreaterThan(0);
   });
 
@@ -45,9 +47,7 @@ describe('real NFL games', () => {
     // touchdowns in the whole game, but the room is not left with nothing.
     const counts = countsOf(detectGame(fixture('nfl', '401772877')));
     expect(counts.Touchdown).toBe(3);
-    // 31, against an official 30. Three touchdowns in the whole game, and the
-    // room still gets something to do roughly every three minutes.
-    expect(counts['First Down']).toBeGreaterThan(25);
+    expect(counts['First Down']).toBeGreaterThan(15);
     expect(counts['Blocked Kicks']).toBe(1);   // there really was one
   });
 
@@ -63,7 +63,7 @@ describe('real college games', () => {
   it('reads a Power conference game as well as an NFL one', () => {
     const counts = countsOf(detectGame(fixture('college-football', '401752889')));
     expect(counts.Touchdown).toBe(7);
-    expect(counts['First Down']).toBeGreaterThan(25);
+    expect(counts['First Down']).toBeGreaterThan(15);
   });
 
   it('handles college overtime, which has no game clock', () => {
@@ -164,12 +164,25 @@ describe('first downs against ESPN\'s own box score', () => {
   };
 
   for (const [gameId, official] of Object.entries(BOX_SCORE_FIRST_DOWNS)) {
-    it(`is within one of the official total for ${gameId}`, () => {
-      const counted = detectGame(fixture('nfl', gameId))
-        .filter((d) => d.cardId === 'First Down').length;
-      expect(counted - official, `detector ${counted} vs box score ${official}`)
+    it(`recognises the official first-down total for ${gameId}`, () => {
+      // Measured on the RECOGNITION, not on the cards called. Since the
+      // redundancy rule the two are deliberately different numbers: a first
+      // down on a touchdown is still recognised here and still counted by the
+      // NFL, but no longer produces a card of its own.
+      const plays = [...fixture('nfl', gameId).plays]
+        .sort((a, b) => a.sequence - b.sequence);
+      const recognised = plays.filter(gainedFirstDown).length;
+      expect(recognised - official, `recognised ${recognised} vs box score ${official}`)
         .toBeGreaterThanOrEqual(0);
-      expect(counted - official).toBeLessThanOrEqual(1);
+      expect(recognised - official).toBeLessThanOrEqual(1);
+    });
+
+    it(`calls fewer than it recognises for ${gameId}, because of redundancy`, () => {
+      const game = fixture('nfl', gameId);
+      const plays = [...game.plays].sort((a, b) => a.sequence - b.sequence);
+      const recognised = plays.filter(gainedFirstDown).length;
+      const called = detectGame(game).filter((d) => d.cardId === 'First Down').length;
+      expect(called).toBeLessThan(recognised);
     });
   }
 });

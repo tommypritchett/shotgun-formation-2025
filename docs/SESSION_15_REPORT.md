@@ -1,7 +1,7 @@
 # Session 15 — the live game feed and the detector
 
 Branch `live-game-feed`, off `main` at `55b091c`. Four commits, four tags.
-**Nothing pushed.** Suite **310 → 426 passing**, 44 files. **No existing test was
+**Nothing pushed.** Suite **310 → 432 passing**, 44 files. **No existing test was
 modified.**
 
 ---
@@ -23,7 +23,7 @@ decision rests on.
 
 | Card | Mode | IND 31 - ATL 25 | CAR 7 - NO 17 | SF 26 - LAR 42 | Mean |
 |---|---|---:|---:|---:|---:|
-| First Down | auto | 48 | 31 | 56 | **45.0** |
+| First Down | auto | 30 | 22 | 39 | **30.3** |
 | Big Play 20+ | auto | 20 | 9 | 10 | **13.0** |
 | Penalty | auto | 10 | 7 | 8 | **8.3** |
 | Touchdown | auto | 7 | 3 | 10 | **6.7** |
@@ -38,10 +38,10 @@ decision rests on.
 | Missed FG | auto | 1 | 0 | 0 | **0.3** |
 | Missed PAT | auto | 1 | 0 | 0 | **0.3** |
 | Onside Attempt | suggest | 0 | 0 | 1 | **0.3** |
-| **TOTAL cards** | | 111 | 66 | 92 | **89.7** |
-| **of which auto-called** | | 108 | 60 | 88 | **85.3** |
+| **TOTAL cards** | | 93 | 57 | 75 | **75.0** |
+| **of which auto-called** | | 90 | 51 | 71 | **70.7** |
 | **plays** | | 191 | 166 | 179 | **178.7** |
-| **multi-card plays** | | 25 | 10 | 17 | **17.3** |
+| **multi-card plays** | | 11 | 3 | 2 | **5.3** |
 | **negated plays** | | 6 | 6 | 7 | **6.3** |
 | **suppressed by negation** | | 1 | 0 | 0 | **0.3** |
 
@@ -49,7 +49,7 @@ decision rests on.
 
 | Card | Mode | OSU 38 - PSU 14 | SMU 26 - MIA 20 | KYW 7 - WFLA 28 | Mean |
 |---|---|---:|---:|---:|---:|
-| First Down | auto | 41 | 48 | 0 | **29.7** |
+| First Down | auto | 24 | 30 | 0 | **18.0** |
 | Big Play 20+ | auto | 7 | 20 | 0 | **9.0** |
 | Penalty | auto | 3 | 14 | 0 | **5.7** |
 | Touchdown | auto | 7 | 4 | 0 | **3.7** |
@@ -60,9 +60,9 @@ decision rests on.
 | Turnover | auto | 1 | 1 | 0 | **0.7** |
 | Missed FG | auto | 0 | 1 | 0 | **0.3** |
 | Turnover on Downs | auto | 0 | 1 | 0 | **0.3** |
-| **TOTAL cards** | | 69 | 99 | 0 | **56.0** |
-| **of which auto-called** | | 67 | 95 | 0 | **54.0** |
-| **multi-card plays** | | 18 | 23 | 0 | **13.7** |
+| **TOTAL cards** | | 52 | 81 | 0 | **44.3** |
+| **of which auto-called** | | 50 | 77 | 0 | **42.3** |
+| **multi-card plays** | | 2 | 6 | 0 | **2.7** |
 | **negated plays** | | 3 | 14 | 0 | **5.7** |
 
 *(The third college column is the empty-feed game. Its zeros are the point —
@@ -70,33 +70,55 @@ see "the degrade path" below.)*
 
 ### What the table says that the plan did not
 
-**It is heavier than planned. ~85 auto-called rounds per NFL game, not ~70.**
-The plan estimated ~40–42 first downs; the real per-game numbers are **31, 48
-and 56** (mean 45.0) — and the spread matters more than the mean, because the
-31 is the 24-point slog and the 56 is the shootout. Add Big Play 20+ at a mean
-of 13, a card the plan did not cost at all, and the volume is about 20% above
-the estimate.
+**~71 auto-called rounds per NFL game.** That is now close to the plan's ~70
+estimate, but by a different route: First Down is higher than estimated and Big
+Play 20+ was never costed, while the redundancy rule takes back more than both.
 
-At 85 rounds across three-and-a-half hours that is **a round every 2 minutes 30
-seconds**, all game. Worth knowing before the first live night, because it is
-your decision and the arithmetic changed. Two dials exist if it turns out to be
-too much, and they need no code:
+Per game the spread is what matters, not the mean: **51 in the 24-point slog, 90
+in the overtime game.** At 71 rounds across three-and-a-half hours that is a
+round roughly every **3 minutes**; in the slog it is nearer 4, in the shootout
+nearer 2.
 
-- **Big Play 20+ → suggest** takes it from ~85 to ~72 and costs the least, since
-  a 20-yard gain is the least eventful thing on the list.
-- **First Down → suggest** takes it to ~40 and is the real lever.
+Two dials remain if it is still too much, neither needing code:
+
+- **Big Play 20+ → suggest** takes it from ~71 to ~58, and costs the least.
+- **First Down → suggest** takes it to ~40.
 
 **Penalty came in lower than the plan's ~12–13, at 8.3.** Not a miss: ESPN sets
 `isPenalty: false` on a *declined* penalty, so the detector counts accepted ones
 only, which is the right number to drink to.
 
-**Multi-card plays are not rare: ~17 a game in the NFL, ~14 in college.** So
-sequential rounds are an ordinary event, not an edge case — every one is two
-rounds back to back. That number went UP with the first-down correction, because
-a touchdown that crossed the line to gain now correctly carries a First Down
-alongside it. Touchdown + First Down and Penalty + First Down are the two
-commonest pairs, which is the strongest argument in the table for demoting Big
-Play 20+ rather than First Down if you want fewer doubles.
+**Multi-card plays are now rare: 5.3 a game in the NFL, 2.7 in college**, down
+from 17.3 and 13.7. That is the redundancy rule doing its job — nearly every
+multi-card play was a First Down riding alongside a bigger card. What is left is
+genuine: Touchdown + Big Play 50+, and Penalty + Blocked Kicks. So back-to-back
+sequential rounds go from an every-90-seconds event to about five a game.
+
+---
+
+## Two suppression rules, kept apart
+
+They are different things and the code keeps them separate on purpose.
+
+**Negation** — the thing did not happen. A touchdown called back, a gain wiped
+out by holding, an interception negated by roughing the passer. Driven by
+ESPN's post-enforcement fields plus the `No Play` marker for yardage. Suppressed
+because calling it would be *wrong*.
+
+**Redundancy** — it did happen, but another card on the same play already
+announced it. A touchdown that crossed the line to gain, a penalty that awards
+the first down, a big play past the sticks. Suppressed because calling it would
+be *repetitive*.
+
+The redundancy rule is deliberately narrow: **First Down only, and only when
+something else fired on the same play.** It is not "lowest priority loses". A
+60-yard touchdown still fires both Touchdown and Big Play 50+, and whether it
+should is a separate question for a replay.
+
+One consequence worth stating plainly: **the detector's called First Down count
+no longer matches the box score, by design.** The recognition still does — that
+is what the box-score regression test measures — but roughly 18 first downs a
+game are now recognised and deliberately not called.
 
 ---
 
