@@ -724,3 +724,107 @@ button.card:active{transform:translateY(2px) scale(.985)}
    count and the header all change at once, so the transition is announced
    rather than silent — otherwise it reads as pouring the same thing twice. */
 .gridhead .tag{transition:color .2s ease}
+
+/* ── Live game tracking ─────────────────────────────────────────────────────
+   Deliberately quiet. This sits under the header and must not compete with the
+   round timer or the deck, and must not push the board down: the layout that
+   replaced the old `zoom:70%` hack has no vertical slack at 360px. Both blocks
+   are fixed-height single lines for that reason. */
+
+.livescore{
+  display:flex; align-items:center; gap:8px;
+  padding:5px 4px 6px; margin:0;
+  font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-size:11px; line-height:1; letter-spacing:.02em;
+  color:var(--chalk-dim,#8a9099);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  min-height:22px; white-space:nowrap; overflow:hidden;
+}
+.livescore .ls-teams{font-weight:600;color:var(--chalk,#e8eaed);overflow:hidden;text-overflow:ellipsis}
+.livescore .ls-teams .at{opacity:.5;margin:0 2px}
+.livescore .ls-score{font-family:var(--font-display,Oswald),system-ui,sans-serif;
+  font-size:13px;font-weight:600;color:var(--amber,#FFB020);letter-spacing:.03em}
+.livescore .ls-score .dash{opacity:.55;margin:0 3px}
+.livescore .ls-when{margin-left:auto;opacity:.75}
+.livescore .ls-detach{
+  background:none;border:1px solid rgba(255,255,255,.16);border-radius:999px;
+  color:var(--chalk-dim,#8a9099);font-size:10px;letter-spacing:.06em;
+  padding:2px 8px;cursor:pointer;flex:0 0 auto;
+}
+.livescore .ls-detach:hover{color:var(--chalk,#e8eaed);border-color:rgba(255,255,255,.3)}
+/* A feed that has died says so rather than freezing on a stale score. */
+.livescore.stale{color:#c2704f}
+.livescore.stale .ls-score{opacity:.4}
+
+.callfeed{margin:0 4px 6px;font-family:var(--font-body,Inter),system-ui,sans-serif}
+.callfeed .cf-head{
+  width:100%;display:flex;align-items:center;gap:8px;
+  background:none;border:0;border-top:1px solid rgba(255,255,255,.06);
+  padding:6px 2px;color:var(--chalk-dim,#8a9099);
+  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
+}
+.callfeed .cf-n{
+  font-family:var(--font-display,Oswald),system-ui,sans-serif;
+  font-size:12px;color:var(--amber,#FFB020);letter-spacing:.02em;
+}
+.callfeed .cf-chev{margin-left:auto;opacity:.6}
+.callfeed .cf-list{
+  list-style:none;margin:0;padding:0 2px 4px;
+  max-height:132px;overflow-y:auto;   /* scrolls internally; never pushes the hand off */
+}
+.callfeed .cf-row{
+  display:grid;grid-template-columns:auto auto 1fr;gap:6px;align-items:baseline;
+  padding:3px 0;font-size:11px;color:var(--chalk-dim,#8a9099);
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.callfeed .cf-time{font-variant-numeric:tabular-nums;opacity:.55;font-size:10px}
+.callfeed .cf-card{font-weight:600;color:var(--chalk,#e8eaed)}
+.callfeed .cf-why{opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.callfeed .cf-tag{
+  font-size:9px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--neon,#8AFF3D);border:1px solid rgba(138,255,61,.35);
+  border-radius:999px;padding:1px 6px;
+}
+.callfeed .cf-row.suggest .cf-card{color:var(--neon,#8AFF3D)}
+.callfeed .cf-empty{padding:6px 0;font-size:11px;opacity:.55;list-style:none}
+
+.watchbtn{
+  background:none;border:1px solid rgba(255,255,255,.18);border-radius:999px;
+  color:var(--chalk-dim,#8a9099);font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-size:11px;letter-spacing:.06em;padding:6px 12px;margin-bottom:8px;cursor:pointer;
+}
+.watchbtn:hover{color:var(--chalk,#e8eaed);border-color:rgba(255,255,255,.32)}
+
+/* The game picker reuses the sheet treatment. */
+.gamepicker .seg{display:flex;gap:6px;padding:8px 2px}
+.gamepicker .seg button{
+  flex:1;background:none;border:1px solid rgba(255,255,255,.16);border-radius:999px;
+  color:var(--chalk-dim,#8a9099);font-size:12px;letter-spacing:.06em;padding:7px 0;cursor:pointer;
+}
+.gamepicker .seg button.on{color:#12151a;background:var(--amber,#FFB020);border-color:transparent;font-weight:600}
+.gamepicker .filters{display:flex;gap:8px;align-items:center;padding:0 2px 8px}
+.gamepicker .search{
+  flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;color:var(--chalk,#e8eaed);font-size:13px;padding:8px 10px;
+}
+.gamepicker .chk{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--chalk-dim,#8a9099);white-space:nowrap}
+.gamepicker .gamelist{list-style:none;margin:0;padding:0;max-height:52vh;overflow-y:auto}
+.gamepicker .gamerow{
+  width:100%;display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:baseline;
+  background:none;border:0;border-bottom:1px solid rgba(255,255,255,.06);
+  padding:10px 2px;color:var(--chalk,#e8eaed);font-size:13px;text-align:left;cursor:pointer;
+}
+.gamepicker .gamerow:hover{background:rgba(255,255,255,.03)}
+.gamepicker .rank{color:var(--amber,#FFB020);font-size:11px;margin-right:5px;font-weight:600}
+.gamepicker .score{font-family:var(--font-display,Oswald),system-ui,sans-serif;color:var(--amber,#FFB020)}
+.gamepicker .when{font-size:11px;color:var(--chalk-dim,#8a9099);min-width:64px;text-align:right}
+.gamepicker .hint.small{font-size:10.5px;opacity:.6;padding:8px 2px 0}
+
+@media (max-width:380px){
+  /* 360px: the tightest real device. Trim, do not stack — a second line here
+     costs the hand a row. */
+  .livescore{font-size:10px;gap:6px;min-height:20px;padding:4px 2px 5px}
+  .livescore .ls-score{font-size:12px}
+  .livescore .ls-when{font-size:9.5px}
+  .callfeed .cf-list{max-height:104px}
+}

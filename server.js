@@ -2009,10 +2009,22 @@ socket.on('listGames', async ({ league = 'nfl', date = null, groups = null } = {
   }
 });
 
+/**
+ * Dev-only: let a replay script attach a fixture to a room it is not the Ref of.
+ *
+ * OFF unless ALLOW_REPLAY_ATTACH=1 is set on the server, so production keeps
+ * the plain Ref-only rule. This exists so a recorded game can be run into a
+ * real room at 1x and WATCHED — which is the only way to judge whether the
+ * pacing reads as alive or as relentless. See scripts/replay-into-room.mjs.
+ */
+const REPLAY_ATTACH_ALLOWED = process.env.ALLOW_REPLAY_ATTACH === '1';
+
 socket.on('attachGame', ({ roomCode, league = 'nfl', gameId, replayFixture, speed } = {}) => {
   const room = rooms[roomCode];
   if (!room || !gameId) return;
-  if (refOf(roomCode) !== socket.id) {
+  const isRef = refOf(roomCode) === socket.id;
+  const isReplayHarness = REPLAY_ATTACH_ALLOWED && Boolean(replayFixture);
+  if (!isRef && !isReplayHarness) {
     console.log(`⛔ ${socket.id} tried to attach a game to ${roomCode} without the whistle`);
     return;
   }

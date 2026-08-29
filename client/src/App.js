@@ -18,6 +18,9 @@ import { pourPhase } from './lib/phases';
 import useEscape from './lib/useEscape';
 import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
 import { SOCKET_OPTIONS } from './lib/socket-options';
+import CallFeed from './components/CallFeed';
+import GamePicker from './components/GamePicker';
+import LiveScore from './components/LiveScore';
 import CardSheet from './components/CardSheet';
 import ConnectingScreen from './components/ConnectingScreen';
 import DrinkAssigner from './components/DrinkAssigner';
@@ -169,6 +172,20 @@ function App() {
   const sentPoursRef = useRef({ drinks: {}, shotguns: {} });
   const isDistributingRef = useRef(false);
   const gameStateRef = useRef('initial');
+
+  // ── Live game tracking ──────────────────────────────────────────────────
+  // Entirely additive. A room that never attaches a game has `watching` null
+  // and every one of these stays empty, so the game behaves exactly as before.
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [pickerLeague, setPickerLeague] = useState('nfl');
+  const [pickerQuery, setPickerQuery] = useState('');
+  const [pickerRanked, setPickerRanked] = useState(true);
+  const [gameList, setGameList] = useState([]);
+  const [gameListLoading, setGameListLoading] = useState(false);
+  const [gameListError, setGameListError] = useState(null);
+  const [watching, setWatching] = useState(null);
+  const [callEntries, setCallEntries] = useState([]);
+  const [callFeedOpen, setCallFeedOpen] = useState(false);
   
   // Who holds the whistle, as the SERVER last told us. `isHost` is derived from
   // it rather than stored, so there is exactly one thing to keep honest — and
@@ -485,6 +502,34 @@ const abandonRejoin = () => {
   setGameState('initial');
 };
 
+// ── Live game tracking handlers ───────────────────────────────────────────
+
+/** A stable, human key for a feed entry, so React does not reorder rows. */
+let callSeq = 0;
+const clockNow = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+const openPicker = (league = pickerLeague) => {
+  setPickerOpen(true);
+  requestGames(league);
+};
+
+const requestGames = (league) => {
+  setPickerLeague(league);
+  setGameListLoading(true);
+  setGameListError(null);
+  socket.emit('listGames', { league });
+};
+
+const handlePickGame = (game) => {
+  if (!game || !game.id) return;
+  socket.emit('attachGame', { roomCode: roomCodeRef.current, league: game.league || pickerLeague, gameId: game.id });
+  setPickerOpen(false);
+};
+
+const handleDetachGame = () => {
+  socket.emit('detachGame', { roomCode: roomCodeRef.current });
+};
+
 // Handle Leave Game logic
 const handleLeaveGame = () => {
   // Emit a custom 'leaveGame' event to the server
@@ -498,6 +543,8 @@ const handleLeaveGame = () => {
   setDeclaredCard('');  // Clear declared card
   forgetSavedGame();  // ...and do not try to rejoin this game on the next load
   clearURL();
+  setWatching(null);   // a game you have left is not a game you are watching
+  setCallEntries([]);
 };
 
 // Function to close the menu (X button)
@@ -1917,6 +1964,62 @@ socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
 
 
 // Handle when the game is over due to all players disconnecting
+// ── Live game tracking: what the server tells us ──────────────────────────
+//
+// Every one of these is inert until the Ref attaches a game. `playAutoCalled`
+// is NOT a declaration — Part A deliberately calls nothing. It is the feed of
+// what the system WOULD have called, with the 45s broadcast delay already
+// applied server-side, which is what makes the pacing judgeable by watching.
+socket.off('gameList');
+socket.on('gameList', ({ league, games, error }) => {
+  setGameListLoading(false);
+  setGameListError(error || null);
+  setGameList(Array.isArray(games) ? games : []);
+  if (league) setPickerLeague(league);
+});
+
+socket.off('gameAttached');
+socket.on('gameAttached', (payload) => {
+  setWatching({ ...payload, error: null, ended: false });
+  setCallEntries([]);
+});
+
+socket.off('gameDetached');
+socket.on('gameDetached', () => {
+  setWatching(null);
+});
+
+socket.off('gameFeedUpdate');
+socket.on('gameFeedUpdate', (payload) => {
+  setWatching((prev) => (prev ? { ...prev, ...payload, error: null } : prev));
+});
+
+socket.off('gameFeedEnded');
+socket.on('gameFeedEnded', ({ reason } = {}) => {
+  // Say so rather than freezing on a stale score.
+  setWatching((prev) => (prev ? { ...prev, ended: true, endedReason: reason || null } : prev));
+});
+
+socket.off('playAutoCalled');
+socket.on('playAutoCalled', ({ cardId, reason, playId } = {}) => {
+  if (!cardId) return;
+  callSeq += 1;
+  setCallEntries((prev) => [
+    { key: `${playId || 'x'}-${cardId}-${callSeq}`, cardId, reason: reason || '', at: clockNow(), suggestion: false },
+    ...prev,
+  ].slice(0, 100));
+});
+
+socket.off('playSuggested');
+socket.on('playSuggested', ({ cardId, reason, playId } = {}) => {
+  if (!cardId) return;
+  callSeq += 1;
+  setCallEntries((prev) => [
+    { key: `${playId || 'x'}-${cardId}-s${callSeq}`, cardId, reason: reason || '', at: clockNow(), suggestion: true },
+    ...prev,
+  ].slice(0, 100));
+});
+
 socket.off('gameOver');
 socket.on('gameOver', (message) => {
   alert(message);  // Notify the players
@@ -2266,7 +2369,31 @@ socket.on('gameOver', (message) => {
           isHost={isHost}
           onDeclare={handleDeclareAction}
           noCardMessage={noCardMessage || actionMessage}
+          watching={watching}
+          onWatchGame={isHost ? () => openPicker() : undefined}
+          onDetachGame={isHost ? handleDetachGame : undefined}
+          callEntries={callEntries}
+          callFeedOpen={callFeedOpen}
+          onCallFeedToggle={() => setCallFeedOpen((v) => !v)}
         />
+
+        {pickerOpen && (
+          <div className="assigner-overlay">
+            <GamePicker
+              league={pickerLeague}
+              games={gameList}
+              loading={gameListLoading}
+              error={gameListError}
+              query={pickerQuery}
+              onlyRanked={pickerRanked}
+              onQuery={setPickerQuery}
+              onOnlyRanked={setPickerRanked}
+              onLeague={requestGames}
+              onPick={handlePickGame}
+              onClose={() => setPickerOpen(false)}
+            />
+          </div>
+        )}
 
         {assignerOpen && (
           <div className="assigner-overlay">

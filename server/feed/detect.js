@@ -233,10 +233,22 @@ const detectPlay = (play, context = {}) => {
   }
 
   // ── yardage ──────────────────────────────────────────────────────────────
-  // Suppressed on a negated play: `statYardage` is then the penalty's
-  // enforcement, not a gain. A 20-yard DPI on an incomplete pass would
-  // otherwise read as Big Play 20+.
-  if (!negated && typeof play.yards === 'number' && !play.isPenalty) {
+  // `statYardage` only means "yards gained from scrimmage" on a scrimmage play.
+  // Three ways it does not:
+  //
+  //   - on a negated play it is the PENALTY's enforcement (a 20-yard DPI on an
+  //     incomplete pass arrives as yards: 20)
+  //   - on a kick it is the KICK's distance — a 43-yard field goal arrives as
+  //     yards: 43, which read as a 43-yard big play. This was the single
+  //     commonest false pair in the fixtures, 11 of 24 multi-card plays.
+  //   - on an accepted penalty it is the enforcement rather than the play
+  //
+  // All three are excluded rather than guessed at.
+  const yardageIsAGain = !negated
+    && !play.isPenalty
+    && !KICK_TYPES.test(play.typeText || '');
+
+  if (yardageIsAGain && typeof play.yards === 'number') {
     if (play.yards >= HUGE_PLAY_YARDS) {
       add('Big Play 50+', play.id, `${play.yards} yards`);
     } else if (play.yards >= BIG_PLAY_YARDS) {

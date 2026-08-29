@@ -62,7 +62,17 @@ describe('handing the whistle over', () => {
 
   it('keeps isHost derived, so it can never disagree with the badge', () => {
     // Two booleans about the same fact drift. One id does not.
-    expect(APP).not.toMatch(/useState\(false\);?\s*\/\/?.*isHost/);
+    //
+    // Targets the actual declaration rather than "any useState(false) with the
+    // word isHost somewhere after it" — the loose version matched an unrelated
+    // boolean that happened to sit above this file's own comment about isHost.
+    // Code only: a comment recalling the old `setIsHost(false)` is history, not
+    // a call. Same trap this file's other tests already strip for.
+    const code = APP.split('\n')
+      .filter((line) => !line.trim().startsWith('//') && !line.trim().startsWith('*'))
+      .join('\n');
+    expect(code).not.toMatch(/const\s*\[\s*isHost\s*,/);
+    expect(code).not.toMatch(/setIsHost\s*\(/);
     expect(APP, 'isHost must be computed from hostId, not stored separately')
       .toMatch(/const isHost = Boolean\(hostId\) && hostId === socket\.id/);
   });

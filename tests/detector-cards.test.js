@@ -169,6 +169,35 @@ describe('yardage', () => {
     expect(out).not.toContain('Big Play 20+');
   });
 
+  it('never reads a kick distance as a gain', () => {
+    // On a field goal `statYardage` is the KICK's length, not yards gained. A
+    // 43-yard field goal was reading as a 43-yard big play — the commonest
+    // false pair in the fixtures, 11 of 24 multi-card plays.
+    const fg = ids(detect({
+      typeText: 'Field Goal Good', scoringPlay: true, scoreValue: 3, yards: 43,
+      text: 'K.Icker 43 yard field goal is GOOD.',
+    }));
+    expect(fg).toEqual(['Field Goal']);
+
+    const missed = ids(detect({
+      typeText: 'Field Goal Missed', yards: 53,
+      text: 'K.Icker 53 yard field goal is No Good, Short.',
+    }));
+    expect(missed).not.toContain('Big Play 50+');
+    expect(missed).toContain('Missed FG');
+  });
+
+  it('never reads punt distance as a gain either', () => {
+    const out = ids(detect({
+      typeText: 'Punt', yards: 59,
+      text: 'S.Martin punts 59 yards to NO 25.',
+      start: { down: 4, distance: 7, yardsToEndzone: 70, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 75, teamId: '2' },
+    }));
+    expect(out).not.toContain('Big Play 50+');
+    expect(out).not.toContain('Big Play 20+');
+  });
+
   it('never reads penalty yardage as a gain', () => {
     // A 20-yard pass interference on an INCOMPLETE pass. statYardage is 20.
     const out = detect({
