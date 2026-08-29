@@ -7,6 +7,10 @@
  * how often a penalty suppressed one — which is what says whether sequential
  * rounds are a rare event or a constant backlog.
  *
+ * Fixtures with NO PLAYS are shown but excluded from every mean. The empty-feed
+ * game is a degrade-path regression fixture, not a game anybody played, and
+ * averaging its zeros in understated college pacing by about half.
+ *
  *   node scripts/detector-frequency.mjs
  *   node scripts/detector-frequency.mjs --markdown
  */
@@ -95,9 +99,15 @@ const report = () => {
     console.log(head);
     if (markdown) console.log(`|---|---|${games.map(() => '---:').join('|')}|---:|`);
 
+    // Means are over games that actually have plays. See the header comment.
+    const scored = games.filter((g) => g.plays > 0);
+    const meanOf = (vals) => (vals.length
+      ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(1)
+      : '—');
+
     for (const id of cardIds) {
       const vals = games.map((g) => g.counts[id] || 0);
-      const mean = (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(1);
+      const mean = meanOf(scored.map((g) => g.counts[id] || 0));
       console.log(markdown
         ? `| ${id} | ${modeFor(id)} | ${vals.join(' | ')} | **${mean}** |`
         : `${pad(id, 24)}${pad(modeFor(id), 9)}${vals.map((v) => num(v, 8)).join('')}${num(mean, 8)}`);
@@ -105,7 +115,7 @@ const report = () => {
 
     const line = (label, pick) => {
       const vals = games.map(pick);
-      const mean = (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(1);
+      const mean = meanOf(scored.map(pick));
       console.log(markdown
         ? `| **${label}** | | ${vals.join(' | ')} | **${mean}** |`
         : `${pad(label, 24)}${pad('', 9)}${vals.map((v) => num(v, 8)).join('')}${num(mean, 8)}`);
@@ -117,6 +127,13 @@ const report = () => {
     line('extra cards from those', (g) => g.extraCardsFromMulti);
     line('negated plays', (g) => g.negatedPlays);
     line('suppressed by negation', (g) => g.suppressedByNegation);
+
+    const empty = games.filter((g) => g.plays === 0);
+    if (empty.length) {
+      console.log(markdown
+        ? `\n> Means exclude ${empty.map((g) => g.name).join(', ')} — no plays in the feed, so it is a degrade-path fixture rather than a game anybody played.`
+        : `\n  (means exclude ${empty.map((g) => g.name).join(', ')}: no plays)`);
+    }
   }
   console.log();
 };

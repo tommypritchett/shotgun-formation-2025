@@ -49,35 +49,39 @@ decision rests on.
 
 | Card | Mode | OSU 38 - PSU 14 | SMU 26 - MIA 20 | KYW 7 - WFLA 28 | Mean |
 |---|---|---:|---:|---:|---:|
-| First Down | auto | 24 | 30 | 0 | **18.0** |
-| Big Play 20+ | auto | 7 | 20 | 0 | **9.0** |
-| Penalty | auto | 3 | 14 | 0 | **5.7** |
-| Touchdown | auto | 7 | 4 | 0 | **3.7** |
-| 3 n Out | suggest | 2 | 4 | 0 | **2.0** |
-| Sacks | auto | 4 | 2 | 0 | **2.0** |
-| Field Goal | auto | 1 | 4 | 0 | **1.7** |
-| Big Play 50+ | auto | 3 | 0 | 0 | **1.0** |
-| Turnover | auto | 1 | 1 | 0 | **0.7** |
-| Missed FG | auto | 0 | 1 | 0 | **0.3** |
-| Turnover on Downs | auto | 0 | 1 | 0 | **0.3** |
-| **TOTAL cards** | | 52 | 81 | 0 | **44.3** |
-| **of which auto-called** | | 50 | 77 | 0 | **42.3** |
-| **multi-card plays** | | 2 | 6 | 0 | **2.7** |
-| **negated plays** | | 3 | 14 | 0 | **5.7** |
+| First Down | auto | 24 | 30 | 0 | **27.0** |
+| Big Play 20+ | auto | 7 | 20 | 0 | **13.5** |
+| Penalty | auto | 3 | 14 | 0 | **8.5** |
+| Touchdown | auto | 7 | 4 | 0 | **5.5** |
+| 3 n Out | suggest | 2 | 4 | 0 | **3.0** |
+| Sacks | auto | 4 | 2 | 0 | **3.0** |
+| Field Goal | auto | 1 | 4 | 0 | **2.5** |
+| Big Play 50+ | auto | 3 | 0 | 0 | **1.5** |
+| Turnover | auto | 1 | 1 | 0 | **1.0** |
+| Missed FG | auto | 0 | 1 | 0 | **0.5** |
+| Turnover on Downs | auto | 0 | 1 | 0 | **0.5** |
+| **TOTAL cards** | | 52 | 81 | 0 | **66.5** |
+| **of which auto-called** | | 50 | 77 | 0 | **63.5** |
+| **multi-card plays** | | 2 | 6 | 0 | **4.0** |
+| **negated plays** | | 3 | 14 | 0 | **8.5** |
 
-*(The third college column is the empty-feed game. Its zeros are the point —
-see "the degrade path" below.)*
+> **Means exclude the third college column** (KYW 7 - WFLA 28). It is the
+> empty-feed regression fixture — a real completed game ESPN carries no plays
+> for — not a game anybody played. Averaging its zeros in understated college
+> pacing by about half. It stays in the table, and in the test suite, because
+> the zeros are the point; it just does not belong in an average.
 
 ### What the table says that the plan did not
 
-**~71 auto-called rounds per NFL game.** That is now close to the plan's ~70
-estimate, but by a different route: First Down is higher than estimated and Big
-Play 20+ was never costed, while the redundancy rule takes back more than both.
+**~71 auto-called rounds per NFL game, ~64 in college.** The NFL number is close
+to the plan's ~70 estimate, but by a different route: First Down is higher than
+estimated and Big Play 20+ was never costed, while the redundancy rule takes
+back more than both.
 
 Per game the spread is what matters, not the mean: **51 in the 24-point slog, 90
 in the overtime game.** At 71 rounds across three-and-a-half hours that is a
 round roughly every **3 minutes**; in the slog it is nearer 4, in the shootout
-nearer 2.
+nearer 2. College sits between them at 50 and 77.
 
 Two dials remain if it is still too much, neither needing code:
 
@@ -88,7 +92,7 @@ Two dials remain if it is still too much, neither needing code:
 `isPenalty: false` on a *declined* penalty, so the detector counts accepted ones
 only, which is the right number to drink to.
 
-**Multi-card plays are now rare: 5.3 a game in the NFL, 2.7 in college**, down
+**Multi-card plays are now rare: 5.3 a game in the NFL, 4.0 in college**, down
 from 17.3 and 13.7. That is the redundancy rule doing its job — nearly every
 multi-card play was a First Down riding alongside a bigger card. What is left is
 genuine: Touchdown + Big Play 50+, and Penalty + Blocked Kicks. So back-to-back
