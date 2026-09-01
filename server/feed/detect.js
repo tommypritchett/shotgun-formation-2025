@@ -163,6 +163,68 @@ const suppressRedundantFirstDown = (cards) => {
   return cards.filter((c) => c.cardId !== 'First Down');
 };
 
+/**
+ * ── Type over flag ────────────────────────────────────────────────────────
+ *
+ * ESPN's booleans are reliable in the NFL and patchy in college. Measured over
+ * five real games:
+ *
+ *   `isTurnover`  NFL sets it on `Pass Interception Return` (3 of 3). College
+ *                 types the same event `Interception` and sets it 0 of 3.
+ *   `isPenalty`   NFL 23 of 23 accepted penalties, including ones inside
+ *                 another play type. College misses about one a game.
+ *   neither       A sack that ends in a fumble is typed `Fumble Recovery
+ *                 (Own)`: no flag says sack, and the type does not either. The
+ *                 text does.
+ *
+ * So every one of these reads the TYPE first and the flag second, and falls
+ * back to the text only where neither carries the event.
+ *
+ * **Negation still beats both.** A pick wiped out by roughing the passer is
+ * re-typed `Penalty` by ESPN, but a sack wiped out by holding keeps the word
+ * "sacked" in its text — so the negation guard is applied here rather than
+ * left to the caller.
+ */
+
+/** Types that ARE a change of possession. `(Own)` recoveries deliberately are not. */
+const TURNOVER_TYPES = /interception|fumble recovery \(opponent\)|fumble return|interception return/i;
+
+const isTurnoverPlay = (play, negated) => {
+  if (negated) return false;
+  if (play.isTurnover === true) return true;
+  return TURNOVER_TYPES.test(play.typeText || '');
+};
+
+/** A sack, however the play ended up typed. */
+const wasSacked = (play, negated) => {
+  if (negated) return false;
+  if (/sack/i.test(play.typeText || '')) return true;
+  return /\bsacked\b/i.test(text(play));
+};
+
+/**
+ * An ACCEPTED penalty. Declined and offsetting both mean nothing happened, so
+ * there is nothing to drink to — and offsetting used to slip through on the
+ * flag alone.
+ */
+const wasPenalised = (play) => {
+  const t = text(play);
+  // Offsetting means the down is replayed and nothing stands.
+  if (isOffsetting(play)) return false;
+  // ESPN's flag, where it is set, already means "accepted".
+  if (play.isPenalty === true) return true;
+  if (!/\bpenalty\b/i.test(t)) return false;
+
+  // Text-only fallback, for the college plays the flag misses.
+  //
+  // A play can carry TWO penalties, one accepted and one declined —
+  // "...Offensive Holding, 10 yards, enforced at NO 26.Penalty on NO-I.Yiadom,
+  // Offensive Holding, declined." — so a bare search for "declined" would throw
+  // away a penalty that was enforced. Enforcement wins.
+  if (/\benforced\b/i.test(t)) return true;
+  return !/\bdeclined\b/i.test(t);
+};
+
 /** A detection. `reason` is what gets logged so a missed call is diagnosable. */
 const card = (cardId, playId, reason, confidence = HIGH) => ({
   cardId, playId, reason, confidence, mode: modeFor(cardId),
@@ -243,13 +305,13 @@ const detectPlay = (play, context = {}) => {
   // false and nothing in the text to distinguish it. It is only visible as a
   // drive result. See detectDrive. Matching the word "downs" in play text finds
   // players called Downs, which is how this would have gone wrong.
-  if (play.isTurnover && !out.some((c) => c.cardId === 'Defensive TD')) {
+  if (isTurnoverPlay(play, negated) && !out.some((c) => c.cardId === 'Defensive TD')) {
     add('Turnover', play.id, play.typeText || 'turnover');
   }
 
   // ── sacks ────────────────────────────────────────────────────────────────
-  if (typeIs(play, 'sack') || (typeHas(play, 'sack') && !negated)) {
-    if (!negated) add('Sacks', play.id, play.typeText || 'sack');
+  if (wasSacked(play, negated)) {
+    add('Sacks', play.id, /sack/i.test(play.typeText || '') ? play.typeText : 'sacked');
   }
 
   // ── yardage ──────────────────────────────────────────────────────────────
@@ -271,7 +333,7 @@ const detectPlay = (play, context = {}) => {
   // fire Turnover, and often Defensive TD as well, and a third card on a
   // pick-six is not the intent.
   const yardageIsAGain = !negated
-    && !play.isPenalty
+    && !wasPenalised(play)
     && !UNMEASURABLE_KICK_TYPES.test(play.typeText || '');
 
   if (yardageIsAGain && typeof play.yards === 'number') {
@@ -285,13 +347,13 @@ const detectPlay = (play, context = {}) => {
   // ── penalty ──────────────────────────────────────────────────────────────
   // `isPenalty` is false for a DECLINED penalty, which is what we want: a
   // declined flag changes nothing, so there is nothing to drink to.
-  if (play.isPenalty) {
+  if (wasPenalised(play)) {
     add('Penalty', play.id, 'accepted penalty');
   }
 
   // A touchdown wiped out by a penalty. Sequence reasoning, and the most
   // likely of the Tier B set to misfire — hence suggest, never auto.
-  if (play.isPenalty && negated && /touchdown/i.test(t)) {
+  if (wasPenalised(play) && negated && /touchdown/i.test(t)) {
     add('Penalty Calls TD Back', play.id, 'touchdown negated by penalty', MEDIUM);
   }
 
@@ -443,7 +505,7 @@ const explainPlay = (play, context = {}) => {
           ? `${play.yards} yds on a blocked kick is not attributable to anyone`
           : `${play.yards} yds is the kick's length, not a gain`;
         suppressed.push({ cardId: band, rule: 'kick-not-measurable', reason: why });
-      } else if (play.isPenalty) {
+      } else if (wasPenalised(play)) {
         suppressed.push({
           cardId: band, rule: 'negated',
           reason: `${play.yards} yds is penalty enforcement, not a gain`,
@@ -457,6 +519,7 @@ const explainPlay = (play, context = {}) => {
 
 module.exports = {
   detectPlay, detectDrive, detectGame, explainPlay,
+  isTurnoverPlay, wasSacked, wasPenalised, TURNOVER_TYPES,
   isNegated, isOffsetting, gainedFirstDown, isNonPlay,
   suppressRedundantFirstDown,
   NON_PLAY_TYPES,

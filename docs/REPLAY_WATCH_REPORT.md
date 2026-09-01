@@ -8,33 +8,33 @@ Transcripts are in `transcripts/` (gitignored — they are run artifacts).
 
 ---
 
-## 1. What returns added
+## 1. What returns added, and what the flag fixes added
 
-Measured against the previous commit, not from memory.
+| Game | Before returns | After returns | After type-over-flag | Total Δ |
+|---|---:|---:|---:|---:|
+| IND 31 – ATL 25 | 77 | 86 | **87** | +10 |
+| CAR 7 – NO 17 | 45 | 50 | **50** | +5 |
+| SF 26 – LAR 42 | 66 | 71 | **70** | +4 |
+| OSU 38 – PSU 14 | 48 | 49 | **51** | +3 |
+| SMU 26 – MIA 20 | 67 | 72 | **75** | +8 |
+| **mean** | **60.6** | **65.6** | **66.6** | **+6.0** |
 
-| Game | Auto-calls before | After | Δ |
-|---|---:|---:|---:|
-| IND 31 – ATL 25 | 77 | **86** | +9 |
-| CAR 7 – NO 17 | 45 | **50** | +5 |
-| SF 26 – LAR 42 | 66 | **71** | +5 |
-| OSU 38 – PSU 14 | 48 | **49** | +1 |
-| SMU 26 – MIA 20 | 67 | **72** | +5 |
-| **mean** | **60.6** | **65.6** | **+5.0** |
+Returns contributed +5.0 a game; the flag fixes a further +1.0 net — three
+college turnovers and two college penalties and two sacks added, two false
+penalties (offsetting/declined) removed.
 
-Every added card is a kickoff or punt return of 20+ yards. The returns are
-clustered at 20–31 yards — ordinary returns, not spectacular ones — which is
-why IND–ATL gained nine: it has fifteen kickoffs.
+Every returns card is a kickoff or punt return of 20+ yards, clustered at 20–31
+— ordinary returns, not spectacular ones — which is why IND–ATL gained nine: it
+has fifteen kickoffs.
 
-**OSU–PSU gained only one.** College kickoffs are overwhelmingly touchbacks, so
-this change is close to NFL-only in practice. Worth knowing before assuming it
-lands evenly across both leagues.
+**OSU–PSU gained only one from returns.** College kickoffs are overwhelmingly
+touchbacks, so that change is close to NFL-only in practice; the flag fixes are
+the opposite, landing almost entirely on college.
 
 **The decision to see:** a long kick-return touchdown now fires **Special Teams
 TD + Big Play 50+** — two cards, one play, run sequentially. None occurs in these
-five fixtures, so it is untested against real data. It looks right to me — that
-is a huge moment and deserves two rounds — but it is a decision, not an accident.
-
----
+five fixtures, so it is untested against real data. It looks right — that is a
+huge moment — but it is a decision, not an accident.
 
 ## 2. CAR 7 – NO 17, quarter by quarter
 
@@ -103,72 +103,49 @@ and it is not relentless.** The risk in this fixture is not too little.
 
 ---
 
-## 3. False-negative sweep
+## 3. False-negative sweep — FIXED
 
-I went through all **575 blank plays** across the five transcripts, flagged every
-one containing an eventful word, and read them. **Three real classes of miss.**
-These are not hypotheses — each is confirmed against the raw ESPN record.
+I read all **575 blank plays** across the five transcripts and found three real
+misses. All three are now fixed (`type over flag`), and the sweep re-run finds
+**zero remaining false negatives**: 457 blanks, 3 flagged, all three correctly
+silent (two declined penalties, one offsetting).
 
-### ① College interceptions never fire Turnover — **high confidence**
+They were one fault, not three. Every rule that leaned on a boolean was trusting
+a field ESPN sets reliably in the NFL and unreliably in college:
 
-**The most serious finding in this report.**
+| Flag | NFL | College |
+|---|---|---|
+| `isTurnover` on an interception | 3 of 3 set (`Pass Interception Return`) | **0 of 3** set (`Interception`) |
+| `isPenalty` on an accepted penalty | **23 of 23** | misses ~1 a game |
+| anything saying "this was a sack" | absent when the play is typed as a fumble recovery | same |
 
-| Game | Interceptions in the text | Flagged `isTurnover` |
-|---|---:|---:|
-| OSU – PSU | 1 | **0** |
-| SMU – MIA | 2 | **0** |
-| all three NFL games | 5 | 4 (the fifth was correctly negated) |
+The fix reads the **type first, the flag second, and the text only where neither
+carries the event** — with negation still beating all three, because a pick wiped
+out by roughing is re-typed `Penalty` while a sack wiped out by holding keeps the
+word "sacked" in its text.
 
-ESPN's college feed gives the play `type: "Interception"` and sets
-`isTurnover: false`. Our Turnover rule reads only `isTurnover`, so **every college
-interception is silently missed** — three across two games, including a
-game-ending pick at Q5 0:00 in SMU–MIA.
+### What the audit turned up beyond the three
 
-Should have been: **Turnover**. Confidence: high — the type is literally
-`Interception`.
+Cross-referencing every play type against its flags across all five games:
 
-### ② A sack that ends in a fumble does not fire Sacks — **high confidence**
+- **`Fumble Recovery (Own)` correctly does not set `isTurnover`** — recovering
+  your own fumble is not a turnover. The type-based rule is written to match
+  `(Opponent)` only, so it does not break this.
+- **`Sack Opp Fumble Recovery` was already firing both Sacks and Turnover.** Only
+  `Fumble Recovery (Own)` hid a sack.
+- **Scoring flags are solid in both leagues** — every touchdown type has
+  `scoringPlay` set, 31 of 31. No change needed, and none made.
+- **A pre-existing bug the new tests caught: offsetting penalties were firing
+  `Penalty`.** Offsetting means the down is replayed and nothing stands, so
+  nothing should fire. Two false calls removed across the fixtures.
+- **`Safety` has no occurrence in any fixture**, so it remains covered by unit
+  test only and unverified against real data.
 
-IND–ATL Q3 11:40:
+### One regression I caused and fixed
 
-> `(Shotgun) D.Jones sacked at ATL 30 for -10 yards (J.Walker). FUMBLES (J.Walker), and recovers at ATL 31.`
-
-Type is `Fumble Recovery (Own)`, so our sack rule — which matches on the type —
-never sees it. The quarterback was sacked; the room should drink.
-
-Should have been: **Sacks**. Confidence: high.
-
-### ③ College accepted penalties are under-flagged, ~1 per game — **medium**
-
-| Game | Accepted penalties in text | Flagged `isPenalty` |
-|---|---:|---:|
-| OSU – PSU | 4 | 3 |
-| SMU – MIA | 15 | 14 |
-| all three NFL games | 23 | **23** |
-
-The NFL flag is perfect. College misses about one a game. The example is a punt
-with `PENALTY OSU Kick Catch Interference 15 yards`, enforced, arriving as
-`isPenalty: false`.
-
-Should have been: **Penalty**. Confidence: medium — one per game is a small
-sample and I would want more college fixtures before calling it systematic.
-
-### Not misses, though they looked like it
-
-- **`TURNOVER ON DOWNS` in the SMU–MIA play text** with `isTurnover: false` — but
-  the drive-level rule caught it, so the card did fire. Detected by a different
-  route, not missed.
-- Every `J.Downs` / `C.Downs` hit — player names. The detector is right to ignore
-  them, and this is exactly why the play-text rule for turnover-on-downs was
-  removed.
-- Declined penalties, fair catches, touchbacks — correctly silent.
-
-**Common thread:** all three real misses are places where we trust a **boolean
-flag** over the **play type**, and college sets the flags less reliably than the
-NFL. That is the shape of the next bug too, and it is worth fixing before Part B
-rather than after.
-
----
+The first cut vetoed any play whose text contained "declined". CAR–NO Q2 4:09
+carries **two** penalties — one enforced, one declined — and it silently lost a
+call that had been working. Enforcement now wins, and that play is a test.
 
 ## 4. Suspicious calls
 
