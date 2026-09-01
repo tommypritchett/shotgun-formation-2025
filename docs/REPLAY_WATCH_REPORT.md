@@ -209,3 +209,103 @@ flag where the type is more reliable — and they are cheap:
 
 Each needs a failing test from these fixtures first. None of them changes Part A;
 all three change what the owner would see in a live game.
+
+
+---
+
+# Real-data card coverage
+
+Added after the sweep. Ten real games now — five original, five captured
+specifically to exercise cards that had never fired.
+
+## The table
+
+| Card | Mode | Fired | Verdict |
+|---|---|---:|---|
+| First Down | auto | 280 | |
+| Penalty | auto | 110 | |
+| Big Play 20+ | auto | 108 | |
+| Touchdown | auto | 54 | |
+| Sacks | auto | 39 | |
+| 3 n Out | suggest | 31 | |
+| Field Goal | auto | 28 | |
+| Turnover | auto | 20 | |
+| Big Play 50+ | auto | 13 | |
+| Turnover on Downs | auto | 12 | |
+| Onside Attempt | suggest | 3 | |
+| Missed FG | auto | 2 | thin |
+| Defensive TD | auto | 2 | **was zero — works** |
+| Blocked Kicks | suggest | 2 | thin |
+| Safety | auto | 1 | **was zero — works** |
+| Special Teams TD | auto | 1 | **was zero — works** |
+| Penalty Calls TD Back | suggest | 1 | **was zero — works** |
+| Onside Recovered | suggest | 1 | **was zero — works** |
+| Disqualified | suggest | 1 | **was zero — WAS BROKEN, fixed** |
+| 2 PT Conversion | auto | 1 | thin |
+| Missed PAT | auto | 1 | thin |
+| **Fake Punt/FG** | suggest | **0** | **no signal exists** |
+| Doink, Record Broken | never | 0 | Ref-only by design |
+
+## Fixtures captured to close the gaps
+
+| Game | Covers |
+|---|---|
+| CIN 20 – NE 26 (`nfl/401772781`) | Defensive TD, Penalty Calls TD Back |
+| TEN 24 – SEA 30 (`nfl/401772886`) | Special Teams TD, Onside Attempt |
+| ARI 27 – CAR 22 (`nfl/401772730`) | Onside Recovered |
+| IOWA 16 – ORE 18 (`college/401752898`) | Safety |
+| MSST 21 – UGA 41 (`college/401752762`) | Disqualified (targeting) |
+
+## One card was broken, exactly as 2 PT was
+
+**`Disqualified` could never have fired.** The rule required the words
+"disqualified" or "ejected". ESPN writes neither. The real play reads:
+
+> `PENALTY MSU Targeting (#13 J.Manning) 15 yards from UGA24 to UGA39, 1ST DOWN.`
+> `NO PLAY. The previous play is under automatic review - "Targeting". CALL UPHELD`
+
+Targeting **upheld on review** is the ejection — that is what the review decides.
+Fixed to read the review outcome, and to stay silent on `CALL OVERTURNED`, which
+is a real distinction: overturned means no ejection.
+
+Same shape as 2 PT Conversion: passing its unit tests, structurally incapable of
+firing, and only findable by running real games through.
+
+## One card has no signal at all
+
+**`Fake Punt/FG` cannot fire, and no fix is available from this feed.** The word
+"fake" does not appear in ESPN play text in **111 games** scanned across both
+leagues. A fake reads as an ordinary rush or pass on fourth down, and there is no
+structural marker distinguishing it from a scramble.
+
+The plan half-anticipated this ("sometimes the description says 'fake'; sometimes
+it just reads as a run on fourth down"). It is worse than that — it never says
+it. **Recommend treating it as Ref-only**, like Doink and Record Broken, so the
+UI can say so plainly rather than leaving a card that silently never appears. I
+have not changed its mode, since mode changes are the owner's.
+
+## The five that turned out to work
+
+Defensive TD, Special Teams TD, Safety, Penalty Calls TD Back and Onside
+Recovered all fired correctly on the first real play that exercised them. No
+changes needed.
+
+## Standing guard
+
+`tests/card-coverage.test.js` now fails if any machine-called card has never
+fired against a fixture. `Fake Punt/FG` is listed as a documented gap with its
+reason; removing a card from that list without a fixture that exercises it fails
+the test. This is the check that would have caught 2 PT and Disqualified years
+earlier than reading transcripts did.
+
+## Pacing across ten games
+
+Mean auto-calls per game is now **67.2**, range **50 to 87**. The five new
+fixtures sit at 52–75, so the original five were representative; the spread
+between a slog and a shootout remains the thing that matters more than the mean.
+
+## Sweep across all ten
+
+923 blank plays, 8 containing an eventful word, **all 8 correctly silent** —
+four declined penalties, two offsetting, and an Oregon player recovering his own
+fumble. Zero false negatives.

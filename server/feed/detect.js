@@ -378,8 +378,14 @@ const detectPlay = (play, context = {}) => {
   // Ejections. NFL reporting is inconsistent to absent; college targeting is a
   // formal, reviewed, named foul that lands in the play text, so it is only
   // offered there.
-  if (league === 'college-football' && /targeting/i.test(t) && /(disqualif|eject)/i.test(t)) {
-    add('Disqualified', play.id, 'targeting with ejection', MEDIUM);
+  // ESPN does not write "disqualified" or "ejected" — it writes the review
+  // outcome. Targeting UPHELD on review is the ejection; that is what the
+  // review decides. Requiring the word "disqualified" made this card incapable
+  // of ever firing on real data, exactly as 2 PT Conversion was.
+  if (league === 'college-football' && /targeting/i.test(t)
+      && (/call upheld/i.test(t) || /(disqualif|eject)/i.test(t))
+      && !/call overturned/i.test(t)) {
+    add('Disqualified', play.id, 'targeting, upheld on review', MEDIUM);
   }
 
   void previous;

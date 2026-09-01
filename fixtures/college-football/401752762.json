@@ -1,0 +1,6628 @@
+{
+ "league": "college-football",
+ "gameId": "401752762",
+ "capturedAt": "2026-09-01T19:55:13.884Z",
+ "name": "MSST 21 - UGA 41",
+ "teams": [
+  {
+   "id": "344",
+   "abbreviation": "MSST",
+   "displayName": "Mississippi State Bulldogs",
+   "score": 21,
+   "homeAway": "home"
+  },
+  {
+   "id": "61",
+   "abbreviation": "UGA",
+   "displayName": "Georgia Bulldogs",
+   "score": 41,
+   "homeAway": "away"
+  }
+ ],
+ "periods": 4,
+ "playCount": 181,
+ "driveCount": 22,
+ "plays": [
+  {
+   "id": "4017527622",
+   "sequence": 0,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "70",
+   "typeText": "Coin Toss",
+   "text": "Mississippi State wins the toss, and will receive;Georgiaand will endzone",
+   "shortText": "Mississippi State wins the toss, and will receive;Georgiaand will endzone",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "teamId": null,
+   "driveId": null,
+   "wallclock": null
+  },
+  {
+   "id": "4017527623",
+   "sequence": 1,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(15:00) #91 P.Woodring kickoff 65 yards to the MSU00, Touchback",
+   "shortText": "P. Woodring kickoff for 65 yds for a touchback",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:04:18Z"
+  },
+  {
+   "id": "40175276212",
+   "sequence": 2,
+   "period": 1,
+   "clock": {
+    "seconds": 892,
+    "display": "14:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(15:00) No Huddle-Shotgun #2 B.Shapen rush right for 6 yards gain to the MSU31 (#5 R.Wilson)",
+   "shortText": "B. Shapen run for 6 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 69,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:07:14Z"
+  },
+  {
+   "id": "40175276216",
+   "sequence": 3,
+   "period": 1,
+   "clock": {
+    "seconds": 873,
+    "display": "14:33"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:37) No Huddle-Shotgun #6 D.Booth rush middle for 10 yards gain to the MSU41 (#4 K.Bolden), 1ST DOWN",
+   "shortText": "D. Booth run for 10 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 69,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:07:33Z"
+  },
+  {
+   "id": "40175276220",
+   "sequence": 4,
+   "period": 1,
+   "clock": {
+    "seconds": 855,
+    "display": "14:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:19) No Huddle-Shotgun #6 D.Booth rush middle for 1 yard gain to the MSU42 (#52 C.Miller; #94 X.McLeod)",
+   "shortText": "D. Booth run for 1 yd",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 58,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:07:51Z"
+  },
+  {
+   "id": "40175276224",
+   "sequence": 5,
+   "period": 1,
+   "clock": {
+    "seconds": 835,
+    "display": "13:55"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:59) No Huddle-Shotgun #6 D.Booth rush right for 2 yards loss to the MSU40 (#33 Q.Johnson)",
+   "shortText": "D. Booth run for -2 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 58,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 60,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:08:12Z"
+  },
+  {
+   "id": "40175276228",
+   "sequence": 6,
+   "period": 1,
+   "clock": {
+    "seconds": 804,
+    "display": "13:24"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(13:32) No Huddle-Shotgun #2 B.Shapen pass complete short middle to #0 B.Thompson caught at UGA49, for 11 yards to the UGA49 (#3 C.Allen; #20 J.Thomas), 1ST DOWN",
+   "shortText": "B. Shapen pass to B. Thompson for 11 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 60,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:08:39Z"
+  },
+  {
+   "id": "40175276233",
+   "sequence": 7,
+   "period": 1,
+   "clock": {
+    "seconds": 788,
+    "display": "13:08"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(13:12) No Huddle-Shotgun #2 B.Shapen sacked for loss of 5 yards to the MSU46 (#5 R.Wilson, #3 C.Allen)",
+   "shortText": "B. Shapen sacked  by R. Wilson for -3 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 15,
+    "yardsToEndzone": 54,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:09:00Z"
+  },
+  {
+   "id": "40175276237",
+   "sequence": 8,
+   "period": 1,
+   "clock": {
+    "seconds": 748,
+    "display": "12:28"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(12:35) Shotgun #2 B.Shapen pass complete short left to #87 S.West caught at MSU49, for 12 yards to the UGA42 (#1 E.Robinson IV)",
+   "shortText": "B. Shapen pass to S. West for 12 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 15,
+    "yardsToEndzone": 54,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 42,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:09:35Z"
+  },
+  {
+   "id": "40175276242",
+   "sequence": 9,
+   "period": 1,
+   "clock": {
+    "seconds": 721,
+    "display": "12:01"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(12:10) No Huddle-Shotgun #2 B.Shapen pass complete short left to #3 A.Evans III caught at UGA35, for 7 yards to the UGA35 (#8 J.Aguero), 1ST DOWN",
+   "shortText": "B. Shapen pass to A. Evans III for 7 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 42,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:10:01Z"
+  },
+  {
+   "id": "40175276247",
+   "sequence": 10,
+   "period": 1,
+   "clock": {
+    "seconds": 700,
+    "display": "11:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:44) No Huddle-Shotgun #24 F.Bothwell rush right for 5 yards gain to the UGA30 (#3 C.Allen; #28 K.Jones)",
+   "shortText": "F. Bothwell run for 5 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 30,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:10:28Z"
+  },
+  {
+   "id": "40175276251",
+   "sequence": 11,
+   "period": 1,
+   "clock": {
+    "seconds": 678,
+    "display": "11:18"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(11:25) No Huddle-Shotgun #2 B.Shapen pass complete short right to #8 S.Traore caught at UGA26, for 4 yards to the UGA26 (#20 J.Thomas)",
+   "shortText": "B. Shapen pass to S. Traore for 4 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 30,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 26,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:10:48Z"
+  },
+  {
+   "id": "40175276256",
+   "sequence": 12,
+   "period": 1,
+   "clock": {
+    "seconds": 658,
+    "display": "10:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:03) No Huddle-Shotgun #24 F.Bothwell rush right for 15 yards gain to the UGA11 (#6 D.Everette), 1ST DOWN",
+   "shortText": "F. Bothwell run for 15 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 26,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 11,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:11:09Z"
+  },
+  {
+   "id": "40175276260",
+   "sequence": 13,
+   "period": 1,
+   "clock": {
+    "seconds": 621,
+    "display": "10:21"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:27) No Huddle-Shotgun #2 B.Shapen rush left for 2 yards gain to the UGA09 (#4 K.Bolden)",
+   "shortText": "B. Shapen run for 2 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 11,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 9,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:11:51Z"
+  },
+  {
+   "id": "40175276264",
+   "sequence": 14,
+   "period": 1,
+   "clock": {
+    "seconds": 597,
+    "display": "9:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:02) No Huddle-Shotgun #2 B.Shapen rush right for 5 yards gain to the UGA04 (#4 K.Bolden; #3 C.Allen). The previous play is under automatic review - \"Runner was down by contact\". CALL UPHELD",
+   "shortText": "B. Shapen run for 5 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 9,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 4,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:12:16Z"
+  },
+  {
+   "id": "40175276271",
+   "sequence": 15,
+   "period": 1,
+   "clock": {
+    "seconds": 566,
+    "display": "9:26"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(09:30) No Huddle-Shotgun #1 K.Taylor rush middle for 4 yards gain to the UGA00 TOUCHDOWN, clock 09:26, 1ST DOWN #80 K.Ferrie kick attempt good (H: #49 M.Hauck, LS: #45 E.Myers) #80 K.Ferrie kick attempt good (H: #49 M.Hauck, LS: #45 E.Myers) PENALTY UGA Offside declined",
+   "shortText": "Kamario Taylor 4 Yd Run (Kyle Ferrie Kick)",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 4,
+    "teamId": "344"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527622",
+   "wallclock": "2025-11-08T17:14:07Z"
+  },
+  {
+   "id": "40175276279",
+   "sequence": 17,
+   "period": 1,
+   "clock": {
+    "seconds": 560,
+    "display": "9:20"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(09:26) #80 K.Ferrie kickoff 61 yards to the UGA04 #1 Z.Branch return 19 yards to the UGA23 (#21 H.Washington; #46 J.Head Jr.)",
+   "shortText": "K. Ferrie kickoff for 61 yds, Za. Branch returns for 19 yds",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 77,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527624",
+   "wallclock": "2025-11-08T17:18:41Z"
+  },
+  {
+   "id": "40175276284",
+   "sequence": 18,
+   "period": 1,
+   "clock": {
+    "seconds": 553,
+    "display": "9:13"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(09:18) Shotgun #33 C.Bowens rush left for 7 yards gain to the UGA30 (#1 K.Jones)",
+   "shortText": "C. Bowens run for 7 yds",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 77,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 70,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527624",
+   "wallclock": "2025-11-08T17:19:31Z"
+  },
+  {
+   "id": "40175276288",
+   "sequence": 19,
+   "period": 1,
+   "clock": {
+    "seconds": 521,
+    "display": "8:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:46) No Huddle-Shotgun #33 C.Bowens rush middle for 4 yards gain to the UGA34 (#1 K.Jones; #22 K.Bingley-Jones), 1ST DOWN",
+   "shortText": "C. Bowens run for 4 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 70,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 66,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527624",
+   "wallclock": "2025-11-08T17:20:04Z"
+  },
+  {
+   "id": "40175276292",
+   "sequence": 20,
+   "period": 1,
+   "clock": {
+    "seconds": 484,
+    "display": "8:04"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(08:13) No Huddle-Shotgun #14 G.Stockton pass complete short right to #16 L.Humphreys caught at MSU48, for 36 yards to the MSU30 (#4 D.Brumfield), 1ST DOWN",
+   "shortText": "G. Stockton pass to L. Humphreys for 36 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 36,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 66,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527624",
+   "wallclock": "2025-11-08T17:20:37Z"
+  },
+  {
+   "id": "40175276297",
+   "sequence": 21,
+   "period": 1,
+   "clock": {
+    "seconds": 445,
+    "display": "7:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:33) No Huddle-Shotgun #84 L.Roldan rush left for 1 yard loss to the MSU31 (#13 J.Manning)",
+   "shortText": "L. Roldan run for -1 yd",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 31,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527624",
+   "wallclock": "2025-11-08T17:21:17Z"
+  },
+  {
+   "id": "401752762101",
+   "sequence": 22,
+   "period": 1,
+   "clock": {
+    "seconds": 413,
+    "display": "6:53"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(06:56) No Huddle-Shotgun #14 G.Stockton pass incomplete deep left to #10 E.Williams thrown to MSU07 broken up by #1 K.Jones",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 31,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 31,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527624",
+   "wallclock": "2025-11-08T17:21:54Z"
+  },
+  {
+   "id": "401752762104",
+   "sequence": 23,
+   "period": 1,
+   "clock": {
+    "seconds": 406,
+    "display": "6:46"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(06:51) No Huddle-Shotgun #14 G.Stockton pass incomplete short middle to #1 Z.Branch thrown to MSU14",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 31,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 4,
+    "distance": 11,
+    "yardsToEndzone": 31,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527624",
+   "wallclock": "2025-11-08T17:22:32Z"
+  },
+  {
+   "id": "401752762107",
+   "sequence": 24,
+   "period": 1,
+   "clock": {
+    "seconds": 401,
+    "display": "6:41"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "(06:45) #91 P.Woodring field goal attempt from 49 yards GOOD (H: #14 G.Stockton, LS: #60 B.Gardner), clock 06:41",
+   "shortText": "Peyton Woodring 49 Yd Field Goal  ",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 49,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 11,
+    "yardsToEndzone": 31,
+    "teamId": "61"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527624",
+   "wallclock": "2025-11-08T17:23:13Z"
+  },
+  {
+   "id": "401752762110",
+   "sequence": 25,
+   "period": 1,
+   "clock": {
+    "seconds": 401,
+    "display": "6:41"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(06:41) #91 P.Woodring kickoff 65 yards to the MSU00, Touchback",
+   "shortText": "P. Woodring kickoff for 65 yds for a touchback",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527626",
+   "wallclock": "2025-11-08T17:23:22Z"
+  },
+  {
+   "id": "401752762113",
+   "sequence": 26,
+   "period": 1,
+   "clock": {
+    "seconds": 401,
+    "display": "6:41"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(06:41) PENALTY MSU False Start (#72 C.Boone) 5 yards from MSU25 to MSU20. NO PLAY",
+   "shortText": "Mississippi State Penalty, falsestart (C. Boone)",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 80,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527626",
+   "wallclock": "2025-11-08T17:27:50Z"
+  },
+  {
+   "id": "401752762116",
+   "sequence": 27,
+   "period": 1,
+   "clock": {
+    "seconds": 392,
+    "display": "6:32"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:40) No Huddle-Shotgun #2 B.Shapen rush right for 5 yards gain to the MSU25 (#90 E.Griffin)",
+   "shortText": "B. Shapen run for 5 yds",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 80,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527626",
+   "wallclock": "2025-11-08T17:28:18Z"
+  },
+  {
+   "id": "401752762120",
+   "sequence": 28,
+   "period": 1,
+   "clock": {
+    "seconds": 377,
+    "display": "6:17"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:21) No Huddle-Shotgun #24 F.Bothwell rush right for 5 yards gain to the MSU30 (#9 C.Cole)",
+   "shortText": "F. Bothwell run for 5 yds",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527626",
+   "wallclock": "2025-11-08T17:28:33Z"
+  },
+  {
+   "id": "401752762124",
+   "sequence": 29,
+   "period": 1,
+   "clock": {
+    "seconds": 335,
+    "display": "5:35"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(05:40) No Huddle-Shotgun #2 B.Shapen pass complete short left to #3 A.Evans III caught at MSU33, for 3 yards to the MSU33 (#8 J.Aguero; #10 Z.Walker) PENALTY MSU Personal Foul declined",
+   "shortText": "B. Shapen pass to A. Evans III for 3 yds",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 67,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527626",
+   "wallclock": "2025-11-08T17:29:15Z"
+  },
+  {
+   "id": "401752762130",
+   "sequence": 30,
+   "period": 1,
+   "clock": {
+    "seconds": 316,
+    "display": "5:16"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(05:24) #88 E.Pulliam punt 35 yards to the UGA32",
+   "shortText": "E. Pulliam punt for 35 yds",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 67,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527626",
+   "wallclock": "2025-11-08T17:30:28Z"
+  },
+  {
+   "id": "401752762134",
+   "sequence": 31,
+   "period": 1,
+   "clock": {
+    "seconds": 309,
+    "display": "5:09"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(05:16) Shotgun #14 G.Stockton pass complete short middle to #86 D.Bell caught at UGA26, for 15 yards to the UGA47 (#13 J.Manning), 1ST DOWN",
+   "shortText": "G. Stockton pass to D. Bell for 15 yds for a 1ST down",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 68,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527627",
+   "wallclock": "2025-11-08T17:34:25Z"
+  },
+  {
+   "id": "401752762139",
+   "sequence": 32,
+   "period": 1,
+   "clock": {
+    "seconds": 268,
+    "display": "4:28"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(04:45) No Huddle-Shotgun #14 G.Stockton pass complete short right to #1 Z.Branch caught at MSU40, for 14 yards to the MSU39 (#13 J.Manning), 1ST DOWN",
+   "shortText": "G. Stockton pass to Za. Branch for 14 yds for a 1ST down",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 39,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527627",
+   "wallclock": "2025-11-08T17:34:59Z"
+  },
+  {
+   "id": "401752762144",
+   "sequence": 33,
+   "period": 1,
+   "clock": {
+    "seconds": 242,
+    "display": "4:02"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:07) No Huddle-Shotgun #33 C.Bowens rush middle for 4 yards gain to the MSU35 (#99 D.Moye)",
+   "shortText": "C. Bowens run for 4 yds",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 39,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 35,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527627",
+   "wallclock": "2025-11-08T17:35:35Z"
+  },
+  {
+   "id": "401752762148",
+   "sequence": 34,
+   "period": 1,
+   "clock": {
+    "seconds": 208,
+    "display": "3:28"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:36) No Huddle-Shotgun #3 N.Frazier rush middle for 31 yards gain to the MSU04 (#13 J.Manning), 1ST DOWN",
+   "shortText": "N. Frazier run for 31 yds for a 1ST down",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 31,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 35,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527627",
+   "wallclock": "2025-11-08T17:36:06Z"
+  },
+  {
+   "id": "401752762152",
+   "sequence": 35,
+   "period": 1,
+   "clock": {
+    "seconds": 202,
+    "display": "3:22"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(03:26) No Huddle-Shotgun #14 G.Stockton pass incomplete short left to #5 N.Thomas thrown to MSU00 broken up by #1 K.Jones",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527627",
+   "wallclock": "2025-11-08T17:36:47Z"
+  },
+  {
+   "id": "401752762155",
+   "sequence": 36,
+   "period": 1,
+   "clock": {
+    "seconds": 195,
+    "display": "3:15"
+   },
+   "typeId": "29",
+   "typeText": "Fumble Recovery (Opponent)",
+   "text": "(03:19) #86 D.Bell rush left for 1 yard gain to the MSU03 fumbled by #86 D.Bell at MSU03 forced by #23 T.Williams recovered by MSU #2 I.Smith at MSU03, End Of Play. The previous play is under automatic review - \"Fumble\". CALL UPHELD",
+   "shortText": "D. Bell run for 1 yd, D. Bell fumbled, forced by T. Williams, recovered by I. Smith, I. Smith returned",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 0,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 0,
+    "distance": 3,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "teamId": "61",
+   "driveId": "4017527627",
+   "wallclock": null
+  },
+  {
+   "id": "401752762163",
+   "sequence": 37,
+   "period": 1,
+   "clock": {
+    "seconds": 189,
+    "display": "3:09"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:15) No Huddle-Shotgun #6 D.Booth rush middle for 2 yards gain to the MSU05 (#4 K.Bolden; #5 R.Wilson)",
+   "shortText": "D. Booth run for 2 yds",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 97,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 95,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527628",
+   "wallclock": "2025-11-08T17:41:01Z"
+  },
+  {
+   "id": "401752762167",
+   "sequence": 38,
+   "period": 1,
+   "clock": {
+    "seconds": 161,
+    "display": "2:41"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(02:41) No Huddle-Shotgun #2 B.Shapen pass incomplete deep left to #3 A.Evans III thrown to MSU40 PENALTY UGA Holding (#4 K.Bolden) 10 yards from MSU05 to MSU15, 1ST DOWN. NO PLAY",
+   "shortText": "B. Shapen pass incomplete, Georgia Penalty, holding (KJ Bolden) for a 1ST down",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 95,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 85,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527628",
+   "wallclock": "2025-11-08T17:41:49Z"
+  },
+  {
+   "id": "401752762171",
+   "sequence": 39,
+   "period": 1,
+   "clock": {
+    "seconds": 151,
+    "display": "2:31"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:35) No Huddle-Shotgun #6 D.Booth rush left for 1 yard gain to the MSU16 (#33 Q.Johnson; #52 C.Miller)",
+   "shortText": "D. Booth run for 1 yd",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 85,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 84,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527628",
+   "wallclock": "2025-11-08T17:42:20Z"
+  },
+  {
+   "id": "401752762175",
+   "sequence": 40,
+   "period": 1,
+   "clock": {
+    "seconds": 121,
+    "display": "2:01"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(02:06) No Huddle-Shotgun #2 B.Shapen pass incomplete short right to #4 J.Mosley thrown to MSU35 QB hurried by #5 R.Wilson",
+   "shortText": "B. Shapen pass incomplete",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 84,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 84,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527628",
+   "wallclock": "2025-11-08T17:42:53Z"
+  },
+  {
+   "id": "401752762178",
+   "sequence": 41,
+   "period": 1,
+   "clock": {
+    "seconds": 113,
+    "display": "1:53"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:59) No Huddle-Shotgun #2 B.Shapen pass complete short middle to #0 B.Thompson caught at MSU23, for 10 yards to the MSU26 (#8 J.Aguero), 1ST DOWN",
+   "shortText": "B. Shapen pass to B. Thompson for 10 yds for a 1ST down",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 84,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527628",
+   "wallclock": "2025-11-08T17:43:29Z"
+  },
+  {
+   "id": "401752762183",
+   "sequence": 42,
+   "period": 1,
+   "clock": {
+    "seconds": 89,
+    "display": "1:29"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(01:35) No Huddle-Shotgun #2 B.Shapen sacked for loss of 14 yards to the MSU12 (#5 R.Wilson)",
+   "shortText": "B. Shapen sacked  by R. Wilson for -14 yds",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 24,
+    "yardsToEndzone": 88,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527628",
+   "wallclock": "2025-11-08T17:43:56Z"
+  },
+  {
+   "id": "401752762187",
+   "sequence": 43,
+   "period": 1,
+   "clock": {
+    "seconds": 47,
+    "display": "0:47"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:51) No Huddle-Shotgun #2 B.Shapen rush left for 4 yards gain to the MSU16 (#9 C.Cole)",
+   "shortText": "B. Shapen run for 4 yds",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 24,
+    "yardsToEndzone": 88,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 20,
+    "yardsToEndzone": 84,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "4017527628",
+   "wallclock": "2025-11-08T17:44:37Z"
+  },
+  {
+   "id": "401752762191",
+   "sequence": 44,
+   "period": 1,
+   "clock": {
+    "seconds": 11,
+    "display": "0:11"
+   },
+   "typeId": "29",
+   "typeText": "Fumble Recovery (Opponent)",
+   "text": "(00:18) No Huddle-Shotgun #2 B.Shapen rush middle for 11 yards gain to the MSU27 fumbled by #2 B.Shapen at MSU23 forced by #33 Q.Johnson recovered by UGA #4 K.Bolden at MSU27, End Of Play PENALTY MSU Holding declined",
+   "shortText": "B. Shapen run for 11 yds, B. Shapen fumbled, forced by Q. Johnson, recovered by KJ Bolden, KJ Bolden returned",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 3,
+    "distance": 20,
+    "yardsToEndzone": 84,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527628",
+   "wallclock": "2025-11-08T17:45:16Z"
+  },
+  {
+   "id": "401752762199",
+   "sequence": 45,
+   "period": 1,
+   "clock": {
+    "seconds": 3,
+    "display": "0:03"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:11) #14 G.Stockton pass complete short left to #1 Z.Branch caught at MSU31, for 1 yard loss to the MSU28 (#3 B.Lanier)",
+   "shortText": "G. Stockton pass to Za. Branch for -1 yd",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527629",
+   "wallclock": "2025-11-08T17:46:18Z"
+  },
+  {
+   "id": "401752762206",
+   "sequence": 45,
+   "period": 1,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 1st quarter.",
+   "shortText": "End of 1st quarter.",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": null
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527629",
+   "wallclock": "2025-11-08T17:46:38Z"
+  },
+  {
+   "id": "401752762210",
+   "sequence": 46,
+   "period": 2,
+   "clock": {
+    "seconds": 894,
+    "display": "14:54"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(15:00) Shotgun #14 G.Stockton pass incomplete deep left to #7 L.Luckie thrown to MSU03",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527629",
+   "wallclock": "2025-11-08T17:50:33Z"
+  },
+  {
+   "id": "401752762215",
+   "sequence": 47,
+   "period": 2,
+   "clock": {
+    "seconds": 882,
+    "display": "14:42"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:52) No Huddle-Shotgun #14 G.Stockton pass complete deep left to #10 E.Williams caught at MSU05, for 24 yards to the MSU04 (#13 J.Manning), 1ST DOWN",
+   "shortText": "G. Stockton pass to E. Williams for 24 yds for a 1ST down",
+   "awayScore": 3,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527629",
+   "wallclock": "2025-11-08T17:51:06Z"
+  },
+  {
+   "id": "401752762220",
+   "sequence": 48,
+   "period": 2,
+   "clock": {
+    "seconds": 851,
+    "display": "14:11"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(14:14) No Huddle-Shotgun #33 C.Bowens rush middle for 4 yards gain to the MSU00 TOUCHDOWN, clock 14:11 #91 P.Woodring kick attempt good (H: #14 G.Stockton, LS: #60 B.Gardner)",
+   "shortText": "Chauncey Bowens 4 Yd Run (Peyton Woodring Kick)",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "61"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "4017527629",
+   "wallclock": "2025-11-08T17:51:44Z"
+  },
+  {
+   "id": "401752762227",
+   "sequence": 50,
+   "period": 2,
+   "clock": {
+    "seconds": 851,
+    "display": "14:11"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(14:11) #91 P.Woodring kickoff 65 yards to the MSU00, Touchback",
+   "shortText": "P. Woodring kickoff for 65 yds for a touchback",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276211",
+   "wallclock": "2025-11-08T17:52:27Z"
+  },
+  {
+   "id": "401752762230",
+   "sequence": 51,
+   "period": 2,
+   "clock": {
+    "seconds": 844,
+    "display": "14:04"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:11) No Huddle-Shotgun #24 F.Bothwell rush left for 7 yards gain to the MSU32 (#0 G.Harris Jr.; #8 J.Aguero)",
+   "shortText": "F. Bothwell run for 7 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276211",
+   "wallclock": "2025-11-08T17:54:23Z"
+  },
+  {
+   "id": "401752762234",
+   "sequence": 52,
+   "period": 2,
+   "clock": {
+    "seconds": 823,
+    "display": "13:43"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:47) No Huddle-Shotgun #2 B.Shapen rush middle for 1 yard gain to the MSU33 (#19 J.Williams; #9 C.Cole)",
+   "shortText": "B. Shapen run for 1 yd",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 67,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276211",
+   "wallclock": "2025-11-08T17:54:45Z"
+  },
+  {
+   "id": "401752762238",
+   "sequence": 53,
+   "period": 2,
+   "clock": {
+    "seconds": 804,
+    "display": "13:24"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:28) No Huddle-Shotgun #24 F.Bothwell rush middle for 5 yards gain to the MSU38 (#95 N.Ogboko; #8 J.Aguero), 1ST DOWN",
+   "shortText": "F. Bothwell run for 5 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 67,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276211",
+   "wallclock": "2025-11-08T17:55:04Z"
+  },
+  {
+   "id": "401752762242",
+   "sequence": 54,
+   "period": 2,
+   "clock": {
+    "seconds": 777,
+    "display": "12:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:02) No Huddle-Shotgun #24 F.Bothwell rush middle for 5 yards gain to the MSU43 (#9 C.Cole; #95 N.Ogboko)",
+   "shortText": "F. Bothwell run for 5 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 57,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276211",
+   "wallclock": "2025-11-08T17:55:31Z"
+  },
+  {
+   "id": "401752762246",
+   "sequence": 55,
+   "period": 2,
+   "clock": {
+    "seconds": 756,
+    "display": "12:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:40) No Huddle-Shotgun #24 F.Bothwell rush middle for 0 yards to the MSU43 (#9 C.Cole; #8 J.Aguero)",
+   "shortText": "F. Bothwell run for 0 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 57,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 57,
+    "teamId": null
+   },
+   "teamId": "344",
+   "driveId": "40175276211",
+   "wallclock": "2025-11-08T17:55:52Z"
+  },
+  {
+   "id": "401752762250",
+   "sequence": 56,
+   "period": 2,
+   "clock": {
+    "seconds": 738,
+    "display": "12:18"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(12:20) Shotgun #2 B.Shapen pass incomplete short right to #3 A.Evans III thrown to MSU45 broken up by #6 D.Everette",
+   "shortText": "B. Shapen pass incomplete",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 57,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 57,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276211",
+   "wallclock": "2025-11-08T17:59:39Z"
+  },
+  {
+   "id": "401752762253",
+   "sequence": 57,
+   "period": 2,
+   "clock": {
+    "seconds": 731,
+    "display": "12:11"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(12:16) #38 N.Tiyce punt 47 yards to the UGA10 fair catch by #1 Z.Branch at UGA10",
+   "shortText": "N. Tiyce punt for 47 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 57,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 10,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276211",
+   "wallclock": "2025-11-08T18:00:09Z"
+  },
+  {
+   "id": "401752762257",
+   "sequence": 58,
+   "period": 2,
+   "clock": {
+    "seconds": 724,
+    "display": "12:04"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:11) Shotgun #3 N.Frazier rush left for 2 yards gain to the UGA12 (#40 N.Mitchell; #3 B.Lanier)",
+   "shortText": "N. Frazier run for 2 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 88,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:00:57Z"
+  },
+  {
+   "id": "401752762261",
+   "sequence": 59,
+   "period": 2,
+   "clock": {
+    "seconds": 689,
+    "display": "11:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:34) No Huddle-Shotgun #3 N.Frazier rush left for 7 yards gain to the UGA19 (#44 B.Jennings; #25 R.Thomas)",
+   "shortText": "N. Frazier run for 7 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 88,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 81,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:01:32Z"
+  },
+  {
+   "id": "401752762265",
+   "sequence": 60,
+   "period": 2,
+   "clock": {
+    "seconds": 663,
+    "display": "11:03"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:07) No Huddle #14 G.Stockton rush middle for 2 yards gain to the UGA21 (#2 I.Smith; #35 K.Dinkins), 1ST DOWN",
+   "shortText": "G. Stockton run for 2 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 81,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:02:08Z"
+  },
+  {
+   "id": "401752762269",
+   "sequence": 61,
+   "period": 2,
+   "clock": {
+    "seconds": 627,
+    "display": "10:27"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:31) No Huddle-Shotgun #3 N.Frazier rush middle for 9 yards gain to the UGA30 (#21 H.Washington)",
+   "shortText": "N. Frazier run for 9 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 70,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:02:45Z"
+  },
+  {
+   "id": "401752762273",
+   "sequence": 62,
+   "period": 2,
+   "clock": {
+    "seconds": 588,
+    "display": "9:48"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(09:53) No Huddle-Shotgun #33 C.Bowens rush middle for 1 yard gain to the UGA31 (#2 I.Smith; #15 J.Williams), 1ST DOWN",
+   "shortText": "C. Bowens run for 1 yd for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 70,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:03:24Z"
+  },
+  {
+   "id": "401752762277",
+   "sequence": 63,
+   "period": 2,
+   "clock": {
+    "seconds": 546,
+    "display": "9:06"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(09:16) Shotgun #14 G.Stockton pass complete deep middle to #4 O.Delp caught at MSU41, for 29 yards to the MSU40 (#7 Z.Tillman), 1ST DOWN",
+   "shortText": "G. Stockton pass to O. Delp for 29 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 29,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:05:38Z"
+  },
+  {
+   "id": "401752762282",
+   "sequence": 64,
+   "period": 2,
+   "clock": {
+    "seconds": 522,
+    "display": "8:42"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(08:51) No Huddle-Shotgun #14 G.Stockton pass complete short right to #1 Z.Branch caught at MSU33, for 7 yards to the MSU33 (#15 J.Williams)",
+   "shortText": "G. Stockton pass to Za. Branch for 7 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 33,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:06:02Z"
+  },
+  {
+   "id": "401752762287",
+   "sequence": 65,
+   "period": 2,
+   "clock": {
+    "seconds": 495,
+    "display": "8:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:21) No Huddle-Shotgun #33 C.Bowens rush right for 6 yards gain to the MSU27 (#9 T.Mitchell; #40 N.Mitchell), 1ST DOWN",
+   "shortText": "C. Bowens run for 6 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 33,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:06:32Z"
+  },
+  {
+   "id": "401752762291",
+   "sequence": 66,
+   "period": 2,
+   "clock": {
+    "seconds": 451,
+    "display": "7:31"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:38) No Huddle-Shotgun #14 G.Stockton rush middle for 0 yards to the MSU27 (#92 J.Bledsoe; #6 D.Anderson)",
+   "shortText": "G. Stockton run for 0 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:07:18Z"
+  },
+  {
+   "id": "401752762295",
+   "sequence": 67,
+   "period": 2,
+   "clock": {
+    "seconds": 420,
+    "display": "7:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:05) No Huddle-Shotgun #3 N.Frazier rush left for 9 yards gain to the MSU18 (#9 T.Mitchell; #13 J.Manning)",
+   "shortText": "N. Frazier run for 9 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 18,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:07:48Z"
+  },
+  {
+   "id": "401752762299",
+   "sequence": 68,
+   "period": 2,
+   "clock": {
+    "seconds": 376,
+    "display": "6:16"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:23) #14 G.Stockton rush middle for 5 yards gain to the MSU13 (#23 T.Williams; #92 J.Bledsoe), 1ST DOWN",
+   "shortText": "G. Stockton run for 5 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 18,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 13,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:08:32Z"
+  },
+  {
+   "id": "401752762303",
+   "sequence": 69,
+   "period": 2,
+   "clock": {
+    "seconds": 339,
+    "display": "5:39"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:45) No Huddle-Shotgun #14 G.Stockton rush middle for 5 yards gain to the MSU08 (#7 Z.Tillman; #40 N.Mitchell)",
+   "shortText": "G. Stockton run for 5 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 13,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 8,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:09:09Z"
+  },
+  {
+   "id": "401752762307",
+   "sequence": 70,
+   "period": 2,
+   "clock": {
+    "seconds": 309,
+    "display": "5:09"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(05:14) No Huddle-Shotgun #14 G.Stockton pass complete short right to #4 O.Delp caught at MSU10, for 8 yards to the MSU00 TOUCHDOWN, clock 05:09, 1ST DOWN #91 P.Woodring kick attempt good (H: #14 G.Stockton, LS: #60 B.Gardner)",
+   "shortText": "Oscar Delp 8 Yd pass from Gunner Stockton (Peyton Woodring Kick)",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 8,
+    "teamId": "61"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276212",
+   "wallclock": "2025-11-08T18:09:39Z"
+  },
+  {
+   "id": "401752762315",
+   "sequence": 72,
+   "period": 2,
+   "clock": {
+    "seconds": 309,
+    "display": "5:09"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(05:09) #91 P.Woodring kickoff 63 yards to the MSU02, out of bounds at MSU02",
+   "shortText": "P. Woodring kickoff for 63 yds, punt out-of-bounds",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276214",
+   "wallclock": "2025-11-08T18:10:29Z"
+  },
+  {
+   "id": "401752762319",
+   "sequence": 73,
+   "period": 2,
+   "clock": {
+    "seconds": 299,
+    "display": "4:59"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(05:09) No Huddle-Shotgun #2 B.Shapen pass complete short middle to #8 S.Traore caught at MSU41, for 8 yards to the MSU43 (#5 R.Wilson)",
+   "shortText": "B. Shapen pass to S. Traore for 8 yds",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 57,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276214",
+   "wallclock": "2025-11-08T18:14:55Z"
+  },
+  {
+   "id": "401752762324",
+   "sequence": 74,
+   "period": 2,
+   "clock": {
+    "seconds": 282,
+    "display": "4:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:47) No Huddle-Shotgun #6 D.Booth rush right for 10 yards gain to the UGA47 (#4 K.Bolden; #81 J.Horton), 1ST DOWN",
+   "shortText": "D. Booth run for 10 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 57,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276214",
+   "wallclock": "2025-11-08T18:15:14Z"
+  },
+  {
+   "id": "401752762328",
+   "sequence": 75,
+   "period": 2,
+   "clock": {
+    "seconds": 257,
+    "display": "4:17"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(04:26) No Huddle-Shotgun #2 B.Shapen pass complete short left to #3 A.Evans III caught at UGA29, for 19 yards to the UGA28 (#1 E.Robinson IV; #20 J.Thomas), 1ST DOWN",
+   "shortText": "B. Shapen pass to A. Evans III for 19 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276214",
+   "wallclock": "2025-11-08T18:15:37Z"
+  },
+  {
+   "id": "401752762333",
+   "sequence": 76,
+   "period": 2,
+   "clock": {
+    "seconds": 246,
+    "display": "4:06"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY MSU False Start (#52 Z.Owens) 5 yards from UGA28 to UGA33. NO PLAY",
+   "shortText": "Mississippi State Penalty, falsestart (Z. Owens)",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 33,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276214",
+   "wallclock": "2025-11-08T18:16:01Z"
+  },
+  {
+   "id": "401752762336",
+   "sequence": 77,
+   "period": 2,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:42) No Huddle-Shotgun #1 K.Taylor rush middle for 3 yards gain to the UGA30 (#0 G.Harris Jr.; #4 K.Bolden)",
+   "shortText": "K. Taylor run for 3 yds",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 33,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 30,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276214",
+   "wallclock": "2025-11-08T18:16:41Z"
+  },
+  {
+   "id": "401752762340",
+   "sequence": 78,
+   "period": 2,
+   "clock": {
+    "seconds": 193,
+    "display": "3:13"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(03:16) No Huddle-Shotgun #1 K.Taylor pass incomplete deep middle to #3 A.Evans III thrown to UGA05",
+   "shortText": "K. Taylor pass incomplete",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 30,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 30,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276214",
+   "wallclock": "2025-11-08T18:17:06Z"
+  },
+  {
+   "id": "401752762343",
+   "sequence": 79,
+   "period": 2,
+   "clock": {
+    "seconds": 184,
+    "display": "3:04"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(03:11) No Huddle-Shotgun #2 B.Shapen pass complete short left to #11 A.Williams caught at UGA23, for 7 yards to the UGA23 (#4 K.Bolden)",
+   "shortText": "B. Shapen pass to A. Williams for 7 yds",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 30,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 23,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276214",
+   "wallclock": "2025-11-08T18:17:47Z"
+  },
+  {
+   "id": "401752762348",
+   "sequence": 80,
+   "period": 2,
+   "clock": {
+    "seconds": 145,
+    "display": "2:25"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(02:27) No Huddle-Shotgun #2 B.Shapen pass incomplete short right to #24 F.Bothwell thrown to UGA22, TURNOVER ON DOWNS",
+   "shortText": "B. Shapen pass incomplete",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 23,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 77,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276214",
+   "wallclock": "2025-11-08T18:18:31Z"
+  },
+  {
+   "id": "401752762352",
+   "sequence": 81,
+   "period": 2,
+   "clock": {
+    "seconds": 137,
+    "display": "2:17"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:25) Shotgun #20 D.Phillips Jr. rush middle for 6 yards gain to the UGA29 (#10 J.Smith; #16 D.Gullette)",
+   "shortText": "D. Phillips Jr. run for 6 yds",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 77,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 71,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:22:05Z"
+  },
+  {
+   "id": "401752762356",
+   "sequence": 82,
+   "period": 2,
+   "clock": {
+    "seconds": 125,
+    "display": "2:05"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY UGA False Start (#74 D.Bobo) 5 yards from UGA29 to UGA24. NO PLAY",
+   "shortText": "Georgia Penalty, falsestart (D. Bobo)",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 71,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 76,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:22:37Z"
+  },
+  {
+   "id": "401752762359",
+   "sequence": 83,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(02:00) Shotgun #14 G.Stockton pass incomplete short middle to #7 L.Luckie thrown to UGA35 PENALTY MSU Targeting (#13 J.Manning) 15 yards from UGA24 to UGA39, 1ST DOWN. NO PLAY. The previous play is under automatic review - \"Targeting\". CALL UPHELD",
+   "shortText": "G. Stockton pass incomplete, Mississippi State Penalty, targeting (J. Manning) for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 76,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 76,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:26:57Z"
+  },
+  {
+   "id": "401752762366",
+   "sequence": 84,
+   "period": 2,
+   "clock": {
+    "seconds": 112,
+    "display": "1:52"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(01:52) Shotgun #14 G.Stockton pass incomplete short left to #23 J.Reddell thrown to UGA44 PENALTY MSU Pass Interference (#9 T.Mitchell) 5 yards from UGA39 to UGA44, 1ST DOWN. NO PLAY",
+   "shortText": "G. Stockton pass incomplete, Mississippi State Penalty, passinterference (T. Mitchell) for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 61,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:30:00Z"
+  },
+  {
+   "id": "401752762370",
+   "sequence": 85,
+   "period": 2,
+   "clock": {
+    "seconds": 102,
+    "display": "1:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:47) No Huddle-Shotgun #14 G.Stockton rush middle for 7 yards gain to the MSU49 (#16 D.Gullette; #10 J.Smith)",
+   "shortText": "G. Stockton run for 7 yds",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 49,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:30:33Z"
+  },
+  {
+   "id": "401752762374",
+   "sequence": 86,
+   "period": 2,
+   "clock": {
+    "seconds": 81,
+    "display": "1:21"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:25) No Huddle-Shotgun #14 G.Stockton pass complete short left to #1 Z.Branch caught at MSU45, for 4 yards to the MSU45 (#3 B.Lanier), 1ST DOWN",
+   "shortText": "G. Stockton pass to Za. Branch for 4 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 49,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:30:54Z"
+  },
+  {
+   "id": "401752762379",
+   "sequence": 87,
+   "period": 2,
+   "clock": {
+    "seconds": 58,
+    "display": "0:58"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:04) No Huddle-Shotgun #14 G.Stockton pass complete short right to #5 N.Thomas caught at MSU41, for 7 yards to the MSU38 (#4 D.Brumfield; #21 H.Washington)",
+   "shortText": "G. Stockton pass to N. Thomas for 7 yds",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 38,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:31:27Z"
+  },
+  {
+   "id": "401752762384",
+   "sequence": 88,
+   "period": 2,
+   "clock": {
+    "seconds": 37,
+    "display": "0:37"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:40) No Huddle-Shotgun #14 G.Stockton pass incomplete deep left to #86 D.Bell thrown to MSU11",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 38,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 38,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:31:51Z"
+  },
+  {
+   "id": "401752762392",
+   "sequence": 89,
+   "period": 2,
+   "clock": {
+    "seconds": 30,
+    "display": "0:30"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Georgia, clock 00:30",
+   "shortText": "Timeout Georgia, clock 00:30",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 38,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 0,
+    "distance": 3,
+    "yardsToEndzone": 38,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:33:07Z"
+  },
+  {
+   "id": "401752762395",
+   "sequence": 89,
+   "period": 2,
+   "clock": {
+    "seconds": 30,
+    "display": "0:30"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Mississippi State, clock 00:30",
+   "shortText": "Timeout Mississippi State, clock 00:30",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 62,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 0,
+    "distance": 3,
+    "yardsToEndzone": 62,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:34:21Z"
+  },
+  {
+   "id": "401752762387",
+   "sequence": 89,
+   "period": 2,
+   "clock": {
+    "seconds": 30,
+    "display": "0:30"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:35) No Huddle-Shotgun #14 G.Stockton pass incomplete deep left to #16 L.Humphreys thrown to MSU03",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 38,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 38,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:32:30Z"
+  },
+  {
+   "id": "401752762393",
+   "sequence": 90,
+   "period": 2,
+   "clock": {
+    "seconds": 30,
+    "display": "0:30"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY MSU Offside (#92 J.Bledsoe) 5 yards from MSU38 to MSU33, 1ST DOWN. NO PLAY",
+   "shortText": "Mississippi State Penalty, offside (J. Bledsoe) for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 38,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 33,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:35:33Z"
+  },
+  {
+   "id": "401752762397",
+   "sequence": 91,
+   "period": 2,
+   "clock": {
+    "seconds": 24,
+    "display": "0:24"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:29) No Huddle-Shotgun #14 G.Stockton pass complete short left to #1 Z.Branch caught at MSU18, for 14 yards to the MSU19 (#3 B.Lanier), 1ST DOWN",
+   "shortText": "G. Stockton pass to Za. Branch for 14 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 33,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:36:07Z"
+  },
+  {
+   "id": "401752762402",
+   "sequence": 92,
+   "period": 2,
+   "clock": {
+    "seconds": 17,
+    "display": "0:17"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:19) No Huddle-Shotgun #14 G.Stockton pass incomplete short right to #4 O.Delp thrown to MSU15 QB hurried by #16 D.Gullette",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 17,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:36:26Z"
+  },
+  {
+   "id": "401752762405",
+   "sequence": 93,
+   "period": 2,
+   "clock": {
+    "seconds": 11,
+    "display": "0:11"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(00:15) Shotgun #14 G.Stockton pass complete short left to #1 Z.Branch caught at MSU21, for 19 yards to the MSU00 TOUCHDOWN, clock 00:11, 1ST DOWN #91 P.Woodring kick attempt good (H: #14 G.Stockton, LS: #60 B.Gardner)",
+   "shortText": "Zachariah Branch 19 Yd pass from Gunner Stockton (Peyton Woodring Kick)",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "61"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276215",
+   "wallclock": "2025-11-08T18:37:04Z"
+  },
+  {
+   "id": "401752762413",
+   "sequence": 95,
+   "period": 2,
+   "clock": {
+    "seconds": 11,
+    "display": "0:11"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(00:11) #91 P.Woodring kickoff 65 yards to the MSU00, Touchback",
+   "shortText": "P. Woodring kickoff for 65 yds for a touchback",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276217",
+   "wallclock": "2025-11-08T18:37:52Z"
+  },
+  {
+   "id": "401752762416",
+   "sequence": 96,
+   "period": 2,
+   "clock": {
+    "seconds": 6,
+    "display": "0:06"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:11) No Huddle-Shotgun #2 B.Shapen pass incomplete short middle to #8 S.Traore thrown to MSU29 broken up by #33 Q.Johnson",
+   "shortText": "B. Shapen pass incomplete",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276217",
+   "wallclock": "2025-11-08T18:39:49Z"
+  },
+  {
+   "id": "401752762419",
+   "sequence": 97,
+   "period": 2,
+   "clock": {
+    "seconds": 4,
+    "display": "0:04"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:04) Kneel down by Mississippi St. at MSU20 for loss of 5 yards",
+   "shortText": "takes a knee",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 15,
+    "yardsToEndzone": 80,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276217",
+   "wallclock": "2025-11-08T18:40:13Z"
+  },
+  {
+   "id": "401752762424",
+   "sequence": 97,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 2nd quarter.",
+   "shortText": "End of 2nd quarter.",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": null
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276217",
+   "wallclock": "2025-11-08T18:40:36Z"
+  },
+  {
+   "id": "401752762429",
+   "sequence": 98,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(15:00) #80 K.Ferrie kickoff 65 yards to the UGA00, Touchback",
+   "shortText": "K. Ferrie kickoff for 65 yds for a touchback",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276219",
+   "wallclock": "2025-11-08T19:00:29Z"
+  },
+  {
+   "id": "401752762434",
+   "sequence": 99,
+   "period": 3,
+   "clock": {
+    "seconds": 893,
+    "display": "14:53"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(15:00) Shotgun #33 C.Bowens rush left for 2 yards gain to the UGA27 (#23 T.Williams; #22 K.Bingley-Jones)",
+   "shortText": "C. Bowens run for 2 yds",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276219",
+   "wallclock": "2025-11-08T19:02:37Z"
+  },
+  {
+   "id": "401752762438",
+   "sequence": 100,
+   "period": 3,
+   "clock": {
+    "seconds": 854,
+    "display": "14:14"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:21) No Huddle #14 G.Stockton pass complete short right to #4 O.Delp caught at UGA30, for 4 yards to the UGA31 (#9 T.Mitchell)",
+   "shortText": "G. Stockton pass to O. Delp for 4 yds",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 69,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276219",
+   "wallclock": "2025-11-08T19:03:16Z"
+  },
+  {
+   "id": "401752762443",
+   "sequence": 101,
+   "period": 3,
+   "clock": {
+    "seconds": 812,
+    "display": "13:32"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(13:42) No Huddle-Shotgun #14 G.Stockton pass complete short right to #5 N.Thomas caught at UGA38, for 7 yards to the UGA38 (#4 D.Brumfield; #37 N.Sanders), 1ST DOWN",
+   "shortText": "G. Stockton pass to N. Thomas for 7 yds for a 1ST down",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 69,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276219",
+   "wallclock": "2025-11-08T19:03:54Z"
+  },
+  {
+   "id": "401752762448",
+   "sequence": 102,
+   "period": 3,
+   "clock": {
+    "seconds": 782,
+    "display": "13:02"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:11) No Huddle-Shotgun #3 N.Frazier rush middle for 3 yards gain to the UGA41 (#40 N.Mitchell; #42 D.Reed)",
+   "shortText": "N. Frazier run for 3 yds",
+   "awayScore": 24,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276219",
+   "wallclock": "2025-11-08T19:04:25Z"
+  },
+  {
+   "id": "401752762452",
+   "sequence": 103,
+   "period": 3,
+   "clock": {
+    "seconds": 752,
+    "display": "12:32"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(12:41) No Huddle-Shotgun #3 N.Frazier rush middle for 59 yards gain to the MSU00 TOUCHDOWN, clock 12:32, 1ST DOWN #91 P.Woodring kick attempt good (H: #14 G.Stockton, LS: #60 B.Gardner)",
+   "shortText": "Nate Frazier 59 Yd Run (Peyton Woodring Kick)",
+   "awayScore": 31,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 59,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "61"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276219",
+   "wallclock": "2025-11-08T19:04:56Z"
+  },
+  {
+   "id": "401752762459",
+   "sequence": 105,
+   "period": 3,
+   "clock": {
+    "seconds": 752,
+    "display": "12:32"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(12:32) #91 P.Woodring kickoff 65 yards to the MSU00, Touchback",
+   "shortText": "P. Woodring kickoff for 65 yds for a touchback",
+   "awayScore": 31,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276221",
+   "wallclock": "2025-11-08T19:05:51Z"
+  },
+  {
+   "id": "401752762462",
+   "sequence": 106,
+   "period": 3,
+   "clock": {
+    "seconds": 746,
+    "display": "12:26"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:32) No Huddle-Shotgun #24 F.Bothwell rush right for 2 yards gain to the MSU27 (#8 J.Aguero; #3 C.Allen)",
+   "shortText": "F. Bothwell run for 2 yds",
+   "awayScore": 31,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276221",
+   "wallclock": "2025-11-08T19:10:02Z"
+  },
+  {
+   "id": "401752762466",
+   "sequence": 107,
+   "period": 3,
+   "clock": {
+    "seconds": 726,
+    "display": "12:06"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(12:10) No Huddle-Shotgun #2 B.Shapen pass complete short right to #8 S.Traore caught at MSU29, for 5 yards to the MSU32 (#20 J.Thomas)",
+   "shortText": "B. Shapen pass to S. Traore for 5 yds",
+   "awayScore": 31,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276221",
+   "wallclock": "2025-11-08T19:10:23Z"
+  },
+  {
+   "id": "401752762471",
+   "sequence": 108,
+   "period": 3,
+   "clock": {
+    "seconds": 702,
+    "display": "11:42"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(11:46) No Huddle-Shotgun #2 B.Shapen pass incomplete short right to #3 A.Evans III thrown to MSU36 QB hurried by #0 G.Harris Jr.",
+   "shortText": "B. Shapen pass incomplete",
+   "awayScore": 31,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276221",
+   "wallclock": "2025-11-08T19:10:52Z"
+  },
+  {
+   "id": "401752762474",
+   "sequence": 109,
+   "period": 3,
+   "clock": {
+    "seconds": 691,
+    "display": "11:31"
+   },
+   "typeId": "14",
+   "typeText": "Punt Return",
+   "text": "(11:40) #88 E.Pulliam punt 42 yards to the UGA26 #1 Z.Branch return 2 yards to the UGA28 (#45 E.Myers; #19 C.Reyes)",
+   "shortText": "E. Pulliam punt for 42 yds, Za. Branch returns for 2 yds",
+   "awayScore": 31,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276221",
+   "wallclock": "2025-11-08T19:12:11Z"
+  },
+  {
+   "id": "401752762480",
+   "sequence": 110,
+   "period": 3,
+   "clock": {
+    "seconds": 684,
+    "display": "11:24"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:31) Shotgun #20 D.Phillips Jr. rush right for 4 yards loss to the UGA24 (#9 T.Mitchell)",
+   "shortText": "D. Phillips Jr. run for -4 yds",
+   "awayScore": 31,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 76,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276222",
+   "wallclock": "2025-11-08T19:12:54Z"
+  },
+  {
+   "id": "401752762484",
+   "sequence": 111,
+   "period": 3,
+   "clock": {
+    "seconds": 645,
+    "display": "10:45"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:51) No Huddle-Shotgun #14 G.Stockton rush right for 12 yards gain to the UGA36 (#3 B.Lanier)",
+   "shortText": "G. Stockton run for 12 yds",
+   "awayScore": 31,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 76,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 64,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276222",
+   "wallclock": "2025-11-08T19:13:32Z"
+  },
+  {
+   "id": "401752762488",
+   "sequence": 112,
+   "period": 3,
+   "clock": {
+    "seconds": 598,
+    "display": "9:58"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "G. Stockton pass to N. Thomas for 64 yds, for a TD (P. Woodring KICK)",
+   "shortText": "G. Stockton pass to N. Thomas for 64 yds, for a TD (P. Woodring KICK)",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 64,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 64,
+    "teamId": "61"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276222",
+   "wallclock": "2025-11-08T19:14:15Z"
+  },
+  {
+   "id": "401752762496",
+   "sequence": 114,
+   "period": 3,
+   "clock": {
+    "seconds": 598,
+    "display": "9:58"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(09:58) #91 P.Woodring kickoff 65 yards to the MSU00, Touchback",
+   "shortText": "P. Woodring kickoff for 65 yds for a touchback",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:15:14Z"
+  },
+  {
+   "id": "401752762499",
+   "sequence": 115,
+   "period": 3,
+   "clock": {
+    "seconds": 590,
+    "display": "9:50"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(09:58) No Huddle-Shotgun #1 K.Taylor pass complete short right to #3 A.Evans III caught at MSU23, for 2 yards loss to the MSU23 (#4 K.Bolden)",
+   "shortText": "K. Taylor pass to A. Evans III for -2 yds",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 77,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:19:42Z"
+  },
+  {
+   "id": "401752762504",
+   "sequence": 116,
+   "period": 3,
+   "clock": {
+    "seconds": 559,
+    "display": "9:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(09:25) No Huddle-Shotgun #1 K.Taylor pass complete short left to #0 B.Thompson caught at MSU21, for 14 yards to the MSU37 (#2 Z.Branch; #7 D.Harris), 1ST DOWN",
+   "shortText": "K. Taylor pass to B. Thompson for 14 yds for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 77,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:20:13Z"
+  },
+  {
+   "id": "401752762511",
+   "sequence": 117,
+   "period": 3,
+   "clock": {
+    "seconds": 539,
+    "display": "8:59"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(08:59) No Huddle-Shotgun #1 K.Taylor pass incomplete deep middle to #0 B.Thompson thrown to UGA35",
+   "shortText": "K. Taylor pass incomplete",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:20:46Z"
+  },
+  {
+   "id": "401752762514",
+   "sequence": 118,
+   "period": 3,
+   "clock": {
+    "seconds": 535,
+    "display": "8:55"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(08:57) No Huddle-Shotgun #1 K.Taylor pass incomplete short right to #11 A.Williams thrown to MSU34",
+   "shortText": "K. Taylor pass incomplete",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:21:09Z"
+  },
+  {
+   "id": "401752762517",
+   "sequence": 119,
+   "period": 3,
+   "clock": {
+    "seconds": 527,
+    "display": "8:47"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:53) No Huddle-Shotgun #1 K.Taylor rush left for 23 yards gain to the UGA40 (#2 Z.Branch; #7 D.Harris), 1ST DOWN",
+   "shortText": "K. Taylor run for 23 yds for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 23,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:21:56Z"
+  },
+  {
+   "id": "401752762521",
+   "sequence": 120,
+   "period": 3,
+   "clock": {
+    "seconds": 511,
+    "display": "8:31"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(08:31) No Huddle-Shotgun #1 K.Taylor pass incomplete deep right to #3 A.Evans III thrown to UGA15 PENALTY UGA Pass Interference (#8 J.Aguero) 15 yards from UGA40 to UGA25, 1ST DOWN. NO PLAY",
+   "shortText": "K. Taylor pass incomplete, Georgia Penalty, passinterference (J. Aguero) for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:22:31Z"
+  },
+  {
+   "id": "401752762525",
+   "sequence": 121,
+   "period": 3,
+   "clock": {
+    "seconds": 501,
+    "display": "8:21"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:26) No Huddle-Shotgun #1 K.Taylor rush middle for 5 yards gain to the UGA20 (#52 C.Miller; #19 J.Williams)",
+   "shortText": "K. Taylor run for 5 yds",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 20,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:23:12Z"
+  },
+  {
+   "id": "401752762529",
+   "sequence": 122,
+   "period": 3,
+   "clock": {
+    "seconds": 477,
+    "display": "7:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:03) No Huddle-Shotgun #3 A.Evans III rush right for 4 yards gain to the UGA16 (#19 J.Williams)",
+   "shortText": "A. Evans III run for 4 yds",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 20,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 16,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:23:34Z"
+  },
+  {
+   "id": "401752762533",
+   "sequence": 123,
+   "period": 3,
+   "clock": {
+    "seconds": 450,
+    "display": "7:30"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:35) No Huddle-Shotgun #6 D.Booth rush middle for 5 yards gain to the UGA11 (#0 G.Harris Jr.; #4 K.Bolden), 1ST DOWN",
+   "shortText": "D. Booth run for 5 yds for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 16,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 11,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:24:02Z"
+  },
+  {
+   "id": "401752762537",
+   "sequence": 124,
+   "period": 3,
+   "clock": {
+    "seconds": 426,
+    "display": "7:06"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:11) No Huddle-Shotgun #6 D.Booth rush left for 3 yards gain to the UGA08 (#52 C.Miller; #0 G.Harris Jr.)",
+   "shortText": "D. Booth run for 3 yds",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 11,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 8,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:24:26Z"
+  },
+  {
+   "id": "401752762541",
+   "sequence": 125,
+   "period": 3,
+   "clock": {
+    "seconds": 394,
+    "display": "6:34"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:39) No Huddle-Shotgun #1 K.Taylor rush middle for 1 yard gain to the UGA07 (#94 X.McLeod; #28 K.Jones)",
+   "shortText": "K. Taylor run for 1 yd",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 8,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 7,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:24:58Z"
+  },
+  {
+   "id": "401752762545",
+   "sequence": 126,
+   "period": 3,
+   "clock": {
+    "seconds": 370,
+    "display": "6:10"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:16) No Huddle-Shotgun #1 K.Taylor rush right for 0 yards to the UGA07 (#5 R.Wilson)",
+   "shortText": "K. Taylor run for 0 yds",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 7,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 7,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:25:25Z"
+  },
+  {
+   "id": "401752762549",
+   "sequence": 127,
+   "period": 3,
+   "clock": {
+    "seconds": 334,
+    "display": "5:34"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(05:44) No Huddle-Shotgun #1 K.Taylor pass complete short right to #8 S.Traore caught at UGA01, for 6 yards to the UGA01 (#2 Z.Branch), 1ST DOWN",
+   "shortText": "K. Taylor pass to S. Traore for 6 yds for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 7,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:25:55Z"
+  },
+  {
+   "id": "401752762554",
+   "sequence": 128,
+   "period": 3,
+   "clock": {
+    "seconds": 322,
+    "display": "5:22"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:26) No Huddle-Shotgun #24 F.Bothwell rush middle for 0 yards to the UGA01 (#94 X.McLeod; #28 K.Jones)",
+   "shortText": "F. Bothwell run for 0 yds",
+   "awayScore": 38,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:26:12Z"
+  },
+  {
+   "id": "401752762558",
+   "sequence": 129,
+   "period": 3,
+   "clock": {
+    "seconds": 289,
+    "display": "4:49"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "K. Taylor run for 1 yd, for a TD (K. Ferrie KICK)",
+   "shortText": "K. Taylor run for 1 yd, for a TD (K. Ferrie KICK)",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "344"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276224",
+   "wallclock": "2025-11-08T19:26:46Z"
+  },
+  {
+   "id": "401752762565",
+   "sequence": 131,
+   "period": 3,
+   "clock": {
+    "seconds": 289,
+    "display": "4:49"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(04:49) #80 K.Ferrie kickoff 65 yards to the UGA00 fair catch by #1 Z.Branch at UGA00",
+   "shortText": "K. Ferrie kickoff for 65 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276226",
+   "wallclock": "2025-11-08T19:27:27Z"
+  },
+  {
+   "id": "401752762568",
+   "sequence": 132,
+   "period": 3,
+   "clock": {
+    "seconds": 279,
+    "display": "4:39"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:49) Shotgun #86 D.Bell rush left for 12 yards gain to the UGA37 (#3 B.Lanier), 1ST DOWN",
+   "shortText": "D. Bell run for 12 yds for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276226",
+   "wallclock": "2025-11-08T19:32:04Z"
+  },
+  {
+   "id": "401752762572",
+   "sequence": 133,
+   "period": 3,
+   "clock": {
+    "seconds": 242,
+    "display": "4:02"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(04:07) No Huddle-Shotgun #14 G.Stockton pass incomplete deep middle to #16 L.Humphreys thrown to MSU20",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276226",
+   "wallclock": "2025-11-08T19:32:45Z"
+  },
+  {
+   "id": "401752762575",
+   "sequence": 134,
+   "period": 3,
+   "clock": {
+    "seconds": 230,
+    "display": "3:50"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:59) No Huddle-Shotgun #3 N.Frazier rush right for 13 yards gain to the UGA50 (#21 H.Washington; #40 N.Mitchell), 1ST DOWN",
+   "shortText": "N. Frazier run for 13 yds for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276226",
+   "wallclock": "2025-11-08T19:33:20Z"
+  },
+  {
+   "id": "401752762579",
+   "sequence": 135,
+   "period": 3,
+   "clock": {
+    "seconds": 189,
+    "display": "3:09"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:15) No Huddle-Shotgun #20 D.Phillips Jr. rush right for 2 yards gain to the MSU48 (#16 D.Gullette)",
+   "shortText": "D. Phillips Jr. run for 2 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 48,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276226",
+   "wallclock": "2025-11-08T19:34:05Z"
+  },
+  {
+   "id": "401752762583",
+   "sequence": 136,
+   "period": 3,
+   "clock": {
+    "seconds": 158,
+    "display": "2:38"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(02:41) No Huddle-Shotgun #14 G.Stockton pass complete short right to #1 Z.Branch caught at UGA49, for 4 yards to the MSU44 (#16 D.Gullette)",
+   "shortText": "G. Stockton pass to Za. Branch for 4 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 48,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 44,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276226",
+   "wallclock": "2025-11-08T19:34:39Z"
+  },
+  {
+   "id": "401752762588",
+   "sequence": 137,
+   "period": 3,
+   "clock": {
+    "seconds": 126,
+    "display": "2:06"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(02:08) No Huddle-Shotgun #14 G.Stockton pass incomplete short left to #1 Z.Branch thrown to MSU39 broken up by #23 T.Williams",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 44,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 44,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276226",
+   "wallclock": "2025-11-08T19:35:15Z"
+  },
+  {
+   "id": "401752762591",
+   "sequence": 138,
+   "period": 3,
+   "clock": {
+    "seconds": 126,
+    "display": "2:06"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY UGA Delay Of Game  5 yards from MSU44 to MSU49. NO PLAY",
+   "shortText": "Georgia Penalty, delayofgame (5 Yards)",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 44,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 49,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276226",
+   "wallclock": "2025-11-08T19:36:06Z"
+  },
+  {
+   "id": "401752762594",
+   "sequence": 139,
+   "period": 3,
+   "clock": {
+    "seconds": 118,
+    "display": "1:58"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(02:04) #92 B.Thorson punt 40 yards to the MSU09 fair catch by #3 A.Evans III at MSU09",
+   "shortText": "B. Thorson punt for 40 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 49,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276226",
+   "wallclock": "2025-11-08T19:36:50Z"
+  },
+  {
+   "id": "401752762598",
+   "sequence": 140,
+   "period": 3,
+   "clock": {
+    "seconds": 105,
+    "display": "1:45"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:58) No Huddle-Shotgun #1 K.Taylor pass complete short right to #8 S.Traore caught at MSU10, for 10 yards to the MSU19 (#20 J.Thomas; #4 K.Bolden), 1ST DOWN",
+   "shortText": "K. Taylor pass to S. Traore for 10 yds for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 91,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276227",
+   "wallclock": "2025-11-08T19:37:36Z"
+  },
+  {
+   "id": "401752762603",
+   "sequence": 141,
+   "period": 3,
+   "clock": {
+    "seconds": 92,
+    "display": "1:32"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(01:34) No Huddle-Shotgun #1 K.Taylor pass incomplete short middle to #3 A.Evans III thrown to MSU35 broken up by #5 R.Wilson",
+   "shortText": "K. Taylor pass incomplete",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276227",
+   "wallclock": "2025-11-08T19:37:57Z"
+  },
+  {
+   "id": "401752762606",
+   "sequence": 142,
+   "period": 3,
+   "clock": {
+    "seconds": 86,
+    "display": "1:26"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:30) No Huddle-Shotgun #1 K.Taylor rush middle for 3 yards gain to the MSU22 (#3 C.Allen; #33 Q.Johnson)",
+   "shortText": "K. Taylor run for 3 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 78,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276227",
+   "wallclock": "2025-11-08T19:38:30Z"
+  },
+  {
+   "id": "401752762610",
+   "sequence": 143,
+   "period": 3,
+   "clock": {
+    "seconds": 52,
+    "display": "0:52"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:57) No Huddle-Shotgun #1 K.Taylor pass complete short right to #24 F.Bothwell caught at MSU20, for 2 yards to the MSU24 (#6 D.Everette)",
+   "shortText": "K. Taylor pass to F. Bothwell for 2 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 78,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 76,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276227",
+   "wallclock": "2025-11-08T19:39:04Z"
+  },
+  {
+   "id": "401752762615",
+   "sequence": 144,
+   "period": 3,
+   "clock": {
+    "seconds": 13,
+    "display": "0:13"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(00:20) #88 E.Pulliam punt 44 yards to the UGA32 fair catch by #18 S.White-Helton at UGA32",
+   "shortText": "E. Pulliam punt for 44 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 76,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276227",
+   "wallclock": "2025-11-08T19:39:42Z"
+  },
+  {
+   "id": "401752762619",
+   "sequence": 145,
+   "period": 3,
+   "clock": {
+    "seconds": 8,
+    "display": "0:08"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:13) Shotgun #14 G.Stockton pass incomplete short left to #5 N.Thomas thrown to MSU50",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 68,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 68,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:40:31Z"
+  },
+  {
+   "id": "401752762622",
+   "sequence": 146,
+   "period": 3,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:07) No Huddle-Shotgun #3 N.Frazier rush right for 3 yards gain to the UGA35 (#25 R.Thomas; #40 N.Mitchell)",
+   "shortText": "N. Frazier run for 3 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 68,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:41:06Z"
+  },
+  {
+   "id": "401752762628",
+   "sequence": 146,
+   "period": 3,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 3rd quarter.",
+   "shortText": "End of 3rd quarter.",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": null
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:41:43Z"
+  },
+  {
+   "id": "401752762632",
+   "sequence": 147,
+   "period": 4,
+   "clock": {
+    "seconds": 893,
+    "display": "14:53"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:59) Shotgun #14 G.Stockton pass complete short right to #1 Z.Branch caught at UGA40, for 7 yards to the UGA42 (#9 T.Mitchell; #21 H.Washington), 1ST DOWN",
+   "shortText": "G. Stockton pass to Za. Branch for 7 yds for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:45:09Z"
+  },
+  {
+   "id": "401752762639",
+   "sequence": 148,
+   "period": 4,
+   "clock": {
+    "seconds": 858,
+    "display": "14:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:25) No Huddle-Shotgun #3 N.Frazier rush middle for 33 yards gain to the MSU25 (#3 B.Lanier), 1ST DOWN",
+   "shortText": "N. Frazier run for 33 yds for a 1ST down",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 33,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:45:41Z"
+  },
+  {
+   "id": "401752762643",
+   "sequence": 149,
+   "period": 4,
+   "clock": {
+    "seconds": 825,
+    "display": "13:45"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(13:45) No Huddle-Shotgun #2 J.McCray rush middle for 3 yards gain to the MSU22 (#42 D.Reed; #92 J.Bledsoe) PENALTY UGA Holding (#56 M.Morris) 10 yards from MSU25 to MSU35. NO PLAY",
+   "shortText": "J. McCray run for 0 yds, Georgia Penalty, holding (M. Morris)",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 35,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:46:41Z"
+  },
+  {
+   "id": "401752762648",
+   "sequence": 150,
+   "period": 4,
+   "clock": {
+    "seconds": 797,
+    "display": "13:17"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:21) No Huddle-Shotgun #3 N.Frazier rush middle for 5 yards gain to the MSU30 (#92 J.Bledsoe)",
+   "shortText": "N. Frazier run for 5 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 35,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 15,
+    "yardsToEndzone": 30,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:47:12Z"
+  },
+  {
+   "id": "401752762652",
+   "sequence": 151,
+   "period": 4,
+   "clock": {
+    "seconds": 757,
+    "display": "12:37"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(12:47) No Huddle-Shotgun #14 G.Stockton pass complete short left to #18 S.White-Helton caught at MSU34, for 2 yards to the MSU28 (#27 R.Hibbler; #99 D.Moye)",
+   "shortText": "G. Stockton pass to S. White-Helton for 2 yds",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 15,
+    "yardsToEndzone": 30,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 13,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:48:07Z"
+  },
+  {
+   "id": "401752762657",
+   "sequence": 152,
+   "period": 4,
+   "clock": {
+    "seconds": 728,
+    "display": "12:08"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(12:15) Shotgun #14 G.Stockton pass incomplete short right to #86 D.Bell thrown to MSU10 QB hurried by #37 N.Sanders",
+   "shortText": "G. Stockton pass incomplete",
+   "awayScore": 38,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 13,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 4,
+    "distance": 13,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:52:07Z"
+  },
+  {
+   "id": "401752762660",
+   "sequence": 153,
+   "period": 4,
+   "clock": {
+    "seconds": 723,
+    "display": "12:03"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "(12:06) #91 P.Woodring field goal attempt from 46 yards GOOD (H: #14 G.Stockton, LS: #60 B.Gardner), clock 12:03",
+   "shortText": "Peyton Woodring 46 Yd Field Goal",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 46,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 13,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276228",
+   "wallclock": "2025-11-08T19:52:48Z"
+  },
+  {
+   "id": "401752762663",
+   "sequence": 154,
+   "period": 4,
+   "clock": {
+    "seconds": 723,
+    "display": "12:03"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(12:03) #91 P.Woodring kickoff 65 yards to the MSU00, Touchback",
+   "shortText": "P. Woodring kickoff for 65 yds for a touchback",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276230",
+   "wallclock": "2025-11-08T19:52:57Z"
+  },
+  {
+   "id": "401752762666",
+   "sequence": 155,
+   "period": 4,
+   "clock": {
+    "seconds": 714,
+    "display": "11:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:03) No Huddle-Shotgun #1 K.Taylor rush middle for 4 yards loss to the MSU21 (#19 J.Williams)",
+   "shortText": "K. Taylor run for -4 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 79,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276230",
+   "wallclock": "2025-11-08T19:54:41Z"
+  },
+  {
+   "id": "401752762670",
+   "sequence": 156,
+   "period": 4,
+   "clock": {
+    "seconds": 683,
+    "display": "11:23"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:28) No Huddle-Shotgun #6 D.Booth rush middle for 4 yards gain to the MSU25 (#19 J.Williams; #18 E.Modozie)",
+   "shortText": "D. Booth run for 4 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 79,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276230",
+   "wallclock": "2025-11-08T19:55:12Z"
+  },
+  {
+   "id": "401752762674",
+   "sequence": 157,
+   "period": 4,
+   "clock": {
+    "seconds": 667,
+    "display": "11:07"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY UGA Offside (#52 C.Miller) 5 yards from MSU25 to MSU30. NO PLAY",
+   "shortText": "Georgia Penalty, offside (C. Miller)",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276230",
+   "wallclock": "2025-11-08T19:59:57Z"
+  },
+  {
+   "id": "401752762677",
+   "sequence": 158,
+   "period": 4,
+   "clock": {
+    "seconds": 645,
+    "display": "10:45"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(10:50) No Huddle-Shotgun #1 K.Taylor sacked for loss of 3 yards to the MSU27 (#52 C.Miller, #33 Q.Johnson)",
+   "shortText": "K. Taylor sacked  by C. Miller for -2 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276230",
+   "wallclock": "2025-11-08T20:00:31Z"
+  },
+  {
+   "id": "401752762681",
+   "sequence": 159,
+   "period": 4,
+   "clock": {
+    "seconds": 602,
+    "display": "10:02"
+   },
+   "typeId": "14",
+   "typeText": "Punt Return",
+   "text": "(10:14) #88 E.Pulliam punt 59 yards to the UGA14 #18 S.White-Helton return 19 yards to the UGA33 (#26 D.Lewis III)",
+   "shortText": "E. Pulliam punt for 59 yds, S. White-Helton returns for 19 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276230",
+   "wallclock": "2025-11-08T20:01:10Z"
+  },
+  {
+   "id": "401752762687",
+   "sequence": 160,
+   "period": 4,
+   "clock": {
+    "seconds": 595,
+    "display": "9:55"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:02) Shotgun #3 N.Frazier rush right for 7 yards gain to the UGA40 (#11 T.Lockhart)",
+   "shortText": "N. Frazier run for 7 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 60,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276231",
+   "wallclock": "2025-11-08T20:01:59Z"
+  },
+  {
+   "id": "401752762691",
+   "sequence": 161,
+   "period": 4,
+   "clock": {
+    "seconds": 550,
+    "display": "9:10"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(09:17) Shotgun #2 J.McCray rush middle for 2 yards gain to the UGA42 (#10 J.Smith; #88 J.Burroughs)",
+   "shortText": "J. McCray run for 2 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 60,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 58,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276231",
+   "wallclock": "2025-11-08T20:02:45Z"
+  },
+  {
+   "id": "401752762695",
+   "sequence": 162,
+   "period": 4,
+   "clock": {
+    "seconds": 530,
+    "display": "8:50"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:55) No Huddle-Shotgun #2 J.McCray rush middle for 1 yard gain to the UGA43 (#88 J.Burroughs), 1ST DOWN",
+   "shortText": "J. McCray run for 1 yd for a 1ST down",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 58,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 57,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276231",
+   "wallclock": "2025-11-08T20:03:06Z"
+  },
+  {
+   "id": "401752762699",
+   "sequence": 163,
+   "period": 4,
+   "clock": {
+    "seconds": 493,
+    "display": "8:13"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:17) No Huddle-Shotgun #20 D.Phillips Jr. rush left for 4 yards loss to the UGA39 (#9 T.Mitchell)",
+   "shortText": "D. Phillips Jr. run for -4 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 57,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 61,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276231",
+   "wallclock": "2025-11-08T20:03:44Z"
+  },
+  {
+   "id": "401752762703",
+   "sequence": 164,
+   "period": 4,
+   "clock": {
+    "seconds": 456,
+    "display": "7:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:41) No Huddle-Shotgun #2 J.McCray rush middle for 2 yards gain to the UGA41 (#28 T.Johnson; #92 J.Bledsoe)",
+   "shortText": "J. McCray run for 2 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 61,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 59,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276231",
+   "wallclock": "2025-11-08T20:04:20Z"
+  },
+  {
+   "id": "401752762707",
+   "sequence": 165,
+   "period": 4,
+   "clock": {
+    "seconds": 413,
+    "display": "6:53"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(06:59) No Huddle-Shotgun #12 R.Puglisi pass incomplete deep left to #10 E.Williams thrown to MSU30",
+   "shortText": "R. Puglisi pass incomplete",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 59,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 4,
+    "distance": 12,
+    "yardsToEndzone": 59,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276231",
+   "wallclock": "2025-11-08T20:05:03Z"
+  },
+  {
+   "id": "401752762710",
+   "sequence": 166,
+   "period": 4,
+   "clock": {
+    "seconds": 406,
+    "display": "6:46"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(06:52) #92 B.Thorson punt 40 yards to the MSU19 fair catch by #3 A.Evans III at MSU19",
+   "shortText": "B. Thorson punt for 40 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 12,
+    "yardsToEndzone": 59,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276231",
+   "wallclock": "2025-11-08T20:05:44Z"
+  },
+  {
+   "id": "401752762714",
+   "sequence": 167,
+   "period": 4,
+   "clock": {
+    "seconds": 400,
+    "display": "6:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:46) No Huddle-Shotgun #6 D.Booth rush middle for 4 yards gain to the MSU23 (#10 Z.Walker)",
+   "shortText": "D. Booth run for 4 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 77,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276232",
+   "wallclock": "2025-11-08T20:09:15Z"
+  },
+  {
+   "id": "401752762718",
+   "sequence": 168,
+   "period": 4,
+   "clock": {
+    "seconds": 377,
+    "display": "6:17"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:24) No Huddle-Shotgun #1 K.Taylor rush middle for 18 yards gain to the MSU41 (#11 D.Ikinnagbon; #27 R.Dinkins), 1ST DOWN",
+   "shortText": "K. Taylor run for 18 yds for a 1ST down",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 77,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276232",
+   "wallclock": "2025-11-08T20:09:37Z"
+  },
+  {
+   "id": "401752762722",
+   "sequence": 169,
+   "period": 4,
+   "clock": {
+    "seconds": 353,
+    "display": "5:53"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(06:04) No Huddle-Shotgun #1 K.Taylor pass complete deep right to #0 B.Thompson caught at UGA16, for 57 yards to the UGA02 (#7 D.Harris), 1ST DOWN",
+   "shortText": "K. Taylor pass to B. Thompson for 57 yds for a 1ST down",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 57,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276232",
+   "wallclock": "2025-11-08T20:09:56Z"
+  },
+  {
+   "id": "401752762727",
+   "sequence": 170,
+   "period": 4,
+   "clock": {
+    "seconds": 330,
+    "display": "5:30"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:34) No Huddle-Shotgun #6 D.Booth rush right for 0 yards to the UGA02 (#10 Z.Walker; #12 J.Harris)",
+   "shortText": "D. Booth run for 0 yds",
+   "awayScore": 41,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": null
+   },
+   "teamId": "344",
+   "driveId": "40175276232",
+   "wallclock": "2025-11-08T20:10:24Z"
+  },
+  {
+   "id": "401752762731",
+   "sequence": 171,
+   "period": 4,
+   "clock": {
+    "seconds": 287,
+    "display": "4:47"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(04:52) Shotgun #1 K.Taylor rush right for 2 yards gain to the UGA00 TOUCHDOWN, clock 04:47 #80 K.Ferrie kick attempt good (H: #49 M.Hauck, LS: #45 E.Myers)",
+   "shortText": "K. Taylor run for 2 yds, for a TD (K. Ferrie KICK)",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "344"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "344"
+   },
+   "teamId": "344",
+   "driveId": "40175276232",
+   "wallclock": "2025-11-08T20:11:08Z"
+  },
+  {
+   "id": "401752762738",
+   "sequence": 173,
+   "period": 4,
+   "clock": {
+    "seconds": 287,
+    "display": "4:47"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(04:47) #80 K.Ferrie kickoff 65 yards to the UGA00, Touchback",
+   "shortText": "K. Ferrie kickoff for 65 yds for a touchback",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "344"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:11:51Z"
+  },
+  {
+   "id": "401752762741",
+   "sequence": 174,
+   "period": 4,
+   "clock": {
+    "seconds": 280,
+    "display": "4:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:47) #81 J.Bell rush right for 9 yards gain to the UGA34 (#26 D.Lewis III)",
+   "shortText": "J. Bell run for 9 yds",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:13:36Z"
+  },
+  {
+   "id": "401752762745",
+   "sequence": 175,
+   "period": 4,
+   "clock": {
+    "seconds": 235,
+    "display": "3:55"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:02) Shotgun #24 B.Walker rush left for 6 yards gain to the UGA40 (#28 T.Johnson; #6 D.Anderson), 1ST DOWN",
+   "shortText": "Bo Walker run for 6 yds for a 1ST down",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:14:21Z"
+  },
+  {
+   "id": "401752762749",
+   "sequence": 176,
+   "period": 4,
+   "clock": {
+    "seconds": 193,
+    "display": "3:13"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:19) Shotgun #24 B.Walker rush left for 10 yards gain to the UGA50 (#37 N.Sanders), 1ST DOWN",
+   "shortText": "Bo Walker run for 10 yds for a 1ST down",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:15:04Z"
+  },
+  {
+   "id": "401752762753",
+   "sequence": 177,
+   "period": 4,
+   "clock": {
+    "seconds": 147,
+    "display": "2:27"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:32) Shotgun #24 B.Walker rush middle for 0 yards to the UGA50 (#99 D.Moye; #10 J.Smith)",
+   "shortText": "Bo Walker run for 0 yds",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:15:53Z"
+  },
+  {
+   "id": "401752762757",
+   "sequence": 178,
+   "period": 4,
+   "clock": {
+    "seconds": 112,
+    "display": "1:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:58) Shotgun #20 D.Phillips Jr. rush left for 10 yards gain to the MSU40 (#15 J.Williams), 1ST DOWN",
+   "shortText": "D. Phillips Jr. run for 10 yds for a 1ST down",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:20:01Z"
+  },
+  {
+   "id": "401752762761",
+   "sequence": 179,
+   "period": 4,
+   "clock": {
+    "seconds": 104,
+    "display": "1:44"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:51) Shotgun #20 D.Phillips Jr. rush middle for 7 yards gain to the MSU33 (#26 D.Lewis III)",
+   "shortText": "D. Phillips Jr. run for 7 yds",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 33,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:20:44Z"
+  },
+  {
+   "id": "401752762765",
+   "sequence": 180,
+   "period": 4,
+   "clock": {
+    "seconds": 54,
+    "display": "0:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:02) Shotgun #24 B.Walker rush middle for 6 yards gain to the MSU27 (#46 J.Head Jr.; #92 J.Bledsoe), 1ST DOWN",
+   "shortText": "Bo Walker run for 6 yds for a 1ST down",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 33,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:21:33Z"
+  },
+  {
+   "id": "401752762769",
+   "sequence": 181,
+   "period": 4,
+   "clock": {
+    "seconds": 47,
+    "display": "0:47"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:53) Kneel down by Georgia at MSU28 for loss of 1 yard",
+   "shortText": "takes a knee",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:22:15Z"
+  },
+  {
+   "id": "401752762772",
+   "sequence": 182,
+   "period": 4,
+   "clock": {
+    "seconds": 31,
+    "display": "0:31"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:31) Kneel down by Georgia at MSU29 for loss of 1 yard",
+   "shortText": "takes a knee",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 28,
+    "teamId": "61"
+   },
+   "end": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 29,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:22:36Z"
+  },
+  {
+   "id": "401752762777",
+   "sequence": 182,
+   "period": 4,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 4th quarter.",
+   "shortText": "End of 4th quarter.",
+   "awayScore": 41,
+   "homeScore": 21,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 72,
+    "teamId": null
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 29,
+    "teamId": "61"
+   },
+   "teamId": "61",
+   "driveId": "40175276234",
+   "wallclock": "2025-11-08T20:23:09Z"
+  }
+ ],
+ "drives": [
+  {
+   "id": "4017527622",
+   "sequence": 2,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 14,
+   "yards": 75,
+   "description": "14 plays, 75 yards, 5:34"
+  },
+  {
+   "id": "4017527624",
+   "sequence": 4,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 7,
+   "yards": 46,
+   "description": "7 plays, 46 yards, 2:39"
+  },
+  {
+   "id": "4017527626",
+   "sequence": 6,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 8,
+   "description": "3 plays, 8 yards, 1:25"
+  },
+  {
+   "id": "4017527627",
+   "sequence": 7,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "FUMBLE",
+   "displayResult": "Fumble",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 65,
+   "description": "6 plays, 65 yards, 2:01"
+  },
+  {
+   "id": "4017527628",
+   "sequence": 8,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "FUMBLE",
+   "displayResult": "Fumble",
+   "isScore": false,
+   "offensivePlays": 7,
+   "yards": 24,
+   "description": "7 plays, 24 yards, 3:04"
+  },
+  {
+   "id": "4017527629",
+   "sequence": 9,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 4,
+   "yards": 27,
+   "description": "4 plays, 27 yards, 1:00"
+  },
+  {
+   "id": "40175276211",
+   "sequence": 11,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 18,
+   "description": "6 plays, 18 yards, 2:00"
+  },
+  {
+   "id": "40175276212",
+   "sequence": 12,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 13,
+   "yards": 90,
+   "description": "13 plays, 90 yards, 7:02"
+  },
+  {
+   "id": "40175276214",
+   "sequence": 14,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 7,
+   "yards": 42,
+   "description": "7 plays, 42 yards, 2:44"
+  },
+  {
+   "id": "40175276215",
+   "sequence": 15,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 77,
+   "description": "9 plays, 77 yards, 2:14"
+  },
+  {
+   "id": "40175276217",
+   "sequence": 17,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "END OF HALF",
+   "displayResult": "End Of Half",
+   "isScore": false,
+   "offensivePlays": 2,
+   "yards": -5,
+   "description": "2 plays, -5 yards, 0:11"
+  },
+  {
+   "id": "40175276219",
+   "sequence": 19,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 5,
+   "yards": 75,
+   "description": "5 plays, 75 yards, 2:28"
+  },
+  {
+   "id": "40175276221",
+   "sequence": 21,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 7,
+   "description": "3 plays, 7 yards, 1:01"
+  },
+  {
+   "id": "40175276222",
+   "sequence": 22,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 3,
+   "yards": 72,
+   "description": "3 plays, 72 yards, 1:33"
+  },
+  {
+   "id": "40175276224",
+   "sequence": 24,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 14,
+   "yards": 75,
+   "description": "14 plays, 75 yards, 5:09"
+  },
+  {
+   "id": "40175276226",
+   "sequence": 26,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 26,
+   "description": "6 plays, 26 yards, 2:51"
+  },
+  {
+   "id": "40175276227",
+   "sequence": 27,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 4,
+   "yards": 15,
+   "description": "4 plays, 15 yards, 1:45"
+  },
+  {
+   "id": "40175276228",
+   "sequence": 28,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 8,
+   "yards": 40,
+   "description": "8 plays, 40 yards, 3:10"
+  },
+  {
+   "id": "40175276230",
+   "sequence": 30,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 2,
+   "description": "3 plays, 2 yards, 2:01"
+  },
+  {
+   "id": "40175276231",
+   "sequence": 31,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 8,
+   "description": "6 plays, 8 yards, 3:16"
+  },
+  {
+   "id": "40175276232",
+   "sequence": 32,
+   "teamId": "344",
+   "endTeamId": "344",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 5,
+   "yards": 81,
+   "description": "5 plays, 81 yards, 1:59"
+  },
+  {
+   "id": "40175276234",
+   "sequence": 34,
+   "teamId": "61",
+   "endTeamId": "61",
+   "result": "END OF GAME",
+   "displayResult": "End Of Game",
+   "isScore": false,
+   "offensivePlays": 9,
+   "yards": 46,
+   "description": "9 plays, 46 yards, 4:47"
+  }
+ ]
+}

@@ -157,3 +157,38 @@ describe('an accepted penalty counts even when college forgets the flag', () => 
     expect(cards).not.toContain('Penalty');
   });
 });
+
+describe('college targeting', () => {
+  it('fires Disqualified on the real UGA - MSST targeting call', () => {
+    // The rule required the words "disqualified" or "ejected". ESPN writes
+    // neither. What it actually writes is:
+    //
+    //   PENALTY MSU Targeting (#13 J.Manning) 15 yards ... NO PLAY.
+    //   The previous play is under automatic review - "Targeting". CALL UPHELD
+    //
+    // Targeting upheld on review IS the ejection — that is what the review
+    // decides. So the card was incapable of ever firing on real data, exactly
+    // as 2 PT Conversion was before the fixtures caught it.
+    const { play, cards } = cardsFor('college-football', '401752762',
+      (p) => /targeting/i.test(p.text || ''));
+    expect(play.text).toMatch(/CALL UPHELD/i);
+    expect(play.text).not.toMatch(/disqualif|eject/i);
+    expect(cards).toContain('Disqualified');
+  });
+
+  it('does not fire when the targeting call is overturned', () => {
+    const cards = detectPlay({
+      id: 't2', sequence: 1, typeText: 'Penalty', isPenalty: false, yards: 0,
+      text: 'The previous play is under automatic review - "Targeting". CALL OVERTURNED',
+      start: { down: 2, distance: 10, yardsToEndzone: 60, teamId: '1' },
+      end: { down: 2, distance: 10, yardsToEndzone: 60, teamId: '1' },
+    }, { league: 'college-football' }).map((c) => c.cardId);
+    expect(cards).not.toContain('Disqualified');
+  });
+
+  it('still refuses targeting in the NFL, where ejections are not reported', () => {
+    const game = fixture('college-football', '401752762');
+    const play = game.plays.find((p) => /targeting/i.test(p.text || ''));
+    expect(detectPlay(play, { league: 'nfl' }).map((c) => c.cardId)).not.toContain('Disqualified');
+  });
+});

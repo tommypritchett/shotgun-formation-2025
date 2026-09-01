@@ -1,0 +1,7094 @@
+{
+ "league": "nfl",
+ "gameId": "401772781",
+ "capturedAt": "2026-09-01T19:55:10.146Z",
+ "name": "CIN 20 - NE 26",
+ "teams": [
+  {
+   "id": "4",
+   "abbreviation": "CIN",
+   "displayName": "Cincinnati Bengals",
+   "score": 20,
+   "homeAway": "home"
+  },
+  {
+   "id": "17",
+   "abbreviation": "NE",
+   "displayName": "New England Patriots",
+   "score": 26,
+   "homeAway": "away"
+  }
+ ],
+ "periods": 4,
+ "playCount": 195,
+ "driveCount": 20,
+ "plays": [
+  {
+   "id": "4017727811",
+   "sequence": 100,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "70",
+   "typeText": "Coin Toss",
+   "text": "GAME",
+   "shortText": "Game",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": null,
+   "wallclock": null
+  },
+  {
+   "id": "40177278140",
+   "sequence": 4000,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "E.McPherson kicks 64 yards from CIN 35 to NE 1. K.Williams to NE 24 for 23 yards (J.Giles-Harris).",
+   "shortText": "Evan McPherson 64 Yd Kickoff Kyle Williams 23 Yd Kickoff Return",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 23,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727811",
+   "wallclock": null
+  },
+  {
+   "id": "40177278163",
+   "sequence": 6300,
+   "period": 1,
+   "clock": {
+    "seconds": 896,
+    "display": "14:56"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson left tackle to NE 27 for 3 yards (G.Stone; J.Ossai).",
+   "shortText": "TreVeyon Henderson 3 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 73,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727811",
+   "wallclock": "2025-11-23T18:03:38Z"
+  },
+  {
+   "id": "40177278185",
+   "sequence": 8500,
+   "period": 1,
+   "clock": {
+    "seconds": 860,
+    "display": "14:20"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short left to M.Hollins to NE 33 for 6 yards (B.Carter).",
+   "shortText": "Drake Maye Pass Complete for 6 Yds to Mack Hollins",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 73,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 67,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727811",
+   "wallclock": "2025-11-23T18:04:14Z"
+  },
+  {
+   "id": "401772781110",
+   "sequence": 11000,
+   "period": 1,
+   "clock": {
+    "seconds": 818,
+    "display": "13:38"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson right guard to NE 35 for 2 yards (B.Carter; B.Hill). NE-J.Wilson was injured during the play.",
+   "shortText": "TreVeyon Henderson 2 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 67,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727811",
+   "wallclock": "2025-11-23T18:04:55Z"
+  },
+  {
+   "id": "401772781121",
+   "sequence": 12100,
+   "period": 1,
+   "clock": {
+    "seconds": 803,
+    "display": "13:23"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 13:23.",
+   "shortText": "Official Timeout At 13:23. ",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727811",
+   "wallclock": "2025-11-23T18:06:44Z"
+  },
+  {
+   "id": "401772781132",
+   "sequence": 13200,
+   "period": 1,
+   "clock": {
+    "seconds": 797,
+    "display": "13:17"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson right tackle to NE 41 for 6 yards (B.Carter; G.Stone).",
+   "shortText": "TreVeyon Henderson 6 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727811",
+   "wallclock": "2025-11-23T18:08:14Z"
+  },
+  {
+   "id": "401772781164",
+   "sequence": 16400,
+   "period": 1,
+   "clock": {
+    "seconds": 764,
+    "display": "12:44"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson left end to NE 41 for no gain (K.Jenkins; O.Burks). CIN-O.Burks was injured during the play.",
+   "shortText": "TreVeyon Henderson Rush, No Gain",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727811",
+   "wallclock": "2025-11-23T18:08:47Z"
+  },
+  {
+   "id": "401772781189",
+   "sequence": 18900,
+   "period": 1,
+   "clock": {
+    "seconds": 726,
+    "display": "12:06"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Maye pass incomplete short left to M.Hollins (K.Jenkins) [K.Jenkins]. CIN-M.Wilson was injured during the play.",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Mack Hollins",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727811",
+   "wallclock": "2025-11-23T18:10:07Z"
+  },
+  {
+   "id": "401772781212",
+   "sequence": 21200,
+   "period": 1,
+   "clock": {
+    "seconds": 721,
+    "display": "12:01"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "B.Baringer punts 53 yards to CIN 6, Center-J.Ashby. C.Jones pushed ob at CIN 19 for 13 yards (C.Woods).",
+   "shortText": "Bryce Baringer 53 Yd Punt Charlie Jones 13 Yd Punt Return",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727811",
+   "wallclock": "2025-11-23T18:11:42Z"
+  },
+  {
+   "id": "401772781229",
+   "sequence": 22900,
+   "period": 1,
+   "clock": {
+    "seconds": 711,
+    "display": "11:51"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 11:51.",
+   "shortText": "Official Timeout At 11:51. ",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727811",
+   "wallclock": "2025-11-23T18:13:57Z"
+  },
+  {
+   "id": "401772781246",
+   "sequence": 24600,
+   "period": 1,
+   "clock": {
+    "seconds": 711,
+    "display": "11:51"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Brown left tackle to CIN 29 for 10 yards (M.Jones; C.Davis).",
+   "shortText": "Chase Brown 10 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 71,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:14:47Z"
+  },
+  {
+   "id": "401772781275",
+   "sequence": 27500,
+   "period": 1,
+   "clock": {
+    "seconds": 676,
+    "display": "11:16"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short left to M.Gesicki to CIN 34 for 5 yards (C.Elliss).",
+   "shortText": "Joe Flacco Pass Complete for 5 Yds to Mike Gesicki",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 71,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 66,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:15:22Z"
+  },
+  {
+   "id": "401772781300",
+   "sequence": 30000,
+   "period": 1,
+   "clock": {
+    "seconds": 641,
+    "display": "10:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Brooks right guard to CIN 36 for 2 yards (C.Barmore; K.Tonga).",
+   "shortText": "Tahj Brooks 2 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 66,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 64,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:15:58Z"
+  },
+  {
+   "id": "401772781322",
+   "sequence": 32200,
+   "period": 1,
+   "clock": {
+    "seconds": 596,
+    "display": "9:56"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short left to M.Gesicki to CIN 40 for 4 yards (C.Woodson).",
+   "shortText": "Joe Flacco Pass Complete for 4 Yds to Mike Gesicki",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 64,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:16:42Z"
+  },
+  {
+   "id": "401772781347",
+   "sequence": 34700,
+   "period": 1,
+   "clock": {
+    "seconds": 557,
+    "display": "9:17"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Brown right guard to CIN 41 for 1 yard (E.Ponder; C.Barmore).",
+   "shortText": "Chase Brown 1 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 59,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:17:21Z"
+  },
+  {
+   "id": "401772781369",
+   "sequence": 36900,
+   "period": 1,
+   "clock": {
+    "seconds": 521,
+    "display": "8:41"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short left to T.Higgins to CIN 45 for 4 yards (C.Gonzalez).",
+   "shortText": "Joe Flacco Pass Complete for 4 Yds to Tee Higgins",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 59,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 55,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:17:57Z"
+  },
+  {
+   "id": "401772781394",
+   "sequence": 39400,
+   "period": 1,
+   "clock": {
+    "seconds": 480,
+    "display": "8:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short right to M.Gesicki pushed ob at NE 42 for 13 yards (M.Jones).",
+   "shortText": "Joe Flacco Pass Complete for 13 Yds to Mike Gesicki",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 55,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:18:38Z"
+  },
+  {
+   "id": "401772781424",
+   "sequence": 42400,
+   "period": 1,
+   "clock": {
+    "seconds": 444,
+    "display": "7:24"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete deep right to C.Jones.",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Charlie Jones",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:19:18Z"
+  },
+  {
+   "id": "401772781447",
+   "sequence": 44700,
+   "period": 1,
+   "clock": {
+    "seconds": 438,
+    "display": "7:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Brown right guard to NE 35 for 7 yards (J.Hawkins; H.Landry).",
+   "shortText": "Chase Brown 7 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 35,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:19:56Z"
+  },
+  {
+   "id": "401772781469",
+   "sequence": 46900,
+   "period": 1,
+   "clock": {
+    "seconds": 405,
+    "display": "6:45"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete short middle to T.Higgins.",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Tee Higgins",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 35,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 35,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:20:30Z"
+  },
+  {
+   "id": "401772781492",
+   "sequence": 49200,
+   "period": 1,
+   "clock": {
+    "seconds": 396,
+    "display": "6:36"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "E.McPherson 54 yard field goal is GOOD, Center-W.Wagner, Holder-R.Rehkow.",
+   "shortText": "Evan McPherson 54 Yd Field Goal",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 54,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 35,
+    "teamId": "4"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:20:30Z"
+  },
+  {
+   "id": "401772781504",
+   "sequence": 50400,
+   "period": 1,
+   "clock": {
+    "seconds": 396,
+    "display": "6:36"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 06:36.",
+   "shortText": "Official Timeout At 06:36. ",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727812",
+   "wallclock": "2025-11-23T18:21:32Z"
+  },
+  {
+   "id": "401772781516",
+   "sequence": 51600,
+   "period": 1,
+   "clock": {
+    "seconds": 396,
+    "display": "6:36"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "E.McPherson kicks 64 yards from CIN 35 to NE 1. K.Williams to NE 28 for 27 yards (J.Giles-Harris; J.Battle). ** Injury Update: CIN-O.Burks has returned to the game.",
+   "shortText": "Evan McPherson 64 Yd Kickoff Kyle Williams 27 Yd Kickoff Return",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 27,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727813",
+   "wallclock": "2025-11-23T18:24:30Z"
+  },
+  {
+   "id": "401772781546",
+   "sequence": 54600,
+   "period": 1,
+   "clock": {
+    "seconds": 391,
+    "display": "6:31"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Maye pass incomplete short left to T.Henderson.",
+   "shortText": "Drake Maye Incomplete Pass, Intended For TreVeyon Henderson",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727813",
+   "wallclock": "2025-11-23T18:25:14Z"
+  },
+  {
+   "id": "401772781572",
+   "sequence": 57200,
+   "period": 1,
+   "clock": {
+    "seconds": 386,
+    "display": "6:26"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Maye pass short middle to T.Henderson to NE 32 for 4 yards (B.Carter).",
+   "shortText": "Drake Maye Pass Complete for 4 Yds to TreVeyon Henderson",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 68,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727813",
+   "wallclock": "2025-11-23T18:25:55Z"
+  },
+  {
+   "id": "401772781597",
+   "sequence": 59700,
+   "period": 1,
+   "clock": {
+    "seconds": 341,
+    "display": "5:41"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Maye pass incomplete short left to H.Henry.",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Hunter Henry",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 68,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 68,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727813",
+   "wallclock": "2025-11-23T18:26:40Z"
+  },
+  {
+   "id": "401772781625",
+   "sequence": 62500,
+   "period": 1,
+   "clock": {
+    "seconds": 338,
+    "display": "5:38"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "B.Baringer punts 45 yards to CIN 23, Center-J.Ashby. C.Jones to CIN 24 for 1 yard (M.Mapu).",
+   "shortText": "Bryce Baringer 45 Yd Punt Charlie Jones 1 Yd Punt Return",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 68,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727813",
+   "wallclock": "2025-11-23T18:27:14Z"
+  },
+  {
+   "id": "401772781641",
+   "sequence": 64100,
+   "period": 1,
+   "clock": {
+    "seconds": 328,
+    "display": "5:28"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 05:28.",
+   "shortText": "Official Timeout At 05:28. ",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727813",
+   "wallclock": "2025-11-23T18:27:48Z"
+  },
+  {
+   "id": "401772781656",
+   "sequence": 65600,
+   "period": 1,
+   "clock": {
+    "seconds": 328,
+    "display": "5:28"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Brooks right guard to CIN 27 for 3 yards (C.Elliss; M.Jones).",
+   "shortText": "Tahj Brooks 3 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 73,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:30:20Z"
+  },
+  {
+   "id": "401772781685",
+   "sequence": 68500,
+   "period": 1,
+   "clock": {
+    "seconds": 289,
+    "display": "4:49"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown right end pushed ob at CIN 35 for 8 yards (C.Elliss).",
+   "shortText": "Chase Brown 8 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 73,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:30:58Z"
+  },
+  {
+   "id": "401772781712",
+   "sequence": 71200,
+   "period": 1,
+   "clock": {
+    "seconds": 255,
+    "display": "4:15"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "J.Flacco pass short right to N.Fant pushed ob at CIN 44 for 9 yards (C.Davis).",
+   "shortText": "Joe Flacco Pass Complete for 9 Yds to Noah Fant",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 56,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:31:36Z"
+  },
+  {
+   "id": "401772781742",
+   "sequence": 74200,
+   "period": 1,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown up the middle to 50 for 6 yards (J.Hawkins; C.Woodson).",
+   "shortText": "Chase Brown 6 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 56,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:32:18Z"
+  },
+  {
+   "id": "401772781764",
+   "sequence": 76400,
+   "period": 1,
+   "clock": {
+    "seconds": 176,
+    "display": "2:56"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short right to D.Sample pushed ob at 50 for no gain (J.Hawkins).",
+   "shortText": "Joe Flacco Pass Complete for No Gain to Drew Sample",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:32:58Z"
+  },
+  {
+   "id": "401772781794",
+   "sequence": 79400,
+   "period": 1,
+   "clock": {
+    "seconds": 139,
+    "display": "2:19"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Brown right guard to NE 45 for 5 yards (K.Tonga).",
+   "shortText": "Chase Brown 5 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:33:38Z"
+  },
+  {
+   "id": "401772781816",
+   "sequence": 81600,
+   "period": 1,
+   "clock": {
+    "seconds": 101,
+    "display": "1:41"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete short right to M.Gesicki.",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Mike Gesicki",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:34:16Z"
+  },
+  {
+   "id": "401772781839",
+   "sequence": 83900,
+   "period": 1,
+   "clock": {
+    "seconds": 97,
+    "display": "1:37"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) PENALTY on NE-K.Chaisson, Defensive Offside, 5 yards, enforced at NE 45 - No Play.",
+   "shortText": "K'Lavon Chaisson 5 Yd Pnlty",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:35:01Z"
+  },
+  {
+   "id": "401772781863",
+   "sequence": 86300,
+   "period": 1,
+   "clock": {
+    "seconds": 97,
+    "display": "1:37"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Iosivas left end to NE 35 for 5 yards (R.Spillane).",
+   "shortText": "Andrei Iosivas 5 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 35,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:35:49Z"
+  },
+  {
+   "id": "401772781885",
+   "sequence": 88500,
+   "period": 1,
+   "clock": {
+    "seconds": 52,
+    "display": "0:52"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete short left to C.Brown.",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Chase Brown",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 35,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 35,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:36:33Z"
+  },
+  {
+   "id": "401772781920",
+   "sequence": 92000,
+   "period": 1,
+   "clock": {
+    "seconds": 49,
+    "display": "0:49"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) J.Flacco sacked at NE 45 for -10 yards (H.Landry).",
+   "shortText": "Joe Flacco Sacked by Harold Landry III For 10 Yd Loss",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 35,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 15,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:37:12Z"
+  },
+  {
+   "id": "401772781940",
+   "sequence": 94000,
+   "period": 1,
+   "clock": {
+    "seconds": 4,
+    "display": "0:04"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "R.Rehkow punts 35 yards to NE 10, Center-W.Wagner, fair catch by M.Jones.",
+   "shortText": "Ryan Rehkow 35 Yd Punt, Fair Catch by",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 15,
+    "yardsToEndzone": 55,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:37:56Z"
+  },
+  {
+   "id": "401772781960",
+   "sequence": 96000,
+   "period": 1,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "END QUARTER 1",
+   "shortText": "End Quarter 1 ",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727814",
+   "wallclock": "2025-11-23T18:37:56Z"
+  },
+  {
+   "id": "401772781980",
+   "sequence": 98000,
+   "period": 2,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short left to S.Diggs to NE 16 for 6 yards (D.Turner).",
+   "shortText": "Drake Maye Pass Complete for 6 Yds to Stefon Diggs",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 84,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727815",
+   "wallclock": "2025-11-23T18:41:05Z"
+  },
+  {
+   "id": "4017727811005",
+   "sequence": 100500,
+   "period": 2,
+   "clock": {
+    "seconds": 859,
+    "display": "14:19"
+   },
+   "typeId": "36",
+   "typeText": "Interception Return Touchdown",
+   "text": "Geno Stone 32 Yd Interception Return (Evan McPherson Kick)",
+   "shortText": "Geno Stone 32 Yd Interception Return (Evan McPherson Kick)",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 32,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 84,
+    "teamId": "17"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727815",
+   "wallclock": "2025-11-23T18:41:37Z"
+  },
+  {
+   "id": "4017727811041",
+   "sequence": 104100,
+   "period": 2,
+   "clock": {
+    "seconds": 859,
+    "display": "14:19"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 14:19.",
+   "shortText": "Official Timeout At 14:19. ",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727815",
+   "wallclock": "2025-11-23T18:42:52Z"
+  },
+  {
+   "id": "4017727811048",
+   "sequence": 104800,
+   "period": 2,
+   "clock": {
+    "seconds": 859,
+    "display": "14:19"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "E.McPherson kicks 55 yards from CIN 35 to NE 10. T.Jennings to NE 30 for 20 yards (P.Jules; J.Giles-Harris).",
+   "shortText": "Evan McPherson 55 Yd Kickoff Terrell Jennings 20 Yd Kickoff Return",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 20,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:45:42Z"
+  },
+  {
+   "id": "4017727811078",
+   "sequence": 107800,
+   "period": 2,
+   "clock": {
+    "seconds": 853,
+    "display": "14:13"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson right guard to NE 39 for 9 yards (G.Stone; O.Burks).",
+   "shortText": "TreVeyon Henderson 9 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 61,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:46:29Z"
+  },
+  {
+   "id": "4017727811100",
+   "sequence": 110000,
+   "period": 2,
+   "clock": {
+    "seconds": 822,
+    "display": "13:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson left guard to NE 40 for 1 yard (J.Ossai; B.Hill). NE-M.Moses was injured during the play.",
+   "shortText": "TreVeyon Henderson 1 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 61,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:46:59Z"
+  },
+  {
+   "id": "4017727811113",
+   "sequence": 111300,
+   "period": 2,
+   "clock": {
+    "seconds": 802,
+    "display": "13:22"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 13:22.",
+   "shortText": "Official Timeout At 13:22. ",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:47:53Z"
+  },
+  {
+   "id": "4017727811125",
+   "sequence": 112500,
+   "period": 2,
+   "clock": {
+    "seconds": 791,
+    "display": "13:11"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "D.Maye pass incomplete short middle to M.Hollins.",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Mack Hollins",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:50:37Z"
+  },
+  {
+   "id": "4017727811155",
+   "sequence": 115500,
+   "period": 2,
+   "clock": {
+    "seconds": 788,
+    "display": "13:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Maye pass short right to T.Henderson to NE 47 for 7 yards (B.Carter; J.Davis).",
+   "shortText": "Drake Maye Pass Complete for 7 Yds to TreVeyon Henderson",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 53,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:51:13Z"
+  },
+  {
+   "id": "4017727811185",
+   "sequence": 118500,
+   "period": 2,
+   "clock": {
+    "seconds": 741,
+    "display": "12:21"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Maye scrambles left tackle to CIN 48 for 5 yards (K.Jenkins).",
+   "shortText": "Drake Maye 5 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 53,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:52:00Z"
+  },
+  {
+   "id": "4017727811207",
+   "sequence": 120700,
+   "period": 2,
+   "clock": {
+    "seconds": 699,
+    "display": "11:39"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Maye pass short left to R.Stevenson pushed ob at CIN 43 for 5 yards (G.Stone).",
+   "shortText": "Drake Maye Pass Complete for 5 Yds to Rhamondre Stevenson",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 43,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:52:41Z"
+  },
+  {
+   "id": "4017727811242",
+   "sequence": 124200,
+   "period": 2,
+   "clock": {
+    "seconds": 662,
+    "display": "11:02"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Stevenson right guard to CIN 40 for 3 yards (K.Jenkins).",
+   "shortText": "Rhamondre Stevenson 3 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 43,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 40,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:53:21Z"
+  },
+  {
+   "id": "4017727811264",
+   "sequence": 126400,
+   "period": 2,
+   "clock": {
+    "seconds": 619,
+    "display": "10:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short middle to H.Henry to CIN 28 for 12 yards (B.Carter).",
+   "shortText": "Drake Maye Pass Complete for 12 Yds to Hunter Henry",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 40,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:54:05Z"
+  },
+  {
+   "id": "4017727811294",
+   "sequence": 129400,
+   "period": 2,
+   "clock": {
+    "seconds": 576,
+    "display": "9:36"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "D.Maye pass deep left to H.Henry for 28 yards, TOUCHDOWN. A.Borregales extra point is GOOD, Center-J.Ashby, Holder-B.Baringer.",
+   "shortText": "Hunter Henry 28 Yd pass from Drake Maye (Andy Borregales Kick)",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 28,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "17"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:54:41Z"
+  },
+  {
+   "id": "4017727811333",
+   "sequence": 133300,
+   "period": 2,
+   "clock": {
+    "seconds": 576,
+    "display": "9:36"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 09:36.",
+   "shortText": "Official Timeout At 09:36.",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727816",
+   "wallclock": "2025-11-23T18:55:47Z"
+  },
+  {
+   "id": "4017727811340",
+   "sequence": 134000,
+   "period": 2,
+   "clock": {
+    "seconds": 576,
+    "display": "9:36"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "A.Borregales kicks 65 yards from NE 35 to landing zone to end zone, Touchback to the CIN 20.",
+   "shortText": "Andy Borregales 65 Yd Kickoff, Touchback",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727817",
+   "wallclock": "2025-11-23T18:59:23Z"
+  },
+  {
+   "id": "4017727811364",
+   "sequence": 136400,
+   "period": 2,
+   "clock": {
+    "seconds": 576,
+    "display": "9:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown right tackle to CIN 20 for no gain (K.Chaisson; C.Durden).",
+   "shortText": "Chase Brown Rush, No Gain",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727817",
+   "wallclock": "2025-11-23T19:00:13Z"
+  },
+  {
+   "id": "4017727811386",
+   "sequence": 138600,
+   "period": 2,
+   "clock": {
+    "seconds": 534,
+    "display": "8:54"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short right to A.Iosivas ran ob at CIN 31 for 11 yards. NE-K.Tonga was injured during the play.",
+   "shortText": "Joe Flacco Pass Complete for 11 Yds to Andrei Iosivas",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727817",
+   "wallclock": "2025-11-23T19:00:56Z"
+  },
+  {
+   "id": "4017727811403",
+   "sequence": 140300,
+   "period": 2,
+   "clock": {
+    "seconds": 515,
+    "display": "8:35"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 08:35.",
+   "shortText": "Official Timeout At 08:35. ",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727817",
+   "wallclock": "2025-11-23T19:01:50Z"
+  },
+  {
+   "id": "4017727811419",
+   "sequence": 141900,
+   "period": 2,
+   "clock": {
+    "seconds": 508,
+    "display": "8:28"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown left tackle to CIN 36 for 5 yards (H.Landry).",
+   "shortText": "Chase Brown 5 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 64,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727817",
+   "wallclock": "2025-11-23T19:04:26Z"
+  },
+  {
+   "id": "4017727811448",
+   "sequence": 144800,
+   "period": 2,
+   "clock": {
+    "seconds": 462,
+    "display": "7:42"
+   },
+   "typeId": "36",
+   "typeText": "Interception Return Touchdown",
+   "text": "J.Flacco pass short right intended for T.Brooks INTERCEPTED by M.Jones at CIN 33. M.Jones for 33 yards, TOUCHDOWN. A.Borregales extra point is GOOD, Center-J.Ashby, Holder-B.Baringer. ** Injury Update: NE-K.Tonga has returned to the game.",
+   "shortText": "Marcus Jones 33 Yd Interception Return (Andy Borregales Kick)",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 33,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 64,
+    "teamId": "4"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727817",
+   "wallclock": "2025-11-23T19:05:03Z"
+  },
+  {
+   "id": "4017727811491",
+   "sequence": 149100,
+   "period": 2,
+   "clock": {
+    "seconds": 462,
+    "display": "7:42"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "A.Borregales kicks 65 yards from NE 35 to end zone, Touchback to the CIN 35.",
+   "shortText": "Andy Borregales 65 Yd Kickoff, Touchback",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727818",
+   "wallclock": "2025-11-23T19:07:30Z"
+  },
+  {
+   "id": "4017727811511",
+   "sequence": 151100,
+   "period": 2,
+   "clock": {
+    "seconds": 462,
+    "display": "7:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown up the middle to CIN 41 for 6 yards (J.Gibbens).",
+   "shortText": "Chase Brown 6 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727818",
+   "wallclock": "2025-11-23T19:08:11Z"
+  },
+  {
+   "id": "4017727811533",
+   "sequence": 153300,
+   "period": 2,
+   "clock": {
+    "seconds": 421,
+    "display": "7:01"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown left end to CIN 46 for 5 yards (C.Davis).",
+   "shortText": "Chase Brown 5 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 54,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727818",
+   "wallclock": "2025-11-23T19:08:52Z"
+  },
+  {
+   "id": "4017727811555",
+   "sequence": 155500,
+   "period": 2,
+   "clock": {
+    "seconds": 384,
+    "display": "6:24"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) C.Brown left end pushed ob at NE 45 for 9 yards (C.Davis).PENALTY on CIN-D.Fairchild, Offensive Holding, 10 yards, enforced at CIN 46 - No Play.",
+   "shortText": "Chase Brown 9 Yd Rush Dylan Fairchild 10 Yd Pnlty",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 54,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 64,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727818",
+   "wallclock": "2025-11-23T19:09:29Z"
+  },
+  {
+   "id": "4017727811593",
+   "sequence": 159300,
+   "period": 2,
+   "clock": {
+    "seconds": 356,
+    "display": "5:56"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Brown left guard to CIN 38 for 2 yards (C.Durden; J.Gibbens).",
+   "shortText": "Chase Brown 2 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 64,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 18,
+    "yardsToEndzone": 62,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727818",
+   "wallclock": "2025-11-23T19:10:21Z"
+  },
+  {
+   "id": "4017727811615",
+   "sequence": 161500,
+   "period": 2,
+   "clock": {
+    "seconds": 312,
+    "display": "5:12"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete short right.",
+   "shortText": "Joe Flacco Incomplete Pass",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 18,
+    "yardsToEndzone": 62,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 18,
+    "yardsToEndzone": 62,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727818",
+   "wallclock": "2025-11-23T19:11:04Z"
+  },
+  {
+   "id": "4017727811638",
+   "sequence": 163800,
+   "period": 2,
+   "clock": {
+    "seconds": 308,
+    "display": "5:08"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) PENALTY on CIN-M.Gesicki, False Start, 5 yards, enforced at CIN 38 - No Play.",
+   "shortText": "Mike Gesicki 5 Yd Pnlty",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 18,
+    "yardsToEndzone": 62,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 23,
+    "yardsToEndzone": 67,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727818",
+   "wallclock": "2025-11-23T19:12:30Z"
+  },
+  {
+   "id": "4017727811662",
+   "sequence": 166200,
+   "period": 2,
+   "clock": {
+    "seconds": 308,
+    "display": "5:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short left to T.Higgins to CIN 33 for no gain. Lateral to C.Brown to 50 for 17 yards (H.Landry).",
+   "shortText": "Joe Flacco Pass Complete for No Gain to Tee Higgins",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 17,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 23,
+    "yardsToEndzone": 67,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 50,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "4017727818",
+   "wallclock": "2025-11-23T19:12:58Z"
+  },
+  {
+   "id": "4017727811697",
+   "sequence": 169700,
+   "period": 2,
+   "clock": {
+    "seconds": 266,
+    "display": "4:26"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "R.Rehkow punts 40 yards to NE 10, Center-W.Wagner. M.Jones to NE 10 for no gain (T.Anderson).",
+   "shortText": "Ryan Rehkow 40 Yd Punt Marcus Jones Punt Return, No Gain",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 50,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727818",
+   "wallclock": "2025-11-23T19:13:39Z"
+  },
+  {
+   "id": "4017727811723",
+   "sequence": 172300,
+   "period": 2,
+   "clock": {
+    "seconds": 258,
+    "display": "4:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson up the middle to NE 14 for 4 yards (K.Jenkins; B.Carter). ** Injury Update: NE-M.Moses has returned to the game.",
+   "shortText": "TreVeyon Henderson 4 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 86,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:14:45Z"
+  },
+  {
+   "id": "4017727811745",
+   "sequence": 174500,
+   "period": 2,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short middle to H.Henry to NE 31 for 17 yards (J.Ossai).",
+   "shortText": "Drake Maye Pass Complete for 17 Yds to Hunter Henry",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 17,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 86,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:15:27Z"
+  },
+  {
+   "id": "4017727811770",
+   "sequence": 177000,
+   "period": 2,
+   "clock": {
+    "seconds": 178,
+    "display": "2:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson left guard to NE 34 for 3 yards (B.Hill; B.Carter).",
+   "shortText": "TreVeyon Henderson 3 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 66,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:16:05Z"
+  },
+  {
+   "id": "4017727811795",
+   "sequence": 179500,
+   "period": 2,
+   "clock": {
+    "seconds": 143,
+    "display": "2:23"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short middle to A.Hooper to NE 48 for 14 yards (G.Stone).",
+   "shortText": "Drake Maye Pass Complete for 14 Yds to Austin Hooper",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 66,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:16:40Z"
+  },
+  {
+   "id": "4017727811808",
+   "sequence": 180800,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "75",
+   "typeText": "Two-minute warning",
+   "text": "Two-Minute Warning",
+   "shortText": "Two-Minute Warning ",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:17:13Z"
+  },
+  {
+   "id": "4017727811820",
+   "sequence": 182000,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass deep left to A.Hooper to CIN 31 for 21 yards (G.Stone).",
+   "shortText": "Drake Maye Pass Complete for 21 Yds to Austin Hooper",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 21,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:20:07Z"
+  },
+  {
+   "id": "4017727811852",
+   "sequence": 185200,
+   "period": 2,
+   "clock": {
+    "seconds": 80,
+    "display": "1:20"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Stevenson up the middle to CIN 29 for 2 yards (J.Davis; M.Murphy).",
+   "shortText": "Rhamondre Stevenson 2 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 29,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:20:47Z"
+  },
+  {
+   "id": "4017727811874",
+   "sequence": 187400,
+   "period": 2,
+   "clock": {
+    "seconds": 45,
+    "display": "0:45"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Maye sacked at CIN 33 for -4 yards. FUMBLES [M.Murphy], RECOVERED by CIN-B.Carter at CIN 23. B.Carter to NE 49 for 28 yards (B.Brown).The Replay Official reviewed the fumble ruling, and the play was REVERSED.(Shotgun) D.Maye pass incomplete short middle [M.Murphy].",
+   "shortText": "Drake Maye Incomplete Pass",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 29,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 29,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:21:22Z"
+  },
+  {
+   "id": "4017727811914",
+   "sequence": 191400,
+   "period": 2,
+   "clock": {
+    "seconds": 42,
+    "display": "0:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Maye scrambles left end to CIN 23 for 6 yards (D.Knight).",
+   "shortText": "Drake Maye 6 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 29,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 23,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:23:14Z"
+  },
+  {
+   "id": "4017727811939",
+   "sequence": 193900,
+   "period": 2,
+   "clock": {
+    "seconds": 33,
+    "display": "0:33"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by CIN at 00:33.",
+   "shortText": "Timeout #1 By Cin At 00:33. Timeout CIN",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 22,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:23:43Z"
+  },
+  {
+   "id": "4017727811952",
+   "sequence": 195200,
+   "period": 2,
+   "clock": {
+    "seconds": 33,
+    "display": "0:33"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by NE at 00:33.",
+   "shortText": "Timeout #1 By Ne At 00:33. Timeout NE ",
+   "awayScore": 14,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 22,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:24:46Z"
+  },
+  {
+   "id": "4017727811964",
+   "sequence": 196400,
+   "period": 2,
+   "clock": {
+    "seconds": 28,
+    "display": "0:28"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "A.Borregales 41 yard field goal is GOOD, Center-J.Ashby, Holder-B.Baringer.",
+   "shortText": "Andy Borregales 41 Yd Field Goal",
+   "awayScore": 17,
+   "homeScore": 10,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 41,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 23,
+    "teamId": "17"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "4017727819",
+   "wallclock": "2025-11-23T19:25:38Z"
+  },
+  {
+   "id": "4017727812016",
+   "sequence": 201600,
+   "period": 2,
+   "clock": {
+    "seconds": 28,
+    "display": "0:28"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "A.Borregales kicks 59 yards from NE 35 to CIN 6. C.Jones to NE 27 for 67 yards (A.Austin).PENALTY on CIN-J.Giles-Harris, Offensive Holding, 10 yards, enforced at CIN 28.",
+   "shortText": "Andy Borregales 59 Yd Kickoff Charlie Jones 22 Yd Kickoff Return Joe Giles-Harris 10 Yd Pnlty",
+   "awayScore": 17,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 35,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 82,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278110",
+   "wallclock": "2025-11-23T19:27:02Z"
+  },
+  {
+   "id": "4017727812050",
+   "sequence": 205000,
+   "period": 2,
+   "clock": {
+    "seconds": 18,
+    "display": "0:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Brown left tackle to CIN 39 for 21 yards (M.Jones).",
+   "shortText": "Chase Brown 21 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 21,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 82,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 61,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278110",
+   "wallclock": "2025-11-23T19:28:16Z"
+  },
+  {
+   "id": "4017727812061",
+   "sequence": 206100,
+   "period": 2,
+   "clock": {
+    "seconds": 11,
+    "display": "0:11"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #2 by CIN at 00:11.",
+   "shortText": "Timeout #2 By Cin At 00:11. Timeout CIN ",
+   "awayScore": 17,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 61,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278110",
+   "wallclock": "2025-11-23T19:28:40Z"
+  },
+  {
+   "id": "4017727812072",
+   "sequence": 207200,
+   "period": 2,
+   "clock": {
+    "seconds": 11,
+    "display": "0:11"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short middle to T.Higgins to NE 45 for 16 yards (C.Gonzalez).",
+   "shortText": "Joe Flacco Pass Complete for 16 Yds to Tee Higgins",
+   "awayScore": 17,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 61,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278110",
+   "wallclock": "2025-11-23T19:29:15Z"
+  },
+  {
+   "id": "4017727812088",
+   "sequence": 208800,
+   "period": 2,
+   "clock": {
+    "seconds": 4,
+    "display": "0:04"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #3 by CIN at 00:04.",
+   "shortText": "Timeout #3 By Cin At 00:04. Timeout CIN ",
+   "awayScore": 17,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278110",
+   "wallclock": "2025-11-23T19:29:36Z"
+  },
+  {
+   "id": "4017727812104",
+   "sequence": 210400,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "E.McPherson 63 yard field goal is GOOD, Center-W.Wagner, Holder-R.Rehkow.",
+   "shortText": "Evan McPherson 63 Yd Field Goal",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 63,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278110",
+   "wallclock": "2025-11-23T19:30:39Z"
+  },
+  {
+   "id": "4017727812131",
+   "sequence": 213100,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "65",
+   "typeText": "End of Half",
+   "text": "END QUARTER 2",
+   "shortText": "End Quarter 2",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278110",
+   "wallclock": "2025-11-23T19:30:39Z"
+  },
+  {
+   "id": "4017727812159",
+   "sequence": 215900,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "A.Borregales kicks 54 yards from NE 35 to CIN 11. T.Brooks to CIN 31 for 20 yards (E.Ponder).",
+   "shortText": "Andy Borregales 54 Yd Kickoff Tahj Brooks 20 Yd Kickoff Return",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 20,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278111",
+   "wallclock": "2025-11-23T19:44:31Z"
+  },
+  {
+   "id": "4017727812182",
+   "sequence": 218200,
+   "period": 3,
+   "clock": {
+    "seconds": 896,
+    "display": "14:56"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short left to T.Higgins to CIN 34 for 3 yards (C.Davis).",
+   "shortText": "Joe Flacco Pass Complete for 3 Yds to Tee Higgins",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 66,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278111",
+   "wallclock": "2025-11-23T19:45:12Z"
+  },
+  {
+   "id": "4017727812207",
+   "sequence": 220700,
+   "period": 3,
+   "clock": {
+    "seconds": 859,
+    "display": "14:19"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown left end to CIN 37 for 3 yards (C.Barmore).",
+   "shortText": "Chase Brown 3 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 66,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278111",
+   "wallclock": "2025-11-23T19:45:49Z"
+  },
+  {
+   "id": "4017727812229",
+   "sequence": 222900,
+   "period": 3,
+   "clock": {
+    "seconds": 820,
+    "display": "13:40"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete short right [C.Elliss].",
+   "shortText": "Joe Flacco Incomplete Pass",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278111",
+   "wallclock": "2025-11-23T19:46:28Z"
+  },
+  {
+   "id": "4017727812262",
+   "sequence": 226200,
+   "period": 3,
+   "clock": {
+    "seconds": 815,
+    "display": "13:35"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "R.Rehkow punts 53 yards to NE 10, Center-W.Wagner, downed by CIN-D.Ivey.",
+   "shortText": "Ryan Rehkow 0 Yd Punt, Downed by DJ Ivey",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 37,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278111",
+   "wallclock": "2025-11-23T19:47:07Z"
+  },
+  {
+   "id": "4017727812272",
+   "sequence": 227200,
+   "period": 3,
+   "clock": {
+    "seconds": 804,
+    "display": "13:24"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 13:24.",
+   "shortText": "Official Timeout At 13:24. ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278111",
+   "wallclock": "2025-11-23T19:47:41Z"
+  },
+  {
+   "id": "4017727812282",
+   "sequence": 228200,
+   "period": 3,
+   "clock": {
+    "seconds": 804,
+    "display": "13:24"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson right guard to NE 9 for -1 yards (J.Ossai).",
+   "shortText": "TreVeyon Henderson Rush, Loss of 1 Yd",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 91,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:50:16Z"
+  },
+  {
+   "id": "4017727812311",
+   "sequence": 231100,
+   "period": 3,
+   "clock": {
+    "seconds": 764,
+    "display": "12:44"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Maye pass incomplete short right to M.Hollins (D.Hill).",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Mack Hollins",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 91,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 91,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:50:55Z"
+  },
+  {
+   "id": "4017727812334",
+   "sequence": 233400,
+   "period": 3,
+   "clock": {
+    "seconds": 759,
+    "display": "12:39"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass deep middle to D.Douglas to NE 46 for 37 yards (B.Carter).",
+   "shortText": "Drake Maye Pass Complete for 37 Yds to DeMario Douglas",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 37,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 91,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 54,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:51:38Z"
+  },
+  {
+   "id": "4017727812359",
+   "sequence": 235900,
+   "period": 3,
+   "clock": {
+    "seconds": 717,
+    "display": "11:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "D.Douglas left end to CIN 40 for 14 yards (D.Knight).",
+   "shortText": "DeMario Douglas 14 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 54,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:52:19Z"
+  },
+  {
+   "id": "4017727812381",
+   "sequence": 238100,
+   "period": 3,
+   "clock": {
+    "seconds": 682,
+    "display": "11:22"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "D.Maye pass incomplete deep left to K.Boutte.PENALTY on CIN-D.Hill, Defensive Pass Interference, 35 yards, enforced at CIN 40 - No Play.",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Kayshon Boutte Dax Hill 35 Yd Pnlty",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 35,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:52:55Z"
+  },
+  {
+   "id": "4017727812415",
+   "sequence": 241500,
+   "period": 3,
+   "clock": {
+    "seconds": 676,
+    "display": "11:16"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Maye pass incomplete short left.",
+   "shortText": "Drake Maye Incomplete Pass",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:53:46Z"
+  },
+  {
+   "id": "4017727812443",
+   "sequence": 244300,
+   "period": 3,
+   "clock": {
+    "seconds": 671,
+    "display": "11:11"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Maye pass short left to T.Henderson to CIN 1 for 4 yards (B.Carter).",
+   "shortText": "Drake Maye Pass Complete for 4 Yds to TreVeyon Henderson",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:54:26Z"
+  },
+  {
+   "id": "4017727812456",
+   "sequence": 245600,
+   "period": 3,
+   "clock": {
+    "seconds": 623,
+    "display": "10:23"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by NE at 10:23.",
+   "shortText": "Timeout #1 By Ne At 10:23. Timeout NE ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:55:19Z"
+  },
+  {
+   "id": "4017727812468",
+   "sequence": 246800,
+   "period": 3,
+   "clock": {
+    "seconds": 623,
+    "display": "10:23"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) V.Lowe reported in as eligible.  D.Maye pass incomplete short middle to H.Henry (J.Giles-Harris).",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Hunter Henry",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:56:16Z"
+  },
+  {
+   "id": "4017727812500",
+   "sequence": 250000,
+   "period": 3,
+   "clock": {
+    "seconds": 618,
+    "display": "10:18"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "D.Maye pass incomplete short left to K.Boutte.PENALTY on CIN-D.Hill, Defensive Pass Interference, 0 yards, enforced at CIN 1 - No Play.",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Kayshon Boutte Dax Hill 0 Yd Pnlty",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:56:59Z"
+  },
+  {
+   "id": "4017727812534",
+   "sequence": 253400,
+   "period": 3,
+   "clock": {
+    "seconds": 615,
+    "display": "10:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "V.Lowe reported in as eligible.  T.Jennings left guard to CIN 1 for no gain (B.Carter; D.Knight).",
+   "shortText": "Terrell Jennings Rush, No Gain",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:58:12Z"
+  },
+  {
+   "id": "4017727812558",
+   "sequence": 255800,
+   "period": 3,
+   "clock": {
+    "seconds": 569,
+    "display": "9:29"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "D.Maye pass short left to H.Henry for 1 yard, TOUCHDOWN NULLIFIED by Penalty.PENALTY on NE-M.Hollins, Offensive Pass Interference, 10 yards, enforced at CIN 1 - No Play.",
+   "shortText": "Drake Maye Pass Complete for 1 Yd to Hunter Henry Mack Hollins 10 Yd Pnlty",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 11,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T19:58:57Z"
+  },
+  {
+   "id": "4017727812595",
+   "sequence": 259500,
+   "period": 3,
+   "clock": {
+    "seconds": 565,
+    "display": "9:25"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short middle to H.Henry to CIN 1 for 10 yards (B.Carter; D.Knight).",
+   "shortText": "Drake Maye Pass Complete for 10 Yds to Hunter Henry",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 11,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T20:00:26Z"
+  },
+  {
+   "id": "4017727812608",
+   "sequence": 260800,
+   "period": 3,
+   "clock": {
+    "seconds": 520,
+    "display": "8:40"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #2 by NE at 08:40.",
+   "shortText": "Timeout #2 By Ne At 08:40. Timeout NE",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T20:01:17Z"
+  },
+  {
+   "id": "4017727812620",
+   "sequence": 262000,
+   "period": 3,
+   "clock": {
+    "seconds": 520,
+    "display": "8:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Stevenson right guard to CIN 1 for no gain (G.Stone; J.Battle).",
+   "shortText": "Rhamondre Stevenson Rush, No Gain",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T20:02:31Z"
+  },
+  {
+   "id": "4017727812651",
+   "sequence": 265100,
+   "period": 3,
+   "clock": {
+    "seconds": 474,
+    "display": "7:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) R.Stevenson left guard to CIN 1 for no gain (M.Murphy; J.Ossai).",
+   "shortText": "Rhamondre Stevenson Rush, No Gain",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 99,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T20:03:16Z"
+  },
+  {
+   "id": "4017727812662",
+   "sequence": 266200,
+   "period": 3,
+   "clock": {
+    "seconds": 468,
+    "display": "7:48"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 07:48.",
+   "shortText": "Official Timeout At 07:48. ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 99,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278112",
+   "wallclock": "2025-11-23T20:03:57Z"
+  },
+  {
+   "id": "4017727812673",
+   "sequence": 267300,
+   "period": 3,
+   "clock": {
+    "seconds": 468,
+    "display": "7:48"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Ford reported in as eligible.  C.Brown right guard to CIN 14 for 12 yards (C.Woodson).",
+   "shortText": "Chase Brown 12 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 86,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278113",
+   "wallclock": "2025-11-23T20:06:26Z"
+  },
+  {
+   "id": "4017727812704",
+   "sequence": 270400,
+   "period": 3,
+   "clock": {
+    "seconds": 427,
+    "display": "7:07"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short left to A.Iosivas ran ob at CIN 31 for 17 yards (J.Hawkins).",
+   "shortText": "Joe Flacco Pass Complete for 17 Yds to Andrei Iosivas",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 17,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 86,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278113",
+   "wallclock": "2025-11-23T20:07:07Z"
+  },
+  {
+   "id": "4017727812734",
+   "sequence": 273400,
+   "period": 3,
+   "clock": {
+    "seconds": 390,
+    "display": "6:30"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown left guard to CIN 37 for 6 yards (C.Davis; R.Spillane).",
+   "shortText": "Chase Brown 6 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278113",
+   "wallclock": "2025-11-23T20:07:47Z"
+  },
+  {
+   "id": "4017727812756",
+   "sequence": 275600,
+   "period": 3,
+   "clock": {
+    "seconds": 348,
+    "display": "5:48"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown right end to CIN 37 for no gain (R.Spillane).",
+   "shortText": "Chase Brown Rush, No Gain",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278113",
+   "wallclock": "2025-11-23T20:08:29Z"
+  },
+  {
+   "id": "4017727812778",
+   "sequence": 277800,
+   "period": 3,
+   "clock": {
+    "seconds": 308,
+    "display": "5:08"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete short middle to M.Tinsley.",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Mitchell Tinsley",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278113",
+   "wallclock": "2025-11-23T20:09:09Z"
+  },
+  {
+   "id": "4017727812806",
+   "sequence": 280600,
+   "period": 3,
+   "clock": {
+    "seconds": 305,
+    "display": "5:05"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "R.Rehkow punts 39 yards to NE 24, Center-W.Wagner, out of bounds.",
+   "shortText": "Ryan Rehkow 39 Yd Punt, OB at 76",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 37,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278113",
+   "wallclock": "2025-11-23T20:09:45Z"
+  },
+  {
+   "id": "4017727812816",
+   "sequence": 281600,
+   "period": 3,
+   "clock": {
+    "seconds": 298,
+    "display": "4:58"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 04:58.",
+   "shortText": "Official Timeout At 04:58. ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278113",
+   "wallclock": "2025-11-23T20:10:27Z"
+  },
+  {
+   "id": "4017727812825",
+   "sequence": 282500,
+   "period": 3,
+   "clock": {
+    "seconds": 298,
+    "display": "4:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson left end to NE 28 for 4 yards (C.Johnson; D.Knight). NE-W.Campbell was injured during the play.",
+   "shortText": "TreVeyon Henderson 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 72,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278114",
+   "wallclock": "2025-11-23T20:12:49Z"
+  },
+  {
+   "id": "4017727812841",
+   "sequence": 284100,
+   "period": 3,
+   "clock": {
+    "seconds": 288,
+    "display": "4:48"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 04:48.",
+   "shortText": "Official Timeout At 04:48. ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 72,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278114",
+   "wallclock": "2025-11-23T20:13:40Z"
+  },
+  {
+   "id": "4017727812857",
+   "sequence": 285700,
+   "period": 3,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short left to K.Boutte to NE 37 for 9 yards (D.Hill).",
+   "shortText": "Drake Maye Pass Complete for 9 Yds to Kayshon Boutte",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 72,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278114",
+   "wallclock": "2025-11-23T20:16:16Z"
+  },
+  {
+   "id": "4017727812894",
+   "sequence": 289400,
+   "period": 3,
+   "clock": {
+    "seconds": 246,
+    "display": "4:06"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Maye pass short middle to A.Hooper to NE 41 for 4 yards (B.Carter).",
+   "shortText": "Drake Maye Pass Complete for 4 Yds to Austin Hooper",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 59,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278114",
+   "wallclock": "2025-11-23T20:16:52Z"
+  },
+  {
+   "id": "4017727812919",
+   "sequence": 291900,
+   "period": 3,
+   "clock": {
+    "seconds": 213,
+    "display": "3:33"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass deep right to M.Hollins pushed ob at CIN 35 for 24 yards (D.Hill).Penalty on CIN-D.Hill, Defensive Pass Interference, declined.",
+   "shortText": "Drake Maye Pass Complete for 24 Yds to Mack Hollins",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 59,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278114",
+   "wallclock": "2025-11-23T20:17:24Z"
+  },
+  {
+   "id": "4017727812961",
+   "sequence": 296100,
+   "period": 3,
+   "clock": {
+    "seconds": 195,
+    "display": "3:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson right end to CIN 29 for 6 yards (T.Slaton; J.Battle).",
+   "shortText": "TreVeyon Henderson 6 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 29,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278114",
+   "wallclock": "2025-11-23T20:18:28Z"
+  },
+  {
+   "id": "4017727812983",
+   "sequence": 298300,
+   "period": 3,
+   "clock": {
+    "seconds": 158,
+    "display": "2:38"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) D.Maye sacked at CIN 38 for -9 yards (J.Davis).",
+   "shortText": "Drake Maye Sacked by Jalen Davis For 9 Yd Loss",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 29,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 13,
+    "yardsToEndzone": 38,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278114",
+   "wallclock": "2025-11-23T20:19:06Z"
+  },
+  {
+   "id": "4017727813003",
+   "sequence": 300300,
+   "period": 3,
+   "clock": {
+    "seconds": 118,
+    "display": "1:58"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short middle to H.Henry to CIN 27 for 11 yards (D.Ivey).",
+   "shortText": "Drake Maye Pass Complete for 11 Yds to Hunter Henry",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 13,
+    "yardsToEndzone": 38,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 27,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278114",
+   "wallclock": "2025-11-23T20:19:45Z"
+  },
+  {
+   "id": "4017727813028",
+   "sequence": 302800,
+   "period": 3,
+   "clock": {
+    "seconds": 64,
+    "display": "1:04"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "A.Borregales 45 yard field goal is GOOD, Center-J.Ashby, Holder-B.Baringer.",
+   "shortText": "Andy Borregales 45 Yd Field Goal",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 45,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 27,
+    "teamId": "17"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278114",
+   "wallclock": "2025-11-23T20:20:33Z"
+  },
+  {
+   "id": "4017727813048",
+   "sequence": 304800,
+   "period": 3,
+   "clock": {
+    "seconds": 64,
+    "display": "1:04"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "A.Borregales kicks 65 yards from NE 35 to CIN 0. C.Jones pushed ob at CIN 24 for 24 yards (A.Austin).",
+   "shortText": "Andy Borregales 65 Yd Kickoff Charlie Jones 24 Yd Kickoff Return",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:21:54Z"
+  },
+  {
+   "id": "4017727813076",
+   "sequence": 307600,
+   "period": 3,
+   "clock": {
+    "seconds": 59,
+    "display": "0:59"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Brown right guard to CIN 29 for 5 yards (J.Pharms; C.Elliss).",
+   "shortText": "Chase Brown 5 Yd Rush",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 71,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:22:37Z"
+  },
+  {
+   "id": "4017727813103",
+   "sequence": 310300,
+   "period": 3,
+   "clock": {
+    "seconds": 21,
+    "display": "0:21"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short middle to C.Brown to CIN 33 for 4 yards (C.Woodson; J.Gibbens).",
+   "shortText": "Joe Flacco Pass Complete for 4 Yds to Chase Brown",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 71,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 67,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:23:15Z"
+  },
+  {
+   "id": "4017727813128",
+   "sequence": 312800,
+   "period": 3,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "END QUARTER 3",
+   "shortText": "End Quarter 3 ",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 67,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 67,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:23:15Z"
+  },
+  {
+   "id": "4017727813148",
+   "sequence": 314800,
+   "period": 4,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Flacco up the middle to CIN 36 for 3 yards (C.Durden).",
+   "shortText": "Joe Flacco 3 Yd Rush",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 67,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:26:26Z"
+  },
+  {
+   "id": "4017727813170",
+   "sequence": 317000,
+   "period": 4,
+   "clock": {
+    "seconds": 869,
+    "display": "14:29"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "J.Flacco pass short right to T.Higgins pushed ob at CIN 44 for 8 yards (C.Elliss).",
+   "shortText": "Joe Flacco Pass Complete for 8 Yds to Tee Higgins",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 56,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:26:57Z"
+  },
+  {
+   "id": "4017727813200",
+   "sequence": 320000,
+   "period": 4,
+   "clock": {
+    "seconds": 832,
+    "display": "13:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Brown left guard to CIN 45 for 1 yard (C.Davis; R.Spillane).",
+   "shortText": "Chase Brown 1 Yd Rush",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 56,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 55,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:27:37Z"
+  },
+  {
+   "id": "4017727813222",
+   "sequence": 322200,
+   "period": 4,
+   "clock": {
+    "seconds": 795,
+    "display": "13:15"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "J.Flacco pass incomplete short right to C.Brown.",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Chase Brown",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 55,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 55,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:28:14Z"
+  },
+  {
+   "id": "4017727813245",
+   "sequence": 324500,
+   "period": 4,
+   "clock": {
+    "seconds": 790,
+    "display": "13:10"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Run formation) C.Ford reported in as eligible.  PENALTY on CIN, Delay of Game, 5 yards, enforced at CIN 45 - No Play.",
+   "shortText": "CIN 5 Yd Pnlty",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 55,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 60,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:29:08Z"
+  },
+  {
+   "id": "4017727813271",
+   "sequence": 327100,
+   "period": 4,
+   "clock": {
+    "seconds": 790,
+    "display": "13:10"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "R.Rehkow punts 60 yards to end zone, Center-W.Wagner, Touchback.",
+   "shortText": "Ryan Rehkow 60 Yd Punt, Touchback",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 40,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:29:43Z"
+  },
+  {
+   "id": "4017727813280",
+   "sequence": 328000,
+   "period": 4,
+   "clock": {
+    "seconds": 781,
+    "display": "13:01"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 13:01.",
+   "shortText": "Official Timeout At 13:01. ",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278115",
+   "wallclock": "2025-11-23T20:30:09Z"
+  },
+  {
+   "id": "4017727813289",
+   "sequence": 328900,
+   "period": 4,
+   "clock": {
+    "seconds": 781,
+    "display": "13:01"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "T.Henderson left guard to NE 23 for 3 yards (M.Murphy; T.Slaton).PENALTY on NE-B.Brown, Offensive Holding, 10 yards, enforced at NE 20 - No Play.",
+   "shortText": "TreVeyon Henderson 3 Yd Rush Ben Brown 10 Yd Pnlty",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:32:55Z"
+  },
+  {
+   "id": "4017727813329",
+   "sequence": 332900,
+   "period": 4,
+   "clock": {
+    "seconds": 759,
+    "display": "12:39"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short left to H.Henry pushed ob at NE 33 for 23 yards (G.Stone).",
+   "shortText": "Drake Maye Pass Complete for 23 Yds to Hunter Henry",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 23,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 90,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:33:39Z"
+  },
+  {
+   "id": "4017727813359",
+   "sequence": 335900,
+   "period": 4,
+   "clock": {
+    "seconds": 732,
+    "display": "12:12"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) D.Maye pass short left to K.Boutte to NE 39 for 6 yards (D.Hill).",
+   "shortText": "Drake Maye Pass Complete for 6 Yds to Kayshon Boutte",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 61,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:34:10Z"
+  },
+  {
+   "id": "4017727813384",
+   "sequence": 338400,
+   "period": 4,
+   "clock": {
+    "seconds": 712,
+    "display": "11:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle) T.Henderson left tackle to NE 46 for 7 yards (G.Stone).",
+   "shortText": "TreVeyon Henderson 7 Yd Rush",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 61,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 54,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:34:28Z"
+  },
+  {
+   "id": "4017727813406",
+   "sequence": 340600,
+   "period": 4,
+   "clock": {
+    "seconds": 678,
+    "display": "11:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson left tackle to CIN 49 for 5 yards (C.Johnson).",
+   "shortText": "TreVeyon Henderson 5 Yd Rush",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 54,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 49,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:35:04Z"
+  },
+  {
+   "id": "4017727813428",
+   "sequence": 342800,
+   "period": 4,
+   "clock": {
+    "seconds": 635,
+    "display": "10:35"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short left to K.Williams to CIN 31 for 18 yards (B.Carter).",
+   "shortText": "Drake Maye Pass Complete for 18 Yds to Kyle Williams",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 49,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:35:46Z"
+  },
+  {
+   "id": "4017727813453",
+   "sequence": 345300,
+   "period": 4,
+   "clock": {
+    "seconds": 590,
+    "display": "9:50"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "D.Maye pass incomplete deep right to R.Stevenson.",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Rhamondre Stevenson",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:36:31Z"
+  },
+  {
+   "id": "4017727813476",
+   "sequence": 347600,
+   "period": 4,
+   "clock": {
+    "seconds": 581,
+    "display": "9:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Maye scrambles right end to CIN 19 for 12 yards (M.Murphy).",
+   "shortText": "Drake Maye 12 Yd Rush",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:37:18Z"
+  },
+  {
+   "id": "4017727813498",
+   "sequence": 349800,
+   "period": 4,
+   "clock": {
+    "seconds": 537,
+    "display": "8:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Stevenson right guard to CIN 18 for 1 yard (D.Knight; J.Battle).",
+   "shortText": "Rhamondre Stevenson 1 Yd Rush",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 18,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:38:02Z"
+  },
+  {
+   "id": "4017727813520",
+   "sequence": 352000,
+   "period": 4,
+   "clock": {
+    "seconds": 492,
+    "display": "8:12"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short left to H.Henry to CIN 4 for 14 yards (G.Stone). CIN-J.Ossai was injured during the play.",
+   "shortText": "Drake Maye Pass Complete for 14 Yds to Hunter Henry",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 18,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:38:47Z"
+  },
+  {
+   "id": "4017727813545",
+   "sequence": 354500,
+   "period": 4,
+   "clock": {
+    "seconds": 452,
+    "display": "7:32"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "D.Maye pass incomplete short right to A.Hooper.",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Austin Hooper",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:40:41Z"
+  },
+  {
+   "id": "4017727813571",
+   "sequence": 357100,
+   "period": 4,
+   "clock": {
+    "seconds": 449,
+    "display": "7:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Henderson left guard to CIN 1 for 3 yards (D.Hill; G.Stone). ** Injury Update: CIN-J.Ossai has returned to the game.",
+   "shortText": "TreVeyon Henderson 3 Yd Rush",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:41:24Z"
+  },
+  {
+   "id": "4017727813593",
+   "sequence": 359300,
+   "period": 4,
+   "clock": {
+    "seconds": 409,
+    "display": "6:49"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "D.Maye up the middle to CIN 1 for no gain (B.Carter).",
+   "shortText": "Drake Maye Rush, No Gain",
+   "awayScore": 20,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:42:05Z"
+  },
+  {
+   "id": "4017727813618",
+   "sequence": 361800,
+   "period": 4,
+   "clock": {
+    "seconds": 355,
+    "display": "5:55"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "A.Borregales 19 yard field goal is GOOD, Center-J.Ashby, Holder-B.Baringer.",
+   "shortText": "Andy Borregales 19 Yd Field Goal",
+   "awayScore": 23,
+   "homeScore": 13,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "17"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:42:56Z"
+  },
+  {
+   "id": "4017727813628",
+   "sequence": 362800,
+   "period": 4,
+   "clock": {
+    "seconds": 355,
+    "display": "5:55"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 05:55.",
+   "shortText": "Official Timeout At 05:55. ",
+   "awayScore": 23,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278116",
+   "wallclock": "2025-11-23T20:43:15Z"
+  },
+  {
+   "id": "4017727813638",
+   "sequence": 363800,
+   "period": 4,
+   "clock": {
+    "seconds": 355,
+    "display": "5:55"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "A.Borregales kicks 62 yards from NE 35 to CIN 3. C.Jones to CIN 29 for 26 yards (A.Austin; A.Jennings).",
+   "shortText": "Andy Borregales 62 Yd Kickoff Charlie Jones 26 Yd Kickoff Return",
+   "awayScore": 23,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 26,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 71,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278117",
+   "wallclock": "2025-11-23T20:45:55Z"
+  },
+  {
+   "id": "4017727813668",
+   "sequence": 366800,
+   "period": 4,
+   "clock": {
+    "seconds": 348,
+    "display": "5:48"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete short middle to A.Iosivas [J.Pharms].",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Andrei Iosivas",
+   "awayScore": 23,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 71,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 71,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278117",
+   "wallclock": "2025-11-23T20:46:45Z"
+  },
+  {
+   "id": "4017727813691",
+   "sequence": 369100,
+   "period": 4,
+   "clock": {
+    "seconds": 344,
+    "display": "5:44"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short left to M.Gesicki ran ob at CIN 42 for 13 yards (C.Gonzalez). CIN-J.Flacco was injured during the play.",
+   "shortText": "Joe Flacco Pass Complete for 13 Yds to Mike Gesicki",
+   "awayScore": 23,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 71,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278117",
+   "wallclock": "2025-11-23T20:47:22Z"
+  },
+  {
+   "id": "4017727813721",
+   "sequence": 372100,
+   "period": 4,
+   "clock": {
+    "seconds": 315,
+    "display": "5:15"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) J.Browning pass short right to A.Iosivas to NE 44 for 14 yards (C.Woodson). CIN-A.Iosivas was injured during the play.",
+   "shortText": "Jake Browning Pass Complete for 14 Yds to Andrei Iosivas",
+   "awayScore": 23,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278117",
+   "wallclock": "2025-11-23T20:47:56Z"
+  },
+  {
+   "id": "4017727813738",
+   "sequence": 373800,
+   "period": 4,
+   "clock": {
+    "seconds": 299,
+    "display": "4:59"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 04:59.",
+   "shortText": "Official Timeout At 04:59.",
+   "awayScore": 23,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278117",
+   "wallclock": "2025-11-23T20:47:56Z"
+  },
+  {
+   "id": "4017727813754",
+   "sequence": 375400,
+   "period": 4,
+   "clock": {
+    "seconds": 290,
+    "display": "4:50"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) J.Flacco pass incomplete deep right to T.Higgins. CIN-T.Higgins was injured during the play. ** Injury Update: CIN-J.Flacco has returned to the game. PENALTY on NE-C.Davis, Defensive Pass Interference, 27 yards, enforced at NE 44 - No Play.",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Tee Higgins Carlton Davis III 27 Yd Pnlty",
+   "awayScore": 23,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 27,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 17,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278117",
+   "wallclock": "2025-11-23T20:50:18Z"
+  },
+  {
+   "id": "4017727813774",
+   "sequence": 377400,
+   "period": 4,
+   "clock": {
+    "seconds": 285,
+    "display": "4:45"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 04:45.",
+   "shortText": "Official Timeout At 04:45. ",
+   "awayScore": 23,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 17,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278117",
+   "wallclock": "2025-11-23T20:52:32Z"
+  },
+  {
+   "id": "4017727813794",
+   "sequence": 379400,
+   "period": 4,
+   "clock": {
+    "seconds": 280,
+    "display": "4:40"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(Shotgun) J.Flacco pass deep left to M.Tinsley for 17 yards, TOUCHDOWN. E.McPherson extra point is GOOD, Center-W.Wagner, Holder-R.Rehkow.",
+   "shortText": "Mitchell Tinsley 17 Yd pass from Joe Flacco (Evan McPherson Kick)",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 17,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 17,
+    "teamId": "4"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278117",
+   "wallclock": "2025-11-23T20:54:30Z"
+  },
+  {
+   "id": "4017727813852",
+   "sequence": 385200,
+   "period": 4,
+   "clock": {
+    "seconds": 280,
+    "display": "4:40"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "E.McPherson kicks 61 yards from CIN 35 to NE 4. K.Williams to NE 40 for 36 yards (J.Battle; J.Newton).",
+   "shortText": "Evan McPherson 61 Yd Kickoff Kyle Williams 36 Yd Kickoff Return",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 36,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T20:56:53Z"
+  },
+  {
+   "id": "4017727813880",
+   "sequence": 388000,
+   "period": 4,
+   "clock": {
+    "seconds": 273,
+    "display": "4:33"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Henderson right tackle to NE 49 for 9 yards (J.Battle).",
+   "shortText": "TreVeyon Henderson 9 Yd Rush",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 51,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T20:57:42Z"
+  },
+  {
+   "id": "4017727813902",
+   "sequence": 390200,
+   "period": 4,
+   "clock": {
+    "seconds": 231,
+    "display": "3:51"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Henderson left guard to CIN 49 for 2 yards (T.Slaton; D.Knight).",
+   "shortText": "TreVeyon Henderson 2 Yd Rush",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 51,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T20:58:23Z"
+  },
+  {
+   "id": "4017727813916",
+   "sequence": 391600,
+   "period": 4,
+   "clock": {
+    "seconds": 188,
+    "display": "3:08"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #3 by NE at 03:08.",
+   "shortText": "Timeout #3 By Ne At 03:08. Timeout NE",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T20:59:15Z"
+  },
+  {
+   "id": "4017727813929",
+   "sequence": 392900,
+   "period": 4,
+   "clock": {
+    "seconds": 188,
+    "display": "3:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "R.Stevenson left tackle to 50 for -1 yards (D.Knight).",
+   "shortText": "Rhamondre Stevenson Rush, Loss of 1 Yd",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 50,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:00:09Z"
+  },
+  {
+   "id": "4017727813944",
+   "sequence": 394400,
+   "period": 4,
+   "clock": {
+    "seconds": 185,
+    "display": "3:05"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by CIN at 03:05.",
+   "shortText": "Timeout #1 By Cin At 03:05. Timeout CIN ",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 50,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:00:32Z"
+  },
+  {
+   "id": "4017727813958",
+   "sequence": 395800,
+   "period": 4,
+   "clock": {
+    "seconds": 185,
+    "display": "3:05"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Maye pass incomplete short right to M.Hollins.",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Mack Hollins",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 50,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 50,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:01:09Z"
+  },
+  {
+   "id": "4017727813988",
+   "sequence": 398800,
+   "period": 4,
+   "clock": {
+    "seconds": 181,
+    "display": "3:01"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Maye pass short middle to S.Diggs to CIN 36 for 14 yards (D.Turner).",
+   "shortText": "Drake Maye Pass Complete for 14 Yds to Stefon Diggs",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 50,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 36,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:01:53Z"
+  },
+  {
+   "id": "4017727814001",
+   "sequence": 400100,
+   "period": 4,
+   "clock": {
+    "seconds": 171,
+    "display": "2:51"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #2 by CIN at 02:51.",
+   "shortText": "Timeout #2 By Cin At 02:51. Timeout CIN ",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 36,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:02:26Z"
+  },
+  {
+   "id": "4017727814013",
+   "sequence": 401300,
+   "period": 4,
+   "clock": {
+    "seconds": 171,
+    "display": "2:51"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson right guard to CIN 35 for 1 yard (G.Stone; J.Ossai).",
+   "shortText": "TreVeyon Henderson 1 Yd Rush",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 36,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 35,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:03:03Z"
+  },
+  {
+   "id": "4017727814042",
+   "sequence": 404200,
+   "period": 4,
+   "clock": {
+    "seconds": 128,
+    "display": "2:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Henderson right end to CIN 33 for 2 yards (G.Stone; B.Carter).",
+   "shortText": "TreVeyon Henderson 2 Yd Rush",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 35,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 33,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:03:47Z"
+  },
+  {
+   "id": "4017727814053",
+   "sequence": 405300,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "75",
+   "typeText": "Two-minute warning",
+   "text": "Two-Minute Warning",
+   "shortText": "Two-Minute Warning ",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 33,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:04:08Z"
+  },
+  {
+   "id": "4017727814064",
+   "sequence": 406400,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Maye pass incomplete short left to S.Diggs (D.Turner).",
+   "shortText": "Drake Maye Incomplete Pass, Intended For Stefon Diggs",
+   "awayScore": 23,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 33,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 33,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:06:54Z"
+  },
+  {
+   "id": "4017727814094",
+   "sequence": 409400,
+   "period": 4,
+   "clock": {
+    "seconds": 111,
+    "display": "1:51"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "A.Borregales 52 yard field goal is GOOD, Center-J.Ashby, Holder-B.Baringer.",
+   "shortText": "Andy Borregales 52 Yd Field Goal",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 52,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 33,
+    "teamId": "17"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278118",
+   "wallclock": "2025-11-23T21:07:35Z"
+  },
+  {
+   "id": "4017727814114",
+   "sequence": 411400,
+   "period": 4,
+   "clock": {
+    "seconds": 111,
+    "display": "1:51"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "A.Borregales kicks 61 yards from NE 35 to CIN 4. G.Brightwell to CIN 28 for 24 yards (B.Swinson).",
+   "shortText": "Andy Borregales 61 Yd Kickoff Gary Brightwell 24 Yd Kickoff Return",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:09:19Z"
+  },
+  {
+   "id": "4017727814140",
+   "sequence": 414000,
+   "period": 4,
+   "clock": {
+    "seconds": 104,
+    "display": "1:44"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete deep right to M.Tinsley. ** Injury Update: CIN-A.Iosivas has returned to the game.",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Mitchell Tinsley",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:09:59Z"
+  },
+  {
+   "id": "4017727814163",
+   "sequence": 416300,
+   "period": 4,
+   "clock": {
+    "seconds": 98,
+    "display": "1:38"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short middle to T.Hudson to CIN 37 for 9 yards (R.Spillane).",
+   "shortText": "Joe Flacco Pass Complete for 9 Yds to Tanner Hudson",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:10:38Z"
+  },
+  {
+   "id": "4017727814191",
+   "sequence": 419100,
+   "period": 4,
+   "clock": {
+    "seconds": 78,
+    "display": "1:18"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle, Shotgun) J.Flacco pass incomplete short right to A.Iosivas (C.Davis).",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Andrei Iosivas",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:10:57Z"
+  },
+  {
+   "id": "4017727814214",
+   "sequence": 421400,
+   "period": 4,
+   "clock": {
+    "seconds": 74,
+    "display": "1:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Brown right guard to CIN 41 for 4 yards (C.Woodson; C.Davis).",
+   "shortText": "Chase Brown 4 Yd Rush",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 63,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:11:30Z"
+  },
+  {
+   "id": "4017727814225",
+   "sequence": 422500,
+   "period": 4,
+   "clock": {
+    "seconds": 69,
+    "display": "1:09"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #3 by CIN at 01:09.",
+   "shortText": "Timeout #3 By Cin At 01:09. Timeout CIN ",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:11:45Z"
+  },
+  {
+   "id": "4017727814236",
+   "sequence": 423600,
+   "period": 4,
+   "clock": {
+    "seconds": 69,
+    "display": "1:09"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete short right.",
+   "shortText": "Joe Flacco Incomplete Pass",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:12:39Z"
+  },
+  {
+   "id": "4017727814266",
+   "sequence": 426600,
+   "period": 4,
+   "clock": {
+    "seconds": 64,
+    "display": "1:04"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short left to C.Brown pushed ob at CIN 43 for 2 yards (M.Jones) [H.Landry].",
+   "shortText": "Joe Flacco Pass Complete for 2 Yds to Chase Brown",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 57,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:13:13Z"
+  },
+  {
+   "id": "4017727814296",
+   "sequence": 429600,
+   "period": 4,
+   "clock": {
+    "seconds": 58,
+    "display": "0:58"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete deep left to A.Iosivas.",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Andrei Iosivas",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 57,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 57,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:13:54Z"
+  },
+  {
+   "id": "4017727814324",
+   "sequence": 432400,
+   "period": 4,
+   "clock": {
+    "seconds": 51,
+    "display": "0:51"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass short right to M.Tinsley to NE 45 for 12 yards (M.Jones) [J.Hawkins].The Replay Official reviewed the runner was inbounds ruling, and the play was REVERSED.(Shotgun) J.Flacco pass short right to M.Tinsley ran ob at NE 45 for 12 yards [J.Hawkins].",
+   "shortText": "Joe Flacco Pass Complete for 12 Yds to Mitchell Tinsley",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 57,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:14:40Z"
+  },
+  {
+   "id": "4017727814354",
+   "sequence": 435400,
+   "period": 4,
+   "clock": {
+    "seconds": 47,
+    "display": "0:47"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) J.Flacco pass deep middle to A.Iosivas to NE 26 for 19 yards (C.Davis).",
+   "shortText": "Joe Flacco Pass Complete for 19 Yds to Andrei Iosivas",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:16:22Z"
+  },
+  {
+   "id": "4017727814379",
+   "sequence": 437900,
+   "period": 4,
+   "clock": {
+    "seconds": 33,
+    "display": "0:33"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle) J.Flacco spiked the ball to stop the clock.",
+   "shortText": "Joe Flacco Incomplete Pass",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:16:37Z"
+  },
+  {
+   "id": "4017727814402",
+   "sequence": 440200,
+   "period": 4,
+   "clock": {
+    "seconds": 32,
+    "display": "0:32"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete short right to M.Tinsley (C.Davis).",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Mitchell Tinsley",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:17:25Z"
+  },
+  {
+   "id": "4017727814425",
+   "sequence": 442500,
+   "period": 4,
+   "clock": {
+    "seconds": 27,
+    "display": "0:27"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) J.Flacco pass incomplete deep middle to M.Tinsley (C.Davis).",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Mitchell Tinsley",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "4"
+   },
+   "teamId": "4",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:18:05Z"
+  },
+  {
+   "id": "4017727814448",
+   "sequence": 444800,
+   "period": 4,
+   "clock": {
+    "seconds": 23,
+    "display": "0:23"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": " (Shotgun) J.Flacco pass incomplete deep left to M.Gesicki (M.Jones) [K.Chaisson].",
+   "shortText": "Joe Flacco Incomplete Pass, Intended For Mike Gesicki ",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "4"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278119",
+   "wallclock": "2025-11-23T21:18:50Z"
+  },
+  {
+   "id": "4017727814471",
+   "sequence": 447100,
+   "period": 4,
+   "clock": {
+    "seconds": 18,
+    "display": "0:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": " D.Maye kneels to NE 25 for -1 yards.",
+   "shortText": "Drake Maye Rush, Loss of 1 Yd ",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "17"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 75,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278120",
+   "wallclock": "2025-11-23T21:19:46Z"
+  },
+  {
+   "id": "4017727814493",
+   "sequence": 449300,
+   "period": 4,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "66",
+   "typeText": "End of Game",
+   "text": "END GAME",
+   "shortText": "End Game ",
+   "awayScore": 26,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 11,
+    "yardsToEndzone": 75,
+    "teamId": "17"
+   },
+   "teamId": "17",
+   "driveId": "40177278120",
+   "wallclock": "2025-11-23T21:19:46Z"
+  }
+ ],
+ "drives": [
+  {
+   "id": "4017727811",
+   "sequence": 1,
+   "teamId": "17",
+   "endTeamId": "17",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 17,
+   "description": "6 plays, 17 yards, 3:09"
+  },
+  {
+   "id": "4017727812",
+   "sequence": 2,
+   "teamId": "4",
+   "endTeamId": "4",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 11,
+   "yards": 46,
+   "description": "11 plays, 46 yards, 5:15"
+  },
+  {
+   "id": "4017727813",
+   "sequence": 3,
+   "teamId": "17",
+   "endTeamId": "17",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 4,
+   "description": "3 plays, 4 yards, 1:08"
+  },
+  {
+   "id": "4017727814",
+   "sequence": 4,
+   "teamId": "4",
+   "endTeamId": "4",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 10,
+   "yards": 31,
+   "description": "10 plays, 31 yards, 5:28"
+  },
+  {
+   "id": "4017727815",
+   "sequence": 5,
+   "teamId": "17",
+   "endTeamId": "4",
+   "result": "INT TD",
+   "displayResult": "Interception Touchdown",
+   "isScore": true,
+   "offensivePlays": 2,
+   "yards": 6,
+   "description": "2 plays, 6 yards, 0:41"
+  },
+  {
+   "id": "4017727816",
+   "sequence": 6,
+   "teamId": "17",
+   "endTeamId": "17",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 70,
+   "description": "9 plays, 70 yards, 4:43"
+  },
+  {
+   "id": "4017727817",
+   "sequence": 7,
+   "teamId": "4",
+   "endTeamId": "17",
+   "result": "INT TD",
+   "displayResult": "Interception Touchdown",
+   "isScore": true,
+   "offensivePlays": 4,
+   "yards": 16,
+   "description": "4 plays, 16 yards, 1:54"
+  },
+  {
+   "id": "4017727818",
+   "sequence": 8,
+   "teamId": "4",
+   "endTeamId": "4",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 5,
+   "yards": 15,
+   "description": "5 plays, 15 yards, 3:24"
+  },
+  {
+   "id": "4017727819",
+   "sequence": 9,
+   "teamId": "17",
+   "endTeamId": "17",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 67,
+   "description": "9 plays, 67 yards, 3:50"
+  },
+  {
+   "id": "40177278110",
+   "sequence": 10,
+   "teamId": "4",
+   "endTeamId": "4",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 3,
+   "yards": 37,
+   "description": "3 plays, 37 yards, 0:28"
+  },
+  {
+   "id": "40177278111",
+   "sequence": 11,
+   "teamId": "4",
+   "endTeamId": "4",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 6,
+   "description": "3 plays, 6 yards, 1:36"
+  },
+  {
+   "id": "40177278112",
+   "sequence": 12,
+   "teamId": "17",
+   "endTeamId": "17",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 11,
+   "yards": 89,
+   "description": "11 plays, 89 yards, 5:36"
+  },
+  {
+   "id": "40177278113",
+   "sequence": 13,
+   "teamId": "4",
+   "endTeamId": "4",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 5,
+   "yards": 35,
+   "description": "5 plays, 35 yards, 2:50"
+  },
+  {
+   "id": "40177278114",
+   "sequence": 14,
+   "teamId": "17",
+   "endTeamId": "17",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 8,
+   "yards": 49,
+   "description": "8 plays, 49 yards, 3:54"
+  },
+  {
+   "id": "40177278115",
+   "sequence": 15,
+   "teamId": "4",
+   "endTeamId": "4",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 16,
+   "description": "6 plays, 16 yards, 3:03"
+  },
+  {
+   "id": "40177278116",
+   "sequence": 16,
+   "teamId": "17",
+   "endTeamId": "17",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 13,
+   "yards": 79,
+   "description": "13 plays, 79 yards, 7:06"
+  },
+  {
+   "id": "40177278117",
+   "sequence": 17,
+   "teamId": "4",
+   "endTeamId": "4",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 4,
+   "yards": 71,
+   "description": "4 plays, 71 yards, 1:15"
+  },
+  {
+   "id": "40177278118",
+   "sequence": 18,
+   "teamId": "17",
+   "endTeamId": "17",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 27,
+   "description": "9 plays, 27 yards, 2:49"
+  },
+  {
+   "id": "40177278119",
+   "sequence": 19,
+   "teamId": "4",
+   "endTeamId": "4",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 13,
+   "yards": 46,
+   "description": "13 plays, 46 yards, 1:33"
+  },
+  {
+   "id": "40177278120",
+   "sequence": 20,
+   "teamId": "17",
+   "endTeamId": "17",
+   "result": "END OF GAME",
+   "displayResult": "End of Game",
+   "isScore": false,
+   "offensivePlays": 1,
+   "yards": -1,
+   "description": "1 play, -1 yard, 0:18"
+  }
+ ]
+}
