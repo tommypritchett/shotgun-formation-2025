@@ -61,6 +61,26 @@ const isNonPlay = (play) => NON_PLAY_TYPES.has(String(play?.typeText || '').toLo
  */
 const KICK_TYPES = /punt|kickoff|field goal|extra point|blocked/i;
 
+/**
+ * Kicking plays whose `statYardage` is NOT a gain by anybody.
+ *
+ * The distinction matters and is not guessable — it was checked against every
+ * kicking play in the fixtures:
+ *
+ *   Kickoff / Punt   statYardage is the RETURN. `kicks 64 yards ... for 28
+ *                    yards` arrives as 28; a touchback or fair catch arrives
+ *                    as 0. The kick's own distance appears only in the text.
+ *   Field goal / PAT statYardage is the KICK's length. A 43-yard field goal
+ *                    arrives as 43, which is what once fired a 43-yard Big
+ *                    Play.
+ *
+ * So returns can be measured and placed kicks cannot. Blocked kicks stay out
+ * too: the yardage there is ambiguous between the kick and whatever happened
+ * after it, and a card fired on a number nobody can explain is worse than a
+ * missed one.
+ */
+const UNMEASURABLE_KICK_TYPES = /field goal|extra point|blocked/i;
+
 const text = (play) => (play && typeof play.text === 'string' ? play.text : '');
 const lower = (play) => text(play).toLowerCase();
 
@@ -238,15 +258,21 @@ const detectPlay = (play, context = {}) => {
   //
   //   - on a negated play it is the PENALTY's enforcement (a 20-yard DPI on an
   //     incomplete pass arrives as yards: 20)
-  //   - on a kick it is the KICK's distance — a 43-yard field goal arrives as
-  //     yards: 43, which read as a 43-yard big play. This was the single
+  //   - on a PLACED kick it is the kick's distance — a 43-yard field goal
+  //     arrives as yards: 43, which read as a 43-yard big play. This was the
   //     commonest false pair in the fixtures, 11 of 24 multi-card plays.
   //   - on an accepted penalty it is the enforcement rather than the play
   //
-  // All three are excluded rather than guessed at.
+  // A kickoff or punt RETURN is a different matter and does count: a 28-yard
+  // return is a real 28-yard gain and feels like a big play to the room.
+  // "From scrimmage" is a stats convention, not a fan one. Owner's decision.
+  //
+  // Deliberately NOT extended to interception or fumble returns: those already
+  // fire Turnover, and often Defensive TD as well, and a third card on a
+  // pick-six is not the intent.
   const yardageIsAGain = !negated
     && !play.isPenalty
-    && !KICK_TYPES.test(play.typeText || '');
+    && !UNMEASURABLE_KICK_TYPES.test(play.typeText || '');
 
   if (yardageIsAGain && typeof play.yards === 'number') {
     if (play.yards >= HUGE_PLAY_YARDS) {
@@ -409,21 +435,14 @@ const explainPlay = (play, context = {}) => {
           cardId: band, rule: 'negated',
           reason: `${play.yards} yds is the penalty's enforcement — the play was wiped out`,
         });
-      } else if (KICK_TYPES.test(play.typeText || '')) {
-        // Say which kind of number it actually is. On a field goal it is the
-        // kick's length; on a punt the punt's distance; on a kickoff it is the
-        // RETURN, which is a real gain but not a play from scrimmage. Getting
-        // this wrong in the transcript would send someone hunting a bug that
-        // is not there.
+      } else if (UNMEASURABLE_KICK_TYPES.test(play.typeText || '')) {
+        // Name the number honestly. Returns now count, so the only kicks left
+        // here are the ones whose yardage is the kick itself.
         const type = (play.typeText || '').toLowerCase();
-        const why = /field goal|extra point/.test(type)
-          ? `${play.yards} yds is the kick's length, not a gain`
-          : /punt/.test(type)
-            ? `${play.yards} yds is the punt's distance, not a gain`
-            : /kickoff/.test(type)
-              ? `${play.yards} yds is a kick return, not a play from scrimmage`
-              : `${play.yards} yds is a kicking play, not a gain from scrimmage`;
-        suppressed.push({ cardId: band, rule: 'kick-play', reason: why });
+        const why = /blocked/.test(type)
+          ? `${play.yards} yds on a blocked kick is not attributable to anyone`
+          : `${play.yards} yds is the kick's length, not a gain`;
+        suppressed.push({ cardId: band, rule: 'kick-not-measurable', reason: why });
       } else if (play.isPenalty) {
         suppressed.push({
           cardId: band, rule: 'negated',

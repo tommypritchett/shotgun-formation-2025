@@ -169,10 +169,78 @@ describe('yardage', () => {
     expect(out).not.toContain('Big Play 20+');
   });
 
-  it('never reads a kick distance as a gain', () => {
-    // On a field goal `statYardage` is the KICK's length, not yards gained. A
-    // 43-yard field goal was reading as a 43-yard big play — the commonest
-    // false pair in the fixtures, 11 of 24 multi-card plays.
+  it('counts a kick return as the gain it is', () => {
+    // Owner's decision: a 28-yard kickoff return is a real 28-yard gain and
+    // feels like a big play to the room. "From scrimmage" is a stats
+    // convention, not a fan one.
+    //
+    // ESPN's statYardage on a kickoff IS the return — verified across the
+    // fixtures: `kicks 64 yards ... to ATL 29 for 28 yards` arrives as 28, and
+    // a touchback arrives as 0. The kick's own distance is only in the text.
+    const ret = ids(detect({
+      typeText: 'Kickoff', yards: 28,
+      text: 'M.Badgley kicks 64 yards from IND 35 to ATL 1. J.Agnew to ATL 29 for 28 yards.',
+      start: { down: 0, distance: 0, yardsToEndzone: 0, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 71, teamId: '2' },
+    }));
+    expect(ret).toContain('Big Play 20+');
+  });
+
+  it('uses the RETURN, never the kick distance', () => {
+    // The trap: a 57-yard kick returned 3 yards is a 3-yard gain. Reading the
+    // 57 would recreate the exact bug where a 43-yard field goal fired as a
+    // 43-yard big play.
+    const short = ids(detect({
+      typeText: 'Kickoff', yards: 3,
+      text: 'K.Icker kicks 57 yards from SF 35 to LA 8. B.Corum to LA 11 for 3 yards.',
+      start: { down: 0, distance: 0, yardsToEndzone: 0, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 89, teamId: '2' },
+    }));
+    expect(short).toEqual([]);
+
+    const touchback = ids(detect({
+      typeText: 'Kickoff', yards: 0,
+      text: 'B.Pinion kicks 65 yards from ATL 35 to end zone, Touchback.',
+      start: { down: 0, distance: 0, yardsToEndzone: 0, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 75, teamId: '2' },
+    }));
+    expect(touchback).toEqual([]);
+  });
+
+  it('puts a long return in the 50+ band and not both', () => {
+    const out = ids(detect({
+      typeText: 'Kickoff', yards: 55,
+      text: 'B.Pinion kicks 59 yards from ATL 35 to IND 6. A.Dulin to ATL 39 for 55 yards.',
+      start: { down: 0, distance: 0, yardsToEndzone: 0, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 39, teamId: '2' },
+    }));
+    expect(out).toContain('Big Play 50+');
+    expect(out).not.toContain('Big Play 20+');
+  });
+
+  it('counts a punt return the same way, and a fair catch not at all', () => {
+    const returned = ids(detect({
+      typeText: 'Punt', yards: 24,
+      text: 'B.Pinion punts 43 yards to IND 29. J.Downs to ATL 47 for 24 yards.',
+      start: { down: 4, distance: 8, yardsToEndzone: 60, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 47, teamId: '2' },
+    }));
+    expect(returned).toContain('Big Play 20+');
+
+    const fairCatch = ids(detect({
+      typeText: 'Punt', yards: 0,
+      text: 'B.Pinion punts 50 yards to IND 9, fair catch by J.Downs.',
+      start: { down: 4, distance: 8, yardsToEndzone: 60, teamId: '1' },
+      end: { down: 1, distance: 10, yardsToEndzone: 91, teamId: '2' },
+    }));
+    expect(fairCatch).toEqual([]);
+  });
+
+  it('still refuses the field goal, whose yardage IS the kick', () => {
+    // Verified across the fixtures: a field goal's statYardage is the kick's
+    // length (53, 43, 34, 44...), unlike a kickoff or punt where it is the
+    // return. This is why the returns change is scoped by type rather than
+    // applied to everything with the word "kick" in it.
     const fg = ids(detect({
       typeText: 'Field Goal Good', scoringPlay: true, scoreValue: 3, yards: 43,
       text: 'K.Icker 43 yard field goal is GOOD.',
@@ -187,12 +255,19 @@ describe('yardage', () => {
     expect(missed).toContain('Missed FG');
   });
 
-  it('never reads punt distance as a gain either', () => {
+  it('ignores the punt distance in the text and reads only the return', () => {
+    // This test used to hand the detector `yards: 59` on a punt and assert
+    // silence, on the assumption that statYardage was the punt's distance. It
+    // is not — it is the return — so that play could never occur. A 59 there
+    // WOULD be a 59-yard return and should fire.
+    //
+    // The real risk is the 59 in the TEXT leaking in, so that is what this
+    // pins: a long punt with a short return is a short gain.
     const out = ids(detect({
-      typeText: 'Punt', yards: 59,
-      text: 'S.Martin punts 59 yards to NO 25.',
+      typeText: 'Punt', yards: 4,
+      text: 'S.Martin punts 59 yards to NO 25. D.Pettis to NO 29 for 4 yards.',
       start: { down: 4, distance: 7, yardsToEndzone: 70, teamId: '1' },
-      end: { down: 1, distance: 10, yardsToEndzone: 75, teamId: '2' },
+      end: { down: 1, distance: 10, yardsToEndzone: 71, teamId: '2' },
     }));
     expect(out).not.toContain('Big Play 50+');
     expect(out).not.toContain('Big Play 20+');
