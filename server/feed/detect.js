@@ -367,8 +367,77 @@ const detectGame = (fixture) => {
   return detections;
 };
 
+/**
+ * What the detector did AND what it decided not to do.
+ *
+ * `detectPlay` returns only the cards that survive. That is right for the game
+ * and useless for validation: a blank result cannot tell you whether the
+ * detector saw nothing or saw something and held it back. This says which.
+ *
+ * Derived entirely from the same primitives `detectPlay` uses — `gainedFirstDown`,
+ * `isNegated`, the same thresholds and the same kick test — so it cannot drift
+ * into describing a detector that does not exist.
+ *
+ * @returns {{ called: Array, suppressed: Array<{cardId, rule, reason}> }}
+ */
+const explainPlay = (play, context = {}) => {
+  const called = detectPlay(play, context);
+  const suppressed = [];
+  if (!play || typeof play !== 'object' || !play.id || isNonPlay(play)) {
+    return { called, suppressed };
+  }
+
+  const has = (cardId) => called.some((c) => c.cardId === cardId);
+
+  // Redundancy: recognised, and deliberately not called because another card on
+  // the same play already announced the moment.
+  if (gainedFirstDown(play) && !has('First Down') && called.length > 0) {
+    suppressed.push({
+      cardId: 'First Down',
+      rule: 'redundant',
+      reason: `already announced by ${called.map((c) => c.cardId).join(' + ')}`,
+    });
+  }
+
+  // Yardage: the number exists but is not a gain from scrimmage.
+  if (typeof play.yards === 'number') {
+    const band = play.yards >= HUGE_PLAY_YARDS ? 'Big Play 50+'
+      : play.yards >= BIG_PLAY_YARDS ? 'Big Play 20+' : null;
+    if (band && !has(band)) {
+      if (isNegated(play) || isOffsetting(play)) {
+        suppressed.push({
+          cardId: band, rule: 'negated',
+          reason: `${play.yards} yds is the penalty's enforcement — the play was wiped out`,
+        });
+      } else if (KICK_TYPES.test(play.typeText || '')) {
+        // Say which kind of number it actually is. On a field goal it is the
+        // kick's length; on a punt the punt's distance; on a kickoff it is the
+        // RETURN, which is a real gain but not a play from scrimmage. Getting
+        // this wrong in the transcript would send someone hunting a bug that
+        // is not there.
+        const type = (play.typeText || '').toLowerCase();
+        const why = /field goal|extra point/.test(type)
+          ? `${play.yards} yds is the kick's length, not a gain`
+          : /punt/.test(type)
+            ? `${play.yards} yds is the punt's distance, not a gain`
+            : /kickoff/.test(type)
+              ? `${play.yards} yds is a kick return, not a play from scrimmage`
+              : `${play.yards} yds is a kicking play, not a gain from scrimmage`;
+        suppressed.push({ cardId: band, rule: 'kick-play', reason: why });
+      } else if (play.isPenalty) {
+        suppressed.push({
+          cardId: band, rule: 'negated',
+          reason: `${play.yards} yds is penalty enforcement, not a gain`,
+        });
+      }
+    }
+  }
+
+  return { called, suppressed };
+};
+
 module.exports = {
-  detectPlay, detectDrive, detectGame,
+  detectPlay, detectDrive, detectGame, explainPlay,
   isNegated, isOffsetting, gainedFirstDown, isNonPlay,
   suppressRedundantFirstDown,
   NON_PLAY_TYPES,
