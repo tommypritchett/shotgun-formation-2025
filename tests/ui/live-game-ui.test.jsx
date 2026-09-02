@@ -121,7 +121,7 @@ describe('the would-have-called feed', () => {
   it('opens and closes on a tap', () => {
     const onToggle = vi.fn();
     render(<CallFeed entries={[entry()]} onToggle={onToggle} />);
-    fireEvent.click(screen.getByText('Would have called'));
+    fireEvent.click(screen.getByText('Called by the feed'));
     expect(onToggle).toHaveBeenCalled();
   });
 });

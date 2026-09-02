@@ -51,11 +51,25 @@ class Watchers {
     if (existing && existing.key !== key) this.release(roomCode);
 
     let entry = this.games.get(key);
+    // A finished feed must not be handed to a new room. The entry outlives its
+    // feed by design — it is released when the LAST room detaches — so a room
+    // attaching to a game that has just gone final would otherwise join a dead
+    // subscription and sit there receiving nothing, with no error anywhere.
+    if (entry && entry.feed && entry.feed.stopped) {
+      entry.rooms.forEach((code) => this.byRoom.delete(code));
+      this.games.delete(key);
+      entry = null;
+    }
     if (!entry) {
       entry = {
         key, league, gameId: String(gameId),
         feed: null, rooms: new Set(),
-        state: { period: null, clock: null, homeScore: null, awayScore: null, status: null },
+        // `home`/`away` are the team ABBREVIATIONS. Without them the header
+        // renders "Away @ Home", which is what shipped until the demo showed it.
+        state: {
+          period: null, clock: null, homeScore: null, awayScore: null, status: null,
+          home: null, away: null,
+        },
         stats: emptyStats(),
         queue: [],
       };

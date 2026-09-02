@@ -193,6 +193,7 @@ function App() {
   const [callFeedOpen, setCallFeedOpen] = useState(false);
   const [dialOpen, setDialOpen] = useState(false);
   const [cardModes, setCardModes] = useState({});
+  const [cardDefaults, setCardDefaults] = useState({});
   const [autoCallPaused, setAutoCallPaused] = useState(false);
   // A suggestion is a question. It expires on its own rather than lingering.
   const [suggestion, setSuggestion] = useState(null);
@@ -2028,6 +2029,7 @@ socket.on('gameAttached', (payload) => {
   setWatching({ ...payload, error: null, ended: false });
   setCallEntries([]);
   setCardModes(payload.cardModes || {});
+  setCardDefaults(payload.cardDefaults || {});
   setAutoCallPaused(Boolean(payload.autoCallPaused));
   // Said once, plainly: people should not have to work out why rounds are
   // starting on their own.
@@ -2458,7 +2460,7 @@ socket.on('gameOver', (message) => {
           <div className="assigner-overlay">
             <CardDial
               modes={cardModes}
-              defaults={{}}
+              defaults={cardDefaults}
               paused={autoCallPaused}
               onPause={handlePauseAutoCall}
               onMode={handleCardMode}

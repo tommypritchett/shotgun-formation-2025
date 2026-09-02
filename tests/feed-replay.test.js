@@ -285,6 +285,22 @@ describe('one poller per game, not per room', () => {
     expect(stops).toHaveLength(1);
   });
 
+  it('does not hand a finished feed to a new room', () => {
+    // The entry outlives its feed on purpose — it lives until the last room
+    // detaches — so without this a room attaching to a game that just went
+    // final joins a dead subscription and receives nothing, silently.
+    let made = 0;
+    const w = new Watchers({ createFeed: () => ({ stopped: false, stop() { this.stopped = true; }, id: ++made }) });
+
+    const first = w.attach('AAA', 'nfl', '1');
+    first.feed.stop();                       // the game goes final
+
+    const second = w.attach('BBB', 'nfl', '1');
+    expect(made, 'the dead feed was reused').toBe(2);
+    expect(second.feed.stopped).toBe(false);
+    expect(w.roomsWatching('nfl', '1')).toEqual(['BBB']);
+  });
+
   it('ignores a release for a room that was never attached', () => {
     const w = new Watchers({ createFeed: () => ({ stop: () => {} }) });
     expect(w.release('NOPE')).toBe(false);

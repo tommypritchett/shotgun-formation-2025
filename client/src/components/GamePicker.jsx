@@ -11,6 +11,12 @@ import { prepareGames, statusLine, isRanked } from '../lib/game-list';
  * Presentational, like every other component in this client: the query and the
  * ranked toggle are props, and the state lives in App.js with the rest.
  */
+/**
+ * NOTE the `on` class. `.sheet` is a bottom sheet parked at
+ * `translateY(110%)` until `.on` is added, so a sheet rendered without it
+ * is mounted, sized, in the DOM, and completely off-screen. This component
+ * is only rendered while open, so it is always `on`.
+ */
 export default function GamePicker({
   league = 'nfl',
   games = [],
@@ -28,7 +34,7 @@ export default function GamePicker({
   const isCollege = league === 'college-football';
 
   return (
-    <div className="sheet gamepicker" role="dialog" aria-label="Pick a game">
+    <div className="sheet gamepicker on" role="dialog" aria-label="Pick a game">
       <div className="sheet-head">
         <span className="t">Watch a game</span>
         <button type="button" className="x" onClick={onClose} aria-label="Close">×</button>

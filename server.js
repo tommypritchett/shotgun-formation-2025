@@ -9,7 +9,7 @@ const { Watchers } = require('./server/feed/watchers');
 const { ReplayFeed } = require('./server/feed/replay-feed');
 const { LiveFeed, listGames } = require('./server/feed/live-feed');
 const { runPipeline } = require('./server/feed/pipeline');
-const { modeFor, AUTO } = require('./server/feed/cards');
+const { modeFor, AUTO, MODES } = require('./server/feed/cards');
 const { pathFor } = require('./server/feed/routing');
 const app = express();
 const server = http.createServer(app);
@@ -286,12 +286,82 @@ const modeOf = (room, cardId) => {
   return override || modeFor(cardId);
 };
 
+/**
+ * Dev-only: list a PAST day's games instead of today's.
+ *
+ * There is no live football most of the week, so the picker is empty most of the
+ * week — which makes it impossible to look at, screenshot or demo. Setting
+ * `FEED_DEMO_DATE=20251109` on the server points the scoreboard at a real 2025
+ * Sunday: real endpoint, real response shapes, real teams and scores, just not
+ * today.
+ *
+ * It is read from the SERVER's environment, never from the client, so a browser
+ * cannot ask for a different day and production cannot drift into one by
+ * accident. Unset — which is how production runs — this is inert and the client
+ * gets today.
+ */
+const demoDate = (value) => (/^\d{8}$/.test(value || '') ? value : null);
+
+/**
+ * Per league, because they do not play on the same day: an NFL Sunday and a
+ * college Saturday are different dates, and pointing both at one of them shows
+ * an empty list for the other.
+ */
+const FEED_DEMO_DATES = {
+  'nfl': demoDate(process.env.FEED_DEMO_DATE_NFL) || demoDate(process.env.FEED_DEMO_DATE),
+  'college-football': demoDate(process.env.FEED_DEMO_DATE_COLLEGE) || demoDate(process.env.FEED_DEMO_DATE),
+};
+const FEED_DEMO_DATE = FEED_DEMO_DATES.nfl || FEED_DEMO_DATES['college-football'];
+if (FEED_DEMO_DATE) {
+  console.log(`🏈 game picker is in DEMO mode: nfl=${FEED_DEMO_DATES.nfl || 'today'}, `
+    + `college=${FEED_DEMO_DATES['college-football'] || 'today'}`);
+}
+
+/**
+ * The two team abbreviations for a live game, for the header.
+ *
+ * One request, best effort: if it fails the header simply has no names, which
+ * is a cosmetic loss and must never stop a game being watched.
+ */
+const teamsForGame = async (league, gameId) => {
+  try {
+    const res = await fetch(
+      `https://site.api.espn.com/apis/site/v2/sports/football/${league}/summary?event=${gameId}`,
+      { signal: AbortSignal.timeout(8000) }
+    );
+    if (!res.ok) return null;
+    const body = await res.json();
+    const competitors = body?.header?.competitions?.[0]?.competitors || [];
+    const side = (which) => (competitors.find((c) => c.homeAway === which) || {}).team?.abbreviation || null;
+    return { home: side('home'), away: side('away') };
+  } catch {
+    return null;
+  }
+};
+
 const watchers = new Watchers({
   createFeed: ({ league, gameId, entry, replayFixture, speed }) => {
     // A fixture turns the whole feature into something runnable on a Tuesday.
     const feed = replayFixture
       ? new ReplayFeed(replayFixture, { speed: speed || 1 })
       : new LiveFeed({ league, gameId });
+
+    // Name the teams. A replay carries them; a live game is asked once, and a
+    // failure there costs the header its labels and nothing else.
+    if (replayFixture && Array.isArray(replayFixture.teams)) {
+      const side = (which) => (replayFixture.teams.find((t) => t.homeAway === which) || {}).abbreviation;
+      entry.state.home = side('home') || null;
+      entry.state.away = side('away') || null;
+    } else {
+      teamsForGame(league, gameId).then((teams) => {
+        if (!teams) return;
+        entry.state.home = teams.home;
+        entry.state.away = teams.away;
+        for (const roomCode of entry.rooms) {
+          io.to(roomCode).emit('gameFeedUpdate', { league, gameId: entry.gameId, ...entry.state });
+        }
+      }).catch(() => {});
+    }
 
     const tell = (event, payload) => {
       for (const roomCode of entry.rooms) io.to(roomCode).emit(event, payload);
@@ -2129,17 +2199,19 @@ const refOf = (roomCode) => {
   return room ? room.host : null;
 };
 
-socket.on('listGames', async ({ league = 'nfl', date = null, groups = null } = {}) => {
+socket.on('listGames', async ({ league = 'nfl', groups = null } = {}) => {
   try {
     // FBS is groups=80 and FCS is 81; omitting it already returns all of FBS.
     // (The plan's `groups=50` returns four events, not a full slate.)
+    // The date is deliberately NOT taken from the client — see FEED_DEMO_DATE.
+    const date = FEED_DEMO_DATES[league] || null;
     const games = await listGames(league, { date, groups });
     socket.emit('gameList', { league, date, games });
   } catch (error) {
     console.error(`🏈 could not list ${league} games: ${error && error.message}`);
     // Never a crash and never a wrong call: an empty list still lets the Ref
     // run the game by hand.
-    socket.emit('gameList', { league, date, games: [], error: 'Could not load games right now.' });
+    socket.emit('gameList', { league, date: FEED_DEMO_DATE, games: [], error: 'Could not load games right now.' });
   }
 });
 
@@ -2175,6 +2247,10 @@ socket.on('attachGame', ({ roomCode, league = 'nfl', gameId, replayFixture, spee
     // starting on their own.
     announce: 'The feed is calling this game. Rounds will start on their own — the Ref can still call anything by hand.',
     cardModes: room.cardModes,
+    // The shipped tiering. Without it the dial has nothing to fall back on and
+    // draws every card as "off", which is both wrong and actively misleading —
+    // it invites the Ref to switch on something that is already on.
+    cardDefaults: { ...MODES },
     autoCallPaused: false,
   });
   console.log(`🏈 room ${roomCode} is watching ${league}/${gameId} (${entry.rooms.size} room(s) on this game)`);

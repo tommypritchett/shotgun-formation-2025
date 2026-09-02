@@ -12,6 +12,12 @@ import { GROUPS, REF_ONLY, frequencyLabel } from '../lib/card-groups';
  * Presentational, like the rest of this client: modes come in as props and go
  * out as callbacks.
  */
+/**
+ * NOTE the `on` class. `.sheet` is a bottom sheet parked at
+ * `translateY(110%)` until `.on` is added, so a sheet rendered without it
+ * is mounted, sized, in the DOM, and completely off-screen. This component
+ * is only rendered while open, so it is always `on`.
+ */
 export default function CardDial({
   modes = {}, defaults = {}, onMode = () => {}, onClose = () => {},
   paused = false, onPause = () => {},
@@ -19,7 +25,7 @@ export default function CardDial({
   const modeOf = (cardId) => modes[cardId] || defaults[cardId] || 'off';
 
   return (
-    <div className="sheet carddial" role="dialog" aria-label="What the feed calls">
+    <div className="sheet carddial on" role="dialog" aria-label="What the feed calls">
       <div className="sheet-head">
         <span className="t">What the feed calls</span>
         <button type="button" className="x" onClick={onClose} aria-label="Close">×</button>

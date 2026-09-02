@@ -44,6 +44,18 @@ describe('what the dial shows', () => {
     expect(onMode).toHaveBeenCalledWith('First Down', 'suggest');
   });
 
+  it('falls back to the shipped tiering, not to "off"', () => {
+    // With no per-room override the dial must show what the card ACTUALLY does.
+    // Drawing everything as "off" is worse than wrong: it invites the Ref to
+    // switch on something that is already on.
+    render(<CardDial modes={{}} defaults={{ 'First Down': 'auto', '3 n Out': 'suggest' }} />);
+    for (const [cardId, mode] of [['First Down', 'auto'], ['3 n Out', 'suggest']]) {
+      const row = screen.getByText(cardId).closest('.dialrow');
+      const on = [...row.querySelectorAll('.dc-modes button')].find((b) => b.className === 'on');
+      expect(on?.textContent, `${cardId} should show as ${mode}`).toBe(mode);
+    }
+  });
+
   it('shows which mode a card is currently in', () => {
     render(<CardDial modes={{ 'First Down': 'off' }} />);
     const row = screen.getByText('First Down').closest('.dialrow');

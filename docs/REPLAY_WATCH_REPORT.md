@@ -179,24 +179,37 @@ college overtime.
 
 ### What the extremes say
 
-**The busy end is the one to watch, not the quiet end.** Fourteen calls in five
-minutes of IND–ATL is a round every 21 seconds, and with a 21-second Standard
-round that queue never drains — the stale-drop and depth limits will be doing
-real work there, and the room will be drinking continuously. Every one of those
-fourteen is legitimate; it was genuinely a wild five minutes. But it is the case
-where "alive" tips into "relentless", and it is the five minutes to watch at 1×
-before deciding.
+> ### ⚠️ Correction — I got this wrong the first time
+>
+> The busiest-window figure was measured in **game clock** and I reported it as
+> though it were wall clock. It is not the same thing at all, and the difference
+> is the whole pacing question.
+>
+> | | game clock | real time |
+> |---|---|---|
+> | busiest window (IND–ATL) | 17 calls in **5:00** | 17 calls in **20:12** |
+> | one call every | 21 seconds | **71 seconds** |
+> | whole game | 85 calls | 85 calls over **195 minutes** = one every **2m18s** |
+>
+> Football stops the clock constantly, so five minutes of game clock is twenty
+> minutes of sitting on a sofa. My earlier "a round every 21 seconds against a
+> 21-second round length — that queue never drains" was **wrong**. Measured
+> against the wallclock timestamps in the fixture, even the busiest stretch in
+> any of the ten games is a round roughly every **71 seconds**, and the queue
+> drains comfortably. Confirmed by watching it: a 12-minute recording at 1×
+> produced 3 rounds.
 
-**The quiet end is a non-problem.** The worst drought in any of the five games is
-ten plays, and it spans a quarter break. Nothing here suggests a room would ever
-be left waiting.
+**The quiet end is a non-problem.** The worst drought in any of the games is ten
+plays, and it spans a quarter break.
 
-**If you want one dial:** demoting **Big Play 20+** to suggest removes 5.7 calls a
-game on average and hits the busy clusters hardest, because that is where big
-plays bunch. It leaves the dull-game floor — first downs — untouched, which is
-the opposite trade to demoting First Down.
+**The busy end is far gentler than the game-clock numbers suggest**, and the
+recorded demo is the evidence: 1× playback of the busiest stretch in the fixture
+set gives a round every minute or so, which reads as a game that is ticking over
+rather than one that is shouting.
 
----
+**If you still want one dial:** demoting **Big Play 20+** to suggest removes
+about 11 calls a game and hits the busy clusters hardest, because that is where
+big plays bunch. It leaves the dull-game floor — first downs — untouched.
 
 ## Recommendation before Part B
 
