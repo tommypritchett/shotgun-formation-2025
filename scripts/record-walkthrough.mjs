@@ -1,0 +1,274 @@
+/**
+ * A full walkthrough, end to end, at real speed — with the seats actually
+ * playing.
+ *
+ * The earlier demo showed rounds firing into a dead room: three seats, one card
+ * holder, nobody pouring. That records the trigger, not the game. This drives
+ * six seats like people:
+ *
+ *   - whoever holds the declared card pours, spreading drinks across different
+ *     recipients rather than dumping them on one
+ *   - one round is undone and re-assigned to somebody else
+ *   - one ends on LOCK IN, one is left to run out the clock
+ *   - the Ref accepts one suggestion and ignores another
+ *
+ * Six seats rather than three because with three, a card only one of them holds
+ * leaves most people watching "you don't hold this card" — which is exactly the
+ * dead air the first take suffered from.
+ *
+ *   ALLOW_REPLAY_ATTACH=1 PORT=3002 node server.js
+ *   node scripts/record-walkthrough.mjs nfl
+ *   node scripts/record-walkthrough.mjs college
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+import { chromium } from 'playwright';
+import { io } from 'socket.io-client';
+
+const require = createRequire(import.meta.url);
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const { detectPlay } = require(path.join(ROOT, 'server/feed/detect.js'));
+const { modeFor, AUTO } = require(path.join(ROOT, 'server/feed/cards.js'));
+
+const URL = 'http://127.0.0.1:3002';
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Chosen by measured call density across all ten fixtures, not by reputation.
+ *   IND-ATL  0.45 calls/play — the highest, and the densest 20-play run in the
+ *            whole set (17 calls from play 14)
+ *   SMU-MIA  74 calls, the most of any college game, and the densest college
+ *            run (13 calls from play 93)
+ */
+const GAMES = {
+  nfl: { league: 'nfl', id: '401772636', from: 14, label: 'IND 31 - ATL 25' },
+  college: { league: 'college-football', id: '401754581', from: 93, label: 'SMU 26 - MIA 20' },
+};
+
+const which = process.argv[2] === 'college' ? 'college' : 'nfl';
+const game = GAMES[which];
+const MINUTES = Number(process.env.WALK_MINUTES || 12);
+const OUT = path.join(ROOT, 'artifacts', `walkthrough-${which}`);
+fs.mkdirSync(OUT, { recursive: true });
+
+const fixture = JSON.parse(fs.readFileSync(
+  path.join(ROOT, 'fixtures', game.league, `${game.id}.json`), 'utf8'));
+fixture.plays = [...fixture.plays].sort((a, b) => a.sequence - b.sequence).slice(game.from);
+
+/** What this stretch will call, so the primary seat can be chosen on evidence. */
+const upcoming = new Set();
+for (const play of fixture.plays) {
+  for (const d of detectPlay(play, { league: game.league })) {
+    if (modeFor(d.cardId) === AUTO) upcoming.add(d.cardId);
+  }
+}
+
+const NAMES = ['Ref', 'Ben', 'Cy', 'Dee', 'Eli', 'Fay'];
+const browser = await chromium.launch({ headless: true });
+
+const seats = [];
+for (const name of NAMES) {
+  const context = await browser.newContext({
+    viewport: { width: 460, height: 960 },
+    recordVideo: { dir: OUT, size: { width: 460, height: 960 } },
+  });
+  const page = await context.newPage();
+  page.on('dialog', (d) => d.accept());
+  await page.goto(URL, { waitUntil: 'load' });
+  seats.push({ name, context, page, poured: 0 });
+}
+const ref = seats[0];
+
+// ── the journey: room, joins, start ────────────────────────────────────────
+await ref.page.getByPlaceholder('Name').fill('Ref');
+await ref.page.getByRole('button', { name: 'Create a new game' }).click();
+await ref.page.locator('.roomcode .n').waitFor({ timeout: 15000 });
+const code = (await ref.page.locator('.roomcode .n').innerText()).trim();
+for (const s of seats.slice(1)) {
+  await s.page.getByPlaceholder('Name').fill(s.name);
+  await s.page.getByPlaceholder('5 digits').fill(code);
+  await s.page.getByRole('button', { name: /Join/ }).first().click();
+  await s.page.waitForTimeout(700);          // paced, so the roster fills on camera
+}
+await sleep(1500);
+const start = ref.page.getByRole('button', { name: 'Start game' });
+await start.waitFor({ timeout: 15000 });
+for (let i = 0; i < 20 && await start.isDisabled(); i += 1) await ref.page.waitForTimeout(400);
+await start.click();
+await sleep(2000);
+console.log(`room ${code} — six seats, game started`);
+
+// ── which seat holds the most of what is coming ────────────────────────────
+const driver = io(URL, { transports: ['polling', 'websocket'], tryAllTransports: true, reconnection: false });
+await new Promise((r) => driver.on('connect', r));
+driver.emit('requestGameState', { roomCode: code, playerName: 'Recorder' });
+
+// The hand renders LABELS, uppercased by CSS — "SACK" for the card `Sacks` —
+// so an id-to-id comparison finds nothing at all.
+const cardsSource = fs.readFileSync(path.join(ROOT, 'client/src/data/cards.js'), 'utf8');
+const labelOf = {};
+for (const m of cardsSource.matchAll(/id:\s*'([^']+)'[\s\S]{0,200}?label:\s*'([^']+)'/g)) {
+  labelOf[m[1]] = m[2].toUpperCase();
+}
+const upcomingLabels = new Set([...upcoming].map((id) => labelOf[id] || id.toUpperCase()));
+
+const handOf = async (seat) => {
+  const names = await seat.page.locator('.handblock .c-name').allInnerTexts().catch(() => []);
+  return names.map((n) => n.trim().toUpperCase());
+};
+let primary = seats[1];
+let bestOverlap = -1;
+for (const s of seats.slice(1)) {
+  const hand = await handOf(s);
+  const overlap = hand.filter((c) => upcomingLabels.has(c)).length;
+  console.log(`  ${s.name}: holds ${overlap} of the cards this stretch will call`);
+  if (overlap > bestOverlap) { bestOverlap = overlap; primary = s; }
+}
+console.log(`primary seat: ${primary.name} (holds ${bestOverlap})`);
+
+// ── the picker, on camera ──────────────────────────────────────────────────
+await ref.page.locator('.watchbtn').first().evaluate((el) => el.click());
+await ref.page.locator('.gamepicker').waitFor({ timeout: 20000 });
+await sleep(2500);                                   // NFL list on screen
+if (which === 'college') {
+  await ref.page.getByRole('tab', { name: 'College' }).evaluate((el) => el.click());
+  await sleep(3500);                                 // the ranked-only default
+  await ref.page.locator('.gamepicker .chk input').evaluate((el) => el.click());
+  await sleep(2000);                                 // the whole Saturday
+  await ref.page.getByLabel('Search teams').fill('smu');
+  await sleep(2500);                                 // searching for one game
+}
+await ref.page.locator('.gamepicker .x').evaluate((el) => el.click());
+await sleep(800);
+
+// ── the dial: a few cards moved to suggest, so both flows appear ───────────
+await ref.page.locator('.watchbtn', { hasText: 'What the feed calls' }).count()
+  .then(async (n) => { if (!n) await sleep(0); });
+driver.emit('attachGame', {
+  roomCode: code, league: game.league, gameId: `${game.id}-walk-${which}`,
+  replayFixture: fixture, speed: 1,
+});
+await sleep(2500);
+for (const cardId of ['Field Goal', 'Sacks', 'Turnover on Downs']) {
+  driver.emit('setCardMode', { roomCode: code, cardId, mode: 'suggest' });
+  await sleep(250);
+}
+console.log('dial: Field Goal, Sacks and Turnover on Downs set to suggest');
+
+// ── the Ref answers suggestions: accept the first, ignore the second ───────
+let suggestionsSeen = 0;
+driver.on('playSuggested', async ({ cardId }) => {
+  suggestionsSeen += 1;
+  if (suggestionsSeen === 1) {
+    await sleep(2500);
+    driver.emit('acceptSuggestion', { roomCode: code, cardId });
+    console.log(`  Ref ACCEPTED suggestion: ${cardId}`);
+  } else if (suggestionsSeen === 2) {
+    console.log(`  Ref IGNORED suggestion: ${cardId} (left to expire)`);
+  }
+});
+
+const calls = [];
+driver.on('roundSource', (p) => calls.push(p));
+
+// ── the seats play ─────────────────────────────────────────────────────────
+// Rotates through four behaviours so the video shows the range rather than the
+// same pour four times.
+let roundIndex = 0;
+let lastCard = null;
+const behaviours = ['spread', 'undo-reassign', 'lock-in', 'run-out'];
+
+const playRound = async (seat, behaviour) => {
+  const tiles = seat.page.locator('.assigner-overlay button[data-p]');
+  const count = await tiles.count();
+  if (!count) return;
+
+  const owed = Number(await seat.page.locator('.adock .num').first().innerText()
+    .catch(() => '0')) || 0;
+  if (behaviour === 'run-out') { console.log(`    ${seat.name}: letting the clock run`); return; }
+
+  const pours = Math.max(1, Math.min(owed || 3, 6));
+  for (let i = 0; i < pours; i += 1) {
+    await tiles.nth(i % count).click({ timeout: 2500 }).catch(() => {});
+    await sleep(550);                                   // human pace, visible on camera
+  }
+  seat.poured += pours;
+
+  if (behaviour === 'undo-reassign') {
+    await seat.page.locator('.assigner-overlay .undo').click({ timeout: 2500 }).catch(() => {});
+    await sleep(900);
+    await tiles.nth((count - 1) % count).click({ timeout: 2500 }).catch(() => {});
+    console.log(`    ${seat.name}: undid a pour and gave it to someone else`);
+    await sleep(600);
+  }
+  if (behaviour === 'lock-in') {
+    await seat.page.locator('.assigner-overlay .lockin').click({ timeout: 2500 }).catch(() => {});
+    console.log(`    ${seat.name}: locked in`);
+  }
+};
+
+const until = Date.now() + MINUTES * 60_000;
+while (Date.now() < until) {
+  const current = calls.length ? calls[calls.length - 1].cardId : null;
+  if (current && current !== lastCard) {
+    lastCard = current;
+    const behaviour = behaviours[roundIndex % behaviours.length];
+    roundIndex += 1;
+    console.log(`  round ${roundIndex}: ${current} — ${behaviour}`);
+
+    // The assigner opens on `timeRemaining > 0`, which needs the first clock
+    // tick — so checking the instant the round is declared finds nothing and
+    // the seat never plays. Watch for it instead, for most of the round.
+    const played = new Set();
+    const deadline = Date.now() + 14_000;
+    while (Date.now() < deadline && played.size < seats.length) {
+      for (const s of seats) {
+        if (played.has(s.name)) continue;
+        if (await s.page.locator('.assigner-overlay button[data-p]').count()) {
+          played.add(s.name);
+          await playRound(s, behaviour);
+        }
+      }
+      await sleep(600);
+    }
+    if (!played.size) console.log('    (nobody held it)');
+  }
+  // The pause control, once, midway.
+  if (roundIndex === 5 && !global.__paused) {
+    global.__paused = true;
+    driver.emit('pauseAutoCall', { roomCode: code, paused: true });
+    console.log('  auto-calling PAUSED');
+    await sleep(12000);
+    driver.emit('pauseAutoCall', { roomCode: code, paused: false });
+    console.log('  auto-calling RESUMED');
+  }
+  await sleep(700);
+}
+
+console.log(`\n${calls.length} rounds: ${calls.map((c) => c.cardId).join(', ')}`);
+for (const s of seats) console.log(`  ${s.name}: poured ${s.poured}`);
+
+driver.emit('detachGame', { roomCode: code });
+await sleep(1000);
+
+// Name the videos before closing, so it is obvious which file is which.
+const paths = {};
+for (const s of seats) paths[s.name] = await s.page.video().path();
+for (const s of seats) await s.context.close();
+await browser.close();
+
+for (const [name, from] of Object.entries(paths)) {
+  const role = name === primary.name ? 'PLAYER' : name === 'Ref' ? 'REF' : null;
+  if (!role) { fs.rmSync(from, { force: true }); continue; }
+  const to = path.join(OUT, `${role.toLowerCase()}-${name}.webm`);
+  fs.renameSync(from, to);
+  console.log(`${role.padEnd(7)} ${to}`);
+}
+fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify({
+  league: which, game: game.label, fixture: `${game.league}/${game.id}`, fromPlay: game.from,
+  minutes: MINUTES, room: code, primarySeat: primary.name, primaryHolds: bestOverlap,
+  rounds: calls.map((c) => ({ card: c.cardId, by: c.by, reason: c.reason })),
+}, null, 1));
+console.log('done');

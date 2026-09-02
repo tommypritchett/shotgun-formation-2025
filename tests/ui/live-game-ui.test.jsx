@@ -179,3 +179,33 @@ describe('the layout does not grow', () => {
     expect(narrow).toMatch(/min-height:20px/);
   });
 });
+
+describe('the score survives the round', () => {
+  // The assigner covers the whole screen for the length of a round, and a round
+  // fires precisely BECAUSE something just happened — so losing the score for
+  // those twenty-one seconds loses it exactly when it is wanted.
+  const card = { id: 'Touchdown', label: 'Touchdown', icon: 'td', deck: 'standard', drinks: 6 };
+
+  it('shows the score and clock inside the assigner', async () => {
+    const { default: DrinkAssigner } = await import('../../client/src/components/DrinkAssigner.jsx');
+    render(<DrinkAssigner
+      card={card} copies={1} source="The game called it" secondsLeft={20} fraction={0.9}
+      tier="amber" targets={[]} watching={watching()}
+    />);
+    const line = document.querySelector('.a-score');
+    expect(line, 'no score inside the assigner').toBeTruthy();
+    expect(line.textContent).toMatch(/KC/);
+    expect(line.textContent).toMatch(/BUF/);
+    expect(line.textContent).toMatch(/Q2/);
+    expect(line.textContent).toMatch(/3:20/);
+  });
+
+  it('shows nothing when no game is attached', async () => {
+    const { default: DrinkAssigner } = await import('../../client/src/components/DrinkAssigner.jsx');
+    render(<DrinkAssigner
+      card={card} copies={1} source="The Ref declared" secondsLeft={20} fraction={0.9}
+      tier="amber" targets={[]} watching={null}
+    />);
+    expect(document.querySelector('.a-score')).toBeNull();
+  });
+});

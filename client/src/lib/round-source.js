@@ -16,12 +16,109 @@ export const refWording = (isWild) => (isWild ? 'Called · Ref confirmed' : 'The
 /** Longest reason the banner can carry without pushing the card name down. */
 export const MAX_REASON = 58;
 
-/** Trim on a word boundary, so it reads as a clipped phrase not a cut string. */
+/**
+ * ESPN's short summary, made to read like something a person would say.
+ *
+ * `shortText` is already a clean one-liner for a simple play — "Tyler Allgeier
+ * 1 Yd Rush", "Alec Pierce 37 Yd pass from Daniel Jones". (`shortAlternativeText`
+ * is byte-identical, so there is no better field to reach for.)
+ *
+ * Compound plays are the problem: ESPN concatenates the events, repeating the
+ * player, and the result reads as nonsense when cut —
+ *
+ *   "Michael Penix Jr. Sacked Michael Penix Jr. Fumble Germaine Pratt 8 Yd
+ *    Fumble Recovery by Cam Bynum For 8 Yd Loss"
+ *
+ * naively truncated became "Michael Penix Jr. Sacked Michael Penix Jr. Fumble…",
+ * which reads as Penix sacking himself. The repetition is the seam between two
+ * events, so cutting THERE gives the first clause and a sentence that is true:
+ * "Michael Penix Jr. Sacked".
+ *
+ * This line is read ~70 times a game on every phone in the room, so it is worth
+ * the care.
+ */
+
+/**
+ * The clause that IS the card, where ESPN's wording makes it findable.
+ *
+ * A kick return reads "Bradley Pinion 60 Yd Kickoff Ashton Dulin 20 Yd Kickoff
+ * Return" — the kicker first, the returner second — and the card is about the
+ * RETURN, so the first clause is the wrong half to keep. A penalty reads
+ * "...Intended For Darnell Mooney Mekhi Blackmon 20 Yd Pnlty", where the
+ * penalty is again last.
+ */
+// Anchored at the end and counted backwards, because a forward "capitalised
+// word run" also matches football nouns — `\w` happily reads "Yd" as a name.
+const RETURN_CLAUSE = /(\S+\s+\S+)\s+(-?\d+\s+Yd\s+(?:Kickoff|Punt)\s+Return)\s*$/;
+const PENALTY_CLAUSE = /(\S+\s+\S+)\s+(-?\d+\s+Yd\s+Pnlty)\s*$/;
+
+const preferClause = (text, cardId) => {
+  if (/Big Play|Special Teams TD/.test(cardId || '')) {
+    const ret = RETURN_CLAUSE.exec(text);
+    if (ret) return `${ret[1]} ${ret[2]}`;
+  }
+  if (cardId === 'Penalty') {
+    const pen = PENALTY_CLAUSE.exec(text);
+    if (pen) return `${pen[1]} ${pen[2]}`;
+  }
+  return text;
+};
+
+/**
+ * ESPN's house style is wordy. "Pass Complete for 17 Yds to Darnell Mooney" is
+ * sixteen characters longer than "17 Yd pass to Darnell Mooney" and says the
+ * same thing, and the difference decides whether the line wraps.
+ */
+const tighten = (text) => text
+  .replace(/\bPass Complete for (\d+) Yds? to\b/i, '$1 Yd pass to')
+  .replace(/\bIncomplete Pass, Intended For\b/i, 'incomplete to')
+  .replace(/\bPnlty\b/i, 'penalty')
+  .replace(/\s{2,}/g, ' ')
+  // ESPN leaves trailing commas where it stitched clauses together.
+  .replace(/[\s,;:]+$/, '')
+  .trim();
+
+/**
+ * Cut where a phrase repeats — that is the seam between two events in a
+ * compound play, and everything after it belongs to the next one.
+ *
+ * Matched on repeated WORD RUNS rather than on names, because ESPN capitalises
+ * the verbs too ("Sacked", "Fumble", "Pass Complete"), so nothing in the string
+ * distinguishes a name from an action.
+ */
+export const cutAtRepeat = (text) => {
+  const words = text.split(' ');
+  for (let len = 4; len >= 2; len -= 1) {
+    for (let i = 0; i + len <= words.length; i += 1) {
+      const phrase = words.slice(i, i + len).join(' ');
+      if (phrase.length < 9) continue;
+      const first = text.indexOf(phrase);
+      const second = text.indexOf(phrase, first + phrase.length);
+      if (second > 0) return text.slice(0, second).trim();
+    }
+  }
+  return text;
+};
+
+/** Trailing "(Zane Gonzalez Kick)" is about the extra point, not the play. */
+const dropKickParenthetical = (text, cardId) => {
+  if (cardId === 'Missed PAT' || cardId === '2 PT Conversion') return text;
+  return text.replace(/\s*\((?:[^)]*\b(?:Kick|PAT)\b[^)]*)\)\s*$/i, '').trim();
+};
+
+/** Trim on a word boundary. The last resort, not the default. */
 const shorten = (text) => {
   if (!text || text.length <= MAX_REASON) return text;
   const cut = text.slice(0, MAX_REASON);
   const boundary = cut.lastIndexOf(' ');
   return `${(boundary > 30 ? cut.slice(0, boundary) : cut).replace(/[.,;:]$/, '')}…`;
+};
+
+/** The whole pipeline, in the order that keeps the most meaning. */
+export const formatReason = (raw, cardId = null) => {
+  const text = typeof raw === 'string' ? raw.trim().replace(/\s+/g, ' ') : '';
+  if (!text) return '';
+  return shorten(tighten(dropKickParenthetical(cutAtRepeat(preferClause(text, cardId)), cardId)));
 };
 
 /**
@@ -37,8 +134,8 @@ export const sourceLine = (source, isWild = false) => {
   // "Michael Penix Jr. Sacked Michael Penix Jr. Fumble Germaine Pratt 8 Yd
   // Fumble Recovery by Cam Bynum For 8 Yd Loss" runs to four lines and shoves
   // the card name off the top of the banner.
-  const reason = shorten(typeof source.reason === 'string' ? source.reason.trim() : '');
+  const reason = formatReason(source.reason, source.cardId);
   return reason ? `The game called it · ${reason}` : 'The game called it';
 };
 
-export default { sourceLine, refWording };
+export default { sourceLine, refWording, formatReason, cutAtRepeat };

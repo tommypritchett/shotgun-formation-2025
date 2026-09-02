@@ -882,3 +882,19 @@ button.card:active{transform:translateY(2px) scale(.985)}
   color:var(--chalk,#e8eaed);line-height:1.35;
 }
 .feednotice.paused{background:rgba(255,74,51,.1);border-color:rgba(255,74,51,.35)}
+
+/* The live score, kept visible through a round. The assigner covers the header
+   for its whole length, and a round fires because something just happened — so
+   this is the moment the score matters most. */
+.a-score{
+  display:flex;align-items:center;gap:7px;
+  padding:5px 14px 6px;
+  font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-size:11px;letter-spacing:.02em;color:var(--chalk-dim,#8a9099);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  white-space:nowrap;overflow:hidden;
+}
+.a-score .as-teams{color:var(--chalk,#e8eaed);font-weight:600}
+.a-score .as-sep{opacity:.4}
+.a-score .as-clock{margin-left:auto;opacity:.75;font-variant-numeric:tabular-nums}
+@media (max-width:380px){ .a-score{font-size:10px;gap:5px;padding:4px 10px 5px} }

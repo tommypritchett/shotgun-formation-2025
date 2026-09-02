@@ -2501,6 +2501,7 @@ socket.on('gameOver', (message) => {
             <DrinkAssigner
               card={declaredCardRecord}
               copies={copiesHeld}
+              watching={watching}
               source={sourceLine(
                 roundSource,
                 Boolean(declaredCardRecord && declaredCardRecord.deck === DECK.WILD)

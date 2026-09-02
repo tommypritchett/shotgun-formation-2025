@@ -10,7 +10,7 @@
  * that a round STARTED and none asserted what it SAID. So these assert the
  * attribution itself, over real sockets.
  */
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -117,22 +117,105 @@ describe('the wording the room actually reads', () => {
     expect(sourceLine({ by: 'ref', cardId: 'Turnover' })).toBe('The Ref declared');
     expect(sourceLine({ by: 'ref', cardId: 'Safety' }, true)).toBe('Called · Ref confirmed');
 
-    // A compound play runs long. It must not push the card name off the banner.
+    // A compound play is cut at the seam between its two events, not mid-word.
     const long = 'Michael Penix Jr. Sacked Michael Penix Jr. Fumble Germaine Pratt '
       + '8 Yd Fumble Recovery by Cam Bynum For 8 Yd Loss';
     const line = sourceLine({ by: 'feed', cardId: 'Turnover', reason: long });
-    expect(line.length).toBeLessThan(85);
-    expect(line).toMatch(/^The game called it · /);
-    expect(line).toMatch(/…$/);
-    // Trimmed on a word boundary: what is left must be a real prefix of the
-    // original, not a string cut through the middle of a name.
-    const kept = line.replace('The game called it · ', '').replace('…', '');
-    expect(long.startsWith(kept), `"${kept}" is not a clean prefix`).toBe(true);
-    expect(kept.endsWith(' '), 'left a trailing space before the ellipsis').toBe(false);
+    expect(line).toBe('The game called it · Michael Penix Jr. Sacked');
+    expect(line, 'still reads as Penix sacking himself').not.toMatch(/Sacked Michael/);
 
     // Unknown source must never invent an attribution. Before the server has
     // said, the safe reading is the Ref — but it must not say "the game" .
     expect(sourceLine(null)).toBe('The Ref declared');
     expect(sourceLine(null)).not.toMatch(/game called/);
+  });
+});
+
+describe('the reason reads like football', () => {
+  /**
+   * This line is read about seventy times a game on every phone in the room, so
+   * it is the most-read text in the feature.
+   *
+   * ESPN concatenates the events of a compound play and repeats the player, so
+   * a naive truncation produced "Michael Penix Jr. Sacked Michael Penix Jr.
+   * Fumble…" — which reads as Penix sacking himself. Checked in bulk across
+   * every detection in four fixtures, not one screenshot at a time.
+   */
+  let formatReason;
+  beforeAll(async () => {
+    ({ formatReason } = await import('../client/src/lib/round-source.js'));
+  });
+
+  it('cuts a compound play at the seam, not mid-thought', () => {
+    expect(formatReason(
+      'Michael Penix Jr. Sacked Michael Penix Jr. Fumble Germaine Pratt 8 Yd Fumble Recovery by Cam Bynum For 8 Yd Loss',
+      'Sacks'
+    )).toBe('Michael Penix Jr. Sacked');
+
+    expect(formatReason(
+      'Daniel Jones Pass Complete for 14 Yds to Jonathan Taylor Jonathan Taylor Fumble Tanor Bortolini 0 Yd Fumble Recovery',
+      'First Down'
+    )).toBe('Daniel Jones 14 Yd pass to Jonathan Taylor');
+  });
+
+  it('keeps the half of a kick return that the card is about', () => {
+    // The kicker is first and the returner second; the card is the return.
+    expect(formatReason(
+      'Bradley Pinion 60 Yd Kickoff Ashton Dulin 20 Yd Kickoff Return',
+      'Big Play 20+'
+    )).toBe('Ashton Dulin 20 Yd Kickoff Return');
+  });
+
+  it('keeps the penalty clause on a penalty', () => {
+    expect(formatReason(
+      'Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney Mekhi Blackmon 20 Yd Pnlty',
+      'Penalty'
+    )).toBe('Mekhi Blackmon 20 Yd penalty');
+  });
+
+  it('drops the extra point from a touchdown, and keeps it on a missed PAT', () => {
+    expect(formatReason('Tyler Allgeier 1 Yd Rush (Zane Gonzalez Kick)', 'Touchdown'))
+      .toBe('Tyler Allgeier 1 Yd Rush');
+    expect(formatReason('Jonathan Taylor 1 Yd Rush (Michael Badgley PAT Failed)', 'Missed PAT'))
+      .toContain('PAT Failed');
+  });
+
+  it('leaves a clean one-liner alone', () => {
+    expect(formatReason('Bijan Robinson 16 Yd Rush', 'First Down'))
+      .toBe('Bijan Robinson 16 Yd Rush');
+  });
+
+  it('never leaves a dangling comma', () => {
+    expect(formatReason('Thomas Morstead Onside Kick,', 'Onside Attempt'))
+      .toBe('Thomas Morstead Onside Kick');
+  });
+
+  it('holds the whole fixture set inside the banner', async () => {
+    const fs2 = await import('node:fs');
+    const { createRequire } = await import('node:module');
+    const req = createRequire(import.meta.url);
+    const { detectPlay } = req(path.join(ROOT, 'server/feed/detect.js'));
+
+    let lines = 0;
+    let truncated = 0;
+    for (const [league, id] of [['nfl', '401772636'], ['nfl', '401772879'],
+      ['college-football', '401754581'], ['college-football', '401752889']]) {
+      const g = JSON.parse(fs2.readFileSync(
+        path.join(ROOT, 'fixtures', league, `${id}.json`), 'utf8'));
+      for (const play of g.plays) {
+        for (const d of detectPlay(play, { league })) {
+          if (!play.shortText) continue;
+          const out = formatReason(play.shortText, d.cardId);
+          lines += 1;
+          if (out.endsWith('…')) truncated += 1;
+          expect(out.length, `too long: ${out}`).toBeLessThanOrEqual(60);
+          expect(out, `dangling punctuation: ${out}`).not.toMatch(/[,;:]$/);
+        }
+      }
+    }
+    expect(lines).toBeGreaterThan(200);
+    // Truncation is the last resort. A tenth of compound plays is acceptable;
+    // a third would mean the clause rules had stopped working.
+    expect(truncated / lines, `${truncated}/${lines} truncated`).toBeLessThan(0.15);
   });
 });
