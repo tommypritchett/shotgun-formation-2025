@@ -10,6 +10,7 @@ const { ReplayFeed } = require('./server/feed/replay-feed');
 const { LiveFeed, listGames } = require('./server/feed/live-feed');
 const { runPipeline } = require('./server/feed/pipeline');
 const { modeFor, AUTO } = require('./server/feed/cards');
+const { pathFor } = require('./server/feed/routing');
 const app = express();
 const server = http.createServer(app);
 
@@ -274,6 +275,17 @@ const allocateRoomCode = (rooms) => {
  * the broadcast delay, and then broadcast to the room as "this is what I would
  * have called". Phase 3 swaps that one call for the Ref's own declaration path.
  */
+/**
+ * A room's per-card override, falling back to the shipped tiering.
+ *
+ * The dial the owner tunes after a real game night, so moving a card between
+ * modes must never need a code change.
+ */
+const modeOf = (room, cardId) => {
+  const override = room && room.cardModes ? room.cardModes[cardId] : undefined;
+  return override || modeFor(cardId);
+};
+
 const watchers = new Watchers({
   createFeed: ({ league, gameId, entry, replayFixture, speed }) => {
     // A fixture turns the whole feature into something runnable on a Tuesday.
@@ -285,7 +297,7 @@ const watchers = new Watchers({
       for (const roomCode of entry.rooms) io.to(roomCode).emit(event, payload);
     };
 
-    runPipeline(feed, {
+    const pipeline = runPipeline(feed, {
       onState: (state) => {
         entry.state = { ...entry.state, ...state };
         tell('gameFeedUpdate', { league, gameId: entry.gameId, ...entry.state });
@@ -309,20 +321,62 @@ const watchers = new Watchers({
         }
       },
       onRelease: (detection) => {
-        entry.stats.released += 1;
-        // Phase 3 replaces this broadcast with the declaration itself.
-        tell('playAutoCalled', {
-          league, gameId: entry.gameId,
-          cardId: detection.cardId, playId: detection.playId, reason: detection.reason,
-          wouldHaveCalled: true,
-          queue: entry.queueRef ? entry.queueRef.snapshot() : null,
-        });
-        console.log(`🏈 ${league}/${entry.gameId} WOULD HAVE CALLED ${detection.cardId} (play ${detection.playId})`);
+        // Every room watching this game gets the round, through the SAME path a
+        // Ref uses. If the Ref has paused auto-calling, the detection is simply
+        // dropped rather than held — it will be stale by the time they unpause.
+        for (const roomCode of entry.rooms) {
+          const room = rooms[roomCode];
+          if (!room) continue;
+          if (room.autoCallPaused) {
+            io.to(roomCode).emit('playSkipped', {
+              league, gameId: entry.gameId, cardId: detection.cardId, reason: 'auto-calling is paused',
+            });
+            continue;
+          }
+          if (modeOf(room, detection.cardId) !== AUTO) continue;
+
+          const path = pathFor(detection.cardId);
+          const result = path === 'firstDown' ? declareFirstDown(roomCode)
+            : path === 'standard' ? declareStandardCard(roomCode, detection.cardId)
+              : declareWildCard(roomCode, detection.cardId);
+
+          if (result.ok) {
+            entry.stats.released += 1;
+            io.to(roomCode).emit('playAutoCalled', {
+              league, gameId: entry.gameId,
+              cardId: detection.cardId, playId: detection.playId, reason: detection.reason,
+              declared: true,
+            });
+            console.log(`🏈 ${league}/${entry.gameId} CALLED ${detection.cardId} in ${roomCode} (play ${detection.playId})`);
+          } else {
+            // Busy or nobody held it. Not an error — the round the Ref or an
+            // earlier detection started simply won, which is the correct
+            // outcome of the single-round guard.
+            entry.stats.skipped = (entry.stats.skipped || 0) + 1;
+            io.to(roomCode).emit('playSkipped', {
+              league, gameId: entry.gameId, cardId: detection.cardId, reason: result.reason,
+            });
+            console.log(`🏈 ${league}/${entry.gameId} skipped ${detection.cardId} in ${roomCode}: ${result.reason}`);
+          }
+        }
       },
       onEnd: (info) => {
-        tell('gameFeedEnded', { league, gameId: entry.gameId, reason: info ? info.reason : null });
+        // Drain rather than fire late. Whatever is still queued belongs to a
+        // game that has stopped; releasing it minutes later is worse than
+        // losing it.
+        const dropped = entry.queueRef ? entry.queueRef.clear('the feed ended').dropped : 0;
+        tell('gameFeedEnded', {
+          league, gameId: entry.gameId,
+          reason: info ? info.reason : null,
+          dropped,
+        });
+        console.log(`🏈 ${league}/${entry.gameId} feed ended (${info ? info.reason : '?'}), dropped ${dropped} queued`);
       },
     });
+
+    // Held so detaching, the game going final, or the feed dying can DRAIN the
+    // queue rather than letting it fire into a room minutes later.
+    entry.queueRef = pipeline.queue;
 
     feed.start();
     return feed;
@@ -789,6 +843,322 @@ const finalizeRound = (roomCode) => {
     // orphaned timer to fire into the next round.
     if (activeRounds[roomCode]) activeRounds[roomCode].intervalId = interval;
   };
+
+
+/** Module scope: the declaration path above calls this, and that path is now
+ *  shared with the live feed rather than living inside a socket handler. */
+const logPlayerHands = (roomCode) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+
+  console.log(`Player hands in room ${roomCode}:`);
+  room.players.forEach((player) => {
+    const hand = playerStats[player.id];
+    if (hand && hand.standard && hand.wild) {
+      console.log(`${player.name}'s hand:`);
+      console.log('Standard cards:', hand.standard.map(card => card.card).join(', '));
+      console.log('Wild cards:', hand.wild.map(card => card.card).join(', '));
+    } else {
+      console.log(`${player.name}'s hand is empty or not assigned properly.`);
+    }
+  });
+};
+/**
+ * ── The declaration path ──────────────────────────────────────────────────
+ *
+ * Lifted verbatim out of the three socket handlers so the live feed can call
+ * exactly what the Ref calls. NOT a parallel implementation: the handlers are
+ * now thin wrappers around these, so if a round starts, nothing downstream can
+ * tell whether a human or the feed started it — same `isActionInProgress`
+ * guard, same `activeRounds` entry, same broadcasts, same `startTimer`, same
+ * `finalizeRound`.
+ *
+ * One thing changed in the move: the busy branch returns instead of emitting,
+ * because the feed has no socket to emit to. The wrapper does the emitting for
+ * the Ref, so the wire is unchanged.
+ *
+ * @returns {{ ok: boolean, reason?: 'busy'|'noCard' }}
+ */
+const declareFirstDown = (roomCode) => {
+    const room = rooms[roomCode];
+    if (!room) return;
+  
+    // Ensure roundResults[roomCode] is initialized
+    if (!roundResults[roomCode]) {
+      roundResults[roomCode] = {};
+    }
+
+    // Check if an action is already in progress
+  if (room.isActionInProgress) return { ok: false, reason: 'busy' };
+  room.isActionInProgress = true;
+
+  // ✅ ROUND-AWARE: Track active round state
+  activeRounds[roomCode] = {
+    declaredCard: 'First Down',
+    startTime: Date.now(),
+    timeRemaining: ROUND_DURATIONS.firstDown
+  };
+
+  // Send the declared card to all players in the room
+  io.to(roomCode).emit('declaredCard', 'First Down');  // Broadcast the first down
+    
+  // Add 1 drink to every player's stats
+    room.players.forEach((player) => {
+      const playerId = player.id;
+      
+      // Ensure roundResults[roomCode][playerId] is initialized
+      if (!roundResults[roomCode][playerId]) {
+        roundResults[roomCode][playerId] = { drinks: 0, shotguns: 0 };
+      }
+  
+      // Increment the drinks for this round
+      roundResults[roomCode][playerId].drinks += 1;
+  });
+  
+    // Emit a message to all players that it's a First Down and they should drink once
+    io.to(roomCode).emit('firstDownMessage', 'First Down! Everyone drinks once!');
+    
+    // ✅ ENHANCED: Include player names in First Down stats update (this room only)
+    const playersWithNames = buildRoomStats(room);
+
+    // Emit updated player stats for the round
+    io.to(roomCode).emit('updatePlayerStats', {
+      players: playersWithNames,  // ✅ Now includes names for ALL players
+      roundResults: roundResults[roomCode],
+    });
+  
+    console.log(`First Down - Everyone drinks once in room ${roomCode}`);
+
+    startTimer(roomCode, ROUND_DURATIONS.firstDown);
+
+  return { ok: true };
+};
+
+const declareStandardCard = (roomCode, cardType) => {
+  let noCardResult = false;
+    const room = rooms[roomCode];
+    if (!room) return;
+
+      // Check if an action is already in progress
+  if (room.isActionInProgress) return { ok: false, reason: 'busy' };
+  
+      // Set the action as in progress
+      room.isActionInProgress = true;
+      console.log(`Action status ${room.isActionInProgress} `);
+
+    console.log(`Host in room ${roomCode} has declared ${cardType}.`);
+
+    let anyPlayerHasCard = false;
+    room.players.forEach((player) => {
+      const playerHand = playerStats[player.id];
+      if (playerHand.standard.some(card => card.card === cardType)) {
+        anyPlayerHasCard = true;
+      }
+    });
+  
+    if (!anyPlayerHasCard) {
+      // If no one has the card, inform the room and reset the action status
+      io.to(roomCode).emit('noCard', 'No one had this card');
+      room.isActionInProgress = false;
+      noCardResult = true;
+  
+      // Show the message for 5 seconds, then clear it
+      setTimeout(() => {
+        io.to(roomCode).emit('noCard', '');  // Clear the message
+      }, 5000);
+  
+      return;
+    }
+
+    // ✅ ROUND-AWARE: Track active round state only once the round is really on.
+    // Setting this before the "does anyone hold it" check left a phantom round
+    // behind on every noCard declaration.
+    activeRounds[roomCode] = {
+      declaredCard: cardType,
+      startTime: Date.now(),
+      timeRemaining: ROUND_DURATIONS.standard
+    };
+
+     // Send the declared card to all players in the room
+  io.to(roomCode).emit('declaredCard', cardType);  // Broadcast the declared card
+
+    logPlayerHands(roomCode);
+
+    room.players.forEach((player) => {
+      const playerHand = playerStats[player.id];
+      const playerCards = playerHand.standard.filter(card => card.card === cardType);
+
+      if (playerCards.length > 0) {
+        let totalDrinksForPlayer = 0;
+        playerCards.forEach(card => {
+          totalDrinksForPlayer += card.drinks;
+        });
+      
+        // After calculating total drinks, check if the player has 10 or more drinks
+        let shotguns = Math.floor(totalDrinksForPlayer / 10);  // Calculate how many full shotguns
+        let remainingDrinks = totalDrinksForPlayer % 10;  // Remaining drinks after shotguns
+      
+        // Update player stats for total shotguns and drinks
+        if (shotguns > 0) {
+          playerStats[player.id].shotguns = (playerStats[player.id].shotguns || 0) + shotguns;
+          console.log(`Player ${player.id} got ${shotguns} shotgun(s).`);
+        }
+      
+        // Update player's drink count for the remaining drinks
+        playerStats[player.id].drinks = remainingDrinks;
+      
+        io.to(player.id).emit('distributeDrinks', {
+          playerId: player.id,
+          cardType,
+          drinkCount: remainingDrinks,  // Only emit the remaining drinks after shotguns
+          shotguns,  // Emit the number of shotguns if any
+        });
+
+        // Remember it: the cards are about to be removed from the hand, so this
+        // is the last moment the amount is knowable.
+        rememberPendingPour(roomCode, player.name, {
+          cardType,
+          drinkCount: remainingDrinks,
+          shotguns
+        });
+
+        // Store used cards before removing them
+        if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
+        usedCards[roomCode].standard.push(...playerCards);
+        
+        playerHand.standard = playerHand.standard.filter(card => card.card !== cardType);
+        const newCards = rooms[roomCode].deck.standardDeck.splice(0, playerCards.length);
+        playerHand.standard.push(...newCards);
+        console.log(`${player.id} played ${playerCards.length} ${cardType} card(s) and is prompted to give out ${totalDrinksForPlayer} drinks.`);
+        
+        // Check if deck needs replenishment after cards are drawn
+        checkAndReplenishDecks(roomCode);
+
+    }
+    });
+
+    startTimer(roomCode, ROUND_DURATIONS.standard);
+
+  return noCardResult ? { ok: false, reason: 'noCard' } : { ok: true };
+};
+
+const declareWildCard = (roomCode, wildcardtype) => {
+    const room = rooms[roomCode];
+    if (!room) return;
+
+    // Check if an action is already in progress
+  if (room.isActionInProgress) return { ok: false, reason: 'busy' };
+
+    // `player` used to be logged here. It was only ever decorative — the work
+    // below loops over everyone holding the card — and the feed has no player
+    // to name, so the declaration path does not take one.
+    console.log(`Wild card declared: ${wildcardtype} in room ${roomCode}`);
+    
+    // Set the action as in progress
+    room.isActionInProgress = true;
+
+    // ✅ ROUND-AWARE: Track active round state for wild cards
+    activeRounds[roomCode] = {
+      declaredCard: wildcardtype,
+      startTime: Date.now(),
+      timeRemaining: ROUND_DURATIONS.wild
+    };
+
+    // Notify all players about the wild card action
+    io.to(roomCode).emit('declaredCard', wildcardtype);  // Broadcast the declared card
+    console.log(`Broadcast declared card ${wildcardtype} to all players`);
+
+    // Loop through each player in the room
+    room.players.forEach((currentPlayer) => {
+        const playerHand = playerStats[currentPlayer.id];
+        if (!playerHand) {
+            console.log(`Player hand not found for player: ${currentPlayer.id}`);
+            return;
+        }
+        
+        const playerCards = playerHand.wild.filter(card => card.card === wildcardtype);
+        console.log(`Checking player ${currentPlayer.id} for wild card ${wildcardtype}`);
+
+        if (playerCards.length > 0) {
+            let totalDrinksForPlayer = 0;
+            
+            playerCards.forEach(card => {
+              totalDrinksForPlayer += card.drinks;
+              console.log(`Player ${currentPlayer.id} has a wild card: ${wildcardtype} with ${totalDrinksForPlayer} total drinks`);
+            });
+          
+            // After calculating total drinks, check if the player has 10 or more drinks
+            let shotguns = Math.floor(totalDrinksForPlayer / 10);  // Calculate how many full shotguns
+            let remainingDrinks = totalDrinksForPlayer % 10;  // Remaining drinks after shotguns
+          
+            // Update player's total shotguns and remaining drinks
+            if (shotguns > 0) {
+              playerStats[currentPlayer.id].shotguns = (playerStats[currentPlayer.id].shotguns || 0) + shotguns;
+              console.log(`Player ${currentPlayer.id} can give out ${shotguns} shotgun(s) from wild card.`);
+            }
+          
+            // Update player's drink count for the remaining drinks
+            playerStats[currentPlayer.id].drinks = remainingDrinks;
+          
+            // Emit the remaining drinks and shotguns to the player
+            io.to(currentPlayer.id).emit('distributeDrinks', {
+              playerId: currentPlayer.id,
+              wildcardtype,
+              drinkCount: remainingDrinks,  // Send remaining drinks after shotguns
+              shotguns,  // Send number of shotguns if any
+            });
+
+            // Same as the standard path: record before the hand changes.
+            rememberPendingPour(roomCode, currentPlayer.name, {
+              wildcardtype,
+              drinkCount: remainingDrinks,
+              shotguns
+            });
+          
+            // Store used wild cards before removing them
+            if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
+            usedCards[roomCode].wild.push(...playerCards);
+            
+            // Update player hand by removing played wild cards and replenishing them
+            playerHand.wild = playerHand.wild.filter(card => card.card !== wildcardtype);
+            const newCards = rooms[roomCode].deck.wildDeck.splice(0, playerCards.length);
+            playerHand.wild.push(...newCards);
+          
+            console.log(`${currentPlayer.id} played ${playerCards.length} ${wildcardtype} wild card(s) and is prompted to give out ${remainingDrinks} drinks and gives out ${shotguns} shotgun(s).`);
+            
+            // Check if deck needs replenishment after cards are drawn
+            checkAndReplenishDecks(roomCode);
+          }
+
+            else {
+            console.log(`Player ${currentPlayer.id} does not have the wild card ${wildcardtype}`);
+        }
+    });
+
+    console.log(`Starting timer for wild card action in room ${roomCode}`);
+    startTimer(roomCode, ROUND_DURATIONS.wild);
+  return { ok: true };
+};
+
+const BUSY_MESSAGE = 'Action is in progress. Please wait until the round ends.';
+
+/**
+ * The Ref just declared something by hand.
+ *
+ * A manual declaration always wins: anything the feed had queued for this
+ * moment is dropped rather than stacked behind it, because by the time the
+ * round the Ref started has finished, the queued play is old news.
+ */
+const refTookOver = (roomCode) => {
+  const entry = watchers.forRoom(roomCode);
+  if (!entry || !entry.queueRef) return;
+  const { dropped } = entry.queueRef.clear('the Ref declared by hand');
+  if (dropped > 0) {
+    console.log(`🏈 Ref declared in ${roomCode}; dropped ${dropped} queued detection(s)`);
+    io.to(roomCode).emit('queueCleared', { dropped, reason: 'the Ref called it' });
+  }
+};
+
   // connection logs 
 
   // Add this to your server.js file in the io.on('connection') section
@@ -1438,171 +1808,17 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard } = {}) => {
 
 // Handle First Down event
 socket.on('firstDownEvent', ({ roomCode } = {}) => {
-    const room = rooms[roomCode];
-    if (!room) return;
-  
-    // Ensure roundResults[roomCode] is initialized
-    if (!roundResults[roomCode]) {
-      roundResults[roomCode] = {};
-    }
-
-    // Check if an action is already in progress
-  if (room.isActionInProgress) {
-    io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
-    return;
-  }
-  room.isActionInProgress = true;
-
-  // ✅ ROUND-AWARE: Track active round state
-  activeRounds[roomCode] = {
-    declaredCard: 'First Down',
-    startTime: Date.now(),
-    timeRemaining: ROUND_DURATIONS.firstDown
-  };
-
-  // Send the declared card to all players in the room
-  io.to(roomCode).emit('declaredCard', 'First Down');  // Broadcast the first down
-    
-  // Add 1 drink to every player's stats
-    room.players.forEach((player) => {
-      const playerId = player.id;
-      
-      // Ensure roundResults[roomCode][playerId] is initialized
-      if (!roundResults[roomCode][playerId]) {
-        roundResults[roomCode][playerId] = { drinks: 0, shotguns: 0 };
-      }
-  
-      // Increment the drinks for this round
-      roundResults[roomCode][playerId].drinks += 1;
-  });
-  
-    // Emit a message to all players that it's a First Down and they should drink once
-    io.to(roomCode).emit('firstDownMessage', 'First Down! Everyone drinks once!');
-    
-    // ✅ ENHANCED: Include player names in First Down stats update (this room only)
-    const playersWithNames = buildRoomStats(room);
-
-    // Emit updated player stats for the round
-    io.to(roomCode).emit('updatePlayerStats', {
-      players: playersWithNames,  // ✅ Now includes names for ALL players
-      roundResults: roundResults[roomCode],
-    });
-  
-    console.log(`First Down - Everyone drinks once in room ${roomCode}`);
-
-    startTimer(roomCode, ROUND_DURATIONS.firstDown);
-
-  });
+  refTookOver(roomCode);
+  const result = declareFirstDown(roomCode);
+  if (result.reason === 'busy') io.to(socket.id).emit('actionInProgress', BUSY_MESSAGE);
+});
 
   // Play Standard Card Event (Triggered by the host)
   socket.on('playStandardCard', ({ roomCode, cardType } = {}) => {
-    const room = rooms[roomCode];
-    if (!room) return;
-
-      // Check if an action is already in progress
-      if (room.isActionInProgress) {
-        // Emit a message to the frontend asking the player to wait
-        io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
-        return;
-      }
-  
-      // Set the action as in progress
-      room.isActionInProgress = true;
-      console.log(`Action status ${room.isActionInProgress} `);
-
-    console.log(`Host in room ${roomCode} has declared ${cardType}.`);
-
-    let anyPlayerHasCard = false;
-    room.players.forEach((player) => {
-      const playerHand = playerStats[player.id];
-      if (playerHand.standard.some(card => card.card === cardType)) {
-        anyPlayerHasCard = true;
-      }
-    });
-  
-    if (!anyPlayerHasCard) {
-      // If no one has the card, inform the room and reset the action status
-      io.to(roomCode).emit('noCard', 'No one had this card');
-      room.isActionInProgress = false;
-  
-      // Show the message for 5 seconds, then clear it
-      setTimeout(() => {
-        io.to(roomCode).emit('noCard', '');  // Clear the message
-      }, 5000);
-  
-      return;
-    }
-
-    // ✅ ROUND-AWARE: Track active round state only once the round is really on.
-    // Setting this before the "does anyone hold it" check left a phantom round
-    // behind on every noCard declaration.
-    activeRounds[roomCode] = {
-      declaredCard: cardType,
-      startTime: Date.now(),
-      timeRemaining: ROUND_DURATIONS.standard
-    };
-
-     // Send the declared card to all players in the room
-  io.to(roomCode).emit('declaredCard', cardType);  // Broadcast the declared card
-
-    logPlayerHands(roomCode);
-
-    room.players.forEach((player) => {
-      const playerHand = playerStats[player.id];
-      const playerCards = playerHand.standard.filter(card => card.card === cardType);
-
-      if (playerCards.length > 0) {
-        let totalDrinksForPlayer = 0;
-        playerCards.forEach(card => {
-          totalDrinksForPlayer += card.drinks;
-        });
-      
-        // After calculating total drinks, check if the player has 10 or more drinks
-        let shotguns = Math.floor(totalDrinksForPlayer / 10);  // Calculate how many full shotguns
-        let remainingDrinks = totalDrinksForPlayer % 10;  // Remaining drinks after shotguns
-      
-        // Update player stats for total shotguns and drinks
-        if (shotguns > 0) {
-          playerStats[player.id].shotguns = (playerStats[player.id].shotguns || 0) + shotguns;
-          console.log(`Player ${player.id} got ${shotguns} shotgun(s).`);
-        }
-      
-        // Update player's drink count for the remaining drinks
-        playerStats[player.id].drinks = remainingDrinks;
-      
-        io.to(player.id).emit('distributeDrinks', {
-          playerId: player.id,
-          cardType,
-          drinkCount: remainingDrinks,  // Only emit the remaining drinks after shotguns
-          shotguns,  // Emit the number of shotguns if any
-        });
-
-        // Remember it: the cards are about to be removed from the hand, so this
-        // is the last moment the amount is knowable.
-        rememberPendingPour(roomCode, player.name, {
-          cardType,
-          drinkCount: remainingDrinks,
-          shotguns
-        });
-
-        // Store used cards before removing them
-        if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
-        usedCards[roomCode].standard.push(...playerCards);
-        
-        playerHand.standard = playerHand.standard.filter(card => card.card !== cardType);
-        const newCards = rooms[roomCode].deck.standardDeck.splice(0, playerCards.length);
-        playerHand.standard.push(...newCards);
-        console.log(`${player.id} played ${playerCards.length} ${cardType} card(s) and is prompted to give out ${totalDrinksForPlayer} drinks.`);
-        
-        // Check if deck needs replenishment after cards are drawn
-        checkAndReplenishDecks(roomCode);
-
-    }
-    });
-
-    startTimer(roomCode, ROUND_DURATIONS.standard);
-
-});
+    refTookOver(roomCode);
+    const result = declareStandardCard(roomCode, cardType);
+    if (result.reason === 'busy') io.to(socket.id).emit('actionInProgress', BUSY_MESSAGE);
+  });
 // Handle wild card selection
 socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype } = {}) => {
     const room = rooms[roomCode];  // Now roomCode is available
@@ -1620,101 +1836,10 @@ socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype } = {}) => {
 
 // Listen for the confirmed wild card action from the host
 socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player } = {}) => {
-    const room = rooms[roomCode];
-    if (!room) return;
-
-    // Check if an action is already in progress
-    if (room.isActionInProgress) {
-        // Emit a message to the frontend asking the player to wait
-        io.to(socket.id).emit('actionInProgress', 'Action is in progress. Please wait until the round ends.');
-        return;
-    }
-
-    console.log(`Host confirmed wild card: ${wildcardtype} by player ${player}`);
-    
-    // Set the action as in progress
-    room.isActionInProgress = true;
-
-    // ✅ ROUND-AWARE: Track active round state for wild cards
-    activeRounds[roomCode] = {
-      declaredCard: wildcardtype,
-      startTime: Date.now(),
-      timeRemaining: ROUND_DURATIONS.wild
-    };
-
-    // Notify all players about the wild card action
-    io.to(roomCode).emit('declaredCard', wildcardtype);  // Broadcast the declared card
-    console.log(`Broadcast declared card ${wildcardtype} to all players`);
-
-    // Loop through each player in the room
-    room.players.forEach((currentPlayer) => {
-        const playerHand = playerStats[currentPlayer.id];
-        if (!playerHand) {
-            console.log(`Player hand not found for player: ${currentPlayer.id}`);
-            return;
-        }
-        
-        const playerCards = playerHand.wild.filter(card => card.card === wildcardtype);
-        console.log(`Checking player ${currentPlayer.id} for wild card ${wildcardtype}`);
-
-        if (playerCards.length > 0) {
-            let totalDrinksForPlayer = 0;
-            
-            playerCards.forEach(card => {
-              totalDrinksForPlayer += card.drinks;
-              console.log(`Player ${currentPlayer.id} has a wild card: ${wildcardtype} with ${totalDrinksForPlayer} total drinks`);
-            });
-          
-            // After calculating total drinks, check if the player has 10 or more drinks
-            let shotguns = Math.floor(totalDrinksForPlayer / 10);  // Calculate how many full shotguns
-            let remainingDrinks = totalDrinksForPlayer % 10;  // Remaining drinks after shotguns
-          
-            // Update player's total shotguns and remaining drinks
-            if (shotguns > 0) {
-              playerStats[currentPlayer.id].shotguns = (playerStats[currentPlayer.id].shotguns || 0) + shotguns;
-              console.log(`Player ${currentPlayer.id} can give out ${shotguns} shotgun(s) from wild card.`);
-            }
-          
-            // Update player's drink count for the remaining drinks
-            playerStats[currentPlayer.id].drinks = remainingDrinks;
-          
-            // Emit the remaining drinks and shotguns to the player
-            io.to(currentPlayer.id).emit('distributeDrinks', {
-              playerId: currentPlayer.id,
-              wildcardtype,
-              drinkCount: remainingDrinks,  // Send remaining drinks after shotguns
-              shotguns,  // Send number of shotguns if any
-            });
-
-            // Same as the standard path: record before the hand changes.
-            rememberPendingPour(roomCode, currentPlayer.name, {
-              wildcardtype,
-              drinkCount: remainingDrinks,
-              shotguns
-            });
-          
-            // Store used wild cards before removing them
-            if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
-            usedCards[roomCode].wild.push(...playerCards);
-            
-            // Update player hand by removing played wild cards and replenishing them
-            playerHand.wild = playerHand.wild.filter(card => card.card !== wildcardtype);
-            const newCards = rooms[roomCode].deck.wildDeck.splice(0, playerCards.length);
-            playerHand.wild.push(...newCards);
-          
-            console.log(`${currentPlayer.id} played ${playerCards.length} ${wildcardtype} wild card(s) and is prompted to give out ${remainingDrinks} drinks and gives out ${shotguns} shotgun(s).`);
-            
-            // Check if deck needs replenishment after cards are drawn
-            checkAndReplenishDecks(roomCode);
-          }
-
-            else {
-            console.log(`Player ${currentPlayer.id} does not have the wild card ${wildcardtype}`);
-        }
-    });
-
-    console.log(`Starting timer for wild card action in room ${roomCode}`);
-    startTimer(roomCode, ROUND_DURATIONS.wild);
+    void player;   // only ever used for a log line; the work loops over holders
+    refTookOver(roomCode);
+    const result = declareWildCard(roomCode, wildcardtype);
+    if (result.reason === 'busy') io.to(socket.id).emit('actionInProgress', BUSY_MESSAGE);
 });
 
 // Handle drink and shotgun assignments for a round
@@ -1864,22 +1989,6 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
   });
 
   // Log player hands
-  const logPlayerHands = (roomCode) => {
-    const room = rooms[roomCode];
-    if (!room) return;
-
-    console.log(`Player hands in room ${roomCode}:`);
-    room.players.forEach((player) => {
-      const hand = playerStats[player.id];
-      if (hand && hand.standard && hand.wild) {
-        console.log(`${player.name}'s hand:`);
-        console.log('Standard cards:', hand.standard.map(card => card.card).join(', '));
-        console.log('Wild cards:', hand.wild.map(card => card.card).join(', '));
-      } else {
-        console.log(`${player.name}'s hand is empty or not assigned properly.`);
-      }
-    });
-  };
 
   // Log player stats for drinks/shotguns
   const logPlayerStats = (players) => {
@@ -2033,10 +2142,75 @@ socket.on('attachGame', ({ roomCode, league = 'nfl', gameId, replayFixture, spee
   if (!entry) return;
 
   room.watching = { league, gameId: String(gameId) };
+  room.autoCallPaused = false;
+  if (!room.cardModes) room.cardModes = {};
   io.to(roomCode).emit('gameAttached', {
     league, gameId: String(gameId), ...entry.state,
+    // Said once, plainly. People should not have to work out why rounds are
+    // starting on their own.
+    announce: 'The feed is calling this game. Rounds will start on their own — the Ref can still call anything by hand.',
+    cardModes: room.cardModes,
+    autoCallPaused: false,
   });
   console.log(`🏈 room ${roomCode} is watching ${league}/${gameId} (${entry.rooms.size} room(s) on this game)`);
+});
+
+/**
+ * Pause auto-calling. One tap, instant, and it does NOT detach the game — the
+ * score header stays and the Ref keeps calling by hand. This is the escape
+ * hatch when something starts misbehaving in front of people.
+ */
+socket.on('pauseAutoCall', ({ roomCode, paused } = {}) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  if (refOf(roomCode) !== socket.id) return;
+
+  room.autoCallPaused = paused !== false;
+  if (room.autoCallPaused) {
+    // Drop what is waiting rather than releasing it all on unpause.
+    const entry = watchers.forRoom(roomCode);
+    if (entry && entry.queueRef) entry.queueRef.clear('auto-calling paused');
+  }
+  io.to(roomCode).emit('autoCallPaused', { paused: room.autoCallPaused });
+  console.log(`🏈 room ${roomCode} auto-calling ${room.autoCallPaused ? 'PAUSED' : 'resumed'}`);
+});
+
+/**
+ * Move one card between auto / suggest / off, for this room only.
+ *
+ * The dial the owner reaches for after a real game night, on a phone, while
+ * nine people wait — so it is one event per card rather than a form to submit.
+ */
+socket.on('setCardMode', ({ roomCode, cardId, mode } = {}) => {
+  const room = rooms[roomCode];
+  if (!room || !cardId) return;
+  if (refOf(roomCode) !== socket.id) return;
+  if (!['auto', 'suggest', 'off'].includes(mode)) return;
+  // A card with no signal cannot be turned on, whatever the dial says.
+  if (modeFor(cardId) === 'never') return;
+
+  if (!room.cardModes) room.cardModes = {};
+  room.cardModes[cardId] = mode;
+  io.to(roomCode).emit('cardModes', { cardModes: room.cardModes });
+  console.log(`🏈 room ${roomCode}: ${cardId} -> ${mode}`);
+});
+
+/**
+ * The Ref accepted a suggestion. Declares it exactly as an auto-call would;
+ * ignoring one simply lets it expire, which needs no event at all.
+ */
+socket.on('acceptSuggestion', ({ roomCode, cardId } = {}) => {
+  const room = rooms[roomCode];
+  if (!room || !cardId) return;
+  if (refOf(roomCode) !== socket.id) return;
+
+  const path = pathFor(cardId);
+  const result = path === 'firstDown' ? declareFirstDown(roomCode)
+    : path === 'standard' ? declareStandardCard(roomCode, cardId)
+      : declareWildCard(roomCode, cardId);
+
+  if (result.reason === 'busy') io.to(socket.id).emit('actionInProgress', BUSY_MESSAGE);
+  else if (result.ok) console.log(`🏈 room ${roomCode}: Ref accepted suggestion ${cardId}`);
 });
 
 socket.on('detachGame', ({ roomCode } = {}) => {
@@ -2044,9 +2218,12 @@ socket.on('detachGame', ({ roomCode } = {}) => {
   if (!room) return;
   if (refOf(roomCode) !== socket.id) return;
 
+  const entry = watchers.forRoom(roomCode);
+  const dropped = entry && entry.queueRef ? entry.queueRef.clear('the game was detached').dropped : 0;
   watchers.release(roomCode);
   room.watching = null;
-  io.to(roomCode).emit('gameDetached', { roomCode });
+  room.autoCallPaused = false;
+  io.to(roomCode).emit('gameDetached', { roomCode, dropped });
   console.log(`🏈 room ${roomCode} stopped watching`);
 });
 

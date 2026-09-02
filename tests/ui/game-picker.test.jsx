@@ -130,9 +130,14 @@ describe('the picker on screen', () => {
     expect(screen.getByText(/UTSA @ RICE/)).toBeTruthy();
   });
 
-  it('says which cards a feed can never call', () => {
+  it('names every card a feed can never call', () => {
+    // Naming them beats leaving cards that silently never appear. Fake Punt/FG
+    // joined the list in Session 17: the word "fake" is in 0 of 111 real games.
     render(<GamePicker league="nfl" games={games} />);
-    expect(screen.getByText(/Doink and Record Broken are always called by the Ref/)).toBeTruthy();
+    const note = screen.getByText(/always called by the Ref/);
+    for (const card of ['Doink', 'Record Broken', 'Fake Punt/FG']) {
+      expect(note.textContent, `${card} is Ref-only but the UI does not say so`).toContain(card);
+    }
   });
 
   it('shows an error without blanking the screen', () => {

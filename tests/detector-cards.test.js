@@ -408,9 +408,12 @@ describe('penalties', () => {
 describe('the Tier B set', () => {
   it('suggests rather than auto-fires', () => {
     for (const id of ['3 n Out', 'Blocked Kicks', 'Onside Attempt', 'Onside Recovered',
-      'Fake Punt/FG', 'Penalty Calls TD Back', 'Disqualified']) {
+      'Penalty Calls TD Back', 'Disqualified']) {
       expect(modeFor(id), `${id} should be a suggestion`).toBe(SUGGEST);
     }
+    // Fake Punt/FG left this set in Session 17: the word "fake" appears in 0 of
+    // 111 real games, so there is no signal and the card is Ref-only.
+    expect(modeFor('Fake Punt/FG')).toBe(NEVER);
   });
 
   it('finds 3 n Out only on three plays and a punt', () => {

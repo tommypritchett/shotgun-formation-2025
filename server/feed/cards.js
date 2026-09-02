@@ -70,14 +70,19 @@ const MODES = {
   'Blocked Kicks': SUGGEST,
   'Onside Attempt': SUGGEST,
   'Onside Recovered': SUGGEST,
-  'Fake Punt/FG': SUGGEST,
   'Penalty Calls TD Back': SUGGEST,
   'Disqualified': SUGGEST,   // college only — enforced in detect.js
 
-  // Tier C — no structured signal exists. Ref-only, forever. Say so in the UI
-  // rather than letting people wonder why it never fires.
+  // Tier C — no structured signal exists. Ref-only, forever. Named in the UI
+  // rather than left as cards that silently never appear.
   'Doink': NEVER,
   'Record Broken': NEVER,
+  // Moved here in Session 17, on evidence rather than the original guess. The
+  // plan assumed the play text "sometimes says fake". It never does: the word
+  // appears in 0 of 111 games scanned across both leagues, and a fake reads as
+  // an ordinary fourth-down rush with no marker separating it from a scramble.
+  // There is nothing to detect, so it stops claiming there is.
+  'Fake Punt/FG': NEVER,
 };
 
 /** Yardage thresholds, so the numbers are not buried in the logic. */

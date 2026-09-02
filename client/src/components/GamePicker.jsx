@@ -97,8 +97,9 @@ export default function GamePicker({
 
       {/* Say plainly what a machine cannot see, rather than letting people
           wonder why the 40-point cards never fire. */}
+      {/* Name them, rather than leaving cards that silently never appear. */}
       <p className="hint small">
-        Doink and Record Broken are always called by the Ref — no feed can see them.
+        Doink, Record Broken and Fake Punt/FG are always called by the Ref — no feed can see them.
       </p>
     </div>
   );

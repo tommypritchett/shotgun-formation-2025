@@ -371,9 +371,10 @@ const detectPlay = (play, context = {}) => {
     }
     add('Onside Attempt', play.id, 'onside kick attempt', MEDIUM);
   }
-  if (/\bfake (punt|field goal|fg)\b/i.test(t)) {
-    add('Fake Punt/FG', play.id, 'fake kick', MEDIUM);
-  }
+  // No Fake Punt/FG rule, deliberately. The word "fake" appears in ESPN play
+  // text in 0 of 111 games scanned across both leagues; a fake reads as an
+  // ordinary fourth-down rush. The card is Ref-only, and a rule that can never
+  // match is worse than no rule — it implies coverage that does not exist.
 
   // Ejections. NFL reporting is inconsistent to absent; college targeting is a
   // formal, reviewed, named foul that lands in the play text, so it is only

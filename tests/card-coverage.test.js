@@ -27,11 +27,9 @@ const { MODES, modeFor, NEVER } = require(path.join(ROOT, 'server/feed/cards.js'
  * without a fixture that fires it will fail the test — which is the point.
  */
 const KNOWN_GAPS = {
-  'Fake Punt/FG':
-    'No signal exists. The word "fake" does not appear in ESPN play text in 111 '
-    + 'games scanned across both leagues; a fake reads as an ordinary rush or pass '
-    + 'on fourth down. This card cannot currently fire and should be treated as '
-    + 'Ref-only until a signal is found.',
+  // Empty, and it should stay that way. Fake Punt/FG used to sit here; it is
+  // now NEVER, which is the honest answer rather than a permanent exemption.
+  // A card that cannot fire should not be advertised as one that can.
 };
 
 const counts = () => {
@@ -75,11 +73,14 @@ describe('real-data coverage', () => {
   }
 
   it('does not quietly grow the list of known gaps', () => {
-    expect(Object.keys(KNOWN_GAPS)).toEqual(['Fake Punt/FG']);
+    // A gap is a card claiming to be machine-callable while never having fired.
+    // The right fix is nearly always to capture a fixture or move it to NEVER,
+    // not to add an exemption here.
+    expect(Object.keys(KNOWN_GAPS)).toEqual([]);
   });
 
   it('never machine-calls the Ref-only cards', () => {
-    for (const cardId of ['Doink', 'Record Broken']) {
+    for (const cardId of ['Doink', 'Record Broken', 'Fake Punt/FG']) {
       expect(tally[cardId] || 0, `${cardId} fired, and it must never`).toBe(0);
     }
   });

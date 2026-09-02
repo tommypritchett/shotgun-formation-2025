@@ -171,8 +171,6 @@ Cost measured across the five real fixtures: **+1 to +9 cards a game**, mean +5.
   the drives endpoint and careful handling of penalties inside the drive.
 - **Blocked Kicks** — text match on the play description.
 - **Onside Attempt / Onside Recovered** — kickoff play type with short yardage, plus text.
-- **Fake Punt/FG** — the description sometimes says "fake"; sometimes it just reads as a run on
-  fourth down.
 - **Penalty Calls TD Back** — needs sequence reasoning: a touchdown followed by a negating penalty.
   The hardest of these and the most likely to misfire.
 
@@ -182,9 +180,16 @@ These surface to the Ref as *"3rd and out — call it?"* with a countdown. Ref t
 
 - **Doink** — hitting the upright is commentary, not structured data.
 - **Record Broken** — no structured signal exists.
+- **Fake Punt/FG** — **moved here in Session 17, and the entry above was wrong.** This plan said
+  "the description sometimes says 'fake'". It never does: the word appears in **0 of 111 games**
+  scanned across both leagues. A fake reads as an ordinary fourth-down rush, with nothing separating
+  it from a scramble. There is no signal to detect, so the card is Ref-only.
 - **Disqualified** — in the NFL, ejections appear inconsistently if at all. **In college this is
-  Tier B**: targeting is a formal, reviewed, named foul that lands in the play text with the
-  ejection, so it can be suggested reliably. A rare case where college data is *better*.
+  Tier B** and verified against a real targeting call. One correction to the wording below: ESPN does
+  NOT write "ejection" or "disqualified". It writes the review outcome —
+  `The previous play is under automatic review - "Targeting". CALL UPHELD` — and upheld on review IS
+  the ejection. Requiring the word "disqualified" made the card incapable of firing until Session 17
+  fixed it.
 
 Say this plainly in the UI rather than letting people wonder why it never fires. These staying manual
 is fine — they are the 40-point cards, they should feel like an event, and a human calling them is

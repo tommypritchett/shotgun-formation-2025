@@ -97,7 +97,7 @@ describe('attaching a game', () => {
   }, 60_000);
 });
 
-describe('what the feed would have called', () => {
+describe('the feed declaring', () => {
   /** @type {Awaited<ReturnType<typeof createHarness>>} */
   let h;
   // The real 45 seconds, on a short clock. Same code path, same queue, same
@@ -108,11 +108,10 @@ describe('what the feed would have called', () => {
   });
   afterEach(async () => { await h.teardown(); h.assertAlive(); });
 
-  it('reports its calls without declaring anything', async () => {
-    // The sequencing rule for this session: the queue fills, the delay applies,
-    // everything is visible — and nothing declares a card. Wiring the
-    // declaration in now would destroy the ability to run this repeatedly
-    // against recorded games before it can affect anyone's night.
+  it('starts a real round, through the same path the Ref uses', async () => {
+    // Session 16 deliberately declared nothing; Session 17 is where it starts.
+    // What matters is that the round is indistinguishable from a Ref's: the
+    // same declaredCard broadcast and the same countdown.
     const room = await h.newGame(['Ava', 'Ben', 'Cy']);
     const [ben] = room.guests;
     const since = ben.mark();
@@ -122,23 +121,33 @@ describe('what the feed would have called', () => {
       replayFixture: slice(fixture('nfl', '401772877'), 60), speed: 100000,
     });
 
-    // Long enough for the broadcast delay plus a release tick.
-    await sleep(DELAY_MS + 2_500);
+    const declared = await ben.waitFor('declaredCard', { since, timeout: DELAY_MS + 15_000 });
+    expect(declared, 'the feed never declared a card').toBeTruthy();
+    // The countdown ticks once a second, so wait for the first one rather than
+    // racing it.
+    await ben.waitFor('updateTimer', { since, timeout: 6000 });
 
     const called = ben.received('playAutoCalled', since);
-    expect(called.length, 'nothing was released after the delay').toBeGreaterThan(0);
-    for (const payload of called) {
-      expect(payload.wouldHaveCalled).toBe(true);
-      expect(payload.cardId).toBeTruthy();
-      expect(payload.playId).toBeTruthy();
-    }
-
-    // And the actual game never moved: no card was declared, no round ran.
-    expect(ben.saw('declaredCard', since), 'the feed declared a card').toBe(false);
-    expect(ben.saw('updateTimer', since), 'the feed started a round').toBe(false);
+    expect(called.length).toBeGreaterThan(0);
+    expect(called[0].declared).toBe(true);
   }, 60_000);
 
-  it('holds everything for the broadcast delay before saying anything', async () => {
+  it('tells the room once that the feed is calling', async () => {
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const [ben] = room.guests;
+    const since = ben.mark();
+
+    room.host.emit('attachGame', {
+      roomCode: room.code, league: 'nfl', gameId: '401772877',
+      replayFixture: slice(fixture('nfl', '401772877'), 6), speed: 100000,
+    });
+
+    const attached = await ben.waitFor('gameAttached', { since, timeout: 6000 });
+    expect(attached.announce, 'nobody was told rounds would start on their own')
+      .toMatch(/calling this game/i);
+  });
+
+  it('holds everything for the broadcast delay before declaring', async () => {
     const room = await h.newGame(['Ava', 'Ben', 'Cy']);
     const [ben] = room.guests;
     const since = ben.mark();
@@ -150,9 +159,52 @@ describe('what the feed would have called', () => {
 
     // Well after every play has been detected, but inside the delay window.
     await sleep(Math.floor(DELAY_MS / 2));
-    expect(ben.received('playAutoCalled', since),
-      'a call escaped before the broadcast delay — this spoils the play').toEqual([]);
+    expect(ben.saw('declaredCard', since),
+      'a call escaped before the broadcast delay — this spoils the play').toBe(false);
   }, 40_000);
+
+  it('declares nothing at all while auto-calling is paused', async () => {
+    // The escape hatch: one tap, no detach, score header intact.
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const [ben] = room.guests;
+
+    room.host.emit('attachGame', {
+      roomCode: room.code, league: 'nfl', gameId: '401772877',
+      replayFixture: slice(fixture('nfl', '401772877'), 60), speed: 100000,
+    });
+    await ben.waitFor('gameAttached', { timeout: 6000 });
+
+    const since = ben.mark();
+    room.host.emit('pauseAutoCall', { roomCode: room.code, paused: true });
+    await ben.waitFor('autoCallPaused', { since, timeout: 6000 });
+
+    await sleep(DELAY_MS + 3_000);
+    expect(ben.saw('declaredCard', since), 'a paused room still had a round started')
+      .toBe(false);
+    // The game is still attached: the header keeps working.
+    expect(ben.saw('gameDetached', since)).toBe(false);
+  }, 60_000);
+
+  it('lets a manual declaration win and clears what was queued', async () => {
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const [ben] = room.guests;
+
+    // Slow enough that detections are still WAITING out the delay when the Ref
+    // steps in. At full speed the feed finishes and drains before anyone could.
+    room.host.emit('attachGame', {
+      roomCode: room.code, league: 'nfl', gameId: '401772877',
+      replayFixture: slice(fixture('nfl', '401772877'), 60), speed: 40,
+    });
+    await ben.waitFor('gameAttached', { timeout: 6000 });
+    await sleep(2_000);                      // let a few detections queue up
+
+    const since = ben.mark();
+    expect(await room.declareFirstDown()).toBe('declared');
+    await sleep(500);
+    const cleared = ben.received('queueCleared', since);
+    expect(cleared.length, 'the Ref declared but the queue was not cleared')
+      .toBeGreaterThan(0);
+  }, 60_000);
 });
 
 describe('a room with no game attached', () => {
