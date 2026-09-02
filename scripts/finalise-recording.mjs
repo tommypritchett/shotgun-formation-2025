@@ -63,6 +63,25 @@ export const finalise = (dir) => {
     });
   }
 
+  // Repair a manifest written before the double-count was fixed: `declaredCard`
+  // and `roundSource` both fire per round, so an adjacent pair naming the same
+  // card is one round, and the attributed half is the one to keep.
+  const manifestPath = path.join(dir, 'manifest.json');
+  if (fs.existsSync(manifestPath)) {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+    const rounds = (manifest.rounds || []).reduce((acc, r) => {
+      const prev = acc[acc.length - 1];
+      if (prev && prev.card === r.card && (prev.by === 'unknown') !== (r.by === 'unknown')) {
+        return [...acc.slice(0, -1), prev.by === 'unknown' ? r : prev];
+      }
+      return [...acc, r];
+    }, []);
+    if (rounds.length !== (manifest.rounds || []).length) {
+      fs.writeFileSync(manifestPath, JSON.stringify({ ...manifest, rounds }, null, 1));
+      console.log(`  manifest.json: ${manifest.rounds.length} entries collapsed to ${rounds.length} rounds`);
+    }
+  }
+
   // The timeline is appended live, so it exists even if the run died mid-way.
   const timeline = path.join(dir, 'timeline.txt');
   if (fs.existsSync(timeline)) {

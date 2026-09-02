@@ -65,6 +65,51 @@ describe('finalise-recording', () => {
     expect(fs.readdirSync(dir).sort()).toEqual(after);
   });
 
+  it('collapses a round recorded twice, keeping the attributed half', () => {
+    // `declaredCard` fires first with no attribution, then `roundSource` names
+    // who called it. A recorder that pushed both counted every round twice —
+    // the college manifest read "10 rounds" for five.
+    const names = ['Ref', 'Ben'];
+    writeVideosInOrder(names);
+    fs.writeFileSync(path.join(dir, 'pending.json'),
+      JSON.stringify({ names, primarySeat: 'Ben' }));
+    fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify({
+      rounds: [
+        { card: 'First Down', by: 'unknown' },
+        { card: 'First Down', by: 'feed', reason: 'run for 7 yds' },
+        { card: 'Penalty', by: 'unknown' },
+        { card: 'Penalty', by: 'feed', reason: 'holding' },
+      ],
+    }));
+
+    run();
+
+    const { rounds } = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
+    expect(rounds).toEqual([
+      { card: 'First Down', by: 'feed', reason: 'run for 7 yds' },
+      { card: 'Penalty', by: 'feed', reason: 'holding' },
+    ]);
+  });
+
+  it('leaves two genuine rounds of the same card alone', () => {
+    // Big Play fires eleven times a game. Two in a row is ordinary football,
+    // not a double count — the tell is that both carry attribution.
+    const names = ['Ref', 'Ben'];
+    writeVideosInOrder(names);
+    fs.writeFileSync(path.join(dir, 'pending.json'),
+      JSON.stringify({ names, primarySeat: 'Ben' }));
+    const rounds = [
+      { card: 'Big Play 20+', by: 'feed', reason: '21 yd pass' },
+      { card: 'Big Play 20+', by: 'feed', reason: '34 yd run' },
+    ];
+    fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify({ rounds }));
+
+    run();
+
+    expect(JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8')).rounds)
+      .toEqual(rounds);
+  });
+
   it('refuses to guess when there is no seat map, rather than mislabelling footage', () => {
     writeVideosInOrder(['Ref', 'Ben']);
 
@@ -104,6 +149,11 @@ describe('record-walkthrough', () => {
     const recordingEnds = source.indexOf('await browser.close()');
     expect(seatMap).toBeGreaterThan(-1);
     expect(seatMap).toBeLessThan(recordingEnds);
+  });
+
+  it('upgrades the unattributed round rather than pushing a second one', () => {
+    // The ordering is the whole point: declaredCard first, roundSource second.
+    expect(source).toMatch(/last\.by === 'unknown'/);
   });
 
   it('appends each timeline entry as it happens', () => {

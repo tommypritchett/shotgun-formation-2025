@@ -229,16 +229,22 @@ driver.on('playSuggested', async ({ cardId }) => {
 });
 
 const calls = [];
-driver.on('roundSource', (p) => calls.push(p));
-// A second, independent signal. `roundSource` is the one that carries WHO
-// called it, but if the recorder misses it the seats never play and the video
-// is dead air — which is exactly what happened to the first college attempt.
+// Both events fire for every round and `declaredCard` lands FIRST, carrying no
+// attribution. So the fallback pushes, and `roundSource` upgrades that entry in
+// place with who called it and why — rather than recording the round twice.
 driver.on('declaredCard', (cardId) => {
   if (!cardId) return;
   const last = calls[calls.length - 1];
-  // `roundSource` normally lands first and carries who called it. Only record
-  // this when it did not, or every round is counted twice.
-  if (!last || last.cardId !== cardId) calls.push({ cardId, by: 'unknown' });
+  if (last && last.cardId === cardId && last.by === 'unknown') return;
+  calls.push({ cardId, by: 'unknown' });
+});
+driver.on('roundSource', (p) => {
+  const last = calls[calls.length - 1];
+  if (last && last.cardId === p.cardId && last.by === 'unknown') {
+    calls[calls.length - 1] = { ...last, ...p };
+    return;
+  }
+  calls.push(p);
 });
 
 // ── the seats play ─────────────────────────────────────────────────────────
