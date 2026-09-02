@@ -17,6 +17,38 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { sourceLine } from '../client/src/lib/round-source.js';
+import { WILD_CARDS } from '../client/src/data/cards.js';
+
+const WILD = new Set(WILD_CARDS.map((c) => c.id));
+
+/**
+ * What the banner actually said.
+ *
+ * The server sends ESPN's raw summary for the play, and the client puts it
+ * through a corroboration gate before showing it: text that does not support
+ * the card is dropped and the banner reads "The game called it" alone. A
+ * manifest that records the raw summary therefore claims the app displayed
+ * something it refused to display — a Penalty round whose recorded reason
+ * describes a first down. The artifact has to say what was on screen.
+ *
+ * @param {{card: string, by: string, reason?: string}} round
+ */
+export const asDisplayed = (round) => {
+  const raw = round.reason ?? round.rejectedSummary ?? null;
+  const banner = sourceLine({ by: round.by, cardId: round.card, reason: raw },
+    WILD.has(round.card));
+  const shown = banner.startsWith('The game called it · ')
+    ? banner.slice('The game called it · '.length) : '';
+  return {
+    card: round.card,
+    by: round.by,
+    banner,
+    // Kept, but named for what it is: the text the gate refused. Only present
+    // when there was something and it did not survive.
+    ...(raw && !shown ? { rejectedSummary: raw } : {}),
+  };
+};
 
 /**
  * Rename the seat videos and report the timeline. Safe to call twice.
@@ -76,9 +108,17 @@ export const finalise = (dir) => {
       }
       return [...acc, r];
     }, []);
-    if (rounds.length !== (manifest.rounds || []).length) {
-      fs.writeFileSync(manifestPath, JSON.stringify({ ...manifest, rounds }, null, 1));
-      console.log(`  manifest.json: ${manifest.rounds.length} entries collapsed to ${rounds.length} rounds`);
+    const displayed = rounds.map(asDisplayed);
+    const rejected = displayed.filter((r) => r.rejectedSummary).length;
+    const before = JSON.stringify(manifest.rounds);
+    if (before !== JSON.stringify(displayed)) {
+      fs.writeFileSync(manifestPath,
+        JSON.stringify({ ...manifest, rounds: displayed }, null, 1));
+      if (rounds.length !== (manifest.rounds || []).length) {
+        console.log(`  manifest.json: ${manifest.rounds.length} entries collapsed to ${rounds.length} rounds`);
+      }
+      console.log(`  manifest.json: rounds now record the banner text`
+        + (rejected ? `, ${rejected} with a reason the gate refused` : ''));
     }
   }
 

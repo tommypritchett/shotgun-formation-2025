@@ -86,8 +86,8 @@ describe('finalise-recording', () => {
 
     const { rounds } = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
     expect(rounds).toEqual([
-      { card: 'First Down', by: 'feed', reason: 'run for 7 yds' },
-      { card: 'Penalty', by: 'feed', reason: 'holding' },
+      { card: 'First Down', by: 'feed', banner: 'The game called it · run for 7 yds' },
+      { card: 'Penalty', by: 'feed', banner: 'The game called it · holding' },
     ]);
   });
 
@@ -107,7 +107,41 @@ describe('finalise-recording', () => {
     run();
 
     expect(JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8')).rounds)
-      .toEqual(rounds);
+      .toEqual([
+        { card: 'Big Play 20+', by: 'feed', banner: 'The game called it · 21 yd pass' },
+        { card: 'Big Play 20+', by: 'feed', banner: 'The game called it · 34 yd run' },
+      ]);
+  });
+
+  it('records the banner the app showed, not the text the gate refused', () => {
+    // Confirmed against the footage: the college Penalty round's banner read
+    // "THE GAME CALLED IT" with no reason, because ESPN's summary for that play
+    // describes a first down and does not support a Penalty card. A manifest
+    // that recorded the raw summary claimed the app displayed something it
+    // had specifically refused to display.
+    const names = ['Ref', 'Ben'];
+    writeVideosInOrder(names);
+    fs.writeFileSync(path.join(dir, 'pending.json'),
+      JSON.stringify({ names, primarySeat: 'Ben' }));
+    fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify({
+      rounds: [
+        { card: 'Penalty', by: 'feed', reason: 'C. Beck pass to M. Toney for 18 yds for a 1ST down' },
+        { card: 'Touchdown', by: 'feed', reason: 'Alex Bauman 4 Yd pass from Carson Beck (Carter Davis Kick)' },
+      ],
+    }));
+
+    run();
+
+    const { rounds } = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
+    expect(rounds[0].banner).toBe('The game called it');
+    expect(rounds[0]).not.toHaveProperty('reason');
+    // The refused text is kept, but named for what it is.
+    expect(rounds[0].rejectedSummary).toMatch(/1ST down/);
+
+    // A reason that does support its card survives, and is recorded as shown —
+    // including the parenthetical the formatter drops.
+    expect(rounds[1].banner).toBe('The game called it · Alex Bauman 4 Yd pass from Carson Beck');
+    expect(rounds[1]).not.toHaveProperty('rejectedSummary');
   });
 
   it('refuses to guess when there is no seat map, rather than mislabelling footage', () => {

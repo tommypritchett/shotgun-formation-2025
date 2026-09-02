@@ -20,6 +20,15 @@ Each folder holds:
   the videos can be jumped through rather than watched hoping.
 - `manifest.json` — the room, the fixture, the primary seat, every round.
 
+Each round in the manifest records `banner`: **the text the app actually put on
+screen**, not the raw summary the server sent. The client puts ESPN's summary
+through a corroboration gate before showing it, and text that does not support
+the card is dropped — a Penalty round whose summary describes a first down
+displays "The game called it" with no reason at all. When that happens the
+refused text is kept as `rejectedSummary`, named for what it is. Recording the
+raw summary instead would have the artifact claim the app displayed something
+it specifically refused to.
+
 ## Reproducing
 
 ```bash
@@ -49,6 +58,11 @@ It is now a separate, idempotent step. Against any recording folder:
 ```bash
 node scripts/finalise-recording.mjs artifacts/walkthrough-college
 ```
+
+It also normalises `manifest.json`: collapsing the two events every round emits
+into one, and rewriting each round's reason as the banner text. Both are derived
+from what is already in the file, so a folder recorded before either fix can be
+brought up to date without re-recording.
 
 It maps each video to its seat by creation order against the seat list in
 `pending.json` — written when the seats are created, long before anything can
