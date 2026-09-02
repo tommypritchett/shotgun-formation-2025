@@ -14,6 +14,24 @@
  *
  * ReplayFeed was written first on purpose. Built second it would have ended up
  * subtly different from the live path and therefore useless as a test.
+ *
+ * ── One rule for the live path: never take timing from the feed ───────────
+ *
+ * ESPN's play `wallclock` is not monotonic. Verified in a captured fixture:
+ * SMU 26 - MIA 20 jumps BACKWARDS by 3h11m at play 40. A live feed can deliver
+ * the same thing.
+ *
+ * So nothing in the live path derives timing from a play's timestamps. The
+ * 45-second delay and the 90-second stale drop both measure from `Date.now()`
+ * at the moment the detection was queued; dedupe is on ESPN's play ID, not on
+ * time; poll scheduling is a fixed interval with its own backoff. A backwards
+ * jump therefore cannot dump a burst of queued calls into a live room.
+ *
+ * ReplayFeed is the ONLY place that reads `wallclock`, deliberately — it is
+ * reproducing the spacing of a recorded game — and it clamps negative gaps to
+ * zero and caps long ones. `tests/feed-timing-source.test.js` pins this; if you
+ * are about to schedule something off a play's timestamp, that is the test that
+ * will stop you, and it is right to.
  */
 
 const EventEmitter = require('node:events');

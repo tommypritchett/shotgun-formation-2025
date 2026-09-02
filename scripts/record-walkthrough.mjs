@@ -36,21 +36,40 @@ const URL = 'http://127.0.0.1:3002';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
- * Chosen by measured call density across all ten fixtures, not by reputation.
- *   IND-ATL  0.45 calls/play — the highest, and the densest 20-play run in the
- *            whole set (17 calls from play 14)
- *   SMU-MIA  74 calls, the most of any college game, and the densest college
- *            run (13 calls from play 93)
+ * Chosen by density in REAL TIME, not by play index — the same distinction that
+ * caught me out on the pacing numbers. A window of twenty plays can span an
+ * hour of sofa time; what matters for a 1x recording is how many calls land
+ * inside thirteen real minutes.
+ *
+ * Simulated against each fixture's own wallclock gaps:
+ *   IND-ATL  from play 11 — 12 calls in the first 13 real minutes, the best NFL
+ *   SMU-MIA  from play 95 — 13 calls, the best of all ten fixtures
+ *
+ * Windows containing a wallclock discontinuity are excluded: SMU-MIA's
+ * timestamps jump BACKWARDS by 3h11m at play 40, and ReplayFeed clamps a
+ * negative gap to zero, so a window across it fires everything at once. That
+ * defect is ESPN's, and it is why the first college attempt — chosen on play
+ * index — produced two calls in thirteen minutes.
  */
 const GAMES = {
-  nfl: { league: 'nfl', id: '401772636', from: 14, label: 'IND 31 - ATL 25' },
-  college: { league: 'college-football', id: '401754581', from: 93, label: 'SMU 26 - MIA 20' },
+  nfl: { league: 'nfl', id: '401772636', from: 11, label: 'IND 31 - ATL 25' },
+  college: { league: 'college-football', id: '401754581', from: 95, label: 'SMU 26 - MIA 20' },
+  // A sustained drive rather than a keyhole. Measured from play 103:
+  //   18 min -> 7 calls, 2 drives (15 plays then 8), 4 First Downs, NO score
+  //   26 min -> 12 calls, 3 drives, 6 First Downs, and a Field Goal
+  //   30 min -> 13 calls, 7 First Downs
+  // 26 is the shortest window that contains a drive actually scoring, which is
+  // the half the shorter one misses.
+  'long-drive': {
+    league: 'nfl', id: '401772636', from: 103, label: 'IND 31 - ATL 25 — two drives',
+    minutes: 26, dir: 'long-drive-nfl',
+  },
 };
 
-const which = process.argv[2] === 'college' ? 'college' : 'nfl';
+const which = GAMES[process.argv[2]] ? process.argv[2] : 'nfl';
 const game = GAMES[which];
-const MINUTES = Number(process.env.WALK_MINUTES || 12);
-const OUT = path.join(ROOT, 'artifacts', `walkthrough-${which}`);
+const MINUTES = Number(process.env.WALK_MINUTES || game.minutes || 12);
+const OUT = path.join(ROOT, 'artifacts', game.dir || `walkthrough-${which}`);
 fs.mkdirSync(OUT, { recursive: true });
 
 const fixture = JSON.parse(fs.readFileSync(
@@ -150,7 +169,7 @@ await ref.page.locator('.watchbtn').first().evaluate((el) => el.click());
 await ref.page.locator('.gamepicker').waitFor({ timeout: 20000 });
 note('picker opens — the NFL slate');
 await sleep(6000);                                   // long enough to read it
-if (which === 'college') {
+if (game.league === 'college-football') {
   await ref.page.getByRole('tab', { name: 'College' }).evaluate((el) => el.click());
   note('league switched to College — ranked games only');
   await sleep(4000);
@@ -197,6 +216,14 @@ driver.on('playSuggested', async ({ cardId }) => {
 
 const calls = [];
 driver.on('roundSource', (p) => calls.push(p));
+// A second, independent signal. `roundSource` is the one that carries WHO
+// called it, but if the recorder misses it the seats never play and the video
+// is dead air — which is exactly what happened to the first college attempt.
+driver.on('declaredCard', (cardId) => {
+  if (!cardId) return;
+  const last = calls[calls.length - 1];
+  if (!last || last.cardId !== cardId) calls.push({ cardId, by: 'unknown' });
+});
 
 // ── the seats play ─────────────────────────────────────────────────────────
 // Rotates through four behaviours so the video shows the range rather than the
