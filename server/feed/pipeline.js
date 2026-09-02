@@ -46,6 +46,13 @@ const runPipeline = (feed, handlers = {}, options = {}) => {
 
   const handle = (detections, play) => {
     if (!detections.length) return;
+    // Carry ESPN's own one-line summary of the play — "Tyler Allgeier 1 Yd
+    // Rush", "Michael Penix Jr. Pass Complete for 13 Yds to Drake London". The
+    // detector's `reason` is built for logs and reads like a type name; this
+    // reads like football, and it is what the room is shown when the round
+    // starts, so they know WHY they are drinking.
+    const summary = play && typeof play.shortText === 'string' ? play.shortText.trim() : null;
+    if (summary) detections.forEach((d) => { d.summary = summary; });
     // Suggestions are not queued: they go to the Ref now, with the same delay
     // applied by the client's countdown rather than held server-side.
     const auto = detections.filter((d) => modeFor(d.cardId) === AUTO);

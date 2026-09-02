@@ -18,6 +18,7 @@ import { pourPhase } from './lib/phases';
 import useEscape from './lib/useEscape';
 import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
 import { SOCKET_OPTIONS } from './lib/socket-options';
+import { sourceLine } from './lib/round-source';
 import CallFeed from './components/CallFeed';
 import CardDial from './components/CardDial';
 import SuggestionPrompt from './components/SuggestionPrompt';
@@ -200,6 +201,8 @@ function App() {
   const [suggestionLeft, setSuggestionLeft] = useState(0);
   // Its own state rather than the round's message, which round logic clears.
   const [feedNotice, setFeedNotice] = useState('');
+  // Who started the round now on screen. Null until the server says.
+  const [roundSource, setRoundSource] = useState(null);
   
   // Who holds the whistle, as the SERVER last told us. `isHost` is derived from
   // it rather than stored, so there is exactly one thing to keep honest — and
@@ -1665,6 +1668,9 @@ useEffect(() => {
   socket.on('declaredCard', (cardType) => {
     console.log('New card declared:', cardType);
     setDeclaredCard(cardType);  // Update the state with the declared card
+    // `declaredCard: null` is the finalize reset. Drop the attribution with it,
+    // so last round's "the game called it" cannot sit over the Ref's next call.
+    if (!cardType) setRoundSource(null);
     
     // ✅ CRITICAL FIX: Reset hasMatchingCardForCurrentEvent when new card is declared
     // This ensures that only players with the NEW card can distribute drinks
@@ -2074,6 +2080,9 @@ socket.on('playSuggested', ({ cardId, reason, playId } = {}) => {
   setSuggestion({ cardId, reason: reason || '', playId });
   setSuggestionLeft(SUGGESTION_SECONDS);
 });
+
+socket.off('roundSource');
+socket.on('roundSource', (payload) => setRoundSource(payload || null));
 
 socket.off('cardModes');
 socket.on('cardModes', ({ cardModes: modes } = {}) => setCardModes(modes || {}));
@@ -2492,9 +2501,10 @@ socket.on('gameOver', (message) => {
             <DrinkAssigner
               card={declaredCardRecord}
               copies={copiesHeld}
-              source={declaredCardRecord && declaredCardRecord.deck === DECK.WILD
-                ? 'Called · Ref confirmed'
-                : 'The Ref declared'}
+              source={sourceLine(
+                roundSource,
+                Boolean(declaredCardRecord && declaredCardRecord.deck === DECK.WILD)
+              )}
               secondsLeft={timeRemaining}
               fraction={timeRemaining / roundDuration}
               tier={declaredCardRecord ? tierFor(declaredCardRecord) : 'amber'}

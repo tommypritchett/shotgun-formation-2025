@@ -412,6 +412,9 @@ const watchers = new Watchers({
 
           if (result.ok) {
             entry.stats.released += 1;
+            // Prefer ESPN's human summary of the play; the detector's reason is a
+            // fallback and reads like a type name.
+            tellRoundSource(roomCode, 'feed', detection.cardId, detection.summary || detection.reason);
             io.to(roomCode).emit('playAutoCalled', {
               league, gameId: entry.gameId,
               cardId: detection.cardId, playId: detection.playId, reason: detection.reason,
@@ -1238,6 +1241,22 @@ const declareWildCard = (roomCode, wildcardtype) => {
 const BUSY_MESSAGE = 'Action is in progress. Please wait until the round ends.';
 
 /**
+ * Say WHO started the round.
+ *
+ * `declaredCard` is a bare card name and cannot carry this without changing a
+ * payload shape the client contract depends on, so attribution rides alongside
+ * it. Emitted immediately after a successful declaration, in the same tick, so
+ * it arrives in the same batch as `declaredCard`.
+ *
+ * Without it every automatic round reads as "THE REF DECLARED", which
+ * misattributes the call and hides the whole feature from everyone who is not
+ * holding the whistle.
+ */
+const tellRoundSource = (roomCode, by, cardId, reason = null) => {
+  io.to(roomCode).emit('roundSource', { by, cardId, reason });
+};
+
+/**
  * The Ref just declared something by hand.
  *
  * A manual declaration always wins: anything the feed had queued for this
@@ -1905,6 +1924,7 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard } = {}) => {
 socket.on('firstDownEvent', ({ roomCode } = {}) => {
   refTookOver(roomCode);
   const result = declareFirstDown(roomCode);
+  if (result.ok) tellRoundSource(roomCode, 'ref', 'First Down');
   if (result.reason === 'busy') io.to(socket.id).emit('actionInProgress', BUSY_MESSAGE);
 });
 
@@ -1912,6 +1932,7 @@ socket.on('firstDownEvent', ({ roomCode } = {}) => {
   socket.on('playStandardCard', ({ roomCode, cardType } = {}) => {
     refTookOver(roomCode);
     const result = declareStandardCard(roomCode, cardType);
+    if (result.ok) tellRoundSource(roomCode, 'ref', cardType);
     if (result.reason === 'busy') io.to(socket.id).emit('actionInProgress', BUSY_MESSAGE);
   });
 // Handle wild card selection
@@ -1934,6 +1955,7 @@ socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player } = {}) => {
     void player;   // only ever used for a log line; the work loops over holders
     refTookOver(roomCode);
     const result = declareWildCard(roomCode, wildcardtype);
+    if (result.ok) tellRoundSource(roomCode, 'ref', wildcardtype);
     if (result.reason === 'busy') io.to(socket.id).emit('actionInProgress', BUSY_MESSAGE);
 });
 
@@ -2311,7 +2333,11 @@ socket.on('acceptSuggestion', ({ roomCode, cardId } = {}) => {
       : declareWildCard(roomCode, cardId);
 
   if (result.reason === 'busy') io.to(socket.id).emit('actionInProgress', BUSY_MESSAGE);
-  else if (result.ok) console.log(`🏈 room ${roomCode}: Ref accepted suggestion ${cardId}`);
+  else if (result.ok) {
+    // The Ref chose it, so it reads as the Ref's call, not the game's.
+    tellRoundSource(roomCode, 'ref', cardId);
+    console.log(`🏈 room ${roomCode}: Ref accepted suggestion ${cardId}`);
+  }
 });
 
 socket.on('detachGame', ({ roomCode } = {}) => {
