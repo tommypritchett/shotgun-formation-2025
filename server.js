@@ -371,6 +371,31 @@ const watchers = new Watchers({
           dropped,
         });
         console.log(`🏈 ${league}/${entry.gameId} feed ended (${info ? info.reason : '?'}), dropped ${dropped} queued`);
+
+        // Then let go of the room — but not mid-round. A round the feed started
+        // is a round people are drinking to; cutting it off at the final
+        // whistle would strand them. Wait for it to finish, then detach.
+        const roomsToRelease = [...entry.rooms];
+        const detachWhenIdle = () => {
+          const stillPlaying = roomsToRelease.filter((code) => {
+            const room = rooms[code];
+            return room && room.isActionInProgress;
+          });
+          if (stillPlaying.length) {
+            setTimeout(detachWhenIdle, 1000).unref?.();
+            return;
+          }
+          for (const code of roomsToRelease) {
+            const room = rooms[code];
+            if (!room) continue;
+            room.watching = null;
+            room.autoCallPaused = false;
+            watchers.release(code);
+            io.to(code).emit('gameDetached', { roomCode: code, dropped, reason: 'the game finished' });
+            console.log(`🏈 room ${code} detached: the game finished`);
+          }
+        };
+        setTimeout(detachWhenIdle, 1000).unref?.();
       },
     });
 

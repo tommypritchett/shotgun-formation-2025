@@ -168,19 +168,27 @@ describe('the feed declaring', () => {
     const room = await h.newGame(['Ava', 'Ben', 'Cy']);
     const [ben] = room.guests;
 
+    // Slow, so the feed is still RUNNING while paused. At full speed it reaches
+    // the final whistle in a second and detaches on its own, which is correct
+    // behaviour but not what this test is about.
     room.host.emit('attachGame', {
       roomCode: room.code, league: 'nfl', gameId: '401772877',
-      replayFixture: slice(fixture('nfl', '401772877'), 60), speed: 100000,
+      replayFixture: slice(fixture('nfl', '401772877'), 60), speed: 30,
     });
     await ben.waitFor('gameAttached', { timeout: 6000 });
 
-    const since = ben.mark();
     room.host.emit('pauseAutoCall', { roomCode: room.code, paused: true });
-    await ben.waitFor('autoCallPaused', { since, timeout: 6000 });
+    await ben.waitFor('autoCallPaused', { timeout: 6000 });
 
+    // Mark AFTER the pause is confirmed. A round declared in the window between
+    // attaching and pausing is not a failure — the pause takes effect when it
+    // is pressed, not retroactively. What matters is that nothing fires after.
+    const since = ben.mark();
     await sleep(DELAY_MS + 3_000);
-    expect(ben.saw('declaredCard', since), 'a paused room still had a round started')
-      .toBe(false);
+    // `declaredCard` is also emitted as NULL when a round finalizes, so a bare
+    // `saw` counts the reset from the round that was live when we paused.
+    const declared = ben.received('declaredCard', since).filter(Boolean);
+    expect(declared, 'a paused room still had a round started').toEqual([]);
     // The game is still attached: the header keeps working.
     expect(ben.saw('gameDetached', since)).toBe(false);
   }, 60_000);

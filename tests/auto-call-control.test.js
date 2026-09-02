@@ -150,6 +150,30 @@ describe('when the feed dies', () => {
     expect(ended).toHaveProperty('dropped');
   }, 30_000);
 
+  it('finishes the round in progress before letting go of the room', async () => {
+    // The final whistle must not strand people mid-round: they are drinking to
+    // a round the feed started.
+    const room = await h.newGame(['Ava', 'Ben', 'Cy']);
+    const [ben] = room.guests;
+    const since = ben.mark();
+
+    room.host.emit('attachGame', {
+      roomCode: room.code, league: 'nfl', gameId: '401772877',
+      replayFixture: slice(fixture('nfl', '401772877'), 40), speed: 100000,
+    });
+
+    await ben.waitFor('gameFeedEnded', { since, timeout: 15_000 });
+    const detached = await ben.waitFor('gameDetached', { since, timeout: 45_000 });
+    expect(detached.reason).toMatch(/finished/i);
+
+    // If a round was live when the feed ended, it ran to completion first.
+    const declares = ben.received('declaredCard', since).filter(Boolean);
+    if (declares.length) {
+      expect(ben.saw('updatePlayerStats', since), 'a round was cut off by the detach')
+        .toBe(true);
+    }
+  }, 90_000);
+
   it('leaves an ordinary game of Shotgun Formation behind', async () => {
     const room = await h.newGame(['Ava', 'Ben', 'Cy']);
     const [ben] = room.guests;
