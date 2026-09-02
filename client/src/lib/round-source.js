@@ -51,6 +51,10 @@ export const MAX_REASON = 58;
 // word run" also matches football nouns — `\w` happily reads "Yd" as a name.
 const RETURN_CLAUSE = /(\S+\s+\S+)\s+(-?\d+\s+Yd\s+(?:Kickoff|Punt)\s+Return)\s*$/;
 const PENALTY_CLAUSE = /(\S+\s+\S+)\s+(-?\d+\s+Yd\s+Pnlty)\s*$/;
+// A strip sack reads "Penix Sacked Penix Fumble Germaine Pratt 8 Yd Fumble
+// Recovery": the sack first, the turnover second. Cutting at the seam keeps the
+// sack, which is right for the Sacks card and wrong for the Turnover one.
+const TURNOVER_CLAUSE = /(\S+\s+\S+)\s+(-?\d+\s+Yd\s+(?:Fumble|Interception)\s+(?:Recovery|Return))/;
 
 const preferClause = (text, cardId) => {
   if (/Big Play|Special Teams TD/.test(cardId || '')) {
@@ -60,6 +64,10 @@ const preferClause = (text, cardId) => {
   if (cardId === 'Penalty') {
     const pen = PENALTY_CLAUSE.exec(text);
     if (pen) return `${pen[1]} ${pen[2]}`;
+  }
+  if (cardId === 'Turnover' || cardId === 'Defensive TD') {
+    const turn = TURNOVER_CLAUSE.exec(text);
+    if (turn) return `${turn[1]} ${turn[2]}`;
   }
   return text;
 };
@@ -114,11 +122,70 @@ const shorten = (text) => {
   return `${(boundary > 30 ? cut.slice(0, boundary) : cut).replace(/[.,;:]$/, '')}…`;
 };
 
+/**
+ * Does this text actually support the card?
+ *
+ * ESPN's summary describes the PLAY, and a play can produce a card the summary
+ * says nothing about. Two real examples from the fixtures:
+ *
+ *   Blocked Kicks   "Luke Farrell 9 Yd pass from Mac Jones"
+ *   2 PT Conversion "Tyler Allgeier 1 Yd Rush (Michael Penix Jr. Pass to Drake…"
+ *
+ * The first never mentions a block; the second leads with the touchdown and the
+ * try was truncated away. Both describe the wrong play.
+ *
+ * A blank subtitle is clean. One that contradicts the card name is actively
+ * misleading, and the room is reading it while deciding whether to drink — so
+ * when nothing corroborates, show nothing. Inventing a description from the
+ * detector's own type name is not an option either: "Sack Opp Fumble Recovery"
+ * is not English.
+ */
+const EVIDENCE = {
+  // The summary of a scoring play describes the score itself, so a play
+  // happening at all is the corroboration here.
+  'Touchdown': /\bTD\b|touchdown|\d+\s*Yd\s*(?:Rush|pass|Run|Reception|Return)/i,
+  'Defensive TD': /\bTD\b|touchdown|interception|fumble/i,
+  'Special Teams TD': /\bTD\b|touchdown|Return/i,
+  'Field Goal': /field goal|\bFG\b/i,
+  'Missed FG': /miss|no good|blocked|wide|short/i,
+  'Missed PAT': /\bPAT\b|extra point/i,
+  '2 PT Conversion': /two[- ]?point|\b2\s*pt\b|conversion|attempt/i,
+  'Safety': /safety/i,
+  'Sacks': /sack/i,
+  'Turnover': /intercept|fumble|turnover|recovery/i,
+  'Turnover on Downs': /downs/i,
+  'Penalty': /penalt|pnlty|flag|offside|holding|interference/i,
+  'Penalty Calls TD Back': /penalt|pnlty/i,
+  'First Down': /\d+\s*Yds?\b|rush|pass|reception|scramble|penalt/i,
+  'Blocked Kicks': /block/i,
+  'Onside Attempt': /onside/i,
+  'Onside Recovered': /onside/i,
+  'Disqualified': /targeting|disqualif|eject/i,
+  '3 n Out': /punt/i,
+};
+
+/** Big Play needs the number in the text to actually reach the threshold. */
+const yardageSupports = (text, threshold) => {
+  const numbers = [...text.matchAll(/(\d+)\s*Yds?\b/gi)].map((m) => Number(m[1]));
+  return numbers.some((n) => n >= threshold);
+};
+
+export const corroborates = (text, cardId) => {
+  if (!text) return false;
+  if (cardId === 'Big Play 20+') return yardageSupports(text, 20);
+  if (cardId === 'Big Play 50+') return yardageSupports(text, 50);
+  const evidence = EVIDENCE[cardId];
+  // An unknown card gets the benefit of the doubt rather than being silenced.
+  return evidence ? evidence.test(text) : true;
+};
+
 /** The whole pipeline, in the order that keeps the most meaning. */
 export const formatReason = (raw, cardId = null) => {
   const text = typeof raw === 'string' ? raw.trim().replace(/\s+/g, ' ') : '';
   if (!text) return '';
-  return shorten(tighten(dropKickParenthetical(cutAtRepeat(preferClause(text, cardId)), cardId)));
+  const line = shorten(tighten(dropKickParenthetical(cutAtRepeat(preferClause(text, cardId)), cardId)));
+  // Last gate: if the line does not support the card, say nothing.
+  return corroborates(line, cardId) ? line : '';
 };
 
 /**
@@ -138,4 +205,4 @@ export const sourceLine = (source, isWild = false) => {
   return reason ? `The game called it · ${reason}` : 'The game called it';
 };
 
-export default { sourceLine, refWording, formatReason, cutAtRepeat };
+export default { sourceLine, refWording, formatReason, cutAtRepeat, corroborates };

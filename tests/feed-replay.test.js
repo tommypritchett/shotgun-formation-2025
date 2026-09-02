@@ -306,3 +306,41 @@ describe('one poller per game, not per room', () => {
     expect(w.release('NOPE')).toBe(false);
   });
 });
+
+describe('the header can actually follow the game', () => {
+  /**
+   * The feeds emitted `status` and the client reads `state`, so a replay ran
+   * for thirteen minutes with the header stuck on "Not started" and a score
+   * that never moved — the whole "watch the game while you play" idea,
+   * invisible. One vocabulary now: 'pre' | 'in' | 'post', the same field the
+   * picker returns.
+   */
+  it('reports state, period, clock and score as the game goes', async () => {
+    const game = fixture('nfl', '401772636');
+    const { states } = await runToEnd(new ReplayFeed(game, { speed: 100_000 }));
+
+    expect(states.length).toBeGreaterThan(50);
+    for (const s of states) {
+      expect(s, 'the client reads `state`, not `status`').toHaveProperty('state');
+      expect(s.state).toBe('in');
+    }
+
+    // The clock has to move, and the score has to end where the game ended.
+    const clocks = new Set(states.map((s) => s.clock).filter(Boolean));
+    expect(clocks.size, 'the clock never changed').toBeGreaterThan(20);
+
+    const periods = new Set(states.map((s) => s.period).filter(Boolean));
+    expect(periods.size, 'the period never advanced').toBeGreaterThan(3);
+
+    const last = states[states.length - 1];
+    const scores = [last.homeScore, last.awayScore].sort((a, b) => a - b);
+    expect(scores, 'IND 31 - ATL 25 did not end 25/31').toEqual([25, 31]);
+  });
+
+  it('starts from nothing and moves, rather than being final from the off', () => {
+    const game = fixture('nfl', '401772636');
+    const plays = [...game.plays].sort((a, b) => a.sequence - b.sequence);
+    const first = plays.find((p) => p.homeScore !== null);
+    expect(first.homeScore + first.awayScore, 'the fixture opens mid-game').toBe(0);
+  });
+});

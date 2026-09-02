@@ -100,7 +100,7 @@ class ReplayFeed extends Feed {
         clock: play.clock?.display ?? null,
         homeScore: play.homeScore ?? null,
         awayScore: play.awayScore ?? null,
-        status: 'in',
+        state: 'in',
       });
 
       // A drive's result is only meaningful once its plays have gone by, so it

@@ -121,8 +121,11 @@ describe('the wording the room actually reads', () => {
     const long = 'Michael Penix Jr. Sacked Michael Penix Jr. Fumble Germaine Pratt '
       + '8 Yd Fumble Recovery by Cam Bynum For 8 Yd Loss';
     const line = sourceLine({ by: 'feed', cardId: 'Turnover', reason: long });
-    expect(line).toBe('The game called it · Michael Penix Jr. Sacked');
+    // The Turnover card gets the turnover half; the Sacks card gets the sack.
+    expect(line).toBe('The game called it · Germaine Pratt 8 Yd Fumble Recovery');
     expect(line, 'still reads as Penix sacking himself').not.toMatch(/Sacked Michael/);
+    expect(sourceLine({ by: 'feed', cardId: 'Sacks', reason: long }))
+      .toBe('The game called it · Michael Penix Jr. Sacked');
 
     // Unknown source must never invent an attribution. Before the server has
     // said, the safe reading is the Ref — but it must not say "the game" .
@@ -190,6 +193,34 @@ describe('the reason reads like football', () => {
       .toBe('Thomas Morstead Onside Kick');
   });
 
+  it('says nothing when the summary does not support the card', () => {
+    // A blank subtitle is clean. One that contradicts the card name is actively
+    // misleading, and the room reads it while deciding whether to drink.
+    expect(formatReason('Luke Farrell 9 Yd pass from Mac Jones (Eddy Pineiro PAT blocked)', 'Blocked Kicks'))
+      .toBe('');
+    expect(formatReason(
+      'Tyler Allgeier 1 Yd Rush (Michael Penix Jr. Pass to Drake London for Two-Point Conversion)',
+      '2 PT Conversion'
+    )).toBe('');
+    expect(formatReason('K. Jennings pass incomplete', 'Sacks')).toBe('');
+  });
+
+  it('keeps the turnover half of a strip sack for the Turnover card', () => {
+    // "Penix Sacked Penix Fumble Germaine Pratt 8 Yd Fumble Recovery" — the sack
+    // first, the turnover second. Each card gets its own half.
+    const raw = 'Michael Penix Jr. Sacked Michael Penix Jr. Fumble Germaine Pratt '
+      + '8 Yd Fumble Recovery by Cam Bynum For 8 Yd Loss';
+    expect(formatReason(raw, 'Turnover')).toBe('Germaine Pratt 8 Yd Fumble Recovery');
+    expect(formatReason(raw, 'Sacks')).toBe('Michael Penix Jr. Sacked');
+  });
+
+  it('will not call 19 yards a Big Play', () => {
+    // The number in the text has to actually reach the threshold.
+    expect(formatReason('Someone 19 Yd Rush', 'Big Play 20+')).toBe('');
+    expect(formatReason('Someone 24 Yd Rush', 'Big Play 20+')).toBe('Someone 24 Yd Rush');
+    expect(formatReason('Someone 24 Yd Rush', 'Big Play 50+')).toBe('');
+  });
+
   it('holds the whole fixture set inside the banner', async () => {
     const fs2 = await import('node:fs');
     const { createRequire } = await import('node:module');
@@ -198,6 +229,7 @@ describe('the reason reads like football', () => {
 
     let lines = 0;
     let truncated = 0;
+    let blanked = 0;
     for (const [league, id] of [['nfl', '401772636'], ['nfl', '401772879'],
       ['college-football', '401754581'], ['college-football', '401752889']]) {
       const g = JSON.parse(fs2.readFileSync(
@@ -207,6 +239,7 @@ describe('the reason reads like football', () => {
           if (!play.shortText) continue;
           const out = formatReason(play.shortText, d.cardId);
           lines += 1;
+          if (!out) { blanked += 1; continue; }
           if (out.endsWith('…')) truncated += 1;
           expect(out.length, `too long: ${out}`).toBeLessThanOrEqual(60);
           expect(out, `dangling punctuation: ${out}`).not.toMatch(/[,;:]$/);
@@ -214,6 +247,10 @@ describe('the reason reads like football', () => {
       }
     }
     expect(lines).toBeGreaterThan(200);
+    // The corroboration gate must earn its place: near zero means it is doing
+    // nothing, and a large fraction means it is silencing good lines.
+    expect(blanked / lines, `${blanked}/${lines} blanked`).toBeGreaterThan(0.005);
+    expect(blanked / lines, `${blanked}/${lines} blanked`).toBeLessThan(0.10);
     // Truncation is the last resort. A tenth of compound plays is acceptable;
     // a third would mean the clause rules had stopped working.
     expect(truncated / lines, `${truncated}/${lines} truncated`).toBeLessThan(0.15);

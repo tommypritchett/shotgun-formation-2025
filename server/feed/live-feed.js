@@ -97,7 +97,7 @@ class LiveFeed extends Feed {
           clock: last.clock?.display ?? null,
           homeScore: last.homeScore ?? null,
           awayScore: last.awayScore ?? null,
-          status: 'in',
+          state: 'in',
         });
       }
       ok = true;

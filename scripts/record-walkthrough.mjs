@@ -65,6 +65,22 @@ for (const play of fixture.plays) {
   }
 }
 
+/**
+ * Everything that happens, stamped from the moment recording starts, so the
+ * videos can be jumped through rather than watched hoping.
+ */
+const t0 = Date.now();
+const timeline = [];
+const mmss = (ms) => {
+  const s2 = Math.round(ms / 1000);
+  return `${Math.floor(s2 / 60)}:${String(s2 % 60).padStart(2, '0')}`;
+};
+const note = (what) => {
+  const at = mmss(Date.now() - t0);
+  timeline.push({ at, what });
+  console.log(`  ${at}  ${what}`);
+};
+
 const NAMES = ['Ref', 'Ben', 'Cy', 'Dee', 'Eli', 'Fay'];
 const browser = await chromium.launch({ headless: true });
 
@@ -92,13 +108,14 @@ for (const s of seats.slice(1)) {
   await s.page.getByRole('button', { name: /Join/ }).first().click();
   await s.page.waitForTimeout(700);          // paced, so the roster fills on camera
 }
+note(`room ${code} created, six seats joining`);
 await sleep(1500);
 const start = ref.page.getByRole('button', { name: 'Start game' });
 await start.waitFor({ timeout: 15000 });
 for (let i = 0; i < 20 && await start.isDisabled(); i += 1) await ref.page.waitForTimeout(400);
 await start.click();
 await sleep(2000);
-console.log(`room ${code} — six seats, game started`);
+note('game started');
 
 // ── which seat holds the most of what is coming ────────────────────────────
 const driver = io(URL, { transports: ['polling', 'websocket'], tryAllTransports: true, reconnection: false });
@@ -131,16 +148,21 @@ console.log(`primary seat: ${primary.name} (holds ${bestOverlap})`);
 // ── the picker, on camera ──────────────────────────────────────────────────
 await ref.page.locator('.watchbtn').first().evaluate((el) => el.click());
 await ref.page.locator('.gamepicker').waitFor({ timeout: 20000 });
-await sleep(2500);                                   // NFL list on screen
+note('picker opens — the NFL slate');
+await sleep(6000);                                   // long enough to read it
 if (which === 'college') {
   await ref.page.getByRole('tab', { name: 'College' }).evaluate((el) => el.click());
-  await sleep(3500);                                 // the ranked-only default
+  note('league switched to College — ranked games only');
+  await sleep(4000);
   await ref.page.locator('.gamepicker .chk input').evaluate((el) => el.click());
-  await sleep(2000);                                 // the whole Saturday
+  note('ranked filter off — the whole Saturday slate');
+  await sleep(3000);
   await ref.page.getByLabel('Search teams').fill('smu');
-  await sleep(2500);                                 // searching for one game
+  note('searching "smu" to find one game among forty-five');
+  await sleep(3000);
 }
 await ref.page.locator('.gamepicker .x').evaluate((el) => el.click());
+note('game chosen, picker closes');
 await sleep(800);
 
 // ── the dial: a few cards moved to suggest, so both flows appear ───────────
@@ -150,12 +172,15 @@ driver.emit('attachGame', {
   roomCode: code, league: game.league, gameId: `${game.id}-walk-${which}`,
   replayFixture: fixture, speed: 1,
 });
+note('game attached — score and clock live in the header');
 await sleep(2500);
+// First Down stays on AUTO. It is the most frequent call across a whole game
+// and moving it would hide the thing these recordings exist to show.
 for (const cardId of ['Field Goal', 'Sacks', 'Turnover on Downs']) {
   driver.emit('setCardMode', { roomCode: code, cardId, mode: 'suggest' });
   await sleep(250);
 }
-console.log('dial: Field Goal, Sacks and Turnover on Downs set to suggest');
+note('dial: Field Goal, Sacks, Turnover on Downs → suggest (First Down stays auto)');
 
 // ── the Ref answers suggestions: accept the first, ignore the second ───────
 let suggestionsSeen = 0;
@@ -164,9 +189,9 @@ driver.on('playSuggested', async ({ cardId }) => {
   if (suggestionsSeen === 1) {
     await sleep(2500);
     driver.emit('acceptSuggestion', { roomCode: code, cardId });
-    console.log(`  Ref ACCEPTED suggestion: ${cardId}`);
+    note(`Ref ACCEPTS the suggestion: ${cardId}`);
   } else if (suggestionsSeen === 2) {
-    console.log(`  Ref IGNORED suggestion: ${cardId} (left to expire)`);
+    note(`Ref IGNORES a suggestion: ${cardId} — left to expire`);
   }
 });
 
@@ -216,7 +241,7 @@ while (Date.now() < until) {
     lastCard = current;
     const behaviour = behaviours[roundIndex % behaviours.length];
     roundIndex += 1;
-    console.log(`  round ${roundIndex}: ${current} — ${behaviour}`);
+    note(`round ${roundIndex}: ${current} (${behaviour})`);
 
     // The assigner opens on `timeRemaining > 0`, which needs the first clock
     // tick — so checking the instant the round is declared finds nothing and
@@ -235,14 +260,28 @@ while (Date.now() < until) {
     }
     if (!played.size) console.log('    (nobody held it)');
   }
+  // The results board reverts to Standings on its own after ~20s of nobody
+  // touching it. Existing behaviour, worth seeing at least once, so watch the
+  // primary seat's tab rather than assuming it happened.
+  if (!global.__revert) {
+    const tab = await primary.page.locator('.boardtabs .on, .tabs .on, .bt.on').first()
+      .innerText().catch(() => '');
+    if (/round results/i.test(tab)) global.__resultsSince = global.__resultsSince || Date.now();
+    else if (global.__resultsSince && /standings/i.test(tab)) {
+      const held = Math.round((Date.now() - global.__resultsSince) / 1000);
+      if (held >= 15) { global.__revert = true; note(`results reverted to standings on its own after ${held}s`); }
+      global.__resultsSince = null;
+    }
+  }
+
   // The pause control, once, midway.
   if (roundIndex === 5 && !global.__paused) {
     global.__paused = true;
     driver.emit('pauseAutoCall', { roomCode: code, paused: true });
-    console.log('  auto-calling PAUSED');
-    await sleep(12000);
+    note('auto-calling PAUSED — game stays attached, score keeps moving');
+    await sleep(14000);
     driver.emit('pauseAutoCall', { roomCode: code, paused: false });
-    console.log('  auto-calling RESUMED');
+    note('auto-calling RESUMED');
   }
   await sleep(700);
 }
@@ -259,16 +298,26 @@ for (const s of seats) paths[s.name] = await s.page.video().path();
 for (const s of seats) await s.context.close();
 await browser.close();
 
+// The Ref is the PRIMARY file: only that seat sees the picker being opened, the
+// league chosen and the game attaching. The player seat is the secondary — it
+// is what nine of ten people experience, but it cannot show the setup.
 for (const [name, from] of Object.entries(paths)) {
-  const role = name === primary.name ? 'PLAYER' : name === 'Ref' ? 'REF' : null;
+  const role = name === 'Ref' ? '1-PRIMARY-ref'
+    : name === primary.name ? '2-secondary-player' : null;
   if (!role) { fs.rmSync(from, { force: true }); continue; }
-  const to = path.join(OUT, `${role.toLowerCase()}-${name}.webm`);
+  const to = path.join(OUT, `${role}-${name}.webm`);
   fs.renameSync(from, to);
-  console.log(`${role.padEnd(7)} ${to}`);
+  console.log(`${role.padEnd(20)} ${to}`);
 }
 fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify({
   league: which, game: game.label, fixture: `${game.league}/${game.id}`, fromPlay: game.from,
   minutes: MINUTES, room: code, primarySeat: primary.name, primaryHolds: bestOverlap,
   rounds: calls.map((c) => ({ card: c.cardId, by: c.by, reason: c.reason })),
+  timeline,
 }, null, 1));
+
+console.log('\n── timeline ──');
+for (const e of timeline) console.log(`  ${e.at}  ${e.what}`);
+fs.writeFileSync(path.join(OUT, 'timeline.txt'),
+  timeline.map((e) => `${e.at}  ${e.what}`).join('\n') + '\n');
 console.log('done');
