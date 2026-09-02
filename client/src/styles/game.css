@@ -828,3 +828,57 @@ button.card:active{transform:translateY(2px) scale(.985)}
   .livescore .ls-when{font-size:9.5px}
   .callfeed .cf-list{max-height:104px}
 }
+
+/* ── The per-card dial and suggestions ──────────────────────────────────────
+   Reached for on a phone, mid-game, while people wait. Grouped by how often a
+   card fires because that is the question being asked. */
+
+.carddial .pausebtn{
+  width:100%;background:none;border:1px solid rgba(255,255,255,.18);border-radius:10px;
+  color:var(--chalk,#e8eaed);font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-size:13px;padding:11px 0;margin:6px 0 10px;cursor:pointer;
+}
+.carddial .pausebtn.on{background:var(--red,#FF4A33);border-color:transparent;color:#12151a;font-weight:600}
+.carddial .dialgroup{margin:14px 0 4px}
+.carddial .dialgroup h3{
+  font-family:var(--font-display,Oswald),system-ui,sans-serif;
+  font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--amber,#FFB020);margin:0 0 2px;
+}
+.carddial .dialgroup .hint{font-size:11px;opacity:.65;margin:0 0 8px}
+.carddial .dialrow{
+  display:flex;align-items:center;gap:10px;padding:7px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.carddial .dc-name{flex:1;min-width:0;font-size:13px;color:var(--chalk,#e8eaed);display:flex;flex-direction:column}
+.carddial .dc-freq{font-size:10px;opacity:.5;letter-spacing:.02em}
+.carddial .dc-modes{display:flex;gap:3px;flex:0 0 auto}
+.carddial .dc-modes button{
+  background:none;border:1px solid rgba(255,255,255,.14);border-radius:999px;
+  color:var(--chalk-dim,#8a9099);font-size:10.5px;letter-spacing:.04em;
+  padding:5px 9px;cursor:pointer;min-width:52px;
+}
+.carddial .dc-modes button.on{background:var(--amber,#FFB020);border-color:transparent;color:#12151a;font-weight:600}
+
+.suggestion{
+  display:flex;align-items:center;gap:8px;margin:0 4px 6px;padding:8px 10px;
+  border:1px solid rgba(138,255,61,.4);border-radius:10px;background:rgba(138,255,61,.06);
+  font-family:var(--font-body,Inter),system-ui,sans-serif;font-size:12px;
+}
+.suggestion .sg-k{font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.suggestion .sg-card{font-weight:600;color:var(--neon,#8AFF3D)}
+.suggestion .sg-why{flex:1;min-width:0;opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.suggestion .sg-left{font-variant-numeric:tabular-nums;opacity:.6;font-size:11px}
+.suggestion .sg-yes{
+  background:var(--neon,#8AFF3D);border:0;border-radius:999px;color:#12151a;
+  font-size:11px;font-weight:600;padding:5px 11px;cursor:pointer;
+}
+.suggestion .sg-no{background:none;border:0;color:var(--chalk-dim,#8a9099);font-size:16px;cursor:pointer;padding:0 4px}
+
+.feednotice{
+  margin:0 4px 6px;padding:7px 10px;border-radius:8px;
+  background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.25);
+  font-family:var(--font-body,Inter),system-ui,sans-serif;font-size:11.5px;
+  color:var(--chalk,#e8eaed);line-height:1.35;
+}
+.feednotice.paused{background:rgba(255,74,51,.1);border-color:rgba(255,74,51,.35)}

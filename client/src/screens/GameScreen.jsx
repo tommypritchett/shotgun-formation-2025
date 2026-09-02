@@ -13,6 +13,7 @@ import ScoreBoard from '../components/ScoreBoard';
 import HandGrid from '../components/HandGrid';
 import LiveScore from '../components/LiveScore';
 import CallFeed from '../components/CallFeed';
+import SuggestionPrompt from '../components/SuggestionPrompt';
 
 export default function GameScreen({
   quarter, roomCode, onMenu,
@@ -25,6 +26,8 @@ export default function GameScreen({
   // exactly what it rendered before any of this existed.
   watching = null, onWatchGame, onDetachGame,
   callEntries = [], callFeedOpen = false, onCallFeedToggle,
+  autoCallPaused = false, feedNotice = '', onOpenDial,
+  suggestion = null, suggestionLeft = 0, onAcceptSuggestion, onDismissSuggestion,
 }) {
   return (
     <div className="app">
@@ -32,6 +35,12 @@ export default function GameScreen({
 
       {watching ? (
         <LiveScore watching={watching} onDetach={onDetachGame} canDetach={Boolean(onDetachGame)} />
+      ) : null}
+
+      {/* Said once, when the feed starts calling. */}
+      {feedNotice ? <p className="feednotice">{feedNotice}</p> : null}
+      {watching && autoCallPaused ? (
+        <p className="feednotice paused">Auto-calling is paused. You are calling by hand.</p>
       ) : null}
 
       <div className="body">
@@ -52,6 +61,15 @@ export default function GameScreen({
         </div>
       </div>
 
+      {suggestion ? (
+        <SuggestionPrompt
+          suggestion={suggestion}
+          secondsLeft={suggestionLeft}
+          onAccept={onAcceptSuggestion}
+          onDismiss={onDismissSuggestion}
+        />
+      ) : null}
+
       {watching ? (
         <CallFeed entries={callEntries} open={callFeedOpen} onToggle={onCallFeedToggle} />
       ) : null}
@@ -61,6 +79,9 @@ export default function GameScreen({
       <div className="dock">
         {isHost && onWatchGame && !watching ? (
           <button type="button" className="watchbtn" onClick={onWatchGame}>Watch a game</button>
+        ) : null}
+        {isHost && watching && onOpenDial ? (
+          <button type="button" className="watchbtn" onClick={onOpenDial}>What the feed calls</button>
         ) : null}
         {isHost ? (
           <button type="button" className="declare" onClick={onDeclare}>

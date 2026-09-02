@@ -19,6 +19,8 @@ import useEscape from './lib/useEscape';
 import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
 import { SOCKET_OPTIONS } from './lib/socket-options';
 import CallFeed from './components/CallFeed';
+import CardDial from './components/CardDial';
+import SuggestionPrompt from './components/SuggestionPrompt';
 import GamePicker from './components/GamePicker';
 import LiveScore from './components/LiveScore';
 import CardSheet from './components/CardSheet';
@@ -127,6 +129,9 @@ class ErrorBoundary extends Component {
   }
 }
 
+/** How long a suggestion stays on offer before it expires quietly. */
+const SUGGESTION_SECONDS = 20;
+
 // SPREAD, always. `io()` hands this object straight to the Manager, which
 // writes its default onto it (`opts.path = opts.path || "/socket.io"`).
 // SOCKET_OPTIONS is frozen, so passing it directly throws a TypeError here at
@@ -186,6 +191,14 @@ function App() {
   const [watching, setWatching] = useState(null);
   const [callEntries, setCallEntries] = useState([]);
   const [callFeedOpen, setCallFeedOpen] = useState(false);
+  const [dialOpen, setDialOpen] = useState(false);
+  const [cardModes, setCardModes] = useState({});
+  const [autoCallPaused, setAutoCallPaused] = useState(false);
+  // A suggestion is a question. It expires on its own rather than lingering.
+  const [suggestion, setSuggestion] = useState(null);
+  const [suggestionLeft, setSuggestionLeft] = useState(0);
+  // Its own state rather than the round's message, which round logic clears.
+  const [feedNotice, setFeedNotice] = useState('');
   
   // Who holds the whistle, as the SERVER last told us. `isHost` is derived from
   // it rather than stored, so there is exactly one thing to keep honest — and
@@ -530,6 +543,20 @@ const handleDetachGame = () => {
   socket.emit('detachGame', { roomCode: roomCodeRef.current });
 };
 
+const handleCardMode = (cardId, mode) => {
+  socket.emit('setCardMode', { roomCode: roomCodeRef.current, cardId, mode });
+};
+
+const handlePauseAutoCall = (paused) => {
+  socket.emit('pauseAutoCall', { roomCode: roomCodeRef.current, paused });
+};
+
+const handleAcceptSuggestion = (offer) => {
+  if (!offer) return;
+  socket.emit('acceptSuggestion', { roomCode: roomCodeRef.current, cardId: offer.cardId });
+  setSuggestion(null);
+};
+
 // Handle Leave Game logic
 const handleLeaveGame = () => {
   // Emit a custom 'leaveGame' event to the server
@@ -545,6 +572,8 @@ const handleLeaveGame = () => {
   clearURL();
   setWatching(null);   // a game you have left is not a game you are watching
   setCallEntries([]);
+  setSuggestion(null);
+  setAutoCallPaused(false);
 };
 
 // Function to close the menu (X button)
@@ -635,6 +664,22 @@ useEffect(() => { roomCodeRef.current = roomCode; }, [roomCode]);
 // The auto-rejoin effect runs once and its timeouts fire ten seconds later,
 // long after their closure went stale. They read the game state from here.
 useEffect(() => { gameStateRef.current = gameState; }, [gameState]);
+
+// A suggestion is an offer with a clock on it. When it runs out it disappears
+// rather than sitting there looking live.
+useEffect(() => {
+  if (!suggestion) return undefined;
+  if (suggestionLeft <= 0) { setSuggestion(null); return undefined; }
+  const timer = setTimeout(() => setSuggestionLeft((n) => n - 1), 1000);
+  return () => clearTimeout(timer);
+}, [suggestion, suggestionLeft]);
+
+// The one-off "the feed is calling" line clears itself.
+useEffect(() => {
+  if (!feedNotice) return undefined;
+  const timer = setTimeout(() => setFeedNotice(''), 12000);
+  return () => clearTimeout(timer);
+}, [feedNotice]);
 
 /**
  * The handoff sheet closes when the server confirms, not when the Ref taps.
@@ -1982,6 +2027,11 @@ socket.off('gameAttached');
 socket.on('gameAttached', (payload) => {
   setWatching({ ...payload, error: null, ended: false });
   setCallEntries([]);
+  setCardModes(payload.cardModes || {});
+  setAutoCallPaused(Boolean(payload.autoCallPaused));
+  // Said once, plainly: people should not have to work out why rounds are
+  // starting on their own.
+  if (payload.announce) setFeedNotice(payload.announce);
 });
 
 socket.off('gameDetached');
@@ -2016,6 +2066,26 @@ socket.on('playSuggested', ({ cardId, reason, playId } = {}) => {
   callSeq += 1;
   setCallEntries((prev) => [
     { key: `${playId || 'x'}-${cardId}-s${callSeq}`, cardId, reason: reason || '', at: clockNow(), suggestion: true },
+    ...prev,
+  ].slice(0, 100));
+  // Offer it to the Ref with a countdown. Ignoring it lets it expire.
+  setSuggestion({ cardId, reason: reason || '', playId });
+  setSuggestionLeft(SUGGESTION_SECONDS);
+});
+
+socket.off('cardModes');
+socket.on('cardModes', ({ cardModes: modes } = {}) => setCardModes(modes || {}));
+
+socket.off('autoCallPaused');
+socket.on('autoCallPaused', ({ paused } = {}) => setAutoCallPaused(Boolean(paused)));
+
+socket.off('playSkipped');
+socket.on('playSkipped', ({ cardId, reason } = {}) => {
+  if (!cardId) return;
+  callSeq += 1;
+  setCallEntries((prev) => [
+    { key: `skip-${cardId}-${callSeq}`, cardId, reason: `not called — ${reason}`,
+      at: clockNow(), suggestion: false, skipped: true },
     ...prev,
   ].slice(0, 100));
 });
@@ -2375,7 +2445,27 @@ socket.on('gameOver', (message) => {
           callEntries={callEntries}
           callFeedOpen={callFeedOpen}
           onCallFeedToggle={() => setCallFeedOpen((v) => !v)}
+          autoCallPaused={autoCallPaused}
+          feedNotice={feedNotice}
+          onOpenDial={isHost ? () => setDialOpen(true) : undefined}
+          suggestion={isHost ? suggestion : null}
+          suggestionLeft={suggestionLeft}
+          onAcceptSuggestion={handleAcceptSuggestion}
+          onDismissSuggestion={() => setSuggestion(null)}
         />
+
+        {dialOpen && (
+          <div className="assigner-overlay">
+            <CardDial
+              modes={cardModes}
+              defaults={{}}
+              paused={autoCallPaused}
+              onPause={handlePauseAutoCall}
+              onMode={handleCardMode}
+              onClose={() => setDialOpen(false)}
+            />
+          </div>
+        )}
 
         {pickerOpen && (
           <div className="assigner-overlay">
