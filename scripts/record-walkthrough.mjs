@@ -26,6 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { chromium } from 'playwright';
 import { io } from 'socket.io-client';
+import { finalise } from './finalise-recording.mjs';
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -98,9 +99,13 @@ const note = (what) => {
   const at = mmss(Date.now() - t0);
   timeline.push({ at, what });
   console.log(`  ${at}  ${what}`);
+  // Appended immediately. A run that dies — or a waiter that gets stopped —
+  // must not take the record of what happened with it.
+  try { fs.appendFileSync(path.join(OUT, 'timeline.txt'), `${at}  ${what}\n`); } catch { /* best effort */ }
 };
 
 const NAMES = ['Ref', 'Ben', 'Cy', 'Dee', 'Eli', 'Fay'];
+fs.rmSync(path.join(OUT, 'timeline.txt'), { force: true });
 const browser = await chromium.launch({ headless: true });
 
 const seats = [];
@@ -115,6 +120,11 @@ for (const name of NAMES) {
   seats.push({ name, context, page, poured: 0 });
 }
 const ref = seats[0];
+// Written before anything can go wrong: this is what lets finalise-recording
+// map an anonymous page@<hash>.webm back to a seat, by creation order.
+fs.writeFileSync(path.join(OUT, 'pending.json'), JSON.stringify({
+  names: NAMES, startedAt: new Date(t0).toISOString(), game: game.label,
+}, null, 1));
 
 // ── the journey: room, joins, start ────────────────────────────────────────
 await ref.page.getByPlaceholder('Name').fill('Ref');
@@ -163,6 +173,10 @@ for (const s of seats.slice(1)) {
   if (overlap > bestOverlap) { bestOverlap = overlap; primary = s; }
 }
 console.log(`primary seat: ${primary.name} (holds ${bestOverlap})`);
+fs.writeFileSync(path.join(OUT, 'pending.json'), JSON.stringify({
+  names: NAMES, startedAt: new Date(t0).toISOString(), game: game.label,
+  primarySeat: primary.name, primaryHolds: bestOverlap,
+}, null, 1));
 
 // ── the picker, on camera ──────────────────────────────────────────────────
 await ref.page.locator('.watchbtn').first().evaluate((el) => el.click());
@@ -222,6 +236,8 @@ driver.on('roundSource', (p) => calls.push(p));
 driver.on('declaredCard', (cardId) => {
   if (!cardId) return;
   const last = calls[calls.length - 1];
+  // `roundSource` normally lands first and carries who called it. Only record
+  // this when it did not, or every round is counted twice.
   if (!last || last.cardId !== cardId) calls.push({ cardId, by: 'unknown' });
 });
 
@@ -319,23 +335,11 @@ for (const s of seats) console.log(`  ${s.name}: poured ${s.poured}`);
 driver.emit('detachGame', { roomCode: code });
 await sleep(1000);
 
-// Name the videos before closing, so it is obvious which file is which.
-const paths = {};
-for (const s of seats) paths[s.name] = await s.page.video().path();
+// Playwright only flushes a video when its context closes, so nothing is
+// renameable until here.
 for (const s of seats) await s.context.close();
 await browser.close();
 
-// The Ref is the PRIMARY file: only that seat sees the picker being opened, the
-// league chosen and the game attaching. The player seat is the secondary — it
-// is what nine of ten people experience, but it cannot show the setup.
-for (const [name, from] of Object.entries(paths)) {
-  const role = name === 'Ref' ? '1-PRIMARY-ref'
-    : name === primary.name ? '2-secondary-player' : null;
-  if (!role) { fs.rmSync(from, { force: true }); continue; }
-  const to = path.join(OUT, `${role}-${name}.webm`);
-  fs.renameSync(from, to);
-  console.log(`${role.padEnd(20)} ${to}`);
-}
 fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify({
   league: which, game: game.label, fixture: `${game.league}/${game.id}`, fromPlay: game.from,
   minutes: MINUTES, room: code, primarySeat: primary.name, primaryHolds: bestOverlap,
@@ -343,8 +347,16 @@ fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify({
   timeline,
 }, null, 1));
 
+driver.close();
+
+// Exactly what `node scripts/finalise-recording.mjs <folder>` does by hand.
+// One code path, so a re-run cannot behave differently from the real thing.
+finalise(OUT);
+
 console.log('\n── timeline ──');
 for (const e of timeline) console.log(`  ${e.at}  ${e.what}`);
-fs.writeFileSync(path.join(OUT, 'timeline.txt'),
-  timeline.map((e) => `${e.at}  ${e.what}`).join('\n') + '\n');
 console.log('done');
+// The socket.io client holds the event loop open, so without this the process
+// lingers after finishing and anything chained behind it never runs. That is
+// what cost the college walkthrough.
+process.exit(0);
