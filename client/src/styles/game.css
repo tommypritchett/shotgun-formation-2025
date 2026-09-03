@@ -795,6 +795,28 @@ button.card:active{transform:translateY(2px) scale(.985)}
 }
 .watchbtn:hover{color:var(--chalk,#e8eaed);border-color:rgba(255,255,255,.32)}
 
+/* The Ref's way into the whole live-game feature. It was an 11px dim-grey pill
+   and could not be found on a phone in a bar, which is the only place it is
+   ever used. Full width, amber outline, and the same REF chip the Declare
+   button carries so it reads as the pair it is. Deliberately outlined rather
+   than filled: solid amber next to a solid amber Declare Action would make the
+   two compete, and Declare is still the more important of the two. */
+.watchbtn.primary{
+  width:100%;min-height:46px;display:flex;align-items:center;justify-content:center;gap:9px;
+  margin-bottom:10px;border-radius:0;
+  background:rgba(255,176,32,.10);border:1.5px solid var(--sf-amber,#FFB020);
+  color:var(--sf-amber,#FFB020);
+  font-family:var(--sf-display,Oswald),system-ui,sans-serif;
+  font-weight:700;font-size:16px;letter-spacing:.08em;text-transform:uppercase;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%);
+}
+.watchbtn.primary:hover{background:rgba(255,176,32,.18);color:var(--sf-amber,#FFB020)}
+.watchbtn.primary:active{transform:translateY(2px)}
+.watchbtn.primary .ref{
+  font-size:9.5px;letter-spacing:.16em;background:var(--sf-amber,#FFB020);
+  color:var(--sf-amber-ink,#12151a);padding:3px 5px;border-radius:3px;
+}
+
 /* The game picker reuses the sheet treatment. */
 .gamepicker .seg{display:flex;gap:6px;padding:8px 2px}
 .gamepicker .seg button{

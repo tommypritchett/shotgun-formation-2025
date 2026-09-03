@@ -142,10 +142,25 @@ describe('a room with no game attached', () => {
     const { rerender, container } = render(
       <GameScreen {...base} isHost onWatchGame={() => {}} />
     );
-    expect(screen.getByText('Watch a game')).toBeTruthy();
+    expect(screen.getByText('Select a game')).toBeTruthy();
 
     rerender(<GameScreen {...base} isHost={false} />);
     expect(container.querySelector('.watchbtn')).toBeNull();
+  });
+
+  /**
+   * Session 18. The control was an 11px dim-grey pill and the owner could not
+   * find it on his own phone at a bar. It is the Ref's way into the whole
+   * feature, so it has to read as a real button, not a hint.
+   */
+  it('makes selecting a game a primary action, not a dim hint', () => {
+    const { container } = render(
+      <GameScreen {...base} isHost onWatchGame={() => {}} />
+    );
+    const btn = container.querySelector('.watchbtn');
+    expect(btn).toBeTruthy();
+    expect(btn.className).toContain('primary');
+    expect(btn.textContent).toContain('Select a game');
   });
 
   it('hides the watch button once a game is attached', () => {
@@ -154,6 +169,14 @@ describe('a room with no game attached', () => {
     );
     expect(container.querySelector('.watchbtn')).toBeNull();
     expect(container.querySelector('.livescore')).toBeTruthy();
+  });
+});
+
+describe('the primary select-a-game button is actually styled', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'client/src/styles/game.css'), 'utf8');
+
+  it('has a rule that makes it legible on a phone in a dark bar', () => {
+    expect(css).toMatch(/\.watchbtn\.primary\s*\{/);
   });
 });
 
