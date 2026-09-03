@@ -346,8 +346,28 @@ const playRound = async (seat, behaviour) => {
   }
 };
 
+/**
+ * A suspended host must fail the run, not shorten it.
+ *
+ * Twice now the machine has slept mid-recording. The replay timers stall, the
+ * queue drops everything it was holding as stale, and on wake this loop finds
+ * `until` already in the past and exits immediately — leaving a 45-minute video
+ * of a 12-minute walkthrough with three rounds in it. Nothing says anything is
+ * wrong; the artifact just quietly is not what it claims to be.
+ *
+ * An iteration is ~1s. Anything past this means the clock jumped underneath us.
+ */
+const STALL_MS = 120_000;
+let lastTick = Date.now();
 const until = Date.now() + MINUTES * 60_000;
 while (Date.now() < until) {
+  const drift = Date.now() - lastTick;
+  if (drift > STALL_MS) {
+    throw new Error(`the host stalled for ${Math.round(drift / 1000)}s mid-recording `
+      + '(sleep or suspend). The replay dropped everything it was holding, so this '
+      + 'footage is not a faithful walkthrough. Re-run it — and keep the machine awake.');
+  }
+  lastTick = Date.now();
   const current = calls.length ? calls[calls.length - 1].cardId : null;
   if (current && current !== lastCard) {
     lastCard = current;
