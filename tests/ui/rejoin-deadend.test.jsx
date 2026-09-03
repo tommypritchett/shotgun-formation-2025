@@ -113,11 +113,19 @@ describe('the saved game is forgotten when the game ends', () => {
   it('clears it when a rejoin fails, so the next load is not stuck too', () => {
     // Both failure paths — the error handler and the ten-second bail-out — go
     // through abandonRejoin, and that is what forgets the saved game.
+    const calls = rejoinEffect().match(/abandonRejoin\([^)]*\)/g) || [];
     expect(
-      (rejoinEffect().match(/abandonRejoin\(\)/g) || []).length,
+      calls.length,
       'a failed rejoin must route through abandonRejoin, or the next load '
         + 'walks into the same wall'
     ).toBeGreaterThanOrEqual(4);   // two paths x (error handler + timeout)
+
+    // Session 19: landing on a blank join form with no explanation is only
+    // marginally better than a spinner. Every bail-out says why.
+    for (const call of calls) {
+      expect(call, `${call} drops someone on a join screen with no explanation`)
+        .toMatch(/abandonRejoin\('[^']{10,}'\)/);
+    }
 
     const at = CODE.indexOf('const abandonRejoin');
     expect(at, 'abandonRejoin has been renamed — update this test').toBeGreaterThan(-1);
@@ -125,5 +133,6 @@ describe('the saved game is forgotten when the game ends', () => {
     expect(body).toMatch(/forgetSavedGame\(\)/);
     expect(body).toMatch(/clearURL\(\)/);
     expect(body).toMatch(/setGameState\('initial'\)/);
+    expect(body, 'the reason must reach the join screen').toMatch(/setErrorMessage\(/);
   });
 });
