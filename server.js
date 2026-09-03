@@ -9,7 +9,7 @@ const { Watchers } = require('./server/feed/watchers');
 const { ReplayFeed } = require('./server/feed/replay-feed');
 const { LiveFeed, listGames } = require('./server/feed/live-feed');
 const { runPipeline } = require('./server/feed/pipeline');
-const { modeFor, AUTO, MODES } = require('./server/feed/cards');
+const { modeFor, AUTO, SUGGEST, MODES } = require('./server/feed/cards');
 const { pathFor } = require('./server/feed/routing');
 const app = express();
 const server = http.createServer(app);
@@ -377,17 +377,27 @@ const watchers = new Watchers({
         for (const d of detections) {
           // Diagnosable on Monday: the raw play id is in every line.
           console.log(`🏈 ${league}/${entry.gameId} detected ${d.cardId} (${d.mode}) from play ${d.playId}: ${d.reason}`);
-          if (modeFor(d.cardId) !== AUTO) {
-            entry.stats.suggested += 1;
-            // Ref only — the room does not see a suggestion until it is taken.
-            for (const roomCode of entry.rooms) {
-              const room = rooms[roomCode];
-              if (room && room.host) io.to(room.host).emit('playSuggested', {
-                league, gameId: entry.gameId, cardId: d.cardId, reason: d.reason,
-                playId: d.playId, period: play ? play.period : null,
-              });
-            }
+          // Suggest-or-not is a PER-ROOM decision, because the dial is. Reading
+          // the global default here made the dial's middle setting a no-op: a
+          // card whose default is auto was skipped at release time (which reads
+          // the room) and never suggested either, so "suggest" silently meant
+          // "off" — for most of Tier A. It must also be `=== SUGGEST` and not
+          // `!== AUTO`, or every card the Ref switched OFF becomes a prompt.
+          let suggestedAnywhere = false;
+          // Ref only — the room does not see a suggestion until it is taken.
+          for (const roomCode of entry.rooms) {
+            const room = rooms[roomCode];
+            if (!room || !room.host) continue;
+            if (modeOf(room, d.cardId) !== SUGGEST) continue;
+            suggestedAnywhere = true;
+            io.to(room.host).emit('playSuggested', {
+              league, gameId: entry.gameId, cardId: d.cardId, reason: d.reason,
+              playId: d.playId, period: play ? play.period : null,
+            });
           }
+          // Counted per detection, not per room: the Ref is shown how much the
+          // feed spotted, and two rooms watching does not make it twice.
+          if (suggestedAnywhere) entry.stats.suggested += 1;
         }
       },
       onRelease: (detection) => {

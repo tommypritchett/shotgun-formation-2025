@@ -122,7 +122,14 @@ const note = (what) => {
 };
 
 const NAMES = ['Ref', 'Ben', 'Cy', 'Dee', 'Eli', 'Fay'];
-fs.rmSync(path.join(OUT, 'timeline.txt'), { force: true });
+// Clear the previous run out of this folder first. A recording whose primary
+// seat differs from last time otherwise leaves the old seat's video sitting
+// alongside the new one, and nothing on disk says which is current.
+for (const f of fs.readdirSync(OUT)) {
+  if (/\.webm$/.test(f) || f === 'manifest.json' || f === 'timeline.txt') {
+    fs.rmSync(path.join(OUT, f), { force: true });
+  }
+}
 const browser = await chromium.launch({ headless: true });
 
 const seats = [];
