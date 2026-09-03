@@ -466,8 +466,32 @@ button.card:active{transform:translateY(2px) scale(.985)}
   background:var(--sf-board-2);border:1px solid var(--sf-line);border-bottom:0;
   border-radius:var(--sf-r-lg) var(--sf-r-lg) 0 0;padding:10px 14px calc(18px + env(safe-area-inset-bottom));
   transform:translateY(110%);transition:transform .22s cubic-bezier(.2,.8,.3,1);
+  /* A sheet is anchored to the bottom and grows UPWARD. The card dial is four
+     groups of cards tall — well past a phone — so without a cap it pushed its
+     own header, and the close X in it, off the top of the screen with no way
+     to scroll back. Cap it and let it scroll. `overscroll-behavior:contain`
+     stops a flick at the end of the list from scrolling the game underneath. */
+  max-height:86vh;overflow-y:auto;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
 }
 .sheet.on{transform:translateY(0)}
+/* The way out has to stay on screen no matter how far down the list you are. */
+.sheet-head{
+  position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;
+  margin:0 -14px;padding:2px 14px 10px;background:var(--sf-board-2);
+  border-bottom:1px solid var(--sf-line);
+}
+.sheet-head .t{
+  font-family:var(--sf-display);font-weight:700;font-size:15px;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--sf-chalk);
+}
+.sheet-head .x{
+  margin-left:auto;flex:0 0 auto;min-width:40px;min-height:40px;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:1px solid var(--sf-line);border-radius:999px;
+  color:var(--sf-chalk);font-size:20px;line-height:1;cursor:pointer;
+}
+.sheet-head .x:active{transform:translateY(1px)}
 .sheet .grab{width:44px;height:4px;border-radius:2px;background:var(--sf-line);margin:2px auto 12px}
 .sheet a,.sheet button.mi{
   display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:0 6px;

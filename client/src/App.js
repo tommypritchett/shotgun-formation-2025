@@ -185,7 +185,10 @@ function App() {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerLeague, setPickerLeague] = useState('nfl');
   const [pickerQuery, setPickerQuery] = useState('');
-  const [pickerRanked, setPickerRanked] = useState(true);
+  // The whole slate is the honest default; "Ranked only" is the narrowing
+  // option, not the starting view. Defaulting it on hid three quarters of a
+  // Saturday behind a checkbox nobody knew to look for.
+  const [pickerRanked, setPickerRanked] = useState(false);
   const [gameList, setGameList] = useState([]);
   const [gameListLoading, setGameListLoading] = useState(false);
   const [gameListError, setGameListError] = useState(null);

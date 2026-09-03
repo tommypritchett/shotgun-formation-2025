@@ -41,8 +41,9 @@ export const matchesSearch = (game, query) => {
 };
 
 /**
- * The default college view: in progress and ranked. Falls back to showing
- * everything rather than an empty screen, because an empty picker looks broken.
+ * The optional college narrowing. NOT the default view — the whole slate is,
+ * as of Session 18. Falls back to showing everything rather than an empty
+ * screen, because an empty picker looks broken.
  */
 export const applyDefaultView = (games, { league, onlyRanked }) => {
   if (league !== 'college-football' || !onlyRanked) return games;
