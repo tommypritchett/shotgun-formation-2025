@@ -70,6 +70,7 @@ node_modules/
 transcripts/
 artifacts/video/
 artifacts/*.png
+artifacts/*.json
 
 # Recorded walkthroughs: ~20MB of webm per seat. The artifact is the point, but
 # it does not belong in the repo — repo weight is already a known concern.
