@@ -73,6 +73,23 @@ const MINUTES = Number(process.env.WALK_MINUTES || game.minutes || 12);
 const OUT = path.join(ROOT, 'artifacts', game.dir || `walkthrough-${which}`);
 fs.mkdirSync(OUT, { recursive: true });
 
+/**
+ * A replay is a private, one-shot stream and must never be shared between runs.
+ *
+ * Watchers are keyed on `league:gameId` and refcounted per room, which is right
+ * for live football — eight rooms watching the Chiefs share one poller. But the
+ * harness attaches through the dev-only replay seam and detaches over the same
+ * driver socket, and `detachGame` requires the Ref, which the driver is not. So
+ * the detach no-ops, the feed keeps replaying, and a later run reusing the same
+ * id joins it mid-fixture.
+ *
+ * That is exactly what happened: a second college run picked up "Missed FG",
+ * which lives 68 plays past the window it was supposed to be recording. Making
+ * the id unique per run removes the sharing, and the idle-room reaper stops the
+ * abandoned feed.
+ */
+const REPLAY_GAME_ID = `${GAMES[process.argv[2]] ? process.argv[2] : 'nfl'}-replay-${process.pid}-${Date.now()}`;
+
 const fixture = JSON.parse(fs.readFileSync(
   path.join(ROOT, 'fixtures', game.league, `${game.id}.json`), 'utf8'));
 fixture.plays = [...fixture.plays].sort((a, b) => a.sequence - b.sequence).slice(game.from);
@@ -202,7 +219,7 @@ await sleep(800);
 await ref.page.locator('.watchbtn', { hasText: 'What the feed calls' }).count()
   .then(async (n) => { if (!n) await sleep(0); });
 driver.emit('attachGame', {
-  roomCode: code, league: game.league, gameId: `${game.id}-walk-${which}`,
+  roomCode: code, league: game.league, gameId: REPLAY_GAME_ID,
   replayFixture: fixture, speed: 1,
 });
 note('game attached — score and clock live in the header');
