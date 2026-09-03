@@ -3014,4 +3014,13 @@ process.on('unhandledRejection', (reason) => {
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`Running code: ${bootCommit()}  |  node ${process.version}  |  started ${new Date().toISOString()}`);
+  // The replay seam lets ANY socket attach an arbitrary fixture to ANY room,
+  // bypassing the Ref-only rule. Off by default — but off-by-default is worth
+  // much less than visible-if-on, because the failure mode is somebody setting
+  // it and nobody noticing. Same `=== '1'` test as the guard itself, so the
+  // banner can never claim "off" while the seam is open.
+  if (process.env.ALLOW_REPLAY_ATTACH === '1') {
+    console.log('⚠️  ALLOW_REPLAY_ATTACH=1 — replay attach is OPEN: any socket can '
+      + 'attach a fixture to any room, without the whistle. NOT FOR PRODUCTION.');
+  }
 });
