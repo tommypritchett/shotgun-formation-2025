@@ -71,14 +71,14 @@ describe('the live score strip', () => {
     expect(screen.getByText('Final')).toBeTruthy();
   });
 
-  it('offers the Ref one tap to stop watching, and nobody else', () => {
+  it('offers the Ref one tap to change game, and nobody else', () => {
     const onDetach = vi.fn();
     const { rerender } = render(<LiveScore watching={watching()} onDetach={onDetach} canDetach />);
-    fireEvent.click(screen.getByLabelText('Stop watching'));
+    fireEvent.click(screen.getByRole('button', { name: /change game/i }));
     expect(onDetach).toHaveBeenCalled();
 
     rerender(<LiveScore watching={watching()} onDetach={onDetach} canDetach={false} />);
-    expect(screen.queryByLabelText('Stop watching')).toBeNull();
+    expect(screen.queryByRole('button', { name: /change game/i })).toBeNull();
   });
 });
 
@@ -161,6 +161,16 @@ describe('a room with no game attached', () => {
     expect(btn).toBeTruthy();
     expect(btn.className).toContain('primary');
     expect(btn.textContent).toContain('Select a game');
+  });
+
+  it('offers a way to change game once one is attached, not a bare Stop', () => {
+    const { container } = render(
+      <GameScreen {...base} isHost onWatchGame={() => {}} watching={watching()}
+        onDetachGame={() => {}} />
+    );
+    const btn = container.querySelector('.ls-detach');
+    expect(btn).toBeTruthy();
+    expect(btn.textContent).toContain('Change game');
   });
 
   it('hides the watch button once a game is attached', () => {

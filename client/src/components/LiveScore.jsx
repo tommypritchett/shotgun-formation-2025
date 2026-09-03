@@ -37,8 +37,9 @@ export default function LiveScore({ watching, onDetach, canDetach = false }) {
       ) : null}
       <span className="ls-when">{line}</span>
       {canDetach ? (
-        <button type="button" className="ls-detach" onClick={onDetach} aria-label="Stop watching">
-          Stop
+        <button type="button" className="ls-detach" onClick={onDetach}
+          aria-label="Change game — stop watching this one and pick another">
+          Change game
         </button>
       ) : null}
     </div>

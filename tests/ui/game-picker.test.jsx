@@ -142,6 +142,39 @@ describe('the status line', () => {
   });
 });
 
+/**
+ * Session 18. "Ranked only" defaulted to ON, which hid three quarters of the
+ * slate behind a checkbox nobody knew to look at — and while the fetch was
+ * also broken it made the picker look like it had no unranked games at all.
+ * The whole slate is the honest default; ranked is the narrowing option.
+ */
+describe('the default view', () => {
+  it('defaults the ranked filter to OFF, so the whole slate shows', () => {
+    const games = [
+      game({ id: 'ranked', home: { abbreviation: 'H', rank: 3 }, away: { abbreviation: 'A' } }),
+      game({ id: 'plain', home: { abbreviation: 'C' }, away: { abbreviation: 'D' } }),
+    ];
+    const { container } = render(<GamePicker league="college-football" games={games} />);
+    expect(container.querySelectorAll('.gamerow')).toHaveLength(2);
+  });
+
+  it('leaves the ranked checkbox unticked until somebody ticks it', () => {
+    render(<GamePicker league="college-football" games={[game()]} />);
+    expect(screen.getByLabelText(/ranked only/i).checked).toBe(false);
+  });
+
+  it('still narrows to ranked when the option is turned on', () => {
+    const games = [
+      game({ id: 'ranked', home: { abbreviation: 'H', rank: 3 }, away: { abbreviation: 'A' } }),
+      game({ id: 'plain', home: { abbreviation: 'C' }, away: { abbreviation: 'D' } }),
+    ];
+    const { container } = render(
+      <GamePicker league="college-football" games={games} onlyRanked />
+    );
+    expect(container.querySelectorAll('.gamerow')).toHaveLength(1);
+  });
+});
+
 describe('the picker on screen', () => {
   const games = [
     game({ id: 'live', state: 'in', started: true, period: 3, clock: '5:00',

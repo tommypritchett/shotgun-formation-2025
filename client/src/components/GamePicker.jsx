@@ -23,7 +23,7 @@ export default function GamePicker({
   loading = false,
   error = null,
   query = '',
-  onlyRanked = true,
+  onlyRanked = false,
   onQuery = () => {},
   onOnlyRanked = () => {},
   onLeague = () => {},
