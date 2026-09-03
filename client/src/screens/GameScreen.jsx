@@ -11,6 +11,9 @@
 import GameHeader from './GameHeader';
 import ScoreBoard from '../components/ScoreBoard';
 import HandGrid from '../components/HandGrid';
+import LiveScore from '../components/LiveScore';
+import CallFeed from '../components/CallFeed';
+import SuggestionPrompt from '../components/SuggestionPrompt';
 
 export default function GameScreen({
   quarter, roomCode, onMenu,
@@ -19,10 +22,26 @@ export default function GameScreen({
   hand, onCardTap, selfId,
   isHost, onDeclare,
   noCardMessage,
+  // Live game tracking. All optional: a room with no game attached renders
+  // exactly what it rendered before any of this existed.
+  watching = null, onWatchGame, onDetachGame,
+  callEntries = [], callFeedOpen = false, onCallFeedToggle,
+  autoCallPaused = false, feedNotice = '', onOpenDial,
+  suggestion = null, suggestionLeft = 0, onAcceptSuggestion, onDismissSuggestion,
 }) {
   return (
     <div className="app">
       <GameHeader quarter={quarter} roomCode={roomCode} onMenu={onMenu} />
+
+      {watching ? (
+        <LiveScore watching={watching} onDetach={onDetachGame} canDetach={Boolean(onDetachGame)} />
+      ) : null}
+
+      {/* Said once, when the feed starts calling. */}
+      {feedNotice ? <p className="feednotice">{feedNotice}</p> : null}
+      {watching && autoCallPaused ? (
+        <p className="feednotice paused">Auto-calling is paused. You are calling by hand.</p>
+      ) : null}
 
       <div className="body">
         <div className="s1grid">
@@ -42,9 +61,28 @@ export default function GameScreen({
         </div>
       </div>
 
+      {suggestion ? (
+        <SuggestionPrompt
+          suggestion={suggestion}
+          secondsLeft={suggestionLeft}
+          onAccept={onAcceptSuggestion}
+          onDismiss={onDismissSuggestion}
+        />
+      ) : null}
+
+      {watching ? (
+        <CallFeed entries={callEntries} open={callFeedOpen} onToggle={onCallFeedToggle} />
+      ) : null}
+
       {noCardMessage ? <p className="waiting">{noCardMessage}</p> : null}
 
       <div className="dock">
+        {isHost && onWatchGame && !watching ? (
+          <button type="button" className="watchbtn" onClick={onWatchGame}>Watch a game</button>
+        ) : null}
+        {isHost && watching && onOpenDial ? (
+          <button type="button" className="watchbtn" onClick={onOpenDial}>What the feed calls</button>
+        ) : null}
         {isHost ? (
           <button type="button" className="declare" onClick={onDeclare}>
             <span className="ref">REF</span> Declare Action

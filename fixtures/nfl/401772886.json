@@ -1,0 +1,6440 @@
+{
+ "league": "nfl",
+ "gameId": "401772886",
+ "capturedAt": "2026-09-01T19:55:11.758Z",
+ "name": "TEN 24 - SEA 30",
+ "teams": [
+  {
+   "id": "10",
+   "abbreviation": "TEN",
+   "displayName": "Tennessee Titans",
+   "score": 24,
+   "homeAway": "home"
+  },
+  {
+   "id": "26",
+   "abbreviation": "SEA",
+   "displayName": "Seattle Seahawks",
+   "score": 30,
+   "homeAway": "away"
+  }
+ ],
+ "periods": 4,
+ "playCount": 177,
+ "driveCount": 18,
+ "plays": [
+  {
+   "id": "4017728861",
+   "sequence": 100,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "70",
+   "typeText": "Coin Toss",
+   "text": "GAME",
+   "shortText": "Game",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": null,
+   "wallclock": null
+  },
+  {
+   "id": "40177288640",
+   "sequence": 4000,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Myers kicks 54 yards from SEA 35 to TEN 11. C.Dike to TEN 33 for 22 yards (P.O'Connell).",
+   "shortText": "Jason Myers 54 Yd Kickoff Chimere Dike 22 Yd Kickoff Return",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 22,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:03:03Z"
+  },
+  {
+   "id": "40177288663",
+   "sequence": 6300,
+   "period": 1,
+   "clock": {
+    "seconds": 895,
+    "display": "14:55"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Pollard left tackle to TEN 36 for 3 yards (U.Nwosu).",
+   "shortText": "Tony Pollard 3 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 64,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:03:46Z"
+  },
+  {
+   "id": "40177288685",
+   "sequence": 8500,
+   "period": 1,
+   "clock": {
+    "seconds": 854,
+    "display": "14:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Ward scrambles up the middle to 50 for 14 yards (N.Emmanwori).",
+   "shortText": "Cam Ward 14 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 64,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:04:27Z"
+  },
+  {
+   "id": "401772886107",
+   "sequence": 10700,
+   "period": 1,
+   "clock": {
+    "seconds": 816,
+    "display": "13:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Pollard right guard to SEA 47 for 3 yards (N.Emmanwori).",
+   "shortText": "Tony Pollard 3 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 50,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 47,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:05:06Z"
+  },
+  {
+   "id": "401772886129",
+   "sequence": 12900,
+   "period": 1,
+   "clock": {
+    "seconds": 777,
+    "display": "12:57"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short middle to C.Dike pushed ob at SEA 42 for 5 yards (J.Jobe).",
+   "shortText": "Cam Ward Pass Complete for 5 Yds to Chimere Dike",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 47,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 42,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:05:44Z"
+  },
+  {
+   "id": "401772886159",
+   "sequence": 15900,
+   "period": 1,
+   "clock": {
+    "seconds": 733,
+    "display": "12:13"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) C.Ward pass incomplete deep left to C.Dike (T.Woolen).",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Chimere Dike",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 42,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 42,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:06:29Z"
+  },
+  {
+   "id": "401772886182",
+   "sequence": 18200,
+   "period": 1,
+   "clock": {
+    "seconds": 729,
+    "display": "12:09"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "C.Ward pass short left to G.Helm to SEA 32 for 10 yards (N.Emmanwori).",
+   "shortText": "Cam Ward Pass Complete for 10 Yds to Gunnar Helm",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 42,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:07:12Z"
+  },
+  {
+   "id": "401772886207",
+   "sequence": 20700,
+   "period": 1,
+   "clock": {
+    "seconds": 695,
+    "display": "11:35"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) T.Spears right tackle to SEA 31 for 1 yard (D.Witherspoon; P.O'Connell).",
+   "shortText": "Tyjae Spears 1 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 31,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:07:46Z"
+  },
+  {
+   "id": "401772886229",
+   "sequence": 22900,
+   "period": 1,
+   "clock": {
+    "seconds": 652,
+    "display": "10:52"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short right to C.Okonkwo pushed ob at SEA 21 for 10 yards (D.Hall) [D.Lawrence].",
+   "shortText": "Cam Ward Pass Complete for 10 Yds to Chig Okonkwo",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 31,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:08:28Z"
+  },
+  {
+   "id": "401772886259",
+   "sequence": 25900,
+   "period": 1,
+   "clock": {
+    "seconds": 607,
+    "display": "10:07"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "C.Ward pass incomplete short right.",
+   "shortText": "Cam Ward Incomplete Pass",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:09:18Z"
+  },
+  {
+   "id": "401772886282",
+   "sequence": 28200,
+   "period": 1,
+   "clock": {
+    "seconds": 602,
+    "display": "10:02"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "T.Pollard right end pushed ob at SEA 25 for -4 yards (B.Mafe).PENALTY on SEA-B.Mafe, Defensive Offside, 5 yards, enforced at SEA 21 - No Play.",
+   "shortText": "Tony Pollard Rush, Loss of 4 Boye Mafe 5 Yd Pnlty",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 16,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:09:56Z"
+  },
+  {
+   "id": "401772886320",
+   "sequence": 32000,
+   "period": 1,
+   "clock": {
+    "seconds": 580,
+    "display": "9:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Ward scrambles left tackle to SEA 12 for 4 yards (D.Thomas).",
+   "shortText": "Cam Ward 4 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 16,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 12,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:10:48Z"
+  },
+  {
+   "id": "401772886342",
+   "sequence": 34200,
+   "period": 1,
+   "clock": {
+    "seconds": 537,
+    "display": "8:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Chestnut up the middle to SEA 9 for 3 yards (L.Williams; Q.Bohanna).",
+   "shortText": "Julius Chestnut 3 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 12,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:11:30Z"
+  },
+  {
+   "id": "401772886364",
+   "sequence": 36400,
+   "period": 1,
+   "clock": {
+    "seconds": 499,
+    "display": "8:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short middle to T.Spears to SEA 14 for -5 yards (D.Lawrence).",
+   "shortText": "Cam Ward Pass Complete for Loss of 5 Yds to Tyjae Spears",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 14,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:12:09Z"
+  },
+  {
+   "id": "401772886389",
+   "sequence": 38900,
+   "period": 1,
+   "clock": {
+    "seconds": 455,
+    "display": "7:35"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short middle to C.Dike to SEA 3 for 11 yards (C.Bryant).",
+   "shortText": "Cam Ward Pass Complete for 11 Yds to Chimere Dike",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 14,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:12:52Z"
+  },
+  {
+   "id": "401772886414",
+   "sequence": 41400,
+   "period": 1,
+   "clock": {
+    "seconds": 414,
+    "display": "6:54"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "C.Ward sacked at SEA 4 for -1 yards (P.O'Connell).",
+   "shortText": "Cam Ward Sacked by Patrick O'Connell For 1 Yd Loss",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:13:33Z"
+  },
+  {
+   "id": "401772886443",
+   "sequence": 44300,
+   "period": 1,
+   "clock": {
+    "seconds": 351,
+    "display": "5:51"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "J.Slye 22 yard field goal is GOOD, Center-M.Cox, Holder-J.Hekker.",
+   "shortText": "Joey Slye 22 Yd Field Goal",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 22,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "10"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:14:36Z"
+  },
+  {
+   "id": "401772886453",
+   "sequence": 45300,
+   "period": 1,
+   "clock": {
+    "seconds": 351,
+    "display": "5:51"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 05:51.",
+   "shortText": "Official Timeout At 05:51. ",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728861",
+   "wallclock": "2025-11-23T18:14:50Z"
+  },
+  {
+   "id": "401772886463",
+   "sequence": 46300,
+   "period": 1,
+   "clock": {
+    "seconds": 351,
+    "display": "5:51"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Slye kicks 56 yards from TEN 35 to SEA 9. C.White to SEA 27 for 18 yards (M.Kinsey). SEA-C.Surratt was injured during the play.",
+   "shortText": "Joey Slye 56 Yd Kickoff Cody White 18 Yd Kickoff Return",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:17:57Z"
+  },
+  {
+   "id": "401772886478",
+   "sequence": 47800,
+   "period": 1,
+   "clock": {
+    "seconds": 345,
+    "display": "5:45"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 05:45.",
+   "shortText": "Official Timeout At 05:45. ",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:18:33Z"
+  },
+  {
+   "id": "401772886493",
+   "sequence": 49300,
+   "period": 1,
+   "clock": {
+    "seconds": 345,
+    "display": "5:45"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker left tackle pushed ob at SEA 37 for 10 yards (D.Baker).PENALTY on TEN-J.Ward, Unnecessary Roughness, 15 yards, enforced at SEA 37.",
+   "shortText": "Kenneth Walker III 10 Yd Rush Jihad Ward 15 Yd Pnlty",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:21:23Z"
+  },
+  {
+   "id": "401772886541",
+   "sequence": 54100,
+   "period": 1,
+   "clock": {
+    "seconds": 328,
+    "display": "5:28"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "S.Darnold pass incomplete short right.",
+   "shortText": "Sam Darnold Incomplete Pass",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:22:41Z"
+  },
+  {
+   "id": "401772886564",
+   "sequence": 56400,
+   "period": 1,
+   "clock": {
+    "seconds": 325,
+    "display": "5:25"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) S.Darnold pass short left to A.Barner to TEN 43 for 5 yards (K.Winston).",
+   "shortText": "Sam Darnold Pass Complete for 5 Yds to AJ Barner",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 43,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:23:24Z"
+  },
+  {
+   "id": "401772886589",
+   "sequence": 58900,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) PENALTY on SEA-C.Cross, False Start, 4 yards, enforced at TEN 43 - No Play.",
+   "shortText": "Charles Cross 4 Yd Pnlty",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 43,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 47,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:24:07Z"
+  },
+  {
+   "id": "401772886613",
+   "sequence": 61300,
+   "period": 1,
+   "clock": {
+    "seconds": 271,
+    "display": "4:31"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) S.Darnold pass short right to A.Barner to TEN 34 for 13 yards (C.Barton; C.Gray).",
+   "shortText": "Sam Darnold Pass Complete for 13 Yds to AJ Barner",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 47,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 34,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:24:54Z"
+  },
+  {
+   "id": "401772886638",
+   "sequence": 63800,
+   "period": 1,
+   "clock": {
+    "seconds": 224,
+    "display": "3:44"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker right end to TEN 33 for 1 yard (C.Gray).",
+   "shortText": "Kenneth Walker III 1 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 34,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 33,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:25:41Z"
+  },
+  {
+   "id": "401772886660",
+   "sequence": 66000,
+   "period": 1,
+   "clock": {
+    "seconds": 181,
+    "display": "3:01"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) Direct snap to R.Shaheed.  R.Shaheed left end to TEN 28 for 5 yards (S.Womack; K.Winston).",
+   "shortText": "Rashid Shaheed 5 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 33,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 28,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:26:26Z"
+  },
+  {
+   "id": "401772886684",
+   "sequence": 68400,
+   "period": 1,
+   "clock": {
+    "seconds": 142,
+    "display": "2:22"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) S.Darnold pass incomplete short right to K.Walker (M.Harris).",
+   "shortText": "Sam Darnold Incomplete Pass, Intended For Kenneth Walker III",
+   "awayScore": 0,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 28,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 28,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:27:03Z"
+  },
+  {
+   "id": "401772886707",
+   "sequence": 70700,
+   "period": 1,
+   "clock": {
+    "seconds": 134,
+    "display": "2:14"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "J.Myers 47 yard field goal is GOOD, Center-C.Stoll, Holder-M.Dickson.",
+   "shortText": "Jason Myers 47 Yd Field Goal",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 47,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 28,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:27:45Z"
+  },
+  {
+   "id": "401772886717",
+   "sequence": 71700,
+   "period": 1,
+   "clock": {
+    "seconds": 134,
+    "display": "2:14"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 02:14.",
+   "shortText": "Official Timeout At 02:14. ",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728862",
+   "wallclock": "2025-11-23T18:28:00Z"
+  },
+  {
+   "id": "401772886727",
+   "sequence": 72700,
+   "period": 1,
+   "clock": {
+    "seconds": 134,
+    "display": "2:14"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Myers kicks 63 yards from SEA 35 to TEN 2. C.Dike MUFFS catch, ball out of bounds at TEN 3.",
+   "shortText": "Jason Myers 63 Yd Kickoff Chimere Dike Kickoff Return, No Gain",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 97,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:30:40Z"
+  },
+  {
+   "id": "401772886768",
+   "sequence": 76800,
+   "period": 1,
+   "clock": {
+    "seconds": 132,
+    "display": "2:12"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Pollard up the middle to TEN 8 for 5 yards (D.Thomas).",
+   "shortText": "Tony Pollard 5 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 97,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 92,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:31:40Z"
+  },
+  {
+   "id": "401772886790",
+   "sequence": 79000,
+   "period": 1,
+   "clock": {
+    "seconds": 91,
+    "display": "1:31"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Pollard up the middle to TEN 10 for 2 yards (P.O'Connell; N.Emmanwori).Penalty on TEN-J.Proche, Chop Block, declined.",
+   "shortText": "Tony Pollard 2 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 92,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 90,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:32:21Z"
+  },
+  {
+   "id": "401772886823",
+   "sequence": 82300,
+   "period": 1,
+   "clock": {
+    "seconds": 68,
+    "display": "1:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short right to C.Dike pushed ob at TEN 35 for 25 yards (J.Jobe; C.Bryant).",
+   "shortText": "Cam Ward Pass Complete for 25 Yds to Chimere Dike",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 25,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 90,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:33:36Z"
+  },
+  {
+   "id": "401772886853",
+   "sequence": 85300,
+   "period": 1,
+   "clock": {
+    "seconds": 32,
+    "display": "0:32"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY on TEN, Offensive Too Many Men on Field, 5 yards, enforced at TEN 35 - No Play.",
+   "shortText": "TEN 5 Yd Pnlty",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 70,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:34:18Z"
+  },
+  {
+   "id": "401772886877",
+   "sequence": 87700,
+   "period": 1,
+   "clock": {
+    "seconds": 17,
+    "display": "0:17"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "T.Spears left tackle to TEN 40 for 10 yards (T.Okada).PENALTY on TEN-P.Skoronski, Offensive Holding, 10 yards, enforced at TEN 30 - No Play.",
+   "shortText": "Tyjae Spears 10 Yd Rush Peter Skoronski 10 Yd Pnlty",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 70,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 25,
+    "yardsToEndzone": 80,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:34:54Z"
+  },
+  {
+   "id": "401772886910",
+   "sequence": 91000,
+   "period": 1,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "END QUARTER 1",
+   "shortText": "End Quarter 1 ",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 25,
+    "yardsToEndzone": 80,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 25,
+    "yardsToEndzone": 80,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:34:54Z"
+  },
+  {
+   "id": "401772886930",
+   "sequence": 93000,
+   "period": 2,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Pollard left end to TEN 16 for -4 yards (D.Thomas).",
+   "shortText": "Tony Pollard Rush, Loss of 4",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 25,
+    "yardsToEndzone": 80,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 29,
+    "yardsToEndzone": 84,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:38:44Z"
+  },
+  {
+   "id": "401772886952",
+   "sequence": 95200,
+   "period": 2,
+   "clock": {
+    "seconds": 859,
+    "display": "14:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short left to T.Pollard pushed ob at TEN 26 for 10 yards (N.Emmanwori) [D.Lawrence].",
+   "shortText": "Cam Ward Pass Complete for 10 Yds to Tony Pollard",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 29,
+    "yardsToEndzone": 84,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 19,
+    "yardsToEndzone": 74,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:39:25Z"
+  },
+  {
+   "id": "401772886982",
+   "sequence": 98200,
+   "period": 2,
+   "clock": {
+    "seconds": 825,
+    "display": "13:45"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short right to T.Spears to TEN 38 for 12 yards (N.Emmanwori).",
+   "shortText": "Cam Ward Pass Complete for 12 Yds to Tyjae Spears",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 19,
+    "yardsToEndzone": 74,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 62,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:40:06Z"
+  },
+  {
+   "id": "4017728861007",
+   "sequence": 100700,
+   "period": 2,
+   "clock": {
+    "seconds": 775,
+    "display": "12:55"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "J.Hekker punts 49 yards to SEA 13, Center-M.Cox. R.Shaheed to SEA 33 for 20 yards (J.Chestnut).",
+   "shortText": "Johnny Hekker 49 Yd Punt Rashid Shaheed 20 Yd Punt Return",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 20,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 38,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:40:56Z"
+  },
+  {
+   "id": "4017728861020",
+   "sequence": 102000,
+   "period": 2,
+   "clock": {
+    "seconds": 764,
+    "display": "12:44"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 12:44.",
+   "shortText": "Official Timeout At 12:44. ",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728863",
+   "wallclock": "2025-11-23T18:41:28Z"
+  },
+  {
+   "id": "4017728861033",
+   "sequence": 103300,
+   "period": 2,
+   "clock": {
+    "seconds": 764,
+    "display": "12:44"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Smith-Njigba left end to SEA 37 for 4 yards (C.Barton).",
+   "shortText": "Jaxon Smith-Njigba 4 Yd Rush",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 63,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728864",
+   "wallclock": "2025-11-23T18:44:06Z"
+  },
+  {
+   "id": "4017728861062",
+   "sequence": 106200,
+   "period": 2,
+   "clock": {
+    "seconds": 729,
+    "display": "12:09"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle) S.Darnold pass short left to E.Arroyo to SEA 42 for 5 yards (K.Winston).",
+   "shortText": "Sam Darnold Pass Complete for 5 Yds to Elijah Arroyo",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 63,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 58,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728864",
+   "wallclock": "2025-11-23T18:44:40Z"
+  },
+  {
+   "id": "4017728861087",
+   "sequence": 108700,
+   "period": 2,
+   "clock": {
+    "seconds": 689,
+    "display": "11:29"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY on SEA-G.Zabel, False Start, 5 yards, enforced at SEA 42 - No Play.",
+   "shortText": "Grey Zabel 5 Yd Pnlty",
+   "awayScore": 3,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 58,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 63,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728864",
+   "wallclock": "2025-11-23T18:45:19Z"
+  },
+  {
+   "id": "4017728861120",
+   "sequence": 112000,
+   "period": 2,
+   "clock": {
+    "seconds": 662,
+    "display": "11:02"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(Shotgun) S.Darnold pass deep right to J.Smith-Njigba for 63 yards, TOUCHDOWN. J.Myers extra point is GOOD, Center-C.Stoll, Holder-M.Dickson.",
+   "shortText": "Jaxon Smith-Njigba 63 Yd pass from Sam Darnold (Jason Myers Kick)",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 63,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 63,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728864",
+   "wallclock": "2025-11-23T18:46:14Z"
+  },
+  {
+   "id": "4017728861154",
+   "sequence": 115400,
+   "period": 2,
+   "clock": {
+    "seconds": 662,
+    "display": "11:02"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 11:02.",
+   "shortText": "Official Timeout At 11:02. ",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728864",
+   "wallclock": "2025-11-23T18:47:20Z"
+  },
+  {
+   "id": "4017728861161",
+   "sequence": 116100,
+   "period": 2,
+   "clock": {
+    "seconds": 662,
+    "display": "11:02"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Myers kicks 66 yards from SEA 35 to TEN -1. C.Dike ran ob at TEN 30 for 31 yards (J.Sheriff).PENALTY on TEN-J.Bachie, Offensive Holding, 10 yards, enforced at TEN 25.",
+   "shortText": "Jason Myers 66 Yd Kickoff Chimere Dike 26 Yd Kickoff Return Joe Bachie 10 Yd Pnlty",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 85,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728865",
+   "wallclock": "2025-11-23T18:50:18Z"
+  },
+  {
+   "id": "4017728861207",
+   "sequence": 120700,
+   "period": 2,
+   "clock": {
+    "seconds": 656,
+    "display": "10:56"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Ward scrambles up the middle to TEN 18 for 3 yards (B.Murphy).",
+   "shortText": "Cam Ward 3 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 85,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 82,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728865",
+   "wallclock": "2025-11-23T18:51:22Z"
+  },
+  {
+   "id": "4017728861229",
+   "sequence": 122900,
+   "period": 2,
+   "clock": {
+    "seconds": 620,
+    "display": "10:20"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Pollard up the middle to TEN 18 for no gain (T.Okada).",
+   "shortText": "Tony Pollard Rush, No Gain",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 82,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 82,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728865",
+   "wallclock": "2025-11-23T18:51:57Z"
+  },
+  {
+   "id": "4017728861251",
+   "sequence": 125100,
+   "period": 2,
+   "clock": {
+    "seconds": 574,
+    "display": "9:34"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) C.Ward sacked at TEN 6 for -12 yards (B.Murphy).",
+   "shortText": "Cam Ward Sacked by Byron Murphy II For 12 Yd Loss",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 82,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 19,
+    "yardsToEndzone": 94,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728865",
+   "wallclock": "2025-11-23T18:52:42Z"
+  },
+  {
+   "id": "4017728861271",
+   "sequence": 127100,
+   "period": 2,
+   "clock": {
+    "seconds": 536,
+    "display": "8:56"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "J.Hekker punts 39 yards to TEN 45, Center-M.Cox. R.Shaheed to TEN 26 for 19 yards (M.Brown).",
+   "shortText": "Johnny Hekker 39 Yd Punt Rashid Shaheed 19 Yd Punt Return",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 19,
+    "yardsToEndzone": 6,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728865",
+   "wallclock": "2025-11-23T18:53:21Z"
+  },
+  {
+   "id": "4017728861297",
+   "sequence": 129700,
+   "period": 2,
+   "clock": {
+    "seconds": 528,
+    "display": "8:48"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker left guard to TEN 25 for 1 yard (C.Gray).",
+   "shortText": "Kenneth Walker III 1 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 25,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T18:54:23Z"
+  },
+  {
+   "id": "4017728861319",
+   "sequence": 131900,
+   "period": 2,
+   "clock": {
+    "seconds": 487,
+    "display": "8:07"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) S.Darnold pass short middle to J.Smith-Njigba to TEN 14 for 11 yards (D.Baker; K.Winston).",
+   "shortText": "Sam Darnold Pass Complete for 11 Yds to Jaxon Smith-Njigba",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 25,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T18:55:04Z"
+  },
+  {
+   "id": "4017728861344",
+   "sequence": 134400,
+   "period": 2,
+   "clock": {
+    "seconds": 445,
+    "display": "7:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker right end pushed ob at TEN 10 for 4 yards (C.Gray).",
+   "shortText": "Kenneth Walker III 4 Yd Rush",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 10,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T18:55:46Z"
+  },
+  {
+   "id": "4017728861371",
+   "sequence": 137100,
+   "period": 2,
+   "clock": {
+    "seconds": 397,
+    "display": "6:37"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "S.Darnold pass short left to K.Walker to TEN 5 for 5 yards (J.Armour-Davis).",
+   "shortText": "Sam Darnold Pass Complete for 5 Yds to Kenneth Walker III",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 10,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 5,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T18:56:35Z"
+  },
+  {
+   "id": "4017728861406",
+   "sequence": 140600,
+   "period": 2,
+   "clock": {
+    "seconds": 357,
+    "display": "5:57"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY on TEN-J.Ward, Neutral Zone Infraction, 3 yards, enforced at TEN 5 - No Play.",
+   "shortText": "Jihad Ward 3 Yd Pnlty",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 5,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T18:57:17Z"
+  },
+  {
+   "id": "4017728861430",
+   "sequence": 143000,
+   "period": 2,
+   "clock": {
+    "seconds": 342,
+    "display": "5:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker up the middle to TEN 6 for -4 yards (K.Winston).",
+   "shortText": "Kenneth Walker III Rush, Loss of 4",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T18:58:17Z"
+  },
+  {
+   "id": "4017728861452",
+   "sequence": 145200,
+   "period": 2,
+   "clock": {
+    "seconds": 299,
+    "display": "4:59"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "S.Darnold pass incomplete short left to A.Barner (M.Harris, J.Ward).",
+   "shortText": "Sam Darnold Incomplete Pass, Intended For AJ Barner",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T18:59:01Z"
+  },
+  {
+   "id": "4017728861475",
+   "sequence": 147500,
+   "period": 2,
+   "clock": {
+    "seconds": 292,
+    "display": "4:52"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) PENALTY on SEA, Delay of Game, 5 yards, enforced at TEN 6 - No Play.",
+   "shortText": "SEA 5 Yd Pnlty",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 11,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T18:59:48Z"
+  },
+  {
+   "id": "4017728861499",
+   "sequence": 149900,
+   "period": 2,
+   "clock": {
+    "seconds": 292,
+    "display": "4:52"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) S.Darnold pass incomplete short left to J.Smith-Njigba.",
+   "shortText": "Sam Darnold Incomplete Pass, Intended For Jaxon Smith-Njigba",
+   "awayScore": 10,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 11,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 4,
+    "distance": 11,
+    "yardsToEndzone": 11,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T19:00:39Z"
+  },
+  {
+   "id": "4017728861522",
+   "sequence": 152200,
+   "period": 2,
+   "clock": {
+    "seconds": 284,
+    "display": "4:44"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "J.Myers 30 yard field goal is GOOD, Center-C.Stoll, Holder-M.Dickson.",
+   "shortText": "Jason Myers 30 Yd Field Goal",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 30,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 11,
+    "yardsToEndzone": 11,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T19:01:20Z"
+  },
+  {
+   "id": "4017728861532",
+   "sequence": 153200,
+   "period": 2,
+   "clock": {
+    "seconds": 284,
+    "display": "4:44"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 04:44.",
+   "shortText": "Official Timeout At 04:44. ",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728866",
+   "wallclock": "2025-11-23T19:01:33Z"
+  },
+  {
+   "id": "4017728861542",
+   "sequence": 154200,
+   "period": 2,
+   "clock": {
+    "seconds": 284,
+    "display": "4:44"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Myers kicks 59 yards from SEA 35 to TEN 6. C.Dike pushed ob at TEN 27 for 21 yards (B.Russell).",
+   "shortText": "Jason Myers 59 Yd Kickoff Chimere Dike 21 Yd Kickoff Return",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 21,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:04:23Z"
+  },
+  {
+   "id": "4017728861575",
+   "sequence": 157500,
+   "period": 2,
+   "clock": {
+    "seconds": 280,
+    "display": "4:40"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "C.Ward pass incomplete short middle.",
+   "shortText": "Cam Ward Incomplete Pass",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:05:15Z"
+  },
+  {
+   "id": "4017728861598",
+   "sequence": 159800,
+   "period": 2,
+   "clock": {
+    "seconds": 277,
+    "display": "4:37"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "C.Ward pass short right to G.Helm to TEN 28 for 1 yard (D.Witherspoon).",
+   "shortText": "Cam Ward Pass Complete for 1 Yd to Gunnar Helm",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 72,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:05:56Z"
+  },
+  {
+   "id": "4017728861623",
+   "sequence": 162300,
+   "period": 2,
+   "clock": {
+    "seconds": 234,
+    "display": "3:54"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass deep middle to J.Proche to SEA 49 for 23 yards (T.Okada).",
+   "shortText": "Cam Ward Pass Complete for 23 Yds to James Proche II",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 23,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 72,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:06:38Z"
+  },
+  {
+   "id": "4017728861648",
+   "sequence": 164800,
+   "period": 2,
+   "clock": {
+    "seconds": 192,
+    "display": "3:12"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Pollard left guard to SEA 47 for 2 yards (L.Williams).",
+   "shortText": "Tony Pollard 2 Yd Rush",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 47,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:07:21Z"
+  },
+  {
+   "id": "4017728861670",
+   "sequence": 167000,
+   "period": 2,
+   "clock": {
+    "seconds": 151,
+    "display": "2:31"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short middle to J.Proche to SEA 40 for 7 yards (D.Thomas).",
+   "shortText": "Cam Ward Pass Complete for 7 Yds to James Proche II",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 47,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 40,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:08:01Z"
+  },
+  {
+   "id": "4017728861683",
+   "sequence": 168300,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "75",
+   "typeText": "Two-minute warning",
+   "text": "Two-Minute Warning",
+   "shortText": "Two-Minute Warning",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 40,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:08:26Z"
+  },
+  {
+   "id": "4017728861695",
+   "sequence": 169500,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "C.Ward pass incomplete deep left to G.Helm (U.Nwosu). SEA-U.Nwosu was injured during the play.",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Gunnar Helm",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 40,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 40,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:11:33Z"
+  },
+  {
+   "id": "4017728861725",
+   "sequence": 172500,
+   "period": 2,
+   "clock": {
+    "seconds": 114,
+    "display": "1:54"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by SEA at 01:54.",
+   "shortText": "Timeout #1 By Sea At 01:54. Timeout SEA",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 40,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:12:28Z"
+  },
+  {
+   "id": "4017728861734",
+   "sequence": 173400,
+   "period": 2,
+   "clock": {
+    "seconds": 114,
+    "display": "1:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Chestnut up the middle to SEA 40 for no gain (B.Pili; D.Thomas).",
+   "shortText": "Julius Chestnut Rush, No Gain",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 40,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728867",
+   "wallclock": "2025-11-23T19:15:08Z"
+  },
+  {
+   "id": "4017728861775",
+   "sequence": 177500,
+   "period": 2,
+   "clock": {
+    "seconds": 108,
+    "display": "1:48"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) Z.Charbonnet up the middle to SEA 42 for 2 yards (S.Joseph).",
+   "shortText": "Zach Charbonnet 2 Yd Rush",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 58,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:16:12Z"
+  },
+  {
+   "id": "4017728861797",
+   "sequence": 179700,
+   "period": 2,
+   "clock": {
+    "seconds": 68,
+    "display": "1:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) Z.Charbonnet left end ran ob at TEN 49 for 9 yards (S.Womack).",
+   "shortText": "Zach Charbonnet 9 Yd Rush",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 58,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:16:51Z"
+  },
+  {
+   "id": "4017728861824",
+   "sequence": 182400,
+   "period": 2,
+   "clock": {
+    "seconds": 60,
+    "display": "1:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) S.Darnold pass incomplete short middle to R.Shaheed.",
+   "shortText": "Sam Darnold Incomplete Pass, Intended For Rashid Shaheed",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:17:33Z"
+  },
+  {
+   "id": "4017728861847",
+   "sequence": 184700,
+   "period": 2,
+   "clock": {
+    "seconds": 57,
+    "display": "0:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) Z.Charbonnet up the middle to TEN 36 for 13 yards (C.Gray).",
+   "shortText": "Zach Charbonnet 13 Yd Rush",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 36,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:18:12Z"
+  },
+  {
+   "id": "4017728861869",
+   "sequence": 186900,
+   "period": 2,
+   "clock": {
+    "seconds": 38,
+    "display": "0:38"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) S.Darnold pass short left to J.Smith-Njigba pushed ob at TEN 25 for 11 yards (K.Winston).",
+   "shortText": "Sam Darnold Pass Complete for 11 Yds to Jaxon Smith-Njigba",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 36,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:18:31Z"
+  },
+  {
+   "id": "4017728861904",
+   "sequence": 190400,
+   "period": 2,
+   "clock": {
+    "seconds": 31,
+    "display": "0:31"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) S.Darnold pass short middle to C.Kupp to TEN 13 for 12 yards (M.Harris).",
+   "shortText": "Sam Darnold Pass Complete for 12 Yds to Cooper Kupp",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 13,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:19:18Z"
+  },
+  {
+   "id": "4017728861917",
+   "sequence": 191700,
+   "period": 2,
+   "clock": {
+    "seconds": 22,
+    "display": "0:22"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #2 by SEA at 00:22.",
+   "shortText": "Timeout #2 By Sea At 00:22. Timeout SEA ",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 13,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:19:42Z"
+  },
+  {
+   "id": "4017728861929",
+   "sequence": 192900,
+   "period": 2,
+   "clock": {
+    "seconds": 22,
+    "display": "0:22"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) S.Darnold pass short middle to J.Smith-Njigba pushed ob at TEN 12 for 1 yard (C.Gray). TEN-D.Baker was injured during the play.",
+   "shortText": "Sam Darnold Pass Complete for 1 Yd to Jaxon Smith-Njigba",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 13,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 12,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:20:32Z"
+  },
+  {
+   "id": "4017728861954",
+   "sequence": 195400,
+   "period": 2,
+   "clock": {
+    "seconds": 16,
+    "display": "0:16"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by TEN at 00:16.",
+   "shortText": "Timeout #1 By Ten At 00:16. Timeout TEN",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 12,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:21:28Z"
+  },
+  {
+   "id": "4017728861978",
+   "sequence": 197800,
+   "period": 2,
+   "clock": {
+    "seconds": 16,
+    "display": "0:16"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) PENALTY on SEA-A.Lucas, False Start, 5 yards, enforced at TEN 12 - No Play.",
+   "shortText": "Abraham Lucas 5 Yd Pnlty",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 12,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 17,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:25:09Z"
+  },
+  {
+   "id": "4017728862014",
+   "sequence": 201400,
+   "period": 2,
+   "clock": {
+    "seconds": 16,
+    "display": "0:16"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) S.Darnold pass incomplete deep right. ** Injury Update: TEN-D.Baker has returned to the game. Penalty on SEA-G.Zabel, Offensive Holding, offsetting, enforced at TEN 17 - No Play.Penalty on TEN-S.Womack, Defensive Holding, offsetting.",
+   "shortText": "Sam Darnold Incomplete Pass",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 17,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 17,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:25:58Z"
+  },
+  {
+   "id": "4017728862053",
+   "sequence": 205300,
+   "period": 2,
+   "clock": {
+    "seconds": 9,
+    "display": "0:09"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) S.Darnold pass incomplete deep right to J.Smith-Njigba (S.Womack).",
+   "shortText": "Sam Darnold Incomplete Pass, Intended For Jaxon Smith-Njigba",
+   "awayScore": 13,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 17,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 17,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:27:10Z"
+  },
+  {
+   "id": "4017728862076",
+   "sequence": 207600,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": " J.Myers 36 yard field goal is GOOD, Center-C.Stoll, Holder-M.Dickson.",
+   "shortText": "Jason Myers 36 Yd Field Goal ",
+   "awayScore": 16,
+   "homeScore": 3,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 36,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 17,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:27:54Z"
+  },
+  {
+   "id": "4017728862099",
+   "sequence": 209900,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "65",
+   "typeText": "End of Half",
+   "text": "END QUARTER 2",
+   "shortText": "End Quarter 2",
+   "awayScore": 16,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "4017728868",
+   "wallclock": "2025-11-23T19:27:54Z"
+  },
+  {
+   "id": "4017728862117",
+   "sequence": 211700,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Slye kicks 57 yards from TEN 35 to SEA 8. R.Shaheed to SEA 24 for 16 yards (J.Williams).",
+   "shortText": "Joey Slye 57 Yd Kickoff Rashid Shaheed 16 Yd Kickoff Return",
+   "awayScore": 16,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728869",
+   "wallclock": "2025-11-23T19:42:27Z"
+  },
+  {
+   "id": "4017728862150",
+   "sequence": 215000,
+   "period": 3,
+   "clock": {
+    "seconds": 895,
+    "display": "14:55"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "S.Darnold pass deep left to J.Smith-Njigba pushed ob at TEN 20 for 56 yards (K.Winston) [A.Key].",
+   "shortText": "Sam Darnold Pass Complete for 56 Yds to Jaxon Smith-Njigba",
+   "awayScore": 16,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 56,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728869",
+   "wallclock": "2025-11-23T19:43:16Z"
+  },
+  {
+   "id": "4017728862180",
+   "sequence": 218000,
+   "period": 3,
+   "clock": {
+    "seconds": 850,
+    "display": "14:10"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker left end to TEN 13 for 7 yards (J.Simmons).",
+   "shortText": "Kenneth Walker III 7 Yd Rush",
+   "awayScore": 16,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 13,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728869",
+   "wallclock": "2025-11-23T19:44:04Z"
+  },
+  {
+   "id": "4017728862207",
+   "sequence": 220700,
+   "period": 3,
+   "clock": {
+    "seconds": 799,
+    "display": "13:19"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "S.Darnold pass short right to J.Smith-Njigba for 13 yards, TOUCHDOWN. J.Myers extra point is GOOD, Center-C.Stoll, Holder-M.Dickson.",
+   "shortText": "Jaxon Smith-Njigba 13 Yd pass from Sam Darnold (Jason Myers Kick)",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 13,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728869",
+   "wallclock": "2025-11-23T19:44:50Z"
+  },
+  {
+   "id": "4017728862233",
+   "sequence": 223300,
+   "period": 3,
+   "clock": {
+    "seconds": 799,
+    "display": "13:19"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY on SEA-C.Cross, False Start, 5 yards, enforced at TEN 15 - No Play.",
+   "shortText": "Charles Cross 5 Yd Pnlty",
+   "awayScore": 22,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "teamId": "26",
+   "driveId": "4017728869",
+   "wallclock": null
+  },
+  {
+   "id": "4017728862266",
+   "sequence": 226600,
+   "period": 3,
+   "clock": {
+    "seconds": 799,
+    "display": "13:19"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 13:19.",
+   "shortText": "Official Timeout At 13:19. ",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "4017728869",
+   "wallclock": "2025-11-23T19:46:32Z"
+  },
+  {
+   "id": "4017728862273",
+   "sequence": 227300,
+   "period": 3,
+   "clock": {
+    "seconds": 799,
+    "display": "13:19"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Myers kicks 67 yards from SEA 35 to TEN -2. C.Dike pushed ob at TEN 27 for 29 yards (N.Pritchett).",
+   "shortText": "Jason Myers 67 Yd Kickoff Chimere Dike 29 Yd Kickoff Return",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 29,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288610",
+   "wallclock": "2025-11-23T19:49:12Z"
+  },
+  {
+   "id": "4017728862311",
+   "sequence": 231100,
+   "period": 3,
+   "clock": {
+    "seconds": 792,
+    "display": "13:12"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short right to C.Dike ran ob at TEN 29 for 2 yards (D.Bell). ** Injury Update: SEA-U.Nwosu has returned to the game.",
+   "shortText": "Cam Ward Pass Complete for 2 Yds to Chimere Dike",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 71,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288610",
+   "wallclock": "2025-11-23T19:49:59Z"
+  },
+  {
+   "id": "4017728862338",
+   "sequence": 233800,
+   "period": 3,
+   "clock": {
+    "seconds": 752,
+    "display": "12:32"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "C.Ward pass incomplete short left to T.Pollard.",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Tony Pollard",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 71,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 71,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288610",
+   "wallclock": "2025-11-23T19:50:40Z"
+  },
+  {
+   "id": "4017728862364",
+   "sequence": 236400,
+   "period": 3,
+   "clock": {
+    "seconds": 748,
+    "display": "12:28"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) C.Ward sacked at TEN 22 for -7 yards (L.Williams).",
+   "shortText": "Cam Ward Sacked by Leonard Williams For 7 Yd Loss",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 71,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 15,
+    "yardsToEndzone": 78,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288610",
+   "wallclock": "2025-11-23T19:51:18Z"
+  },
+  {
+   "id": "4017728862407",
+   "sequence": 240700,
+   "period": 3,
+   "clock": {
+    "seconds": 707,
+    "display": "11:47"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "J.Hekker punts 47 yards to SEA 31, Center-M.Cox. R.Shaheed to SEA 35 for 4 yards (M.Robinson; J.Chestnut).PENALTY on SEA-J.Bobo, Offensive Holding, 10 yards, enforced at SEA 32.",
+   "shortText": "Johnny Hekker 47 Yd Punt Rashid Shaheed 1 Yd Punt Return Jake Bobo 10 Yd Pnlty",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -9,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 15,
+    "yardsToEndzone": 22,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 78,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288610",
+   "wallclock": "2025-11-23T19:51:58Z"
+  },
+  {
+   "id": "4017728862430",
+   "sequence": 243000,
+   "period": 3,
+   "clock": {
+    "seconds": 696,
+    "display": "11:36"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 11:36.",
+   "shortText": "Official Timeout At 11:36. ",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 78,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288610",
+   "wallclock": "2025-11-23T19:52:59Z"
+  },
+  {
+   "id": "4017728862452",
+   "sequence": 245200,
+   "period": 3,
+   "clock": {
+    "seconds": 696,
+    "display": "11:36"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) S.Darnold pass incomplete deep right to A.Barner.",
+   "shortText": "Sam Darnold Incomplete Pass, Intended For AJ Barner",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 78,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 78,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288611",
+   "wallclock": "2025-11-23T19:55:29Z"
+  },
+  {
+   "id": "4017728862487",
+   "sequence": 248700,
+   "period": 3,
+   "clock": {
+    "seconds": 691,
+    "display": "11:31"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) S.Darnold pass short right to J.Smith-Njigba to SEA 30 for 8 yards (A.Hooker).",
+   "shortText": "Sam Darnold Pass Complete for 8 Yds to Jaxon Smith-Njigba",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 78,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 70,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288611",
+   "wallclock": "2025-11-23T19:56:11Z"
+  },
+  {
+   "id": "4017728862512",
+   "sequence": 251200,
+   "period": 3,
+   "clock": {
+    "seconds": 647,
+    "display": "10:47"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) S.Darnold pass incomplete short middle to C.Kupp (D.Baker).",
+   "shortText": "Sam Darnold Incomplete Pass, Intended For Cooper Kupp",
+   "awayScore": 23,
+   "homeScore": 3,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 70,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 70,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288611",
+   "wallclock": "2025-11-23T19:56:53Z"
+  },
+  {
+   "id": "4017728862535",
+   "sequence": 253500,
+   "period": 3,
+   "clock": {
+    "seconds": 622,
+    "display": "10:22"
+   },
+   "typeId": "34",
+   "typeText": "Punt Return Touchdown",
+   "text": "M.Dickson punts 60 yards to TEN 10, Center-C.Stoll. C.Dike for 90 yards, TOUCHDOWN. J.Slye extra point is GOOD, Center-M.Cox, Holder-J.Hekker.",
+   "shortText": "Chimere Dike 90 Yd Punt Return (Joey Slye Kick)",
+   "awayScore": 23,
+   "homeScore": 10,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 90,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 70,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 15,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288611",
+   "wallclock": "2025-11-23T19:57:33Z"
+  },
+  {
+   "id": "4017728862570",
+   "sequence": 257000,
+   "period": 3,
+   "clock": {
+    "seconds": 622,
+    "display": "10:22"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 10:22.",
+   "shortText": "Official Timeout At 10:22. ",
+   "awayScore": 23,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288611",
+   "wallclock": "2025-11-23T20:00:23Z"
+  },
+  {
+   "id": "4017728862577",
+   "sequence": 257700,
+   "period": 3,
+   "clock": {
+    "seconds": 622,
+    "display": "10:22"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Slye kicks 61 yards from TEN 35 to SEA 4. R.Shaheed to SEA 26 for 22 yards (M.Brown).",
+   "shortText": "Joey Slye 61 Yd Kickoff Rashid Shaheed 22 Yd Kickoff Return",
+   "awayScore": 23,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 22,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288612",
+   "wallclock": "2025-11-23T20:01:53Z"
+  },
+  {
+   "id": "4017728862607",
+   "sequence": 260700,
+   "period": 3,
+   "clock": {
+    "seconds": 618,
+    "display": "10:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker left end pushed ob at SEA 45 for 19 yards (A.Hooker).",
+   "shortText": "Kenneth Walker III 19 Yd Rush",
+   "awayScore": 23,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288612",
+   "wallclock": "2025-11-23T20:02:38Z"
+  },
+  {
+   "id": "4017728862634",
+   "sequence": 263400,
+   "period": 3,
+   "clock": {
+    "seconds": 582,
+    "display": "9:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker right guard to TEN 44 for 11 yards (K.Winston; T.Sweat).",
+   "shortText": "Kenneth Walker III 11 Yd Rush",
+   "awayScore": 23,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288612",
+   "wallclock": "2025-11-23T20:03:14Z"
+  },
+  {
+   "id": "4017728862656",
+   "sequence": 265600,
+   "period": 3,
+   "clock": {
+    "seconds": 538,
+    "display": "8:58"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "S.Darnold pass short right to K.Walker ran ob at TEN 15 for 29 yards (C.Gray).",
+   "shortText": "Sam Darnold Pass Complete for 29 Yds to Kenneth Walker III",
+   "awayScore": 23,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 29,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 15,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288612",
+   "wallclock": "2025-11-23T20:03:59Z"
+  },
+  {
+   "id": "4017728862686",
+   "sequence": 268600,
+   "period": 3,
+   "clock": {
+    "seconds": 491,
+    "display": "8:11"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "S.Darnold pass short left to J.Smith-Njigba pushed ob at TEN 11 for 4 yards (J.Armour-Davis).",
+   "shortText": "Sam Darnold Pass Complete for 4 Yds to Jaxon Smith-Njigba",
+   "awayScore": 23,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 15,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 11,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288612",
+   "wallclock": "2025-11-23T20:04:47Z"
+  },
+  {
+   "id": "4017728862716",
+   "sequence": 271600,
+   "period": 3,
+   "clock": {
+    "seconds": 449,
+    "display": "7:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) Z.Charbonnet up the middle to TEN 5 for 6 yards (J.Simmons; J.Armour-Davis).",
+   "shortText": "Zach Charbonnet 6 Yd Rush",
+   "awayScore": 23,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 11,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288612",
+   "wallclock": "2025-11-23T20:05:31Z"
+  },
+  {
+   "id": "4017728862738",
+   "sequence": 273800,
+   "period": 3,
+   "clock": {
+    "seconds": 400,
+    "display": "6:40"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "Z.Charbonnet left end for 5 yards, TOUCHDOWN. J.Myers extra point is GOOD, Center-C.Stoll, Holder-M.Dickson.",
+   "shortText": "Zach Charbonnet 5 Yd Rush (Jason Myers Kick)",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288612",
+   "wallclock": "2025-11-23T20:06:14Z"
+  },
+  {
+   "id": "4017728862769",
+   "sequence": 276900,
+   "period": 3,
+   "clock": {
+    "seconds": 400,
+    "display": "6:40"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 06:40.",
+   "shortText": "Official Timeout At 06:40. ",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288612",
+   "wallclock": "2025-11-23T20:07:12Z"
+  },
+  {
+   "id": "4017728862776",
+   "sequence": 277600,
+   "period": 3,
+   "clock": {
+    "seconds": 400,
+    "display": "6:40"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Myers kicks 65 yards from SEA 35 to TEN 0. J.Chestnut to TEN 32 for 32 yards (C.White; J.Bobo).PENALTY on TEN-K.Mullings, Illegal Formation, 5 yards, enforced at TEN 32.",
+   "shortText": "Jason Myers 65 Yd Kickoff Julius Chestnut 32 Yd Kickoff Return Kalel Mullings 5 Yd Pnlty",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 27,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:08:50Z"
+  },
+  {
+   "id": "4017728862817",
+   "sequence": 281700,
+   "period": 3,
+   "clock": {
+    "seconds": 394,
+    "display": "6:34"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) C.Ward pass short right to C.Okonkwo to TEN 33 for 6 yards (P.O'Connell).PENALTY on TEN-J.Latham, Illegal Formation, 5 yards, enforced at TEN 27 - No Play.",
+   "shortText": "Cam Ward Pass Complete for 6 Yds to Chig Okonkwo JC Latham 5 Yd Pnlty",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 78,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:10:27Z"
+  },
+  {
+   "id": "4017728862853",
+   "sequence": 285300,
+   "period": 3,
+   "clock": {
+    "seconds": 370,
+    "display": "6:10"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) C.Ward pass short left to T.Pollard to TEN 23 for 1 yard (D.Witherspoon; D.Thomas).PENALTY on SEA-J.Jobe, Illegal Contact, 5 yards, enforced at TEN 22 - No Play.",
+   "shortText": "Cam Ward Pass Complete for 1 Yd to Tony Pollard Josh Jobe 5 Yd Pnlty",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 78,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:11:23Z"
+  },
+  {
+   "id": "4017728862889",
+   "sequence": 288900,
+   "period": 3,
+   "clock": {
+    "seconds": 341,
+    "display": "5:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Pollard right guard to TEN 30 for 3 yards (D.Hall; B.Murphy).",
+   "shortText": "Tony Pollard 3 Yd Rush",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 70,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:12:40Z"
+  },
+  {
+   "id": "4017728862911",
+   "sequence": 291100,
+   "period": 3,
+   "clock": {
+    "seconds": 300,
+    "display": "5:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass deep right to C.Okonkwo pushed ob at SEA 44 for 26 yards (N.Emmanwori).",
+   "shortText": "Cam Ward Pass Complete for 26 Yds to Chig Okonkwo",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 26,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 70,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:13:21Z"
+  },
+  {
+   "id": "4017728862941",
+   "sequence": 294100,
+   "period": 3,
+   "clock": {
+    "seconds": 265,
+    "display": "4:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Pollard right tackle to SEA 43 for 1 yard (D.Thomas; B.Pili).",
+   "shortText": "Tony Pollard 1 Yd Rush",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 43,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:14:07Z"
+  },
+  {
+   "id": "4017728862963",
+   "sequence": 296300,
+   "period": 3,
+   "clock": {
+    "seconds": 225,
+    "display": "3:45"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) C.Ward pass incomplete deep right to J.Proche.PENALTY on SEA-U.Nwosu, Defensive Offside, 5 yards, enforced at SEA 43 - No Play.",
+   "shortText": "Cam Ward Incomplete Pass, Intended For James Proche II Uchenna Nwosu 5 Yd Pnlty",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 43,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 38,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:14:47Z"
+  },
+  {
+   "id": "4017728862998",
+   "sequence": 299800,
+   "period": 3,
+   "clock": {
+    "seconds": 222,
+    "display": "3:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Spears up the middle to SEA 38 for no gain (P.O'Connell).",
+   "shortText": "Tyjae Spears Rush, No Gain",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 38,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 38,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:15:39Z"
+  },
+  {
+   "id": "4017728863025",
+   "sequence": 302500,
+   "period": 3,
+   "clock": {
+    "seconds": 180,
+    "display": "3:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short left to J.Proche to SEA 26 for 12 yards (P.O'Connell).",
+   "shortText": "Cam Ward Pass Complete for 12 Yds to James Proche II",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 38,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:16:21Z"
+  },
+  {
+   "id": "4017728863050",
+   "sequence": 305000,
+   "period": 3,
+   "clock": {
+    "seconds": 158,
+    "display": "2:38"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(No Huddle) C.Ward pass short left to J.Proche to SEA 22 for 4 yards (D.Witherspoon).PENALTY on SEA, Defensive Too Many Men on Field, 5 yards, enforced at SEA 26 - No Play.",
+   "shortText": "Cam Ward Pass Complete for 4 Yds to James Proche II SEA 5 Yd Pnlty",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:16:42Z"
+  },
+  {
+   "id": "4017728863086",
+   "sequence": 308600,
+   "period": 3,
+   "clock": {
+    "seconds": 135,
+    "display": "2:15"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) C.Ward pass incomplete deep right to X.Restrepo (D.Witherspoon).",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Xavier Restrepo",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:17:52Z"
+  },
+  {
+   "id": "4017728863109",
+   "sequence": 310900,
+   "period": 3,
+   "clock": {
+    "seconds": 130,
+    "display": "2:10"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) C.Ward pass incomplete short right to C.Okonkwo (D.Hall).",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Chig Okonkwo",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:18:33Z"
+  },
+  {
+   "id": "4017728863132",
+   "sequence": 313200,
+   "period": 3,
+   "clock": {
+    "seconds": 128,
+    "display": "2:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short middle to G.Helm to SEA 6 for 15 yards (D.Thomas).",
+   "shortText": "Cam Ward Pass Complete for 15 Yds to Gunnar Helm",
+   "awayScore": 30,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:19:15Z"
+  },
+  {
+   "id": "4017728863157",
+   "sequence": 315700,
+   "period": 3,
+   "clock": {
+    "seconds": 78,
+    "display": "1:18"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(Shotgun) C.Ward up the middle for 6 yards, TOUCHDOWN. J.Slye extra point is GOOD, Center-M.Cox, Holder-J.Hekker.PENALTY on SEA-L.Williams, Unnecessary Roughness, 15 yards, enforced between downs.",
+   "shortText": "Cam Ward 6 Yd Rush (Joey Slye Kick)",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "10"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:20:01Z"
+  },
+  {
+   "id": "4017728863194",
+   "sequence": 319400,
+   "period": 3,
+   "clock": {
+    "seconds": 78,
+    "display": "1:18"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 01:18.",
+   "shortText": "Official Timeout At 01:18. ",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288613",
+   "wallclock": "2025-11-23T20:22:08Z"
+  },
+  {
+   "id": "4017728863207",
+   "sequence": 320700,
+   "period": 3,
+   "clock": {
+    "seconds": 78,
+    "display": "1:18"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Slye kicks 48 yards from 50 to SEA 2, out of bounds.PENALTY on TEN-J.Slye, Kickoff Out of Bounds, placed at SEA 25.",
+   "shortText": "Joey Slye 25 Yd Kickoff Joey Slye 0 Yd Pnlty",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 25,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 50,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:24:53Z"
+  },
+  {
+   "id": "4017728863242",
+   "sequence": 324200,
+   "period": 3,
+   "clock": {
+    "seconds": 78,
+    "display": "1:18"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) S.Darnold pass short right to C.Kupp ran ob at SEA 37 for 12 yards.",
+   "shortText": "Sam Darnold Pass Complete for 12 Yds to Cooper Kupp",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:25:58Z"
+  },
+  {
+   "id": "4017728863272",
+   "sequence": 327200,
+   "period": 3,
+   "clock": {
+    "seconds": 41,
+    "display": "0:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker right guard to TEN 48 for 15 yards (K.Winston).",
+   "shortText": "Kenneth Walker III 15 Yd Rush",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:26:37Z"
+  },
+  {
+   "id": "4017728863294",
+   "sequence": 329400,
+   "period": 3,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "END QUARTER 3",
+   "shortText": "End Quarter 3 ",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:26:37Z"
+  },
+  {
+   "id": "4017728863314",
+   "sequence": 331400,
+   "period": 4,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "S.Darnold pass incomplete deep right to R.Shaheed [J.Simmons].",
+   "shortText": "Sam Darnold Incomplete Pass, Intended For Rashid Shaheed",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:30:06Z"
+  },
+  {
+   "id": "4017728863337",
+   "sequence": 333700,
+   "period": 4,
+   "clock": {
+    "seconds": 894,
+    "display": "14:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "K.Walker up the middle to TEN 41 for 7 yards (M.Harris; K.Winston).",
+   "shortText": "Kenneth Walker III 7 Yd Rush",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 41,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:30:49Z"
+  },
+  {
+   "id": "4017728863359",
+   "sequence": 335900,
+   "period": 4,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) K.Walker left end to TEN 41 for no gain (J.Armour-Davis).",
+   "shortText": "Kenneth Walker III Rush, No Gain",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 41,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 41,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:31:35Z"
+  },
+  {
+   "id": "4017728863370",
+   "sequence": 337000,
+   "period": 4,
+   "clock": {
+    "seconds": 802,
+    "display": "13:22"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by SEA at 13:22.",
+   "shortText": "Timeout #1 By Sea At 13:22. Timeout SEA ",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 41,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:32:27Z"
+  },
+  {
+   "id": "4017728863381",
+   "sequence": 338100,
+   "period": 4,
+   "clock": {
+    "seconds": 802,
+    "display": "13:22"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": " (Shotgun) S.Darnold sacked at TEN 46 for -5 yards (A.Key).",
+   "shortText": "Sam Darnold Sacked by Arden Key For 5 Yd Loss ",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 41,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 54,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:33:22Z"
+  },
+  {
+   "id": "4017728863395",
+   "sequence": 339500,
+   "period": 4,
+   "clock": {
+    "seconds": 797,
+    "display": "13:17"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 13:17.",
+   "shortText": "Official Timeout At 13:17. ",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 54,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288614",
+   "wallclock": "2025-11-23T20:33:50Z"
+  },
+  {
+   "id": "4017728863408",
+   "sequence": 340800,
+   "period": 4,
+   "clock": {
+    "seconds": 797,
+    "display": "13:17"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short right to C.Okonkwo to 50 for 4 yards (P.O'Connell; D.Lawrence).",
+   "shortText": "Cam Ward Pass Complete for 4 Yds to Chig Okonkwo",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 54,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 50,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:36:29Z"
+  },
+  {
+   "id": "4017728863440",
+   "sequence": 344000,
+   "period": 4,
+   "clock": {
+    "seconds": 760,
+    "display": "12:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Pollard left guard to SEA 45 for 5 yards (N.Emmanwori; P.O'Connell).",
+   "shortText": "Tony Pollard 5 Yd Rush",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 50,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 45,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:37:06Z"
+  },
+  {
+   "id": "4017728863462",
+   "sequence": 346200,
+   "period": 4,
+   "clock": {
+    "seconds": 722,
+    "display": "12:02"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Pollard left tackle to SEA 45 for no gain (L.Williams).",
+   "shortText": "Tony Pollard Rush, No Gain",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 45,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 45,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:37:44Z"
+  },
+  {
+   "id": "4017728863473",
+   "sequence": 347300,
+   "period": 4,
+   "clock": {
+    "seconds": 690,
+    "display": "11:30"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by TEN at 11:30.",
+   "shortText": "Timeout #1 By Ten At 11:30. Timeout TEN ",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 45,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:38:20Z"
+  },
+  {
+   "id": "4017728863484",
+   "sequence": 348400,
+   "period": 4,
+   "clock": {
+    "seconds": 690,
+    "display": "11:30"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "C.Ward up the middle to SEA 44 for 1 yard (B.Pili; B.Murphy).Seattle challenged the first down ruling, and the play was Upheld. The ruling on the field stands. (Timeout #2.)",
+   "shortText": "Cam Ward 1 Yd Rush",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 45,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:39:31Z"
+  },
+  {
+   "id": "4017728863499",
+   "sequence": 349900,
+   "period": 4,
+   "clock": {
+    "seconds": 651,
+    "display": "10:51"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 10:51.",
+   "shortText": "Official Timeout At 10:51. ",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:42:53Z"
+  },
+  {
+   "id": "4017728863513",
+   "sequence": 351300,
+   "period": 4,
+   "clock": {
+    "seconds": 651,
+    "display": "10:51"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short right to T.Pollard ran ob at SEA 42 for 2 yards.",
+   "shortText": "Cam Ward Pass Complete for 2 Yds to Tony Pollard",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 42,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:43:39Z"
+  },
+  {
+   "id": "4017728863577",
+   "sequence": 357700,
+   "period": 4,
+   "clock": {
+    "seconds": 610,
+    "display": "10:10"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short left to T.Pollard to SEA 38 for 4 yards (T.Woolen).",
+   "shortText": "Cam Ward Pass Complete for 4 Yds to Tony Pollard",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 42,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 38,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:44:22Z"
+  },
+  {
+   "id": "4017728863602",
+   "sequence": 360200,
+   "period": 4,
+   "clock": {
+    "seconds": 562,
+    "display": "9:22"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short middle to X.Restrepo to SEA 24 for 14 yards (C.Bryant) [L.Williams].",
+   "shortText": "Cam Ward Pass Complete for 14 Yds to Xavier Restrepo",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 38,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 24,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:45:09Z"
+  },
+  {
+   "id": "4017728863627",
+   "sequence": 362700,
+   "period": 4,
+   "clock": {
+    "seconds": 508,
+    "display": "8:28"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) T.Spears up the middle to SEA 21 for 3 yards (Q.Bohanna; B.Pili).",
+   "shortText": "Tyjae Spears 3 Yd Rush",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 24,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:46:03Z"
+  },
+  {
+   "id": "4017728863649",
+   "sequence": 364900,
+   "period": 4,
+   "clock": {
+    "seconds": 462,
+    "display": "7:42"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) C.Ward pass short middle to X.Restrepo to SEA 16 for 5 yards (D.Bell) [B.Pili].PENALTY on TEN-O.Udoh, Offensive Holding, 10 yards, enforced at SEA 21 - No Play.",
+   "shortText": "Cam Ward Pass Complete for 5 Yds to Xavier Restrepo Olisaemeka Udoh 10 Yd Pnlty",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 21,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 17,
+    "yardsToEndzone": 31,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:46:50Z"
+  },
+  {
+   "id": "4017728863685",
+   "sequence": 368500,
+   "period": 4,
+   "clock": {
+    "seconds": 432,
+    "display": "7:12"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) C.Ward sacked at SEA 35 for -4 yards (D.Hall).",
+   "shortText": "Cam Ward Sacked by Derick Hall For 4 Yd Loss",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 17,
+    "yardsToEndzone": 31,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 21,
+    "yardsToEndzone": 35,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:47:56Z"
+  },
+  {
+   "id": "4017728863705",
+   "sequence": 370500,
+   "period": 4,
+   "clock": {
+    "seconds": 385,
+    "display": "6:25"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) C.Ward pass incomplete short middle to X.Restrepo (D.Witherspoon).",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Xavier Restrepo",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 21,
+    "yardsToEndzone": 35,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 21,
+    "yardsToEndzone": 35,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:48:43Z"
+  },
+  {
+   "id": "4017728863740",
+   "sequence": 374000,
+   "period": 4,
+   "clock": {
+    "seconds": 381,
+    "display": "6:21"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short right to G.Helm to SEA 20 for 15 yards (D.Bell) [L.Williams].",
+   "shortText": "Cam Ward Pass Complete for 15 Yds to Gunnar Helm",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 21,
+    "yardsToEndzone": 35,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288615",
+   "wallclock": "2025-11-23T20:49:27Z"
+  },
+  {
+   "id": "4017728863765",
+   "sequence": 376500,
+   "period": 4,
+   "clock": {
+    "seconds": 371,
+    "display": "6:11"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Z.Charbonnet left guard to SEA 20 for no gain (S.Joseph; C.Barton).",
+   "shortText": "Zach Charbonnet Rush, No Gain",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288616",
+   "wallclock": "2025-11-23T20:50:43Z"
+  },
+  {
+   "id": "4017728863787",
+   "sequence": 378700,
+   "period": 4,
+   "clock": {
+    "seconds": 328,
+    "display": "5:28"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) S.Darnold pass short right to K.Walker to SEA 16 for -4 yards (A.Key).",
+   "shortText": "Sam Darnold Pass Complete for Loss of 4 Yds to Kenneth Walker III",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 84,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288616",
+   "wallclock": "2025-11-23T20:51:25Z"
+  },
+  {
+   "id": "4017728863798",
+   "sequence": 379800,
+   "period": 4,
+   "clock": {
+    "seconds": 319,
+    "display": "5:19"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #2 by TEN at 05:19.",
+   "shortText": "Timeout #2 By Ten At 05:19. Timeout TEN ",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 0,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 84,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288616",
+   "wallclock": "2025-11-23T20:52:00Z"
+  },
+  {
+   "id": "4017728863809",
+   "sequence": 380900,
+   "period": 4,
+   "clock": {
+    "seconds": 319,
+    "display": "5:19"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) S.Darnold pass incomplete short left to C.Kupp.",
+   "shortText": "Sam Darnold Incomplete Pass, Intended For Cooper Kupp",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 84,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 4,
+    "distance": 14,
+    "yardsToEndzone": 84,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288616",
+   "wallclock": "2025-11-23T20:52:40Z"
+  },
+  {
+   "id": "4017728863839",
+   "sequence": 383900,
+   "period": 4,
+   "clock": {
+    "seconds": 315,
+    "display": "5:15"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "M.Dickson punts 46 yards to TEN 38, Center-C.Stoll, fair catch by C.Dike.",
+   "shortText": "Michael Dickson 46 Yd Punt, Fair Catch by",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 14,
+    "yardsToEndzone": 84,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288616",
+   "wallclock": "2025-11-23T20:53:32Z"
+  },
+  {
+   "id": "4017728863868",
+   "sequence": 386800,
+   "period": 4,
+   "clock": {
+    "seconds": 308,
+    "display": "5:08"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) C.Ward pass incomplete short right [D.Hall].",
+   "shortText": "Cam Ward Incomplete Pass",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T20:54:17Z"
+  },
+  {
+   "id": "4017728863891",
+   "sequence": 389100,
+   "period": 4,
+   "clock": {
+    "seconds": 302,
+    "display": "5:02"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) C.Ward pass incomplete short left to T.Spears.",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Tyjae Spears",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T20:55:03Z"
+  },
+  {
+   "id": "4017728863914",
+   "sequence": 391400,
+   "period": 4,
+   "clock": {
+    "seconds": 297,
+    "display": "4:57"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short middle to G.Helm to TEN 44 for 6 yards (D.Bell; P.O'Connell).",
+   "shortText": "Cam Ward Pass Complete for 6 Yds to Gunnar Helm",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 56,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T20:55:44Z"
+  },
+  {
+   "id": "4017728863939",
+   "sequence": 393900,
+   "period": 4,
+   "clock": {
+    "seconds": 257,
+    "display": "4:17"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short left to V.Jefferson to SEA 45 for 11 yards (J.Jobe).",
+   "shortText": "Cam Ward Pass Complete for 11 Yds to Van Jefferson",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 56,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T20:56:25Z"
+  },
+  {
+   "id": "4017728863972",
+   "sequence": 397200,
+   "period": 4,
+   "clock": {
+    "seconds": 228,
+    "display": "3:48"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) C.Ward pass short right to G.Helm to SEA 41 for 4 yards (D.Witherspoon).",
+   "shortText": "Cam Ward Pass Complete for 4 Yds to Gunnar Helm",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 41,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T20:56:53Z"
+  },
+  {
+   "id": "4017728863997",
+   "sequence": 399700,
+   "period": 4,
+   "clock": {
+    "seconds": 195,
+    "display": "3:15"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle, Shotgun) C.Ward pass incomplete short right to X.Restrepo (B.Mafe) [M.Morris]. TEN-L.Cushenberry was injured during the play.",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Xavier Restrepo",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 41,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 41,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T20:57:26Z"
+  },
+  {
+   "id": "4017728864023",
+   "sequence": 402300,
+   "period": 4,
+   "clock": {
+    "seconds": 187,
+    "display": "3:07"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) C.Ward pass incomplete short right [L.Williams].",
+   "shortText": "Cam Ward Incomplete Pass",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 41,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 41,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T20:59:28Z"
+  },
+  {
+   "id": "4017728864046",
+   "sequence": 404600,
+   "period": 4,
+   "clock": {
+    "seconds": 179,
+    "display": "2:59"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) C.Ward scrambles up the middle to SEA 32 for 9 yards (D.Thomas).",
+   "shortText": "Cam Ward 9 Yd Rush",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 41,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:00:24Z"
+  },
+  {
+   "id": "4017728864068",
+   "sequence": 406800,
+   "period": 4,
+   "clock": {
+    "seconds": 146,
+    "display": "2:26"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle, Shotgun) C.Ward pass incomplete short middle to X.Restrepo.",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Xavier Restrepo",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:00:57Z"
+  },
+  {
+   "id": "4017728864091",
+   "sequence": 409100,
+   "period": 4,
+   "clock": {
+    "seconds": 143,
+    "display": "2:23"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short left to T.Pollard to SEA 27 for 5 yards (T.Woolen).",
+   "shortText": "Cam Ward Pass Complete for 5 Yds to Tony Pollard",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 27,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:01:40Z"
+  },
+  {
+   "id": "4017728864104",
+   "sequence": 410400,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "75",
+   "typeText": "Two-minute warning",
+   "text": "Two-Minute Warning",
+   "shortText": "Two-Minute Warning ",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 27,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:02:11Z"
+  },
+  {
+   "id": "4017728864116",
+   "sequence": 411600,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) C.Ward pass incomplete deep right to C.Dike.",
+   "shortText": "Cam Ward Incomplete Pass, Intended For Chimere Dike",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 27,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 27,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:05:07Z"
+  },
+  {
+   "id": "4017728864146",
+   "sequence": 414600,
+   "period": 4,
+   "clock": {
+    "seconds": 116,
+    "display": "1:56"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) C.Ward pass short right to T.Spears to SEA 18 for 9 yards (D.Witherspoon; D.Thomas).",
+   "shortText": "Cam Ward Pass Complete for 9 Yds to Tyjae Spears",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 27,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 18,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:05:51Z"
+  },
+  {
+   "id": "4017728864171",
+   "sequence": 417100,
+   "period": 4,
+   "clock": {
+    "seconds": 93,
+    "display": "1:33"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) C.Ward pass short right to T.Spears to SEA 13 for 5 yards (B.Murphy).",
+   "shortText": "Cam Ward Pass Complete for 5 Yds to Tyjae Spears",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 18,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 13,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:06:15Z"
+  },
+  {
+   "id": "4017728864196",
+   "sequence": 419600,
+   "period": 4,
+   "clock": {
+    "seconds": 55,
+    "display": "0:55"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) C.Ward pass short middle to X.Restrepo to SEA 1 for 12 yards (D.Bell; D.Thomas).",
+   "shortText": "Cam Ward Pass Complete for 12 Yds to Xavier Restrepo",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 13,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:06:53Z"
+  },
+  {
+   "id": "4017728864209",
+   "sequence": 420900,
+   "period": 4,
+   "clock": {
+    "seconds": 47,
+    "display": "0:47"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #3 by TEN at 00:47.",
+   "shortText": "Timeout #3 By Ten At 00:47. Timeout TEN",
+   "awayScore": 30,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:07:14Z"
+  },
+  {
+   "id": "4017728864221",
+   "sequence": 422100,
+   "period": 4,
+   "clock": {
+    "seconds": 43,
+    "display": "0:43"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(Shotgun) C.Ward pass short right to C.Dike for 1 yard, TOUCHDOWN. J.Slye extra point is GOOD, Center-M.Cox, Holder-J.Hekker.",
+   "shortText": "Chimere Dike 1 Yd pass from Cam Ward (Joey Slye Kick)",
+   "awayScore": 30,
+   "homeScore": 24,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "10"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "10"
+   },
+   "teamId": "10",
+   "driveId": "40177288617",
+   "wallclock": "2025-11-23T21:07:58Z"
+  },
+  {
+   "id": "4017728864269",
+   "sequence": 426900,
+   "period": 4,
+   "clock": {
+    "seconds": 43,
+    "display": "0:43"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "J.Hekker kicks onside 8 yards from TEN 35 to TEN 43, downed by TEN-D.Mausi.PENALTY on TEN-D.Mausi, Illegal Touch Kick, 0 yards, enforced at TEN 43.",
+   "shortText": "Johnny Hekker  Onside Kick, Downed Dorian Mausi 0 Yd Pnlty",
+   "awayScore": 30,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "10"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288618",
+   "wallclock": "2025-11-23T21:10:30Z"
+  },
+  {
+   "id": "4017728864319",
+   "sequence": 431900,
+   "period": 4,
+   "clock": {
+    "seconds": 43,
+    "display": "0:43"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "S.Darnold kneels to TEN 44 for -1 yards.",
+   "shortText": "Sam Darnold Rush, Loss of 1 Yd",
+   "awayScore": 30,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "26"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 44,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288618",
+   "wallclock": "2025-11-23T21:12:04Z"
+  },
+  {
+   "id": "4017728864353",
+   "sequence": 435300,
+   "period": 4,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "66",
+   "typeText": "End of Game",
+   "text": "END GAME",
+   "shortText": "End Game ",
+   "awayScore": 30,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 11,
+    "yardsToEndzone": 44,
+    "teamId": "26"
+   },
+   "teamId": "26",
+   "driveId": "40177288618",
+   "wallclock": "2025-11-23T21:12:04Z"
+  }
+ ],
+ "drives": [
+  {
+   "id": "4017728861",
+   "sequence": 1,
+   "teamId": "10",
+   "endTeamId": "10",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 15,
+   "yards": 63,
+   "description": "15 plays, 63 yards, 9:09"
+  },
+  {
+   "id": "4017728862",
+   "sequence": 2,
+   "teamId": "26",
+   "endTeamId": "26",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 8,
+   "yards": 45,
+   "description": "8 plays, 45 yards, 3:37"
+  },
+  {
+   "id": "4017728863",
+   "sequence": 3,
+   "teamId": "10",
+   "endTeamId": "10",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 35,
+   "description": "6 plays, 35 yards, 4:30"
+  },
+  {
+   "id": "4017728864",
+   "sequence": 4,
+   "teamId": "26",
+   "endTeamId": "26",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 3,
+   "yards": 67,
+   "description": "3 plays, 67 yards, 1:42"
+  },
+  {
+   "id": "4017728865",
+   "sequence": 5,
+   "teamId": "10",
+   "endTeamId": "10",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": -9,
+   "description": "3 plays, -9 yards, 2:14"
+  },
+  {
+   "id": "4017728866",
+   "sequence": 6,
+   "teamId": "26",
+   "endTeamId": "26",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 8,
+   "yards": 15,
+   "description": "8 plays, 15 yards, 4:04"
+  },
+  {
+   "id": "4017728867",
+   "sequence": 7,
+   "teamId": "10",
+   "endTeamId": "10",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 7,
+   "yards": 33,
+   "description": "7 plays, 33 yards, 2:56"
+  },
+  {
+   "id": "4017728868",
+   "sequence": 8,
+   "teamId": "26",
+   "endTeamId": "26",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 43,
+   "description": "9 plays, 43 yards, 1:48"
+  },
+  {
+   "id": "4017728869",
+   "sequence": 9,
+   "teamId": "26",
+   "endTeamId": "26",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 3,
+   "yards": 76,
+   "description": "3 plays, 76 yards, 1:41"
+  },
+  {
+   "id": "40177288610",
+   "sequence": 10,
+   "teamId": "10",
+   "endTeamId": "10",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": -5,
+   "description": "3 plays, -5 yards, 1:43"
+  },
+  {
+   "id": "40177288611",
+   "sequence": 11,
+   "teamId": "26",
+   "endTeamId": "10",
+   "result": "PUNT TD",
+   "displayResult": "Punt Touchdown",
+   "isScore": true,
+   "offensivePlays": 3,
+   "yards": 8,
+   "description": "3 plays, 8 yards, 1:14"
+  },
+  {
+   "id": "40177288612",
+   "sequence": 12,
+   "teamId": "26",
+   "endTeamId": "26",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 6,
+   "yards": 74,
+   "description": "6 plays, 74 yards, 3:42"
+  },
+  {
+   "id": "40177288613",
+   "sequence": 13,
+   "teamId": "10",
+   "endTeamId": "10",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 73,
+   "description": "9 plays, 73 yards, 5:22"
+  },
+  {
+   "id": "40177288614",
+   "sequence": 14,
+   "teamId": "26",
+   "endTeamId": "26",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 29,
+   "description": "6 plays, 29 yards, 3:01"
+  },
+  {
+   "id": "40177288615",
+   "sequence": 15,
+   "teamId": "10",
+   "endTeamId": "10",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 11,
+   "yards": 34,
+   "description": "11 plays, 34 yards, 7:06"
+  },
+  {
+   "id": "40177288616",
+   "sequence": 16,
+   "teamId": "26",
+   "endTeamId": "26",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": -4,
+   "description": "3 plays, -4 yards, 1:03"
+  },
+  {
+   "id": "40177288617",
+   "sequence": 17,
+   "teamId": "10",
+   "endTeamId": "10",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 15,
+   "yards": 62,
+   "description": "15 plays, 62 yards, 4:25"
+  },
+  {
+   "id": "40177288618",
+   "sequence": 18,
+   "teamId": "26",
+   "endTeamId": "26",
+   "result": "END OF GAME",
+   "displayResult": "End of Game",
+   "isScore": false,
+   "offensivePlays": 1,
+   "yards": -1,
+   "description": "1 play, -1 yard, 0:43"
+  }
+ ]
+}

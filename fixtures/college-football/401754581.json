@@ -1,0 +1,7551 @@
+{
+ "league": "college-football",
+ "gameId": "401754581",
+ "capturedAt": "2026-08-28T18:43:04.041Z",
+ "name": "SMU 26 - MIA 20",
+ "teams": [
+  {
+   "id": "2567",
+   "abbreviation": "SMU",
+   "displayName": "SMU Mustangs",
+   "score": 26,
+   "homeAway": "home"
+  },
+  {
+   "id": "2390",
+   "abbreviation": "MIA",
+   "displayName": "Miami Hurricanes",
+   "score": 20,
+   "homeAway": "away"
+  }
+ ],
+ "periods": 5,
+ "playCount": 206,
+ "driveCount": 26,
+ "plays": [
+  {
+   "id": "4017545812",
+   "sequence": 0,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "70",
+   "typeText": "Coin Toss",
+   "text": "SMU wins the toss, and defers. Miami to receive. SMU defends.",
+   "shortText": "SMU wins the toss, and defers. Miami to receive. SMU defends.",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "teamId": null,
+   "driveId": null,
+   "wallclock": null
+  },
+  {
+   "id": "4017545813",
+   "sequence": 1,
+   "period": 1,
+   "clock": {
+    "seconds": 893,
+    "display": "14:53"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(15:00) #95 S.Keltner kickoff 64 yards to the MIA01 #0 K.Scott return 29 yards to the MIA30 (#0 W.Nettles)",
+   "shortText": "K. Scott returns for 29 yds, S. Keltner kickoff for 64 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 29,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545812",
+   "wallclock": "2025-11-01T16:08:56Z"
+  },
+  {
+   "id": "40175458114",
+   "sequence": 2,
+   "period": 1,
+   "clock": {
+    "seconds": 882,
+    "display": "14:42"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:51) No Huddle-Shotgun #11 C.Beck pass complete short left to #4 M.Fletcher Jr. caught at MIA26, for 3 yards to the MIA33 (#54 A.Kilgore), out of bounds",
+   "shortText": "C. Beck pass to M. Fletcher Jr. for 3 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 67,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545812",
+   "wallclock": "2025-11-01T16:09:43Z"
+  },
+  {
+   "id": "40175458119",
+   "sequence": 3,
+   "period": 1,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:16) Shotgun #11 C.Beck pass complete short left to #10 M.Toney caught at MIA38, for 7 yards to the MIA40 (#28 B.Booker), 1ST DOWN",
+   "shortText": "C. Beck pass to M. Toney for 7 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 67,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545812",
+   "wallclock": "2025-11-01T16:10:17Z"
+  },
+  {
+   "id": "40175458124",
+   "sequence": 4,
+   "period": 1,
+   "clock": {
+    "seconds": 818,
+    "display": "13:38"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(13:42) Shotgun #11 C.Beck pass incomplete short left to #4 M.Fletcher Jr. thrown to MIA43",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545812",
+   "wallclock": "2025-11-01T16:10:53Z"
+  },
+  {
+   "id": "40175458184",
+   "sequence": 5,
+   "period": 1,
+   "clock": {
+    "seconds": 817,
+    "display": "13:37"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:37) Shotgun #10 M.Toney rush right for 3 yards loss to the MIA37 (#3 A.Moses; #52 J.Lang)",
+   "shortText": "M. Toney run for -3 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 13,
+    "yardsToEndzone": 63,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545812",
+   "wallclock": "2025-11-01T16:18:22Z"
+  },
+  {
+   "id": "40175458132",
+   "sequence": 6,
+   "period": 1,
+   "clock": {
+    "seconds": 761,
+    "display": "12:41"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(12:53) No Huddle-Shotgun #11 C.Beck pass complete short right to #1 J.Trader caught at MIA48, for 11 yards to the MIA48 (#3 A.Moses; #8 M.Barnes Jr.)",
+   "shortText": "C. Beck pass to J. Trader for 11 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 13,
+    "yardsToEndzone": 63,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545812",
+   "wallclock": "2025-11-01T16:12:18Z"
+  },
+  {
+   "id": "40175458137",
+   "sequence": 7,
+   "period": 1,
+   "clock": {
+    "seconds": 724,
+    "display": "12:04"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(12:10) #94 D.Joyce punt 42 yards to the SMU10 fair catch by #8 Y.Knight at SMU10",
+   "shortText": "D. Joyce punt for 42 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 10,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545812",
+   "wallclock": "2025-11-01T16:12:59Z"
+  },
+  {
+   "id": "40175458141",
+   "sequence": 8,
+   "period": 1,
+   "clock": {
+    "seconds": 716,
+    "display": "11:56"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:02) No Huddle-Shotgun #0 D.McFall rush left for 0 yards to the SMU10 (#8 J.Thomas)",
+   "shortText": "D. McFall run for 0 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": null
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:13:47Z"
+  },
+  {
+   "id": "40175458145",
+   "sequence": 9,
+   "period": 1,
+   "clock": {
+    "seconds": 698,
+    "display": "11:38"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(11:47) No Huddle-Shotgun #7 K.Jennings pass complete short left to #0 D.McFall caught at SMU16, for 7 yards to the SMU17 (#6 X.Lucas), out of bounds",
+   "shortText": "K. Jennings pass to D. McFall for 7 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 83,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:14:02Z"
+  },
+  {
+   "id": "40175458150",
+   "sequence": 10,
+   "period": 1,
+   "clock": {
+    "seconds": 683,
+    "display": "11:23"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(11:28) No Huddle-Shotgun #7 K.Jennings pass complete short right to #2 J.Hudson caught at SMU16, for 9 yards to the SMU26 (#8 J.Thomas; #1 M.Toure), 1ST DOWN",
+   "shortText": "K. Jennings pass to J. Hudson for 9 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 83,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:14:21Z"
+  },
+  {
+   "id": "40175458155",
+   "sequence": 11,
+   "period": 1,
+   "clock": {
+    "seconds": 676,
+    "display": "11:16"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY MIA Offside (#11 D.Blay) 5 yards from SMU26 to SMU31. NO PLAY",
+   "shortText": "Miami Penalty, offside (D. Blay Jr.)",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 69,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:14:37Z"
+  },
+  {
+   "id": "40175458158",
+   "sequence": 12,
+   "period": 1,
+   "clock": {
+    "seconds": 667,
+    "display": "11:07"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:11) No Huddle-Shotgun #6 C.Johnson Jr. rush left for 0 yards to the SMU31 (#31 W.Bissainthe)",
+   "shortText": "C. Johnson Jr. run for 0 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 69,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 69,
+    "teamId": null
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:15:12Z"
+  },
+  {
+   "id": "40175458162",
+   "sequence": 13,
+   "period": 1,
+   "clock": {
+    "seconds": 620,
+    "display": "10:20"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(10:33) No Huddle-Shotgun #7 K.Jennings pass complete deep right to #0 D.McFall caught at MIA46, for 24 yards to the MIA45, End Of Play, 1ST DOWN",
+   "shortText": "K. Jennings pass to D. McFall for 24 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 69,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:15:55Z"
+  },
+  {
+   "id": "40175458167",
+   "sequence": 14,
+   "period": 1,
+   "clock": {
+    "seconds": 609,
+    "display": "10:09"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:13) No Huddle-Shotgun #0 D.McFall rush left for 2 yards gain to the MIA43 (#31 W.Bissainthe)",
+   "shortText": "D. McFall run for 2 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 43,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:16:12Z"
+  },
+  {
+   "id": "40175458171",
+   "sequence": 15,
+   "period": 1,
+   "clock": {
+    "seconds": 577,
+    "display": "9:37"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(09:45) No Huddle-Shotgun #7 K.Jennings pass complete short right to #82 R.Maryland caught at MIA40, for 6 yards to the MIA37 (#8 J.Thomas; #6 X.Lucas)",
+   "shortText": "K. Jennings pass to RJ Maryland for 6 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 43,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:16:40Z"
+  },
+  {
+   "id": "40175458176",
+   "sequence": 16,
+   "period": 1,
+   "clock": {
+    "seconds": 551,
+    "display": "9:11"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(09:19) No Huddle-Shotgun #7 K.Jennings pass complete short left to #2 J.Hudson caught at MIA40, for 1 yard to the MIA36 (#0 K.Scott; #7 Z.Poyser)",
+   "shortText": "K. Jennings pass to J. Hudson for 1 yd",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 36,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:17:05Z"
+  },
+  {
+   "id": "40175458183",
+   "sequence": 16,
+   "period": 1,
+   "clock": {
+    "seconds": 526,
+    "display": "8:46"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout SMU, clock 08:46",
+   "shortText": "Timeout SMU, clock 08:46",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 0,
+    "distance": 2,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:17:51Z"
+  },
+  {
+   "id": "40175458181",
+   "sequence": 17,
+   "period": 1,
+   "clock": {
+    "seconds": 523,
+    "display": "8:43"
+   },
+   "typeId": "29",
+   "typeText": "Fumble Recovery (Opponent)",
+   "text": "(08:43) No Huddle #7 K.Jennings rush middle for 2 yards loss to the MIA38 fumbled by #7 K.Jennings at MIA38 recovered by MIA #0 K.Scott at MIA38, End Of Play",
+   "shortText": "K. Jennings run for -2 yds, K. Jennings fumbled, recovered by K. Scott, K. Scott returned",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 36,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545813",
+   "wallclock": "2025-11-01T16:21:21Z"
+  },
+  {
+   "id": "40175458193",
+   "sequence": 18,
+   "period": 1,
+   "clock": {
+    "seconds": 519,
+    "display": "8:39"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:42) No Huddle-Shotgun #4 M.Fletcher Jr. rush right for 7 yards gain to the MIA45 (#55 W.Spencer; #33 Z.Barker)",
+   "shortText": "M. Fletcher Jr. run for 7 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 55,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545814",
+   "wallclock": "2025-11-01T16:22:08Z"
+  },
+  {
+   "id": "40175458197",
+   "sequence": 19,
+   "period": 1,
+   "clock": {
+    "seconds": 475,
+    "display": "7:55"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:04) Shotgun #10 M.Toney rush left for 2 yards gain to the MIA47 (#7 D.Harmon)",
+   "shortText": "M. Toney run for 2 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 55,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 53,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545814",
+   "wallclock": "2025-11-01T16:22:47Z"
+  },
+  {
+   "id": "401754581101",
+   "sequence": 20,
+   "period": 1,
+   "clock": {
+    "seconds": 454,
+    "display": "7:34"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:41) No Huddle #11 C.Beck rush middle for 1 yard gain to the MIA48 (#1 I.Smith), 1ST DOWN",
+   "shortText": "C. Beck run for 1 yd for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 53,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545814",
+   "wallclock": "2025-11-01T16:23:08Z"
+  },
+  {
+   "id": "401754581105",
+   "sequence": 21,
+   "period": 1,
+   "clock": {
+    "seconds": 413,
+    "display": "6:53"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:56) Shotgun #4 M.Fletcher Jr. rush middle for 8 yards gain to the SMU44 (#4 T.Webb; #3 A.Moses)",
+   "shortText": "M. Fletcher Jr. run for 8 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545814",
+   "wallclock": "2025-11-01T16:23:53Z"
+  },
+  {
+   "id": "401754581109",
+   "sequence": 22,
+   "period": 1,
+   "clock": {
+    "seconds": 399,
+    "display": "6:39"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY MIA False Start (#70 M.Bell) 5 yards from SMU44 to SMU49. NO PLAY",
+   "shortText": "Miami Penalty, falsestart (M. Bell)",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 49,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545814",
+   "wallclock": "2025-11-01T16:24:13Z"
+  },
+  {
+   "id": "401754581112",
+   "sequence": 23,
+   "period": 1,
+   "clock": {
+    "seconds": 372,
+    "display": "6:12"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(06:22) Shotgun #11 C.Beck pass complete short middle to #0 K.Marion caught at SMU46, for 6 yards to the SMU43 (#54 A.Kilgore; #28 B.Booker)",
+   "shortText": "C. Beck pass to K. Marion for 6 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 49,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 43,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545814",
+   "wallclock": "2025-11-01T16:24:56Z"
+  },
+  {
+   "id": "401754581117",
+   "sequence": 24,
+   "period": 1,
+   "clock": {
+    "seconds": 336,
+    "display": "5:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:43) #4 M.Fletcher Jr. rush middle for 3 yards gain to the SMU40 (#29 B.Miyazono; #6 J.M'ba), 1ST DOWN",
+   "shortText": "M. Fletcher Jr. run for 3 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 43,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545814",
+   "wallclock": "2025-11-01T16:25:37Z"
+  },
+  {
+   "id": "401754581121",
+   "sequence": 25,
+   "period": 1,
+   "clock": {
+    "seconds": 286,
+    "display": "4:46"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:00) Shotgun #11 C.Beck rush right for 4 yards gain to the SMU36, End Of Play",
+   "shortText": "C. Beck run for 4 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 36,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545814",
+   "wallclock": "2025-11-01T16:26:19Z"
+  },
+  {
+   "id": "401754581125",
+   "sequence": 26,
+   "period": 1,
+   "clock": {
+    "seconds": 256,
+    "display": "4:16"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(04:24) No Huddle-Shotgun #11 C.Beck pass complete deep right to #1 J.Trader caught at SMU08, for 36 yards to the SMU00 TOUCHDOWN, clock 04:16, 1ST DOWN #38 C.Davis kick attempt good (H: #94 D.Joyce, LS: #46 A.Booker)",
+   "shortText": "Joshisa Trader 36 Yd pass from Carson Beck (Carter Davis Kick)",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 36,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 36,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545814",
+   "wallclock": "2025-11-01T16:26:58Z"
+  },
+  {
+   "id": "401754581133",
+   "sequence": 28,
+   "period": 1,
+   "clock": {
+    "seconds": 250,
+    "display": "4:10"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(04:16) #38 C.Davis kickoff 62 yards to the SMU03 #4 L.Rhodes return 40 yards to the SMU43 (#38 C.Davis)",
+   "shortText": "C. Davis kickoff for 62 yds, L. Rhodes returns for 40 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 40,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 57,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545816",
+   "wallclock": "2025-11-01T16:31:41Z"
+  },
+  {
+   "id": "401754581138",
+   "sequence": 29,
+   "period": 1,
+   "clock": {
+    "seconds": 244,
+    "display": "4:04"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(04:10) No Huddle-Shotgun #7 K.Jennings pass complete short right to #2 J.Hudson caught at SMU40, for 4 yards to the SMU47 (#1 M.Toure)",
+   "shortText": "K. Jennings pass to J. Hudson for 4 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 57,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 53,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545816",
+   "wallclock": "2025-11-01T16:35:45Z"
+  },
+  {
+   "id": "401754581143",
+   "sequence": 30,
+   "period": 1,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(03:41) No Huddle-Shotgun #7 K.Jennings pass incomplete short right to #88 M.Hibner thrown to SMU45 broken up by #12 M.Lightfoot",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 53,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 53,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545816",
+   "wallclock": "2025-11-01T16:36:16Z"
+  },
+  {
+   "id": "401754581146",
+   "sequence": 31,
+   "period": 1,
+   "clock": {
+    "seconds": 206,
+    "display": "3:26"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(03:37) No Huddle-Shotgun #7 K.Jennings pass complete short right to #6 C.Johnson Jr. caught at SMU44, for 0 yards to the SMU47 (#2 D.Brown)",
+   "shortText": "K. Jennings pass to C. Johnson Jr.",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 53,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 53,
+    "teamId": null
+   },
+   "teamId": "2567",
+   "driveId": "4017545816",
+   "wallclock": "2025-11-01T16:36:43Z"
+  },
+  {
+   "id": "401754581151",
+   "sequence": 32,
+   "period": 1,
+   "clock": {
+    "seconds": 170,
+    "display": "2:50"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(02:56) #43 W.McSparron punt 36 yards to the MIA17 fair catch by #10 M.Toney at MIA17",
+   "shortText": "W. McSparron punt for 36 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 53,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 17,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545816",
+   "wallclock": "2025-11-01T16:37:23Z"
+  },
+  {
+   "id": "401754581155",
+   "sequence": 33,
+   "period": 1,
+   "clock": {
+    "seconds": 170,
+    "display": "2:50"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(02:50) PENALTY MIA Illegal Snap (#52 J.Brockermeyer) 5 yards from MIA17 to MIA12. NO PLAY",
+   "shortText": "Miami Penalty, illegalsnap (J. Brockermeyer)",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 83,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 88,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:38:17Z"
+  },
+  {
+   "id": "401754581158",
+   "sequence": 34,
+   "period": 1,
+   "clock": {
+    "seconds": 159,
+    "display": "2:39"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(02:49) Shotgun #11 C.Beck pass complete short right to #1 J.Trader caught at MIA20, for 10 yards to the MIA22 (#8 M.Barnes Jr.; #23 I.Nwokobia)",
+   "shortText": "C. Beck pass to J. Trader for 10 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 88,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 78,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:38:58Z"
+  },
+  {
+   "id": "401754581163",
+   "sequence": 35,
+   "period": 1,
+   "clock": {
+    "seconds": 128,
+    "display": "2:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:11) Shotgun #4 M.Fletcher Jr. rush middle for 11 yards gain to the MIA33 (#33 Z.Barker; #3 A.Moses), 1ST DOWN",
+   "shortText": "M. Fletcher Jr. run for 11 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 78,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:39:34Z"
+  },
+  {
+   "id": "401754581167",
+   "sequence": 36,
+   "period": 1,
+   "clock": {
+    "seconds": 100,
+    "display": "1:40"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:49) No Huddle-Shotgun #11 C.Beck pass complete short left to #4 M.Fletcher Jr. caught at MIA34, for 12 yards to the MIA45 (#12 K.Chambers), 1ST DOWN",
+   "shortText": "C. Beck pass to M. Fletcher Jr. for 12 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:39:59Z"
+  },
+  {
+   "id": "401754581172",
+   "sequence": 37,
+   "period": 1,
+   "clock": {
+    "seconds": 63,
+    "display": "1:03"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:07) Shotgun #2 J.Lyle rush left for 3 yards gain to the MIA48 (#23 I.Nwokobia), out of bounds",
+   "shortText": "J. Lyle run for 3 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:40:39Z"
+  },
+  {
+   "id": "401754581176",
+   "sequence": 38,
+   "period": 1,
+   "clock": {
+    "seconds": 30,
+    "display": "0:30"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:30) Shotgun #11 C.Beck rush right for 2 yards gain to the MIA50, End Of Play",
+   "shortText": "C. Beck run for 2 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 50,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:41:20Z"
+  },
+  {
+   "id": "401754581182",
+   "sequence": 38,
+   "period": 1,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 1st quarter.",
+   "shortText": "End of 1st quarter.",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 48,
+    "teamId": null
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 50,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:41:47Z"
+  },
+  {
+   "id": "401754581916",
+   "sequence": 38,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of OT.",
+   "shortText": "End of OT.",
+   "awayScore": 20,
+   "homeScore": 26,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 48,
+    "teamId": null
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 0,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458136",
+   "wallclock": "2025-11-01T19:56:42Z"
+  },
+  {
+   "id": "401754581186",
+   "sequence": 39,
+   "period": 2,
+   "clock": {
+    "seconds": 885,
+    "display": "14:45"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:59) Shotgun #11 C.Beck pass complete deep right to #1 J.Trader caught at SMU25, for 25 yards to the SMU25 (#8 M.Barnes Jr.), out of bounds, 1ST DOWN",
+   "shortText": "C. Beck pass to J. Trader for 25 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 25,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 50,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:46:02Z"
+  },
+  {
+   "id": "401754581193",
+   "sequence": 40,
+   "period": 2,
+   "clock": {
+    "seconds": 871,
+    "display": "14:31"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:33) No Huddle-Shotgun #2 J.Lyle rush middle for 2 yards gain to the SMU23 (#6 J.M'ba; #1 I.Smith)",
+   "shortText": "J. Lyle run for 2 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 23,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:46:25Z"
+  },
+  {
+   "id": "401754581199",
+   "sequence": 40,
+   "period": 2,
+   "clock": {
+    "seconds": 832,
+    "display": "13:52"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Miami, clock 13:52",
+   "shortText": "Timeout Miami, clock 13:52",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:47:13Z"
+  },
+  {
+   "id": "401754581197",
+   "sequence": 41,
+   "period": 2,
+   "clock": {
+    "seconds": 832,
+    "display": "13:52"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(13:52) Shotgun #11 C.Beck pass complete short left to #87 A.Bauman caught at SMU08, for 15 yards to the SMU08 (#0 W.Nettles) PENALTY MIA Pass Interference (#10 M.Toney) 15 yards from SMU23 to SMU38. NO PLAY",
+   "shortText": "C. Beck pass to A. Bauman, Miami Penalty, passinterference (M. Toney)",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 23,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 23,
+    "yardsToEndzone": 38,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:48:42Z"
+  },
+  {
+   "id": "401754581204",
+   "sequence": 42,
+   "period": 2,
+   "clock": {
+    "seconds": 800,
+    "display": "13:20"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(13:26) Shotgun #11 C.Beck pass incomplete short right to #10 M.Toney thrown to SMU34",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 23,
+    "yardsToEndzone": 38,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 23,
+    "yardsToEndzone": 38,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:49:27Z"
+  },
+  {
+   "id": "401754581207",
+   "sequence": 43,
+   "period": 2,
+   "clock": {
+    "seconds": 801,
+    "display": "13:21"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(13:21) Shotgun #11 C.Beck pass complete short left to #3 J.Moore caught at SMU33, for 8 yards to the SMU30 (#28 B.Booker; #12 K.Chambers) PENALTY MIA Holding (#61 F.Mauigoa) 10 yards from SMU38 to SMU48. NO PLAY",
+   "shortText": "C. Beck pass to J. Moore, Miami Penalty, holding (F. Mauigoa)",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 23,
+    "yardsToEndzone": 38,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 33,
+    "yardsToEndzone": 48,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:50:28Z"
+  },
+  {
+   "id": "401754581213",
+   "sequence": 44,
+   "period": 2,
+   "clock": {
+    "seconds": 768,
+    "display": "12:48"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(12:57) Shotgun #11 C.Beck pass complete short left to #9 E.Lofton caught at MIA50, for 9 yards to the SMU39 (#28 B.Booker; #0 W.Nettles)",
+   "shortText": "C. Beck pass to E. Lofton for 9 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 33,
+    "yardsToEndzone": 48,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 4,
+    "distance": 24,
+    "yardsToEndzone": 39,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:51:07Z"
+  },
+  {
+   "id": "401754581221",
+   "sequence": 46,
+   "period": 2,
+   "clock": {
+    "seconds": 720,
+    "display": "12:00"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(12:08) #94 D.Joyce punt 39 yards to the SMU00, Touchback",
+   "shortText": "D. Joyce punt for 39 yds for a touchback",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 24,
+    "yardsToEndzone": 39,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545817",
+   "wallclock": "2025-11-01T16:52:41Z"
+  },
+  {
+   "id": "401754581225",
+   "sequence": 47,
+   "period": 2,
+   "clock": {
+    "seconds": 710,
+    "display": "11:50"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(11:59) Shotgun #7 K.Jennings pass complete deep right to #3 R.Brinson caught at MIA45, for 41 yards to the MIA39 (#7 Z.Poyser), 1ST DOWN",
+   "shortText": "K. Jennings pass to R. Brinson for 41 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 41,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 39,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545818",
+   "wallclock": "2025-11-01T16:56:28Z"
+  },
+  {
+   "id": "401754581230",
+   "sequence": 48,
+   "period": 2,
+   "clock": {
+    "seconds": 685,
+    "display": "11:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:27) No Huddle-Shotgun #27 T.Harden rush left for 4 yards gain to the MIA35 (#0 K.Scott), out of bounds",
+   "shortText": "T.J. Harden run for 4 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 39,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 35,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545818",
+   "wallclock": "2025-11-01T16:56:56Z"
+  },
+  {
+   "id": "401754581234",
+   "sequence": 49,
+   "period": 2,
+   "clock": {
+    "seconds": 662,
+    "display": "11:02"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:06) No Huddle-Shotgun #27 T.Harden rush middle for 2 yards loss to the MIA37 (#10 R.Aguirre, Jr.)",
+   "shortText": "T.J. Harden run for -2 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 35,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545818",
+   "wallclock": "2025-11-01T16:57:19Z"
+  },
+  {
+   "id": "401754581238",
+   "sequence": 50,
+   "period": 2,
+   "clock": {
+    "seconds": 625,
+    "display": "10:25"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(10:31) No Huddle-Shotgun #7 K.Jennings pass incomplete short left to #3 R.Brinson thrown to MIA28 broken up by #7 Z.Poyser",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545818",
+   "wallclock": "2025-11-01T16:57:56Z"
+  },
+  {
+   "id": "401754581245",
+   "sequence": 52,
+   "period": 2,
+   "clock": {
+    "seconds": 618,
+    "display": "10:18"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(10:25) #43 W.McSparron punt 30 yards to the MIA12 fair catch by #10 R.Aguirre, Jr. at MIA12",
+   "shortText": "W. McSparron punt for 30 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 13,
+    "yardsToEndzone": 42,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 12,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545818",
+   "wallclock": "2025-11-01T16:59:47Z"
+  },
+  {
+   "id": "401754581249",
+   "sequence": 53,
+   "period": 2,
+   "clock": {
+    "seconds": 614,
+    "display": "10:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:16) Shotgun #4 M.Fletcher Jr. rush middle for 5 yards gain to the MIA17 (#52 J.Lang; #40 K.Spears)",
+   "shortText": "M. Fletcher Jr. run for 5 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 88,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 83,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "4017545819",
+   "wallclock": "2025-11-01T17:03:43Z"
+  },
+  {
+   "id": "401754581253",
+   "sequence": 54,
+   "period": 2,
+   "clock": {
+    "seconds": 568,
+    "display": "9:28"
+   },
+   "typeId": "63",
+   "typeText": "Interception",
+   "text": "(09:41) Shotgun #11 C.Beck pass intercepted by #3 A.Moses at MIA43 #3 A.Moses return 15 yards to the MIA28 (#4 M.Fletcher Jr.)",
+   "shortText": "C. Beck pass intercepted, A. Moses return  for 15 yds",
+   "awayScore": 7,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 83,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "4017545819",
+   "wallclock": "2025-11-01T17:04:24Z"
+  },
+  {
+   "id": "401754581259",
+   "sequence": 55,
+   "period": 2,
+   "clock": {
+    "seconds": 562,
+    "display": "9:22"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(09:22) No Huddle-Shotgun #7 K.Jennings pass complete deep left to #8 Y.Knight caught at MIA01, for 28 yards to the MIA00 TOUCHDOWN, clock 09:22, 1ST DOWN #95 S.Keltner kick attempt good (H: #43 W.McSparron, LS: #48 M.Tribbett)",
+   "shortText": "Yamir Knight 28 Yd pass from Kevin Jennings (Sam Keltner Kick)",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 28,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": -1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458110",
+   "wallclock": "2025-11-01T17:05:33Z"
+  },
+  {
+   "id": "401754581267",
+   "sequence": 57,
+   "period": 2,
+   "clock": {
+    "seconds": 561,
+    "display": "9:21"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(09:22) #95 S.Keltner kickoff 56 yards to the MIA09 #0 K.Scott return 1 yard to the MIA10, out of bounds at MIA10",
+   "shortText": "S. Keltner kickoff for 56 yds, punt out-of-bounds, K. Scott returns for 1 yd",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:09:38Z"
+  },
+  {
+   "id": "401754581272",
+   "sequence": 58,
+   "period": 2,
+   "clock": {
+    "seconds": 549,
+    "display": "9:09"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(09:20) No Huddle-Shotgun #11 C.Beck pass complete short middle to #10 M.Toney caught at MIA24, for 14 yards to the MIA24 (#8 M.Barnes Jr.), 1ST DOWN",
+   "shortText": "C. Beck pass to M. Toney for 14 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:10:33Z"
+  },
+  {
+   "id": "401754581277",
+   "sequence": 59,
+   "period": 2,
+   "clock": {
+    "seconds": 517,
+    "display": "8:37"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:41) Shotgun #6 C.Brown rush left for 9 yards gain to the MIA33 (#28 B.Booker; #3 A.Moses)",
+   "shortText": "C. Brown run for 9 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 67,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:11:09Z"
+  },
+  {
+   "id": "401754581281",
+   "sequence": 60,
+   "period": 2,
+   "clock": {
+    "seconds": 498,
+    "display": "8:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:19) No Huddle-Shotgun #6 C.Brown rush middle for 3 yards gain to the MIA36 (#52 J.Lang), 1ST DOWN",
+   "shortText": "C. Brown run for 3 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 67,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:11:29Z"
+  },
+  {
+   "id": "401754581285",
+   "sequence": 61,
+   "period": 2,
+   "clock": {
+    "seconds": 466,
+    "display": "7:46"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(07:46) Shotgun #11 C.Beck pass incomplete short right to #9 E.Lofton thrown to MIA45 PENALTY MIA Holding (#73 A.Cooper) 10 yards from MIA36 to MIA26. NO PLAY",
+   "shortText": "C. Beck pass incomplete, Miami Penalty, holding (A. Cooper)",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 74,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:12:16Z"
+  },
+  {
+   "id": "401754581289",
+   "sequence": 62,
+   "period": 2,
+   "clock": {
+    "seconds": 452,
+    "display": "7:32"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:36) Shotgun #6 C.Brown rush left for 6 yards gain to the MIA32 (#1 I.Smith)",
+   "shortText": "C. Brown run for 6 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 74,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 68,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:13:00Z"
+  },
+  {
+   "id": "401754581293",
+   "sequence": 63,
+   "period": 2,
+   "clock": {
+    "seconds": 417,
+    "display": "6:57"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(07:01) Shotgun #11 C.Beck pass incomplete short middle to #87 A.Bauman thrown to MIA39",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 68,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 68,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:13:38Z"
+  },
+  {
+   "id": "401754581296",
+   "sequence": 64,
+   "period": 2,
+   "clock": {
+    "seconds": 417,
+    "display": "6:57"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY MIA False Start (#73 A.Cooper) 5 yards from MIA32 to MIA27. NO PLAY",
+   "shortText": "Miami Penalty, falsestart (A. Cooper)",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 68,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 19,
+    "yardsToEndzone": 73,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:14:23Z"
+  },
+  {
+   "id": "401754581299",
+   "sequence": 65,
+   "period": 2,
+   "clock": {
+    "seconds": 413,
+    "display": "6:53"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(06:53) Shotgun #11 C.Beck pass incomplete short middle to #17 T.Johnson thrown to MIA30 broken up by #4 T.Webb",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 19,
+    "yardsToEndzone": 73,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 4,
+    "distance": 19,
+    "yardsToEndzone": 73,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:15:16Z"
+  },
+  {
+   "id": "401754581302",
+   "sequence": 66,
+   "period": 2,
+   "clock": {
+    "seconds": 400,
+    "display": "6:40"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(06:52) #94 D.Joyce punt 73 yards to the SMU00, Touchback",
+   "shortText": "D. Joyce punt for 73 yds for a touchback",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 19,
+    "yardsToEndzone": 73,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458112",
+   "wallclock": "2025-11-01T17:15:52Z"
+  },
+  {
+   "id": "401754581306",
+   "sequence": 67,
+   "period": 2,
+   "clock": {
+    "seconds": 394,
+    "display": "6:34"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:36) No Huddle-Shotgun #6 C.Johnson Jr. rush left for 1 yard loss to the SMU19 (#0 K.Scott)",
+   "shortText": "C. Johnson Jr. run for -1 yd",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 81,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458113",
+   "wallclock": "2025-11-01T17:16:57Z"
+  },
+  {
+   "id": "401754581310",
+   "sequence": 68,
+   "period": 2,
+   "clock": {
+    "seconds": 370,
+    "display": "6:10"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:15) No Huddle-Shotgun #6 C.Johnson Jr. rush left for 2 yards gain to the SMU21 (#1 M.Toure)",
+   "shortText": "C. Johnson Jr. run for 2 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 81,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 79,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458113",
+   "wallclock": "2025-11-01T17:17:21Z"
+  },
+  {
+   "id": "401754581314",
+   "sequence": 69,
+   "period": 2,
+   "clock": {
+    "seconds": 335,
+    "display": "5:35"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(05:43) No Huddle-Shotgun #7 K.Jennings pass incomplete deep left to #3 R.Brinson thrown to MIA49",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 79,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 79,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458113",
+   "wallclock": "2025-11-01T17:17:58Z"
+  },
+  {
+   "id": "401754581317",
+   "sequence": 70,
+   "period": 2,
+   "clock": {
+    "seconds": 325,
+    "display": "5:25"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(05:34) #43 W.McSparron punt 44 yards to the MIA35",
+   "shortText": "W. McSparron punt for 44 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 79,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458113",
+   "wallclock": "2025-11-01T17:18:33Z"
+  },
+  {
+   "id": "401754581321",
+   "sequence": 71,
+   "period": 2,
+   "clock": {
+    "seconds": 317,
+    "display": "5:17"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(05:24) No Huddle-Shotgun #11 C.Beck pass complete short right to #10 M.Toney caught at MIA33, for 3 yards to the MIA38 (#12 K.Chambers; #3 A.Moses)",
+   "shortText": "C. Beck pass to M. Toney for 3 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 62,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458114",
+   "wallclock": "2025-11-01T17:19:35Z"
+  },
+  {
+   "id": "401754581326",
+   "sequence": 72,
+   "period": 2,
+   "clock": {
+    "seconds": 280,
+    "display": "4:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:45) Shotgun #4 M.Fletcher Jr. rush middle for 4 yards gain to the MIA42 (#3 A.Moses; #93 K.Allen)",
+   "shortText": "M. Fletcher Jr. run for 4 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 62,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 58,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458114",
+   "wallclock": "2025-11-01T17:20:15Z"
+  },
+  {
+   "id": "401754581330",
+   "sequence": 73,
+   "period": 2,
+   "clock": {
+    "seconds": 266,
+    "display": "4:26"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY MIA False Start (#63 S.Okunlola) 5 yards from MIA42 to MIA37. NO PLAY",
+   "shortText": "Miami Penalty, falsestart (S. Okunlola)",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 58,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 63,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458114",
+   "wallclock": "2025-11-01T17:20:59Z"
+  },
+  {
+   "id": "401754581333",
+   "sequence": 74,
+   "period": 2,
+   "clock": {
+    "seconds": 249,
+    "display": "4:09"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(04:18) Shotgun #11 C.Beck pass complete short middle to #0 K.Marion caught at SMU49, for 16 yards to the SMU47 (#23 I.Nwokobia), 1ST DOWN",
+   "shortText": "C. Beck pass to K. Marion for 16 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 63,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458114",
+   "wallclock": "2025-11-01T17:21:41Z"
+  },
+  {
+   "id": "401754581338",
+   "sequence": 75,
+   "period": 2,
+   "clock": {
+    "seconds": 219,
+    "display": "3:39"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(03:44) No Huddle-Shotgun #11 C.Beck pass incomplete short right to #17 T.Johnson thrown to SMU31 broken up by #8 M.Barnes Jr.",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458114",
+   "wallclock": "2025-11-01T17:22:16Z"
+  },
+  {
+   "id": "401754581341",
+   "sequence": 76,
+   "period": 2,
+   "clock": {
+    "seconds": 215,
+    "display": "3:35"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:39) Shotgun #4 M.Fletcher Jr. rush middle for 3 yards gain to the SMU44 (#12 K.Chambers)",
+   "shortText": "M. Fletcher Jr. run for 3 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458114",
+   "wallclock": "2025-11-01T17:22:55Z"
+  },
+  {
+   "id": "401754581351",
+   "sequence": 76,
+   "period": 2,
+   "clock": {
+    "seconds": 176,
+    "display": "2:56"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Miami, clock 02:56",
+   "shortText": "Timeout Miami, clock 02:56",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458114",
+   "wallclock": "2025-11-01T17:23:59Z"
+  },
+  {
+   "id": "401754581349",
+   "sequence": 77,
+   "period": 2,
+   "clock": {
+    "seconds": 172,
+    "display": "2:52"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(02:55) Shotgun #11 C.Beck pass incomplete short left to #10 M.Toney thrown to SMU40 broken up by #12 K.Chambers",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458114",
+   "wallclock": "2025-11-01T17:25:26Z"
+  },
+  {
+   "id": "401754581353",
+   "sequence": 78,
+   "period": 2,
+   "clock": {
+    "seconds": 164,
+    "display": "2:44"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(02:51) #94 D.Joyce punt 36 yards to the SMU08 fair catch by #8 Y.Knight at SMU08",
+   "shortText": "D. Joyce punt for 36 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 8,
+    "yardsToEndzone": 8,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458114",
+   "wallclock": "2025-11-01T17:26:05Z"
+  },
+  {
+   "id": "401754581357",
+   "sequence": 79,
+   "period": 2,
+   "clock": {
+    "seconds": 156,
+    "display": "2:36"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(02:41) No Huddle-Shotgun #7 K.Jennings pass complete short left to #88 M.Hibner caught at SMU06, for 7 yards to the SMU15 (#0 K.Scott; #41 C.Smith)",
+   "shortText": "K. Jennings pass to M. Hibner for 7 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 92,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 85,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458115",
+   "wallclock": "2025-11-01T17:27:00Z"
+  },
+  {
+   "id": "401754581364",
+   "sequence": 79,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout , clock 02:00",
+   "shortText": "Timeout , clock 02:00",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 92,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 92,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458115",
+   "wallclock": "2025-11-01T17:27:50Z"
+  },
+  {
+   "id": "401754581362",
+   "sequence": 80,
+   "period": 2,
+   "clock": {
+    "seconds": 108,
+    "display": "1:48"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:00) No Huddle-Shotgun #7 K.Jennings rush left for 0 yards to the SMU15 (#8 J.Thomas). #8 J.Thomas injured on the play",
+   "shortText": "K. Jennings run for 0 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 85,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 85,
+    "teamId": null
+   },
+   "teamId": "2567",
+   "driveId": "40175458115",
+   "wallclock": "2025-11-01T17:31:55Z"
+  },
+  {
+   "id": "401754581373",
+   "sequence": 81,
+   "period": 2,
+   "clock": {
+    "seconds": 66,
+    "display": "1:06"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Miami, clock 01:06",
+   "shortText": "Timeout Miami, clock 01:06",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 15,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 0,
+    "distance": 3,
+    "yardsToEndzone": 15,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458115",
+   "wallclock": "2025-11-01T17:35:02Z"
+  },
+  {
+   "id": "401754581367",
+   "sequence": 81,
+   "period": 2,
+   "clock": {
+    "seconds": 63,
+    "display": "1:03"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(01:10) Shotgun #7 K.Jennings sacked for loss of 8 yards to the SMU07 (#12 M.Lightfoot, #18 A.Blount)",
+   "shortText": "K. Jennings sacked  by M. Lightfoot for -4 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 85,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 11,
+    "yardsToEndzone": 93,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458115",
+   "wallclock": "2025-11-01T17:34:30Z"
+  },
+  {
+   "id": "401754581371",
+   "sequence": 82,
+   "period": 2,
+   "clock": {
+    "seconds": 49,
+    "display": "0:49"
+   },
+   "typeId": "14",
+   "typeText": "Punt Return",
+   "text": "(01:03) #43 W.McSparron punt 49 yards to the MIA44 #10 M.Toney return 47 yards to the SMU09 (#26 J.Moses), out of bounds",
+   "shortText": "W. McSparron punt for 49 yds, punt out-of-bounds, M. Toney returns for 47 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 47,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 11,
+    "yardsToEndzone": 93,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 9,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458115",
+   "wallclock": "2025-11-01T17:36:48Z"
+  },
+  {
+   "id": "401754581378",
+   "sequence": 83,
+   "period": 2,
+   "clock": {
+    "seconds": 43,
+    "display": "0:43"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:49) Shotgun #11 C.Beck pass incomplete short right to #10 M.Toney thrown to SMU00",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458116",
+   "wallclock": "2025-11-01T17:37:58Z"
+  },
+  {
+   "id": "401754581381",
+   "sequence": 84,
+   "period": 2,
+   "clock": {
+    "seconds": 35,
+    "display": "0:35"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:43) Shotgun #11 C.Beck pass complete short left to #9 E.Lofton caught at SMU05, for 5 yards to the SMU04 (#1 I.Smith)",
+   "shortText": "C. Beck pass to E. Lofton for 5 yds",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458116",
+   "wallclock": "2025-11-01T17:38:35Z"
+  },
+  {
+   "id": "401754581388",
+   "sequence": 84,
+   "period": 2,
+   "clock": {
+    "seconds": 15,
+    "display": "0:15"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout SMU, clock 00:15",
+   "shortText": "Timeout SMU, clock 00:15",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 91,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 0,
+    "distance": 9,
+    "yardsToEndzone": 91,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458116",
+   "wallclock": "2025-11-01T17:39:23Z"
+  },
+  {
+   "id": "401754581396",
+   "sequence": 85,
+   "period": 2,
+   "clock": {
+    "seconds": 10,
+    "display": "0:10"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout SMU, clock 00:10",
+   "shortText": "Timeout SMU, clock 00:10",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 96,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 0,
+    "distance": 4,
+    "yardsToEndzone": 96,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458116",
+   "wallclock": "2025-11-01T17:41:47Z"
+  },
+  {
+   "id": "401754581386",
+   "sequence": 85,
+   "period": 2,
+   "clock": {
+    "seconds": 10,
+    "display": "0:10"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:15) Shotgun #11 C.Beck pass incomplete short left to #9 E.Lofton thrown to SMU00 broken up by #29 B.Miyazono",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 7,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458116",
+   "wallclock": "2025-11-01T17:40:26Z"
+  },
+  {
+   "id": "401754581397",
+   "sequence": 86,
+   "period": 2,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "(00:06) #38 C.Davis field goal attempt from 22 yards GOOD (H: #94 D.Joyce, LS: #46 A.Booker), clock 00:07",
+   "shortText": "Carter Davis 22 Yd Field Goal  ",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 22,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458116",
+   "wallclock": "2025-11-01T17:42:23Z"
+  },
+  {
+   "id": "401754581400",
+   "sequence": 87,
+   "period": 2,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(00:07) #38 C.Davis kickoff 65 yards to the SMU00, Touchback",
+   "shortText": "C. Davis kickoff for 65 yds for a touchback",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458118",
+   "wallclock": "2025-11-01T17:42:25Z"
+  },
+  {
+   "id": "401754581403",
+   "sequence": 88,
+   "period": 2,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:07) Kneel down by #7 K.Jennings at SMU24 for loss of 1 yard",
+   "shortText": "K. Jennings takes a knee",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 76,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458118",
+   "wallclock": "2025-11-01T17:44:08Z"
+  },
+  {
+   "id": "401754581408",
+   "sequence": 88,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 2nd quarter.",
+   "shortText": "End of 2nd quarter.",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": null
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458118",
+   "wallclock": "2025-11-01T17:44:15Z"
+  },
+  {
+   "id": "401754581413",
+   "sequence": 89,
+   "period": 3,
+   "clock": {
+    "seconds": 894,
+    "display": "14:54"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(15:00) #38 C.Davis kickoff 65 yards to the SMU00 #4 L.Rhodes return 21 yards to the SMU21 (#41 C.Smith)",
+   "shortText": "C. Davis kickoff for 65 yds, L. Rhodes returns for 21 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 21,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:05:11Z"
+  },
+  {
+   "id": "401754581431",
+   "sequence": 90,
+   "period": 3,
+   "clock": {
+    "seconds": 894,
+    "display": "14:54"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(14:54) No Huddle-Shotgun #7 K.Jennings pass incomplete short right thrown to SMU21 broken up by #6 X.Lucas QB hurried by #6 X.Lucas. The previous play is under automatic review - \"Incomplete pass\". CALL OVERTURNED. (Original Play: (14:54) No Huddle-Shotgun #7 K.Jennings sacked for loss of 10 yards to the SMU11 (#6 X.Lucas), fumble by #7 K.Jennings recovered by MIA #4 R.Bain Jr. at SMU11, End Of Play)",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:07:39Z"
+  },
+  {
+   "id": "401754581435",
+   "sequence": 91,
+   "period": 3,
+   "clock": {
+    "seconds": 874,
+    "display": "14:34"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:40) No Huddle-Shotgun #7 K.Jennings pass complete short right to #2 J.Hudson caught at SMU35, for 14 yards to the SMU35 (#0 K.Scott), 1ST DOWN",
+   "shortText": "K. Jennings pass to J. Hudson for 14 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:07:53Z"
+  },
+  {
+   "id": "401754581440",
+   "sequence": 92,
+   "period": 3,
+   "clock": {
+    "seconds": 857,
+    "display": "14:17"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:25) No Huddle-Shotgun #7 K.Jennings pass complete short right to #88 M.Hibner caught at SMU39, for 6 yards to the SMU41 (#48 A.Williams), out of bounds",
+   "shortText": "K. Jennings pass to M. Hibner for 6 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:08:11Z"
+  },
+  {
+   "id": "401754581445",
+   "sequence": 93,
+   "period": 3,
+   "clock": {
+    "seconds": 836,
+    "display": "13:56"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:05) No Huddle-Shotgun #7 K.Jennings pass complete short left to #88 M.Hibner caught at MIA46, for 16 yards to the MIA43 (#0 K.Scott), 1ST DOWN",
+   "shortText": "K. Jennings pass to M. Hibner for 16 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 59,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:08:30Z"
+  },
+  {
+   "id": "401754581450",
+   "sequence": 94,
+   "period": 3,
+   "clock": {
+    "seconds": 823,
+    "display": "13:43"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(13:48) No Huddle-Shotgun #7 K.Jennings pass complete short left to #3 R.Brinson caught at MIA38, for 18 yards to the MIA25 (#1 M.Toure), out of bounds, 1ST DOWN",
+   "shortText": "K. Jennings pass to R. Brinson for 18 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 43,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:08:49Z"
+  },
+  {
+   "id": "401754581455",
+   "sequence": 95,
+   "period": 3,
+   "clock": {
+    "seconds": 802,
+    "display": "13:22"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(13:27) No Huddle-Shotgun #7 K.Jennings pass incomplete deep left to #3 R.Brinson thrown to MIA04",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:09:18Z"
+  },
+  {
+   "id": "401754581460",
+   "sequence": 96,
+   "period": 3,
+   "clock": {
+    "seconds": 791,
+    "display": "13:11"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(13:22) No Huddle-Shotgun #7 K.Jennings pass complete short right to #2 J.Hudson caught at MIA18, for 20 yards to the MIA05 (#8 J.Thomas; #7 Z.Poyser), out of bounds, 1ST DOWN",
+   "shortText": "K. Jennings pass to J. Hudson for 20 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 20,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:09:55Z"
+  },
+  {
+   "id": "401754581466",
+   "sequence": 97,
+   "period": 3,
+   "clock": {
+    "seconds": 772,
+    "display": "12:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:54) No Huddle-Shotgun #0 D.McFall rush middle for 2 yards gain to the MIA03 (#1 M.Toure; #8 J.Thomas)",
+   "shortText": "D. McFall run for 2 yds",
+   "awayScore": 10,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 5,
+    "yardsToEndzone": 5,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:10:18Z"
+  },
+  {
+   "id": "401754581470",
+   "sequence": 98,
+   "period": 3,
+   "clock": {
+    "seconds": 731,
+    "display": "12:11"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(12:17) Shotgun #7 K.Jennings rush left for 3 yards gain to the MIA00 TOUCHDOWN, clock 12:11 #95 S.Keltner kick attempt good (H: #43 W.McSparron, LS: #48 M.Tribbett)",
+   "shortText": "Kevin Jennings 3 Yd Run (Sam Keltner Kick)",
+   "awayScore": 10,
+   "homeScore": 14,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458120",
+   "wallclock": "2025-11-01T18:11:01Z"
+  },
+  {
+   "id": "401754581477",
+   "sequence": 100,
+   "period": 3,
+   "clock": {
+    "seconds": 725,
+    "display": "12:05"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(12:11) #95 S.Keltner kickoff 63 yards to the MIA02 #0 K.Marion return 23 yards to the MIA25 (#29 B.Miyazono)",
+   "shortText": "S. Keltner kickoff for 63 yds, K. Marion returns for 23 yds",
+   "awayScore": 10,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 23,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458122",
+   "wallclock": "2025-11-01T18:12:48Z"
+  },
+  {
+   "id": "401754581482",
+   "sequence": 101,
+   "period": 3,
+   "clock": {
+    "seconds": 715,
+    "display": "11:55"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(12:03) No Huddle-Shotgun #11 C.Beck pass complete short left to #17 T.Johnson caught at MIA22, for 9 yards to the MIA34 (#23 I.Nwokobia), out of bounds",
+   "shortText": "C. Beck pass to T. Johnson for 9 yds",
+   "awayScore": 10,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458122",
+   "wallclock": "2025-11-01T18:13:39Z"
+  },
+  {
+   "id": "401754581487",
+   "sequence": 102,
+   "period": 3,
+   "clock": {
+    "seconds": 700,
+    "display": "11:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:42) Shotgun #4 M.Fletcher Jr. rush middle for 4 yards gain to the MIA38 (#23 I.Nwokobia; #28 B.Booker), 1ST DOWN",
+   "shortText": "M. Fletcher Jr. run for 4 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458122",
+   "wallclock": "2025-11-01T18:14:35Z"
+  },
+  {
+   "id": "401754581491",
+   "sequence": 103,
+   "period": 3,
+   "clock": {
+    "seconds": 673,
+    "display": "11:13"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(11:17) No Huddle-Shotgun #11 C.Beck pass complete short middle to #4 M.Fletcher Jr. caught at MIA40, for 4 yards to the MIA42 (#23 I.Nwokobia)",
+   "shortText": "C. Beck pass to M. Fletcher Jr. for 4 yds",
+   "awayScore": 10,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 58,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458122",
+   "wallclock": "2025-11-01T18:14:59Z"
+  },
+  {
+   "id": "401754581496",
+   "sequence": 104,
+   "period": 3,
+   "clock": {
+    "seconds": 644,
+    "display": "10:44"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:47) Shotgun #4 M.Fletcher Jr. rush left for 7 yards gain to the MIA49 (#0 W.Nettles), out of bounds, 1ST DOWN",
+   "shortText": "M. Fletcher Jr. run for 7 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 58,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 51,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458122",
+   "wallclock": "2025-11-01T18:15:31Z"
+  },
+  {
+   "id": "401754581500",
+   "sequence": 105,
+   "period": 3,
+   "clock": {
+    "seconds": 607,
+    "display": "10:07"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(10:14) Shotgun #11 C.Beck pass complete short right to #10 M.Toney caught at SMU33, for 18 yards to the SMU33 (#3 A.Moses), 1ST DOWN, PENALTY SMU Roughing The Passer (#6 J.M'ba) 15 yards from SMU33 to SMU18, 1ST DOWN",
+   "shortText": "C. Beck pass to M. Toney for 18 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 51,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 18,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458122",
+   "wallclock": "2025-11-01T18:16:04Z"
+  },
+  {
+   "id": "401754581506",
+   "sequence": 106,
+   "period": 3,
+   "clock": {
+    "seconds": 586,
+    "display": "9:46"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(09:48) #4 M.Fletcher Jr. rush middle for 14 yards gain to the SMU04 (#0 W.Nettles), 1ST DOWN",
+   "shortText": "M. Fletcher Jr. run for 14 yds for a 1ST down",
+   "awayScore": 10,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 18,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458122",
+   "wallclock": "2025-11-01T18:17:16Z"
+  },
+  {
+   "id": "401754581510",
+   "sequence": 107,
+   "period": 3,
+   "clock": {
+    "seconds": 546,
+    "display": "9:06"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(09:07) #11 C.Beck pass complete short left to #87 A.Bauman caught at SMU00, for 4 yards to the SMU00 TOUCHDOWN, clock 09:06 #38 C.Davis kick attempt good (H: #94 D.Joyce, LS: #46 A.Booker)",
+   "shortText": "Alex Bauman 4 Yd pass from Carson Beck (Carter Davis Kick)",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458122",
+   "wallclock": "2025-11-01T18:17:58Z"
+  },
+  {
+   "id": "401754581518",
+   "sequence": 109,
+   "period": 3,
+   "clock": {
+    "seconds": 540,
+    "display": "9:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(09:06) #38 C.Davis kickoff 65 yards to the SMU00 #4 L.Rhodes return 12 yards to the SMU12 (#36 N.Kelly)",
+   "shortText": "C. Davis kickoff for 65 yds, L. Rhodes returns for 12 yds",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 88,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458124",
+   "wallclock": "2025-11-01T18:22:26Z"
+  },
+  {
+   "id": "401754581523",
+   "sequence": 110,
+   "period": 3,
+   "clock": {
+    "seconds": 532,
+    "display": "8:52"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(09:00) No Huddle-Shotgun #7 K.Jennings pass complete short right to #8 Y.Knight caught at SMU10, for 6 yards to the SMU18 (#8 J.Thomas)",
+   "shortText": "K. Jennings pass to Y. Knight for 6 yds",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 88,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 82,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458124",
+   "wallclock": "2025-11-01T18:23:14Z"
+  },
+  {
+   "id": "401754581528",
+   "sequence": 111,
+   "period": 3,
+   "clock": {
+    "seconds": 514,
+    "display": "8:34"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(08:34) No Huddle-Shotgun #7 K.Jennings pass incomplete short left to #3 R.Brinson thrown to SMU18 broken up by #5 J.Scott",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 82,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 82,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458124",
+   "wallclock": "2025-11-01T18:23:38Z"
+  },
+  {
+   "id": "401754581531",
+   "sequence": 112,
+   "period": 3,
+   "clock": {
+    "seconds": 511,
+    "display": "8:31"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(08:34) No Huddle-Shotgun #7 K.Jennings pass incomplete short right to #27 T.Harden thrown to SMU20",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 82,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 82,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458124",
+   "wallclock": "2025-11-01T18:24:13Z"
+  },
+  {
+   "id": "401754581534",
+   "sequence": 113,
+   "period": 3,
+   "clock": {
+    "seconds": 499,
+    "display": "8:19"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(08:30) #43 W.McSparron punt 57 yards to the MIA25",
+   "shortText": "W. McSparron punt for 57 yds",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 82,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458124",
+   "wallclock": "2025-11-01T18:24:58Z"
+  },
+  {
+   "id": "401754581538",
+   "sequence": 114,
+   "period": 3,
+   "clock": {
+    "seconds": 493,
+    "display": "8:13"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(08:13) Shotgun #11 C.Beck pass incomplete short right to #2 J.Lyle thrown to MIA24",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:28:59Z"
+  },
+  {
+   "id": "401754581541",
+   "sequence": 115,
+   "period": 3,
+   "clock": {
+    "seconds": 484,
+    "display": "8:04"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:13) Shotgun #2 J.Lyle rush right for 2 yards gain to the MIA27, End Of Play",
+   "shortText": "J. Lyle run for 2 yds",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:29:34Z"
+  },
+  {
+   "id": "401754581545",
+   "sequence": 116,
+   "period": 3,
+   "clock": {
+    "seconds": 442,
+    "display": "7:22"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(07:28) Shotgun #11 C.Beck pass complete short middle to #0 K.Marion caught at MIA40, for 21 yards to the MIA48 (#0 W.Nettles; #23 I.Nwokobia), 1ST DOWN",
+   "shortText": "C. Beck pass to K. Marion for 21 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 21,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:30:16Z"
+  },
+  {
+   "id": "401754581550",
+   "sequence": 117,
+   "period": 3,
+   "clock": {
+    "seconds": 415,
+    "display": "6:55"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(07:03) No Huddle-Shotgun #11 C.Beck pass complete short middle to #10 M.Toney caught at SMU49, for 8 yards to the SMU44 (#3 A.Moses). #3 A.Moses injured on the play",
+   "shortText": "C. Beck pass to M. Toney for 8 yds",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:30:42Z"
+  },
+  {
+   "id": "401754581555",
+   "sequence": 118,
+   "period": 3,
+   "clock": {
+    "seconds": 385,
+    "display": "6:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:30) Shotgun #2 J.Lyle rush left for 6 yards gain to the SMU38 (#26 J.Moses), 1ST DOWN. #4 T.Webb injured on the play",
+   "shortText": "J. Lyle run for 6 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:32:07Z"
+  },
+  {
+   "id": "401754581563",
+   "sequence": 118,
+   "period": 3,
+   "clock": {
+    "seconds": 373,
+    "display": "6:13"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout SMU, clock 06:13",
+   "shortText": "Timeout SMU, clock 06:13",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 56,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 0,
+    "distance": 2,
+    "yardsToEndzone": 56,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:32:46Z"
+  },
+  {
+   "id": "401754581561",
+   "sequence": 119,
+   "period": 3,
+   "clock": {
+    "seconds": 360,
+    "display": "6:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(06:12) Shotgun #11 C.Beck pass complete short middle to #10 M.Toney caught at SMU42, for 1 yard to the SMU37 (#29 B.Miyazono)",
+   "shortText": "C. Beck pass to M. Toney for 1 yd",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 37,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:33:46Z"
+  },
+  {
+   "id": "401754581567",
+   "sequence": 120,
+   "period": 3,
+   "clock": {
+    "seconds": 328,
+    "display": "5:28"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:33) Shotgun #2 J.Lyle rush middle for 6 yards gain to the SMU31 (#54 A.Kilgore; #23 I.Nwokobia)",
+   "shortText": "J. Lyle run for 6 yds",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 37,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 31,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:34:27Z"
+  },
+  {
+   "id": "401754581571",
+   "sequence": 121,
+   "period": 3,
+   "clock": {
+    "seconds": 288,
+    "display": "4:48"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:52) Shotgun #2 J.Lyle rush middle for 2 yards gain to the SMU29 (#52 J.Lang; #33 Z.Barker)",
+   "shortText": "J. Lyle run for 2 yds",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 31,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 29,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:35:07Z"
+  },
+  {
+   "id": "401754581577",
+   "sequence": 121,
+   "period": 3,
+   "clock": {
+    "seconds": 247,
+    "display": "4:07"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Miami, clock 04:07",
+   "shortText": "Timeout Miami, clock 04:07",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 31,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 0,
+    "distance": 3,
+    "yardsToEndzone": 31,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:36:00Z"
+  },
+  {
+   "id": "401754581575",
+   "sequence": 122,
+   "period": 3,
+   "clock": {
+    "seconds": 243,
+    "display": "4:03"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:04) #4 M.Fletcher Jr. rush middle for 1 yard loss to the SMU30 (#4 T.Webb; #3 A.Moses), TURNOVER ON DOWNS",
+   "shortText": "M. Fletcher Jr. run for -1 yd",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 29,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458125",
+   "wallclock": "2025-11-01T18:39:45Z"
+  },
+  {
+   "id": "401754581581",
+   "sequence": 123,
+   "period": 3,
+   "clock": {
+    "seconds": 237,
+    "display": "3:57"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(03:58) No Huddle-Shotgun #7 K.Jennings pass incomplete short right to #82 R.Maryland thrown to SMU42 broken up by #10 R.Aguirre, Jr.",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:40:47Z"
+  },
+  {
+   "id": "401754581584",
+   "sequence": 124,
+   "period": 3,
+   "clock": {
+    "seconds": 228,
+    "display": "3:48"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(03:56) Shotgun #7 K.Jennings pass complete short right to #2 J.Hudson caught at SMU27, for 11 yards to the SMU41 (#12 M.Lightfoot), 1ST DOWN",
+   "shortText": "K. Jennings pass to J. Hudson for 11 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:41:31Z"
+  },
+  {
+   "id": "401754581589",
+   "sequence": 125,
+   "period": 3,
+   "clock": {
+    "seconds": 206,
+    "display": "3:26"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(03:32) No Huddle-Shotgun #7 K.Jennings pass complete short right to #27 T.Harden caught at SMU45, for 5 yards to the SMU46 (#6 X.Lucas), out of bounds",
+   "shortText": "K. Jennings pass to T.J. Harden for 5 yds",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 54,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:41:50Z"
+  },
+  {
+   "id": "401754581594",
+   "sequence": 126,
+   "period": 3,
+   "clock": {
+    "seconds": 194,
+    "display": "3:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:17) No Huddle-Shotgun #27 T.Harden rush middle for 5 yards gain to the MIA49 (#12 M.Lightfoot), 1ST DOWN",
+   "shortText": "T.J. Harden run for 5 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 54,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:42:06Z"
+  },
+  {
+   "id": "401754581598",
+   "sequence": 127,
+   "period": 3,
+   "clock": {
+    "seconds": 174,
+    "display": "2:54"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(02:59) No Huddle-Shotgun #7 K.Jennings pass complete short right to #2 J.Hudson caught at MIA45, for 10 yards to the MIA39 (#6 X.Lucas; #11 D.Blay), 1ST DOWN",
+   "shortText": "K. Jennings pass to J. Hudson for 10 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 39,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:42:23Z"
+  },
+  {
+   "id": "401754581603",
+   "sequence": 128,
+   "period": 3,
+   "clock": {
+    "seconds": 131,
+    "display": "2:11"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:16) No Huddle-Shotgun #0 D.McFall rush right for 1 yard loss to the MIA40 (#4 R.Bain Jr.; #6 X.Lucas)",
+   "shortText": "D. McFall run for -1 yd",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 39,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 40,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:43:10Z"
+  },
+  {
+   "id": "401754581683",
+   "sequence": 129,
+   "period": 3,
+   "clock": {
+    "seconds": 97,
+    "display": "1:37"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(01:37) No Huddle-Shotgun #1 T.Hawkins pass incomplete short right to #88 M.Hibner thrown to MIA29 PENALTY MIA Pass Interference (#8 J.Thomas) 11 yard from MIA40 to MIA29, 1ST DOWN. NO PLAY",
+   "shortText": "Ty Hawkins pass incomplete, Miami Penalty, passinterference (Ja. Thomas) for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 40,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 29,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T19:00:26Z"
+  },
+  {
+   "id": "401754581611",
+   "sequence": 130,
+   "period": 3,
+   "clock": {
+    "seconds": 72,
+    "display": "1:12"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:22) No Huddle-Shotgun #7 K.Jennings pass complete short right to #8 Y.Knight caught at MIA31, for 2 yards to the MIA27 (#41 C.Smith), out of bounds",
+   "shortText": "K. Jennings pass to Y. Knight for 2 yds",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 29,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 27,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:44:52Z"
+  },
+  {
+   "id": "401754581616",
+   "sequence": 131,
+   "period": 3,
+   "clock": {
+    "seconds": 46,
+    "display": "0:46"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:53) No Huddle-Shotgun #6 C.Johnson Jr. rush left for 1 yard gain to the MIA26 (#3 A.Mesidor; #11 D.Blay)",
+   "shortText": "C. Johnson Jr. run for 1 yd",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 27,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 26,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:45:21Z"
+  },
+  {
+   "id": "401754581620",
+   "sequence": 132,
+   "period": 3,
+   "clock": {
+    "seconds": 11,
+    "display": "0:11"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:10) No Huddle-Shotgun #7 K.Jennings pass incomplete short right to #2 J.Hudson thrown to MIA20",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 17,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 26,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 26,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:46:04Z"
+  },
+  {
+   "id": "401754581623",
+   "sequence": 133,
+   "period": 3,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "(00:07) #95 S.Keltner field goal attempt from 43 yards GOOD (H: #43 W.McSparron, LS: #48 M.Tribbett), clock 00:07",
+   "shortText": "Sam Keltner 43 Yd Field Goal  ",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 43,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 26,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458126",
+   "wallclock": "2025-11-01T18:46:42Z"
+  },
+  {
+   "id": "401754581626",
+   "sequence": 134,
+   "period": 3,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(00:07) #95 S.Keltner kickoff 65 yards to the MIA00, Touchback",
+   "shortText": "S. Keltner kickoff for 65 yds for a touchback",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:46:44Z"
+  },
+  {
+   "id": "401754581629",
+   "sequence": 135,
+   "period": 3,
+   "clock": {
+    "seconds": 5,
+    "display": "0:05"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:05) Shotgun #11 C.Beck pass complete short right to #10 M.Toney caught at MIA22, for 2 yards to the MIA27 (#3 A.Moses)",
+   "shortText": "C. Beck pass to M. Toney for 2 yds",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:48:47Z"
+  },
+  {
+   "id": "401754581636",
+   "sequence": 135,
+   "period": 3,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 3rd quarter.",
+   "shortText": "End of 3rd quarter.",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": null
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:49:09Z"
+  },
+  {
+   "id": "401754581640",
+   "sequence": 136,
+   "period": 4,
+   "clock": {
+    "seconds": 891,
+    "display": "14:51"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:56) Shotgun #11 C.Beck pass complete short left to #0 K.Marion caught at MIA32, for 18 yards to the MIA45 (#12 K.Chambers), 1ST DOWN",
+   "shortText": "C. Beck pass to K. Marion for 18 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:53:25Z"
+  },
+  {
+   "id": "401754581647",
+   "sequence": 137,
+   "period": 4,
+   "clock": {
+    "seconds": 860,
+    "display": "14:20"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:22) Shotgun #4 M.Fletcher Jr. rush middle for 7 yards gain to the SMU48 (#52 J.Lang)",
+   "shortText": "M. Fletcher Jr. run for 7 yds",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 48,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:53:58Z"
+  },
+  {
+   "id": "401754581651",
+   "sequence": 138,
+   "period": 4,
+   "clock": {
+    "seconds": 821,
+    "display": "13:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:45) Shotgun #4 M.Fletcher Jr. rush middle for 2 yards gain to the SMU46 (#54 A.Kilgore; #6 J.M'ba)",
+   "shortText": "M. Fletcher Jr. run for 2 yds",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 48,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 46,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:54:38Z"
+  },
+  {
+   "id": "401754581655",
+   "sequence": 139,
+   "period": 4,
+   "clock": {
+    "seconds": 778,
+    "display": "12:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:01) Shotgun #6 C.Brown rush middle for 2 yards gain to the SMU44 (#3 A.Moses; #33 Z.Barker), 1ST DOWN",
+   "shortText": "C. Brown run for 2 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 46,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:55:20Z"
+  },
+  {
+   "id": "401754581659",
+   "sequence": 140,
+   "period": 4,
+   "clock": {
+    "seconds": 738,
+    "display": "12:18"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(12:22) Shotgun #11 C.Beck pass complete short left to #10 M.Toney caught at SMU42, for 10 yards to the SMU34 (#0 W.Nettles), 1ST DOWN",
+   "shortText": "C. Beck pass to M. Toney for 10 yds for a 1ST down",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 34,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:55:59Z"
+  },
+  {
+   "id": "401754581666",
+   "sequence": 141,
+   "period": 4,
+   "clock": {
+    "seconds": 695,
+    "display": "11:35"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:41) Shotgun #11 C.Beck rush middle for 7 yards gain to the SMU27 (#3 A.Moses)",
+   "shortText": "C. Beck run for 7 yds",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 34,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 27,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:56:43Z"
+  },
+  {
+   "id": "401754581670",
+   "sequence": 142,
+   "period": 4,
+   "clock": {
+    "seconds": 657,
+    "display": "10:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:00) Shotgun #2 J.Lyle rush left for 2 yards gain to the SMU25 (#23 I.Nwokobia)",
+   "shortText": "J. Lyle run for 2 yds",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 27,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 25,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:57:21Z"
+  },
+  {
+   "id": "401754581674",
+   "sequence": 143,
+   "period": 4,
+   "clock": {
+    "seconds": 617,
+    "display": "10:17"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:19) #6 C.Brown rush middle for 1 yard loss to the SMU26 (#1 I.Smith)",
+   "shortText": "C. Brown run for -1 yd",
+   "awayScore": 17,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 25,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 26,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:58:02Z"
+  },
+  {
+   "id": "401754581678",
+   "sequence": 144,
+   "period": 4,
+   "clock": {
+    "seconds": 574,
+    "display": "9:34"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "(09:34) #38 C.Davis field goal attempt from 45 yards GOOD (H: #94 D.Joyce, LS: #46 A.Booker), clock 09:34",
+   "shortText": "Carter Davis 45 Yd Field Goal  ",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 45,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 26,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458128",
+   "wallclock": "2025-11-01T18:58:51Z"
+  },
+  {
+   "id": "401754581681",
+   "sequence": 145,
+   "period": 4,
+   "clock": {
+    "seconds": 574,
+    "display": "9:34"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(09:34) #38 C.Davis kickoff 65 yards to the SMU00, Touchback",
+   "shortText": "C. Davis kickoff for 65 yds for a touchback",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T18:58:53Z"
+  },
+  {
+   "id": "401754581688",
+   "sequence": 146,
+   "period": 4,
+   "clock": {
+    "seconds": 569,
+    "display": "9:29"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(09:29) No Huddle-Shotgun #7 K.Jennings pass incomplete deep right to #82 R.Maryland thrown to MIA50 broken up by #1 M.Toure",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:03:21Z"
+  },
+  {
+   "id": "401754581691",
+   "sequence": 147,
+   "period": 4,
+   "clock": {
+    "seconds": 558,
+    "display": "9:18"
+   },
+   "typeId": "4",
+   "typeText": "Pass Completion",
+   "text": "(09:24) No Huddle-Shotgun #7 K.Jennings pass complete deep middle to #0 D.McFall caught at SMU45, for 27 yards to the MIA48 (#7 Z.Poyser), 1ST DOWN",
+   "shortText": "K. Jennings pass to D. McFall for 27 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 27,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:03:51Z"
+  },
+  {
+   "id": "401754581696",
+   "sequence": 148,
+   "period": 4,
+   "clock": {
+    "seconds": 538,
+    "display": "8:58"
+   },
+   "typeId": "4",
+   "typeText": "Pass Completion",
+   "text": "(09:05) No Huddle-Shotgun #7 K.Jennings pass complete short right to #2 J.Hudson caught at MIA32, for 20 yards to the MIA28 (#6 X.Lucas), out of bounds, 1ST DOWN",
+   "shortText": "K. Jennings pass to J. Hudson for 20 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 20,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:04:13Z"
+  },
+  {
+   "id": "401754581701",
+   "sequence": 149,
+   "period": 4,
+   "clock": {
+    "seconds": 509,
+    "display": "8:29"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(08:30) No Huddle-Shotgun #7 K.Jennings pass incomplete short left thrown to MIA15",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:04:49Z"
+  },
+  {
+   "id": "401754581704",
+   "sequence": 150,
+   "period": 4,
+   "clock": {
+    "seconds": 499,
+    "display": "8:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(08:26) No Huddle-Shotgun #7 K.Jennings pass complete short right to #88 M.Hibner caught at MIA24, for 7 yards to the MIA21 (#1 M.Toure)",
+   "shortText": "K. Jennings pass to M. Hibner for 7 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 21,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:05:32Z"
+  },
+  {
+   "id": "401754581709",
+   "sequence": 151,
+   "period": 4,
+   "clock": {
+    "seconds": 485,
+    "display": "8:05"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(08:12) No Huddle-Shotgun #7 K.Jennings pass complete short right to #2 J.Hudson caught at MIA17, for 7 yards to the MIA14, End Of Play, 1ST DOWN",
+   "shortText": "K. Jennings pass to J. Hudson for 7 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 21,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:05:49Z"
+  },
+  {
+   "id": "401754581715",
+   "sequence": 152,
+   "period": 4,
+   "clock": {
+    "seconds": 458,
+    "display": "7:38"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:41) No Huddle-Shotgun #7 K.Jennings rush right for 1 yard loss to the MIA15 (#4 R.Bain Jr.)",
+   "shortText": "K. Jennings run for -1 yd",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 15,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:06:18Z"
+  },
+  {
+   "id": "401754581719",
+   "sequence": 153,
+   "period": 4,
+   "clock": {
+    "seconds": 421,
+    "display": "7:01"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(07:07) Shotgun #7 K.Jennings pass incomplete short right thrown to MIA10 QB hurried by #0 K.Scott",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 15,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 15,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:06:59Z"
+  },
+  {
+   "id": "401754581722",
+   "sequence": 154,
+   "period": 4,
+   "clock": {
+    "seconds": 420,
+    "display": "7:00"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(07:00) Shotgun #7 K.Jennings pass complete short right to #88 M.Hibner caught at MIA09, for 11 yards to the MIA04 (#10 R.Aguirre, Jr.; #1 M.Toure) PENALTY SMU Holding (#59 P.Williams) 10 yards from MIA15 to MIA25. NO PLAY",
+   "shortText": "K. Jennings pass to M. Hibner, SMU Penalty, holding (PJ Williams)",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 15,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 21,
+    "yardsToEndzone": 25,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:07:57Z"
+  },
+  {
+   "id": "401754581728",
+   "sequence": 155,
+   "period": 4,
+   "clock": {
+    "seconds": 387,
+    "display": "6:27"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(06:26) #3 R.Brinson pass incomplete short right to #7 K.Jennings thrown to MIA25",
+   "shortText": "R. Brinson pass incomplete",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 21,
+    "yardsToEndzone": 25,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 21,
+    "yardsToEndzone": 25,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:09:00Z"
+  },
+  {
+   "id": "401754581731",
+   "sequence": 156,
+   "period": 4,
+   "clock": {
+    "seconds": 384,
+    "display": "6:24"
+   },
+   "typeId": "60",
+   "typeText": "Field Goal Missed",
+   "text": "(06:25) #95 S.Keltner field goal attempt from 42 yards NO GOOD (H: #43 W.McSparron, LS: #48 M.Tribbett), clock 06:24",
+   "shortText": "S. Keltner 42 yd FG MISSED",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 42,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 21,
+    "yardsToEndzone": 25,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458130",
+   "wallclock": "2025-11-01T19:09:43Z"
+  },
+  {
+   "id": "401754581735",
+   "sequence": 157,
+   "period": 4,
+   "clock": {
+    "seconds": 379,
+    "display": "6:19"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:24) Shotgun #4 M.Fletcher Jr. rush middle for 5 yards gain to the MIA30 (#4 T.Webb)",
+   "shortText": "M. Fletcher Jr. run for 5 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:13:23Z"
+  },
+  {
+   "id": "401754581739",
+   "sequence": 158,
+   "period": 4,
+   "clock": {
+    "seconds": 339,
+    "display": "5:39"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(05:46) Shotgun #11 C.Beck pass complete short left to #10 M.Toney caught at MIA35, for 7 yards to the MIA37 (#23 I.Nwokobia; #54 A.Kilgore), 1ST DOWN",
+   "shortText": "C. Beck pass to M. Toney for 7 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:14:01Z"
+  },
+  {
+   "id": "401754581744",
+   "sequence": 159,
+   "period": 4,
+   "clock": {
+    "seconds": 299,
+    "display": "4:59"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:07) Shotgun #11 C.Beck rush left for 3 yards gain to the MIA40, End Of Play",
+   "shortText": "C. Beck run for 3 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 60,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:14:42Z"
+  },
+  {
+   "id": "401754581748",
+   "sequence": 160,
+   "period": 4,
+   "clock": {
+    "seconds": 261,
+    "display": "4:21"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:25) Shotgun #4 M.Fletcher Jr. rush middle for 2 yards gain to the MIA42 (#52 J.Lang; #6 J.M'ba)",
+   "shortText": "M. Fletcher Jr. run for 2 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 60,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 58,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:15:21Z"
+  },
+  {
+   "id": "401754581752",
+   "sequence": 161,
+   "period": 4,
+   "clock": {
+    "seconds": 223,
+    "display": "3:43"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(03:43) Shotgun #11 C.Beck pass complete deep middle to #0 K.Marion caught at SMU28, for 30 yards to the SMU28, End Of Play PENALTY MIA Ineligible Downfield on Pass (#78 M.McCoy) 5 yards from MIA42 to MIA37. NO PLAY",
+   "shortText": "C. Beck pass to K. Marion, Miami Penalty, ineligibledownfieldonpass (M. McCoy)",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 58,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:16:37Z"
+  },
+  {
+   "id": "401754581758",
+   "sequence": 162,
+   "period": 4,
+   "clock": {
+    "seconds": 202,
+    "display": "3:22"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(03:22) PENALTY MIA False Start (#70 M.Bell) 5 yards from MIA37 to MIA32. NO PLAY",
+   "shortText": "Miami Penalty, falsestart (M. Bell)",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 15,
+    "yardsToEndzone": 68,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:17:33Z"
+  },
+  {
+   "id": "401754581761",
+   "sequence": 163,
+   "period": 4,
+   "clock": {
+    "seconds": 185,
+    "display": "3:05"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(03:22) Shotgun #11 C.Beck pass complete short middle to #0 K.Marion caught at MIA48, for 16 yards to the MIA48 (#0 W.Nettles), 1ST DOWN",
+   "shortText": "C. Beck pass to K. Marion for 16 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 15,
+    "yardsToEndzone": 68,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:18:21Z"
+  },
+  {
+   "id": "401754581766",
+   "sequence": 164,
+   "period": 4,
+   "clock": {
+    "seconds": 149,
+    "display": "2:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:34) Shotgun #4 M.Fletcher Jr. rush right for 3 yards gain to the SMU49 (#4 T.Webb). #4 T.Webb, #4 M.Fletcher Jr. injured on the play",
+   "shortText": "M. Fletcher Jr. run for 3 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 49,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:19:05Z"
+  },
+  {
+   "id": "401754581772",
+   "sequence": 164,
+   "period": 4,
+   "clock": {
+    "seconds": 148,
+    "display": "2:28"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout SMU, clock 02:28",
+   "shortText": "Timeout SMU, clock 02:28",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:21:14Z"
+  },
+  {
+   "id": "401754581778",
+   "sequence": 165,
+   "period": 4,
+   "clock": {
+    "seconds": 143,
+    "display": "2:23"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout SMU, clock 02:23",
+   "shortText": "Timeout SMU, clock 02:23",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 51,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 0,
+    "distance": 7,
+    "yardsToEndzone": 51,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:23:14Z"
+  },
+  {
+   "id": "401754581770",
+   "sequence": 165,
+   "period": 4,
+   "clock": {
+    "seconds": 141,
+    "display": "2:21"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(02:26) Shotgun #11 C.Beck pass complete short right to #1 J.Trader caught at MIA49, for 1 yard loss to the SMU50 (#3 A.Moses)",
+   "shortText": "C. Beck pass to J. Trader for -1 yd",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 49,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 50,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:22:51Z"
+  },
+  {
+   "id": "401754581776",
+   "sequence": 166,
+   "period": 4,
+   "clock": {
+    "seconds": 137,
+    "display": "2:17"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(02:22) Shotgun #11 C.Beck pass incomplete deep left to #0 K.Marion thrown to SMU15 PENALTY MIA Holding declined",
+   "shortText": "C. Beck pass incomplete",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 50,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 50,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:24:33Z"
+  },
+  {
+   "id": "401754581781",
+   "sequence": 167,
+   "period": 4,
+   "clock": {
+    "seconds": 129,
+    "display": "2:09"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(02:14) #94 D.Joyce punt 40 yards to the SMU10 fair catch by #8 Y.Knight at SMU10",
+   "shortText": "D. Joyce punt for 40 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 50,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 10,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458131",
+   "wallclock": "2025-11-01T19:26:07Z"
+  },
+  {
+   "id": "401754581785",
+   "sequence": 168,
+   "period": 4,
+   "clock": {
+    "seconds": 121,
+    "display": "2:01"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(02:05) No Huddle-Shotgun #7 K.Jennings pass complete short left to #3 R.Brinson caught at SMU10, for 8 yards to the SMU18 (#18 A.Blount)",
+   "shortText": "K. Jennings pass to R. Brinson for 8 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 82,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:27:05Z"
+  },
+  {
+   "id": "401754581797",
+   "sequence": 168,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout , clock 02:00",
+   "shortText": "Timeout , clock 02:00",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 90,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:28:01Z"
+  },
+  {
+   "id": "401754581795",
+   "sequence": 169,
+   "period": 4,
+   "clock": {
+    "seconds": 111,
+    "display": "1:51"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:52) Shotgun #7 K.Jennings pass complete deep right to #2 J.Hudson caught at SMU42, for 29 yards to the SMU47 (#24 E.O'Connor), out of bounds, 1ST DOWN",
+   "shortText": "K. Jennings pass to J. Hudson for 29 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 29,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 82,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:31:23Z"
+  },
+  {
+   "id": "401754581801",
+   "sequence": 170,
+   "period": 4,
+   "clock": {
+    "seconds": 107,
+    "display": "1:47"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(01:51) No Huddle-Shotgun #7 K.Jennings pass incomplete short left to #3 R.Brinson thrown to MIA34",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:31:51Z"
+  },
+  {
+   "id": "401754581804",
+   "sequence": 171,
+   "period": 4,
+   "clock": {
+    "seconds": 101,
+    "display": "1:41"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(01:47) No Huddle-Shotgun #7 K.Jennings sacked for loss of 9 yards to the SMU38 (#0 K.Scott)",
+   "shortText": "K. Jennings sacked  by K. Scott for -9 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 19,
+    "yardsToEndzone": 62,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:32:32Z"
+  },
+  {
+   "id": "401754581808",
+   "sequence": 172,
+   "period": 4,
+   "clock": {
+    "seconds": 77,
+    "display": "1:17"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:26) No Huddle-Shotgun #7 K.Jennings pass complete short middle to #27 T.Harden caught at SMU41, for 10 yards to the SMU48 (#8 J.Thomas; #10 R.Aguirre, Jr.)",
+   "shortText": "K. Jennings pass to T.J. Harden for 10 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 19,
+    "yardsToEndzone": 62,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 52,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:32:52Z"
+  },
+  {
+   "id": "401754581818",
+   "sequence": 173,
+   "period": 4,
+   "clock": {
+    "seconds": 68,
+    "display": "1:08"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Miami, clock 01:08",
+   "shortText": "Timeout Miami, clock 01:08",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 48,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 0,
+    "distance": 9,
+    "yardsToEndzone": 48,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:34:22Z"
+  },
+  {
+   "id": "401754581816",
+   "sequence": 173,
+   "period": 4,
+   "clock": {
+    "seconds": 68,
+    "display": "1:08"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY MIA UNR: Unnecessary Roughness (#12 M.Lightfoot) 15 yards from SMU48 to MIA37, 1ST DOWN. NO PLAY",
+   "shortText": "Miami Penalty, unnecessaryroughness (M. Lightfoot) for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 52,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:34:24Z"
+  },
+  {
+   "id": "401754581820",
+   "sequence": 174,
+   "period": 4,
+   "clock": {
+    "seconds": 64,
+    "display": "1:04"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(01:08) No Huddle-Shotgun #7 K.Jennings pass incomplete short right to #2 J.Hudson thrown to MIA31 broken up by #0 K.Scott",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:35:14Z"
+  },
+  {
+   "id": "401754581823",
+   "sequence": 175,
+   "period": 4,
+   "clock": {
+    "seconds": 59,
+    "display": "0:59"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:04) No Huddle-Shotgun #7 K.Jennings pass complete short right to #8 Y.Knight caught at MIA32, for 11 yards to the MIA26 (#0 K.Scott), 1ST DOWN. #54 S.Byrd injured on the play",
+   "shortText": "K. Jennings pass to Y. Knight for 11 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:35:49Z"
+  },
+  {
+   "id": "401754581830",
+   "sequence": 176,
+   "period": 4,
+   "clock": {
+    "seconds": 47,
+    "display": "0:47"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(00:47) No Huddle-Shotgun #7 K.Jennings rush left for 5 yards gain to the MIA21, out of bounds at MIA21 PENALTY SMU Holding (#64 J.Bates) 10 yards from MIA26 to MIA36. NO PLAY",
+   "shortText": "K. Jennings run for 0 yards, SMU Penalty, holding (J. Bates)",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 36,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:36:53Z"
+  },
+  {
+   "id": "401754581835",
+   "sequence": 177,
+   "period": 4,
+   "clock": {
+    "seconds": 42,
+    "display": "0:42"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:47) Shotgun #7 K.Jennings pass incomplete short left to #8 Y.Knight thrown to MIA26",
+   "shortText": "K. Jennings pass incomplete",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 36,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 20,
+    "yardsToEndzone": 36,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:37:49Z"
+  },
+  {
+   "id": "401754581838",
+   "sequence": 178,
+   "period": 4,
+   "clock": {
+    "seconds": 35,
+    "display": "0:35"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:42) No Huddle-Shotgun #7 K.Jennings rush left for 4 yards gain to the MIA32, out of bounds at MIA32",
+   "shortText": "K. Jennings run for 4 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 20,
+    "yardsToEndzone": 36,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 16,
+    "yardsToEndzone": 32,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:38:27Z"
+  },
+  {
+   "id": "401754581842",
+   "sequence": 179,
+   "period": 4,
+   "clock": {
+    "seconds": 29,
+    "display": "0:29"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:35) No Huddle-Shotgun #7 K.Jennings pass complete short right to #2 J.Hudson caught at MIA21, for 11 yards to the MIA21, out of bounds at MIA21. The previous play is under automatic review - \"Pass completion\". CALL UPHELD",
+   "shortText": "K. Jennings pass to J. Hudson for 11 yds",
+   "awayScore": 20,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 16,
+    "yardsToEndzone": 32,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 21,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:39:18Z"
+  },
+  {
+   "id": "401754581850",
+   "sequence": 180,
+   "period": 4,
+   "clock": {
+    "seconds": 25,
+    "display": "0:25"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "(00:28) #95 S.Keltner field goal attempt from 38 yards GOOD (H: #43 W.McSparron, LS: #48 M.Tribbett), clock 00:25",
+   "shortText": "Sam Keltner 38 Yd Field Goal  ",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 38,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 21,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458132",
+   "wallclock": "2025-11-01T19:42:17Z"
+  },
+  {
+   "id": "401754581853",
+   "sequence": 181,
+   "period": 4,
+   "clock": {
+    "seconds": 25,
+    "display": "0:25"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(00:25) #95 S.Keltner kickoff 65 yards to the MIA00, Touchback",
+   "shortText": "S. Keltner kickoff for 65 yds for a touchback",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458134",
+   "wallclock": "2025-11-01T19:42:21Z"
+  },
+  {
+   "id": "401754581856",
+   "sequence": 182,
+   "period": 4,
+   "clock": {
+    "seconds": 25,
+    "display": "0:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:25) Kneel down by #11 C.Beck at MIA24 for loss of 1 yard",
+   "shortText": "C. Beck takes a knee",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 76,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458134",
+   "wallclock": "2025-11-01T19:44:46Z"
+  },
+  {
+   "id": "401754581861",
+   "sequence": 182,
+   "period": 4,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 4th quarter.",
+   "shortText": "End of 4th quarter.",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": null
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458134",
+   "wallclock": "2025-11-01T19:45:19Z"
+  },
+  {
+   "id": "401754581867",
+   "sequence": 183,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:00) Shotgun #6 C.Brown rush right for 9 yards gain to the SMU16 (#12 K.Chambers)",
+   "shortText": "C. Brown run for 9 yds",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 16,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458135",
+   "wallclock": "2025-11-01T19:48:48Z"
+  },
+  {
+   "id": "401754581873",
+   "sequence": 184,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:00) Shotgun #6 C.Brown rush middle for 5 yards gain to the SMU11 (#54 A.Kilgore; #3 A.Moses), 1ST DOWN",
+   "shortText": "C. Brown run for 5 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 16,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 11,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458135",
+   "wallclock": "2025-11-01T19:49:25Z"
+  },
+  {
+   "id": "401754581877",
+   "sequence": 185,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:00) #6 C.Brown rush middle for 4 yards gain to the SMU07 (#29 B.Miyazono; #6 J.M'ba)",
+   "shortText": "C. Brown run for 4 yds",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 11,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 7,
+    "teamId": "2390"
+   },
+   "teamId": "2390",
+   "driveId": "40175458135",
+   "wallclock": "2025-11-01T19:50:04Z"
+  },
+  {
+   "id": "401754581881",
+   "sequence": 186,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:00) Shotgun #6 C.Brown rush middle for 0 yards to the SMU07 (#40 K.Spears)",
+   "shortText": "C. Brown run for 0 yds",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 7,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 93,
+    "teamId": null
+   },
+   "teamId": "2390",
+   "driveId": "40175458135",
+   "wallclock": "2025-11-01T19:50:37Z"
+  },
+  {
+   "id": "401754581885",
+   "sequence": 187,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "63",
+   "typeText": "Interception",
+   "text": "(00:00) Shotgun #11 C.Beck pass intercepted by #3 A.Moses at SMU01, End Of Play",
+   "shortText": "C. Beck pass intercepted",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 7,
+    "teamId": "2390"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 99,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458135",
+   "wallclock": "2025-11-01T19:51:18Z"
+  },
+  {
+   "id": "401754581890",
+   "sequence": 188,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:00) No Huddle-Shotgun #7 K.Jennings rush right for 5 yards gain to the MIA20, out of bounds at MIA20",
+   "shortText": "K. Jennings run for 5 yds",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 20,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458136",
+   "wallclock": "2025-11-01T19:52:37Z"
+  },
+  {
+   "id": "401754581894",
+   "sequence": 189,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:00) Shotgun #27 T.Harden rush left for 3 yards gain to the MIA17 (#3 A.Mesidor)",
+   "shortText": "T.J. Harden run for 3 yds",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 20,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 17,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458136",
+   "wallclock": "2025-11-01T19:53:11Z"
+  },
+  {
+   "id": "401754581898",
+   "sequence": 190,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:00) Shotgun #27 T.Harden rush middle for 3 yards gain to the MIA14 (#10 R.Aguirre, Jr.; #1 M.Toure), 1ST DOWN",
+   "shortText": "T.J. Harden run for 3 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 17,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458136",
+   "wallclock": "2025-11-01T19:53:54Z"
+  },
+  {
+   "id": "401754581902",
+   "sequence": 191,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:00) Shotgun #27 T.Harden rush middle for 6 yards gain to the MIA08 (#5 J.Scott)",
+   "shortText": "T.J. Harden run for 6 yds",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 8,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458136",
+   "wallclock": "2025-11-01T19:54:38Z"
+  },
+  {
+   "id": "401754581906",
+   "sequence": 192,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:00) Shotgun #27 T.Harden rush middle for 7 yards gain to the MIA01 (#1 M.Toure; #8 J.Thomas), 1ST DOWN",
+   "shortText": "T.J. Harden run for 7 yds for a 1ST down",
+   "awayScore": 20,
+   "homeScore": 20,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 8,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458136",
+   "wallclock": "2025-11-01T19:55:20Z"
+  },
+  {
+   "id": "401754581910",
+   "sequence": 193,
+   "period": 5,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(00:00) Shotgun #27 T.Harden rush left for 1 yard gain to the MIA00 TOUCHDOWN, clock 00:00",
+   "shortText": "T.J. Harden 1 Yd Run  ",
+   "awayScore": 20,
+   "homeScore": 26,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "2567"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "2567"
+   },
+   "teamId": "2567",
+   "driveId": "40175458136",
+   "wallclock": "2025-11-01T19:55:59Z"
+  }
+ ],
+ "drives": [
+  {
+   "id": "4017545812",
+   "sequence": 2,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 5,
+   "yards": 18,
+   "description": "5 plays, 18 yards, 2:49"
+  },
+  {
+   "id": "4017545813",
+   "sequence": 3,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "FUMBLE",
+   "displayResult": "Fumble",
+   "isScore": false,
+   "offensivePlays": 9,
+   "yards": 52,
+   "description": "9 plays, 52 yards, 3:21"
+  },
+  {
+   "id": "4017545814",
+   "sequence": 4,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 8,
+   "yards": 62,
+   "description": "8 plays, 62 yards, 4:27"
+  },
+  {
+   "id": "4017545816",
+   "sequence": 6,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 4,
+   "description": "3 plays, 4 yards, 1:20"
+  },
+  {
+   "id": "4017545817",
+   "sequence": 7,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 9,
+   "yards": 44,
+   "description": "9 plays, 44 yards, 5:50"
+  },
+  {
+   "id": "4017545818",
+   "sequence": 8,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 4,
+   "yards": 38,
+   "description": "4 plays, 38 yards, 1:42"
+  },
+  {
+   "id": "4017545819",
+   "sequence": 9,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "INT",
+   "displayResult": "Interception",
+   "isScore": false,
+   "offensivePlays": 2,
+   "yards": 5,
+   "description": "2 plays, 5 yards, 0:50"
+  },
+  {
+   "id": "40175458110",
+   "sequence": 10,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 1,
+   "yards": 28,
+   "description": "1 play, 28 yards, 0:06"
+  },
+  {
+   "id": "40175458112",
+   "sequence": 12,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 17,
+   "description": "6 plays, 17 yards, 2:41"
+  },
+  {
+   "id": "40175458113",
+   "sequence": 13,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 1,
+   "description": "3 plays, 1 yard, 1:15"
+  },
+  {
+   "id": "40175458114",
+   "sequence": 14,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 21,
+   "description": "6 plays, 21 yards, 2:41"
+  },
+  {
+   "id": "40175458115",
+   "sequence": 15,
+   "teamId": "2567",
+   "endTeamId": null,
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 7,
+   "description": "3 plays, 7 yards, 1:55"
+  },
+  {
+   "id": "40175458116",
+   "sequence": 16,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 4,
+   "yards": 5,
+   "description": "4 plays, 5 yards, 0:42"
+  },
+  {
+   "id": "40175458118",
+   "sequence": 18,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "END OF HALF",
+   "displayResult": "End Of Half",
+   "isScore": false,
+   "offensivePlays": 1,
+   "yards": -1,
+   "description": "1 play, -1 yard, 0:07"
+  },
+  {
+   "id": "40175458120",
+   "sequence": 20,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 79,
+   "description": "9 plays, 79 yards, 2:43"
+  },
+  {
+   "id": "40175458122",
+   "sequence": 22,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 7,
+   "yards": 75,
+   "description": "7 plays, 75 yards, 2:59"
+  },
+  {
+   "id": "40175458124",
+   "sequence": 24,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 6,
+   "description": "3 plays, 6 yards, 0:41"
+  },
+  {
+   "id": "40175458125",
+   "sequence": 25,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 9,
+   "yards": 45,
+   "description": "9 plays, 45 yards, 4:16"
+  },
+  {
+   "id": "40175458126",
+   "sequence": 26,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 10,
+   "yards": 44,
+   "description": "10 plays, 44 yards, 3:56"
+  },
+  {
+   "id": "40175458128",
+   "sequence": 28,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 10,
+   "yards": 49,
+   "description": "10 plays, 49 yards, 5:33"
+  },
+  {
+   "id": "40175458130",
+   "sequence": 30,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "MISSED FG",
+   "displayResult": "Missed FG",
+   "isScore": false,
+   "offensivePlays": 10,
+   "yards": 50,
+   "description": "10 plays, 50 yards, 3:10"
+  },
+  {
+   "id": "40175458131",
+   "sequence": 31,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 8,
+   "yards": 25,
+   "description": "8 plays, 25 yards, 4:15"
+  },
+  {
+   "id": "40175458132",
+   "sequence": 32,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 11,
+   "yards": 69,
+   "description": "11 plays, 69 yards, 1:44"
+  },
+  {
+   "id": "40175458134",
+   "sequence": 34,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "END OF HALF",
+   "displayResult": "End Of Half",
+   "isScore": false,
+   "offensivePlays": 1,
+   "yards": -1,
+   "description": "1 play, -1 yard, 0:25"
+  },
+  {
+   "id": "40175458135",
+   "sequence": 35,
+   "teamId": "2390",
+   "endTeamId": "2390",
+   "result": "INT",
+   "displayResult": "Interception",
+   "isScore": false,
+   "offensivePlays": 5,
+   "yards": 18,
+   "description": "5 plays, 18 yards"
+  },
+  {
+   "id": "40175458136",
+   "sequence": 36,
+   "teamId": "2567",
+   "endTeamId": "2567",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 6,
+   "yards": 25,
+   "description": "6 plays, 25 yards"
+  }
+ ]
+}

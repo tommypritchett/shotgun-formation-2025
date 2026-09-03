@@ -24,6 +24,7 @@ export default function DrinkAssigner({
   card,
   copies,
   source,
+  watching,          // the attached game, so the score survives the round
   secondsLeft,
   fraction,
   tier,
@@ -67,6 +68,21 @@ export default function DrinkAssigner({
   return (
     <div className={classes} data-tier={tier}>
       <div className="danger" aria-hidden="true" />
+
+      {/* The assigner covers the whole screen for the length of the round, and
+          a round fires precisely BECAUSE something just happened — so this is
+          exactly when the room most wants the score. One line, next to the
+          countdown, rather than losing the game for twenty-one seconds. */}
+      {watching ? (
+        <div className="a-score" aria-live="polite">
+          <span className="as-teams">{watching.away || 'Away'} {watching.awayScore ?? 0}</span>
+          <span className="as-sep">·</span>
+          <span className="as-teams">{watching.home || 'Home'} {watching.homeScore ?? 0}</span>
+          <span className="as-clock">
+            {watching.period ? `Q${watching.period}` : ''} {watching.clock || ''}
+          </span>
+        </div>
+      ) : null}
 
       <div className="timerbar" aria-hidden="true">
         <i style={{ transform: `scaleX(${Math.max(0, Math.min(1, fraction))})` }} />

@@ -1,0 +1,7014 @@
+{
+ "league": "nfl",
+ "gameId": "401772636",
+ "capturedAt": "2026-08-28T18:43:02.081Z",
+ "name": "IND 31 - ATL 25",
+ "teams": [
+  {
+   "id": "11",
+   "abbreviation": "IND",
+   "displayName": "Indianapolis Colts",
+   "score": 31,
+   "homeAway": "home"
+  },
+  {
+   "id": "1",
+   "abbreviation": "ATL",
+   "displayName": "Atlanta Falcons",
+   "score": 25,
+   "homeAway": "away"
+  }
+ ],
+ "periods": 5,
+ "playCount": 191,
+ "driveCount": 25,
+ "plays": [
+  {
+   "id": "4017726361",
+   "sequence": 100,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "70",
+   "typeText": "Coin Toss",
+   "text": "GAME",
+   "shortText": "Game",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": null,
+   "wallclock": null
+  },
+  {
+   "id": "40177263639",
+   "sequence": 3900,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "B.Pinion kicks 60 yards from ATL 35 to IND 5. A.Dulin to IND 25 for 20 yards (K.Hodge; F.Franks).",
+   "shortText": "Bradley Pinion 60 Yd Kickoff Ashton Dulin 20 Yd Kickoff Return",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 20,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:35:07Z"
+  },
+  {
+   "id": "40177263662",
+   "sequence": 6200,
+   "period": 1,
+   "clock": {
+    "seconds": 896,
+    "display": "14:56"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor up the middle to IND 27 for 2 yards (J.Walker; R.Harrison).",
+   "shortText": "Jonathan Taylor 2 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:35:53Z"
+  },
+  {
+   "id": "40177263684",
+   "sequence": 8400,
+   "period": 1,
+   "clock": {
+    "seconds": 859,
+    "display": "14:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass short left to A.Pierce to IND 37 for 10 yards (J.Walker).",
+   "shortText": "Daniel Jones Pass Complete for 10 Yds to Alec Pierce",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 73,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:36:30Z"
+  },
+  {
+   "id": "401772636109",
+   "sequence": 10900,
+   "period": 1,
+   "clock": {
+    "seconds": 823,
+    "display": "13:43"
+   },
+   "typeId": "9",
+   "typeText": "Fumble Recovery (Own)",
+   "text": "D.Jones pass short right to J.Taylor to ATL 49 for 14 yards (J.Bates). FUMBLES (J.Bates), recovered by IND-T.Bortolini at ATL 46.",
+   "shortText": "Daniel Jones Pass Complete for 14 Yds to Jonathan Taylor Jonathan Taylor Fumble Tanor Bortolini 0 Yd Fumble Recovery",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 17,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:37:06Z"
+  },
+  {
+   "id": "401772636150",
+   "sequence": 15000,
+   "period": 1,
+   "clock": {
+    "seconds": 785,
+    "display": "13:05"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Jones pass short right to T.Warren pushed ob at ATL 35 for 11 yards (J.Bates).",
+   "shortText": "Daniel Jones Pass Complete for 11 Yds to Tyler Warren",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:37:58Z"
+  },
+  {
+   "id": "401772636180",
+   "sequence": 18000,
+   "period": 1,
+   "clock": {
+    "seconds": 749,
+    "display": "12:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor left end to ATL 31 for 4 yards (D.Alford; R.Harrison).",
+   "shortText": "Jonathan Taylor 4 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 31,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:38:30Z"
+  },
+  {
+   "id": "401772636202",
+   "sequence": 20200,
+   "period": 1,
+   "clock": {
+    "seconds": 710,
+    "display": "11:50"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor up the middle to ATL 27 for 4 yards (S.Roberts; X.Watts).",
+   "shortText": "Jonathan Taylor 4 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 31,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 27,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:39:09Z"
+  },
+  {
+   "id": "401772636224",
+   "sequence": 22400,
+   "period": 1,
+   "clock": {
+    "seconds": 666,
+    "display": "11:06"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "D.Jones pass incomplete short left to M.Alie-Cox (J.Bates).",
+   "shortText": "Daniel Jones Incomplete Pass",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 27,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 27,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:39:53Z"
+  },
+  {
+   "id": "401772636247",
+   "sequence": 24700,
+   "period": 1,
+   "clock": {
+    "seconds": 661,
+    "display": "11:01"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Jones pass incomplete short right to J.Downs (D.Alford).",
+   "shortText": "Daniel Jones Incomplete Pass, Intended For Josh Downs",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 27,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:40:34Z"
+  },
+  {
+   "id": "401772636259",
+   "sequence": 25900,
+   "period": 1,
+   "clock": {
+    "seconds": 658,
+    "display": "10:58"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 10:58.",
+   "shortText": "Official Timeout At 10:58. ",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726361",
+   "wallclock": "2025-11-09T14:41:09Z"
+  },
+  {
+   "id": "401772636270",
+   "sequence": 27000,
+   "period": 1,
+   "clock": {
+    "seconds": 658,
+    "display": "10:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson left tackle pushed ob at ATL 44 for 16 yards (A.Gardner).",
+   "shortText": "Bijan Robinson 16 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726362",
+   "wallclock": "2025-11-09T14:43:38Z"
+  },
+  {
+   "id": "401772636304",
+   "sequence": 30400,
+   "period": 1,
+   "clock": {
+    "seconds": 615,
+    "display": "10:15"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete deep right to K.Pitts.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Kyle Pitts Sr.",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726362",
+   "wallclock": "2025-11-09T14:44:24Z"
+  },
+  {
+   "id": "401772636327",
+   "sequence": 32700,
+   "period": 1,
+   "clock": {
+    "seconds": 609,
+    "display": "10:09"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson left guard to ATL 46 for 2 yards (A.Adebawore; N.Cross).",
+   "shortText": "Bijan Robinson 2 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726362",
+   "wallclock": "2025-11-09T14:45:06Z"
+  },
+  {
+   "id": "401772636349",
+   "sequence": 34900,
+   "period": 1,
+   "clock": {
+    "seconds": 564,
+    "display": "9:24"
+   },
+   "typeId": "80",
+   "typeText": "Sack Opp Fumble Recovery",
+   "text": "(Shotgun) M.Penix sacked at ATL 38 for -8 yards (C.Bynum). FUMBLES (C.Bynum), RECOVERED by IND-G.Pratt at ATL 31. G.Pratt to ATL 23 for 8 yards (T.Allgeier; E.Wilkinson).",
+   "shortText": "Michael Penix Jr. Sacked Michael Penix Jr. Fumble Germaine Pratt 8 Yd Fumble Recovery by Cam Bynum For 8 Yd Loss",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 23,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726362",
+   "wallclock": "2025-11-09T14:45:52Z"
+  },
+  {
+   "id": "401772636380",
+   "sequence": 38000,
+   "period": 1,
+   "clock": {
+    "seconds": 555,
+    "display": "9:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "A.Dulin left end to ATL 1 for 22 yards (X.Watts; J.Bates).",
+   "shortText": "Ashton Dulin 22 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 22,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 23,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726363",
+   "wallclock": "2025-11-09T14:47:05Z"
+  },
+  {
+   "id": "401772636402",
+   "sequence": 40200,
+   "period": 1,
+   "clock": {
+    "seconds": 516,
+    "display": "8:36"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(No Huddle, Shotgun) J.Taylor up the middle for 1 yard, TOUCHDOWN. M.Badgley extra point is No Good, Wide Right, Center-L.Rhodes, Holder-R.Sanchez.",
+   "shortText": "Jonathan Taylor 1 Yd Rush (Michael Badgley PAT Failed)",
+   "awayScore": 0,
+   "homeScore": 6,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "11"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726363",
+   "wallclock": "2025-11-09T14:47:41Z"
+  },
+  {
+   "id": "401772636433",
+   "sequence": 43300,
+   "period": 1,
+   "clock": {
+    "seconds": 516,
+    "display": "8:36"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 08:36.",
+   "shortText": "Official Timeout At 08:36. ",
+   "awayScore": 0,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726363",
+   "wallclock": "2025-11-09T14:49:04Z"
+  },
+  {
+   "id": "401772636440",
+   "sequence": 44000,
+   "period": 1,
+   "clock": {
+    "seconds": 516,
+    "display": "8:36"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "M.Badgley kicks 66 yards from IND 35 to ATL -1. N.Brooks to ATL 19 for 20 yards (T.Goodson; A.Adebawore).",
+   "shortText": "Michael Badgley 66 Yd Kickoff Natrone Brooks 20 Yd Kickoff Return",
+   "awayScore": 0,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 20,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726364",
+   "wallclock": "2025-11-09T14:51:21Z"
+  },
+  {
+   "id": "401772636470",
+   "sequence": 47000,
+   "period": 1,
+   "clock": {
+    "seconds": 510,
+    "display": "8:30"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) M.Penix pass deep left to D.London pushed ob at ATL 49 for 30 yards (N.Cross).",
+   "shortText": "Michael Penix Jr. Pass Complete for 30 Yds to Drake London",
+   "awayScore": 0,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 30,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 81,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 51,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726364",
+   "wallclock": "2025-11-09T14:52:14Z"
+  },
+  {
+   "id": "401772636505",
+   "sequence": 50500,
+   "period": 1,
+   "clock": {
+    "seconds": 481,
+    "display": "8:01"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) M.Penix pass short left to D.London to IND 38 for 13 yards (G.Pratt).",
+   "shortText": "Michael Penix Jr. Pass Complete for 13 Yds to Drake London",
+   "awayScore": 0,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 51,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726364",
+   "wallclock": "2025-11-09T14:52:49Z"
+  },
+  {
+   "id": "401772636530",
+   "sequence": 53000,
+   "period": 1,
+   "clock": {
+    "seconds": 444,
+    "display": "7:24"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson right tackle to IND 34 for 4 yards (L.Latu; Z.Franklin).",
+   "shortText": "Bijan Robinson 4 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 34,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726364",
+   "wallclock": "2025-11-09T14:53:23Z"
+  },
+  {
+   "id": "401772636552",
+   "sequence": 55200,
+   "period": 1,
+   "clock": {
+    "seconds": 402,
+    "display": "6:42"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) M.Penix pass incomplete deep left to D.Mooney.PENALTY on IND-M.Blackmon, Defensive Pass Interference, 20 yards, enforced at IND 34 - No Play.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney Mekhi Blackmon 20 Yd Pnlty",
+   "awayScore": 0,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 20,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 34,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726364",
+   "wallclock": "2025-11-09T14:54:05Z"
+  },
+  {
+   "id": "401772636586",
+   "sequence": 58600,
+   "period": 1,
+   "clock": {
+    "seconds": 396,
+    "display": "6:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Allgeier left tackle to IND 1 for 13 yards (G.Pratt; K.Moore).",
+   "shortText": "Tyler Allgeier 13 Yd Rush",
+   "awayScore": 0,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726364",
+   "wallclock": "2025-11-09T14:55:05Z"
+  },
+  {
+   "id": "401772636608",
+   "sequence": 60800,
+   "period": 1,
+   "clock": {
+    "seconds": 367,
+    "display": "6:07"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(No Huddle, Shotgun) T.Allgeier left tackle for 1 yard, TOUCHDOWN. Z.Gonzalez extra point is GOOD, Center-L.McCullough, Holder-B.Pinion.",
+   "shortText": "Tyler Allgeier 1 Yd Rush (Zane Gonzalez Kick)",
+   "awayScore": 7,
+   "homeScore": 6,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "1"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726364",
+   "wallclock": "2025-11-09T14:55:32Z"
+  },
+  {
+   "id": "401772636639",
+   "sequence": 63900,
+   "period": 1,
+   "clock": {
+    "seconds": 367,
+    "display": "6:07"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 06:07.",
+   "shortText": "Official Timeout At 06:07. ",
+   "awayScore": 7,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726364",
+   "wallclock": "2025-11-09T14:56:49Z"
+  },
+  {
+   "id": "401772636646",
+   "sequence": 64600,
+   "period": 1,
+   "clock": {
+    "seconds": 367,
+    "display": "6:07"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "B.Pinion kicks 65 yards from ATL 35 to end zone, Touchback to the IND 35.",
+   "shortText": "Bradley Pinion 65 Yd Kickoff, Touchback",
+   "awayScore": 7,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726365",
+   "wallclock": "2025-11-09T14:59:15Z"
+  },
+  {
+   "id": "401772636670",
+   "sequence": 67000,
+   "period": 1,
+   "clock": {
+    "seconds": 367,
+    "display": "6:07"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor right tackle to ATL 37 for 28 yards (B.Bowman; A.Terrell).",
+   "shortText": "Jonathan Taylor 28 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 6,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 28,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726365",
+   "wallclock": "2025-11-09T15:00:07Z"
+  },
+  {
+   "id": "401772636697",
+   "sequence": 69700,
+   "period": 1,
+   "clock": {
+    "seconds": 319,
+    "display": "5:19"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(Shotgun) D.Jones pass deep middle to A.Pierce for 37 yards, TOUCHDOWN. M.Badgley extra point is GOOD, Center-L.Rhodes, Holder-R.Sanchez.",
+   "shortText": "Alec Pierce 37 Yd pass from Daniel Jones (Michael Badgley Kick)",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 37,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "11"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726365",
+   "wallclock": "2025-11-09T15:00:47Z"
+  },
+  {
+   "id": "401772636731",
+   "sequence": 73100,
+   "period": 1,
+   "clock": {
+    "seconds": 319,
+    "display": "5:19"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 05:19.",
+   "shortText": "Official Timeout At 05:19. ",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726365",
+   "wallclock": "2025-11-09T15:02:08Z"
+  },
+  {
+   "id": "401772636738",
+   "sequence": 73800,
+   "period": 1,
+   "clock": {
+    "seconds": 319,
+    "display": "5:19"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "M.Badgley kicks 60 yards from IND 35 to ATL 5. J.Agnew to ATL 27 for 22 yards (J.Jones).",
+   "shortText": "Michael Badgley 60 Yd Kickoff Jamal Agnew 22 Yd Kickoff Return",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 22,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726366",
+   "wallclock": "2025-11-09T15:04:28Z"
+  },
+  {
+   "id": "401772636771",
+   "sequence": 77100,
+   "period": 1,
+   "clock": {
+    "seconds": 314,
+    "display": "5:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson right tackle to ATL 27 for no gain (A.Adebawore).",
+   "shortText": "Bijan Robinson Rush, No Gain",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726366",
+   "wallclock": "2025-11-09T15:05:13Z"
+  },
+  {
+   "id": "401772636793",
+   "sequence": 79300,
+   "period": 1,
+   "clock": {
+    "seconds": 290,
+    "display": "4:50"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) M.Penix pass short left to D.Mooney pushed ob at ATL 44 for 17 yards (A.Gardner).",
+   "shortText": "Michael Penix Jr. Pass Complete for 17 Yds to Darnell Mooney",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 17,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726366",
+   "wallclock": "2025-11-09T15:05:37Z"
+  },
+  {
+   "id": "401772636823",
+   "sequence": 82300,
+   "period": 1,
+   "clock": {
+    "seconds": 267,
+    "display": "4:27"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) B.Robinson right end pushed ob at IND 46 for 10 yards (A.Gardner).",
+   "shortText": "Bijan Robinson 10 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726366",
+   "wallclock": "2025-11-09T15:06:05Z"
+  },
+  {
+   "id": "401772636850",
+   "sequence": 85000,
+   "period": 1,
+   "clock": {
+    "seconds": 240,
+    "display": "4:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) B.Robinson up the middle to IND 41 for 5 yards (J.Tuimoloau; Z.Franklin).",
+   "shortText": "Bijan Robinson 5 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 41,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726366",
+   "wallclock": "2025-11-09T15:06:32Z"
+  },
+  {
+   "id": "401772636872",
+   "sequence": 87200,
+   "period": 1,
+   "clock": {
+    "seconds": 215,
+    "display": "3:35"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle, Shotgun) M.Penix pass incomplete short left to D.Mooney.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 41,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 41,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726366",
+   "wallclock": "2025-11-09T15:06:57Z"
+  },
+  {
+   "id": "401772636895",
+   "sequence": 89500,
+   "period": 1,
+   "clock": {
+    "seconds": 210,
+    "display": "3:30"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) M.Penix pass short right to B.Robinson to IND 45 for -4 yards (M.Blackmon).",
+   "shortText": "Michael Penix Jr. Pass Complete for Loss of 4 Yds to Bijan Robinson",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 41,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 45,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726366",
+   "wallclock": "2025-11-09T15:07:42Z"
+  },
+  {
+   "id": "401772636920",
+   "sequence": 92000,
+   "period": 1,
+   "clock": {
+    "seconds": 172,
+    "display": "2:52"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "B.Pinion punts 43 yards to IND 2, Center-L.McCullough, downed by ATL-K.Hodge.",
+   "shortText": "Bradley Pinion 0 Yd Punt, Downed by KhaDarel Hodge",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 45,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726366",
+   "wallclock": "2025-11-09T15:08:24Z"
+  },
+  {
+   "id": "401772636932",
+   "sequence": 93200,
+   "period": 1,
+   "clock": {
+    "seconds": 159,
+    "display": "2:39"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 02:39.",
+   "shortText": "Official Timeout At 02:39. ",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726366",
+   "wallclock": "2025-11-09T15:08:53Z"
+  },
+  {
+   "id": "401772636944",
+   "sequence": 94400,
+   "period": 1,
+   "clock": {
+    "seconds": 159,
+    "display": "2:39"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass short middle to T.Warren to IND 10 for 8 yards (J.Walker).",
+   "shortText": "Daniel Jones Pass Complete for 8 Yds to Tyler Warren",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 98,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 90,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:11:26Z"
+  },
+  {
+   "id": "401772636981",
+   "sequence": 98100,
+   "period": 1,
+   "clock": {
+    "seconds": 123,
+    "display": "2:03"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Jones scrambles right end pushed ob at IND 13 for 3 yards (R.Harrison).",
+   "shortText": "Daniel Jones 3 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 90,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:12:03Z"
+  },
+  {
+   "id": "4017726361008",
+   "sequence": 100800,
+   "period": 1,
+   "clock": {
+    "seconds": 78,
+    "display": "1:18"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "D.Jones pass incomplete short left to T.Warren.",
+   "shortText": "Daniel Jones Incomplete Pass, Intended For Tyler Warren",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:12:50Z"
+  },
+  {
+   "id": "4017726361031",
+   "sequence": 103100,
+   "period": 1,
+   "clock": {
+    "seconds": 73,
+    "display": "1:13"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Jones scrambles up the middle to IND 26 for 13 yards (J.Bates).",
+   "shortText": "Daniel Jones 13 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:13:29Z"
+  },
+  {
+   "id": "4017726361053",
+   "sequence": 105300,
+   "period": 1,
+   "clock": {
+    "seconds": 26,
+    "display": "0:26"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) D.Jones pass short left to J.Downs to IND 33 for 7 yards (B.Bowman).PENALTY on IND-B.Raimann, Ineligible Downfield Pass, 5 yards, enforced at IND 26 - No Play.",
+   "shortText": "Daniel Jones Pass Complete for 7 Yds to Josh Downs Bernhard Raimann 5 Yd Pnlty",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 79,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:14:17Z"
+  },
+  {
+   "id": "4017726361089",
+   "sequence": 108900,
+   "period": 1,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "END QUARTER 1",
+   "shortText": "End Quarter 1 ",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 79,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 79,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:14:17Z"
+  },
+  {
+   "id": "4017726361109",
+   "sequence": 110900,
+   "period": 2,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass deep left to A.Pierce to IND 47 for 26 yards (K.Taylor) [K.Elliss].",
+   "shortText": "Daniel Jones Pass Complete for 26 Yds to Alec Pierce",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 26,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 15,
+    "yardsToEndzone": 79,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:18:23Z"
+  },
+  {
+   "id": "4017726361134",
+   "sequence": 113400,
+   "period": 2,
+   "clock": {
+    "seconds": 857,
+    "display": "14:17"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Jones pass short right to T.Warren to ATL 44 for 9 yards (J.Bertrand; X.Watts).",
+   "shortText": "Daniel Jones Pass Complete for 9 Yds to Tyler Warren",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 53,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 44,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:19:07Z"
+  },
+  {
+   "id": "4017726361159",
+   "sequence": 115900,
+   "period": 2,
+   "clock": {
+    "seconds": 815,
+    "display": "13:35"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor up the middle to ATL 39 for 5 yards (K.Elliss; Z.Harrison).",
+   "shortText": "Jonathan Taylor 5 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 44,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 39,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:19:49Z"
+  },
+  {
+   "id": "4017726361181",
+   "sequence": 118100,
+   "period": 2,
+   "clock": {
+    "seconds": 772,
+    "display": "12:52"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) D.Jones sacked at ATL 40 for -1 yards (Z.Harrison). FUMBLES (Z.Harrison) [Z.Harrison], touched at ATL 40, ball out of bounds at ATL 38.",
+   "shortText": "Daniel Jones Sacked Daniel Jones Fumble by Zach Harrison For 1 Yd Loss",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 39,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 40,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:20:32Z"
+  },
+  {
+   "id": "4017726361204",
+   "sequence": 120400,
+   "period": 2,
+   "clock": {
+    "seconds": 726,
+    "display": "12:06"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass short right to J.Downs to ATL 37 for 3 yards (A.Terrell; K.Elliss).",
+   "shortText": "Daniel Jones Pass Complete for 3 Yds to Josh Downs",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 40,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 37,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:21:26Z"
+  },
+  {
+   "id": "4017726361229",
+   "sequence": 122900,
+   "period": 2,
+   "clock": {
+    "seconds": 685,
+    "display": "11:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor left end to ATL 35 for 2 yards (R.Harrison).",
+   "shortText": "Jonathan Taylor 2 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 37,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 35,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:22:08Z"
+  },
+  {
+   "id": "4017726361251",
+   "sequence": 125100,
+   "period": 2,
+   "clock": {
+    "seconds": 646,
+    "display": "10:46"
+   },
+   "typeId": "60",
+   "typeText": "Field Goal Missed",
+   "text": "M.Badgley 53 yard field goal is No Good, Short, Center-L.Rhodes, Holder-R.Sanchez.",
+   "shortText": "Michael Badgley Missed 53 Yd FG Short",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 53,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 35,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:22:47Z"
+  },
+  {
+   "id": "4017726361262",
+   "sequence": 126200,
+   "period": 2,
+   "clock": {
+    "seconds": 640,
+    "display": "10:40"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 10:40.",
+   "shortText": "Official Timeout At 10:40. ",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 57,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726367",
+   "wallclock": "2025-11-09T15:23:21Z"
+  },
+  {
+   "id": "4017726361272",
+   "sequence": 127200,
+   "period": 2,
+   "clock": {
+    "seconds": 640,
+    "display": "10:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson right tackle to ATL 44 for 1 yard (Z.Franklin).",
+   "shortText": "Bijan Robinson 1 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 57,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726368",
+   "wallclock": "2025-11-09T15:25:47Z"
+  },
+  {
+   "id": "4017726361301",
+   "sequence": 130100,
+   "period": 2,
+   "clock": {
+    "seconds": 600,
+    "display": "10:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete short left.",
+   "shortText": "Michael Penix Jr. Incomplete Pass",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726368",
+   "wallclock": "2025-11-09T15:26:28Z"
+  },
+  {
+   "id": "4017726361313",
+   "sequence": 131300,
+   "period": 2,
+   "clock": {
+    "seconds": 590,
+    "display": "9:50"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by ATL at 09:50.",
+   "shortText": "Timeout #1 By Atl At 09:50. Timeout ATL ",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726368",
+   "wallclock": "2025-11-09T15:27:23Z"
+  },
+  {
+   "id": "4017726361324",
+   "sequence": 132400,
+   "period": 2,
+   "clock": {
+    "seconds": 590,
+    "display": "9:50"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) M.Penix sacked at ATL 44 for 0 yards (N.Cross).",
+   "shortText": "Michael Penix Jr. Sacked",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726368",
+   "wallclock": "2025-11-09T15:28:30Z"
+  },
+  {
+   "id": "4017726361360",
+   "sequence": 136000,
+   "period": 2,
+   "clock": {
+    "seconds": 543,
+    "display": "9:03"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "B.Pinion punts 46 yards to IND 10, Center-L.McCullough. J.Downs to IND 28 for 18 yards (F.Franks).PENALTY on IND-A.Dulin, Offensive Holding, 6 yards, enforced at IND 13.",
+   "shortText": "Bradley Pinion 46 Yd Punt Josh Downs 3 Yd Punt Return Ashton Dulin 6 Yd Pnlty",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -3,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 9,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 93,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726368",
+   "wallclock": "2025-11-09T15:29:17Z"
+  },
+  {
+   "id": "4017726361397",
+   "sequence": 139700,
+   "period": 2,
+   "clock": {
+    "seconds": 533,
+    "display": "8:53"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor right tackle to IND 12 for 5 yards (Z.Harrison; B.Bowman).",
+   "shortText": "Jonathan Taylor 5 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 93,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 88,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726369",
+   "wallclock": "2025-11-09T15:30:44Z"
+  },
+  {
+   "id": "4017726361419",
+   "sequence": 141900,
+   "period": 2,
+   "clock": {
+    "seconds": 488,
+    "display": "8:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor left end to IND 16 for 4 yards (J.Woods; B.Bowman).",
+   "shortText": "Jonathan Taylor 4 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 88,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 84,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726369",
+   "wallclock": "2025-11-09T15:31:26Z"
+  },
+  {
+   "id": "4017726361441",
+   "sequence": 144100,
+   "period": 2,
+   "clock": {
+    "seconds": 445,
+    "display": "7:25"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) PENALTY on IND-B.Smith, False Start, 5 yards, enforced at IND 16 - No Play.",
+   "shortText": "Braden Smith 5 Yd Pnlty",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 84,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 89,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726369",
+   "wallclock": "2025-11-09T15:32:06Z"
+  },
+  {
+   "id": "4017726361485",
+   "sequence": 148500,
+   "period": 2,
+   "clock": {
+    "seconds": 426,
+    "display": "7:06"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Jones pass incomplete short right to A.Pierce (J.Pearce).",
+   "shortText": "Daniel Jones Incomplete Pass, Intended For Alec Pierce",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 89,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 89,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "4017726369",
+   "wallclock": "2025-11-09T15:32:56Z"
+  },
+  {
+   "id": "4017726361508",
+   "sequence": 150800,
+   "period": 2,
+   "clock": {
+    "seconds": 422,
+    "display": "7:02"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "R.Sanchez punts 44 yards to ATL 45, Center-L.Rhodes, fair catch by J.Agnew.Penalty on ATL, Defensive Too Many Men on Field, declined.",
+   "shortText": "Rigoberto Sanchez 44 Yd Punt, Fair Catch by",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 11,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726369",
+   "wallclock": "2025-11-09T15:33:28Z"
+  },
+  {
+   "id": "4017726361524",
+   "sequence": 152400,
+   "period": 2,
+   "clock": {
+    "seconds": 414,
+    "display": "6:54"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 06:54.",
+   "shortText": "Official Timeout At 06:54. ",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "4017726369",
+   "wallclock": "2025-11-09T15:34:40Z"
+  },
+  {
+   "id": "4017726361539",
+   "sequence": 153900,
+   "period": 2,
+   "clock": {
+    "seconds": 414,
+    "display": "6:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson left tackle to 50 for 5 yards (L.Latu).",
+   "shortText": "Bijan Robinson 5 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 50,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263610",
+   "wallclock": "2025-11-09T15:37:18Z"
+  },
+  {
+   "id": "4017726361568",
+   "sequence": 156800,
+   "period": 2,
+   "clock": {
+    "seconds": 370,
+    "display": "6:10"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) M.Penix pass short middle to C.Woerner to IND 36 for 14 yards (Z.Franklin).",
+   "shortText": "Michael Penix Jr. Pass Complete for 14 Yds to Charlie Woerner",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 50,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 36,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263610",
+   "wallclock": "2025-11-09T15:38:02Z"
+  },
+  {
+   "id": "4017726361593",
+   "sequence": 159300,
+   "period": 2,
+   "clock": {
+    "seconds": 324,
+    "display": "5:24"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Allgeier right end to IND 33 for 3 yards (G.Pratt; N.Cross).",
+   "shortText": "Tyler Allgeier 3 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 36,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 33,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263610",
+   "wallclock": "2025-11-09T15:38:48Z"
+  },
+  {
+   "id": "4017726361615",
+   "sequence": 161500,
+   "period": 2,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) M.Penix pass short left to D.London to IND 20 for 13 yards (A.Gardner; Z.Franklin).",
+   "shortText": "Michael Penix Jr. Pass Complete for 13 Yds to Drake London",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 33,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263610",
+   "wallclock": "2025-11-09T15:39:32Z"
+  },
+  {
+   "id": "4017726361645",
+   "sequence": 164500,
+   "period": 2,
+   "clock": {
+    "seconds": 242,
+    "display": "4:02"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson right end to IND 16 for 4 yards (N.Cross; K.Paye).",
+   "shortText": "Bijan Robinson 4 Yd Rush",
+   "awayScore": 7,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 16,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263610",
+   "wallclock": "2025-11-09T15:40:11Z"
+  },
+  {
+   "id": "4017726361667",
+   "sequence": 166700,
+   "period": 2,
+   "clock": {
+    "seconds": 205,
+    "display": "3:25"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(No Huddle, Shotgun) M.Penix pass deep right to D.London for 16 yards, TOUCHDOWN. Z.Gonzalez extra point is GOOD, Center-L.McCullough, Holder-B.Pinion.",
+   "shortText": "Drake London 16 Yd pass from Michael Penix Jr. (Zane Gonzalez Kick)",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 16,
+    "teamId": "1"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263610",
+   "wallclock": "2025-11-09T15:40:42Z"
+  },
+  {
+   "id": "4017726361701",
+   "sequence": 170100,
+   "period": 2,
+   "clock": {
+    "seconds": 205,
+    "display": "3:25"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 03:25.",
+   "shortText": "Official Timeout At 03:25. ",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263610",
+   "wallclock": "2025-11-09T15:42:12Z"
+  },
+  {
+   "id": "4017726361708",
+   "sequence": 170800,
+   "period": 2,
+   "clock": {
+    "seconds": 205,
+    "display": "3:25"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "B.Pinion kicks 61 yards from ATL 35 to IND 4. A.Abdullah pushed ob at IND 46 for 42 yards (M.Ford).PENALTY on IND-A.Ogletree, Offensive Holding, 10 yards, enforced at IND 24.",
+   "shortText": "Bradley Pinion 61 Yd Kickoff Ameer Abdullah 20 Yd Kickoff Return Drew Ogletree 10 Yd Pnlty",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 86,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263611",
+   "wallclock": "2025-11-09T15:44:49Z"
+  },
+  {
+   "id": "4017726361754",
+   "sequence": 175400,
+   "period": 2,
+   "clock": {
+    "seconds": 199,
+    "display": "3:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass short right to M.Pittman to IND 23 for 9 yards (K.Taylor).",
+   "shortText": "Daniel Jones Pass Complete for 9 Yds to Michael Pittman Jr.",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 86,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 77,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263611",
+   "wallclock": "2025-11-09T15:46:06Z"
+  },
+  {
+   "id": "4017726361784",
+   "sequence": 178400,
+   "period": 2,
+   "clock": {
+    "seconds": 173,
+    "display": "2:53"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) J.Taylor up the middle to IND 25 for 2 yards (D.Onyemata).",
+   "shortText": "Jonathan Taylor 2 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 77,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263611",
+   "wallclock": "2025-11-09T15:46:31Z"
+  },
+  {
+   "id": "4017726361811",
+   "sequence": 181100,
+   "period": 2,
+   "clock": {
+    "seconds": 136,
+    "display": "2:16"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Jones pass short left to J.Taylor to IND 29 for 4 yards (J.Woods).",
+   "shortText": "Daniel Jones Pass Complete for 4 Yds to Jonathan Taylor",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263611",
+   "wallclock": "2025-11-09T15:47:09Z"
+  },
+  {
+   "id": "4017726361824",
+   "sequence": 182400,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "75",
+   "typeText": "Two-minute warning",
+   "text": "Two-Minute Warning",
+   "shortText": "Two-Minute Warning ",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263611",
+   "wallclock": "2025-11-09T15:47:37Z"
+  },
+  {
+   "id": "4017726361836",
+   "sequence": 183600,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass short left to A.Pierce to IND 40 for 11 yards (K.Taylor).",
+   "shortText": "Daniel Jones Pass Complete for 11 Yds to Alec Pierce",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263611",
+   "wallclock": "2025-11-09T15:50:18Z"
+  },
+  {
+   "id": "4017726361878",
+   "sequence": 187800,
+   "period": 2,
+   "clock": {
+    "seconds": 86,
+    "display": "1:26"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Jones scrambles up the middle to IND 49 for 9 yards (X.Watts).",
+   "shortText": "Daniel Jones 9 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 60,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 51,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263611",
+   "wallclock": "2025-11-09T15:50:58Z"
+  },
+  {
+   "id": "4017726361900",
+   "sequence": 190000,
+   "period": 2,
+   "clock": {
+    "seconds": 63,
+    "display": "1:03"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(No Huddle, Shotgun) D.Jones sacked at IND 39 for -10 yards (K.Elliss).",
+   "shortText": "Daniel Jones Sacked by Kaden Elliss For 10 Yd Loss",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 51,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 61,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263611",
+   "wallclock": "2025-11-09T15:51:22Z"
+  },
+  {
+   "id": "4017726361920",
+   "sequence": 192000,
+   "period": 2,
+   "clock": {
+    "seconds": 20,
+    "display": "0:20"
+   },
+   "typeId": "26",
+   "typeText": "Pass Interception Return",
+   "text": "(Shotgun) D.Jones pass deep left intended for A.Pierce INTERCEPTED by J.Bates at ATL 40. J.Bates to ATL 43 for 3 yards (A.Pierce).PENALTY on ATL-J.Bates, Taunting, 15 yards, enforced at ATL 43.",
+   "shortText": "Jessie Bates III 3 Yd Interception Return Jessie Bates III 15 Yd Pnlty",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -12,
+   "isPenalty": true,
+   "isTurnover": true,
+   "start": {
+    "down": 3,
+    "distance": 11,
+    "yardsToEndzone": 61,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263611",
+   "wallclock": "2025-11-09T15:52:05Z"
+  },
+  {
+   "id": "4017726361958",
+   "sequence": 195800,
+   "period": 2,
+   "clock": {
+    "seconds": 8,
+    "display": "0:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "M.Penix kneels to ATL 27 for -1 yards.",
+   "shortText": "Michael Penix Jr. Rush, Loss of 1 Yd",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 73,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263612",
+   "wallclock": "2025-11-09T15:53:56Z"
+  },
+  {
+   "id": "4017726361989",
+   "sequence": 198900,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "65",
+   "typeText": "End of Half",
+   "text": "END QUARTER 2",
+   "shortText": "End Quarter 2",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263612",
+   "wallclock": "2025-11-09T15:53:56Z"
+  },
+  {
+   "id": "4017726362009",
+   "sequence": 200900,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "M.Badgley kicks 57 yards from IND 35 to ATL 8. J.Agnew to ATL 31 for 23 yards (S.Olubi).",
+   "shortText": "Michael Badgley 57 Yd Kickoff Jamal Agnew 23 Yd Kickoff Return",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 23,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:10:07Z"
+  },
+  {
+   "id": "4017726362035",
+   "sequence": 203500,
+   "period": 3,
+   "clock": {
+    "seconds": 895,
+    "display": "14:55"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Allgeier right end to ATL 35 for 4 yards (G.Pratt; G.Stewart). IND-G.Stewart was injured during the play.",
+   "shortText": "Tyler Allgeier 4 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 65,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:11:19Z"
+  },
+  {
+   "id": "4017726362046",
+   "sequence": 204600,
+   "period": 3,
+   "clock": {
+    "seconds": 878,
+    "display": "14:38"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 14:38.",
+   "shortText": "Official Timeout At 14:38. ",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 65,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:12:06Z"
+  },
+  {
+   "id": "4017726362057",
+   "sequence": 205700,
+   "period": 3,
+   "clock": {
+    "seconds": 864,
+    "display": "14:24"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) M.Penix pass deep left to K.Pitts pushed ob at IND 40 for 25 yards (C.Bynum).",
+   "shortText": "Michael Penix Jr. Pass Complete for 25 Yds to Kyle Pitts Sr.",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 25,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 65,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:14:48Z"
+  },
+  {
+   "id": "4017726362094",
+   "sequence": 209400,
+   "period": 3,
+   "clock": {
+    "seconds": 825,
+    "display": "13:45"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson left end pushed ob at IND 30 for 10 yards (C.Bynum).",
+   "shortText": "Bijan Robinson 10 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 40,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:15:29Z"
+  },
+  {
+   "id": "4017726362121",
+   "sequence": 212100,
+   "period": 3,
+   "clock": {
+    "seconds": 787,
+    "display": "13:07"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Allgeier left tackle to IND 25 for 5 yards (K.Paye; A.Adebawore).",
+   "shortText": "Tyler Allgeier 5 Yd Rush",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 25,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:16:10Z"
+  },
+  {
+   "id": "4017726362151",
+   "sequence": 215100,
+   "period": 3,
+   "clock": {
+    "seconds": 761,
+    "display": "12:41"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle, Shotgun) M.Penix pass incomplete short right to K.Pitts.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Kyle Pitts Sr.",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 25,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 25,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:16:37Z"
+  },
+  {
+   "id": "4017726362174",
+   "sequence": 217400,
+   "period": 3,
+   "clock": {
+    "seconds": 756,
+    "display": "12:36"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete deep left to K.Pitts (J.Jones).",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Kyle Pitts Sr.",
+   "awayScore": 14,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 25,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 25,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:17:19Z"
+  },
+  {
+   "id": "4017726362197",
+   "sequence": 219700,
+   "period": 3,
+   "clock": {
+    "seconds": 746,
+    "display": "12:26"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "Z.Gonzalez 43 yard field goal is GOOD, Center-L.McCullough, Holder-B.Pinion.",
+   "shortText": "Zane Gonzalez 43 Yd Field Goal",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 43,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 25,
+    "teamId": "1"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:18:04Z"
+  },
+  {
+   "id": "4017726362207",
+   "sequence": 220700,
+   "period": 3,
+   "clock": {
+    "seconds": 746,
+    "display": "12:26"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 12:26.",
+   "shortText": "Official Timeout At 12:26. ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263613",
+   "wallclock": "2025-11-09T16:18:55Z"
+  },
+  {
+   "id": "4017726362217",
+   "sequence": 221700,
+   "period": 3,
+   "clock": {
+    "seconds": 746,
+    "display": "12:26"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "B.Pinion kicks 59 yards from ATL 35 to IND 6. A.Dulin to ATL 44 for 50 yards (D.Hellams).",
+   "shortText": "Bradley Pinion 59 Yd Kickoff Ashton Dulin 50 Yd Kickoff Return",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 50,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263614",
+   "wallclock": "2025-11-09T16:21:01Z"
+  },
+  {
+   "id": "4017726362247",
+   "sequence": 224700,
+   "period": 3,
+   "clock": {
+    "seconds": 739,
+    "display": "12:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Jones pass short left to J.Taylor pushed ob at ATL 20 for 24 yards (J.Bates).",
+   "shortText": "Daniel Jones Pass Complete for 24 Yds to Jonathan Taylor",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263614",
+   "wallclock": "2025-11-09T16:21:58Z"
+  },
+  {
+   "id": "4017726362277",
+   "sequence": 227700,
+   "period": 3,
+   "clock": {
+    "seconds": 700,
+    "display": "11:40"
+   },
+   "typeId": "9",
+   "typeText": "Fumble Recovery (Own)",
+   "text": "(Shotgun) D.Jones sacked at ATL 30 for -10 yards (J.Walker). FUMBLES (J.Walker), and recovers at ATL 31.",
+   "shortText": "Daniel Jones Sacked Daniel Jones Fumble Daniel Jones 0 Yd Fumble Recovery by Jalon Walker For 11 Yd Loss",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 21,
+    "yardsToEndzone": 31,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263614",
+   "wallclock": "2025-11-09T16:22:41Z"
+  },
+  {
+   "id": "4017726362307",
+   "sequence": 230700,
+   "period": 3,
+   "clock": {
+    "seconds": 676,
+    "display": "11:16"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass short right to A.Abdullah to ATL 23 for 8 yards (J.Woods; K.Elliss).",
+   "shortText": "Daniel Jones Pass Complete for 8 Yds to Ameer Abdullah",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 21,
+    "yardsToEndzone": 31,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 13,
+    "yardsToEndzone": 23,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263614",
+   "wallclock": "2025-11-09T16:23:33Z"
+  },
+  {
+   "id": "4017726362332",
+   "sequence": 233200,
+   "period": 3,
+   "clock": {
+    "seconds": 628,
+    "display": "10:28"
+   },
+   "typeId": "80",
+   "typeText": "Sack Opp Fumble Recovery",
+   "text": "(Shotgun) D.Jones sacked at ATL 35 for -12 yards (J.Pearce). FUMBLES (J.Pearce) [J.Pearce], touched at ATL 41, RECOVERED by ATL-J.Walker at ATL 44. J.Walker to ATL 44 for no gain (J.Taylor).",
+   "shortText": "Daniel Jones Sacked Daniel Jones Fumble Jalon Walker 0 Yd Fumble Recovery",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 3,
+    "distance": 13,
+    "yardsToEndzone": 23,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263614",
+   "wallclock": "2025-11-09T16:24:21Z"
+  },
+  {
+   "id": "4017726362347",
+   "sequence": 234700,
+   "period": 3,
+   "clock": {
+    "seconds": 621,
+    "display": "10:21"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 10:21.",
+   "shortText": "Official Timeout At 10:21. ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263614",
+   "wallclock": "2025-11-09T16:25:22Z"
+  },
+  {
+   "id": "4017726362362",
+   "sequence": 236200,
+   "period": 3,
+   "clock": {
+    "seconds": 621,
+    "display": "10:21"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson right tackle to ATL 46 for 2 yards (K.Moore).",
+   "shortText": "Bijan Robinson 2 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263615",
+   "wallclock": "2025-11-09T16:27:39Z"
+  },
+  {
+   "id": "4017726362391",
+   "sequence": 239100,
+   "period": 3,
+   "clock": {
+    "seconds": 595,
+    "display": "9:55"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle, Shotgun) M.Penix pass incomplete short right to D.Mooney (G.Pratt).",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263615",
+   "wallclock": "2025-11-09T16:28:04Z"
+  },
+  {
+   "id": "4017726362414",
+   "sequence": 241400,
+   "period": 3,
+   "clock": {
+    "seconds": 590,
+    "display": "9:50"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete short left to D.London (A.Gardner).",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Drake London",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263615",
+   "wallclock": "2025-11-09T16:28:49Z"
+  },
+  {
+   "id": "4017726362437",
+   "sequence": 243700,
+   "period": 3,
+   "clock": {
+    "seconds": 587,
+    "display": "9:47"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "B.Pinion punts 41 yards to IND 13, Center-L.McCullough, fair catch by J.Downs.",
+   "shortText": "Bradley Pinion 41 Yd Punt, Fair Catch by",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 54,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263615",
+   "wallclock": "2025-11-09T16:29:26Z"
+  },
+  {
+   "id": "4017726362447",
+   "sequence": 244700,
+   "period": 3,
+   "clock": {
+    "seconds": 580,
+    "display": "9:40"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 09:40.",
+   "shortText": "Official Timeout At 09:40. ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263615",
+   "wallclock": "2025-11-09T16:29:56Z"
+  },
+  {
+   "id": "4017726362457",
+   "sequence": 245700,
+   "period": 3,
+   "clock": {
+    "seconds": 580,
+    "display": "9:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor right tackle to IND 17 for 4 yards (J.Bertrand; D.Onyemata).",
+   "shortText": "Jonathan Taylor 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 83,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:32:30Z"
+  },
+  {
+   "id": "4017726362486",
+   "sequence": 248600,
+   "period": 3,
+   "clock": {
+    "seconds": 537,
+    "display": "8:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor right tackle to IND 24 for 7 yards (B.Bowman).",
+   "shortText": "Jonathan Taylor 7 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 83,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:33:13Z"
+  },
+  {
+   "id": "4017726362508",
+   "sequence": 250800,
+   "period": 3,
+   "clock": {
+    "seconds": 500,
+    "display": "8:20"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor up the middle to IND 27 for 3 yards (D.Onyemata; K.Elliss).",
+   "shortText": "Jonathan Taylor 3 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 76,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 73,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:33:51Z"
+  },
+  {
+   "id": "4017726362530",
+   "sequence": 253000,
+   "period": 3,
+   "clock": {
+    "seconds": 469,
+    "display": "7:49"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(Shotgun) D.Jones pass short right to M.Pittman to IND 33 for 6 yards (K.Taylor).PENALTY on ATL, Defensive Too Many Men on Field, 5 yards, enforced at IND 27 - No Play.",
+   "shortText": "Daniel Jones Pass Complete for 6 Yds to Michael Pittman Jr. ATL 5 Yd Pnlty",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 73,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 68,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:34:22Z"
+  },
+  {
+   "id": "4017726362567",
+   "sequence": 256700,
+   "period": 3,
+   "clock": {
+    "seconds": 448,
+    "display": "7:28"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor right guard to IND 44 for 12 yards (X.Watts).",
+   "shortText": "Jonathan Taylor 12 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 68,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:35:34Z"
+  },
+  {
+   "id": "4017726362589",
+   "sequence": 258900,
+   "period": 3,
+   "clock": {
+    "seconds": 418,
+    "display": "6:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle) J.Taylor left guard to IND 48 for 4 yards (D.Onyemata).",
+   "shortText": "Jonathan Taylor 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 52,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:36:04Z"
+  },
+  {
+   "id": "4017726362611",
+   "sequence": 261100,
+   "period": 3,
+   "clock": {
+    "seconds": 380,
+    "display": "6:20"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Jones pass short left to T.Warren pushed ob at ATL 28 for 24 yards (X.Watts; D.Onyemata).",
+   "shortText": "Daniel Jones Pass Complete for 24 Yds to Tyler Warren",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 52,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:36:42Z"
+  },
+  {
+   "id": "4017726362641",
+   "sequence": 264100,
+   "period": 3,
+   "clock": {
+    "seconds": 333,
+    "display": "5:33"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Goodson left end to ATL 24 for 4 yards (K.Taylor).",
+   "shortText": "Tyler Goodson 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 28,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 24,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:37:30Z"
+  },
+  {
+   "id": "4017726362663",
+   "sequence": 266300,
+   "period": 3,
+   "clock": {
+    "seconds": 296,
+    "display": "4:56"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor right guard to ATL 21 for 3 yards (Z.Harrison; J.Bertrand).",
+   "shortText": "Jonathan Taylor 3 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 24,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 21,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:38:08Z"
+  },
+  {
+   "id": "4017726362685",
+   "sequence": 268500,
+   "period": 3,
+   "clock": {
+    "seconds": 252,
+    "display": "4:12"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor up the middle to ATL 19 for 2 yards (J.Walker; A.Ebiketie).",
+   "shortText": "Jonathan Taylor 2 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 21,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 19,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:38:52Z"
+  },
+  {
+   "id": "4017726362707",
+   "sequence": 270700,
+   "period": 3,
+   "clock": {
+    "seconds": 209,
+    "display": "3:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor left guard to ATL 14 for 5 yards (A.Ebiketie; K.Elliss).",
+   "shortText": "Jonathan Taylor 5 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 19,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:39:34Z"
+  },
+  {
+   "id": "4017726362729",
+   "sequence": 272900,
+   "period": 3,
+   "clock": {
+    "seconds": 172,
+    "display": "2:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) Direct snap to T.Warren.  J.Taylor right end pushed ob at ATL 12 for 2 yards (J.Bates; K.Taylor).",
+   "shortText": "Jonathan Taylor 2 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 12,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:40:11Z"
+  },
+  {
+   "id": "4017726362758",
+   "sequence": 275800,
+   "period": 3,
+   "clock": {
+    "seconds": 134,
+    "display": "2:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Jones scrambles right end pushed ob at ATL 9 for 3 yards (J.Bates).",
+   "shortText": "Daniel Jones 3 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 12,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 9,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:40:52Z"
+  },
+  {
+   "id": "4017726362785",
+   "sequence": 278500,
+   "period": 3,
+   "clock": {
+    "seconds": 95,
+    "display": "1:35"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Jones scrambles up the middle to ATL 5 for 4 yards (J.Walker).",
+   "shortText": "Daniel Jones 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 9,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 5,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:41:35Z"
+  },
+  {
+   "id": "4017726362807",
+   "sequence": 280700,
+   "period": 3,
+   "clock": {
+    "seconds": 52,
+    "display": "0:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor left end to ATL 7 for -2 yards (J.Bertrand).",
+   "shortText": "Jonathan Taylor Rush, Loss of 2",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 5,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 93,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263616",
+   "wallclock": "2025-11-09T16:42:18Z"
+  },
+  {
+   "id": "4017726362829",
+   "sequence": 282900,
+   "period": 3,
+   "clock": {
+    "seconds": 47,
+    "display": "0:47"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson left tackle to ATL 11 for 4 yards (C.Bynum; N.Cross). ** Injury Update: IND-G.Stewart has returned to the game.",
+   "shortText": "Bijan Robinson 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 93,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 89,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263617",
+   "wallclock": "2025-11-09T16:43:19Z"
+  },
+  {
+   "id": "4017726362851",
+   "sequence": 285100,
+   "period": 3,
+   "clock": {
+    "seconds": 19,
+    "display": "0:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(No Huddle, Shotgun) M.Penix pass deep left to D.London to ATL 28 for 17 yards (G.Pratt).",
+   "shortText": "Michael Penix Jr. Pass Complete for 17 Yds to Drake London",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 17,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 89,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263617",
+   "wallclock": "2025-11-09T16:43:47Z"
+  },
+  {
+   "id": "4017726362879",
+   "sequence": 287900,
+   "period": 3,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "END QUARTER 3",
+   "shortText": "End Quarter 3 ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263617",
+   "wallclock": "2025-11-09T16:43:47Z"
+  },
+  {
+   "id": "4017726362899",
+   "sequence": 289900,
+   "period": 4,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete short right to D.London.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Drake London",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263617",
+   "wallclock": "2025-11-09T16:47:05Z"
+  },
+  {
+   "id": "4017726362922",
+   "sequence": 292200,
+   "period": 4,
+   "clock": {
+    "seconds": 894,
+    "display": "14:54"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete short right to D.Mooney.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263617",
+   "wallclock": "2025-11-09T16:47:48Z"
+  },
+  {
+   "id": "4017726362945",
+   "sequence": 294500,
+   "period": 4,
+   "clock": {
+    "seconds": 889,
+    "display": "14:49"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete short left.",
+   "shortText": "Michael Penix Jr. Incomplete Pass",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263617",
+   "wallclock": "2025-11-09T16:48:21Z"
+  },
+  {
+   "id": "4017726362968",
+   "sequence": 296800,
+   "period": 4,
+   "clock": {
+    "seconds": 882,
+    "display": "14:42"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "B.Pinion punts 43 yards to IND 29, Center-L.McCullough. J.Downs to ATL 47 for 24 yards (F.Franks).",
+   "shortText": "Bradley Pinion 43 Yd Punt Josh Downs 24 Yd Punt Return",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263617",
+   "wallclock": "2025-11-09T16:49:01Z"
+  },
+  {
+   "id": "4017726362981",
+   "sequence": 298100,
+   "period": 4,
+   "clock": {
+    "seconds": 868,
+    "display": "14:28"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 14:28.",
+   "shortText": "Official Timeout At 14:28. ",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263617",
+   "wallclock": "2025-11-09T16:49:54Z"
+  },
+  {
+   "id": "4017726362994",
+   "sequence": 299400,
+   "period": 4,
+   "clock": {
+    "seconds": 868,
+    "display": "14:28"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor right guard to ATL 43 for 4 yards (D.Onyemata).",
+   "shortText": "Jonathan Taylor 4 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 43,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:52:19Z"
+  },
+  {
+   "id": "4017726363023",
+   "sequence": 302300,
+   "period": 4,
+   "clock": {
+    "seconds": 828,
+    "display": "13:48"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor left tackle to ATL 25 for 18 yards (X.Watts).",
+   "shortText": "Jonathan Taylor 18 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 43,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:52:59Z"
+  },
+  {
+   "id": "4017726363045",
+   "sequence": 304500,
+   "period": 4,
+   "clock": {
+    "seconds": 784,
+    "display": "13:04"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor left end to ATL 17 for 8 yards (X.Watts).",
+   "shortText": "Jonathan Taylor 8 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 17,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:53:43Z"
+  },
+  {
+   "id": "4017726363067",
+   "sequence": 306700,
+   "period": 4,
+   "clock": {
+    "seconds": 744,
+    "display": "12:24"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor up the middle to ATL 16 for 1 yard (R.Harrison).",
+   "shortText": "Jonathan Taylor 1 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 17,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 16,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:54:22Z"
+  },
+  {
+   "id": "4017726363089",
+   "sequence": 308900,
+   "period": 4,
+   "clock": {
+    "seconds": 710,
+    "display": "11:50"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "D.Jones up the middle to ATL 14 for 2 yards (D.Onyemata).",
+   "shortText": "Daniel Jones 2 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 16,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:54:57Z"
+  },
+  {
+   "id": "4017726363111",
+   "sequence": 311100,
+   "period": 4,
+   "clock": {
+    "seconds": 667,
+    "display": "11:07"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor up the middle to ATL 15 for -1 yards (A.Ebiketie, B.Dorlus).",
+   "shortText": "Jonathan Taylor Rush, Loss of 1 Yd",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 15,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:55:40Z"
+  },
+  {
+   "id": "4017726363133",
+   "sequence": 313300,
+   "period": 4,
+   "clock": {
+    "seconds": 620,
+    "display": "10:20"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY on IND, Delay of Game, 5 yards, enforced at ATL 15 - No Play.",
+   "shortText": "IND 5 Yd Pnlty",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 15,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 16,
+    "yardsToEndzone": 20,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:56:24Z"
+  },
+  {
+   "id": "4017726363157",
+   "sequence": 315700,
+   "period": 4,
+   "clock": {
+    "seconds": 620,
+    "display": "10:20"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass short middle to T.Warren to ATL 14 for 6 yards (J.Woods).",
+   "shortText": "Daniel Jones Pass Complete for 6 Yds to Tyler Warren",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 16,
+    "yardsToEndzone": 20,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:57:08Z"
+  },
+  {
+   "id": "4017726363182",
+   "sequence": 318200,
+   "period": 4,
+   "clock": {
+    "seconds": 582,
+    "display": "9:42"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) D.Jones sacked at ATL 16 for -2 yards (B.Dorlus).",
+   "shortText": "Daniel Jones Sacked by Brandon Dorlus For 2 Yd Loss",
+   "awayScore": 17,
+   "homeScore": 13,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 4,
+    "distance": 12,
+    "yardsToEndzone": 16,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:57:47Z"
+  },
+  {
+   "id": "4017726363202",
+   "sequence": 320200,
+   "period": 4,
+   "clock": {
+    "seconds": 540,
+    "display": "9:00"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "M.Badgley 34 yard field goal is GOOD, Center-L.Rhodes, Holder-R.Sanchez.",
+   "shortText": "Michael Badgley 34 Yd Field Goal",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 34,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 12,
+    "yardsToEndzone": 16,
+    "teamId": "11"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:58:25Z"
+  },
+  {
+   "id": "4017726363212",
+   "sequence": 321200,
+   "period": 4,
+   "clock": {
+    "seconds": 540,
+    "display": "9:00"
+   },
+   "typeId": "74",
+   "typeText": "Official Timeout",
+   "text": "Official Timeout at 09:00.",
+   "shortText": "Official Timeout At 09:00. ",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263618",
+   "wallclock": "2025-11-09T16:58:56Z"
+  },
+  {
+   "id": "4017726363222",
+   "sequence": 322200,
+   "period": 4,
+   "clock": {
+    "seconds": 540,
+    "display": "9:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "M.Badgley kicks 61 yards from IND 35 to ATL 4. J.Agnew to ATL 23 for 19 yards (T.Goodson).",
+   "shortText": "Michael Badgley 61 Yd Kickoff Jamal Agnew 19 Yd Kickoff Return",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 77,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263619",
+   "wallclock": "2025-11-09T17:01:11Z"
+  },
+  {
+   "id": "4017726363252",
+   "sequence": 325200,
+   "period": 4,
+   "clock": {
+    "seconds": 536,
+    "display": "8:56"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson left end pushed ob at ATL 30 for 7 yards (C.Bynum).",
+   "shortText": "Bijan Robinson 7 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 77,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 70,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263619",
+   "wallclock": "2025-11-09T17:02:04Z"
+  },
+  {
+   "id": "4017726363279",
+   "sequence": 327900,
+   "period": 4,
+   "clock": {
+    "seconds": 507,
+    "display": "8:27"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) B.Robinson right tackle to ATL 38 for 8 yards (G.Pratt).",
+   "shortText": "Bijan Robinson 8 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 70,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263619",
+   "wallclock": "2025-11-09T17:02:35Z"
+  },
+  {
+   "id": "4017726363301",
+   "sequence": 330100,
+   "period": 4,
+   "clock": {
+    "seconds": 469,
+    "display": "7:49"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson right tackle to ATL 41 for 3 yards (N.Gallimore; G.Stewart).",
+   "shortText": "Bijan Robinson 3 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263619",
+   "wallclock": "2025-11-09T17:03:13Z"
+  },
+  {
+   "id": "4017726363323",
+   "sequence": 332300,
+   "period": 4,
+   "clock": {
+    "seconds": 432,
+    "display": "7:12"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete deep right to D.Mooney.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263619",
+   "wallclock": "2025-11-09T17:03:50Z"
+  },
+  {
+   "id": "4017726363346",
+   "sequence": 334600,
+   "period": 4,
+   "clock": {
+    "seconds": 427,
+    "display": "7:07"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle, Shotgun) M.Penix pass incomplete deep middle to D.Sills.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For David Sills V",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263619",
+   "wallclock": "2025-11-09T17:04:26Z"
+  },
+  {
+   "id": "4017726363369",
+   "sequence": 336900,
+   "period": 4,
+   "clock": {
+    "seconds": 422,
+    "display": "7:02"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "B.Pinion punts 50 yards to IND 9, Center-L.McCullough, fair catch by J.Downs.",
+   "shortText": "Bradley Pinion 50 Yd Punt, Fair Catch by",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 91,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263619",
+   "wallclock": "2025-11-09T17:05:04Z"
+  },
+  {
+   "id": "4017726363389",
+   "sequence": 338900,
+   "period": 4,
+   "clock": {
+    "seconds": 415,
+    "display": "6:55"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Jones pass short right to T.Warren to IND 17 for 8 yards (A.Terrell; B.Bowman).",
+   "shortText": "Daniel Jones Pass Complete for 8 Yds to Tyler Warren",
+   "awayScore": 17,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 91,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 83,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263620",
+   "wallclock": "2025-11-09T17:05:59Z"
+  },
+  {
+   "id": "4017726363414",
+   "sequence": 341400,
+   "period": 4,
+   "clock": {
+    "seconds": 362,
+    "display": "6:02"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "J.Taylor up the middle for 83 yards, TOUCHDOWN. TWO-POINT CONVERSION ATTEMPT. D.Jones pass to J.Taylor is incomplete. ATTEMPT FAILS.",
+   "shortText": "Jonathan Taylor 83 Yd Rush (Two-Point Pass Conversion Failed)",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 83,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 83,
+    "teamId": "11"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263620",
+   "wallclock": "2025-11-09T17:06:37Z"
+  },
+  {
+   "id": "4017726363450",
+   "sequence": 345000,
+   "period": 4,
+   "clock": {
+    "seconds": 362,
+    "display": "6:02"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "M.Badgley kicks 64 yards from IND 35 to ATL 1. J.Agnew to ATL 29 for 28 yards (J.Jones).",
+   "shortText": "Michael Badgley 64 Yd Kickoff Jamal Agnew 28 Yd Kickoff Return",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 28,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 71,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:09:22Z"
+  },
+  {
+   "id": "4017726363473",
+   "sequence": 347300,
+   "period": 4,
+   "clock": {
+    "seconds": 357,
+    "display": "5:57"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) M.Penix pass short middle to D.London to ATL 44 for 15 yards (N.Cross).",
+   "shortText": "Michael Penix Jr. Pass Complete for 15 Yds to Drake London",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 71,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:10:32Z"
+  },
+  {
+   "id": "4017726363504",
+   "sequence": 350400,
+   "period": 4,
+   "clock": {
+    "seconds": 311,
+    "display": "5:11"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) M.Penix pass short left to B.Robinson pushed ob at IND 48 for 8 yards (Z.Franklin).",
+   "shortText": "Michael Penix Jr. Pass Complete for 8 Yds to Bijan Robinson",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 48,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:11:17Z"
+  },
+  {
+   "id": "4017726363534",
+   "sequence": 353400,
+   "period": 4,
+   "clock": {
+    "seconds": 267,
+    "display": "4:27"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson right tackle to IND 46 for 2 yards (G.Stewart).",
+   "shortText": "Bijan Robinson 2 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 48,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:12:06Z"
+  },
+  {
+   "id": "4017726363556",
+   "sequence": 355600,
+   "period": 4,
+   "clock": {
+    "seconds": 225,
+    "display": "3:45"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "T.Allgeier up the middle to IND 39 for 7 yards (Z.Franklin).",
+   "shortText": "Tyler Allgeier 7 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 39,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:12:48Z"
+  },
+  {
+   "id": "4017726363578",
+   "sequence": 357800,
+   "period": 4,
+   "clock": {
+    "seconds": 189,
+    "display": "3:09"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(No Huddle, Shotgun) T.Allgeier right tackle to IND 32 for 7 yards (A.Gardner; Z.Franklin).",
+   "shortText": "Tyler Allgeier 7 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 39,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:13:25Z"
+  },
+  {
+   "id": "4017726363600",
+   "sequence": 360000,
+   "period": 4,
+   "clock": {
+    "seconds": 150,
+    "display": "2:30"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) M.Penix pass short middle to K.Pitts to IND 19 for 13 yards (K.Moore).",
+   "shortText": "Michael Penix Jr. Pass Complete for 13 Yds to Kyle Pitts Sr.",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 32,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:14:06Z"
+  },
+  {
+   "id": "4017726363613",
+   "sequence": 361300,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "75",
+   "typeText": "Two-minute warning",
+   "text": "Two-Minute Warning",
+   "shortText": "Two-Minute Warning ",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:14:42Z"
+  },
+  {
+   "id": "4017726363625",
+   "sequence": 362500,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Allgeier left tackle to IND 9 for 10 yards (L.Latu).",
+   "shortText": "Tyler Allgeier 10 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:17:44Z"
+  },
+  {
+   "id": "4017726363640",
+   "sequence": 364000,
+   "period": 4,
+   "clock": {
+    "seconds": 114,
+    "display": "1:54"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by IND at 01:54.",
+   "shortText": "Timeout #1 By Ind At 01:54. Timeout IND ",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:18:31Z"
+  },
+  {
+   "id": "4017726363654",
+   "sequence": 365400,
+   "period": 4,
+   "clock": {
+    "seconds": 114,
+    "display": "1:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Allgeier right end to IND 1 for 8 yards (A.Gardner).",
+   "shortText": "Tyler Allgeier 8 Yd Rush",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:18:51Z"
+  },
+  {
+   "id": "4017726363669",
+   "sequence": 366900,
+   "period": 4,
+   "clock": {
+    "seconds": 108,
+    "display": "1:48"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #2 by IND at 01:48.",
+   "shortText": "Timeout #2 By Ind At 01:48. Timeout IND",
+   "awayScore": 17,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:20:08Z"
+  },
+  {
+   "id": "4017726363683",
+   "sequence": 368300,
+   "period": 4,
+   "clock": {
+    "seconds": 104,
+    "display": "1:44"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(Shotgun) T.Allgeier left tackle for 1 yard, TOUCHDOWN. TWO-POINT CONVERSION ATTEMPT. M.Penix pass to D.London is complete. ATTEMPT SUCCEEDS.",
+   "shortText": "Tyler Allgeier 1 Yd Rush (Michael Penix Jr. Pass to Drake London for Two-Point Conversion)",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "1"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263621",
+   "wallclock": "2025-11-09T17:20:03Z"
+  },
+  {
+   "id": "4017726363726",
+   "sequence": 372600,
+   "period": 4,
+   "clock": {
+    "seconds": 104,
+    "display": "1:44"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "B.Pinion kicks 62 yards from ATL 35 to IND 3. A.Abdullah to ATL 48 for 49 yards (N.Brooks).",
+   "shortText": "Bradley Pinion 62 Yd Kickoff Ameer Abdullah 49 Yd Kickoff Return",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 49,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:22:34Z"
+  },
+  {
+   "id": "4017726363749",
+   "sequence": 374900,
+   "period": 4,
+   "clock": {
+    "seconds": 97,
+    "display": "1:37"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Jones pass incomplete short left to T.Warren (K.Elliss).The Replay Official reviewed the incomplete pass ruling, and the play was Upheld. The ruling on the field stands.",
+   "shortText": "Daniel Jones Incomplete Pass, Intended For Tyler Warren",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:23:28Z"
+  },
+  {
+   "id": "4017726363865",
+   "sequence": 386500,
+   "period": 4,
+   "clock": {
+    "seconds": 92,
+    "display": "1:32"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) D.Jones sacked at IND 41 for -11 yards (A.Ebiketie).",
+   "shortText": "Daniel Jones Sacked by Arnold Ebiketie For 11 Yd Loss",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 21,
+    "yardsToEndzone": 59,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:25:50Z"
+  },
+  {
+   "id": "4017726363875",
+   "sequence": 387500,
+   "period": 4,
+   "clock": {
+    "seconds": 87,
+    "display": "1:27"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #3 by IND at 01:27.",
+   "shortText": "Timeout #3 By Ind At 01:27. Timeout IND ",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 21,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 21,
+    "yardsToEndzone": 59,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:26:17Z"
+  },
+  {
+   "id": "4017726363885",
+   "sequence": 388500,
+   "period": 4,
+   "clock": {
+    "seconds": 86,
+    "display": "1:26"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) D.Jones scrambles right end pushed ob at ATL 40 for 19 yards (J.Bates).",
+   "shortText": "Daniel Jones 19 Yd Rush",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 21,
+    "yardsToEndzone": 59,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 40,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:26:47Z"
+  },
+  {
+   "id": "4017726363919",
+   "sequence": 391900,
+   "period": 4,
+   "clock": {
+    "seconds": 77,
+    "display": "1:17"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass short left to T.Warren ran ob at ATL 30 for 10 yards (X.Watts).",
+   "shortText": "Daniel Jones Pass Complete for 10 Yds to Tyler Warren",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 40,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:27:39Z"
+  },
+  {
+   "id": "4017726363949",
+   "sequence": 394900,
+   "period": 4,
+   "clock": {
+    "seconds": 71,
+    "display": "1:11"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) D.Jones pass incomplete deep left to A.Pierce.",
+   "shortText": "Daniel Jones Incomplete Pass, Intended For Alec Pierce",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:28:22Z"
+  },
+  {
+   "id": "4017726363972",
+   "sequence": 397200,
+   "period": 4,
+   "clock": {
+    "seconds": 67,
+    "display": "1:07"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(Shotgun) D.Jones sacked at ATL 36 for -6 yards (R.Harrison).",
+   "shortText": "Daniel Jones Sacked by Ronnie Harrison Jr. For 6 Yd Loss",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 16,
+    "yardsToEndzone": 36,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:29:02Z"
+  },
+  {
+   "id": "4017726364001",
+   "sequence": 400100,
+   "period": 4,
+   "clock": {
+    "seconds": 35,
+    "display": "0:35"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(Shotgun) D.Jones pass short left to M.Pittman to ATL 26 for 10 yards (K.Taylor; X.Watts).",
+   "shortText": "Daniel Jones Pass Complete for 10 Yds to Michael Pittman Jr.",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 16,
+    "yardsToEndzone": 36,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 26,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:29:34Z"
+  },
+  {
+   "id": "4017726364014",
+   "sequence": 401400,
+   "period": 4,
+   "clock": {
+    "seconds": 29,
+    "display": "0:29"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout #1 by ATL at 00:29.",
+   "shortText": "Timeout #1 By Atl At 00:29. Timeout ATL ",
+   "awayScore": 25,
+   "homeScore": 22,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 26,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:30:06Z"
+  },
+  {
+   "id": "4017726364026",
+   "sequence": 402600,
+   "period": 4,
+   "clock": {
+    "seconds": 25,
+    "display": "0:25"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "M.Badgley 44 yard field goal is GOOD, Center-L.Rhodes, Holder-R.Sanchez.",
+   "shortText": "Michael Badgley 44 Yd Field Goal",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 44,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 26,
+    "teamId": "11"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263622",
+   "wallclock": "2025-11-09T17:30:31Z"
+  },
+  {
+   "id": "4017726364053",
+   "sequence": 405300,
+   "period": 4,
+   "clock": {
+    "seconds": 25,
+    "display": "0:25"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "M.Badgley kicks 54 yards from IND 35 to ATL 11. J.Agnew to ATL 26 for 15 yards (L.Treadwell).",
+   "shortText": "Michael Badgley 54 Yd Kickoff Jamal Agnew 15 Yd Kickoff Return",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263623",
+   "wallclock": "2025-11-09T17:31:55Z"
+  },
+  {
+   "id": "4017726364076",
+   "sequence": 407600,
+   "period": 4,
+   "clock": {
+    "seconds": 21,
+    "display": "0:21"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete short left to D.Mooney.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263623",
+   "wallclock": "2025-11-09T17:32:44Z"
+  },
+  {
+   "id": "4017726364099",
+   "sequence": 409900,
+   "period": 4,
+   "clock": {
+    "seconds": 15,
+    "display": "0:15"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(No Huddle, Shotgun) M.Penix pass incomplete short right [J.Tuimoloau].PENALTY on ATL-M.Penix, Intentional Grounding, 15 yards, enforced at ATL 26.",
+   "shortText": "Michael Penix Jr. Incomplete Pass Michael Penix Jr. 15 Yd Pnlty",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -30,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 74,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 25,
+    "yardsToEndzone": 89,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263623",
+   "wallclock": "2025-11-09T17:33:15Z"
+  },
+  {
+   "id": "4017726364133",
+   "sequence": 413300,
+   "period": 4,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "79",
+   "typeText": "End of Regulation",
+   "text": "END QUARTER 4",
+   "shortText": "End Quarter 4 ",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 1,
+    "distance": 20,
+    "yardsToEndzone": 84,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263623",
+   "wallclock": "2025-11-09T17:33:15Z"
+  },
+  {
+   "id": "4017726364163",
+   "sequence": 416300,
+   "period": 4,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "79",
+   "typeText": "End of Regulation",
+   "text": "END QUARTER 4",
+   "shortText": "End Quarter 4",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 1,
+    "distance": 25,
+    "yardsToEndzone": 11,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263623",
+   "wallclock": "2025-11-09T17:33:15Z"
+  },
+  {
+   "id": "4017726364183",
+   "sequence": 418300,
+   "period": 5,
+   "clock": {
+    "seconds": 600,
+    "display": "10:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "M.Badgley kicks 63 yards from IND 35 to ATL 2. J.Agnew to ATL 30 for 28 yards (A.Dulin).",
+   "shortText": "Michael Badgley 63 Yd Kickoff Jamal Agnew 28 Yd Kickoff Return",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 28,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263624",
+   "wallclock": "2025-11-09T17:39:44Z"
+  },
+  {
+   "id": "4017726364206",
+   "sequence": 420600,
+   "period": 5,
+   "clock": {
+    "seconds": 595,
+    "display": "9:55"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) B.Robinson right tackle to ATL 31 for 1 yard (G.Pratt; A.Adebawore).",
+   "shortText": "Bijan Robinson 1 Yd Rush",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 69,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263624",
+   "wallclock": "2025-11-09T17:40:44Z"
+  },
+  {
+   "id": "4017726364236",
+   "sequence": 423600,
+   "period": 5,
+   "clock": {
+    "seconds": 554,
+    "display": "9:14"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete short left to D.Mooney.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 69,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 69,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263624",
+   "wallclock": "2025-11-09T17:41:25Z"
+  },
+  {
+   "id": "4017726364259",
+   "sequence": 425900,
+   "period": 5,
+   "clock": {
+    "seconds": 550,
+    "display": "9:10"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(No Huddle, Shotgun) M.Penix pass incomplete deep right to D.Mooney [N.Cross].PENALTY on IND-M.Blackmon, Illegal Contact, 5 yards, enforced at ATL 31 - No Play.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney Mekhi Blackmon 5 Yd Pnlty",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 69,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263624",
+   "wallclock": "2025-11-09T17:42:03Z"
+  },
+  {
+   "id": "4017726364293",
+   "sequence": 429300,
+   "period": 5,
+   "clock": {
+    "seconds": 546,
+    "display": "9:06"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) T.Allgeier left tackle to ATL 34 for -2 yards (Z.Franklin).",
+   "shortText": "Tyler Allgeier Rush, Loss of 2",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 66,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263624",
+   "wallclock": "2025-11-09T17:42:59Z"
+  },
+  {
+   "id": "4017726364315",
+   "sequence": 431500,
+   "period": 5,
+   "clock": {
+    "seconds": 503,
+    "display": "8:23"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(Shotgun) M.Penix pass incomplete short right to D.Mooney.",
+   "shortText": "Michael Penix Jr. Incomplete Pass, Intended For Darnell Mooney",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 66,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 66,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263624",
+   "wallclock": "2025-11-09T17:43:41Z"
+  },
+  {
+   "id": "4017726364338",
+   "sequence": 433800,
+   "period": 5,
+   "clock": {
+    "seconds": 499,
+    "display": "8:19"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(No Huddle, Shotgun) M.Penix sacked at ATL 22 for -12 yards (Z.Franklin).",
+   "shortText": "Michael Penix Jr. Sacked by Zaire Franklin For 12 Yd Loss",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 66,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 4,
+    "distance": 24,
+    "yardsToEndzone": 78,
+    "teamId": "1"
+   },
+   "teamId": "1",
+   "driveId": "40177263624",
+   "wallclock": "2025-11-09T17:44:19Z"
+  },
+  {
+   "id": "4017726364358",
+   "sequence": 435800,
+   "period": 5,
+   "clock": {
+    "seconds": 457,
+    "display": "7:37"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": " B.Pinion punts 40 yards to IND 38, Center-L.McCullough. J.Downs ran ob at IND 43 for 5 yards (K.Hodge).",
+   "shortText": "Bradley Pinion 40 Yd Punt Josh Downs 5 Yd Punt Return ",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 24,
+    "yardsToEndzone": 78,
+    "teamId": "1"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 57,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263624",
+   "wallclock": "2025-11-09T17:45:00Z"
+  },
+  {
+   "id": "4017726364389",
+   "sequence": 438900,
+   "period": 5,
+   "clock": {
+    "seconds": 449,
+    "display": "7:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor left end pushed ob at IND 44 for 1 yard (A.Terrell).",
+   "shortText": "Jonathan Taylor 1 Yd Rush",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 57,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 56,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263625",
+   "wallclock": "2025-11-09T17:45:53Z"
+  },
+  {
+   "id": "4017726364416",
+   "sequence": 441600,
+   "period": 5,
+   "clock": {
+    "seconds": 410,
+    "display": "6:50"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "D.Jones pass deep right to T.Warren pushed ob at ATL 33 for 23 yards (A.Terrell).",
+   "shortText": "Daniel Jones Pass Complete for 23 Yds to Tyler Warren",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 23,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 56,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 33,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263625",
+   "wallclock": "2025-11-09T17:46:35Z"
+  },
+  {
+   "id": "4017726364451",
+   "sequence": 445100,
+   "period": 5,
+   "clock": {
+    "seconds": 374,
+    "display": "6:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor up the middle to ATL 26 for 7 yards (J.Bates; Z.Harrison).",
+   "shortText": "Jonathan Taylor 7 Yd Rush",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 33,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 26,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263625",
+   "wallclock": "2025-11-09T17:47:17Z"
+  },
+  {
+   "id": "4017726364473",
+   "sequence": 447300,
+   "period": 5,
+   "clock": {
+    "seconds": 337,
+    "display": "5:37"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor up the middle to ATL 25 for 1 yard (R.Harrison).",
+   "shortText": "Jonathan Taylor 1 Yd Rush",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 26,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 25,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263625",
+   "wallclock": "2025-11-09T17:47:54Z"
+  },
+  {
+   "id": "4017726364495",
+   "sequence": 449500,
+   "period": 5,
+   "clock": {
+    "seconds": 298,
+    "display": "4:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(Shotgun) J.Taylor up the middle to ATL 14 for 11 yards (A.Terrell).",
+   "shortText": "Jonathan Taylor 11 Yd Rush",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 25,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263625",
+   "wallclock": "2025-11-09T17:48:33Z"
+  },
+  {
+   "id": "4017726364517",
+   "sequence": 451700,
+   "period": 5,
+   "clock": {
+    "seconds": 258,
+    "display": "4:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "J.Taylor up the middle to ATL 8 for 6 yards (X.Watts).",
+   "shortText": "Jonathan Taylor 6 Yd Rush",
+   "awayScore": 25,
+   "homeScore": 25,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 14,
+    "teamId": "11"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 8,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263625",
+   "wallclock": "2025-11-09T17:49:13Z"
+  },
+  {
+   "id": "4017726364539",
+   "sequence": 453900,
+   "period": 5,
+   "clock": {
+    "seconds": 211,
+    "display": "3:31"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "J.Taylor right guard for 8 yards, TOUCHDOWN.",
+   "shortText": "Jonathan Taylor 8 Yd Rush",
+   "awayScore": 25,
+   "homeScore": 31,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 8,
+    "teamId": "11"
+   },
+   "end": {
+    "down": -1,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263625",
+   "wallclock": "2025-11-09T17:49:55Z"
+  },
+  {
+   "id": "4017726364567",
+   "sequence": 456700,
+   "period": 5,
+   "clock": {
+    "seconds": 211,
+    "display": "3:31"
+   },
+   "typeId": "66",
+   "typeText": "End of Game",
+   "text": "END GAME",
+   "shortText": "End Game",
+   "awayScore": 25,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 15,
+    "teamId": "11"
+   },
+   "teamId": "11",
+   "driveId": "40177263625",
+   "wallclock": "2025-11-09T17:49:55Z"
+  }
+ ],
+ "drives": [
+  {
+   "id": "4017726361",
+   "sequence": 1,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 8,
+   "yards": 48,
+   "description": "8 plays, 48 yards, 4:02"
+  },
+  {
+   "id": "4017726362",
+   "sequence": 2,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "FUMBLE",
+   "displayResult": "Fumble",
+   "isScore": false,
+   "offensivePlays": 4,
+   "yards": 3,
+   "description": "4 plays, 3 yards, 1:43"
+  },
+  {
+   "id": "4017726363",
+   "sequence": 3,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 2,
+   "yards": 23,
+   "description": "2 plays, 23 yards, 0:39"
+  },
+  {
+   "id": "4017726364",
+   "sequence": 4,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 5,
+   "yards": 81,
+   "description": "5 plays, 81 yards, 2:29"
+  },
+  {
+   "id": "4017726365",
+   "sequence": 5,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 2,
+   "yards": 65,
+   "description": "2 plays, 65 yards, 0:48"
+  },
+  {
+   "id": "4017726366",
+   "sequence": 6,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 28,
+   "description": "6 plays, 28 yards, 2:40"
+  },
+  {
+   "id": "4017726367",
+   "sequence": 7,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "MISSED FG",
+   "displayResult": "Missed FG",
+   "isScore": false,
+   "offensivePlays": 11,
+   "yards": 63,
+   "description": "11 plays, 63 yards, 6:59"
+  },
+  {
+   "id": "4017726368",
+   "sequence": 8,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 1,
+   "description": "3 plays, 1 yard, 1:47"
+  },
+  {
+   "id": "4017726369",
+   "sequence": 9,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 4,
+   "description": "3 plays, 4 yards, 1:59"
+  },
+  {
+   "id": "40177263610",
+   "sequence": 10,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 6,
+   "yards": 55,
+   "description": "6 plays, 55 yards, 3:29"
+  },
+  {
+   "id": "40177263611",
+   "sequence": 11,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "INT",
+   "displayResult": "Interception",
+   "isScore": false,
+   "offensivePlays": 7,
+   "yards": 25,
+   "description": "7 plays, 25 yards, 3:17"
+  },
+  {
+   "id": "40177263612",
+   "sequence": 12,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "END OF HALF",
+   "displayResult": "End of Half",
+   "isScore": false,
+   "offensivePlays": 1,
+   "yards": -1,
+   "description": "1 play, -1 yard, 0:08"
+  },
+  {
+   "id": "40177263613",
+   "sequence": 13,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 7,
+   "yards": 44,
+   "description": "7 plays, 44 yards, 2:34"
+  },
+  {
+   "id": "40177263614",
+   "sequence": 14,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "FUMBLE",
+   "displayResult": "Fumble",
+   "isScore": false,
+   "offensivePlays": 4,
+   "yards": 3,
+   "description": "4 plays, 3 yards, 2:05"
+  },
+  {
+   "id": "40177263615",
+   "sequence": 15,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 2,
+   "description": "3 plays, 2 yards, 0:41"
+  },
+  {
+   "id": "40177263616",
+   "sequence": 16,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "DOWNS",
+   "displayResult": "Downs",
+   "isScore": false,
+   "offensivePlays": 14,
+   "yards": 80,
+   "description": "14 plays, 80 yards, 8:53"
+  },
+  {
+   "id": "40177263617",
+   "sequence": 17,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 5,
+   "yards": 21,
+   "description": "5 plays, 21 yards, 1:19"
+  },
+  {
+   "id": "40177263618",
+   "sequence": 18,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 31,
+   "description": "9 plays, 31 yards, 5:28"
+  },
+  {
+   "id": "40177263619",
+   "sequence": 19,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 5,
+   "yards": 18,
+   "description": "5 plays, 18 yards, 2:05"
+  },
+  {
+   "id": "40177263620",
+   "sequence": 20,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 2,
+   "yards": 91,
+   "description": "2 plays, 91 yards, 0:53"
+  },
+  {
+   "id": "40177263621",
+   "sequence": 21,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 71,
+   "description": "9 plays, 71 yards, 4:18"
+  },
+  {
+   "id": "40177263622",
+   "sequence": 22,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 8,
+   "yards": 22,
+   "description": "8 plays, 22 yards, 1:19"
+  },
+  {
+   "id": "40177263623",
+   "sequence": 23,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "END OF HALF",
+   "displayResult": "End of Half",
+   "isScore": false,
+   "offensivePlays": 2,
+   "yards": -15,
+   "description": "2 plays, -15 yards, 0:25"
+  },
+  {
+   "id": "40177263624",
+   "sequence": 24,
+   "teamId": "1",
+   "endTeamId": "1",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 5,
+   "yards": -8,
+   "description": "5 plays, -8 yards, 2:31"
+  },
+  {
+   "id": "40177263625",
+   "sequence": 25,
+   "teamId": "11",
+   "endTeamId": "11",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 7,
+   "yards": 57,
+   "description": "7 plays, 57 yards, 3:58"
+  }
+ ]
+}

@@ -1,0 +1,5367 @@
+{
+ "league": "college-football",
+ "gameId": "401752889",
+ "capturedAt": "2026-08-28T18:43:03.191Z",
+ "name": "OSU 38 - PSU 14",
+ "teams": [
+  {
+   "id": "194",
+   "abbreviation": "OSU",
+   "displayName": "Ohio State Buckeyes",
+   "score": 38,
+   "homeAway": "home"
+  },
+  {
+   "id": "213",
+   "abbreviation": "PSU",
+   "displayName": "Penn State Nittany Lions",
+   "score": 14,
+   "homeAway": "away"
+  }
+ ],
+ "periods": 4,
+ "playCount": 146,
+ "driveCount": 19,
+ "plays": [
+  {
+   "id": "4017528892",
+   "sequence": 0,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "70",
+   "typeText": "Coin Toss",
+   "text": "Ohio State wins the toss, and defers. Penn State to receive. Ohio State defends.",
+   "shortText": "Ohio State wins the toss, and defers. Penn State to receive. Ohio State defends.",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "teamId": null,
+   "driveId": null,
+   "wallclock": null
+  },
+  {
+   "id": "4017528893",
+   "sequence": 1,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#38 J.Fielding kickoff 65 yards to the PSU00, Touchback",
+   "shortText": "J. Fielding kickoff for 65 yds for a touchback",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528892",
+   "wallclock": "2025-11-01T16:08:46Z"
+  },
+  {
+   "id": "40175288912",
+   "sequence": 2,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#13 K.Allen rush left for 26 yards gain to the OSU49 (#18 J.McClain), out of bounds, 1ST DOWN",
+   "shortText": "K. Allen run for 26 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 26,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528892",
+   "wallclock": "2025-11-01T16:11:54Z"
+  },
+  {
+   "id": "40175288916",
+   "sequence": 3,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short left to #5 D.Ross caught at PSU49, for 6 yards to the OSU43 (#1 D.Igbinosun)",
+   "shortText": "E. Grunkemeyer pass to D. Ross for 6 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 43,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528892",
+   "wallclock": "2025-11-01T16:12:29Z"
+  },
+  {
+   "id": "40175288921",
+   "sequence": 4,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush left for 2 yards loss to the OSU45 (#8 A.Reese; #97 K.Jackson Jr.)",
+   "shortText": "K. Allen run for -2 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 43,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 45,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528892",
+   "wallclock": "2025-11-01T16:13:07Z"
+  },
+  {
+   "id": "40175288925",
+   "sequence": 5,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush middle for 3 yards gain to the OSU42 (#8 A.Reese; #96 E.Houston)",
+   "shortText": "K. Allen run for 3 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 45,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 42,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528892",
+   "wallclock": "2025-11-01T16:13:49Z"
+  },
+  {
+   "id": "40175288929",
+   "sequence": 6,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "#99 G.Nwosu punt 31 yards to the OSU11 fair catch by #1 B.Inniss at OSU11",
+   "shortText": "G. Nwosu punt for 31 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 42,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 11,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528892",
+   "wallclock": "2025-11-01T16:14:20Z"
+  },
+  {
+   "id": "40175288933",
+   "sequence": 7,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short left to #17 C.Tate caught at OSU25, for 20 yards to the OSU31 (#4 A.Harris), 1ST DOWN",
+   "shortText": "J. Sayin pass to C. Tate for 20 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 20,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 89,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:15:16Z"
+  },
+  {
+   "id": "40175288938",
+   "sequence": 8,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "No Huddle-Shotgun #25 B.Jackson rush middle for 4 yards loss to the OSU27 (#32 K.Wylie)",
+   "shortText": "Bo Jackson run for -4 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 73,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:15:41Z"
+  },
+  {
+   "id": "40175288942",
+   "sequence": 9,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #25 B.Jackson rush middle for 9 yards gain to the OSU36 (#6 Z.Wheatley)",
+   "shortText": "Bo Jackson run for 9 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 14,
+    "yardsToEndzone": 73,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 64,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:16:19Z"
+  },
+  {
+   "id": "40175288946",
+   "sequence": 10,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short left to #4 J.Smith caught at PSU47, for 18 yards to the PSU46 (#2 A.Collins), out of bounds, 1ST DOWN",
+   "shortText": "J. Sayin pass to J. Smith for 18 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 64,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:16:59Z"
+  },
+  {
+   "id": "40175288951",
+   "sequence": 11,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short left to #85 B.Christian caught at PSU45, for 3 yards to the PSU43 (#3 A.Belgrave-Shorter), out of bounds",
+   "shortText": "J. Sayin pass to B. Christian for 3 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 43,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:17:34Z"
+  },
+  {
+   "id": "40175288956",
+   "sequence": 12,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short right to #4 J.Smith caught at PSU34, for 10 yards to the PSU33 (#6 Z.Wheatley), 1ST DOWN",
+   "shortText": "J. Sayin pass to J. Smith for 10 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 43,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 33,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:18:13Z"
+  },
+  {
+   "id": "40175288961",
+   "sequence": 13,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #25 B.Jackson rush left for 8 yards gain to the PSU25 (#3 A.Belgrave-Shorter)",
+   "shortText": "Bo Jackson run for 8 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 33,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 25,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:18:50Z"
+  },
+  {
+   "id": "40175288965",
+   "sequence": 14,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#12 C.Donaldson Jr rush right for 4 yards gain to the PSU21 (#4 A.Harris; #32 K.Wylie), 1ST DOWN",
+   "shortText": "CJ Donaldson run for 4 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 25,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 21,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:19:28Z"
+  },
+  {
+   "id": "40175288969",
+   "sequence": 15,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short right to #86 M.Klare caught at PSU18, for 6 yards to the PSU15 (#3 A.Belgrave-Shorter), out of bounds",
+   "shortText": "J. Sayin pass to M. Klare for 6 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 21,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 15,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:20:08Z"
+  },
+  {
+   "id": "40175288974",
+   "sequence": 16,
+   "period": 1,
+   "clock": {
+    "seconds": 745,
+    "display": "12:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #12 C.Donaldson Jr rush middle for 1 yard gain to the PSU14 (#99 Y.Kemajou)",
+   "shortText": "CJ Donaldson run for 1 yd",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 15,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 14,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:20:48Z"
+  },
+  {
+   "id": "40175288978",
+   "sequence": 17,
+   "period": 1,
+   "clock": {
+    "seconds": 375,
+    "display": "6:15"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "J. Sayin pass to J. Smith for 14 yds, for a TD (J. Fielding KICK)",
+   "shortText": "Jeremiah Smith 14 Yd pass from Julian Sayin (Jayden Fielding Kick)",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 14,
+    "teamId": "194"
+   },
+   "end": {
+    "down": -1,
+    "distance": 4,
+    "yardsToEndzone": 0,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528893",
+   "wallclock": "2025-11-01T16:21:29Z"
+  },
+  {
+   "id": "40175288986",
+   "sequence": 19,
+   "period": 1,
+   "clock": {
+    "seconds": 375,
+    "display": "6:15"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#38 J.Fielding kickoff 65 yards to the PSU00, Touchback",
+   "shortText": "J. Fielding kickoff for 65 yds for a touchback",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528895",
+   "wallclock": "2025-11-01T16:22:12Z"
+  },
+  {
+   "id": "40175288989",
+   "sequence": 20,
+   "period": 1,
+   "clock": {
+    "seconds": 375,
+    "display": "6:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush middle for 1 yard gain to the PSU26 (#0 S.Styles; #8 A.Reese)",
+   "shortText": "K. Allen run for 1 yd",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 74,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528895",
+   "wallclock": "2025-11-01T16:29:01Z"
+  },
+  {
+   "id": "40175288993",
+   "sequence": 21,
+   "period": 1,
+   "clock": {
+    "seconds": 375,
+    "display": "6:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush right for 6 yards gain to the PSU32 (#97 K.Jackson Jr.)",
+   "shortText": "K. Allen run for 6 yds",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 74,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528895",
+   "wallclock": "2025-11-01T16:29:45Z"
+  },
+  {
+   "id": "40175288997",
+   "sequence": 22,
+   "period": 1,
+   "clock": {
+    "seconds": 375,
+    "display": "6:15"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "Shotgun #17 E.Grunkemeyer pass incomplete short right thrown to PSU31 QB hurried by #95 T.Malone",
+   "shortText": "E. Grunkemeyer pass incomplete",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528895",
+   "wallclock": "2025-11-01T16:30:26Z"
+  },
+  {
+   "id": "401752889100",
+   "sequence": 23,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "#99 G.Nwosu punt 43 yards to the OSU25 fair catch by #1 B.Inniss at OSU25",
+   "shortText": "G. Nwosu punt for 43 yds",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 25,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528895",
+   "wallclock": "2025-11-01T16:31:01Z"
+  },
+  {
+   "id": "401752889104",
+   "sequence": 24,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #32 I.West rush middle for 1 yard gain to the OSU26 (#7 Z.Tracy)",
+   "shortText": "I. West run for 1 yd",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 74,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:34:39Z"
+  },
+  {
+   "id": "401752889108",
+   "sequence": 25,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "Shotgun #10 J.Sayin pass incomplete deep left to #1 B.Inniss thrown to PSU45 PENALTY PSU Roughing The Passer (#28 Z.Durant) 15 yards from OSU26 to OSU41, 1ST DOWN. NO PLAY",
+   "shortText": "J. Sayin pass incomplete, Penn State Penalty, roughingthepasser (Z. Durant) for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 74,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:35:23Z"
+  },
+  {
+   "id": "401752889112",
+   "sequence": 26,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete deep middle to #1 B.Inniss caught at PSU39, for 29 yards to the PSU30 (#6 Z.Wheatley), 1ST DOWN",
+   "shortText": "J. Sayin pass to B. Inniss for 29 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 29,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:36:44Z"
+  },
+  {
+   "id": "401752889117",
+   "sequence": 27,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "No Huddle-Shotgun #10 J.Sayin pass incomplete short right thrown to PSU20 QB hurried by #24 A.Campbell",
+   "shortText": "J. Sayin pass incomplete",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:37:26Z"
+  },
+  {
+   "id": "401752889120",
+   "sequence": 28,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #32 I.West rush middle for 11 yards gain to the PSU19 (#28 Z.Durant), 1ST DOWN",
+   "shortText": "I. West run for 11 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 30,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:38:21Z"
+  },
+  {
+   "id": "401752889124",
+   "sequence": 29,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #32 I.West rush middle for 1 yard gain to the PSU18 (#0 D.DeLuca)",
+   "shortText": "I. West run for 1 yd",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 18,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:39:12Z"
+  },
+  {
+   "id": "401752889128",
+   "sequence": 30,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short right to #1 B.Inniss caught at PSU20, for 7 yards to the PSU11 (#7 Z.Tracy)",
+   "shortText": "J. Sayin pass to B. Inniss for 7 yds",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 18,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 11,
+    "teamId": null
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:39:40Z"
+  },
+  {
+   "id": "401752889133",
+   "sequence": 31,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #12 C.Donaldson Jr rush middle for 5 yards gain to the PSU06 (#50 A.Ford Jr.; #24 A.Campbell), 1ST DOWN",
+   "shortText": "CJ Donaldson run for 5 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 11,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:40:22Z"
+  },
+  {
+   "id": "401752889137",
+   "sequence": 32,
+   "period": 1,
+   "clock": {
+    "seconds": 281,
+    "display": "4:41"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #12 C.Donaldson Jr rush middle for 1 yard loss to the PSU07 (#24 A.Campbell; #50 A.Ford Jr.)",
+   "shortText": "CJ Donaldson run for -1 yd",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 7,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:41:03Z"
+  },
+  {
+   "id": "401752889143",
+   "sequence": 32,
+   "period": 1,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 1st quarter.",
+   "shortText": "End of 1st quarter.",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": null
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 7,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:41:35Z"
+  },
+  {
+   "id": "401752889147",
+   "sequence": 33,
+   "period": 2,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short middle to #17 C.Tate caught at PSU04, for 3 yards to the PSU04 (#24 A.Campbell)",
+   "shortText": "J. Sayin pass to C. Tate for 3 yds",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 7,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:45:53Z"
+  },
+  {
+   "id": "401752889154",
+   "sequence": 34,
+   "period": 2,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "Shotgun #10 J.Sayin pass incomplete short left to #20 J.Peoples thrown to PSU04 broken up by #0 D.DeLuca",
+   "shortText": "J. Sayin pass incomplete",
+   "awayScore": 0,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:46:37Z"
+  },
+  {
+   "id": "401752889157",
+   "sequence": 35,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "#38 J.Fielding field goal attempt from 22 yards GOOD (H: #42 J.McGuire, LS: #43 J.Ferlmann), clock 14:08",
+   "shortText": "Jayden Fielding 22 Yd Field Goal  ",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 22,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "194"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "4017528896",
+   "wallclock": "2025-11-01T16:47:24Z"
+  },
+  {
+   "id": "401752889160",
+   "sequence": 36,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#38 J.Fielding kickoff 65 yards to the PSU00, Touchback",
+   "shortText": "J. Fielding kickoff for 65 yds for a touchback",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:47:33Z"
+  },
+  {
+   "id": "401752889163",
+   "sequence": 37,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short left to #5 D.Ross caught at PSU23, for 1 yard loss to the PSU24 (#2 C.Downs)",
+   "shortText": "E. Grunkemeyer pass to D. Ross for -1 yd",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 76,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:51:34Z"
+  },
+  {
+   "id": "401752889168",
+   "sequence": 38,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#13 K.Allen rush middle for 2 yards gain to the PSU26 (#2 C.Downs; #95 T.Malone)",
+   "shortText": "K. Allen run for 2 yds",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 76,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 74,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:52:15Z"
+  },
+  {
+   "id": "401752889172",
+   "sequence": 39,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short right to #5 D.Ross caught at PSU32, for 9 yards to the PSU35 (#8 A.Reese; #6 D.Sanchez), 1ST DOWN",
+   "shortText": "E. Grunkemeyer pass to D. Ross for 9 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 9,
+    "yardsToEndzone": 74,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:53:03Z"
+  },
+  {
+   "id": "401752889177",
+   "sequence": 40,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "Shotgun #17 E.Grunkemeyer pass incomplete deep right to #1 K.Hudson thrown to OSU45",
+   "shortText": "E. Grunkemeyer pass incomplete",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:53:45Z"
+  },
+  {
+   "id": "401752889180",
+   "sequence": 41,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short left to #10 N.Singleton caught at PSU33, for 16 yards to the OSU49 (#7 J.Mathews Jr.), out of bounds, 1ST DOWN",
+   "shortText": "E. Grunkemeyer pass to N. Singleton for 16 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:54:21Z"
+  },
+  {
+   "id": "401752889185",
+   "sequence": 42,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "No Huddle-Shotgun #10 N.Singleton rush middle for 5 yards gain to the OSU44 (#0 S.Styles; #95 T.Malone)",
+   "shortText": "N. Singleton run for 5 yds",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 49,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 44,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:54:44Z"
+  },
+  {
+   "id": "401752889189",
+   "sequence": 43,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#13 K.Allen rush left for 7 yards gain to the OSU37 (#2 C.Downs; #92 C.Curry), 1ST DOWN",
+   "shortText": "K. Allen run for 7 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 44,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:55:22Z"
+  },
+  {
+   "id": "401752889193",
+   "sequence": 44,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "Shotgun #2 L.Clifford pass incomplete short right to #1 K.Hudson thrown to OSU25",
+   "shortText": "L. Clifford pass incomplete",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:56:08Z"
+  },
+  {
+   "id": "401752889196",
+   "sequence": 45,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush middle for 0 yards to the OSU37 (#8 A.Reese; #96 E.Houston)",
+   "shortText": "K. Allen run for 0 yds",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": null
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:56:43Z"
+  },
+  {
+   "id": "401752889202",
+   "sequence": 46,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "No Huddle-Shotgun #17 E.Grunkemeyer pass complete short left to #2 L.Clifford caught at OSU24, for 13 yards to the OSU24 (#18 J.McClain), 1ST DOWN",
+   "shortText": "E. Grunkemeyer pass to L. Clifford for 13 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 24,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:57:13Z"
+  },
+  {
+   "id": "401752889207",
+   "sequence": 47,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush right for 2 yards gain to the OSU22 (#0 S.Styles)",
+   "shortText": "K. Allen run for 2 yds",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 24,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 22,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:57:52Z"
+  },
+  {
+   "id": "401752889211",
+   "sequence": 48,
+   "period": 2,
+   "clock": {
+    "seconds": 848,
+    "display": "14:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short middle to #10 N.Singleton caught at OSU26, for 13 yards to the OSU09 (#0 S.Styles), 1ST DOWN",
+   "shortText": "E. Grunkemeyer pass to N. Singleton for 13 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 22,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:58:28Z"
+  },
+  {
+   "id": "401752889218",
+   "sequence": 48,
+   "period": 2,
+   "clock": {
+    "seconds": 466,
+    "display": "7:46"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Ohio State, clock 07:46",
+   "shortText": "Timeout Ohio State, clock 07:46",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 78,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 0,
+    "distance": 8,
+    "yardsToEndzone": 78,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T16:59:16Z"
+  },
+  {
+   "id": "401752889216",
+   "sequence": 49,
+   "period": 2,
+   "clock": {
+    "seconds": 466,
+    "display": "7:46"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush middle for 1 yard gain to the OSU08 (#53 W.Smith Jr.; #8 A.Reese)",
+   "shortText": "K. Allen run for 1 yd",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 8,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T17:02:21Z"
+  },
+  {
+   "id": "401752889221",
+   "sequence": 50,
+   "period": 2,
+   "clock": {
+    "seconds": 466,
+    "display": "7:46"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #10 N.Singleton rush middle for 5 yards gain to the OSU03 (#8 A.Reese; #92 C.Curry)",
+   "shortText": "N. Singleton run for 5 yds",
+   "awayScore": 0,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 8,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T17:03:02Z"
+  },
+  {
+   "id": "401752889225",
+   "sequence": 51,
+   "period": 2,
+   "clock": {
+    "seconds": 378,
+    "display": "6:18"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "#10 N.Singleton rush left for 3 yards gain to the OSU00 TOUCHDOWN, clock 06:18 #94 R.Barker kick attempt good (H: #14 R.Thompson, LS: #48 T.Duzansky)",
+   "shortText": "Nicholas Singleton 3 Yd Run (Ryan Barker Kick)",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "213"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "4017528898",
+   "wallclock": "2025-11-01T17:03:45Z"
+  },
+  {
+   "id": "401752889232",
+   "sequence": 53,
+   "period": 2,
+   "clock": {
+    "seconds": 378,
+    "display": "6:18"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#99 G.Nwosu kickoff 65 yards to the OSU00, Touchback",
+   "shortText": "G. Nwosu kickoff for 65 yds for a touchback",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288910",
+   "wallclock": "2025-11-01T17:04:33Z"
+  },
+  {
+   "id": "401752889235",
+   "sequence": 54,
+   "period": 2,
+   "clock": {
+    "seconds": 378,
+    "display": "6:18"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "#10 J.Sayin pass incomplete short right to #1 B.Inniss thrown to OSU30",
+   "shortText": "J. Sayin pass incomplete",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288910",
+   "wallclock": "2025-11-01T17:11:51Z"
+  },
+  {
+   "id": "401752889238",
+   "sequence": 55,
+   "period": 2,
+   "clock": {
+    "seconds": 378,
+    "display": "6:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #25 B.Jackson rush middle for 5 yards gain to the OSU30 (#16 K.Mack)",
+   "shortText": "Bo Jackson run for 5 yds",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288910",
+   "wallclock": "2025-11-01T17:12:30Z"
+  },
+  {
+   "id": "401752889242",
+   "sequence": 56,
+   "period": 2,
+   "clock": {
+    "seconds": 378,
+    "display": "6:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #10 J.Sayin rush middle for 9 yards gain to the OSU39 (#9 E.Washington II), 1ST DOWN",
+   "shortText": "J. Sayin run for 9 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 61,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288910",
+   "wallclock": "2025-11-01T17:13:13Z"
+  },
+  {
+   "id": "401752889246",
+   "sequence": 57,
+   "period": 2,
+   "clock": {
+    "seconds": 378,
+    "display": "6:18"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "No Huddle-Shotgun #10 J.Sayin pass complete short middle to #4 J.Smith caught at OSU42, for 13 yards to the PSU48 (#16 K.Mack), out of bounds, 1ST DOWN",
+   "shortText": "J. Sayin pass to J. Smith for 13 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 13,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 61,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288910",
+   "wallclock": "2025-11-01T17:13:36Z"
+  },
+  {
+   "id": "401752889251",
+   "sequence": 58,
+   "period": 2,
+   "clock": {
+    "seconds": 378,
+    "display": "6:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #25 B.Jackson rush left for 3 yards gain to the PSU45 (#50 A.Ford Jr.)",
+   "shortText": "Bo Jackson run for 3 yds",
+   "awayScore": 7,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 45,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288910",
+   "wallclock": "2025-11-01T17:14:20Z"
+  },
+  {
+   "id": "401752889255",
+   "sequence": 59,
+   "period": 2,
+   "clock": {
+    "seconds": 221,
+    "display": "3:41"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "J. Sayin pass to C. Tate for 45 yds, for a TD (J. Fielding KICK)",
+   "shortText": "Carnell Tate 45 Yd pass from Julian Sayin (Jayden Fielding Kick)",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 45,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 45,
+    "teamId": "194"
+   },
+   "end": {
+    "down": -1,
+    "distance": 3,
+    "yardsToEndzone": 0,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288910",
+   "wallclock": "2025-11-01T17:15:00Z"
+  },
+  {
+   "id": "401752889263",
+   "sequence": 61,
+   "period": 2,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#38 J.Fielding kickoff 64 yards to the PSU01 #24 C.Smith return 24 yards to the PSU25 (#26 P.Pierce)",
+   "shortText": "J. Fielding kickoff for 64 yds, Co. Smith returns for 24 yds",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288912",
+   "wallclock": "2025-11-01T17:16:56Z"
+  },
+  {
+   "id": "401752889268",
+   "sequence": 62,
+   "period": 2,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush right for 9 yards gain to the PSU34 (#2 C.Downs; #7 J.Mathews Jr.)",
+   "shortText": "K. Allen run for 9 yds",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288912",
+   "wallclock": "2025-11-01T17:17:47Z"
+  },
+  {
+   "id": "401752889272",
+   "sequence": 63,
+   "period": 2,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "No Huddle-Shotgun #17 E.Grunkemeyer pass incomplete deep right to #8 T.Pena thrown to OSU46",
+   "shortText": "E. Grunkemeyer pass incomplete",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288912",
+   "wallclock": "2025-11-01T17:18:04Z"
+  },
+  {
+   "id": "401752889275",
+   "sequence": 64,
+   "period": 2,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#13 K.Allen rush middle for 3 yards gain to the PSU37 (#98 K.McDonald), 1ST DOWN",
+   "shortText": "K. Allen run for 3 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288912",
+   "wallclock": "2025-11-01T17:18:37Z"
+  },
+  {
+   "id": "401752889279",
+   "sequence": 65,
+   "period": 2,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush left for 0 yards to the PSU37 (#98 K.McDonald)",
+   "shortText": "K. Allen run for 0 yds",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": null
+   },
+   "teamId": "213",
+   "driveId": "40175288912",
+   "wallclock": "2025-11-01T17:19:14Z"
+  },
+  {
+   "id": "401752889283",
+   "sequence": 66,
+   "period": 2,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "No Huddle-Shotgun #17 E.Grunkemeyer pass incomplete short right to #16 K.Dinkins thrown to PSU40",
+   "shortText": "E. Grunkemeyer pass incomplete",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288912",
+   "wallclock": "2025-11-01T17:19:34Z"
+  },
+  {
+   "id": "401752889286",
+   "sequence": 67,
+   "period": 2,
+   "clock": {
+    "seconds": 216,
+    "display": "3:36"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "Shotgun #17 E.Grunkemeyer pass incomplete short right to #8 T.Pena thrown to PSU48",
+   "shortText": "E. Grunkemeyer pass incomplete",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288912",
+   "wallclock": "2025-11-01T17:20:17Z"
+  },
+  {
+   "id": "401752889295",
+   "sequence": 68,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout , clock 02:00",
+   "shortText": "Timeout , clock 02:00",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 37,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288912",
+   "wallclock": "2025-11-01T17:21:08Z"
+  },
+  {
+   "id": "401752889289",
+   "sequence": 68,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "#99 G.Nwosu punt 63 yards to the OSU00, Touchback",
+   "shortText": "G. Nwosu punt for 63 yds for a touchback",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 63,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288912",
+   "wallclock": "2025-11-01T17:20:50Z"
+  },
+  {
+   "id": "401752889345",
+   "sequence": 69,
+   "period": 2,
+   "clock": {
+    "seconds": 20,
+    "display": "0:20"
+   },
+   "typeId": "29",
+   "typeText": "Fumble Recovery (Opponent)",
+   "text": "Shotgun #12 C.Donaldson Jr rush middle for 2 yards gain to the OSU22 fumbled by #12 C.Donaldson Jr at OSU19 forced by #33 D.Dennis-Sutton recovered by PSU #19 C.Coleman at OSU22 #19 C.Coleman return 9 yards to the OSU13 (#17 C.Tate)",
+   "shortText": "CJ Donaldson run for 2 yds, CJ Donaldson fumbled, forced by D. Dennis-Sutton, recovered by C. Coleman,  return  for 9 yds",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 13,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288913",
+   "wallclock": "2025-11-01T17:37:27Z"
+  },
+  {
+   "id": "401752889352",
+   "sequence": 70,
+   "period": 2,
+   "clock": {
+    "seconds": 20,
+    "display": "0:20"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush middle for 0 yards to the OSU13 (#2 C.Downs; #98 K.McDonald)",
+   "shortText": "K. Allen run for 0 yds",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 13,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 13,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288914",
+   "wallclock": "2025-11-01T17:38:46Z"
+  },
+  {
+   "id": "401752889356",
+   "sequence": 70,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 2nd quarter.",
+   "shortText": "End of 2nd quarter.",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": null
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 13,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288914",
+   "wallclock": "2025-11-01T17:39:09Z"
+  },
+  {
+   "id": "401752889308",
+   "sequence": 71,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush middle for 4 yards gain to the OSU09 (#0 S.Styles)",
+   "shortText": "K. Allen run for 4 yds",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 13,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288914",
+   "wallclock": "2025-11-01T17:28:06Z"
+  },
+  {
+   "id": "401752889314",
+   "sequence": 71,
+   "period": 2,
+   "clock": {
+    "seconds": 29,
+    "display": "0:29"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Ohio State, clock 00:29",
+   "shortText": "Timeout Ohio State, clock 00:29",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 87,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 0,
+    "distance": 9,
+    "yardsToEndzone": 87,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288914",
+   "wallclock": "2025-11-01T17:28:56Z"
+  },
+  {
+   "id": "401752889312",
+   "sequence": 72,
+   "period": 2,
+   "clock": {
+    "seconds": 29,
+    "display": "0:29"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short middle to #13 K.Allen caught at OSU10, for 8 yards to the OSU01 (#3 L.Styles Jr.), 1ST DOWN",
+   "shortText": "E. Grunkemeyer pass to K. Allen for 8 yds for a 1ST down",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288914",
+   "wallclock": "2025-11-01T17:29:56Z"
+  },
+  {
+   "id": "401752889320",
+   "sequence": 72,
+   "period": 2,
+   "clock": {
+    "seconds": 23,
+    "display": "0:23"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Penn State, clock 00:23",
+   "shortText": "Timeout Penn State, clock 00:23",
+   "awayScore": 7,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 0,
+    "distance": 5,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288914",
+   "wallclock": "2025-11-01T17:30:17Z"
+  },
+  {
+   "id": "401752889318",
+   "sequence": 73,
+   "period": 2,
+   "clock": {
+    "seconds": 20,
+    "display": "0:20"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "#13 K.Allen rush middle for 1 yard gain to the OSU00 TOUCHDOWN, clock 00:20 #94 R.Barker kick attempt good (H: #14 R.Thompson, LS: #48 T.Duzansky)",
+   "shortText": "Kaytron Allen 1 Yd Run (Ryan Barker Kick)",
+   "awayScore": 14,
+   "homeScore": 17,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "213"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288914",
+   "wallclock": "2025-11-01T17:31:19Z"
+  },
+  {
+   "id": "401752889326",
+   "sequence": 75,
+   "period": 2,
+   "clock": {
+    "seconds": 20,
+    "display": "0:20"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#99 G.Nwosu kickoff 65 yards to the OSU00, Touchback",
+   "shortText": "G. Nwosu kickoff for 65 yds for a touchback",
+   "awayScore": 14,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288916",
+   "wallclock": "2025-11-01T17:32:22Z"
+  },
+  {
+   "id": "401752889329",
+   "sequence": 76,
+   "period": 2,
+   "clock": {
+    "seconds": 20,
+    "display": "0:20"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Kneel down by #10 J.Sayin at OSU24 for loss of 1 yard",
+   "shortText": "J. Sayin takes a knee",
+   "awayScore": 14,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 76,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288916",
+   "wallclock": "2025-11-01T17:34:20Z"
+  },
+  {
+   "id": "401752889363",
+   "sequence": 77,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#99 G.Nwosu kickoff 65 yards to the OSU00, Touchback",
+   "shortText": "G. Nwosu kickoff for 65 yds for a touchback",
+   "awayScore": 14,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288918",
+   "wallclock": "2025-11-01T17:56:19Z"
+  },
+  {
+   "id": "401752889366",
+   "sequence": 78,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short right to #89 W.Kacmarek caught at OSU28, for 14 yards to the OSU39 (#32 K.Wylie), out of bounds, 1ST DOWN",
+   "shortText": "J. Sayin pass to W. Kacmarek for 14 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 61,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288918",
+   "wallclock": "2025-11-01T17:57:04Z"
+  },
+  {
+   "id": "401752889371",
+   "sequence": 79,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete deep middle to #17 C.Tate caught at PSU20, for 57 yards to the PSU04 (#6 Z.Wheatley), 1ST DOWN",
+   "shortText": "J. Sayin pass to C. Tate for 57 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 57,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 61,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288918",
+   "wallclock": "2025-11-01T17:57:46Z"
+  },
+  {
+   "id": "401752889376",
+   "sequence": 80,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #25 B.Jackson rush middle for 2 yards gain to the PSU02 (#6 Z.Wheatley)",
+   "shortText": "Bo Jackson run for 2 yds",
+   "awayScore": 14,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 4,
+    "yardsToEndzone": 4,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288918",
+   "wallclock": "2025-11-01T17:58:31Z"
+  },
+  {
+   "id": "401752889380",
+   "sequence": 81,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#25 B.Jackson rush middle for 1 yard gain to the PSU01 (#24 A.Campbell)",
+   "shortText": "Bo Jackson run for 1 yd",
+   "awayScore": 14,
+   "homeScore": 17,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 2,
+    "yardsToEndzone": 2,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288918",
+   "wallclock": "2025-11-01T17:59:06Z"
+  },
+  {
+   "id": "401752889384",
+   "sequence": 82,
+   "period": 3,
+   "clock": {
+    "seconds": 738,
+    "display": "12:18"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "#12 C.Donaldson Jr rush left for 1 yard gain to the PSU00 TOUCHDOWN, clock 12:18 #38 J.Fielding kick attempt good (H: #42 J.McGuire, LS: #43 J.Ferlmann)",
+   "shortText": "CJ Donaldson 1 Yd Run (Jayden Fielding Kick)",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "194"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288918",
+   "wallclock": "2025-11-01T17:59:46Z"
+  },
+  {
+   "id": "401752889392",
+   "sequence": 84,
+   "period": 3,
+   "clock": {
+    "seconds": 734,
+    "display": "12:14"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#38 J.Fielding kickoff 60 yards to the PSU05 #24 C.Smith return 8 yards to the PSU13 (#20 R.Pettijohn; #39 J.Velazquez)",
+   "shortText": "J. Fielding kickoff for 60 yds, Co. Smith returns for 8 yds",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288920",
+   "wallclock": "2025-11-01T18:03:51Z"
+  },
+  {
+   "id": "401752889397",
+   "sequence": 85,
+   "period": 3,
+   "clock": {
+    "seconds": 734,
+    "display": "12:14"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short right to #16 K.Dinkins caught at PSU14, for 9 yards to the PSU22 (#18 J.McClain)",
+   "shortText": "E. Grunkemeyer pass to Kh. Dinkins for 9 yds",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 78,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288920",
+   "wallclock": "2025-11-01T18:04:40Z"
+  },
+  {
+   "id": "401752889402",
+   "sequence": 86,
+   "period": 3,
+   "clock": {
+    "seconds": 734,
+    "display": "12:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #10 N.Singleton rush middle for 1 yard gain to the PSU23 (#98 K.McDonald), 1ST DOWN",
+   "shortText": "N. Singleton run for 1 yd for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 78,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 77,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288920",
+   "wallclock": "2025-11-01T18:05:19Z"
+  },
+  {
+   "id": "401752889406",
+   "sequence": 87,
+   "period": 3,
+   "clock": {
+    "seconds": 734,
+    "display": "12:14"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short left to #8 T.Pena caught at PSU21, for 6 yards to the PSU29 (#26 P.Pierce)",
+   "shortText": "E. Grunkemeyer pass to T. Peña for 6 yds",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 77,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 71,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288920",
+   "wallclock": "2025-11-01T18:06:07Z"
+  },
+  {
+   "id": "401752889411",
+   "sequence": 88,
+   "period": 3,
+   "clock": {
+    "seconds": 734,
+    "display": "12:14"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short left to #8 T.Pena caught at PSU28, for 4 yards to the PSU33 (#1 D.Igbinosun), out of bounds, 1ST DOWN",
+   "shortText": "E. Grunkemeyer pass to T. Peña for 4 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 71,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288920",
+   "wallclock": "2025-11-01T18:06:43Z"
+  },
+  {
+   "id": "401752889416",
+   "sequence": 89,
+   "period": 3,
+   "clock": {
+    "seconds": 734,
+    "display": "12:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #10 N.Singleton rush middle for 3 yards gain to the PSU36 (#95 T.Malone; #98 K.McDonald)",
+   "shortText": "N. Singleton run for 3 yds",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 64,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288920",
+   "wallclock": "2025-11-01T18:07:23Z"
+  },
+  {
+   "id": "401752889420",
+   "sequence": 90,
+   "period": 3,
+   "clock": {
+    "seconds": 734,
+    "display": "12:14"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "No Huddle-Shotgun #17 E.Grunkemeyer pass complete short right to #2 L.Clifford caught at PSU37, for 1 yard to the PSU37 (#0 S.Styles), out of bounds",
+   "shortText": "E. Grunkemeyer pass to L. Clifford for 1 yd",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 64,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 63,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288920",
+   "wallclock": "2025-11-01T18:07:46Z"
+  },
+  {
+   "id": "401752889425",
+   "sequence": 91,
+   "period": 3,
+   "clock": {
+    "seconds": 734,
+    "display": "12:14"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "No Huddle-Shotgun #17 E.Grunkemeyer sacked for loss of 8 yards to the PSU29 (#97 K.Jackson Jr.)",
+   "shortText": "E. Grunkemeyer sacked  by K. Jackson Jr. for -8 yds",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 63,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 4,
+    "distance": 14,
+    "yardsToEndzone": 71,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288920",
+   "wallclock": "2025-11-01T18:08:30Z"
+  },
+  {
+   "id": "401752889429",
+   "sequence": 92,
+   "period": 3,
+   "clock": {
+    "seconds": 472,
+    "display": "7:52"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "#99 G.Nwosu punt 55 yards to the OSU16, out of bounds at OSU16",
+   "shortText": "G. Nwosu punt for 55 yds, punt out-of-bounds",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 14,
+    "yardsToEndzone": 71,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 84,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288920",
+   "wallclock": "2025-11-01T18:08:57Z"
+  },
+  {
+   "id": "401752889434",
+   "sequence": 93,
+   "period": 3,
+   "clock": {
+    "seconds": 472,
+    "display": "7:52"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short right to #1 B.Inniss caught at OSU13, for 6 yards to the OSU22 (#24 A.Campbell)",
+   "shortText": "J. Sayin pass to B. Inniss for 6 yds",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 84,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 78,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288921",
+   "wallclock": "2025-11-01T18:12:38Z"
+  },
+  {
+   "id": "401752889439",
+   "sequence": 94,
+   "period": 3,
+   "clock": {
+    "seconds": 472,
+    "display": "7:52"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete deep right to #4 J.Smith caught at PSU34, for 57 yards to the PSU21 (#16 K.Mack; #2 A.Collins), 1ST DOWN",
+   "shortText": "J. Sayin pass to J. Smith for 57 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 57,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 78,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 21,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288921",
+   "wallclock": "2025-11-01T18:13:22Z"
+  },
+  {
+   "id": "401752889444",
+   "sequence": 95,
+   "period": 3,
+   "clock": {
+    "seconds": 472,
+    "display": "7:52"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short left to #17 C.Tate caught at PSU26, for 1 yard loss to the PSU22 (#2 A.Collins)",
+   "shortText": "J. Sayin pass to C. Tate for -1 yd",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 21,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 22,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288921",
+   "wallclock": "2025-11-01T18:14:03Z"
+  },
+  {
+   "id": "401752889449",
+   "sequence": 96,
+   "period": 3,
+   "clock": {
+    "seconds": 472,
+    "display": "7:52"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short right to #1 B.Inniss caught at PSU27, for 1 yard loss to the PSU23 (#99 Y.Kemajou)",
+   "shortText": "J. Sayin pass to B. Inniss for -1 yd",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 22,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 23,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288921",
+   "wallclock": "2025-11-01T18:14:48Z"
+  },
+  {
+   "id": "401752889454",
+   "sequence": 97,
+   "period": 3,
+   "clock": {
+    "seconds": 472,
+    "display": "7:52"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "Shotgun #10 J.Sayin pass incomplete deep middle to #86 M.Klare thrown to PSU03 PENALTY PSU Pass Interference (#4 A.Harris) 15 yards from PSU23 to PSU08, 1ST DOWN. NO PLAY",
+   "shortText": "J. Sayin pass incomplete, Penn State Penalty, passinterference (A.J. Harris) for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 23,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 8,
+    "yardsToEndzone": 8,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288921",
+   "wallclock": "2025-11-01T18:15:49Z"
+  },
+  {
+   "id": "401752889458",
+   "sequence": 98,
+   "period": 3,
+   "clock": {
+    "seconds": 472,
+    "display": "7:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#25 B.Jackson rush middle for 2 yards gain to the PSU06 (#24 A.Campbell)",
+   "shortText": "Bo Jackson run for 2 yds",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 8,
+    "yardsToEndzone": 8,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288921",
+   "wallclock": "2025-11-01T18:16:41Z"
+  },
+  {
+   "id": "401752889462",
+   "sequence": 99,
+   "period": 3,
+   "clock": {
+    "seconds": 472,
+    "display": "7:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #12 C.Donaldson Jr rush middle for 5 yards gain to the PSU01 (#3 A.Belgrave-Shorter)",
+   "shortText": "CJ Donaldson run for 5 yds",
+   "awayScore": 14,
+   "homeScore": 24,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 6,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288921",
+   "wallclock": "2025-11-01T18:17:28Z"
+  },
+  {
+   "id": "401752889466",
+   "sequence": 100,
+   "period": 3,
+   "clock": {
+    "seconds": 201,
+    "display": "3:21"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "J. Sayin pass to B. Christian for 1 yd, for a TD ( KICK) #38 J.Fielding kick attempt good (H: #42 J.McGuire, LS: #43 J.Ferlmann)",
+   "shortText": "Bennett Christian 1 Yd pass from Julian Sayin (Jayden Fielding Kick)",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 1,
+    "teamId": "194"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288921",
+   "wallclock": "2025-11-01T18:18:08Z"
+  },
+  {
+   "id": "401752889474",
+   "sequence": 102,
+   "period": 3,
+   "clock": {
+    "seconds": 194,
+    "display": "3:14"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#38 J.Fielding kickoff 65 yards to the PSU00 #25 Q.Martin return 18 yards to the PSU18 (#28 L.Roker)",
+   "shortText": "J. Fielding kickoff for 65 yds, Q. Martin Jr. returns for 18 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 82,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288923",
+   "wallclock": "2025-11-01T18:22:07Z"
+  },
+  {
+   "id": "401752889479",
+   "sequence": 103,
+   "period": 3,
+   "clock": {
+    "seconds": 194,
+    "display": "3:14"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short right to #16 K.Dinkins caught at PSU17, for 3 yards to the PSU21, End Of Play",
+   "shortText": "E. Grunkemeyer pass to Kh. Dinkins for 3 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 82,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 79,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288923",
+   "wallclock": "2025-11-01T18:25:48Z"
+  },
+  {
+   "id": "401752889484",
+   "sequence": 104,
+   "period": 3,
+   "clock": {
+    "seconds": 194,
+    "display": "3:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush right for 2 yards gain to the PSU23 (#18 J.McClain)",
+   "shortText": "K. Allen run for 2 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 79,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 77,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288923",
+   "wallclock": "2025-11-01T18:26:27Z"
+  },
+  {
+   "id": "401752889488",
+   "sequence": 105,
+   "period": 3,
+   "clock": {
+    "seconds": 194,
+    "display": "3:14"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short left to #5 D.Ross caught at PSU24, for 8 yards to the PSU31 (#8 A.Reese), 1ST DOWN",
+   "shortText": "E. Grunkemeyer pass to D. Ross for 8 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 77,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288923",
+   "wallclock": "2025-11-01T18:27:17Z"
+  },
+  {
+   "id": "401752889493",
+   "sequence": 106,
+   "period": 3,
+   "clock": {
+    "seconds": 194,
+    "display": "3:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "No Huddle-Shotgun #13 K.Allen rush middle for 0 yards to the PSU31 (#53 W.Smith Jr.)",
+   "shortText": "K. Allen run for 0 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": null
+   },
+   "teamId": "213",
+   "driveId": "40175288923",
+   "wallclock": "2025-11-01T18:27:37Z"
+  },
+  {
+   "id": "401752889497",
+   "sequence": 107,
+   "period": 3,
+   "clock": {
+    "seconds": 194,
+    "display": "3:14"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "Shotgun #17 E.Grunkemeyer pass incomplete short left to #87 A.Rappleyea thrown to PSU35 broken up by #97 K.Jackson Jr.",
+   "shortText": "E. Grunkemeyer pass incomplete",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288923",
+   "wallclock": "2025-11-01T18:28:18Z"
+  },
+  {
+   "id": "401752889500",
+   "sequence": 108,
+   "period": 3,
+   "clock": {
+    "seconds": 194,
+    "display": "3:14"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "Shotgun #17 E.Grunkemeyer sacked for loss of 11 yards to the PSU20 (#8 A.Reese)",
+   "shortText": "E. Grunkemeyer sacked  by A. Reese for -11 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 4,
+    "distance": 21,
+    "yardsToEndzone": 80,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288923",
+   "wallclock": "2025-11-01T18:29:02Z"
+  },
+  {
+   "id": "401752889504",
+   "sequence": 109,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "14",
+   "typeText": "Punt Return",
+   "text": "#99 G.Nwosu punt 59 yards to the OSU21 #1 B.Inniss return 9 yards to the OSU30 (#8 D.Nelson)",
+   "shortText": "G. Nwosu punt for 59 yds, B. Inniss returns for 9 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 21,
+    "yardsToEndzone": 80,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288923",
+   "wallclock": "2025-11-01T18:29:40Z"
+  },
+  {
+   "id": "401752889512",
+   "sequence": 109,
+   "period": 3,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 3rd quarter.",
+   "shortText": "End of 3rd quarter.",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 21,
+    "yardsToEndzone": 20,
+    "teamId": null
+   },
+   "end": {
+    "down": 1,
+    "distance": 21,
+    "yardsToEndzone": 70,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288923",
+   "wallclock": "2025-11-01T18:30:13Z"
+  },
+  {
+   "id": "401752889517",
+   "sequence": 110,
+   "period": 4,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #20 J.Peoples rush middle for 11 yards gain to the OSU41 (#6 Z.Wheatley), 1ST DOWN",
+   "shortText": "J. Peoples run for 11 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 70,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288924",
+   "wallclock": "2025-11-01T18:33:55Z"
+  },
+  {
+   "id": "401752889523",
+   "sequence": 111,
+   "period": 4,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #20 J.Peoples rush left for 2 yards gain to the OSU43 (#32 K.Wylie)",
+   "shortText": "J. Peoples run for 2 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 57,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288924",
+   "wallclock": "2025-11-01T18:34:35Z"
+  },
+  {
+   "id": "401752889527",
+   "sequence": 112,
+   "period": 4,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #10 J.Sayin pass complete short left to #20 J.Peoples caught at OSU40, for 4 yards to the OSU47 (#24 A.Campbell), out of bounds",
+   "shortText": "J. Sayin pass to J. Peoples for 4 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 57,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 53,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288924",
+   "wallclock": "2025-11-01T18:35:11Z"
+  },
+  {
+   "id": "401752889532",
+   "sequence": 113,
+   "period": 4,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #32 I.West rush middle for 0 yards to the OSU47 (#39 T.Blanding)",
+   "shortText": "I. West run for 0 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 53,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 53,
+    "teamId": null
+   },
+   "teamId": "194",
+   "driveId": "40175288924",
+   "wallclock": "2025-11-01T18:35:52Z"
+  },
+  {
+   "id": "401752889536",
+   "sequence": 114,
+   "period": 4,
+   "clock": {
+    "seconds": 743,
+    "display": "12:23"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "#42 J.McGuire punt 43 yards to the PSU10 fair catch by #5 D.Ross at PSU10 PENALTY OSU Kick Catch Interference (#13 M.Lockhart) 15 yards from PSU10 to PSU25",
+   "shortText": "J. McGuire punt for 43 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 53,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 10,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288924",
+   "wallclock": "2025-11-01T18:36:33Z"
+  },
+  {
+   "id": "401752889541",
+   "sequence": 115,
+   "period": 4,
+   "clock": {
+    "seconds": 743,
+    "display": "12:23"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short left to #10 N.Singleton caught at PSU23, for 1 yard loss to the PSU24 (#8 A.Reese)",
+   "shortText": "E. Grunkemeyer pass to N. Singleton for -1 yd",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 76,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288925",
+   "wallclock": "2025-11-01T18:40:08Z"
+  },
+  {
+   "id": "401752889546",
+   "sequence": 116,
+   "period": 4,
+   "clock": {
+    "seconds": 743,
+    "display": "12:23"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short right to #5 D.Ross caught at PSU23, for 4 yards to the PSU28 (#8 A.Reese)",
+   "shortText": "E. Grunkemeyer pass to D. Ross for 4 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 76,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 72,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288925",
+   "wallclock": "2025-11-01T18:40:48Z"
+  },
+  {
+   "id": "401752889551",
+   "sequence": 117,
+   "period": 4,
+   "clock": {
+    "seconds": 743,
+    "display": "12:23"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "Shotgun #17 E.Grunkemeyer sacked for loss of 14 yards to the PSU14 (#97 K.Jackson Jr.) PENALTY PSU Illegal Motion declined",
+   "shortText": "E. Grunkemeyer sacked  by K. Jackson Jr. for -14 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -14,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 72,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 4,
+    "distance": 21,
+    "yardsToEndzone": 86,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288925",
+   "wallclock": "2025-11-01T18:41:35Z"
+  },
+  {
+   "id": "401752889556",
+   "sequence": 118,
+   "period": 4,
+   "clock": {
+    "seconds": 639,
+    "display": "10:39"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "#99 G.Nwosu punt 48 yards to the OSU38 fair catch by #1 B.Inniss at OSU38",
+   "shortText": "G. Nwosu punt for 48 yds",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 21,
+    "yardsToEndzone": 86,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288925",
+   "wallclock": "2025-11-01T18:42:42Z"
+  },
+  {
+   "id": "401752889561",
+   "sequence": 119,
+   "period": 4,
+   "clock": {
+    "seconds": 639,
+    "display": "10:39"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #25 B.Jackson rush left for 51 yards gain to the PSU11 (#4 A.Harris), out of bounds, 1ST DOWN",
+   "shortText": "Bo Jackson run for 51 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 31,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 51,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 11,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288926",
+   "wallclock": "2025-11-01T18:46:07Z"
+  },
+  {
+   "id": "401752889565",
+   "sequence": 120,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "Shotgun #10 J.Sayin pass complete short middle to #4 J.Smith caught at PSU01, for 11 yards to the PSU00 TOUCHDOWN, clock 09:43, 1ST DOWN #38 J.Fielding kick attempt good (H: #42 J.McGuire, LS: #43 J.Ferlmann)",
+   "shortText": "Jeremiah Smith 11 Yd pass from Julian Sayin (Jayden Fielding Kick)",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 11,
+    "teamId": "194"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288926",
+   "wallclock": "2025-11-01T18:46:56Z"
+  },
+  {
+   "id": "401752889573",
+   "sequence": 122,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "#38 J.Fielding kickoff 65 yards to the PSU00, Touchback",
+   "shortText": "J. Fielding kickoff for 65 yds for a touchback",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:47:41Z"
+  },
+  {
+   "id": "401752889576",
+   "sequence": 123,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "Shotgun #17 E.Grunkemeyer sacked for loss of 6 yards to the PSU19 (#96 E.Houston), fumble by #17 E.Grunkemeyer recovered by PSU #66 D.Shelton at PSU19, End Of Play",
+   "shortText": "E. Grunkemeyer sacked , D. Shelton fumbled,  returned",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 16,
+    "yardsToEndzone": 81,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:52:25Z"
+  },
+  {
+   "id": "401752889584",
+   "sequence": 124,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short left to #8 T.Pena caught at PSU16, for 1 yard to the PSU20 (#98 K.McDonald; #1 D.Igbinosun)",
+   "shortText": "E. Grunkemeyer pass to T. Peña for 1 yd",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 16,
+    "yardsToEndzone": 81,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 15,
+    "yardsToEndzone": 80,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:52:43Z"
+  },
+  {
+   "id": "401752889589",
+   "sequence": 125,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short left to #1 K.Hudson caught at PSU38, for 18 yards to the PSU38, out of bounds at PSU38, 1ST DOWN",
+   "shortText": "E. Grunkemeyer pass to K. Hudson for 18 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 18,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 15,
+    "yardsToEndzone": 80,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:53:25Z"
+  },
+  {
+   "id": "401752889594",
+   "sequence": 126,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush left for 2 yards gain to the PSU40 (#92 C.Curry)",
+   "shortText": "K. Allen run for 2 yds",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 60,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:53:57Z"
+  },
+  {
+   "id": "401752889598",
+   "sequence": 127,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete deep middle to #3 K.Howard caught at OSU36, for 26 yards to the OSU34 (#6 D.Sanchez), 1ST DOWN",
+   "shortText": "E. Grunkemeyer pass to K. Howard for 26 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 26,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 60,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 34,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:54:37Z"
+  },
+  {
+   "id": "401752889609",
+   "sequence": 128,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "No Huddle-Shotgun #17 E.Grunkemeyer pass incomplete deep middle to #16 K.Dinkins thrown to OSU14 PENALTY OSU UNR: Unnecessary Roughness (#2 C.Downs) 15 yards from OSU34 to OSU19, 1ST DOWN. NO PLAY. The previous play is under automatic review - \"Penalty enforcement\". CALL OVERTURNED. (Original Play: No Huddle-Shotgun #17 E.Grunkemeyer pass incomplete deep left to #16 K.Dinkins thrown to OSU14 PENALTY OSU Targeting (#2 C.Downs) 15 yards from OSU34 to OSU19, 1ST DOWN. NO PLAY)",
+   "shortText": "E. Grunkemeyer pass incomplete, Ohio State Penalty, unnecessaryroughness (C. Downs) for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 34,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:57:54Z"
+  },
+  {
+   "id": "401752889614",
+   "sequence": 129,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush middle for 9 yards gain to the OSU10 (#18 J.McClain)",
+   "shortText": "K. Allen run for 9 yds",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 10,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:58:11Z"
+  },
+  {
+   "id": "401752889618",
+   "sequence": 130,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #13 K.Allen rush middle for 0 yards to the OSU10 (#98 K.McDonald)",
+   "shortText": "K. Allen run for 0 yds",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 10,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 10,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:58:50Z"
+  },
+  {
+   "id": "401752889622",
+   "sequence": 131,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #10 N.Singleton rush middle for 1 yard gain to the OSU09 (#7 J.Mathews Jr.; #98 K.McDonald), 1ST DOWN",
+   "shortText": "N. Singleton run for 1 yd for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 10,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:59:22Z"
+  },
+  {
+   "id": "401752889626",
+   "sequence": 132,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "No Huddle-Shotgun #17 E.Grunkemeyer pass incomplete short left to #1 K.Hudson thrown to OSU00 broken up by #0 S.Styles",
+   "shortText": "E. Grunkemeyer pass incomplete",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T18:59:45Z"
+  },
+  {
+   "id": "401752889629",
+   "sequence": 133,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "Shotgun #17 E.Grunkemeyer pass complete short middle to #13 K.Allen caught at OSU09, for 2 yards to the OSU07 (#8 A.Reese)",
+   "shortText": "E. Grunkemeyer pass to K. Allen for 2 yds",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 7,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T19:00:25Z"
+  },
+  {
+   "id": "401752889634",
+   "sequence": 134,
+   "period": 4,
+   "clock": {
+    "seconds": 583,
+    "display": "9:43"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "Shotgun #17 E.Grunkemeyer pass incomplete short right to #8 T.Pena thrown to OSU05 QB hurried by #0 S.Styles and #92 C.Curry",
+   "shortText": "E. Grunkemeyer pass incomplete",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 7,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 7,
+    "teamId": "213"
+   },
+   "teamId": "213",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T19:01:15Z"
+  },
+  {
+   "id": "401752889637",
+   "sequence": 135,
+   "period": 4,
+   "clock": {
+    "seconds": 269,
+    "display": "4:29"
+   },
+   "typeId": "63",
+   "typeText": "Interception",
+   "text": "Shotgun #17 E.Grunkemeyer pass intercepted by #2 C.Downs at OSU00, Touchback",
+   "shortText": "E. Grunkemeyer pass intercepted for touchback.",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 7,
+    "teamId": "213"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 100,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288928",
+   "wallclock": "2025-11-01T19:01:48Z"
+  },
+  {
+   "id": "401752889645",
+   "sequence": 136,
+   "period": 4,
+   "clock": {
+    "seconds": 269,
+    "display": "4:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#25 B.Jackson rush left for 5 yards gain to the OSU25 (#16 K.Mack; #25 A.Tatsch)",
+   "shortText": "Bo Jackson run for 5 yds",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 75,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:02:57Z"
+  },
+  {
+   "id": "401752889649",
+   "sequence": 137,
+   "period": 4,
+   "clock": {
+    "seconds": 269,
+    "display": "4:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Shotgun #25 B.Jackson rush left for 9 yards gain to the OSU34 (#2 A.Collins; #3 A.Belgrave-Shorter), 1ST DOWN",
+   "shortText": "Bo Jackson run for 9 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 75,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 66,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:03:39Z"
+  },
+  {
+   "id": "401752889653",
+   "sequence": 138,
+   "period": 4,
+   "clock": {
+    "seconds": 269,
+    "display": "4:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#25 B.Jackson rush middle for 11 yards gain to the OSU45 (#6 Z.Wheatley; #28 Z.Durant), 1ST DOWN",
+   "shortText": "Bo Jackson run for 11 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 66,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:04:24Z"
+  },
+  {
+   "id": "401752889657",
+   "sequence": 139,
+   "period": 4,
+   "clock": {
+    "seconds": 269,
+    "display": "4:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#25 B.Jackson rush left for 3 yards gain to the OSU48 (#2 A.Collins)",
+   "shortText": "Bo Jackson run for 3 yds",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 52,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:05:09Z"
+  },
+  {
+   "id": "401752889663",
+   "sequence": 139,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout , clock 02:00",
+   "shortText": "Timeout , clock 02:00",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 55,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:05:40Z"
+  },
+  {
+   "id": "401752889661",
+   "sequence": 140,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#20 J.Peoples rush left for 5 yards gain to the PSU47 (#39 T.Blanding)",
+   "shortText": "J. Peoples run for 5 yds",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 52,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 47,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:08:15Z"
+  },
+  {
+   "id": "401752889666",
+   "sequence": 141,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#20 J.Peoples rush left for 1 yard gain to the PSU46 (#24 A.Campbell; #32 K.Wylie)",
+   "shortText": "J. Peoples run for 1 yd",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 47,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 46,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:09:51Z"
+  },
+  {
+   "id": "401752889670",
+   "sequence": 142,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "#10 J.Sayin rush middle for 4 yards gain to the PSU42 (#25 A.Tatsch; #54 X.Gilliam), 1ST DOWN",
+   "shortText": "J. Sayin run for 4 yds for a 1ST down",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 46,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:10:28Z"
+  },
+  {
+   "id": "401752889674",
+   "sequence": 143,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "Kneel down by #10 J.Sayin at PSU44 for loss of 2 yards",
+   "shortText": "J. Sayin takes a knee",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "194"
+   },
+   "end": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 44,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:11:25Z"
+  },
+  {
+   "id": "401752889679",
+   "sequence": 143,
+   "period": 4,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 4th quarter.",
+   "shortText": "End of 4th quarter.",
+   "awayScore": 14,
+   "homeScore": 38,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": null
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 44,
+    "teamId": "194"
+   },
+   "teamId": "194",
+   "driveId": "40175288929",
+   "wallclock": "2025-11-01T19:11:53Z"
+  }
+ ],
+ "drives": [
+  {
+   "id": "4017528892",
+   "sequence": 2,
+   "teamId": "213",
+   "endTeamId": "213",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 4,
+   "yards": 33,
+   "description": "4 plays, 33 yards, 2:35"
+  },
+  {
+   "id": "4017528893",
+   "sequence": 3,
+   "teamId": "194",
+   "endTeamId": "194",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 11,
+   "yards": 89,
+   "description": "11 plays, 89 yards, 6:10"
+  },
+  {
+   "id": "4017528895",
+   "sequence": 5,
+   "teamId": "213",
+   "endTeamId": "213",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 7,
+   "description": "3 plays, 7 yards, 1:34"
+  },
+  {
+   "id": "4017528896",
+   "sequence": 6,
+   "teamId": "194",
+   "endTeamId": "194",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 11,
+   "yards": 71,
+   "description": "11 plays, 71 yards, 5:33"
+  },
+  {
+   "id": "4017528898",
+   "sequence": 8,
+   "teamId": "213",
+   "endTeamId": "213",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 15,
+   "yards": 75,
+   "description": "15 plays, 75 yards, 7:50"
+  },
+  {
+   "id": "40175288910",
+   "sequence": 10,
+   "teamId": "194",
+   "endTeamId": "194",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 6,
+   "yards": 75,
+   "description": "6 plays, 75 yards, 2:37"
+  },
+  {
+   "id": "40175288912",
+   "sequence": 12,
+   "teamId": "213",
+   "endTeamId": "213",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 12,
+   "description": "6 plays, 12 yards, 1:36"
+  },
+  {
+   "id": "40175288913",
+   "sequence": 13,
+   "teamId": "194",
+   "endTeamId": "213",
+   "result": "FUMBLE",
+   "displayResult": "Fumble",
+   "isScore": false,
+   "offensivePlays": 1,
+   "yards": -7,
+   "description": "1 play, -7 yards, 0:12"
+  },
+  {
+   "id": "40175288914",
+   "sequence": 14,
+   "teamId": "213",
+   "endTeamId": "213",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 4,
+   "yards": 14,
+   "description": "4 plays, 14 yards, 1:28"
+  },
+  {
+   "id": "40175288916",
+   "sequence": 16,
+   "teamId": "194",
+   "endTeamId": "194",
+   "result": "END OF HALF",
+   "displayResult": "End of Half",
+   "isScore": false,
+   "offensivePlays": 1,
+   "yards": -1,
+   "description": "1 play, -1 yard, 0:20"
+  },
+  {
+   "id": "40175288918",
+   "sequence": 18,
+   "teamId": "194",
+   "endTeamId": "194",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 5,
+   "yards": 75,
+   "description": "5 plays, 75 yards, 2:42"
+  },
+  {
+   "id": "40175288920",
+   "sequence": 20,
+   "teamId": "213",
+   "endTeamId": "213",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 7,
+   "yards": 16,
+   "description": "7 plays, 16 yards, 4:22"
+  },
+  {
+   "id": "40175288921",
+   "sequence": 21,
+   "teamId": "194",
+   "endTeamId": "194",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 7,
+   "yards": 84,
+   "description": "7 plays, 84 yards, 4:31"
+  },
+  {
+   "id": "40175288923",
+   "sequence": 23,
+   "teamId": "213",
+   "endTeamId": "213",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 6,
+   "yards": 2,
+   "description": "6 plays, 2 yards, 3:14"
+  },
+  {
+   "id": "40175288924",
+   "sequence": 24,
+   "teamId": "194",
+   "endTeamId": "194",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 4,
+   "yards": 17,
+   "description": "4 plays, 17 yards, 2:37"
+  },
+  {
+   "id": "40175288925",
+   "sequence": 25,
+   "teamId": "213",
+   "endTeamId": "213",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": -11,
+   "description": "3 plays, -11 yards, 1:44"
+  },
+  {
+   "id": "40175288926",
+   "sequence": 26,
+   "teamId": "194",
+   "endTeamId": "194",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 2,
+   "yards": 62,
+   "description": "2 plays, 62 yards, 0:56"
+  },
+  {
+   "id": "40175288928",
+   "sequence": 28,
+   "teamId": "213",
+   "endTeamId": "213",
+   "result": "INT",
+   "displayResult": "Interception",
+   "isScore": false,
+   "offensivePlays": 12,
+   "yards": 68,
+   "description": "12 plays, 68 yards, 5:14"
+  },
+  {
+   "id": "40175288929",
+   "sequence": 29,
+   "teamId": "194",
+   "endTeamId": "194",
+   "result": "END OF GAME",
+   "displayResult": "End Of Game",
+   "isScore": false,
+   "offensivePlays": 8,
+   "yards": 36,
+   "description": "8 plays, 36 yards, 4:29"
+  }
+ ]
+}

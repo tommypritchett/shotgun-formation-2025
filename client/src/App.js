@@ -18,6 +18,12 @@ import { pourPhase } from './lib/phases';
 import useEscape from './lib/useEscape';
 import { BOARD_IDLE_REVERT_MS, shouldRevertToStandings } from './lib/board';
 import { SOCKET_OPTIONS } from './lib/socket-options';
+import { sourceLine } from './lib/round-source';
+import CallFeed from './components/CallFeed';
+import CardDial from './components/CardDial';
+import SuggestionPrompt from './components/SuggestionPrompt';
+import GamePicker from './components/GamePicker';
+import LiveScore from './components/LiveScore';
 import CardSheet from './components/CardSheet';
 import ConnectingScreen from './components/ConnectingScreen';
 import DrinkAssigner from './components/DrinkAssigner';
@@ -124,6 +130,9 @@ class ErrorBoundary extends Component {
   }
 }
 
+/** How long a suggestion stays on offer before it expires quietly. */
+const SUGGESTION_SECONDS = 20;
+
 // SPREAD, always. `io()` hands this object straight to the Manager, which
 // writes its default onto it (`opts.path = opts.path || "/socket.io"`).
 // SOCKET_OPTIONS is frozen, so passing it directly throws a TypeError here at
@@ -169,6 +178,31 @@ function App() {
   const sentPoursRef = useRef({ drinks: {}, shotguns: {} });
   const isDistributingRef = useRef(false);
   const gameStateRef = useRef('initial');
+
+  // ── Live game tracking ──────────────────────────────────────────────────
+  // Entirely additive. A room that never attaches a game has `watching` null
+  // and every one of these stays empty, so the game behaves exactly as before.
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [pickerLeague, setPickerLeague] = useState('nfl');
+  const [pickerQuery, setPickerQuery] = useState('');
+  const [pickerRanked, setPickerRanked] = useState(true);
+  const [gameList, setGameList] = useState([]);
+  const [gameListLoading, setGameListLoading] = useState(false);
+  const [gameListError, setGameListError] = useState(null);
+  const [watching, setWatching] = useState(null);
+  const [callEntries, setCallEntries] = useState([]);
+  const [callFeedOpen, setCallFeedOpen] = useState(false);
+  const [dialOpen, setDialOpen] = useState(false);
+  const [cardModes, setCardModes] = useState({});
+  const [cardDefaults, setCardDefaults] = useState({});
+  const [autoCallPaused, setAutoCallPaused] = useState(false);
+  // A suggestion is a question. It expires on its own rather than lingering.
+  const [suggestion, setSuggestion] = useState(null);
+  const [suggestionLeft, setSuggestionLeft] = useState(0);
+  // Its own state rather than the round's message, which round logic clears.
+  const [feedNotice, setFeedNotice] = useState('');
+  // Who started the round now on screen. Null until the server says.
+  const [roundSource, setRoundSource] = useState(null);
   
   // Who holds the whistle, as the SERVER last told us. `isHost` is derived from
   // it rather than stored, so there is exactly one thing to keep honest — and
@@ -485,6 +519,48 @@ const abandonRejoin = () => {
   setGameState('initial');
 };
 
+// ── Live game tracking handlers ───────────────────────────────────────────
+
+/** A stable, human key for a feed entry, so React does not reorder rows. */
+let callSeq = 0;
+const clockNow = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+const openPicker = (league = pickerLeague) => {
+  setPickerOpen(true);
+  requestGames(league);
+};
+
+const requestGames = (league) => {
+  setPickerLeague(league);
+  setGameListLoading(true);
+  setGameListError(null);
+  socket.emit('listGames', { league });
+};
+
+const handlePickGame = (game) => {
+  if (!game || !game.id) return;
+  socket.emit('attachGame', { roomCode: roomCodeRef.current, league: game.league || pickerLeague, gameId: game.id });
+  setPickerOpen(false);
+};
+
+const handleDetachGame = () => {
+  socket.emit('detachGame', { roomCode: roomCodeRef.current });
+};
+
+const handleCardMode = (cardId, mode) => {
+  socket.emit('setCardMode', { roomCode: roomCodeRef.current, cardId, mode });
+};
+
+const handlePauseAutoCall = (paused) => {
+  socket.emit('pauseAutoCall', { roomCode: roomCodeRef.current, paused });
+};
+
+const handleAcceptSuggestion = (offer) => {
+  if (!offer) return;
+  socket.emit('acceptSuggestion', { roomCode: roomCodeRef.current, cardId: offer.cardId });
+  setSuggestion(null);
+};
+
 // Handle Leave Game logic
 const handleLeaveGame = () => {
   // Emit a custom 'leaveGame' event to the server
@@ -498,6 +574,10 @@ const handleLeaveGame = () => {
   setDeclaredCard('');  // Clear declared card
   forgetSavedGame();  // ...and do not try to rejoin this game on the next load
   clearURL();
+  setWatching(null);   // a game you have left is not a game you are watching
+  setCallEntries([]);
+  setSuggestion(null);
+  setAutoCallPaused(false);
 };
 
 // Function to close the menu (X button)
@@ -588,6 +668,22 @@ useEffect(() => { roomCodeRef.current = roomCode; }, [roomCode]);
 // The auto-rejoin effect runs once and its timeouts fire ten seconds later,
 // long after their closure went stale. They read the game state from here.
 useEffect(() => { gameStateRef.current = gameState; }, [gameState]);
+
+// A suggestion is an offer with a clock on it. When it runs out it disappears
+// rather than sitting there looking live.
+useEffect(() => {
+  if (!suggestion) return undefined;
+  if (suggestionLeft <= 0) { setSuggestion(null); return undefined; }
+  const timer = setTimeout(() => setSuggestionLeft((n) => n - 1), 1000);
+  return () => clearTimeout(timer);
+}, [suggestion, suggestionLeft]);
+
+// The one-off "the feed is calling" line clears itself.
+useEffect(() => {
+  if (!feedNotice) return undefined;
+  const timer = setTimeout(() => setFeedNotice(''), 12000);
+  return () => clearTimeout(timer);
+}, [feedNotice]);
 
 /**
  * The handoff sheet closes when the server confirms, not when the Ref taps.
@@ -1572,6 +1668,9 @@ useEffect(() => {
   socket.on('declaredCard', (cardType) => {
     console.log('New card declared:', cardType);
     setDeclaredCard(cardType);  // Update the state with the declared card
+    // `declaredCard: null` is the finalize reset. Drop the attribution with it,
+    // so last round's "the game called it" cannot sit over the Ref's next call.
+    if (!cardType) setRoundSource(null);
     
     // ✅ CRITICAL FIX: Reset hasMatchingCardForCurrentEvent when new card is declared
     // This ensures that only players with the NEW card can distribute drinks
@@ -1917,6 +2016,91 @@ socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
 
 
 // Handle when the game is over due to all players disconnecting
+// ── Live game tracking: what the server tells us ──────────────────────────
+//
+// Every one of these is inert until the Ref attaches a game. `playAutoCalled`
+// is NOT a declaration — Part A deliberately calls nothing. It is the feed of
+// what the system WOULD have called, with the 45s broadcast delay already
+// applied server-side, which is what makes the pacing judgeable by watching.
+socket.off('gameList');
+socket.on('gameList', ({ league, games, error }) => {
+  setGameListLoading(false);
+  setGameListError(error || null);
+  setGameList(Array.isArray(games) ? games : []);
+  if (league) setPickerLeague(league);
+});
+
+socket.off('gameAttached');
+socket.on('gameAttached', (payload) => {
+  setWatching({ ...payload, error: null, ended: false });
+  setCallEntries([]);
+  setCardModes(payload.cardModes || {});
+  setCardDefaults(payload.cardDefaults || {});
+  setAutoCallPaused(Boolean(payload.autoCallPaused));
+  // Said once, plainly: people should not have to work out why rounds are
+  // starting on their own.
+  if (payload.announce) setFeedNotice(payload.announce);
+});
+
+socket.off('gameDetached');
+socket.on('gameDetached', () => {
+  setWatching(null);
+});
+
+socket.off('gameFeedUpdate');
+socket.on('gameFeedUpdate', (payload) => {
+  setWatching((prev) => (prev ? { ...prev, ...payload, error: null } : prev));
+});
+
+socket.off('gameFeedEnded');
+socket.on('gameFeedEnded', ({ reason } = {}) => {
+  // Say so rather than freezing on a stale score.
+  setWatching((prev) => (prev ? { ...prev, ended: true, endedReason: reason || null } : prev));
+});
+
+socket.off('playAutoCalled');
+socket.on('playAutoCalled', ({ cardId, reason, playId } = {}) => {
+  if (!cardId) return;
+  callSeq += 1;
+  setCallEntries((prev) => [
+    { key: `${playId || 'x'}-${cardId}-${callSeq}`, cardId, reason: reason || '', at: clockNow(), suggestion: false },
+    ...prev,
+  ].slice(0, 100));
+});
+
+socket.off('playSuggested');
+socket.on('playSuggested', ({ cardId, reason, playId } = {}) => {
+  if (!cardId) return;
+  callSeq += 1;
+  setCallEntries((prev) => [
+    { key: `${playId || 'x'}-${cardId}-s${callSeq}`, cardId, reason: reason || '', at: clockNow(), suggestion: true },
+    ...prev,
+  ].slice(0, 100));
+  // Offer it to the Ref with a countdown. Ignoring it lets it expire.
+  setSuggestion({ cardId, reason: reason || '', playId });
+  setSuggestionLeft(SUGGESTION_SECONDS);
+});
+
+socket.off('roundSource');
+socket.on('roundSource', (payload) => setRoundSource(payload || null));
+
+socket.off('cardModes');
+socket.on('cardModes', ({ cardModes: modes } = {}) => setCardModes(modes || {}));
+
+socket.off('autoCallPaused');
+socket.on('autoCallPaused', ({ paused } = {}) => setAutoCallPaused(Boolean(paused)));
+
+socket.off('playSkipped');
+socket.on('playSkipped', ({ cardId, reason } = {}) => {
+  if (!cardId) return;
+  callSeq += 1;
+  setCallEntries((prev) => [
+    { key: `skip-${cardId}-${callSeq}`, cardId, reason: `not called — ${reason}`,
+      at: clockNow(), suggestion: false, skipped: true },
+    ...prev,
+  ].slice(0, 100));
+});
+
 socket.off('gameOver');
 socket.on('gameOver', (message) => {
   alert(message);  // Notify the players
@@ -2266,16 +2450,62 @@ socket.on('gameOver', (message) => {
           isHost={isHost}
           onDeclare={handleDeclareAction}
           noCardMessage={noCardMessage || actionMessage}
+          watching={watching}
+          onWatchGame={isHost ? () => openPicker() : undefined}
+          onDetachGame={isHost ? handleDetachGame : undefined}
+          callEntries={callEntries}
+          callFeedOpen={callFeedOpen}
+          onCallFeedToggle={() => setCallFeedOpen((v) => !v)}
+          autoCallPaused={autoCallPaused}
+          feedNotice={feedNotice}
+          onOpenDial={isHost ? () => setDialOpen(true) : undefined}
+          suggestion={isHost ? suggestion : null}
+          suggestionLeft={suggestionLeft}
+          onAcceptSuggestion={handleAcceptSuggestion}
+          onDismissSuggestion={() => setSuggestion(null)}
         />
+
+        {dialOpen && (
+          <div className="assigner-overlay">
+            <CardDial
+              modes={cardModes}
+              defaults={cardDefaults}
+              paused={autoCallPaused}
+              onPause={handlePauseAutoCall}
+              onMode={handleCardMode}
+              onClose={() => setDialOpen(false)}
+            />
+          </div>
+        )}
+
+        {pickerOpen && (
+          <div className="assigner-overlay">
+            <GamePicker
+              league={pickerLeague}
+              games={gameList}
+              loading={gameListLoading}
+              error={gameListError}
+              query={pickerQuery}
+              onlyRanked={pickerRanked}
+              onQuery={setPickerQuery}
+              onOnlyRanked={setPickerRanked}
+              onLeague={requestGames}
+              onPick={handlePickGame}
+              onClose={() => setPickerOpen(false)}
+            />
+          </div>
+        )}
 
         {assignerOpen && (
           <div className="assigner-overlay">
             <DrinkAssigner
               card={declaredCardRecord}
               copies={copiesHeld}
-              source={declaredCardRecord && declaredCardRecord.deck === DECK.WILD
-                ? 'Called · Ref confirmed'
-                : 'The Ref declared'}
+              watching={watching}
+              source={sourceLine(
+                roundSource,
+                Boolean(declaredCardRecord && declaredCardRecord.deck === DECK.WILD)
+              )}
               secondsLeft={timeRemaining}
               fraction={timeRemaining / roundDuration}
               tier={declaredCardRecord ? tierFor(declaredCardRecord) : 'amber'}

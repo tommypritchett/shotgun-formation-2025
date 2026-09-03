@@ -1,0 +1,5845 @@
+{
+ "league": "college-football",
+ "gameId": "401752898",
+ "capturedAt": "2026-09-01T19:55:12.797Z",
+ "name": "IOWA 16 - ORE 18",
+ "teams": [
+  {
+   "id": "2294",
+   "abbreviation": "IOWA",
+   "displayName": "Iowa Hawkeyes",
+   "score": 16,
+   "homeAway": "home"
+  },
+  {
+   "id": "2483",
+   "abbreviation": "ORE",
+   "displayName": "Oregon Ducks",
+   "score": 18,
+   "homeAway": "away"
+  }
+ ],
+ "periods": 4,
+ "playCount": 160,
+ "driveCount": 18,
+ "plays": [
+  {
+   "id": "4017528982",
+   "sequence": 0,
+   "period": 1,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "70",
+   "typeText": "Coin Toss",
+   "text": "Oregon wins the toss, and defers. Iowa to receive. Oregon defends.",
+   "shortText": "Oregon wins the toss, and defers. Iowa to receive. Oregon defends.",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 0,
+    "teamId": null
+   },
+   "teamId": null,
+   "driveId": null,
+   "wallclock": null
+  },
+  {
+   "id": "4017528983",
+   "sequence": 1,
+   "period": 1,
+   "clock": {
+    "seconds": 895,
+    "display": "14:55"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(14:59) #36 A.Sappington kickoff 65 yards to the IOWA00 #21 K.Wetjen return 21 yards to the IOWA21 (#38 W.Straton)",
+   "shortText": "K. Wetjen returns for 21 yds, A. Sappington kickoff for 65 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 21,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528982",
+   "wallclock": "2025-11-08T20:42:44Z"
+  },
+  {
+   "id": "40175289814",
+   "sequence": 2,
+   "period": 1,
+   "clock": {
+    "seconds": 889,
+    "display": "14:49"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:53) Shotgun #28 K.Moulton rush middle for 1 yard gain to the IOWA22 (#28 B.Boettcher)",
+   "shortText": "K. Moulton run for 1 yd",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 79,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 78,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528982",
+   "wallclock": "2025-11-08T20:43:33Z"
+  },
+  {
+   "id": "40175289818",
+   "sequence": 3,
+   "period": 1,
+   "clock": {
+    "seconds": 844,
+    "display": "14:04"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(14:16) Shotgun #11 M.Gronowski pass complete short left to #21 K.Wetjen caught at IOWA16, for 3 yards to the IOWA25 (#28 B.Boettcher)",
+   "shortText": "M. Gronowski pass to K. Wetjen for 3 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 78,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 75,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528982",
+   "wallclock": "2025-11-08T20:44:14Z"
+  },
+  {
+   "id": "40175289823",
+   "sequence": 4,
+   "period": 1,
+   "clock": {
+    "seconds": 806,
+    "display": "13:26"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(13:29) Shotgun #11 M.Gronowski pass incomplete short right to #5 J.Gill thrown to IOWA35",
+   "shortText": "M. Gronowski pass incomplete",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 75,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 75,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528982",
+   "wallclock": "2025-11-08T20:45:02Z"
+  },
+  {
+   "id": "40175289826",
+   "sequence": 5,
+   "period": 1,
+   "clock": {
+    "seconds": 798,
+    "display": "13:18"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(13:25) #9 R.Dakin punt 27 yards to the OREGON48, out of bounds at OREGON48",
+   "shortText": "R. Dakin punt for 27 yds, punt out-of-bounds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 75,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528982",
+   "wallclock": "2025-11-08T20:45:47Z"
+  },
+  {
+   "id": "40175289831",
+   "sequence": 6,
+   "period": 1,
+   "clock": {
+    "seconds": 794,
+    "display": "13:14"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(13:16) Shotgun #5 D.Moore pass incomplete short left to #11 J.McClellan thrown to OREGON50",
+   "shortText": "Dan. Moore pass incomplete",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528983",
+   "wallclock": "2025-11-08T20:46:36Z"
+  },
+  {
+   "id": "40175289834",
+   "sequence": 7,
+   "period": 1,
+   "clock": {
+    "seconds": 790,
+    "display": "13:10"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(13:13) No Huddle-Shotgun #5 D.Moore pass incomplete short right to #6 N.Whittington thrown to IOWA46",
+   "shortText": "Dan. Moore pass incomplete",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528983",
+   "wallclock": "2025-11-08T20:47:08Z"
+  },
+  {
+   "id": "40175289837",
+   "sequence": 8,
+   "period": 1,
+   "clock": {
+    "seconds": 785,
+    "display": "13:05"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(13:09) No Huddle-Shotgun #5 D.Moore pass incomplete short middle to #4 M.Benson thrown to IOWA35",
+   "shortText": "Dan. Moore pass incomplete",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528983",
+   "wallclock": "2025-11-08T20:47:51Z"
+  },
+  {
+   "id": "40175289840",
+   "sequence": 9,
+   "period": 1,
+   "clock": {
+    "seconds": 776,
+    "display": "12:56"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(13:03) #46 J.Ferguson-Reynolds punt 52 yards to the IOWA00, Touchback",
+   "shortText": "J. Ferguson-Reynolds punt for 52 yds for a touchback",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 20,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528983",
+   "wallclock": "2025-11-08T20:48:24Z"
+  },
+  {
+   "id": "40175289844",
+   "sequence": 10,
+   "period": 1,
+   "clock": {
+    "seconds": 770,
+    "display": "12:50"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:56) Shotgun #11 M.Gronowski rush middle for 4 yards gain to the IOWA24 (#54 J.Mixon)",
+   "shortText": "M. Gronowski run for 4 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 76,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528984",
+   "wallclock": "2025-11-08T20:51:49Z"
+  },
+  {
+   "id": "40175289848",
+   "sequence": 11,
+   "period": 1,
+   "clock": {
+    "seconds": 726,
+    "display": "12:06"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:12) #28 K.Moulton rush middle for 7 yards gain to the IOWA31 (#54 J.Mixon), 1ST DOWN",
+   "shortText": "K. Moulton run for 7 yds for a 1ST down",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 76,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528984",
+   "wallclock": "2025-11-08T20:52:33Z"
+  },
+  {
+   "id": "40175289852",
+   "sequence": 12,
+   "period": 1,
+   "clock": {
+    "seconds": 682,
+    "display": "11:22"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:25) Shotgun #28 K.Moulton rush middle for 5 yards gain to the IOWA36 (#31 D.Thieneman; #28 B.Boettcher)",
+   "shortText": "K. Moulton run for 5 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 64,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528984",
+   "wallclock": "2025-11-08T20:53:18Z"
+  },
+  {
+   "id": "40175289856",
+   "sequence": 13,
+   "period": 1,
+   "clock": {
+    "seconds": 639,
+    "display": "10:39"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:47) #28 K.Moulton rush left for 3 yards gain to the IOWA39 (#31 D.Thieneman)",
+   "shortText": "K. Moulton run for 3 yds",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 64,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 61,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528984",
+   "wallclock": "2025-11-08T20:54:00Z"
+  },
+  {
+   "id": "40175289860",
+   "sequence": 14,
+   "period": 1,
+   "clock": {
+    "seconds": 603,
+    "display": "10:03"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(10:05) Shotgun #11 M.Gronowski pass incomplete short left to #5 J.Gill thrown to IOWA42",
+   "shortText": "M. Gronowski pass incomplete",
+   "awayScore": 0,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 61,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 61,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528984",
+   "wallclock": "2025-11-08T20:54:42Z"
+  },
+  {
+   "id": "40175289863",
+   "sequence": 15,
+   "period": 1,
+   "clock": {
+    "seconds": 595,
+    "display": "9:55"
+   },
+   "typeId": "20",
+   "typeText": "Safety",
+   "text": "(09:55) Iowa rush middle for 39 yards loss to the IOWA00, End Of Play. Oregon SAFETY, clock 09:55 PENALTY IOWA Illegal Bat (#9 R.Dakin) -1 yard from IOWA00 to IOWA20",
+   "shortText": "Team Safety ",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 2,
+   "scoringPlay": true,
+   "yards": -39,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 2,
+    "yardsToEndzone": 61,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": -1,
+    "distance": 41,
+    "yardsToEndzone": 0,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528984",
+   "wallclock": "2025-11-08T20:57:01Z"
+  },
+  {
+   "id": "40175289870",
+   "sequence": 16,
+   "period": 1,
+   "clock": {
+    "seconds": 591,
+    "display": "9:51"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(09:55) #18 D.Stevens kickoff 58 yards to the OREGON22 #6 N.Whittington return 11 yards to the OREGON33 (#25 K.Telander)",
+   "shortText": "D. Stevens kickoff for 58 yds, N. Whittington returns for 11 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:00:25Z"
+  },
+  {
+   "id": "40175289875",
+   "sequence": 17,
+   "period": 1,
+   "clock": {
+    "seconds": 585,
+    "display": "9:45"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(09:49) No Huddle-Shotgun #6 N.Whittington rush right for 9 yards gain to the OREGON42 (#4 K.Entringer)",
+   "shortText": "N. Whittington run for 9 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 58,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:01:01Z"
+  },
+  {
+   "id": "40175289879",
+   "sequence": 18,
+   "period": 1,
+   "clock": {
+    "seconds": 567,
+    "display": "9:27"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(09:33) No Huddle-Shotgun #6 N.Whittington rush left for 2 yards gain to the OREGON44 (#49 E.Hurkett; #48 M.Llewellyn), 1ST DOWN",
+   "shortText": "N. Whittington run for 2 yds for a 1ST down",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 58,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:01:25Z"
+  },
+  {
+   "id": "40175289883",
+   "sequence": 19,
+   "period": 1,
+   "clock": {
+    "seconds": 536,
+    "display": "8:56"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:59) No Huddle-Shotgun #6 N.Whittington rush middle for 6 yards gain to the OREGON50 (#1 X.Nwankpa; #12 J.Rexroth)",
+   "shortText": "N. Whittington run for 6 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 50,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:01:58Z"
+  },
+  {
+   "id": "40175289887",
+   "sequence": 20,
+   "period": 1,
+   "clock": {
+    "seconds": 504,
+    "display": "8:24"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:29) No Huddle-Shotgun #6 N.Whittington rush middle for 8 yards gain to the IOWA42 (#4 K.Entringer; #43 K.Sharar), 1ST DOWN",
+   "shortText": "N. Whittington run for 8 yds for a 1ST down",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 50,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:02:31Z"
+  },
+  {
+   "id": "40175289891",
+   "sequence": 21,
+   "period": 1,
+   "clock": {
+    "seconds": 463,
+    "display": "7:43"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:48) No Huddle-Shotgun #23 D.Hill Jr rush right for 2 yards gain to the IOWA40 (#4 K.Entringer; #48 M.Llewellyn)",
+   "shortText": "D. Hill Jr. run for 2 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 40,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:03:11Z"
+  },
+  {
+   "id": "40175289895",
+   "sequence": 22,
+   "period": 1,
+   "clock": {
+    "seconds": 424,
+    "display": "7:04"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(07:18) No Huddle-Shotgun #5 D.Moore pass complete short middle to #2 G.Bryant Jr. caught at IOWA21, for 22 yards to the IOWA18 (#8 D.Lee), 1ST DOWN",
+   "shortText": "Dan. Moore pass to G. Bryant Jr. for 22 yds for a 1ST down",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 22,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 40,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 18,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:03:42Z"
+  },
+  {
+   "id": "401752898100",
+   "sequence": 23,
+   "period": 1,
+   "clock": {
+    "seconds": 389,
+    "display": "6:29"
+   },
+   "typeId": "9",
+   "typeText": "Fumble Recovery (Own)",
+   "text": "(06:54) Shotgun #5 D.Moore rush right for 1 yard loss to the IOWA19 fumbled by #5 D.Moore at IOWA19 recovered by OREGON #5 D.Moore at IOWA19, End Of Play",
+   "shortText": "Dan. Moore run for -1 yd, Dan. Moore fumbled, recovered by Dan. Moore, Dan. Moore returned",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 18,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 19,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:07:43Z"
+  },
+  {
+   "id": "401752898106",
+   "sequence": 24,
+   "period": 1,
+   "clock": {
+    "seconds": 372,
+    "display": "6:12"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:16) No Huddle-Shotgun #0 J.Davison rush right for 1 yard gain to the IOWA18 (#95 A.Graves; #43 K.Sharar)",
+   "shortText": "J. Davison run for 1 yd",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 19,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 18,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:08:07Z"
+  },
+  {
+   "id": "401752898110",
+   "sequence": 25,
+   "period": 1,
+   "clock": {
+    "seconds": 342,
+    "display": "5:42"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "PENALTY OREGON False Start (#78 G.Wilson) 5 yards from IOWA18 to IOWA23. NO PLAY",
+   "shortText": "Oregon Penalty, falsestart (G. Wilson)",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 18,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 15,
+    "yardsToEndzone": 23,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:08:47Z"
+  },
+  {
+   "id": "401752898113",
+   "sequence": 26,
+   "period": 1,
+   "clock": {
+    "seconds": 316,
+    "display": "5:16"
+   },
+   "typeId": "63",
+   "typeText": "Interception",
+   "text": "(05:22) No Huddle-Shotgun #5 D.Moore pass intercepted by #8 D.Lee at IOWA00, Touchback",
+   "shortText": "Dan. Moore pass intercepted for touchback.",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 15,
+    "yardsToEndzone": 23,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 100,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528986",
+   "wallclock": "2025-11-08T21:09:28Z"
+  },
+  {
+   "id": "401752898117",
+   "sequence": 27,
+   "period": 1,
+   "clock": {
+    "seconds": 312,
+    "display": "5:12"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(05:15) Shotgun #11 M.Gronowski pass incomplete short right to #28 K.Moulton thrown to IOWA21",
+   "shortText": "M. Gronowski pass incomplete",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528987",
+   "wallclock": "2025-11-08T21:13:06Z"
+  },
+  {
+   "id": "401752898120",
+   "sequence": 28,
+   "period": 1,
+   "clock": {
+    "seconds": 304,
+    "display": "5:04"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:11) #28 K.Moulton rush right for 3 yards gain to the IOWA23 (#28 B.Boettcher; #54 J.Mixon)",
+   "shortText": "K. Moulton run for 3 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 77,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528987",
+   "wallclock": "2025-11-08T21:13:48Z"
+  },
+  {
+   "id": "401752898124",
+   "sequence": 29,
+   "period": 1,
+   "clock": {
+    "seconds": 262,
+    "display": "4:22"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:30) Shotgun #11 M.Gronowski rush middle for 8 yards gain to the IOWA31 (#21 A.Flowers), 1ST DOWN",
+   "shortText": "M. Gronowski run for 8 yds for a 1ST down",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 77,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528987",
+   "wallclock": "2025-11-08T21:14:27Z"
+  },
+  {
+   "id": "401752898128",
+   "sequence": 30,
+   "period": 1,
+   "clock": {
+    "seconds": 222,
+    "display": "3:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:47) #4 J.Patterson rush middle for 5 yards gain to the IOWA36 (#54 J.Mixon)",
+   "shortText": "J. Patterson run for 5 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 64,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528987",
+   "wallclock": "2025-11-08T21:15:10Z"
+  },
+  {
+   "id": "401752898132",
+   "sequence": 31,
+   "period": 1,
+   "clock": {
+    "seconds": 178,
+    "display": "2:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:05) #4 J.Patterson rush right for 5 yards gain to the IOWA41 (#31 D.Thieneman), 1ST DOWN",
+   "shortText": "J. Patterson run for 5 yds for a 1ST down",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 64,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528987",
+   "wallclock": "2025-11-08T21:15:54Z"
+  },
+  {
+   "id": "401752898136",
+   "sequence": 32,
+   "period": 1,
+   "clock": {
+    "seconds": 136,
+    "display": "2:16"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:23) #28 K.Moulton rush right for 4 yards gain to the IOWA45 (#99 T.Green)",
+   "shortText": "K. Moulton run for 4 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 59,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 55,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528987",
+   "wallclock": "2025-11-08T21:16:34Z"
+  },
+  {
+   "id": "401752898140",
+   "sequence": 33,
+   "period": 1,
+   "clock": {
+    "seconds": 99,
+    "display": "1:39"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(01:44) #11 M.Gronowski sacked for loss of 8 yards to the IOWA37 (#44 T.Tuioti)",
+   "shortText": "M. Gronowski sacked  by T. Tuioti for -8 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 55,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 63,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528987",
+   "wallclock": "2025-11-08T21:17:15Z"
+  },
+  {
+   "id": "401752898144",
+   "sequence": 34,
+   "period": 1,
+   "clock": {
+    "seconds": 53,
+    "display": "0:53"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(01:01) Shotgun #11 M.Gronowski pass incomplete deep left to #5 J.Gill thrown to OREGON40 QB hurried by #29 A.Porter",
+   "shortText": "M. Gronowski pass incomplete",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 14,
+    "yardsToEndzone": 63,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 4,
+    "distance": 14,
+    "yardsToEndzone": 63,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "4017528987",
+   "wallclock": "2025-11-08T21:18:03Z"
+  },
+  {
+   "id": "401752898147",
+   "sequence": 35,
+   "period": 1,
+   "clock": {
+    "seconds": 46,
+    "display": "0:46"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(00:48) #9 R.Dakin punt 45 yards to the OREGON18 fair catch by #4 M.Benson at OREGON18",
+   "shortText": "R. Dakin punt for 45 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 14,
+    "yardsToEndzone": 63,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 18,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528987",
+   "wallclock": "2025-11-08T21:18:40Z"
+  },
+  {
+   "id": "401752898151",
+   "sequence": 36,
+   "period": 1,
+   "clock": {
+    "seconds": 38,
+    "display": "0:38"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:45) No Huddle-Shotgun #6 N.Whittington rush middle for 7 yards gain to the OREGON25 (#2 T.Hall)",
+   "shortText": "N. Whittington run for 7 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 82,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 75,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528988",
+   "wallclock": "2025-11-08T21:19:31Z"
+  },
+  {
+   "id": "401752898155",
+   "sequence": 37,
+   "period": 1,
+   "clock": {
+    "seconds": 5,
+    "display": "0:05"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:05) No Huddle-Shotgun #6 N.Whittington rush middle for 3 yards gain to the OREGON28 (#36 J.Montgomery), 1ST DOWN",
+   "shortText": "N. Whittington run for 3 yds for a 1ST down",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 75,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528988",
+   "wallclock": "2025-11-08T21:20:11Z"
+  },
+  {
+   "id": "401752898161",
+   "sequence": 37,
+   "period": 1,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 1st quarter.",
+   "shortText": "End of 1st quarter.",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 3,
+    "yardsToEndzone": 25,
+    "teamId": null
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528988",
+   "wallclock": "2025-11-08T21:20:34Z"
+  },
+  {
+   "id": "401752898165",
+   "sequence": 38,
+   "period": 2,
+   "clock": {
+    "seconds": 893,
+    "display": "14:53"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(15:00) Shotgun #0 J.Davison rush left for 6 yards gain to the OREGON34 (#12 J.Rexroth)",
+   "shortText": "J. Davison run for 6 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 72,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 66,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528988",
+   "wallclock": "2025-11-08T21:24:50Z"
+  },
+  {
+   "id": "401752898171",
+   "sequence": 39,
+   "period": 2,
+   "clock": {
+    "seconds": 859,
+    "display": "14:19"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:25) No Huddle-Shotgun #23 D.Hill Jr rush middle for 4 yards gain to the OREGON38 (#1 X.Nwankpa; #36 J.Montgomery), 1ST DOWN",
+   "shortText": "D. Hill Jr. run for 4 yds for a 1ST down",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 66,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528988",
+   "wallclock": "2025-11-08T21:25:24Z"
+  },
+  {
+   "id": "401752898175",
+   "sequence": 40,
+   "period": 2,
+   "clock": {
+    "seconds": 816,
+    "display": "13:36"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(13:46) No Huddle-Shotgun #5 D.Moore pass complete short right to #9 J.Johnson caught at OREGON36, for 3 yards to the OREGON41 (#1 X.Nwankpa)",
+   "shortText": "Dan. Moore pass to Ja. Johnson for 3 yds",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528988",
+   "wallclock": "2025-11-08T21:26:04Z"
+  },
+  {
+   "id": "401752898180",
+   "sequence": 41,
+   "period": 2,
+   "clock": {
+    "seconds": 771,
+    "display": "12:51"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(13:04) No Huddle-Shotgun #5 D.Moore pass complete short left to #9 J.Johnson caught at IOWA44, for 21 yards to the IOWA38 (#1 X.Nwankpa), 1ST DOWN",
+   "shortText": "Dan. Moore pass to Ja. Johnson for 21 yds for a 1ST down",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 21,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 59,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528988",
+   "wallclock": "2025-11-08T21:26:51Z"
+  },
+  {
+   "id": "401752898185",
+   "sequence": 42,
+   "period": 2,
+   "clock": {
+    "seconds": 751,
+    "display": "12:31"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:35) No Huddle-Shotgun #0 J.Davison rush middle for 19 yards gain to the IOWA19 (#1 X.Nwankpa; #6 Z.Lutmer), 1ST DOWN",
+   "shortText": "J. Davison run for 19 yds for a 1ST down",
+   "awayScore": 2,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 38,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528988",
+   "wallclock": "2025-11-08T21:27:16Z"
+  },
+  {
+   "id": "401752898189",
+   "sequence": 43,
+   "period": 2,
+   "clock": {
+    "seconds": 706,
+    "display": "11:46"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "(11:53) No Huddle-Shotgun #23 D.Hill Jr rush left for 19 yards gain to the IOWA00 TOUCHDOWN, clock 11:46, 1ST DOWN #36 A.Sappington kick attempt good (H: #46 J.Ferguson-Reynolds, LS: #43 L.Basso)",
+   "shortText": "Dierre Hill Jr. 19 Yd Run (Atticus Sappington Kick)",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 19,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 19,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "4017528988",
+   "wallclock": "2025-11-08T21:28:06Z"
+  },
+  {
+   "id": "401752898196",
+   "sequence": 45,
+   "period": 2,
+   "clock": {
+    "seconds": 706,
+    "display": "11:46"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(11:46) #36 A.Sappington kickoff 65 yards to the IOWA00, Touchback",
+   "shortText": "A. Sappington kickoff for 65 yds for a touchback",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:30:35Z"
+  },
+  {
+   "id": "401752898199",
+   "sequence": 46,
+   "period": 2,
+   "clock": {
+    "seconds": 698,
+    "display": "11:38"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:45) Shotgun #28 K.Moulton rush middle for 5 yards gain to the IOWA30 (#28 B.Boettcher)",
+   "shortText": "K. Moulton run for 5 yds",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:34:52Z"
+  },
+  {
+   "id": "401752898203",
+   "sequence": 47,
+   "period": 2,
+   "clock": {
+    "seconds": 658,
+    "display": "10:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:04) #28 K.Moulton rush right for 8 yards gain to the IOWA38 (#54 J.Mixon), 1ST DOWN",
+   "shortText": "K. Moulton run for 8 yds for a 1ST down",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 70,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:35:32Z"
+  },
+  {
+   "id": "401752898207",
+   "sequence": 48,
+   "period": 2,
+   "clock": {
+    "seconds": 613,
+    "display": "10:13"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:19) Shotgun #11 M.Gronowski rush middle for 1 yard gain to the IOWA39 (#44 T.Tuioti; #1 B.Alexander)",
+   "shortText": "M. Gronowski run for 1 yd",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 62,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 61,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:36:17Z"
+  },
+  {
+   "id": "401752898211",
+   "sequence": 49,
+   "period": 2,
+   "clock": {
+    "seconds": 573,
+    "display": "9:33"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(09:38) Shotgun #28 K.Moulton rush middle for 5 yards gain to the IOWA44 (#54 J.Mixon)",
+   "shortText": "K. Moulton run for 5 yds",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 61,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 56,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:36:58Z"
+  },
+  {
+   "id": "401752898215",
+   "sequence": 50,
+   "period": 2,
+   "clock": {
+    "seconds": 531,
+    "display": "8:51"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:58) Shotgun #11 M.Gronowski rush middle for 3 yards gain to the IOWA47 (#31 D.Thieneman)",
+   "shortText": "M. Gronowski run for 3 yds",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 56,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 53,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:37:39Z"
+  },
+  {
+   "id": "401752898219",
+   "sequence": 51,
+   "period": 2,
+   "clock": {
+    "seconds": 475,
+    "display": "7:55"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:08) #11 M.Gronowski rush middle for 1 yard gain to the IOWA48 (#99 T.Green), 1ST DOWN",
+   "shortText": "M. Gronowski run for 1 yd for a 1ST down",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 1,
+    "yardsToEndzone": 53,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:38:25Z"
+  },
+  {
+   "id": "401752898223",
+   "sequence": 52,
+   "period": 2,
+   "clock": {
+    "seconds": 449,
+    "display": "7:29"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:33) No Huddle-Shotgun #26 X.Williams rush right for 2 yards gain to the IOWA50 (#21 A.Flowers; #1 B.Alexander)",
+   "shortText": "X. Williams run for 2 yds",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 50,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:39:02Z"
+  },
+  {
+   "id": "401752898227",
+   "sequence": 53,
+   "period": 2,
+   "clock": {
+    "seconds": 412,
+    "display": "6:52"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:56) Shotgun #21 K.Wetjen rush left for 9 yards gain to the OREGON41 (#54 J.Mixon), out of bounds, 1ST DOWN",
+   "shortText": "K. Wetjen run for 9 yds for a 1ST down",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 50,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 41,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:39:40Z"
+  },
+  {
+   "id": "401752898231",
+   "sequence": 54,
+   "period": 2,
+   "clock": {
+    "seconds": 376,
+    "display": "6:16"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(06:30) Shotgun #11 M.Gronowski pass complete deep left to #5 J.Gill caught at OREGON14, for 38 yards to the OREGON03 (#28 B.Boettcher), 1ST DOWN",
+   "shortText": "M. Gronowski pass to J. Gill for 38 yds for a 1ST down",
+   "awayScore": 9,
+   "homeScore": 0,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 38,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 41,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:40:27Z"
+  },
+  {
+   "id": "401752898236",
+   "sequence": 55,
+   "period": 2,
+   "clock": {
+    "seconds": 343,
+    "display": "5:43"
+   },
+   "typeId": "67",
+   "typeText": "Passing Touchdown",
+   "text": "(05:45) Shotgun #11 M.Gronowski pass complete short left to #81 D.Vonnahme caught at OREGON03, for 3 yards to the OREGON00 TOUCHDOWN, clock 05:43 #18 D.Stevens kick attempt good (H: #99 T.Nissen, LS: #45 B.Worrell)",
+   "shortText": "DJ Vonnahme 3 Yd pass from Mark Gronowski (Drew Stevens Kick)",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289810",
+   "wallclock": "2025-11-08T21:41:12Z"
+  },
+  {
+   "id": "401752898244",
+   "sequence": 57,
+   "period": 2,
+   "clock": {
+    "seconds": 343,
+    "display": "5:43"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(05:43) #18 D.Stevens kickoff 65 yards to the OREGON00 fair catch by #0 J.Davison at OREGON00",
+   "shortText": "D. Stevens kickoff for 65 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289812",
+   "wallclock": "2025-11-08T21:42:02Z"
+  },
+  {
+   "id": "401752898247",
+   "sequence": 58,
+   "period": 2,
+   "clock": {
+    "seconds": 342,
+    "display": "5:42"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(05:42) No Huddle #5 D.Moore pass incomplete short right to #11 J.McClellan thrown to OREGON39 PENALTY OREGON Pass Interference (#11 J.McClellan) 12 yards from OREGON25 to OREGON13. NO PLAY",
+   "shortText": "Dan. Moore pass incomplete, Oregon Penalty, passinterference (J. McClellan)",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 22,
+    "yardsToEndzone": 87,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289812",
+   "wallclock": "2025-11-08T21:47:31Z"
+  },
+  {
+   "id": "401752898253",
+   "sequence": 59,
+   "period": 2,
+   "clock": {
+    "seconds": 299,
+    "display": "4:59"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:07) No Huddle #6 N.Whittington rush middle for 7 yards gain to the OREGON20 (#36 J.Montgomery)",
+   "shortText": "N. Whittington run for 7 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 22,
+    "yardsToEndzone": 87,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 15,
+    "yardsToEndzone": 80,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289812",
+   "wallclock": "2025-11-08T21:48:19Z"
+  },
+  {
+   "id": "401752898258",
+   "sequence": 60,
+   "period": 2,
+   "clock": {
+    "seconds": 272,
+    "display": "4:32"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(04:39) No Huddle #5 D.Moore pass complete short left to #9 J.Johnson caught at OREGON20, for 3 yards to the OREGON23 (#1 X.Nwankpa)",
+   "shortText": "Dan. Moore pass to Ja. Johnson for 3 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 15,
+    "yardsToEndzone": 80,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 77,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289812",
+   "wallclock": "2025-11-08T21:48:42Z"
+  },
+  {
+   "id": "401752898263",
+   "sequence": 61,
+   "period": 2,
+   "clock": {
+    "seconds": 232,
+    "display": "3:52"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(04:01) No Huddle-Shotgun #5 D.Moore pass complete short middle to #9 J.Johnson caught at OREGON22, for 9 yards to the OREGON32 (#1 X.Nwankpa; #43 K.Sharar)",
+   "shortText": "Dan. Moore pass to Ja. Johnson for 9 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 77,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289812",
+   "wallclock": "2025-11-08T21:49:23Z"
+  },
+  {
+   "id": "401752898268",
+   "sequence": 62,
+   "period": 2,
+   "clock": {
+    "seconds": 188,
+    "display": "3:08"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(03:16) #46 J.Ferguson-Reynolds punt 41 yards to the IOWA27, out of bounds at IOWA27",
+   "shortText": "J. Ferguson-Reynolds punt for 41 yds, punt out-of-bounds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 68,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289812",
+   "wallclock": "2025-11-08T21:50:06Z"
+  },
+  {
+   "id": "401752898273",
+   "sequence": 63,
+   "period": 2,
+   "clock": {
+    "seconds": 181,
+    "display": "3:01"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:07) Shotgun #28 K.Moulton rush right for 2 yards loss to the IOWA25 (#54 J.Mixon; #10 M.Uiagalelei)",
+   "shortText": "K. Moulton run for -2 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 73,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 75,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289813",
+   "wallclock": "2025-11-08T21:53:33Z"
+  },
+  {
+   "id": "401752898277",
+   "sequence": 64,
+   "period": 2,
+   "clock": {
+    "seconds": 148,
+    "display": "2:28"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(02:36) No Huddle-Shotgun #11 M.Gronowski pass complete short left to #88 H.Large caught at IOWA28, for 17 yards to the IOWA42 (#44 T.Tuioti), 1ST DOWN",
+   "shortText": "M. Gronowski pass to H. Large for 17 yds for a 1ST down",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 17,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 75,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289813",
+   "wallclock": "2025-11-08T21:54:00Z"
+  },
+  {
+   "id": "401752898282",
+   "sequence": 65,
+   "period": 2,
+   "clock": {
+    "seconds": 131,
+    "display": "2:11"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(02:15) No Huddle-Shotgun #11 M.Gronowski pass incomplete deep left to #2 S.Phillips thrown to OREGON33",
+   "shortText": "M. Gronowski pass incomplete",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289813",
+   "wallclock": "2025-11-08T21:54:27Z"
+  },
+  {
+   "id": "401752898285",
+   "sequence": 66,
+   "period": 2,
+   "clock": {
+    "seconds": 125,
+    "display": "2:05"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:10) Shotgun #11 M.Gronowski rush middle for 4 yards gain to the IOWA46 (#9 B.Purchase; #31 D.Thieneman)",
+   "shortText": "M. Gronowski run for 4 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 54,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289813",
+   "wallclock": "2025-11-08T21:55:09Z"
+  },
+  {
+   "id": "401752898291",
+   "sequence": 66,
+   "period": 2,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout , clock 02:00",
+   "shortText": "Timeout , clock 02:00",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289813",
+   "wallclock": "2025-11-08T21:55:28Z"
+  },
+  {
+   "id": "401752898296",
+   "sequence": 67,
+   "period": 2,
+   "clock": {
+    "seconds": 113,
+    "display": "1:53"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Oregon, clock 01:53",
+   "shortText": "Timeout Oregon, clock 01:53",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 46,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 0,
+    "distance": 6,
+    "yardsToEndzone": 46,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289813",
+   "wallclock": "2025-11-08T21:59:05Z"
+  },
+  {
+   "id": "401752898289",
+   "sequence": 67,
+   "period": 2,
+   "clock": {
+    "seconds": 113,
+    "display": "1:53"
+   },
+   "typeId": "7",
+   "typeText": "Sack",
+   "text": "(02:00) Shotgun #11 M.Gronowski sacked for loss of 8 yards to the IOWA38 (#28 B.Boettcher)",
+   "shortText": "M. Gronowski sacked  by B. Boettcher for -8 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 54,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 4,
+    "distance": 14,
+    "yardsToEndzone": 62,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289813",
+   "wallclock": "2025-11-08T21:58:33Z"
+  },
+  {
+   "id": "401752898294",
+   "sequence": 68,
+   "period": 2,
+   "clock": {
+    "seconds": 103,
+    "display": "1:43"
+   },
+   "typeId": "14",
+   "typeText": "Punt Return",
+   "text": "(01:51) #9 R.Dakin punt 48 yards to the OREGON14 #4 M.Benson return 6 yards to the OREGON20 (#4 K.Entringer)",
+   "shortText": "R. Dakin punt for 48 yds, M. Benson returns for 6 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 14,
+    "yardsToEndzone": 62,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289813",
+   "wallclock": "2025-11-08T22:00:01Z"
+  },
+  {
+   "id": "401752898301",
+   "sequence": 69,
+   "period": 2,
+   "clock": {
+    "seconds": 98,
+    "display": "1:38"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:41) No Huddle-Shotgun #6 N.Whittington rush middle for 11 yards gain to the OREGON31 (#36 J.Montgomery), 1ST DOWN",
+   "shortText": "N. Whittington run for 11 yds for a 1ST down",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 80,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:00:46Z"
+  },
+  {
+   "id": "401752898305",
+   "sequence": 70,
+   "period": 2,
+   "clock": {
+    "seconds": 92,
+    "display": "1:32"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:34) No Huddle-Shotgun #6 N.Whittington rush middle for 27 yards gain to the IOWA42 (#43 K.Sharar; #6 Z.Lutmer), 1ST DOWN",
+   "shortText": "N. Whittington run for 27 yds for a 1ST down",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 27,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:00:58Z"
+  },
+  {
+   "id": "401752898311",
+   "sequence": 70,
+   "period": 2,
+   "clock": {
+    "seconds": 88,
+    "display": "1:28"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Iowa, clock 01:28",
+   "shortText": "Timeout Iowa, clock 01:28",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:02:21Z"
+  },
+  {
+   "id": "401752898309",
+   "sequence": 71,
+   "period": 2,
+   "clock": {
+    "seconds": 80,
+    "display": "1:20"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:28) No Huddle-Shotgun #6 N.Whittington rush right for 3 yards gain to the IOWA39 (#43 K.Sharar; #2 T.Hall)",
+   "shortText": "N. Whittington run for 3 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 42,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 39,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:03:21Z"
+  },
+  {
+   "id": "401752898314",
+   "sequence": 72,
+   "period": 2,
+   "clock": {
+    "seconds": 45,
+    "display": "0:45"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:58) No Huddle-Shotgun #5 D.Moore pass complete short right to #6 N.Whittington caught at IOWA35, for 4 yards to the IOWA35, End Of Play",
+   "shortText": "Dan. Moore pass to N. Whittington for 4 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 39,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 35,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:03:51Z"
+  },
+  {
+   "id": "401752898319",
+   "sequence": 73,
+   "period": 2,
+   "clock": {
+    "seconds": 24,
+    "display": "0:24"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:27) No Huddle-Shotgun #6 N.Whittington rush middle for 4 yards gain to the IOWA31 (#4 K.Entringer), 1ST DOWN",
+   "shortText": "N. Whittington run for 4 yds for a 1ST down",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 35,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:04:19Z"
+  },
+  {
+   "id": "401752898330",
+   "sequence": 74,
+   "period": 2,
+   "clock": {
+    "seconds": 12,
+    "display": "0:12"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Oregon, clock 00:12",
+   "shortText": "Timeout Oregon, clock 00:12",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:04:57Z"
+  },
+  {
+   "id": "401752898331",
+   "sequence": 74,
+   "period": 2,
+   "clock": {
+    "seconds": 12,
+    "display": "0:12"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Iowa, clock 00:12",
+   "shortText": "Timeout Iowa, clock 00:12",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 69,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:05:59Z"
+  },
+  {
+   "id": "401752898323",
+   "sequence": 74,
+   "period": 2,
+   "clock": {
+    "seconds": 12,
+    "display": "0:12"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:16) No Huddle-Shotgun #5 D.Moore pass complete short right to #14 J.Lowe caught at IOWA28, for 3 yards to the IOWA28, End Of Play",
+   "shortText": "Dan. Moore pass to J. Lowe for 3 yds",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 31,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 28,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:04:39Z"
+  },
+  {
+   "id": "401752898337",
+   "sequence": 75,
+   "period": 2,
+   "clock": {
+    "seconds": 2,
+    "display": "0:02"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Oregon, clock 00:02",
+   "shortText": "Timeout Oregon, clock 00:02",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 28,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 0,
+    "distance": 7,
+    "yardsToEndzone": 28,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:07:35Z"
+  },
+  {
+   "id": "401752898338",
+   "sequence": 75,
+   "period": 2,
+   "clock": {
+    "seconds": 2,
+    "display": "0:02"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Iowa, clock 00:02",
+   "shortText": "Timeout Iowa, clock 00:02",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 72,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 0,
+    "distance": 7,
+    "yardsToEndzone": 72,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:08:16Z"
+  },
+  {
+   "id": "401752898328",
+   "sequence": 75,
+   "period": 2,
+   "clock": {
+    "seconds": 2,
+    "display": "0:02"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:10) No Huddle-Shotgun #5 D.Moore pass complete short left to #6 N.Whittington caught at IOWA30, for 0 yards to the IOWA28 (#43 K.Sharar)",
+   "shortText": "Dan. Moore pass to N. Whittington",
+   "awayScore": 9,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 28,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 72,
+    "teamId": null
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:07:12Z"
+  },
+  {
+   "id": "401752898335",
+   "sequence": 75,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "Atticus Sappington 46 Yd Field Goal ",
+   "shortText": "Atticus Sappington 46 Yd Field Goal ",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 46,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 28,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:09:11Z"
+  },
+  {
+   "id": "401752898342",
+   "sequence": 76,
+   "period": 2,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 2nd quarter.",
+   "shortText": "End of 2nd quarter.",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 72,
+    "teamId": null
+   },
+   "end": {
+    "down": 4,
+    "distance": 7,
+    "yardsToEndzone": 72,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289814",
+   "wallclock": "2025-11-08T22:09:20Z"
+  },
+  {
+   "id": "401752898349",
+   "sequence": 77,
+   "period": 3,
+   "clock": {
+    "seconds": 900,
+    "display": "15:00"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(15:00) #18 D.Stevens kickoff 65 yards to the OREGON00, Touchback",
+   "shortText": "D. Stevens kickoff for 65 yds for a touchback",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289816",
+   "wallclock": "2025-11-08T22:31:47Z"
+  },
+  {
+   "id": "401752898352",
+   "sequence": 78,
+   "period": 3,
+   "clock": {
+    "seconds": 894,
+    "display": "14:54"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:57) No Huddle-Shotgun #23 D.Hill Jr rush left for 2 yards loss to the OREGON23 (#43 K.Sharar)",
+   "shortText": "D. Hill Jr. run for -2 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 77,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289816",
+   "wallclock": "2025-11-08T22:32:23Z"
+  },
+  {
+   "id": "401752898356",
+   "sequence": 79,
+   "period": 3,
+   "clock": {
+    "seconds": 850,
+    "display": "14:10"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:16) No Huddle-Shotgun #6 N.Whittington rush left for 6 yards gain to the OREGON29 (#36 J.Montgomery)",
+   "shortText": "N. Whittington run for 6 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 12,
+    "yardsToEndzone": 77,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289816",
+   "wallclock": "2025-11-08T22:33:07Z"
+  },
+  {
+   "id": "401752898360",
+   "sequence": 80,
+   "period": 3,
+   "clock": {
+    "seconds": 819,
+    "display": "13:39"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(13:42) No Huddle-Shotgun #5 D.Moore pass incomplete short middle to #11 J.McClellan thrown to OREGON35 broken up by #48 M.Llewellyn",
+   "shortText": "Dan. Moore pass incomplete",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289816",
+   "wallclock": "2025-11-08T22:33:39Z"
+  },
+  {
+   "id": "401752898363",
+   "sequence": 81,
+   "period": 3,
+   "clock": {
+    "seconds": 812,
+    "display": "13:32"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(13:38) #46 J.Ferguson-Reynolds punt 38 yards to the IOWA33 fair catch by #21 K.Wetjen at IOWA33",
+   "shortText": "J. Ferguson-Reynolds punt for 38 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 33,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289816",
+   "wallclock": "2025-11-08T22:34:15Z"
+  },
+  {
+   "id": "401752898367",
+   "sequence": 82,
+   "period": 3,
+   "clock": {
+    "seconds": 803,
+    "display": "13:23"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:31) #28 K.Moulton rush middle for 6 yards gain to the IOWA39 (#50 T.Gray)",
+   "shortText": "K. Moulton run for 6 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 67,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 61,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:37:40Z"
+  },
+  {
+   "id": "401752898371",
+   "sequence": 83,
+   "period": 3,
+   "clock": {
+    "seconds": 760,
+    "display": "12:40"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:46) #28 K.Moulton rush right for 3 yards gain to the IOWA42 (#54 J.Mixon)",
+   "shortText": "K. Moulton run for 3 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 4,
+    "yardsToEndzone": 61,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 58,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:38:23Z"
+  },
+  {
+   "id": "401752898375",
+   "sequence": 84,
+   "period": 3,
+   "clock": {
+    "seconds": 718,
+    "display": "11:58"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:04) Shotgun #28 K.Moulton rush middle for 2 yards gain to the IOWA44 (#52 A.Washington; #10 M.Uiagalelei), 1ST DOWN",
+   "shortText": "K. Moulton run for 2 yds for a 1ST down",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 58,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:39:05Z"
+  },
+  {
+   "id": "401752898379",
+   "sequence": 85,
+   "period": 3,
+   "clock": {
+    "seconds": 676,
+    "display": "11:16"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:23) #28 K.Moulton rush middle for 3 yards gain to the IOWA47 (#5 T.Johnson)",
+   "shortText": "K. Moulton run for 3 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 53,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:39:47Z"
+  },
+  {
+   "id": "401752898383",
+   "sequence": 86,
+   "period": 3,
+   "clock": {
+    "seconds": 637,
+    "display": "10:37"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:43) Shotgun #11 M.Gronowski rush left for 6 yards gain to the OREGON47 (#44 T.Tuioti; #31 D.Thieneman)",
+   "shortText": "M. Gronowski run for 6 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 7,
+    "yardsToEndzone": 53,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 47,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:40:26Z"
+  },
+  {
+   "id": "401752898387",
+   "sequence": 87,
+   "period": 3,
+   "clock": {
+    "seconds": 596,
+    "display": "9:56"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:03) Shotgun #28 K.Moulton rush middle for 1 yard gain to the OREGON46 (#54 J.Mixon), 1ST DOWN",
+   "shortText": "K. Moulton run for 1 yd for a 1ST down",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 1,
+    "yardsToEndzone": 47,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:41:07Z"
+  },
+  {
+   "id": "401752898391",
+   "sequence": 88,
+   "period": 3,
+   "clock": {
+    "seconds": 548,
+    "display": "9:08"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(09:16) #11 M.Gronowski pass complete short left to #28 K.Moulton caught at OREGON48, for 1 yard loss to the OREGON47 (#4 B.Finney)",
+   "shortText": "M. Gronowski pass to K. Moulton for -1 yd",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 46,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 47,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:41:55Z"
+  },
+  {
+   "id": "401752898396",
+   "sequence": 89,
+   "period": 3,
+   "clock": {
+    "seconds": 505,
+    "display": "8:25"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:44) #26 X.Williams rush right for 3 yards gain to the OREGON44 (#77 J.Johnson)",
+   "shortText": "X. Williams run for 3 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 11,
+    "yardsToEndzone": 47,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 44,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:42:26Z"
+  },
+  {
+   "id": "401752898400",
+   "sequence": 90,
+   "period": 3,
+   "clock": {
+    "seconds": 474,
+    "display": "7:54"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(08:01) Shotgun #11 M.Gronowski pass complete short right to #2 S.Phillips caught at OREGON32, for 12 yards to the OREGON32, End Of Play, 1ST DOWN, PENALTY OREGON Personal Foul (#42 A.Breland) 15 yards from OREGON32 to OREGON17, 1ST DOWN",
+   "shortText": "M. Gronowski pass to S. Phillips for 12 yds for a 1ST down",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 44,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 83,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:43:17Z"
+  },
+  {
+   "id": "401752898406",
+   "sequence": 91,
+   "period": 3,
+   "clock": {
+    "seconds": 453,
+    "display": "7:33"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:42) #26 X.Williams rush left for 1 yard gain to the OREGON16 (#31 D.Thieneman)",
+   "shortText": "X. Williams run for 1 yd",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 17,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 16,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:46:05Z"
+  },
+  {
+   "id": "401752898410",
+   "sequence": 92,
+   "period": 3,
+   "clock": {
+    "seconds": 435,
+    "display": "7:15"
+   },
+   "typeId": "69",
+   "typeText": "Fumble",
+   "text": "(07:15) #21 K.Wetjen rush left for 2 yards gain to the OREGON14 (#4 B.Finney)",
+   "shortText": "K. Wetjen fumbled",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 16,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 7,
+    "yardsToEndzone": 14,
+    "teamId": null
+   },
+   "teamId": "2294",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:49:51Z"
+  },
+  {
+   "id": "401752898417",
+   "sequence": 92,
+   "period": 3,
+   "clock": {
+    "seconds": 435,
+    "display": "7:15"
+   },
+   "typeId": "29",
+   "typeText": "Fumble Recovery (Opponent)",
+   "text": "(07:15) #21 K.Wetjen rush left for 3 yards gain to the OREGON13 fumbled by #21 K.Wetjen at OREGON14 forced by #4 B.Finney recovered by OREGON #1 B.Alexander at OREGON13, End Of Play",
+   "shortText": "K. Wetjen run for 3 yds, K. Wetjen fumbled, forced by B. Finney Jr., recovered by B. Alexander, B. Alexander returned",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 16,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289817",
+   "wallclock": "2025-11-08T22:54:55Z"
+  },
+  {
+   "id": "401752898425",
+   "sequence": 93,
+   "period": 3,
+   "clock": {
+    "seconds": 337,
+    "display": "5:37"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:40) No Huddle-Shotgun #0 J.Davison rush left for 2 yards gain to the OREGON15 (#48 M.Llewellyn)",
+   "shortText": "J. Davison run for 2 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 87,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 85,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289818",
+   "wallclock": "2025-11-08T22:58:24Z"
+  },
+  {
+   "id": "401752898429",
+   "sequence": 94,
+   "period": 3,
+   "clock": {
+    "seconds": 324,
+    "display": "5:24"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(05:32) No Huddle-Shotgun #5 D.Moore rush left for 49 yards gain to the IOWA36 (#6 Z.Lutmer), out of bounds, 1ST DOWN",
+   "shortText": "Dan. Moore run for 49 yds for a 1ST down",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 49,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 85,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 36,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289818",
+   "wallclock": "2025-11-08T22:58:35Z"
+  },
+  {
+   "id": "401752898433",
+   "sequence": 95,
+   "period": 3,
+   "clock": {
+    "seconds": 290,
+    "display": "4:50"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:53) No Huddle-Shotgun #0 J.Davison rush middle for 5 yards gain to the IOWA31 (#4 K.Entringer; #2 T.Hall)",
+   "shortText": "J. Davison run for 5 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 36,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 31,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289818",
+   "wallclock": "2025-11-08T22:59:18Z"
+  },
+  {
+   "id": "401752898437",
+   "sequence": 96,
+   "period": 3,
+   "clock": {
+    "seconds": 252,
+    "display": "4:12"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:18) No Huddle-Shotgun #0 J.Davison rush middle for 3 yards gain to the IOWA28 (#95 A.Graves; #48 M.Llewellyn)",
+   "shortText": "J. Davison run for 3 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 31,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 28,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289818",
+   "wallclock": "2025-11-08T22:59:55Z"
+  },
+  {
+   "id": "401752898441",
+   "sequence": 97,
+   "period": 3,
+   "clock": {
+    "seconds": 207,
+    "display": "3:27"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:33) No Huddle-Shotgun #5 D.Moore rush middle for 4 yards gain to the IOWA24 (#91 J.Pace), 1ST DOWN",
+   "shortText": "Dan. Moore run for 4 yds for a 1ST down",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 28,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 24,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289818",
+   "wallclock": "2025-11-08T23:00:41Z"
+  },
+  {
+   "id": "401752898445",
+   "sequence": 98,
+   "period": 3,
+   "clock": {
+    "seconds": 165,
+    "display": "2:45"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:51) No Huddle-Shotgun #6 N.Whittington rush middle for 1 yard gain to the IOWA23 (#43 K.Sharar)",
+   "shortText": "N. Whittington run for 1 yd",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 24,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 23,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289818",
+   "wallclock": "2025-11-08T23:01:21Z"
+  },
+  {
+   "id": "401752898449",
+   "sequence": 99,
+   "period": 3,
+   "clock": {
+    "seconds": 125,
+    "display": "2:05"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(02:12) No Huddle #23 D.Hill Jr rush left for 7 yards gain to the IOWA16 (#4 K.Entringer; #49 E.Hurkett)",
+   "shortText": "D. Hill Jr. run for 7 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 23,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 16,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289818",
+   "wallclock": "2025-11-08T23:02:01Z"
+  },
+  {
+   "id": "401752898453",
+   "sequence": 100,
+   "period": 3,
+   "clock": {
+    "seconds": 78,
+    "display": "1:18"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:32) No Huddle #5 D.Moore rush middle for 6 yards loss to the IOWA22, End Of Play",
+   "shortText": "Dan. Moore run for -6 yds",
+   "awayScore": 12,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": -6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 16,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 22,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289818",
+   "wallclock": "2025-11-08T23:02:44Z"
+  },
+  {
+   "id": "401752898457",
+   "sequence": 101,
+   "period": 3,
+   "clock": {
+    "seconds": 44,
+    "display": "0:44"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "(00:46) #36 A.Sappington field goal attempt from 40 yards GOOD (H: #46 J.Ferguson-Reynolds, LS: #43 L.Basso), clock 00:44",
+   "shortText": "Atticus Sappington 40 Yd Field Goal  ",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 40,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 8,
+    "yardsToEndzone": 22,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289818",
+   "wallclock": "2025-11-08T23:03:27Z"
+  },
+  {
+   "id": "401752898460",
+   "sequence": 102,
+   "period": 3,
+   "clock": {
+    "seconds": 44,
+    "display": "0:44"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(00:44) #36 A.Sappington kickoff 65 yards to the IOWA00, Touchback",
+   "shortText": "A. Sappington kickoff for 65 yds for a touchback",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:03:31Z"
+  },
+  {
+   "id": "401752898463",
+   "sequence": 103,
+   "period": 3,
+   "clock": {
+    "seconds": 39,
+    "display": "0:39"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:43) No Huddle #28 K.Moulton rush left for 4 yards gain to the IOWA29 (#1 B.Alexander)",
+   "shortText": "K. Moulton run for 4 yds",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:07:47Z"
+  },
+  {
+   "id": "401752898467",
+   "sequence": 104,
+   "period": 3,
+   "clock": {
+    "seconds": 9,
+    "display": "0:09"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(00:09) Shotgun #11 M.Gronowski pass incomplete deep left to #15 R.Vander Zee thrown to OREGON45 PENALTY OREGON Pass Interference (#7 I.Obidegwu) 15 yards from IOWA29 to IOWA44, 1ST DOWN. NO PLAY",
+   "shortText": "M. Gronowski pass incomplete, Oregon Penalty, passinterference (I. Obidegwu) for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:08:51Z"
+  },
+  {
+   "id": "401752898471",
+   "sequence": 105,
+   "period": 3,
+   "clock": {
+    "seconds": 5,
+    "display": "0:05"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(00:05) #28 K.Moulton rush right for 4 yards gain to the IOWA48 (#44 T.Tuioti)",
+   "shortText": "K. Moulton run for 4 yds",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 52,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:09:30Z"
+  },
+  {
+   "id": "401752898477",
+   "sequence": 105,
+   "period": 3,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 3rd quarter.",
+   "shortText": "End of 3rd quarter.",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 56,
+    "teamId": null
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 52,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:09:44Z"
+  },
+  {
+   "id": "401752898481",
+   "sequence": 106,
+   "period": 4,
+   "clock": {
+    "seconds": 893,
+    "display": "14:53"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(15:00) Shotgun #11 M.Gronowski rush middle for 7 yards gain to the OREGON45 (#21 A.Flowers), 1ST DOWN",
+   "shortText": "M. Gronowski run for 7 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 7,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 52,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:13:43Z"
+  },
+  {
+   "id": "401752898487",
+   "sequence": 107,
+   "period": 4,
+   "clock": {
+    "seconds": 855,
+    "display": "14:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(14:21) Shotgun #28 K.Moulton rush left for 1 yard gain to the OREGON44 (#44 T.Tuioti; #29 A.Porter)",
+   "shortText": "K. Moulton run for 1 yd",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 45,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 44,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:14:21Z"
+  },
+  {
+   "id": "401752898491",
+   "sequence": 108,
+   "period": 4,
+   "clock": {
+    "seconds": 811,
+    "display": "13:31"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(13:37) Shotgun #28 K.Moulton rush middle for 4 yards gain to the OREGON40 (#44 T.Tuioti; #52 A.Washington)",
+   "shortText": "K. Moulton run for 4 yds",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 44,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 40,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:15:05Z"
+  },
+  {
+   "id": "401752898495",
+   "sequence": 109,
+   "period": 4,
+   "clock": {
+    "seconds": 765,
+    "display": "12:45"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(12:51) Shotgun #11 M.Gronowski pass incomplete short right thrown to OREGON39 QB hurried by #52 A.Washington",
+   "shortText": "M. Gronowski pass incomplete",
+   "awayScore": 15,
+   "homeScore": 7,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 40,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 40,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:16:00Z"
+  },
+  {
+   "id": "401752898498",
+   "sequence": 110,
+   "period": 4,
+   "clock": {
+    "seconds": 759,
+    "display": "12:39"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "(12:43) #18 D.Stevens field goal attempt from 58 yards GOOD (H: #99 T.Nissen, LS: #45 B.Worrell), clock 12:39",
+   "shortText": "Drew Stevens 58 Yd Field Goal  ",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 58,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 5,
+    "yardsToEndzone": 40,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289820",
+   "wallclock": "2025-11-08T23:16:57Z"
+  },
+  {
+   "id": "401752898501",
+   "sequence": 111,
+   "period": 4,
+   "clock": {
+    "seconds": 759,
+    "display": "12:39"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(12:39) #18 D.Stevens kickoff 64 yards to the OREGON01 fair catch by #6 N.Whittington at OREGON01",
+   "shortText": "D. Stevens kickoff for 64 yds",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:17:00Z"
+  },
+  {
+   "id": "401752898504",
+   "sequence": 112,
+   "period": 4,
+   "clock": {
+    "seconds": 751,
+    "display": "12:31"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:38) Shotgun #6 N.Whittington rush middle for 9 yards gain to the OREGON34 (#4 K.Entringer; #6 Z.Lutmer)",
+   "shortText": "N. Whittington run for 9 yds",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 9,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:21:21Z"
+  },
+  {
+   "id": "401752898508",
+   "sequence": 113,
+   "period": 4,
+   "clock": {
+    "seconds": 726,
+    "display": "12:06"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(12:10) No Huddle-Shotgun #6 N.Whittington rush middle for 8 yards gain to the OREGON42 (#36 J.Montgomery), 1ST DOWN",
+   "shortText": "N. Whittington run for 8 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 1,
+    "yardsToEndzone": 66,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:21:44Z"
+  },
+  {
+   "id": "401752898512",
+   "sequence": 114,
+   "period": 4,
+   "clock": {
+    "seconds": 682,
+    "display": "11:22"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:27) No Huddle-Shotgun #23 D.Hill Jr rush left for 11 yards gain to the IOWA47 (#4 K.Entringer), 1ST DOWN",
+   "shortText": "D. Hill Jr. run for 11 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 58,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:22:30Z"
+  },
+  {
+   "id": "401752898516",
+   "sequence": 115,
+   "period": 4,
+   "clock": {
+    "seconds": 659,
+    "display": "10:59"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(11:04) No Huddle-Shotgun #0 J.Davison rush middle for 12 yards gain to the IOWA35 (#1 X.Nwankpa; #36 J.Montgomery), 1ST DOWN",
+   "shortText": "J. Davison run for 12 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 12,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 47,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:22:52Z"
+  },
+  {
+   "id": "401752898520",
+   "sequence": 116,
+   "period": 4,
+   "clock": {
+    "seconds": 615,
+    "display": "10:15"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(10:19) Shotgun #23 D.Hill Jr rush left for 4 yards gain to the IOWA31 (#43 K.Sharar), out of bounds",
+   "shortText": "D. Hill Jr. run for 4 yds",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 31,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:23:38Z"
+  },
+  {
+   "id": "401752898525",
+   "sequence": 117,
+   "period": 4,
+   "clock": {
+    "seconds": 576,
+    "display": "9:36"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(09:40) No Huddle-Shotgun #0 J.Davison rush middle for 4 yards gain to the IOWA27 (#36 J.Montgomery; #43 K.Sharar)",
+   "shortText": "J. Davison run for 4 yds",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 31,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:24:19Z"
+  },
+  {
+   "id": "401752898529",
+   "sequence": 118,
+   "period": 4,
+   "clock": {
+    "seconds": 544,
+    "display": "9:04"
+   },
+   "typeId": "8",
+   "typeText": "Penalty",
+   "text": "(09:04) No Huddle-Shotgun #5 D.Moore rush left for 0 yards to the IOWA27 (#6 Z.Lutmer) PENALTY OREGON Holding (#83 R.Saleapaga) 10 yards from IOWA27 to IOWA37. NO PLAY",
+   "shortText": "Dan. Moore run for 0 yds, Oregon Penalty, holding (R. Saleapaga)",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 10,
+   "isPenalty": true,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 37,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:25:19Z"
+  },
+  {
+   "id": "401752898534",
+   "sequence": 119,
+   "period": 4,
+   "clock": {
+    "seconds": 522,
+    "display": "8:42"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(08:42) No Huddle-Shotgun #5 D.Moore pass incomplete short right to #11 J.McClellan thrown to IOWA25 PENALTY OREGON Ineligible Downfield on Pass declined",
+   "shortText": "Dan. Moore pass incomplete",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 12,
+    "yardsToEndzone": 37,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 4,
+    "distance": 12,
+    "yardsToEndzone": 37,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:26:04Z"
+  },
+  {
+   "id": "401752898538",
+   "sequence": 120,
+   "period": 4,
+   "clock": {
+    "seconds": 516,
+    "display": "8:36"
+   },
+   "typeId": "52",
+   "typeText": "Punt",
+   "text": "(08:41) #46 J.Ferguson-Reynolds punt 30 yards to the IOWA07 fair catch by #21 K.Wetjen at IOWA07",
+   "shortText": "J. Ferguson-Reynolds punt for 30 yds",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 12,
+    "yardsToEndzone": 37,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 7,
+    "yardsToEndzone": 7,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289822",
+   "wallclock": "2025-11-08T23:27:15Z"
+  },
+  {
+   "id": "401752898542",
+   "sequence": 121,
+   "period": 4,
+   "clock": {
+    "seconds": 507,
+    "display": "8:27"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(08:34) Shotgun #11 M.Gronowski rush middle for 4 yards gain to the IOWA11 (#54 J.Mixon; #22 J.Canady)",
+   "shortText": "M. Gronowski run for 4 yds",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 93,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 89,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:30:40Z"
+  },
+  {
+   "id": "401752898546",
+   "sequence": 122,
+   "period": 4,
+   "clock": {
+    "seconds": 469,
+    "display": "7:49"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(07:56) #28 K.Moulton rush right for 1 yard gain to the IOWA12 (#52 A.Washington; #28 B.Boettcher)",
+   "shortText": "K. Moulton run for 1 yd",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 89,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 88,
+    "teamId": null
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:31:18Z"
+  },
+  {
+   "id": "401752898550",
+   "sequence": 123,
+   "period": 4,
+   "clock": {
+    "seconds": 412,
+    "display": "6:52"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(07:11) Shotgun #11 M.Gronowski pass complete deep middle to #81 D.Vonnahme caught at IOWA47, for 40 yards to the OREGON48 (#21 A.Flowers), 1ST DOWN",
+   "shortText": "M. Gronowski pass to DJ Vonnahme for 40 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 40,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 5,
+    "yardsToEndzone": 88,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:32:08Z"
+  },
+  {
+   "id": "401752898555",
+   "sequence": 124,
+   "period": 4,
+   "clock": {
+    "seconds": 374,
+    "display": "6:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(06:19) #28 K.Moulton rush right for 2 yards gain to the OREGON46 (#54 J.Mixon; #4 B.Finney)",
+   "shortText": "K. Moulton run for 2 yds",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 2,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 48,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 46,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:32:53Z"
+  },
+  {
+   "id": "401752898559",
+   "sequence": 125,
+   "period": 4,
+   "clock": {
+    "seconds": 332,
+    "display": "5:32"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(05:38) Shotgun #11 M.Gronowski pass incomplete deep right to #81 D.Vonnahme thrown to OREGON15",
+   "shortText": "M. Gronowski pass incomplete",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 8,
+    "yardsToEndzone": 46,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 46,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:33:42Z"
+  },
+  {
+   "id": "401752898562",
+   "sequence": 126,
+   "period": 4,
+   "clock": {
+    "seconds": 319,
+    "display": "5:19"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(05:31) Shotgun #11 M.Gronowski pass complete short left to #5 J.Gill caught at OREGON41, for 5 yards to the OREGON41 (#22 J.Canady)",
+   "shortText": "M. Gronowski pass to J. Gill for 5 yds",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 8,
+    "yardsToEndzone": 46,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 41,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:34:24Z"
+  },
+  {
+   "id": "401752898567",
+   "sequence": 127,
+   "period": 4,
+   "clock": {
+    "seconds": 273,
+    "display": "4:33"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(04:46) Shotgun #11 M.Gronowski pass complete short middle to #15 R.Vander Zee caught at OREGON36, for 15 yards to the OREGON26 (#31 D.Thieneman), 1ST DOWN",
+   "shortText": "M. Gronowski pass to R. Vander Zee for 15 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 15,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 41,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:35:11Z"
+  },
+  {
+   "id": "401752898572",
+   "sequence": 128,
+   "period": 4,
+   "clock": {
+    "seconds": 237,
+    "display": "3:57"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(04:04) #28 K.Moulton rush middle for 16 yards gain to the OREGON10 (#54 J.Mixon), 1ST DOWN",
+   "shortText": "K. Moulton run for 16 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 16,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 26,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 10,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:35:51Z"
+  },
+  {
+   "id": "401752898576",
+   "sequence": 129,
+   "period": 4,
+   "clock": {
+    "seconds": 194,
+    "display": "3:14"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(03:23) #28 K.Moulton rush left for 1 yard gain to the OREGON09 (#44 T.Tuioti)",
+   "shortText": "K. Moulton run for 1 yd",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 1,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 10,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:36:33Z"
+  },
+  {
+   "id": "401752898582",
+   "sequence": 129,
+   "period": 4,
+   "clock": {
+    "seconds": 162,
+    "display": "2:42"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Iowa, clock 02:42",
+   "shortText": "Timeout Iowa, clock 02:42",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 10,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 10,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:37:28Z"
+  },
+  {
+   "id": "401752898580",
+   "sequence": 130,
+   "period": 4,
+   "clock": {
+    "seconds": 148,
+    "display": "2:28"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(02:41) #11 M.Gronowski pass complete short left to #88 H.Large caught at OREGON07, for 6 yards to the OREGON03 (#44 T.Tuioti)",
+   "shortText": "M. Gronowski pass to H. Large for 6 yds",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:38:40Z"
+  },
+  {
+   "id": "401752898588",
+   "sequence": 130,
+   "period": 4,
+   "clock": {
+    "seconds": 120,
+    "display": "2:00"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout , clock 02:00",
+   "shortText": "Timeout , clock 02:00",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 9,
+    "yardsToEndzone": 9,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:39:27Z"
+  },
+  {
+   "id": "401752898586",
+   "sequence": 131,
+   "period": 4,
+   "clock": {
+    "seconds": 115,
+    "display": "1:55"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(01:55) #11 M.Gronowski pass incomplete short middle to #81 D.Vonnahme thrown to OREGON00 QB hurried by #44 T.Tuioti",
+   "shortText": "M. Gronowski pass incomplete",
+   "awayScore": 15,
+   "homeScore": 10,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:42:49Z"
+  },
+  {
+   "id": "401752898590",
+   "sequence": 132,
+   "period": 4,
+   "clock": {
+    "seconds": 111,
+    "display": "1:51"
+   },
+   "typeId": "68",
+   "typeText": "Rushing Touchdown",
+   "text": "Mark Gronowski 3 Yd Run (Two-Point Pass Conversion Failed)",
+   "shortText": "Mark Gronowski 3 Yd Run (Two-Point Pass Conversion Failed)",
+   "awayScore": 15,
+   "homeScore": 16,
+   "scoreValue": 6,
+   "scoringPlay": true,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 3,
+    "yardsToEndzone": 3,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 0,
+    "teamId": "2294"
+   },
+   "teamId": "2294",
+   "driveId": "40175289823",
+   "wallclock": "2025-11-08T23:43:28Z"
+  },
+  {
+   "id": "401752898602",
+   "sequence": 134,
+   "period": 4,
+   "clock": {
+    "seconds": 111,
+    "display": "1:51"
+   },
+   "typeId": "53",
+   "typeText": "Kickoff",
+   "text": "(01:51) #18 D.Stevens kickoff 62 yards to the OREGON03 fair catch by #6 N.Whittington at OREGON03",
+   "shortText": "D. Stevens kickoff for 62 yds",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 65,
+    "teamId": "2294"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 35,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:47:11Z"
+  },
+  {
+   "id": "401752898605",
+   "sequence": 135,
+   "period": 4,
+   "clock": {
+    "seconds": 102,
+    "display": "1:42"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:50) No Huddle-Shotgun #6 N.Whittington rush middle for 4 yards gain to the OREGON29 (#95 A.Graves; #49 E.Hurkett)",
+   "shortText": "N. Whittington run for 4 yds",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 75,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:50:25Z"
+  },
+  {
+   "id": "401752898609",
+   "sequence": 136,
+   "period": 4,
+   "clock": {
+    "seconds": 78,
+    "display": "1:18"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(01:26) No Huddle-Shotgun #5 D.Moore pass complete short middle to #17 C.Perry caught at OREGON33, for 4 yards to the OREGON33 (#6 Z.Lutmer)",
+   "shortText": "Dan. Moore pass to C. Perry for 4 yds",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 4,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 6,
+    "yardsToEndzone": 71,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 67,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:50:49Z"
+  },
+  {
+   "id": "401752898614",
+   "sequence": 137,
+   "period": 4,
+   "clock": {
+    "seconds": 65,
+    "display": "1:05"
+   },
+   "typeId": "5",
+   "typeText": "Rush",
+   "text": "(01:06) No Huddle-Shotgun #6 N.Whittington rush middle for 3 yards gain to the OREGON36 (#49 E.Hurkett; #48 M.Llewellyn), 1ST DOWN",
+   "shortText": "N. Whittington run for 3 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 3,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 2,
+    "yardsToEndzone": 67,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:51:07Z"
+  },
+  {
+   "id": "401752898618",
+   "sequence": 138,
+   "period": 4,
+   "clock": {
+    "seconds": 44,
+    "display": "0:44"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:54) No Huddle-Shotgun #5 D.Moore pass complete short middle to #4 M.Benson caught at OREGON40, for 5 yards to the OREGON41 (#2 T.Hall)",
+   "shortText": "Dan. Moore pass to M. Benson for 5 yds",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 5,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 64,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 59,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:51:32Z"
+  },
+  {
+   "id": "401752898623",
+   "sequence": 139,
+   "period": 4,
+   "clock": {
+    "seconds": 34,
+    "display": "0:34"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:34) No Huddle-Shotgun #5 D.Moore pass complete short left to #11 J.McClellan caught at OREGON46, for 8 yards to the OREGON49 (#6 Z.Lutmer), 1ST DOWN",
+   "shortText": "Dan. Moore pass to J. McClellan for 8 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 8,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 5,
+    "yardsToEndzone": 59,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 51,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:51:48Z"
+  },
+  {
+   "id": "401752898628",
+   "sequence": 140,
+   "period": 4,
+   "clock": {
+    "seconds": 23,
+    "display": "0:23"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:23) No Huddle-Shotgun #5 D.Moore pass complete deep right to #4 M.Benson caught at IOWA27, for 24 yards to the IOWA27 (#2 T.Hall), 1ST DOWN",
+   "shortText": "Dan. Moore pass to M. Benson for 24 yds for a 1ST down",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 24,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 51,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:52:14Z"
+  },
+  {
+   "id": "401752898633",
+   "sequence": 141,
+   "period": 4,
+   "clock": {
+    "seconds": 19,
+    "display": "0:19"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:22) No Huddle-Shotgun #5 D.Moore pass incomplete short right to #4 M.Benson thrown to IOWA12",
+   "shortText": "Dan. Moore pass incomplete",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 1,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:53:40Z"
+  },
+  {
+   "id": "401752898644",
+   "sequence": 142,
+   "period": 4,
+   "clock": {
+    "seconds": 23,
+    "display": "0:23"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Oregon, clock 00:23",
+   "shortText": "Timeout Oregon, clock 00:23",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:55:18Z"
+  },
+  {
+   "id": "401752898643",
+   "sequence": 142,
+   "period": 4,
+   "clock": {
+    "seconds": 11,
+    "display": "0:11"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Oregon, clock 00:11",
+   "shortText": "Timeout Oregon, clock 00:11",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 0,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:54:46Z"
+  },
+  {
+   "id": "401752898636",
+   "sequence": 142,
+   "period": 4,
+   "clock": {
+    "seconds": 11,
+    "display": "0:11"
+   },
+   "typeId": "24",
+   "typeText": "Pass Reception",
+   "text": "(00:18) No Huddle-Shotgun #5 D.Moore pass complete short left to #11 J.McClellan caught at IOWA25, for 6 yards to the IOWA21 (#8 D.Lee)",
+   "shortText": "Dan. Moore pass to J. McClellan for 6 yds",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 6,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 2,
+    "distance": 10,
+    "yardsToEndzone": 27,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 21,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:54:19Z"
+  },
+  {
+   "id": "401752898648",
+   "sequence": 143,
+   "period": 4,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "21",
+   "typeText": "Timeout",
+   "text": "Timeout Oregon, clock 00:07",
+   "shortText": "Timeout Oregon, clock 00:07",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 21,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 0,
+    "distance": 4,
+    "yardsToEndzone": 21,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:56:42Z"
+  },
+  {
+   "id": "401752898641",
+   "sequence": 143,
+   "period": 4,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "3",
+   "typeText": "Pass Incompletion",
+   "text": "(00:10) No Huddle-Shotgun #5 D.Moore pass incomplete deep left to #4 M.Benson thrown to IOWA00",
+   "shortText": "Dan. Moore pass incomplete",
+   "awayScore": 15,
+   "homeScore": 14,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 3,
+    "distance": 4,
+    "yardsToEndzone": 21,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 21,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:55:45Z"
+  },
+  {
+   "id": "401752898646",
+   "sequence": 144,
+   "period": 4,
+   "clock": {
+    "seconds": 3,
+    "display": "0:03"
+   },
+   "typeId": "59",
+   "typeText": "Field Goal Good",
+   "text": "Atticus Sappington 39 Yd Field Goal ",
+   "shortText": "Atticus Sappington 39 Yd Field Goal ",
+   "awayScore": 18,
+   "homeScore": 16,
+   "scoreValue": 3,
+   "scoringPlay": true,
+   "yards": 39,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 4,
+    "distance": 4,
+    "yardsToEndzone": 21,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": -1,
+    "distance": -1,
+    "yardsToEndzone": 65,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289825",
+   "wallclock": "2025-11-08T23:57:43Z"
+  },
+  {
+   "id": "401752898650",
+   "sequence": 145,
+   "period": 4,
+   "clock": {
+    "seconds": 7,
+    "display": "0:07"
+   },
+   "typeId": "29",
+   "typeText": "Fumble Recovery (Opponent)",
+   "text": "(00:00) #36 A.Sappington kickoff 37 yards to the IOWA28 #22 D.Weisskopf return 11 yards to the IOWA33 fumbled by #22 D.Weisskopf at IOWA33 forced by #4 B.Finney recovered by OREGON #54 J.Mixon at IOWA39, End Of Play",
+   "shortText": "A. Sappington kickoff for 37 yds, D. Weisskopf returns for 11 yds, D. Weisskopf fumbled, forced by B. Finney Jr., recovered by J. Mixon, J. Mixonretur",
+   "awayScore": 18,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 11,
+   "isPenalty": false,
+   "isTurnover": true,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 65,
+    "teamId": "2483"
+   },
+   "end": {
+    "down": -1,
+    "distance": 0,
+    "yardsToEndzone": 61,
+    "teamId": null
+   },
+   "teamId": "2483",
+   "driveId": "40175289827",
+   "wallclock": "2025-11-09T00:00:30Z"
+  },
+  {
+   "id": "401752898659",
+   "sequence": 145,
+   "period": 4,
+   "clock": {
+    "seconds": 0,
+    "display": "0:00"
+   },
+   "typeId": "2",
+   "typeText": "End Period",
+   "text": "End of 4th quarter.",
+   "shortText": "End of 4th quarter.",
+   "awayScore": 18,
+   "homeScore": 16,
+   "scoreValue": 0,
+   "scoringPlay": false,
+   "yards": 0,
+   "isPenalty": false,
+   "isTurnover": false,
+   "start": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 35,
+    "teamId": null
+   },
+   "end": {
+    "down": 0,
+    "distance": 0,
+    "yardsToEndzone": 61,
+    "teamId": "2483"
+   },
+   "teamId": "2483",
+   "driveId": "40175289827",
+   "wallclock": "2025-11-09T00:01:25Z"
+  }
+ ],
+ "drives": [
+  {
+   "id": "4017528982",
+   "sequence": 2,
+   "teamId": "2294",
+   "endTeamId": "2294",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 4,
+   "description": "3 plays, 4 yards, 1:37"
+  },
+  {
+   "id": "4017528983",
+   "sequence": 3,
+   "teamId": "2483",
+   "endTeamId": "2483",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 0,
+   "description": "3 plays, 0 yards, 0:22"
+  },
+  {
+   "id": "4017528984",
+   "sequence": 4,
+   "teamId": "2294",
+   "endTeamId": "2483",
+   "result": "SF",
+   "displayResult": "Safety",
+   "isScore": true,
+   "offensivePlays": 6,
+   "yards": -20,
+   "description": "6 plays, -20 yards, 3:01"
+  },
+  {
+   "id": "4017528986",
+   "sequence": 6,
+   "teamId": "2483",
+   "endTeamId": "2483",
+   "result": "INT",
+   "displayResult": "Interception",
+   "isScore": false,
+   "offensivePlays": 9,
+   "yards": 44,
+   "description": "9 plays, 44 yards, 4:35"
+  },
+  {
+   "id": "4017528987",
+   "sequence": 7,
+   "teamId": "2294",
+   "endTeamId": "2294",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 8,
+   "yards": 17,
+   "description": "8 plays, 17 yards, 4:30"
+  },
+  {
+   "id": "4017528988",
+   "sequence": 8,
+   "teamId": "2483",
+   "endTeamId": "2483",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 8,
+   "yards": 82,
+   "description": "8 plays, 82 yards, 4:00"
+  },
+  {
+   "id": "40175289810",
+   "sequence": 10,
+   "teamId": "2294",
+   "endTeamId": "2294",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 10,
+   "yards": 75,
+   "description": "10 plays, 75 yards, 6:03"
+  },
+  {
+   "id": "40175289812",
+   "sequence": 12,
+   "teamId": "2483",
+   "endTeamId": "2483",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 7,
+   "description": "3 plays, 7 yards, 2:35"
+  },
+  {
+   "id": "40175289813",
+   "sequence": 13,
+   "teamId": "2294",
+   "endTeamId": "2294",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 5,
+   "yards": 11,
+   "description": "5 plays, 11 yards, 1:25"
+  },
+  {
+   "id": "40175289814",
+   "sequence": 14,
+   "teamId": "2483",
+   "endTeamId": "2483",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 8,
+   "yards": 52,
+   "description": "8 plays, 52 yards, 1:43"
+  },
+  {
+   "id": "40175289816",
+   "sequence": 16,
+   "teamId": "2483",
+   "endTeamId": "2483",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 3,
+   "yards": 4,
+   "description": "3 plays, 4 yards, 1:28"
+  },
+  {
+   "id": "40175289817",
+   "sequence": 17,
+   "teamId": "2294",
+   "endTeamId": "2294",
+   "result": "FUMBLE",
+   "displayResult": "Fumble",
+   "isScore": false,
+   "offensivePlays": 11,
+   "yards": 54,
+   "description": "11 plays, 54 yards, 6:46"
+  },
+  {
+   "id": "40175289818",
+   "sequence": 18,
+   "teamId": "2483",
+   "endTeamId": "2483",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 9,
+   "yards": 65,
+   "description": "9 plays, 65 yards, 6:02"
+  },
+  {
+   "id": "40175289820",
+   "sequence": 20,
+   "teamId": "2294",
+   "endTeamId": "2294",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 7,
+   "yards": 35,
+   "description": "7 plays, 35 yards, 3:05"
+  },
+  {
+   "id": "40175289822",
+   "sequence": 22,
+   "teamId": "2483",
+   "endTeamId": "2483",
+   "result": "PUNT",
+   "displayResult": "Punt",
+   "isScore": false,
+   "offensivePlays": 7,
+   "yards": 38,
+   "description": "7 plays, 38 yards, 4:03"
+  },
+  {
+   "id": "40175289823",
+   "sequence": 23,
+   "teamId": "2294",
+   "endTeamId": "2294",
+   "result": "TD",
+   "displayResult": "Touchdown",
+   "isScore": true,
+   "offensivePlays": 12,
+   "yards": 93,
+   "description": "12 plays, 93 yards, 6:45"
+  },
+  {
+   "id": "40175289825",
+   "sequence": 25,
+   "teamId": "2483",
+   "endTeamId": "2483",
+   "result": "FG",
+   "displayResult": "Field Goal",
+   "isScore": true,
+   "offensivePlays": 10,
+   "yards": 54,
+   "description": "10 plays, 54 yards, 1:48"
+  },
+  {
+   "id": "40175289827",
+   "sequence": 27,
+   "teamId": "2483",
+   "endTeamId": null,
+   "result": "END OF GAME",
+   "displayResult": "End Of Game",
+   "isScore": false,
+   "offensivePlays": 0,
+   "yards": 0,
+   "description": "0 plays, 0 yards, 0:00"
+  }
+ ]
+}
