@@ -404,6 +404,13 @@ const watchers = new Watchers({
         // Every room watching this game gets the round, through the SAME path a
         // Ref uses. If the Ref has paused auto-calling, the detection is simply
         // dropped rather than held — it will be stale by the time they unpause.
+        //
+        // Returning false asks the pipeline to re-offer this one shortly. That
+        // happens only when a room wanted the card and was mid-round: busy is
+        // temporary and worth a few seconds' patience, whereas "nobody holds
+        // it" and "the card is switched off" never become true by waiting.
+        let firedAnywhere = false;
+        let busyAnywhere = false;
         for (const roomCode of entry.rooms) {
           const room = rooms[roomCode];
           if (!room) continue;
@@ -421,6 +428,7 @@ const watchers = new Watchers({
               : declareWildCard(roomCode, detection.cardId);
 
           if (result.ok) {
+            firedAnywhere = true;
             entry.stats.released += 1;
             // Prefer ESPN's human summary of the play; the detector's reason is a
             // fallback and reads like a type name.
@@ -435,6 +443,12 @@ const watchers = new Watchers({
             // Busy or nobody held it. Not an error — the round the Ref or an
             // earlier detection started simply won, which is the correct
             // outcome of the single-round guard.
+            if (result.reason === 'busy') {
+              // Do not tell the room yet. It may well fire in a moment, and a
+              // "skipped" line followed by the round itself reads as a bug.
+              busyAnywhere = true;
+              continue;
+            }
             entry.stats.skipped = (entry.stats.skipped || 0) + 1;
             io.to(roomCode).emit('playSkipped', {
               league, gameId: entry.gameId, cardId: detection.cardId, reason: result.reason,
@@ -442,6 +456,9 @@ const watchers = new Watchers({
             console.log(`🏈 ${league}/${entry.gameId} skipped ${detection.cardId} in ${roomCode}: ${result.reason}`);
           }
         }
+        // Only ask for a retry if waiting could actually change the outcome.
+        if (!firedAnywhere && busyAnywhere) return false;
+        return true;
       },
       onEnd: (info) => {
         // Drain rather than fire late. Whatever is still queued belongs to a

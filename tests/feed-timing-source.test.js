@@ -19,7 +19,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { DetectionQueue } = require(path.join(ROOT, 'server/feed/queue.js'));
+const { DetectionQueue, BROADCAST_DELAY_MS } = require(path.join(ROOT, 'server/feed/queue.js'));
 const { ReplayFeed } = require(path.join(ROOT, 'server/feed/replay-feed.js'));
 
 /** Code only — the comments explaining this rule mention wallclock by name. */
@@ -56,7 +56,9 @@ describe('the live path takes its timing from the clock, not the feed', () => {
     const queue = new DetectionQueue({ now: () => clock.t });
     queue.push([{ cardId: 'Touchdown', playId: 'p1', reason: 'x' }]);
 
-    clock.t += 44_000;
+    // Driven off the constant rather than a copy of it, so changing the delay
+    // does not silently turn this into a test of nothing.
+    clock.t += BROADCAST_DELAY_MS - 1_000;
     expect(queue.release().due).toEqual([]);
     clock.t += 2_000;
     expect(queue.release().due.map((d) => d.cardId)).toEqual(['Touchdown']);

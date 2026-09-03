@@ -92,7 +92,20 @@ const runPipeline = (feed, handlers = {}, options = {}) => {
     const { due } = queue.release();
     // One at a time, in order. The caller runs them sequentially through the
     // normal single-round path; there is no multi-card round.
-    for (const detection of due) onRelease(detection);
+    //
+    // A handler that returns `false` is saying "every room that wanted this was
+    // mid-round". That used to lose the call outright, which fell hardest on
+    // First Down — the most common card and the shortest round. It now goes
+    // back on the queue for a few seconds and is re-offered next tick;
+    // `queue.retry` gives up on anything past its grace window, so this can
+    // never turn into firing a minute late.
+    for (const detection of due) {
+      const took = onRelease(detection);
+      // Never hold anything back once the feed has ended. At that point the
+      // queue is draining a game that has stopped, and re-offering a call the
+      // room was too busy for only delays letting go of the room.
+      if (took === false && !ended) queue.retry(detection);
+    }
 
     // The feed ending does NOT mean the queue is empty. At the final whistle
     // there can still be a broadcast delay's worth of detections waiting, and
