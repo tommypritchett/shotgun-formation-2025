@@ -78,7 +78,9 @@ export default function GameScreen({
 
       <div className="dock">
         {isHost && onWatchGame && !watching ? (
-          <button type="button" className="watchbtn" onClick={onWatchGame}>Watch a game</button>
+          <button type="button" className="watchbtn primary" onClick={onWatchGame}>
+            <span className="ref">REF</span> Select a game
+          </button>
         ) : null}
         {isHost && watching && onOpenDial ? (
           <button type="button" className="watchbtn" onClick={onOpenDial}>What the feed calls</button>

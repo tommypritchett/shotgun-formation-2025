@@ -240,6 +240,69 @@ describe('listGames', () => {
     expect(game.started).toBe(true);
   });
 
+  /**
+   * Session 18. The picker showed only ranked college games and unchecking
+   * "Ranked only" revealed nothing, because the list was already narrowed
+   * upstream: ESPN's college scoreboard, asked without `groups`, returns ONLY
+   * games involving a ranked team. Measured against the real endpoint on
+   * 2026-09-03 — no groups: 25 events, all 25 ranked, 0 unranked.
+   * groups=80 (FBS): 99 events, 25 ranked and 74 unranked.
+   *
+   * The old source comment claimed "omitting it altogether already returns all
+   * of FBS". That was simply wrong, and it is why the filter looked broken.
+   */
+  it('asks college for the FBS group, or the slate comes back ranked-only', async () => {
+    const urls = [];
+    const fetchImpl = async (url) => {
+      urls.push(String(url));
+      return { ok: true, status: 200, json: async () => ({ events: [] }) };
+    };
+    await listGames('college-football', { fetchImpl });
+    expect(urls).toHaveLength(1);
+    expect(urls[0]).toContain('groups=80');
+    expect(urls[0]).toContain('limit=500');
+  });
+
+  /**
+   * And the same parameter must NOT go to the NFL. Measured the same day:
+   * nfl/scoreboard?groups=80&limit=500 returns 0 events, so sending it would
+   * empty the picker entirely on a Sunday.
+   */
+  it('never sends groups to the NFL, which returns nothing for it', async () => {
+    const urls = [];
+    const fetchImpl = async (url) => {
+      urls.push(String(url));
+      return { ok: true, status: 200, json: async () => ({ events: [] }) };
+    };
+    await listGames('nfl', { fetchImpl });
+    expect(urls[0]).not.toContain('groups');
+    expect(urls[0]).toContain('limit=500');
+  });
+
+  it('lets an explicit groups argument win, so FCS stays reachable', async () => {
+    const urls = [];
+    const fetchImpl = async (url) => {
+      urls.push(String(url));
+      return { ok: true, status: 200, json: async () => ({ events: [] }) };
+    };
+    await listGames('college-football', { fetchImpl, groups: 81 });
+    expect(urls[0]).toContain('groups=81');
+  });
+
+  /** The picker sorts pre-game rows by kickoff, so the ISO date must survive. */
+  it('carries the kickoff date through, for ordering games that have not started', async () => {
+    const raw = {
+      events: [{
+        id: '9', shortName: 'A @ B', date: '2026-09-03T22:00Z',
+        status: { type: { state: 'pre', shortDetail: '9/3 - 6:00 PM EDT' } },
+        competitions: [{ competitors: [] }],
+      }],
+    };
+    const fetchImpl = async () => ({ ok: true, status: 200, json: async () => raw });
+    const [game] = await listGames('college-football', { fetchImpl });
+    expect(game.date).toBe('2026-09-03T22:00Z');
+  });
+
   it('skips rows it cannot understand instead of failing the whole list', async () => {
     const raw = { events: [{ id: '1' }, { nonsense: true }, null, { id: '2', competitions: [] }] };
     const fetchImpl = async () => ({ ok: true, status: 200, json: async () => raw });

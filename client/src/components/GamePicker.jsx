@@ -36,7 +36,7 @@ export default function GamePicker({
   return (
     <div className="sheet gamepicker on" role="dialog" aria-label="Pick a game">
       <div className="sheet-head">
-        <span className="t">Watch a game</span>
+        <span className="t">Select a game</span>
         <button type="button" className="x" onClick={onClose} aria-label="Close">×</button>
       </div>
 

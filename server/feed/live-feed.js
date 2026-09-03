@@ -153,13 +153,34 @@ class LiveFeed extends Feed {
   }
 }
 
+/**
+ * The `groups` a league needs on the scoreboard call, when the caller does not
+ * name one.
+ *
+ * College MUST send it. Asked without `groups`, ESPN's college scoreboard
+ * returns only games involving a ranked team — so the picker showed a
+ * ranked-only slate and unchecking "Ranked only" revealed nothing, because the
+ * list had already been narrowed upstream. Measured against the real endpoint
+ * on 2026-09-03:
+ *
+ *   (no groups)        25 events — 25 ranked, 0 unranked
+ *   groups=80 (FBS)    99 events — 25 ranked, 74 unranked
+ *   groups=50          0 events  (the value the plan suggested)
+ *
+ * The NFL must NOT send it: `nfl/scoreboard?groups=80` returns 0 events, which
+ * would empty the picker on a Sunday. Hence a per-league map rather than one
+ * constant.
+ *
+ * FCS is 81 and stays reachable by passing `groups` explicitly.
+ */
+const DEFAULT_GROUPS = { 'college-football': '80' };
+
 /** Today's games, for the picker. Shape-tolerant: a bad row is skipped. */
 const listGames = async (league, { date = null, fetchImpl = fetch, groups = null } = {}) => {
   const params = new URLSearchParams({ limit: '500' });
   if (date) params.set('dates', date);
-  // FBS is 80 and FCS is 81. The plan's `groups=50` returns four events, not a
-  // full slate; omitting it altogether already returns all of FBS.
-  if (groups) params.set('groups', String(groups));
+  const useGroups = groups || DEFAULT_GROUPS[league] || null;
+  if (useGroups) params.set('groups', String(useGroups));
 
   const raw = await fetchJSON(`${SITE}/${league}/scoreboard?${params}`, { fetchImpl });
   const events = Array.isArray(raw?.events) ? raw.events : [];
@@ -182,6 +203,9 @@ const listGames = async (league, { date = null, fetchImpl = fetch, groups = null
       id: event?.id ? String(event.id) : null,
       league,
       name: event?.shortName ?? event?.name ?? null,
+      // Kickoff, ISO. The picker orders not-yet-started games by this, so a
+      // Ref at a bar sees the next kickoff first rather than an alphabet.
+      date: event?.date ?? null,
       home: team('home'),
       away: team('away'),
       period: Number.isFinite(Number(event?.status?.period)) ? Number(event.status.period) : null,
@@ -195,6 +219,6 @@ const listGames = async (league, { date = null, fetchImpl = fetch, groups = null
 };
 
 module.exports = {
-  LiveFeed, listGames, fetchJSON,
+  LiveFeed, listGames, fetchJSON, DEFAULT_GROUPS,
   POLL_INTERVAL_MS, BACKOFF_START_MS, BACKOFF_MAX_MS, MAX_CONSECUTIVE_ERRORS,
 };

@@ -26,23 +26,77 @@ const game = (over = {}) => ({
   ...over,
 });
 
+/**
+ * Session 18. The old order was rank-first, which is the wrong question for
+ * somebody standing at a bar. They are picking the game that is ON, not the
+ * best game of the week. State is now the primary sort and rank is a tiebreak
+ * inside it.
+ */
 describe('ordering the list', () => {
-  it('puts ranked games first, best rank first', () => {
+  it('puts what is on now above what has not started, and Final last', () => {
     const out = sortGames([
-      game({ id: 'unranked' }),
-      game({ id: 'nine', home: { abbreviation: 'H', rank: 9 }, away: { abbreviation: 'A' } }),
-      game({ id: 'two', home: { abbreviation: 'H', rank: 2 }, away: { abbreviation: 'A' } }),
+      game({ id: 'done', state: 'post' }),
+      game({ id: 'later', state: 'pre', date: '2026-09-03T23:00Z' }),
+      game({ id: 'live', state: 'in', period: 2, clock: '7:00' }),
+    ]);
+    expect(out.map((g) => g.id)).toEqual(['live', 'later', 'done']);
+  });
+
+  it('does NOT let a ranked game outrank one that is actually in progress', () => {
+    const out = sortGames([
+      game({ id: 'ranked-pre', state: 'pre', date: '2026-09-04T03:00Z',
+        home: { abbreviation: 'H', rank: 1 }, away: { abbreviation: 'A' } }),
+      game({ id: 'unranked-live', state: 'in', period: 3, clock: '5:00' }),
+    ]);
+    expect(out.map((g) => g.id)).toEqual(['unranked-live', 'ranked-pre']);
+  });
+
+  it('orders in-progress games by how far along they are, nearest the end first', () => {
+    const out = sortGames([
+      game({ id: 'q1', state: 'in', period: 1, clock: '12:00' }),
+      game({ id: 'q4', state: 'in', period: 4, clock: '2:00' }),
+      game({ id: 'q2', state: 'in', period: 2, clock: '8:00' }),
+    ]);
+    expect(out.map((g) => g.id)).toEqual(['q4', 'q2', 'q1']);
+  });
+
+  it('within one quarter, the game with less clock left comes first', () => {
+    const out = sortGames([
+      game({ id: 'lots', state: 'in', period: 2, clock: '14:30' }),
+      game({ id: 'little', state: 'in', period: 2, clock: '0:45' }),
+      game({ id: 'mid', state: 'in', period: 2, clock: '7:10' }),
+    ]);
+    expect(out.map((g) => g.id)).toEqual(['little', 'mid', 'lots']);
+  });
+
+  it('orders not-yet-started games by kickoff, nearest first', () => {
+    const out = sortGames([
+      game({ id: 'nine', state: 'pre', date: '2026-09-04T01:00Z' }),
+      game({ id: 'six', state: 'pre', date: '2026-09-03T22:00Z' }),
+      game({ id: 'seven', state: 'pre', date: '2026-09-03T23:00Z' }),
+    ]);
+    expect(out.map((g) => g.id)).toEqual(['six', 'seven', 'nine']);
+  });
+
+  it('uses rank only as a tiebreak inside a group, not across groups', () => {
+    const out = sortGames([
+      game({ id: 'unranked', state: 'pre', date: '2026-09-03T22:00Z' }),
+      game({ id: 'nine', state: 'pre', date: '2026-09-03T22:00Z',
+        home: { abbreviation: 'H', rank: 9 }, away: { abbreviation: 'A' } }),
+      game({ id: 'two', state: 'pre', date: '2026-09-03T22:00Z',
+        home: { abbreviation: 'H', rank: 2 }, away: { abbreviation: 'A' } }),
     ]);
     expect(out.map((g) => g.id)).toEqual(['two', 'nine', 'unranked']);
   });
 
-  it('puts a game you can still watch above one that has finished', () => {
+  it('does not fall over when a game has no date, clock or period at all', () => {
     const out = sortGames([
-      game({ id: 'done', state: 'post' }),
-      game({ id: 'live', state: 'in' }),
-      game({ id: 'later', state: 'pre' }),
+      game({ id: 'b', state: 'pre', date: null, detail: null, name: 'B' }),
+      game({ id: 'a', state: 'pre', date: null, detail: null, name: 'A' }),
+      game({ id: 'live', state: 'in', period: null, clock: null }),
     ]);
-    expect(out.map((g) => g.id)).toEqual(['live', 'later', 'done']);
+    expect(out[0].id).toBe('live');
+    expect(out.map((g) => g.id).slice(1)).toEqual(['a', 'b']);
   });
 
   it('is stable between polls, so rows do not jump under a thumb', () => {
