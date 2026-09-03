@@ -215,35 +215,74 @@ await ref.page.locator('.gamepicker .x').evaluate((el) => el.click());
 note('game chosen, picker closes');
 await sleep(800);
 
-// ── the dial: a few cards moved to suggest, so both flows appear ───────────
-await ref.page.locator('.watchbtn', { hasText: 'What the feed calls' }).count()
-  .then(async (n) => { if (!n) await sleep(0); });
+/**
+ * Everything below is driven through the REF'S OWN UI, not the driver socket.
+ *
+ * setCardMode, pauseAutoCall and acceptSuggestion are all guarded with
+ * `if (refOf(roomCode) !== socket.id) return;`. The driver is not the Ref, so
+ * every one of them silently no-opped — and the timeline recorded them as
+ * having happened. Three false claims in every recording: a dial that was
+ * never changed, a pause that never paused, suggestions never answered.
+ * attachGame worked only because it has an explicit dev-only replay bypass.
+ *
+ * So these go through the buttons a Ref actually presses, and each one is
+ * VERIFIED before it is written down. A no-op now fails the run instead of
+ * being recorded as fact.
+ */
+const openDial = async () => {
+  await ref.page.locator('.watchbtn', { hasText: 'What the feed calls' })
+    .evaluate((el) => el.click());
+  await ref.page.locator('.carddial').waitFor({ timeout: 10000 });
+};
+const closeDial = async () => {
+  await ref.page.locator('.carddial .x').evaluate((el) => el.click());
+  await ref.page.locator('.carddial').waitFor({ state: 'detached', timeout: 10000 });
+};
+
 driver.emit('attachGame', {
   roomCode: code, league: game.league, gameId: REPLAY_GAME_ID,
   replayFixture: fixture, speed: 1,
 });
 note('game attached — score and clock live in the header');
 await sleep(2500);
+
+// ── the dial: a few cards moved to suggest, so both flows appear ───────────
 // First Down stays on AUTO. It is the most frequent call across a whole game
 // and moving it would hide the thing these recordings exist to show.
-for (const cardId of ['Field Goal', 'Sacks', 'Turnover on Downs']) {
-  driver.emit('setCardMode', { roomCode: code, cardId, mode: 'suggest' });
-  await sleep(250);
+const TO_SUGGEST = ['Field Goal', 'Sacks', 'Turnover on Downs'];
+await openDial();
+for (const cardId of TO_SUGGEST) {
+  const group = ref.page.getByRole('group', { name: `${cardId} mode` });
+  await group.getByRole('button', { name: 'suggest' }).evaluate((el) => el.click());
+  await sleep(400);                                   // visible on camera
 }
-note('dial: Field Goal, Sacks, Turnover on Downs → suggest (First Down stays auto)');
+for (const cardId of TO_SUGGEST) {
+  const pressed = await ref.page.getByRole('group', { name: `${cardId} mode` })
+    .getByRole('button', { name: 'suggest' }).getAttribute('aria-pressed');
+  if (pressed !== 'true') throw new Error(`dial did not take: ${cardId} is not on suggest`);
+}
+await closeDial();
+note(`dial: ${TO_SUGGEST.join(', ')} → suggest (First Down stays auto) — verified`);
 
 // ── the Ref answers suggestions: accept the first, ignore the second ───────
+// The prompt is sent to the Ref alone, so it can only be seen and answered
+// from the Ref's page. Polled from the main loop below.
 let suggestionsSeen = 0;
-driver.on('playSuggested', async ({ cardId }) => {
+const answerSuggestion = async () => {
+  const prompt = ref.page.locator('.suggestion');
+  if (!(await prompt.count())) return;
+  const cardId = await prompt.locator('.sg-card').innerText().catch(() => '');
   suggestionsSeen += 1;
   if (suggestionsSeen === 1) {
-    await sleep(2500);
-    driver.emit('acceptSuggestion', { roomCode: code, cardId });
+    await sleep(2500);                                // let it be read on camera
+    await prompt.locator('.sg-yes').evaluate((el) => el.click()).catch(() => {});
     note(`Ref ACCEPTS the suggestion: ${cardId}`);
-  } else if (suggestionsSeen === 2) {
+  } else {
     note(`Ref IGNORES a suggestion: ${cardId} — left to expire`);
+    // Left alone deliberately: it has to disappear on its own.
+    await prompt.waitFor({ state: 'detached', timeout: 30000 }).catch(() => {});
   }
-});
+};
 
 const calls = [];
 // Both events fire for every round and `declaredCard` lands FIRST, carrying no
@@ -343,20 +382,30 @@ while (Date.now() < until) {
   // The pause control, once, midway.
   if (roundIndex === 5 && !global.__paused) {
     global.__paused = true;
-    driver.emit('pauseAutoCall', { roomCode: code, paused: true });
+    await openDial();
+    await ref.page.locator('.pausebtn').evaluate((el) => el.click());
+    await ref.page.locator('.pausebtn.on').waitFor({ timeout: 10000 });
+    await closeDial();
     note('auto-calling PAUSED — game stays attached, score keeps moving');
     await sleep(14000);
-    driver.emit('pauseAutoCall', { roomCode: code, paused: false });
-    note('auto-calling RESUMED');
+    await openDial();
+    await ref.page.locator('.pausebtn').evaluate((el) => el.click());
+    await ref.page.locator('.pausebtn.on').waitFor({ state: 'detached', timeout: 10000 });
+    await closeDial();
+    note('auto-calling RESUMED')
   }
+  await answerSuggestion();
   await sleep(700);
 }
 
 console.log(`\n${calls.length} rounds: ${calls.map((c) => c.cardId).join(', ')}`);
 for (const s of seats) console.log(`  ${s.name}: poured ${s.poured}`);
 
-driver.emit('detachGame', { roomCode: code });
-await sleep(1000);
+// Also Ref-guarded — over the driver socket this no-opped, which is what left
+// a replay feed running for half an hour and contaminated the next run.
+await ref.page.locator('.ls-detach').evaluate((el) => el.click()).catch(() => {});
+await sleep(1500);
+note('game detached — the room is an ordinary game again');
 
 // Playwright only flushes a video when its context closes, so nothing is
 // renameable until here.
