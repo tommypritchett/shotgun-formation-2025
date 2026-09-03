@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, Component } from 'react';
+import { roomCodeFromSearch } from './lib/share-link';
 import io from 'socket.io-client';
 import './styles/tokens.css';
 import './styles/game.css';
@@ -152,7 +153,13 @@ function App() {
     console.log('🔄 GAME STATE CHANGED TO:', gameState);
   }, [gameState]);
   const [playerName, setPlayerName] = useState('');
-  const [roomCode, setRoomCode] = useState('');
+  // Seeded from a share link so an invited player lands with the code already
+  // in the field. Lazy initialiser: read once at mount, never on re-render.
+  // Before this, `?room=` was written by handleShareGame and read by nothing,
+  // so the recipient got an empty field they also could not type into.
+  const [roomCode, setRoomCode] = useState(() => roomCodeFromSearch(
+    typeof window !== 'undefined' ? window.location.search : ''
+  ));
   const [players, setPlayers] = useState([]);  // Initialize as array
   
   // 🔧 CRITICAL FIX: Use refs to prevent useEffect re-runs from destroying handlers
@@ -513,12 +520,26 @@ const closeHostSelection = () => {
  * button on the connecting screen. All three have to forget the saved game as
  * well as the URL, or the next load lands on the same dead room.
  */
-const abandonRejoin = () => {
+/**
+ * Give up on an automatic rejoin and hand back a join screen that works.
+ *
+ * The requirement is that nobody is ever left on a spinner. Landing on a blank
+ * form with no explanation is only marginally better, so this carries a reason
+ * and the join screen shows it.
+ *
+ * `reason` is guarded because this is also wired straight to a button's
+ * onClick, which would otherwise pass a React event as the message.
+ */
+const abandonRejoin = (reason) => {
+  // Keep the code from the link, if there was one, so a retry does not mean
+  // typing it again. Read BEFORE clearURL, which strips the params.
+  const fromLink = roomCodeFromSearch(window.location.search);
   forgetSavedGame();
   clearURL();
-  setRoomCode('');
+  setRoomCode(fromLink);
   setPlayers([]);
   setHostId(null);
+  setErrorMessage(typeof reason === 'string' && reason ? reason : '');
   setGameState('initial');
 };
 
@@ -906,7 +927,7 @@ useEffect(() => {
     
     const handleRejoinError = (error) => {
       console.log('Auto-rejoin failed:', error, '- going to join screen');
-      abandonRejoin();
+      abandonRejoin('That game is no longer running. Check the room code, or start a new game.');
     };
     
     // ✅ FIX: Remove competing gameStarted handler - let main handler process cards
@@ -927,7 +948,7 @@ useEffect(() => {
       // If still connecting after 10 seconds, assume failure
       if (gameStateRef.current === 'connecting') {
         console.log('Auto-rejoin timed out - going to join screen');
-        abandonRejoin();
+        abandonRejoin('We could not get you back into that game. Check the room code and try again.');
       }
     }, 10000);
     
@@ -971,7 +992,7 @@ useEffect(() => {
     
     const handleRejoinError = (error) => {
       console.log('LocalStorage rejoin failed:', error, '- going to join screen');
-      abandonRejoin();
+      abandonRejoin('Your last game has finished. Start a new one, or join with a room code.');
     };
     
     // ✅ FIX: Remove competing gameStarted handler - let main handler process cards
@@ -989,7 +1010,7 @@ useEffect(() => {
       
       if (gameStateRef.current === 'connecting') {
         console.log('LocalStorage rejoin timed out - going to join screen');
-        abandonRejoin();
+        abandonRejoin('We could not reach your last game. Start a new one, or join with a room code.');
       }
     }, 10000);
     
@@ -2392,8 +2413,11 @@ socket.on('gameOver', (message) => {
 
   // ── initial ────────────────────────────────────────────────────────────
   if (gameState === 'initial') {
-    const urlParams = getURLParams();
-    const hasSharedRoomCode = !!(urlParams.roomCode && !urlParams.playerName);
+    // True only when the link actually carried a usable code. It now drives
+    // the button wording and where the cursor lands — NOT whether the room
+    // field is editable. Making it read-only was half of why an invited player
+    // could not get in at all.
+    const hasSharedRoomCode = roomCodeFromSearch(window.location.search) !== '';
     return (
       <JoinScreen
         playerName={playerName}

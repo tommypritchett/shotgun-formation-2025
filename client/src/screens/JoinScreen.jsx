@@ -20,6 +20,7 @@ export default function JoinScreen({
   hasSharedRoomCode, errorMessage,
 }) {
   const named = playerName.trim().length > 0;
+
   return (
     <div className="app">
       <div className="pad">
@@ -42,7 +43,13 @@ export default function JoinScreen({
 
         <label className="field">
           <span className="k">Your name</span>
+          {/* Arriving on a share link the code is already filled, so the only
+              thing left is a name — put the cursor there rather than make
+              somebody in a bar find it. `autoFocus` rather than a ref effect:
+              this component is presentational like the rest of the client, and
+              a hook here would be the only one in any of them. */}
           <input
+            autoFocus={hasSharedRoomCode}
             value={playerName}
             onChange={(e) => onPlayerName(e.target.value)}
             placeholder="Name"
@@ -59,7 +66,6 @@ export default function JoinScreen({
             placeholder="5 digits"
             inputMode="numeric"
             maxLength={5}
-            readOnly={hasSharedRoomCode}
           />
         </label>
 
