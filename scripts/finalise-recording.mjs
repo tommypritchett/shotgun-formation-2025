@@ -108,12 +108,27 @@ export const finalise = (dir) => {
       }
       return [...acc, r];
     }, []);
+    // Once written, a manifest is the record of ONE run and must never be
+    // recomputed. `banner` is derived from the client's formatter, so a later
+    // change to that formatter would silently rewrite these lines into text the
+    // footage does not show — the manifest would drift away from the video it
+    // describes. Freeze on first write.
+    const frozen = Boolean(manifest.footage && manifest.footage.bannersFrozen);
+    if (frozen) console.log('  manifest.json: banners frozen — left exactly as recorded');
     const displayed = rounds.map(asDisplayed);
     const rejected = displayed.filter((r) => r.rejectedSummary).length;
     const before = JSON.stringify(manifest.rounds);
-    if (before !== JSON.stringify(displayed)) {
-      fs.writeFileSync(manifestPath,
-        JSON.stringify({ ...manifest, rounds: displayed }, null, 1));
+    if (!frozen && before !== JSON.stringify(displayed)) {
+      fs.writeFileSync(manifestPath, JSON.stringify({
+        ...manifest,
+        rounds: displayed,
+        footage: {
+          ...(manifest.footage || {}),
+          bannersFrozen: true,
+          note: 'Each `banner` is the text the app rendered during this run. '
+            + 'Frozen: never recompute it, or the manifest drifts away from the video.',
+        },
+      }, null, 1));
       if (rounds.length !== (manifest.rounds || []).length) {
         console.log(`  manifest.json: ${manifest.rounds.length} entries collapsed to ${rounds.length} rounds`);
       }

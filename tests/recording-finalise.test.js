@@ -144,6 +144,42 @@ describe('finalise-recording', () => {
     expect(rounds[1]).not.toHaveProperty('rejectedSummary');
   });
 
+  it('never recomputes a banner once it is frozen', () => {
+    // The manifest describes ONE run. `banner` comes from the client's reason
+    // formatter, so improving that formatter later would silently rewrite these
+    // lines into text the video does not show. The fix for stranded name
+    // suffixes changed 9 lines across the fixtures; none of them may leak back
+    // into a manifest whose footage predates it.
+    const names = ['Ref', 'Ben'];
+    writeVideosInOrder(names);
+    fs.writeFileSync(path.join(dir, 'pending.json'),
+      JSON.stringify({ names, primarySeat: 'Ben' }));
+    fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify({
+      rounds: [{ card: 'Penalty', by: 'feed', banner: 'The game called it · Jr. ATL 5 Yd penalty' }],
+      footage: { bannersFrozen: true },
+    }));
+
+    run();
+
+    const { rounds } = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
+    expect(rounds[0].banner).toBe('The game called it · Jr. ATL 5 Yd penalty');
+  });
+
+  it('freezes the banners it writes, so the next run cannot move them', () => {
+    const names = ['Ref', 'Ben'];
+    writeVideosInOrder(names);
+    fs.writeFileSync(path.join(dir, 'pending.json'),
+      JSON.stringify({ names, primarySeat: 'Ben' }));
+    fs.writeFileSync(path.join(dir, 'manifest.json'), JSON.stringify({
+      rounds: [{ card: 'Touchdown', by: 'feed', reason: 'Alex Bauman 4 Yd pass from Carson Beck' }],
+    }));
+
+    run();
+
+    const m = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
+    expect(m.footage.bannersFrozen).toBe(true);
+  });
+
   it('refuses to guess when there is no seat map, rather than mislabelling footage', () => {
     writeVideosInOrder(['Ref', 'Ben']);
 
