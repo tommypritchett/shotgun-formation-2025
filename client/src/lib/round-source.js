@@ -49,25 +49,56 @@ export const MAX_REASON = 58;
  */
 // Anchored at the end and counted backwards, because a forward "capitalised
 // word run" also matches football nouns — `\w` happily reads "Yd" as a name.
-const RETURN_CLAUSE = /(\S+\s+\S+)\s+(-?\d+\s+Yd\s+(?:Kickoff|Punt)\s+Return)\s*$/;
-const PENALTY_CLAUSE = /(\S+\s+\S+)\s+(-?\d+\s+Yd\s+Pnlty)\s*$/;
+/** Name suffixes ESPN appends: "Michael Penix Jr.", "Jessie Bates III". */
+const NAME_SUFFIX = /^(?:Jr\.?|Sr\.?|II|III|IV|V)$/;
+/** A team abbreviation. The offender on a team penalty — one word, not two. */
+const TEAM_ABBR = /^[A-Z]{2,4}$/;
+
+/**
+ * Who the clause immediately after this text belongs to.
+ *
+ * Taking the two words in front is right for "Mekhi Blackmon" and wrong in both
+ * directions for everything else: a team is ONE word, and a name with a suffix
+ * is THREE. Two produced "Jr. ATL 5 Yd penalty" — the tail of the receiver's
+ * name followed by the offending team, describing nobody — and "Penix Jr. 15 Yd
+ * penalty", which quietly drops a first name.
+ *
+ * Suffix is checked before team because "II" and "III" satisfy both.
+ */
+const actorBefore = (head) => {
+  const words = String(head || '').trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return '';
+  const last = words[words.length - 1];
+  if (NAME_SUFFIX.test(last)) return words.slice(-3).join(' ');
+  if (TEAM_ABBR.test(last)) return last;
+  return words.slice(-2).join(' ');
+};
+
+/** The clause, with whoever it belongs to and nothing of the clause before it. */
+const withActor = (match) => {
+  const actor = actorBefore(match[1]);
+  return actor ? `${actor} ${match[2]}` : match[2];
+};
+
+const RETURN_CLAUSE = /^(.*?)\s*(-?\d+\s+Yd\s+(?:Kickoff|Punt)\s+Return)\s*$/;
+const PENALTY_CLAUSE = /^(.*?)\s*(-?\d+\s+Yd\s+Pnlty)\s*$/;
 // A strip sack reads "Penix Sacked Penix Fumble Germaine Pratt 8 Yd Fumble
 // Recovery": the sack first, the turnover second. Cutting at the seam keeps the
 // sack, which is right for the Sacks card and wrong for the Turnover one.
-const TURNOVER_CLAUSE = /(\S+\s+\S+)\s+(-?\d+\s+Yd\s+(?:Fumble|Interception)\s+(?:Recovery|Return))/;
+const TURNOVER_CLAUSE = /^(.*?)\s*(-?\d+\s+Yd\s+(?:Fumble|Interception)\s+(?:Recovery|Return))/;
 
 const preferClause = (text, cardId) => {
   if (/Big Play|Special Teams TD/.test(cardId || '')) {
     const ret = RETURN_CLAUSE.exec(text);
-    if (ret) return `${ret[1]} ${ret[2]}`;
+    if (ret) return withActor(ret);
   }
   if (cardId === 'Penalty') {
     const pen = PENALTY_CLAUSE.exec(text);
-    if (pen) return `${pen[1]} ${pen[2]}`;
+    if (pen) return withActor(pen);
   }
   if (cardId === 'Turnover' || cardId === 'Defensive TD') {
     const turn = TURNOVER_CLAUSE.exec(text);
-    if (turn) return `${turn[1]} ${turn[2]}`;
+    if (turn) return withActor(turn);
   }
   return text;
 };
