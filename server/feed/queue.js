@@ -40,16 +40,37 @@ const { byPriority } = require('./cards');
  * on top produced a real end-to-end delay of roughly 78s — measured at the
  * table as "over a minute", which is exactly what it was.
  *
- * With no added delay the median call lands about 33s after the play (28.5s
- * publish + up to 5s poll). Cable is ~38s behind, so the typical call now
- * arrives a few seconds BEFORE cable shows it.
+ * ── The arithmetic, written out, because it was chosen and not overlooked ──
  *
- * **The known cost, accepted deliberately:** on a fast-published play — the
- * 14.1s tail — a call can fire roughly 20s before it appears on television, and
- * that spoils the play. The owner chose this with the trade-off in front of
- * them, having felt the 78s version during a real game. If it needs moving it
- * moves UP, and the honest fix is an adaptive delay computed per play rather
- * than a bigger constant: see docs/LIVE_GAME_PLAN.md.
+ * With nothing added, a call lands at roughly:
+ *
+ *     28.5s (median publish) + ~2.5s (mean wait on a 5s poll) = ~31s
+ *
+ * against the measured broadcast lag:
+ *
+ *     antenna ~19s   cable ~38s   YouTube TV / Hulu ~53s
+ *
+ * So the MEDIAN call now arrives about 7s before cable shows the play and
+ * about 22s before a stream does. This is not merely a fast-tail risk: on
+ * cable and on streams the typical call is early, and on the 14.1s publish
+ * tail it can be ~20s early on cable and ~35s early on a stream. Only an
+ * antenna is reliably ahead of it.
+ *
+ * **That is the accepted cost.** The owner chose zero with these numbers in
+ * front of them, having felt the 78s version during a real game, and confirmed
+ * it afterwards when the median-early consequence was spelled out. Being
+ * consistently a few seconds early was judged the better failure than being a
+ * minute late.
+ *
+ * **If this is revisited, do not just raise the constant.** A fixed number
+ * cannot fit a publish lag that ranges 14s to 161s: whatever value makes the
+ * median right makes the tails wrong in both directions. The honest fix is a
+ * per-play adaptive delay — wait `TARGET - (now - play.wallclock)`, clamped to
+ * [0, TARGET] — which lands every call at a constant offset regardless of how
+ * fast ESPN published it. That needs a guard, because `wallclock` is not
+ * monotonic (a captured fixture jumps backwards 3h11m at play 40), so a garbage
+ * value must fall back to the constant rather than compute a negative wait.
+ * See docs/LIVE_GAME_PLAN.md and tests/feed-timing-source.test.js.
  *
  * The env override exists so the tests can exercise THIS code path on a short
  * clock instead of keeping a second copy of the number, exactly as
