@@ -30,6 +30,8 @@ import ConnectingScreen from './components/ConnectingScreen';
 import DrinkAssigner from './components/DrinkAssigner';
 import GameCard from './components/GameCard';
 import MenuSheet from './components/MenuSheet';
+import RemovePlayerSheet from './components/RemovePlayerSheet';
+import { duplicateStandardCards } from './lib/duplicate-cards';
 import Toast from './components/Toast';
 import GameScreen from './screens/GameScreen';
 import JoinScreen from './screens/JoinScreen';
@@ -239,6 +241,7 @@ function App() {
 // const gameElementsClass = isMenuOpen ? 'game-elements-disabled' : '';
   // New state to track if host selection is in progress
 const [isHostSelection, setIsHostSelection] = useState(false);
+const [isRemovePlayerOpen, setIsRemovePlayerOpen] = useState(false);
     const [isDistributing, setIsDistributing] = useState(false);  // Flag to control drink distribution
   const [hasMatchingCardForCurrentEvent, setHasMatchingCardForCurrentEvent] = useState(false);  // Track if current player has matching card
   //const [drinksAssignedThisRound, setDrinksAssignedThisRound] = useState(0); 
@@ -609,6 +612,17 @@ const closeMenu = () => {
   setIsMenuOpen(false);
 };
 
+/** Ref-only: open the remove sheet. The confirm lives inside the sheet. */
+const openRemovePlayer = () => {
+  setIsMenuOpen(false);
+  setIsRemovePlayerOpen(true);
+};
+
+const handleRemovePlayer = (playerId) => {
+  socket.emit('removePlayer', { roomCode, playerId });
+  setIsRemovePlayerOpen(false);
+};
+
 const handleShareGame = () => {
   const gameUrl = `${window.location.origin}?room=${roomCode}`;
   const shareText = `Join my Shotgun Formation game! Room Code: ${roomCode}\n\nClick here to join: ${gameUrl}`;
@@ -753,12 +767,21 @@ const handleSelectWildCardToDiscard = (card) => {
 
 };
 
-// Confirm the wild card swap action
+// Confirm the swap. One allowance per quarter covers BOTH decks, so the event
+// depends on which card was picked — a duplicate standard card goes through
+// `standardCardSwap`, anything from the wild hand through `wildCardSwap`.
 const confirmWildCardSwap = () => {
-  socket.emit('wildCardSwap', { roomCode, discardedCard: selectedWildCardToDiscard });  // Emit event to server
-  console.log("Wild card swapping", selectedWildCardToDiscard);
-  setIsWildCardSelectionOpen(false);  // Close the modal
-  setSelectedWildCardToDiscard(null);  // Reset the selected card
+  const chosen = selectedWildCardToDiscard;
+  if (!chosen) return;
+  // Which deck it belongs to comes from the card data, not from which array it
+  // was rendered in — card facts live in ONE file (see CLAUDE.md rule 5).
+  const meta = getCard(chosen.card);
+  const isStandard = meta && meta.deck === DECK.STANDARD;
+  socket.emit(isStandard ? 'standardCardSwap' : 'wildCardSwap', {
+    roomCode, discardedCard: chosen,
+  });
+  setIsWildCardSelectionOpen(false);
+  setSelectedWildCardToDiscard(null);
 };
 const closeModal = (modalType) => {
   switch (modalType) {
@@ -2046,6 +2069,22 @@ socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
 // is NOT a declaration — Part A deliberately calls nothing. It is the feed of
 // what the system WOULD have called, with the 45s broadcast delay already
 // applied server-side, which is what makes the pacing judgeable by watching.
+// The Ref removed this player. Their socket is still connected and still in
+// the room's channel when this arrives, so the screen must move itself back to
+// the start rather than sit on a game they are no longer part of.
+socket.off('removedFromGame');
+socket.on('removedFromGame', ({ message } = {}) => {
+  forgetSavedGame();
+  clearURL();
+  setRoomCode('');
+  setPlayers([]);
+  setHostId(null);
+  setDeclaredCard('');
+  setWatching(null);
+  setErrorMessage(message || 'The Ref removed you from the game.');
+  setGameState('initial');
+});
+
 socket.off('gameList');
 socket.on('gameList', ({ league, games, error }) => {
   setGameListLoading(false);
@@ -2408,8 +2447,19 @@ socket.on('gameOver', (message) => {
       onRules={handleShowInstructions}
       onLeave={handleLeaveGame}
       onHandOff={isHost ? handleHostSwap : undefined}
+      onRemovePlayer={isHost ? openRemovePlayer : undefined}
     />
   );
+
+  const removePlayerSheet = isHost ? (
+    <RemovePlayerSheet
+      open={isRemovePlayerOpen}
+      players={players}
+      selfId={socket.id}
+      onClose={() => setIsRemovePlayerOpen(false)}
+      onRemove={handleRemovePlayer}
+    />
+  ) : null;
 
   // ── initial ────────────────────────────────────────────────────────────
   if (gameState === 'initial') {
@@ -2565,6 +2615,7 @@ socket.on('gameOver', (message) => {
           onAction={() => { handleWildCardSelect(openCard.id); setOpenCard(null); }}
         />
         {menu}
+        {removePlayerSheet}
         <Toast message={toastMessage} />
 
         {/* Declare Action — the Ref picks what just happened on the TV.
@@ -2618,19 +2669,40 @@ socket.on('gameOver', (message) => {
             <div className="scrim on" />
             <div className="sheet on cardsheet" role="dialog" aria-label="Swap a wild card" aria-modal="true">
               <div className="grab" />
-              <p className="waiting">Swap one wild card</p>
+              <p className="waiting">Swap one card</p>
               <div className="cardsheet-card" style={{ gap: 10 }}>
                 {(hand.wild || []).map((entry, i) => {
                   const card = getCard(entry && entry.card);
                   if (!card) return null;
                   const chosen = selectedWildCardToDiscard === entry;
                   return (
-                    <div key={`${card.id}-${i}`} style={{ outline: chosen ? '2px solid var(--sf-amber)' : 'none', borderRadius: 12 }}>
+                    <div key={`wild-${card.id}-${i}`} style={{ outline: chosen ? '2px solid var(--sf-amber)' : 'none', borderRadius: 12 }}>
                       <GameCard card={card} onClick={() => handleSelectWildCardToDiscard(entry)} />
                     </div>
                   );
                 })}
               </div>
+              {/* Duplicate standard cards are swappable too, on the SAME
+                  allowance — one swap per quarter, either deck. Only
+                  duplicates: a hand of five different cards has nothing wrong
+                  with it, and the server refuses anything else. */}
+              {duplicateStandardCards(hand.standard).length > 0 ? (
+                <>
+                  <p className="waiting">…or a card you are holding twice</p>
+                  <div className="cardsheet-card" style={{ gap: 10 }}>
+                    {duplicateStandardCards(hand.standard).map((entry, i) => {
+                      const card = getCard(entry && entry.card);
+                      if (!card) return null;
+                      const chosen = selectedWildCardToDiscard === entry;
+                      return (
+                        <div key={`dupe-${card.id}-${i}`} style={{ outline: chosen ? '2px solid var(--sf-amber)' : 'none', borderRadius: 12 }}>
+                          <GameCard card={card} onClick={() => handleSelectWildCardToDiscard(entry)} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              ) : null}
               <button
                 type="button" className="mi"
                 onClick={confirmWildCardSwap}

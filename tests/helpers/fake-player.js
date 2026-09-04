@@ -22,6 +22,10 @@ const applyToView = (view, event, payload, selfId) => {
       return { ...view, roomCode: payload };
     case 'updatePlayers':
       return { ...view, players: payload };
+    // The roster after somebody left or was removed. The real client sets
+    // `players` from this too (App.js), so the derived view must match.
+    case 'playerLeft':
+      return { ...view, players: payload?.remainingPlayers ?? view.players };
     case 'gameStarted': {
       const hands = payload?.hands;
       const hand = hands ? hands[selfId] : undefined;

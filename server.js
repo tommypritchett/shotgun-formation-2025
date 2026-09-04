@@ -210,6 +210,79 @@ const handOverWhistle = (roomCode, message) => {
 };
 
 
+/**
+ * Give the whistle back to whoever created the room, when they come back.
+ *
+ * Three rules, and the distinction between them is the whole feature:
+ *
+ *  - The whistle moved because they DROPPED (disconnect, dead phone, closed
+ *    tab). Coming back restores it. That is what this is for.
+ *  - The whistle moved because they HANDED IT OVER. That was a decision, and a
+ *    reconnect must not undo it, so `assignNewHost` clears the claim.
+ *  - They LEFT on purpose. They chose to go, so leaving clears the claim too
+ *    and rejoining makes them an ordinary player.
+ *
+ * It also must not fight the Session 13 rule that the first person back to an
+ * abandoned game becomes Ref: if somebody else got there first they hold the
+ * whistle until the original host actually returns, which is exactly what this
+ * does — nothing happens until that name reconnects.
+ *
+ * Never mid-round. Taking the whistle out of a stand-in's hands while a round
+ * is live would strand the table, so a restore that lands during a round is
+ * parked on the room and applied at the next clean moment.
+ */
+const restoreOriginalHostIfDue = (roomCode, socketId, playerName) => {
+  const room = rooms[roomCode];
+  if (!room || !room.originalHostName) return false;
+  if (room.originalHostName !== playerName) return false;
+  if (room.host === socketId) return false;          // already holding it
+
+  if (room.isActionInProgress) {
+    // Park it. `finishPendingHostRestore` picks this up at round end.
+    room.pendingHostRestoreId = socketId;
+    console.log(`🏈 ${playerName} is back in ${roomCode}; whistle returns at the end of this round`);
+    return false;
+  }
+
+  room.host = socketId;
+  room.pendingHostRestoreId = null;
+  io.to(roomCode).emit('newHost', {
+    newHostId: socketId,
+    message: `${playerName} is back. The whistle returns to them.`,
+  });
+  console.log(`🏈 Whistle restored to original host ${playerName} (${socketId}) in room ${roomCode}`);
+  return true;
+};
+
+/** Apply a whistle restore that had to wait for a round to finish. */
+const finishPendingHostRestore = (roomCode) => {
+  const room = rooms[roomCode];
+  if (!room || !room.pendingHostRestoreId) return;
+  const id = room.pendingHostRestoreId;
+  room.pendingHostRestoreId = null;
+  // They may have dropped again while the round ran.
+  const player = room.players.find((p) => p.id === id && !p.disconnected);
+  if (!player || room.host === id) return;
+  room.host = id;
+  io.to(roomCode).emit('newHost', {
+    newHostId: id,
+    message: `${player.name} is back. The whistle returns to them.`,
+  });
+  console.log(`🏈 Whistle restored to original host ${player.name} (${id}) in room ${roomCode} after the round`);
+};
+
+/**
+ * The host gave the whistle away, or walked. Either way the claim is spent.
+ * Called from `assignNewHost`, `leaveGame` and `leaveRoom`.
+ */
+const clearOriginalHostClaim = (roomCode, why) => {
+  const room = rooms[roomCode];
+  if (!room || !room.originalHostName) return;
+  console.log(`🏈 ${roomCode}: original-host claim by ${room.originalHostName} cleared (${why})`);
+  room.originalHostName = null;
+  room.pendingHostRestoreId = null;
+};
+
 // Enable CORS for all routes
 app.use(cors());
 
@@ -917,6 +990,9 @@ const finalizeRound = (roomCode) => {
     roundResults[roomCode] = {};
     console.log(`Round results cleared for room ${roomCode}.`);
     room.isActionInProgress = false;
+    // A clean moment. If the original host came back mid-round, this is where
+    // the whistle goes home — never out of a stand-in's hands mid-round.
+    finishPendingHostRestore(roomCode);
 
  
     // Update player hands for the next round
@@ -961,6 +1037,7 @@ const finalizeRound = (roomCode) => {
       console.error(err && err.stack ? err.stack : err);
       clearInterval(interval);
       if (rooms[roomCode]) rooms[roomCode].isActionInProgress = false;
+      finishPendingHostRestore(roomCode);
      }
     }, 1000);
 
@@ -1085,6 +1162,7 @@ const declareStandardCard = (roomCode, cardType) => {
       // If no one has the card, inform the room and reset the action status
       io.to(roomCode).emit('noCard', 'No one had this card');
       room.isActionInProgress = false;
+      finishPendingHostRestore(roomCode);
       noCardResult = true;
   
       // Show the message for 5 seconds, then clear it
@@ -1380,7 +1458,12 @@ io.on('connection', (socket) => {
       io.to(socket.id).emit('error', 'Could not create a game right now. Please try again.');
       return;
     }
-    rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false, wildSwapQuarter: {}, createdAt: Date.now() };
+    // `originalHostName` is the whistle's home. By NAME, not socket id: ids
+    // change on every reconnect, and the point of this is to survive one. It
+    // is a CLAIM, not a permanent right — it is cleared the moment the host
+    // gives the whistle away deliberately or leaves on purpose, so a reconnect
+    // can never undo a choice somebody made. See restoreOriginalHostIfDue.
+    rooms[roomCode] = { players: [{ id: socket.id, name: playerName }], host: socket.id,   isActionInProgress: false, wildSwapQuarter: {}, createdAt: Date.now(), originalHostName: playerName };
     playerStats[socket.id] = { drinks: 0, shotguns: 0, standard: [], wild: [] };  // Initialize player stats and hand
     usedCards[roomCode] = { standard: [], wild: [] };  // Initialize used cards storage for deck replenishment
         socket.join(roomCode);
@@ -1649,6 +1732,10 @@ function handleJoinRoom(socket, roomCode, playerName) {
       socket.emit('updatePlayers', rooms[roomCode].players);
       console.log(`📡 Sent lobby state to reconnected player ${playerName}`);
     }
+    // Deliberately on the RECONNECT branch only. Somebody joining fresh under
+    // the original host's name is a different person as far as this is
+    // concerned, and must not inherit the whistle.
+    restoreOriginalHostIfDue(roomCode, socket.id, playerName);
     return;
   }
 
@@ -1748,6 +1835,10 @@ socket.on('joinRoom', (roomCode, playerName) => {
 
         
     
+        const leaver = players[playerIndex];
+        if (leaver && rooms[roomCode].originalHostName === leaver.name) {
+          clearOriginalHostClaim(roomCode, 'the original host left the lobby on purpose');
+        }
         players.splice(playerIndex, 1);
         socket.leave(roomCode);
         delete playerStats[socket.id];  // Remove player stats
@@ -1845,6 +1936,10 @@ socket.on('assignNewHost', ({ roomCode, newHostId } = {}) => {
         io.to(socket.id).emit('error', why);
       } else {
         room.host = newHostId;
+        // A deliberate handoff spends the original host's claim. Without this
+        // the giver could drop, reconnect, and silently take back a whistle
+        // they chose to give away.
+        clearOriginalHostClaim(roomCode, 'the host handed the whistle over');
         io.to(roomCode).emit('newHost', { newHostId, message: `${newHost.name} is now the new host.` });
         console.log(`Host has been swapped to player: ${newHostId}`);
       }
@@ -1882,6 +1977,76 @@ socket.on('nextQuarter', ({ roomCode } = {}) => {
 });
 
 // Handle Wild Card Swap
+/**
+ * Swap ONE duplicate standard card at the quarter break.
+ *
+ * Same allowance as the wild swap, not a second one — `hasSpentSwapThisQuarter`
+ * and `recordSwap` are shared, so a player gets one swap per quarter of either
+ * kind. Two allowances would double everybody's rerolls, which is not what
+ * "same one-per-quarter allowance" means.
+ *
+ * Only DUPLICATES qualify. A hand of five different standard cards has nothing
+ * wrong with it; holding the same card twice is the dead weight this fixes. It
+ * also keeps the swap from becoming a general reroll of anything you dislike.
+ *
+ * Mirrors wildCardSwap deliberately, including staying silent on a refusal:
+ * the client closes its own modal on emit and listens for no reply, so an
+ * error event here would be new surface nothing renders.
+ */
+socket.on('standardCardSwap', ({ roomCode, discardedCard } = {}) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+
+  const player = room.players.find((p) => p.id === socket.id);
+  if (!player) return;
+
+  if (hasSpentSwapThisQuarter(room, player.name)) {
+    console.log(`⛔ Ignoring standard swap from ${player.name} in ${roomCode} — already swapped in quarter ${currentQuarter(room)}`);
+    return;
+  }
+
+  if (!discardedCard || typeof discardedCard !== 'object') {
+    console.log(`⛔ standardCardSwap from ${player.name} with no card — ignoring`);
+    return;
+  }
+
+  const playerHand = playerStats[player.id];
+  if (!playerHand || !Array.isArray(playerHand.standard)) return;
+
+  const matches = playerHand.standard.filter(
+    (c) => c && c.card === discardedCard.card && c.drinks === discardedCard.drinks
+  );
+  if (matches.length < 2) {
+    console.log(`⛔ ${player.name} asked to swap ${discardedCard.card}, which they hold ${matches.length} of — duplicates only`);
+    return;
+  }
+
+  const cardIndex = playerHand.standard.findIndex(
+    (c) => c && c.card === discardedCard.card && c.drinks === discardedCard.drinks
+  );
+  if (cardIndex === -1) return;
+
+  if (!room.deck || !Array.isArray(room.deck.standardDeck) || room.deck.standardDeck.length === 0) {
+    console.log(`⛔ standardCardSwap in ${roomCode}: the standard deck is empty`);
+    return;
+  }
+
+  if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
+  usedCards[roomCode].standard.push(discardedCard);
+
+  const replacement = room.deck.standardDeck.pop();
+  playerHand.standard[cardIndex] = replacement;
+
+  recordSwap(room, player.name);
+  checkAndReplenishDecks(roomCode);
+
+  console.log(`Player ${player.name} swapped duplicate standard ${discardedCard.card} for ${replacement && replacement.card}`);
+  io.to(socket.id).emit('updatePlayerHand', {
+    standard: playerHand.standard,
+    wild: playerHand.wild,
+  });
+});
+
 socket.on('wildCardSwap', ({ roomCode, discardedCard } = {}) => {
     console.log("Wild card selected", discardedCard);
 
@@ -2144,7 +2309,59 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
   };
 
   // Handle custom 'leaveGame' event
-socket.on('leaveGame', ({ roomCode } = {}) => {
+/**
+ * The Ref takes a player out — for somebody who left the bar without leaving
+ * the game.
+ *
+ * Deliberately routed through the SAME handler a player's own Leave button
+ * uses, by re-emitting it on that player's socket, rather than reimplementing
+ * the removal. Leaving is not one step: it saves stats to `formerPlayers`,
+ * drops `playerStats`, moves the whistle if the leaver held it, handles the
+ * room going empty, and refreshes everyone's hand. A second copy of that would
+ * drift, and this codebase has been bitten by exactly that before.
+ */
+socket.on('removePlayer', ({ roomCode, playerId } = {}) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  if (room.host !== socket.id) {
+    console.log(`⛔ ${socket.id} tried to remove ${playerId} from ${roomCode} without the whistle`);
+    return;
+  }
+  if (!playerId || playerId === socket.id) {
+    // Removing yourself is what Leave Game is for. Routing it here would go
+    // through the host-reassignment path twice.
+    if (playerId === socket.id) io.to(socket.id).emit('error', 'Use Leave game to leave yourself.');
+    return;
+  }
+  const target = room.players.find((p) => p.id === playerId);
+  if (!target) {
+    io.to(socket.id).emit('error', 'That player is no longer in the game.');
+    return;
+  }
+
+  console.log(`🏈 Ref ${socket.id} removed ${target.name} (${playerId}) from ${roomCode}`);
+  // Tell them first, while their socket is still in the room, so their screen
+  // returns to the start rather than freezing on a game they are not in.
+  io.to(playerId).emit('removedFromGame', {
+    roomCode,
+    message: 'The Ref removed you from the game.',
+  });
+
+  const targetSocket = io.sockets.sockets.get(playerId);
+  if (targetSocket) {
+    // One path, not two: replay their own Leave.
+    leaveGameFor(targetSocket, roomCode);
+  }
+});
+
+/**
+ * A player leaves the game they are in.
+ *
+ * Extracted from the `leaveGame` handler so the Ref's `removePlayer` can reuse
+ * it verbatim instead of growing a second, drifting copy. `socket` is the
+ * socket of the player LEAVING, which is not necessarily the socket that asked.
+ */
+const leaveGameFor = (socket, roomCode) => {
     console.log(`Player ${socket.id} has left the game manually.`);
     
     const room = rooms[roomCode];
@@ -2153,6 +2370,12 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
     if (playerIndex === -1) return; // If player is not found, do nothing
 
     const leavingPlayer = room.players[playerIndex];
+
+    // Choosing to go ends any claim on the whistle. Dropping does not — that
+    // is the whole distinction the restore rests on.
+    if (room.originalHostName && leavingPlayer.name === room.originalHostName) {
+      clearOriginalHostClaim(roomCode, 'the original host left on purpose');
+    }
 
     // Log player stats and hands before disconnecting
     console.log(`Saving stats for leaving player ${leavingPlayer.name} with ID ${socket.id}`);
@@ -2222,7 +2445,9 @@ socket.on('leaveGame', ({ roomCode } = {}) => {
       io.to(player.id).emit('updatePlayerHand', { standard: playerHand.standard, wild: playerHand.wild });
       // ✅ REMOVED: updatePlayerStats on disconnect - only send on round completion
     });
-});
+};
+
+socket.on('leaveGame', ({ roomCode } = {}) => leaveGameFor(socket, roomCode));
 
 // Add this handler in the io.on('connection') block
 // In server.js - update the requestGameState handler to be more robust
