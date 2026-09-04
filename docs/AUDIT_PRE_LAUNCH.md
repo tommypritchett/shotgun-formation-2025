@@ -170,7 +170,25 @@ Keep the boot line at `:2127` printing the running commit SHA. That one is genui
   The server's own order (`:21`) is polling-first and correct. Drop the option or reverse it.
 
 ### T2.5 — Two client dead-ends with no way out
-**CONFIRMED.** `App.js:790` — the auto-rejoin bail-out compares `gameState` captured in a `[]`-deps
+> **FIXED — do not quote the text below as current.** Both halves were resolved before
+> 2026-09-03 and the fix is verified by `tests/ui/rejoin-deadend.test.jsx`. This entry was
+> read as live in a later session and sent that session looking for a bug that was no
+> longer there. The original wording is kept below for the record only.
+>
+> - The bail-out now tests `gameStateRef.current` (a ref kept in sync by an effect), not a
+>   `[]`-deps closure, so it fires. `roomNotFound` is deliberately **left registered** — it
+>   is a `once`, so it cleans itself up, and tearing it down used to leave a late answer
+>   from the server with nobody listening.
+> - `abandonRejoin` calls `forgetSavedGame()`, which is the one place that does
+>   `localStorage.removeItem(SAVED_GAME_KEY)`.
+> - Added 2026-09-03: every bail-out now passes a reason that the join screen displays.
+>   Landing on a blank form with no explanation is only marginally better than a spinner.
+>
+> Separately fixed the same day, and **not** part of this entry: an invited player arriving
+> on a share link got an empty room-code field that was also `readOnly`. See
+> `client/src/lib/share-link.js` and `tests/ui/join-via-share-link.test.jsx`.
+
+**[HISTORICAL] CONFIRMED.** `App.js:790` — the auto-rejoin bail-out compares `gameState` captured in a `[]`-deps
 closure, so it is frozen at `'initial'` and **the comparison is always false. It is dead code.**
 The same timeout removes the only `roomNotFound` listener (`:786-787`).
 

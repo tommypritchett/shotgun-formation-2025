@@ -27,8 +27,50 @@
 const { byPriority } = require('./cards');
 
 /**
- * 45s: seven seconds past cable, a little early for YouTube TV, generous for an
- * antenna.
+ * Zero. OWNER'S DECISION, 2026-09-03, on measured evidence.
+ *
+ * The original 45s assumed the feed was near-real-time and that all of the lag
+ * had to be added by us. It is not. Measured against three live college games
+ * on 2026-09-03, the gap between a play happening and it becoming visible in
+ * ESPN's API was:
+ *
+ *   min 14.1s   median 28.5s   p90 161s
+ *
+ * So the feed already supplies most of a broadcast delay on its own. Adding 45s
+ * on top produced a real end-to-end delay of roughly 78s — measured at the
+ * table as "over a minute", which is exactly what it was.
+ *
+ * ── The arithmetic, written out, because it was chosen and not overlooked ──
+ *
+ * With nothing added, a call lands at roughly:
+ *
+ *     28.5s (median publish) + ~2.5s (mean wait on a 5s poll) = ~31s
+ *
+ * against the measured broadcast lag:
+ *
+ *     antenna ~19s   cable ~38s   YouTube TV / Hulu ~53s
+ *
+ * So the MEDIAN call now arrives about 7s before cable shows the play and
+ * about 22s before a stream does. This is not merely a fast-tail risk: on
+ * cable and on streams the typical call is early, and on the 14.1s publish
+ * tail it can be ~20s early on cable and ~35s early on a stream. Only an
+ * antenna is reliably ahead of it.
+ *
+ * **That is the accepted cost.** The owner chose zero with these numbers in
+ * front of them, having felt the 78s version during a real game, and confirmed
+ * it afterwards when the median-early consequence was spelled out. Being
+ * consistently a few seconds early was judged the better failure than being a
+ * minute late.
+ *
+ * **If this is revisited, do not just raise the constant.** A fixed number
+ * cannot fit a publish lag that ranges 14s to 161s: whatever value makes the
+ * median right makes the tails wrong in both directions. The honest fix is a
+ * per-play adaptive delay — wait `TARGET - (now - play.wallclock)`, clamped to
+ * [0, TARGET] — which lands every call at a constant offset regardless of how
+ * fast ESPN published it. That needs a guard, because `wallclock` is not
+ * monotonic (a captured fixture jumps backwards 3h11m at play 40), so a garbage
+ * value must fall back to the constant rather than compute a negative wait.
+ * See docs/LIVE_GAME_PLAN.md and tests/feed-timing-source.test.js.
  *
  * The env override exists so the tests can exercise THIS code path on a short
  * clock instead of keeping a second copy of the number, exactly as
@@ -36,7 +78,27 @@ const { byPriority } = require('./cards');
  * become one: no per-room override, no provider picker, no calibration UI. The
  * Ref configures nothing.
  */
-const BROADCAST_DELAY_MS = Number(process.env.BROADCAST_DELAY_MS) || 45_000;
+const BROADCAST_DELAY_MS = Number.isFinite(Number(process.env.BROADCAST_DELAY_MS))
+  && process.env.BROADCAST_DELAY_MS !== undefined && process.env.BROADCAST_DELAY_MS !== ''
+  ? Number(process.env.BROADCAST_DELAY_MS)
+  : 0;
+
+/**
+ * How long a detection may wait for a busy room before it is given up on.
+ *
+ * A detection that comes due while a round is running used to be dropped on the
+ * spot. First Down is ~40 of the ~70 calls in a game and its round is only six
+ * seconds, so it was the card most often thrown away in a busy stretch —
+ * measured at 82% fire rate under hurry-up pacing against 100% at a normal snap
+ * pace.
+ *
+ * It now gets re-offered for a few seconds. Small on purpose: the delay exists
+ * so a call lands as the play reaches the television, and a call that cannot
+ * fire within a few seconds of its moment is still better lost than fired a
+ * minute late. This is the "drop rather than fire late" rule, with just enough
+ * slack to survive one short round.
+ */
+const MAX_LATE_MS = 8_000;
 
 /**
  * Older than this at release time and it is dropped rather than fired late.
@@ -73,8 +135,11 @@ class DetectionQueue {
     this.staleAfterMs = Number.isFinite(options.staleAfterMs) ? options.staleAfterMs : STALE_AFTER_MS;
     this.maxDepth = Number.isFinite(options.maxDepth) ? options.maxDepth : MAX_QUEUE_DEPTH;
     this.now = options.now || (() => Date.now());
+    this.maxLateMs = Number.isFinite(options.maxLateMs) ? options.maxLateMs : MAX_LATE_MS;
     this.items = [];
-    this.stats = { queued: 0, released: 0, droppedStale: 0, droppedFull: 0 };
+    this.stats = {
+      queued: 0, released: 0, droppedStale: 0, droppedFull: 0, droppedLate: 0,
+    };
   }
 
   get depth() { return this.items.length; }
@@ -139,6 +204,35 @@ class DetectionQueue {
   }
 
   /**
+   * The room could not take this one yet — a round was already running.
+   *
+   * Put it back if it is still close enough to its intended moment, otherwise
+   * give up on it and say so. Returns whether it was held.
+   *
+   * `releaseAt` is left untouched so the item is due again on the very next
+   * tick; the grace window is measured from that original moment, so retrying
+   * can never walk the deadline forward one tick at a time.
+   */
+  retry(detection, at = this.now()) {
+    if (!detection || !detection.cardId) return false;
+    const releaseAt = Number.isFinite(detection.releaseAt)
+      ? detection.releaseAt : at;
+    if (at - releaseAt > this.maxLateMs) {
+      this.stats.droppedLate += 1;
+      return false;
+    }
+    if (this.items.length >= this.maxDepth) {
+      this.stats.droppedLate += 1;
+      return false;
+    }
+    this.items.push({ ...detection, releaseAt });
+    // It was counted on the way out; it must not be counted twice on the way
+    // back in, or the Ref's "released" number climbs on retries alone.
+    this.stats.released -= 1;
+    return true;
+  }
+
+  /**
    * The Ref took over. A manual declaration wins and clears what was waiting,
    * so the table is never told about a play the Ref has already moved past.
    */
@@ -159,4 +253,5 @@ module.exports = {
   BROADCAST_DELAY_MS,
   STALE_AFTER_MS,
   MAX_QUEUE_DEPTH,
+  MAX_LATE_MS,
 };
