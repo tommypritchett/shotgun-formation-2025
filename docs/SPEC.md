@@ -33,7 +33,18 @@ Real-time multiplayer drinking game played in one room while watching an NFL gam
 6. **First Down (global, no card):** Host emits `firstDownEvent`. Everyone's round drinks += 1. **6-second** window (`startTimer(roomCode, 6)`).
 7. **Distribute:** A holder taps target players (one tap = one drink/shotgun). The client **batches** all taps locally and emits a single `assignDrinks` **only when the timer reaches 0** (the per-tap emit is commented out).
 8. **Finalize:** When the timer hits 0, `finalizeRound` folds `roundResults` into `totalDrinks`/`totalShotguns`, emits `updatePlayerStats { roundFinalized: true }`, resets `declaredCard` to `null`, clears `activeRounds`/`socketIdMappings`, clears `roundResults`, replenishes hands, deals players back up.
-9. **Next quarter:** Host emits `nextQuarter`. `quarter += 1`, emits `quarterUpdated`. Each player may swap **one** wild card (client opens swap modal on `quarterUpdated > 1`).
+9. **Next quarter (rewritten Session 20):** the quarter turns over from one of two places, both through the same `advanceQuarter` path:
+   - **The real game, when one is attached.** The feed's `period` drives it: a period *increase* moves the app's quarter. The first state after attaching only establishes a baseline — it is a reading, not a move — so attaching to a game already in Q3 does not turn anything over. Advances are forward-only and one step at a time, because ESPN's period can repeat or arrive out of order and the app's quarter is its own counter. A period change arriving mid-round is **parked** and taken at the end of that round (`pendingQuarterFromFeed`), alongside a parked whistle restore.
+   - **The Ref, by hand.** `nextQuarter` is now **Ref-only** (it was not before: any client could change everyone's quarter, which also handed out a fresh swap allowance). It is **refused mid-round unless `force: true`**; the client asks "are you sure?" for exactly two reasons — a round is running, or an attached game is on a different period — and sends `force` when the Ref insists. The server re-checks, so a stale client cannot cut a round in half.
+10. **The quarter break (new, Session 20):** advancing opens a real phase on the room, not just a modal on each client.
+   - `isActionInProgress` is held for its duration, so the existing single-round guard keeps rounds out. No second mechanism: an auto-called round is refused by the same check a manual one is.
+   - **It ends when every *connected* player has answered — confirmed a swap or dismissed — or after `QUARTER_BREAK_MS` (45s).** Disconnected players are not waited for; they cannot answer, and holding the table to a dead phone is the failure the rule avoids.
+   - Broadcast as `quarterBreak { open }`.
+11. **Shedding duplicates (replaces the one-card swap, Session 20):** at the break a player may swap **every card they hold more than one of, in one action**, across **both decks**.
+   - Only duplicates are selectable, and **one copy of each is always kept** — `n` copies means at most `n - 1` may go. Holding 3 Penalty and 2 Touchdown means up to 2 Penalty and 1 Touchdown.
+   - **All-or-nothing.** A request asking for one card too many is refused whole, so Confirm never silently sheds a different set than the one shown — and never spends the allowance on a partial swap.
+   - **The Session 3 guard is kept, and now guards one CONFIRM rather than one card.** `wildSwapQuarter` is untouched: still keyed by player name so a reconnect cannot buy a second go, still storing the quarter so it resets on advance. What changed is only how much a single confirm may move.
+   - Event `swapDuplicates { cards: [{ card, drinks, deck }] }`, answered by `swapResult { swapped, refused }`. `swapDone` marks a player finished without swapping. The old `wildCardSwap` and `standardCardSwap` remain for compatibility.
 
 ### Core rules
 - **10 drinks = 1 shotgun**, applied in two places:
@@ -195,7 +206,12 @@ Both the countdown and the reconnection math now read one constant,
 | `startGame` | `roomCode: string` | requires ≥3 players |
 | `assignNewHost` | `{ roomCode, newHostId }` | |
 | `nextQuarter` | `{ roomCode }` | |
-| `wildCardSwap` | `{ roomCode, discardedCard }` | `discardedCard` is a full card object `{ card, drinks, type }` |
+| `wildCardSwap` | `{ roomCode, discardedCard }` | `discardedCard` is a full card object `{ card, drinks, type }`. Superseded by `swapDuplicates`; kept working. |
+| `standardCardSwap` | `{ roomCode, discardedCard }` | one duplicate standard card. Superseded by `swapDuplicates`; kept working. |
+| `swapDuplicates` | `{ roomCode, cards: [{ card, drinks, deck }] }` | shed every selected duplicate in one action, both decks. Answered by `swapResult`. |
+| `swapDone` | `{ roomCode }` | "I am finished with the break" — dismissed, or confirmed nothing. Lets the break close without waiting out its timeout. |
+| `nextQuarter` | `{ roomCode, force? }` | **Ref-only.** Refused mid-round unless `force`. |
+| `removePlayer` | `{ roomCode, playerId }` | **Ref-only.** Takes a player out, through the same path their own Leave uses. |
 | `firstDownEvent` | `{ roomCode }` | |
 | `playStandardCard` | `{ roomCode, cardType }` | |
 | `wildCardSelected` | `{ roomCode, playerId, wildcardtype }` | |
@@ -228,7 +244,11 @@ Both the countdown and the reconnection math now read one constant,
 | `gameOver` | `message: string` | |
 | `playerLeft` | `{ playerId, remainingPlayers }` | |
 | `playerRejoined` | `{ playerId, playerName }` | |
-| `quarterUpdated` | `quarter: number` | client opens wild-swap modal if `>1` |
+| `quarterUpdated` | `quarter: number` | client opens the break sheet if `>1` |
+| `quarterBreak` | `{ open, quarter?, endsInMs?, reason? }` | the break opened or closed |
+| `quarterBlocked` | `{ reason }` | to the Ref only: an un-forced `nextQuarter` was refused mid-round |
+| `swapResult` | `{ swapped, refused }` | how many cards actually went, and why not if none |
+| `removedFromGame` | `{ roomCode, message }` | to the removed player only |
 | `forceRefresh` | `{ reason, playerName }` | triggers `window.location.reload(true)` |
 | `heartbeat` | `{ timestamp }` | every 10s |
 
@@ -288,7 +308,10 @@ alone spanned every game on the server — see the state-bug list below.
 
 | Object | Shape | Purpose |
 |--------|-------|---------|
-| `rooms[code].wildSwapQuarter` | `{ [playerName]: quarterNumber }` **on the room** | the one-swap-per-player-per-quarter allowance. Keyed by name so it survives a reconnect; stores the quarter so it resets when the quarter advances. |
+| `rooms[code].wildSwapQuarter` | `{ [playerName]: quarterNumber }` **on the room** | the one-**confirm**-per-player-per-quarter allowance. Keyed by name so it survives a reconnect; stores the quarter so it resets when the quarter advances. Session 20 widened what one confirm may move (every duplicate, both decks) but did **not** relax the guard. |
+| `rooms[code].quarterBreak` | `{ answered: Set<playerName>, startedAt, timer }` or `null` | the live break. Present means `isActionInProgress` is held and no round may start. |
+| `rooms[code].pendingQuarterFromFeed` | `number` or `null` | a period the real game reached while a round was running, taken at the end of that round. |
+| `rooms[code].originalHostName` | `string` or `null` | who created the room, by name. A claim on the whistle, cleared by a deliberate handoff or by leaving on purpose — not by dropping. |
 
 ### State bugs — status
 
@@ -315,6 +338,12 @@ alone spanned every game on the server — see the state-bug list below.
   Now **one swap per player per quarter**, tracked on the room as `wildSwapQuarter` and keyed
   by name so a reconnect cannot buy a second one. A refused swap is **silently ignored**; no
   new socket event was added. `tests/swap-guard.test.js`.
+  **Session 20 kept this guard and widened its scope**: it now permits one CONFIRM per quarter
+  rather than one card, and that confirm may shed every duplicate across both decks. The guard
+  itself — name-keyed, quarter-stamped — is unchanged, because its job is stopping repeated
+  swaps from buying a better hand and that job did not change. `swapDuplicates` answers with
+  `swapResult` rather than staying silent, which is what makes a refusal observable at all.
+  `tests/quarter-break.test.js`.
 - ✅ **FIXED 2026-08-14 (Session 3)** Every `playerStats` lookup by name spanned all rooms.
   Two rooms each with a "Mike" corrupted each other: the reconnecting Mike was awarded the
   **other** Mike's higher score, and the other Mike's entry was then deleted as cleanup. The

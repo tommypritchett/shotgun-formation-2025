@@ -748,6 +748,17 @@ button.card:active{transform:translateY(2px) scale(.985)}
    and reusing the name turned this button into a 207px-tall invisible overlay
    that swallowed its own taps. Caught in a browser, not by a unit test. */
 .sheet .mi.mi-remove{color:var(--sf-blood,#FF4A33);font-weight:700}
+
+/* Quarter break: a duplicate card and how many copies are going. The count is
+   the whole point of the screen — "holding 3 · swapping 2 of 2" is what tells
+   you what you are giving up, so it is not decoration and must stay legible at
+   360px. */
+.dupepick{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
+.dupecount{
+  font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-size:10px;letter-spacing:.03em;color:var(--sf-muted);white-space:nowrap;
+}
+.dupepick.on .dupecount{color:var(--sf-amber,#FFB020);font-weight:600}
 .sheet .mi.away .k{color:var(--sf-muted);letter-spacing:.12em}
 
 /* The moment the assigner rolls over from shotguns to drinks. The unit, the
