@@ -118,7 +118,13 @@ describe('the feed declaring', () => {
 
     room.host.emit('attachGame', {
       roomCode: room.code, league: 'nfl', gameId: '401772877',
-      replayFixture: slice(fixture('nfl', '401772877'), 60), speed: 100000,
+      // 40, not 60: the fixture crosses into period 2 at play 40, and a
+      // feed-driven quarter change now opens a real break that holds the room
+      // until everyone answers. A 60-play slice at 100000x turns the quarter
+      // over before any round can start. Staying inside one period keeps this
+      // test about the thing it is named for; the quarter change has its own
+      // tests in tests/quarter-break.test.js.
+      replayFixture: slice(fixture('nfl', '401772877'), 40), speed: 100000,
     });
 
     const declared = await ben.waitFor('declaredCard', { since, timeout: DELAY_MS + 15_000 });
@@ -154,6 +160,12 @@ describe('the feed declaring', () => {
 
     room.host.emit('attachGame', {
       roomCode: room.code, league: 'nfl', gameId: '401772877',
+      // 40, not 60: the fixture crosses into period 2 at play 40, and a
+      // feed-driven quarter change now opens a real break that holds the room
+      // until everyone answers. A 60-play slice at 100000x turns the quarter
+      // over before any round can start. Staying inside one period keeps this
+      // test about the thing it is named for; the quarter change has its own
+      // tests in tests/quarter-break.test.js.
       replayFixture: slice(fixture('nfl', '401772877'), 40), speed: 100000,
     });
 

@@ -254,6 +254,23 @@ const restoreOriginalHostIfDue = (roomCode, socketId, playerName) => {
   return true;
 };
 
+/**
+ * Take a quarter the feed asked for while a round was running.
+ *
+ * Called at the same clean moments as a parked whistle restore: the end of a
+ * round. Keeping both on one hook means there is a single definition of "a
+ * clean moment" rather than two that can drift apart.
+ */
+const finishPendingQuarter = (roomCode) => {
+  const room = rooms[roomCode];
+  if (!room || !room.pendingQuarterFromFeed) return;
+  const target = room.pendingQuarterFromFeed;
+  room.pendingQuarterFromFeed = null;
+  if (room.quarterBreak) return;
+  if ((room.quarter || 1) >= target) return;
+  advanceQuarter(roomCode, `feed reached Q${target}, taken after the round`);
+};
+
 /** Apply a whistle restore that had to wait for a round to finish. */
 const finishPendingHostRestore = (roomCode) => {
   const room = rooms[roomCode];
@@ -281,6 +298,100 @@ const clearOriginalHostClaim = (roomCode, why) => {
   console.log(`🏈 ${roomCode}: original-host claim by ${room.originalHostName} cleared (${why})`);
   room.originalHostName = null;
   room.pendingHostRestoreId = null;
+};
+
+/**
+ * The quarter break.
+ *
+ * A real phase on the room, not just a modal on each client. It has to be
+ * server-side for two reasons: nothing may start a round while people are
+ * still deciding what to shed, and the break has to end on its own if somebody
+ * walks off with the sheet open.
+ *
+ * **When the break is over** — either of:
+ *   - every CONNECTED player has answered (confirmed a swap or dismissed), or
+ *   - QUARTER_BREAK_MS has passed.
+ *
+ * Disconnected players are not waited for. They cannot answer, and holding the
+ * table hostage to a dead phone is the failure this rule exists to avoid. They
+ * simply miss the break, which is the same cost Session 3 already accepted for
+ * a player who is away when the swap window opens.
+ *
+ * `isActionInProgress` is held for the whole break, so the existing
+ * single-round guard does the work of keeping rounds out — no second mechanism,
+ * and an auto-called round is refused by exactly the same check a manual one is.
+ */
+const QUARTER_BREAK_MS = Number(process.env.QUARTER_BREAK_MS) || 45_000;
+
+const breakIsOver = (room) => {
+  if (!room || !room.quarterBreak) return true;
+  const waitingOn = activePlayers(room)
+    .filter((p) => !room.quarterBreak.answered.has(p.name));
+  return waitingOn.length === 0;
+};
+
+const endQuarterBreak = (roomCode, why) => {
+  const room = rooms[roomCode];
+  if (!room || !room.quarterBreak) return;
+  if (room.quarterBreak.timer) clearTimeout(room.quarterBreak.timer);
+  room.quarterBreak = null;
+  room.isActionInProgress = false;
+  io.to(roomCode).emit('quarterBreak', { open: false, reason: why });
+  console.log(`🏈 quarter break over in ${roomCode} (${why})`);
+  // A whistle restore that had to wait for the break can land now.
+  finishPendingHostRestore(roomCode);
+};
+
+const startQuarterBreak = (roomCode) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  if (room.quarterBreak) endQuarterBreak(roomCode, 'a new break started');
+
+  room.isActionInProgress = true;
+  room.quarterBreak = { answered: new Set(), startedAt: Date.now(), timer: null };
+  room.quarterBreak.timer = setTimeout(
+    () => endQuarterBreak(roomCode, 'the break timed out'),
+    QUARTER_BREAK_MS,
+  );
+  if (room.quarterBreak.timer.unref) room.quarterBreak.timer.unref();
+
+  io.to(roomCode).emit('quarterBreak', {
+    open: true, quarter: room.quarter || 1, endsInMs: QUARTER_BREAK_MS,
+  });
+  console.log(`🏈 quarter break open in ${roomCode} for quarter ${room.quarter}`);
+};
+
+/** A player has confirmed or dismissed. Closes the break once all have. */
+const markSwapAnswered = (roomCode, playerName) => {
+  const room = rooms[roomCode];
+  if (!room || !room.quarterBreak || !playerName) return;
+  room.quarterBreak.answered.add(playerName);
+  if (breakIsOver(room)) endQuarterBreak(roomCode, 'everyone answered');
+};
+
+/**
+ * Turn the quarter over, and open the break.
+ *
+ * `source` is 'ref' or 'feed', for the log only — the path is identical, the
+ * same way an auto-called round goes through the Ref's own declaration path.
+ */
+const advanceQuarter = (roomCode, source) => {
+  const room = rooms[roomCode];
+  if (!room) return false;
+  room.quarter = (room.quarter || 1) + 1;
+  console.log(`Quarter changed to ${room.quarter} in room ${roomCode} (${source})`);
+  io.to(roomCode).emit('quarterUpdated', room.quarter);
+
+  // Kept for the old client, which opens its sheet off this. Harmless, and
+  // removing it would be a contract change for no gain.
+  room.players.forEach((player) => {
+    const playerHand = playerStats[player.id];
+    if (!playerHand) return;
+    io.to(player.id).emit('wildCardSelection', { wildCards: playerHand.wild });
+  });
+
+  startQuarterBreak(roomCode);
+  return true;
 };
 
 // Enable CORS for all routes
@@ -442,8 +553,44 @@ const watchers = new Watchers({
 
     const pipeline = runPipeline(feed, {
       onState: (state) => {
+        const wasPeriod = entry.state && entry.state.period;
         entry.state = { ...entry.state, ...state };
         tell('gameFeedUpdate', { league, gameId: entry.gameId, ...entry.state });
+
+        // The real game's period drives the app's quarter. Same advance path
+        // the Ref uses, not a parallel one — exactly as an auto-called round
+        // goes through the Ref's own declaration path.
+        //
+        // A MOVE, not a reading. The first state after attaching only
+        // establishes where the real game currently is — it is not a
+        // transition, and treating it as one turned the quarter over the
+        // instant a room attached to a game already in progress, opening a
+        // break and blocking the first round.
+        //
+        // Only ever FORWARD, and only one step at a time: ESPN's period can
+        // repeat or arrive out of order across polls, and the app's quarter is
+        // its own counter, so walking it backwards would hand out a second
+        // swap allowance for a quarter already played.
+        const now = Number(entry.state.period);
+        const before = Number(wasPeriod);
+        if (!Number.isFinite(now)) return;
+        if (!Number.isFinite(before) || before <= 0) return;   // baseline only
+        if (now <= before) return;
+        for (const roomCode of entry.rooms) {
+          const room = rooms[roomCode];
+          if (!room || !room.gameStarted) continue;
+          if (room.quarterBreak) continue;              // already in a break
+          if ((room.quarter || 1) >= now) continue;     // already there or ahead
+          // A round is mid-flight. The break must not cut it in half, so this
+          // is parked and taken at the next clean moment, the same way a
+          // whistle restore is.
+          if (room.isActionInProgress) {
+            room.pendingQuarterFromFeed = now;
+            console.log(`🏈 ${roomCode}: real game reached Q${now}; turning over after this round`);
+            continue;
+          }
+          advanceQuarter(roomCode, `feed reached Q${now}`);
+        }
       },
       onDetected: (detections, play) => {
         entry.stats.detected += detections.length;
@@ -991,8 +1138,10 @@ const finalizeRound = (roomCode) => {
     console.log(`Round results cleared for room ${roomCode}.`);
     room.isActionInProgress = false;
     // A clean moment. If the original host came back mid-round, this is where
-    // the whistle goes home — never out of a stand-in's hands mid-round.
+    // the whistle goes home — never out of a stand-in's hands mid-round, and
+    // where a quarter the feed asked for mid-round is finally taken.
     finishPendingHostRestore(roomCode);
+    finishPendingQuarter(roomCode);
 
  
     // Update player hands for the next round
@@ -1038,6 +1187,7 @@ const finalizeRound = (roomCode) => {
       clearInterval(interval);
       if (rooms[roomCode]) rooms[roomCode].isActionInProgress = false;
       finishPendingHostRestore(roomCode);
+      finishPendingQuarter(roomCode);
      }
     }, 1000);
 
@@ -1163,6 +1313,7 @@ const declareStandardCard = (roomCode, cardType) => {
       io.to(roomCode).emit('noCard', 'No one had this card');
       room.isActionInProgress = false;
       finishPendingHostRestore(roomCode);
+      finishPendingQuarter(roomCode);
       noCardResult = true;
   
       // Show the message for 5 seconds, then clear it
@@ -1952,28 +2103,138 @@ socket.on('assignNewHost', ({ roomCode, newHostId } = {}) => {
   });
 
 // Handle Next Quarter event
-socket.on('nextQuarter', ({ roomCode } = {}) => {
+/**
+ * The Ref turns the quarter over by hand.
+ *
+ * Ref-only, which it was not before — any client could send this and change
+ * everyone's quarter, which also handed out a fresh swap allowance.
+ *
+ * Refused mid-round unless `force`. The client asks "are you sure?" in exactly
+ * the two cases worth interrupting for — a round is running, or a game is
+ * attached and its period disagrees — and sends `force: true` when the Ref
+ * insists. The server still checks, so a stale or hand-rolled client cannot
+ * cut a round in half by accident.
+ */
+socket.on('nextQuarter', ({ roomCode, force } = {}) => {
     const room = rooms[roomCode];
     if (!room) return;
-
-    // Increase the quarter count
-    if (!room.quarter) {
-        room.quarter = 1;  // Initialize the quarter if it's not defined
+    if (room.host !== socket.id) {
+      console.log(`⛔ ${socket.id} tried to change the quarter in ${roomCode} without the whistle`);
+      return;
     }
-    room.quarter += 1;
+    if (room.quarterBreak) return;              // already in one; ignore a double tap
+    if (room.isActionInProgress && !force) {
+      io.to(socket.id).emit('quarterBlocked', {
+        reason: 'A round is running. Advancing now will end it.',
+      });
+      return;
+    }
+    advanceQuarter(roomCode, 'ref');
+});
 
-    console.log(`Quarter changed to ${room.quarter} in room ${roomCode}`);
+/**
+ * Shed every duplicate in one action.
+ *
+ * Replaces the old one-card-per-quarter swap. **The Session 3 guard is kept,
+ * and now guards one CONFIRM rather than one card** — `hasSpentSwapThisQuarter`
+ * and `recordSwap` are untouched, still keyed by player NAME so a reconnect
+ * cannot buy a second go. What changed is only how much one confirm may move.
+ *
+ * The rule is shedding redundancy, not rerolling a hand:
+ *   - only cards held two or more times are swappable, and
+ *   - at least one copy of each is always kept, so `n` copies means at most
+ *     `n - 1` may go.
+ *
+ * All-or-nothing. A request that asks for one card too many is refused whole
+ * rather than partly honoured — a player who taps Confirm should never be
+ * surprised by which cards actually went, and a silent partial swap would also
+ * spend their one allowance for the quarter.
+ *
+ * Both decks, same rule. `swapResult` is a new event and the reason the
+ * refusals are testable at all; the old swaps stayed silent, which made "did
+ * anything happen?" unanswerable from outside.
+ */
+socket.on('swapDuplicates', ({ roomCode, cards } = {}) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  const player = room.players.find((p) => p.id === socket.id);
+  if (!player) return;
 
-    // Broadcast the updated quarter to all players in the room
-    io.to(roomCode).emit('quarterUpdated', room.quarter);
+  const reply = (swapped, refused) =>
+    io.to(socket.id).emit('swapResult', { swapped, refused: refused || null });
 
-    // When the new quarter starts, allow each player to swap a wild card
-    room.players.forEach(player => {
-        const playerHand = playerStats[player.id];
+  if (!Array.isArray(cards)) return reply(0, 'nothing to swap');
 
-        // Send the current wild cards for selection
-        io.to(player.id).emit('wildCardSelection', { wildCards: playerHand.wild });
+  const wanted = cards.filter((c) => c && typeof c === 'object' && c.card);
+  if (wanted.length === 0) return reply(0, 'nothing to swap');
+
+  if (hasSpentSwapThisQuarter(room, player.name)) {
+    console.log(`⛔ ${player.name} already swapped in quarter ${currentQuarter(room)} of ${roomCode}`);
+    return reply(0, 'already swapped this quarter');
+  }
+
+  const hand = playerStats[player.id];
+  if (!hand) return reply(0, 'no hand');
+
+  const key = (c) => `${c.deck === 'wild' ? 'wild' : 'standard'}|${c.card}|${c.drinks}`;
+  const held = (deck, c) => (hand[deck] || [])
+    .filter((x) => x && x.card === c.card && x.drinks === c.drinks).length;
+
+  // Count what was asked for, per distinct card.
+  const asked = new Map();
+  for (const c of wanted) {
+    const k = key(c);
+    asked.set(k, { card: c, deck: c.deck === 'wild' ? 'wild' : 'standard', n: (asked.get(k)?.n || 0) + 1 });
+  }
+
+  // Validate every group BEFORE touching the hand, so a refusal changes nothing.
+  for (const entry of asked.values()) {
+    const have = held(entry.deck, entry.card);
+    if (have < 2) {
+      return reply(0, `${entry.card.card} is not a duplicate`);
+    }
+    if (entry.n > have - 1) {
+      return reply(0, `you must keep one ${entry.card.card}`);
+    }
+  }
+
+  const deckOf = (deck) => (deck === 'wild' ? room.deck?.wildDeck : room.deck?.standardDeck);
+  let swapped = 0;
+  for (const entry of asked.values()) {
+    const pile = deckOf(entry.deck);
+    if (!Array.isArray(pile)) continue;
+    for (let i = 0; i < entry.n; i += 1) {
+      if (pile.length === 0) break;
+      const at = (hand[entry.deck] || []).findIndex(
+        (x) => x && x.card === entry.card.card && x.drinks === entry.card.drinks
+      );
+      if (at === -1) break;
+      if (!usedCards[roomCode]) usedCards[roomCode] = { standard: [], wild: [] };
+      usedCards[roomCode][entry.deck].push(hand[entry.deck][at]);
+      hand[entry.deck][at] = pile.pop();
+      swapped += 1;
+    }
+  }
+
+  if (swapped > 0) {
+    recordSwap(room, player.name);
+    checkAndReplenishDecks(roomCode);
+    io.to(socket.id).emit('updatePlayerHand', {
+      standard: hand.standard, wild: hand.wild,
     });
+    console.log(`${player.name} shed ${swapped} duplicate(s) in ${roomCode}`);
+  }
+  reply(swapped, swapped === 0 ? 'nothing was swapped' : null);
+  markSwapAnswered(roomCode, player.name);
+});
+
+/** "I am done with the break" — confirmed nothing, or dismissed the sheet. */
+socket.on('swapDone', ({ roomCode } = {}) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  const player = room.players.find((p) => p.id === socket.id);
+  if (!player) return;
+  markSwapAnswered(roomCode, player.name);
 });
 
 // Handle Wild Card Swap

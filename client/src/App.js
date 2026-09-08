@@ -31,7 +31,9 @@ import DrinkAssigner from './components/DrinkAssigner';
 import GameCard from './components/GameCard';
 import MenuSheet from './components/MenuSheet';
 import RemovePlayerSheet from './components/RemovePlayerSheet';
-import { duplicateStandardCards } from './lib/duplicate-cards';
+import {
+  swappableGroups, toggleSelection, selectedCount, totalSelected, selectionToCards, groupKey,
+} from './lib/duplicate-cards';
 import Toast from './components/Toast';
 import GameScreen from './screens/GameScreen';
 import JoinScreen from './screens/JoinScreen';
@@ -251,6 +253,12 @@ const [isRemovePlayerOpen, setIsRemovePlayerOpen] = useState(false);
   const [quarter, setQuarter] = useState(1); // Track the current quarter
   const [isWildCardSelectionOpen, setIsWildCardSelectionOpen] = useState(false);  // Wild card selection modal state
   const [selectedWildCardToDiscard, setSelectedWildCardToDiscard] = useState(null);  // Track the selected wild card to discard
+  // The quarter break: which duplicate copies this player has picked to shed,
+  // as { 'deck|card|drinks': count }. Multi-tap cycles a group 0..spare..0, so
+  // a mis-tap is undone by carrying on tapping rather than being final.
+  const [swapSelection, setSwapSelection] = useState({});
+  const [breakOpen, setBreakOpen] = useState(false);
+  const [quarterWarning, setQuarterWarning] = useState(null);
   const [instructionsmessage] = useState('Instructions: \n1. Host will select a card event when an event occurs.\n2. If you have corresponding cards you will be prompted to Assign drinks or shotguns.\n3. Select your Neon Green Wild Card when the event occurs. Host will confirm event\n4. After each Quarter the host will confirm a Quarter has ended and you will have an option to swap out one of your wild cards\n5. Drink responsibly! Must be 21+ Years Old');
 
   // 🔧 CRITICAL FIX: Sync refs with state to restore functionality
@@ -667,9 +675,8 @@ const fallbackCopyTextToClipboard = (text) => {
 
   // Handle "Next QTR" action from the host
   const handleNextQuarter = () => {
-    if (isHost) {
-      socket.emit('nextQuarter', { roomCode });  // Emit the nextQuarter event to the server
-    }
+    setIsActionModalOpen(false);
+    requestNextQuarter();
   };
 
 const [actionMessage, setActionMessage] = useState('');  // Store messages like "Action in progress"
@@ -767,21 +774,67 @@ const handleSelectWildCardToDiscard = (card) => {
 
 };
 
-// Confirm the swap. One allowance per quarter covers BOTH decks, so the event
-// depends on which card was picked — a duplicate standard card goes through
-// `standardCardSwap`, anything from the wild hand through `wildCardSwap`.
-const confirmWildCardSwap = () => {
-  const chosen = selectedWildCardToDiscard;
-  if (!chosen) return;
-  // Which deck it belongs to comes from the card data, not from which array it
-  // was rendered in — card facts live in ONE file (see CLAUDE.md rule 5).
-  const meta = getCard(chosen.card);
-  const isStandard = meta && meta.deck === DECK.STANDARD;
-  socket.emit(isStandard ? 'standardCardSwap' : 'wildCardSwap', {
-    roomCode, discardedCard: chosen,
-  });
+/**
+ * Confirm the break: shed every selected duplicate in ONE action.
+ *
+ * Still one confirm per player per quarter — the Session 3 guard is unchanged,
+ * it just now covers a whole selection instead of a single card. `swapDone`
+ * carries the "I have finished with the break" signal in both directions, so
+ * the server can close the break without waiting out its timeout.
+ */
+const confirmSwap = () => {
+  // playersRef, not `players`: this handler is defined once and the roster it
+  // closes over would otherwise be frozen — the Session 8 mistake.
+  const me = (playersRef.current || []).find((p) => p.id === socket.id);
+  const groups = swappableGroups((me && me.cards) ? me.cards : {});
+  const cards = selectionToCards(swapSelection, groups);
+  if (cards.length > 0) {
+    socket.emit('swapDuplicates', { roomCode, cards });
+  } else {
+    socket.emit('swapDone', { roomCode });
+  }
   setIsWildCardSelectionOpen(false);
+  setSwapSelection({});
   setSelectedWildCardToDiscard(null);
+};
+
+/** Closed the sheet without shedding anything. Still an answer — one path. */
+const dismissSwap = () => closeModal('wildCardSelection');
+
+/** Tap a duplicate: one more copy, wrapping back to none past the last spare. */
+const toggleSwapCard = (group) => {
+  setSwapSelection((prev) => toggleSelection(prev, group));
+};
+
+/**
+ * The Ref turning the quarter over by hand.
+ *
+ * Two things are worth interrupting for, and only two: a round is running, or
+ * a game is attached and the real game is not on the quarter this would move
+ * to. Anything else advances without a prompt.
+ */
+const requestNextQuarter = () => {
+  if (!isHost) return;
+  const nextQ = (quarter || 1) + 1;
+  const feedPeriod = watching && Number(watching.period);
+  const reasons = [];
+  if (timeRemaining > 0 || declaredCard) {
+    reasons.push('A round is running — advancing now will end it.');
+  }
+  if (Number.isFinite(feedPeriod) && feedPeriod > 0 && feedPeriod !== nextQ) {
+    reasons.push(`The game you are watching is in Q${feedPeriod}, not Q${nextQ}.`);
+  }
+  if (reasons.length > 0) {
+    setQuarterWarning(reasons);
+    return;
+  }
+  socket.emit('nextQuarter', { roomCode });
+};
+
+/** The Ref said yes to the warning. */
+const forceNextQuarter = () => {
+  setQuarterWarning(null);
+  socket.emit('nextQuarter', { roomCode, force: true });
 };
 const closeModal = (modalType) => {
   switch (modalType) {
@@ -794,11 +847,20 @@ const closeModal = (modalType) => {
       setDeclaredCard(null);  // Clear the first down modal
       break;
     case 'wildCardSelection':
-      // Declining the quarter-break swap. Nothing goes to the server: the
-      // one-swap-per-quarter allowance is only consumed by an actual swap, so
-      // keeping your hand costs you nothing and next quarter still offers one.
+      // Declining the quarter-break swap. The allowance is untouched — it is
+      // only consumed by an actual swap, so keeping your hand costs nothing
+      // and next quarter still offers one.
+      //
+      // But the server IS told, because "dismissed" is an answer and the break
+      // closes once everyone has given one. Session 20 shipped this without
+      // the emit and a player who pressed Escape or tapped the scrim silently
+      // held the whole table for the full 45-second timeout. Caught in a
+      // browser: the server log read "the break timed out" when three people
+      // had all finished.
       setIsWildCardSelectionOpen(false);
       setSelectedWildCardToDiscard(null);
+      setSwapSelection({});
+      if (roomCodeRef.current) socket.emit('swapDone', { roomCode: roomCodeRef.current });
       break;
     case 'actionModal':
       // Backing out of Declare Action. Must NOT declare anything.
@@ -1272,10 +1334,11 @@ useEffect(() => {
 // Listen for the quarterUpdated event from the server
 useEffect(() => {
   socket.on('quarterUpdated', (updatedQuarter) => {
-    setQuarter(updatedQuarter);  // Update the current quarter state
+    setQuarter(updatedQuarter);
     console.log(`Quarter updated to: ${updatedQuarter}`);
-    
-    // Open wild card selection modal when the quarter changes
+    // A fresh break is a fresh selection: carrying last quarter's picks over
+    // would pre-select cards the player has not looked at.
+    setSwapSelection({});
     if (updatedQuarter > 1) {
       openWildCardSelection();
     }
@@ -2072,6 +2135,26 @@ socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
 // The Ref removed this player. Their socket is still connected and still in
 // the room's channel when this arrives, so the screen must move itself back to
 // the start rather than sit on a game they are no longer part of.
+// The quarter break, as a room-level phase rather than a modal each client
+// opens for itself. The server holds `isActionInProgress` for its duration, so
+// nothing can start a round mid-break; this is only so the table can SEE it.
+socket.off('quarterBreak');
+socket.on('quarterBreak', ({ open } = {}) => {
+  setBreakOpen(Boolean(open));
+  if (!open) {
+    // The break closed underneath us — timed out, or everyone else answered.
+    // Do not leave a sheet open over a game that has resumed.
+    setIsWildCardSelectionOpen(false);
+    setSwapSelection({});
+  }
+});
+
+// The Ref tried to turn the quarter over mid-round without insisting.
+socket.off('quarterBlocked');
+socket.on('quarterBlocked', ({ reason } = {}) => {
+  setQuarterWarning([reason || 'A round is running.']);
+});
+
 socket.off('removedFromGame');
 socket.on('removedFromGame', ({ message } = {}) => {
   forgetSavedGame();
@@ -2667,53 +2750,87 @@ socket.on('gameOver', (message) => {
         {isWildCardSelectionOpen && (
           <>
             <div className="scrim on" />
-            <div className="sheet on cardsheet" role="dialog" aria-label="Swap a wild card" aria-modal="true">
+            <div className="sheet on cardsheet" role="dialog" aria-label="Shed your duplicates" aria-modal="true">
               <div className="grab" />
-              <p className="waiting">Swap one card</p>
-              <div className="cardsheet-card" style={{ gap: 10 }}>
-                {(hand.wild || []).map((entry, i) => {
-                  const card = getCard(entry && entry.card);
-                  if (!card) return null;
-                  const chosen = selectedWildCardToDiscard === entry;
+              {/* Shedding redundancy, not rerolling. Only cards held more than
+                  once appear here, and one copy of each is always kept, so the
+                  count under each card is what you may give up — never all of
+                  them. Tapping cycles through 0..spare and back to 0, which is
+                  what makes a mis-tap recoverable. */}
+              {(() => {
+                const groups = swappableGroups(hand);
+                if (groups.length === 0) {
                   return (
-                    <div key={`wild-${card.id}-${i}`} style={{ outline: chosen ? '2px solid var(--sf-amber)' : 'none', borderRadius: 12 }}>
-                      <GameCard card={card} onClick={() => handleSelectWildCardToDiscard(entry)} />
-                    </div>
+                    <>
+                      <p className="waiting">
+                        Nothing to shed — you are not holding any card twice.
+                      </p>
+                      <button type="button" className="mi" onClick={dismissSwap}>
+                        Carry on
+                      </button>
+                    </>
                   );
-                })}
-              </div>
-              {/* Duplicate standard cards are swappable too, on the SAME
-                  allowance — one swap per quarter, either deck. Only
-                  duplicates: a hand of five different cards has nothing wrong
-                  with it, and the server refuses anything else. */}
-              {duplicateStandardCards(hand.standard).length > 0 ? (
-                <>
-                  <p className="waiting">…or a card you are holding twice</p>
-                  <div className="cardsheet-card" style={{ gap: 10 }}>
-                    {duplicateStandardCards(hand.standard).map((entry, i) => {
-                      const card = getCard(entry && entry.card);
-                      if (!card) return null;
-                      const chosen = selectedWildCardToDiscard === entry;
-                      return (
-                        <div key={`dupe-${card.id}-${i}`} style={{ outline: chosen ? '2px solid var(--sf-amber)' : 'none', borderRadius: 12 }}>
-                          <GameCard card={card} onClick={() => handleSelectWildCardToDiscard(entry)} />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
-              ) : null}
-              <button
-                type="button" className="mi"
-                onClick={confirmWildCardSwap}
-                disabled={!selectedWildCardToDiscard}
-              >
-                Swap it
-              </button>
-              <button type="button" className="mi" onClick={() => closeModal('wildCardSelection')}>Keep my hand</button>
+                }
+                const picked = totalSelected(swapSelection);
+                return (
+                  <>
+                    <p className="waiting">
+                      Quarter break — swap any card you are holding more than once.
+                      Tap again to change your mind.
+                    </p>
+                    <div className="cardsheet-card" style={{ gap: 10 }}>
+                      {groups.map((group) => {
+                        const card = getCard(group.card && group.card.card);
+                        if (!card) return null;
+                        const n = selectedCount(swapSelection, group);
+                        return (
+                          <div
+                            key={groupKey(group)}
+                            className={`dupepick${n > 0 ? ' on' : ''}`}
+                            style={{ outline: n > 0 ? '2px solid var(--sf-amber)' : 'none', borderRadius: 12 }}
+                          >
+                            <GameCard card={card} onClick={() => toggleSwapCard(group)} />
+                            <span className="dupecount">
+                              holding {group.held} · swapping {n} of {group.spare}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <button type="button" className="mi" onClick={confirmSwap} disabled={picked === 0}>
+                      {picked === 0 ? 'Pick what to swap' : `Swap ${picked} card${picked === 1 ? '' : 's'}`}
+                    </button>
+                    <button type="button" className="mi" onClick={dismissSwap}>Keep my hand</button>
+                  </>
+                );
+              })()}
             </div>
           </>
         )}
+
+        {/* The Ref turning the quarter over when something disagrees. Only two
+            things are worth interrupting for: a round is running, or the game
+            being watched is on a different quarter. */}
+        {quarterWarning ? (
+          <>
+            <div className="scrim on" onClick={() => setQuarterWarning(null)} />
+            <div className="sheet on" role="dialog" aria-label="Advance the quarter?" aria-modal="true">
+              <div className="sheet-head">
+                <span className="t">Advance the quarter?</span>
+                <button type="button" className="x" onClick={() => setQuarterWarning(null)} aria-label="Close">×</button>
+              </div>
+              {quarterWarning.map((line) => (
+                <p className="waiting" key={line}>{line}</p>
+              ))}
+              <button type="button" className="mi mi-remove" onClick={forceNextQuarter}>
+                Advance anyway
+              </button>
+              <button type="button" className="mi" onClick={() => setQuarterWarning(null)}>
+                Not yet
+              </button>
+            </div>
+          </>
+        ) : null}
 
         {/* Host hand-off */}
         {isHostSelection && (

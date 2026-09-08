@@ -70,8 +70,13 @@ describe('the modals a player can open all offer a way out', () => {
     expect(b, 'no explicit close control').toMatch(/>\s*Never mind\s*</);
   });
 
-  it('the wild swap can be declined', () => {
-    expect(block('Swap a wild card')).toMatch(/Keep my hand/);
+  it('the quarter break can be declined', () => {
+    // Renamed in Session 20: the sheet stopped being "swap one wild card" and
+    // became "shed every duplicate you are holding", across both decks.
+    const b = block('Shed your duplicates');
+    expect(b, 'no way to leave the break without swapping').toMatch(/Keep my hand/);
+    // A player with nothing duplicated still needs a way out.
+    expect(b, 'a hand with no duplicates has no exit').toMatch(/Carry on/);
   });
 
   it('the host picker can be cancelled', () => {

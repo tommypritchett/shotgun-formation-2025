@@ -130,15 +130,36 @@ const waitForRoundFinalized = (player, seconds = ROUND_SECONDS.standard, since =
     timeout: finalizeTimeout(seconds),
   });
 
+/**
+ * Turn the quarter over and let the break finish.
+ *
+ * Session 20: a quarter advance now opens a real break on the room, which
+ * holds `isActionInProgress` until every connected player has answered or the
+ * timeout passes. A second advance while one is open is refused — correctly —
+ * so a test that just emits `nextQuarter` twice would hang on the second.
+ *
+ * So this does what a real table does: advances, then has everybody answer.
+ * `force` is passed because a test driving the game deliberately is exactly
+ * the Ref insisting; the un-forced path and its guard have their own tests in
+ * `tests/quarter-break.test.js`.
+ */
 const nextQuarter = async (host, roomCode, watchers = []) => {
   const marks = watchers.map((p) => [p, p.mark()]);
   // The host needs its own mark too. Without one, `waitFor` matches the FIRST
   // `quarterUpdated` in the whole log, so the second call to this helper
   // returned a stale 2 instead of 3.
   const hostSince = host.mark();
-  host.emit('nextQuarter', { roomCode });
+  const breakSince = host.mark();
+  host.emit('nextQuarter', { roomCode, force: true });
   const quarter = await host.waitFor('quarterUpdated', { since: hostSince });
   await Promise.all(marks.map(([p, since]) => p.waitFor('quarterUpdated', { since })));
+
+  // Close the break, or the room stays blocked for its full timeout.
+  const everyone = new Set([host, ...watchers]);
+  for (const player of everyone) player.emit('swapDone', { roomCode });
+  await host.waitFor('quarterBreak', {
+    since: breakSince, timeout: 8000, where: (p) => p && p.open === false,
+  }).catch(() => {});
   return quarter;
 };
 
