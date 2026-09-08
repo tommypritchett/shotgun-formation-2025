@@ -2013,8 +2013,36 @@ socket.on('joinRoom', (roomCode, playerName) => {
   });
 
   // Start Game
+  /**
+   * Deal the hands and start play.
+   *
+   * Two guards, added Session 21, because this handler's body deletes and
+   * re-initialises `playerStats` for every player in the room. Unguarded, ANY
+   * client in a live game could emit it and wipe the whole table's totals,
+   * redeal every hand, reset the quarter to 1 and hand back spent swap
+   * allowances. Not an information leak — an erase.
+   *
+   *  - **Ref-only**, matching `nextQuarter` and `removePlayer`.
+   *  - **Refused once `gameStarted` is set**, which is the guard that actually
+   *    matters. Restarting a live game must not be reachable by accident, and
+   *    the Ref is precisely who has a Start button on screen for a stale
+   *    render or a double tap to fire. The Ref check alone would still let the
+   *    one person most able to do it, do it.
+   *
+   * Silent, like the other refusals here: no client listens for a reply, and
+   * inventing one would be new surface nothing renders.
+   */
   socket.on('startGame', (roomCode) => {
     const room = rooms[roomCode];
+    if (!room) return;
+    if (room.host !== socket.id) {
+      console.log(`⛔ ${socket.id} tried to start the game in ${roomCode} without the whistle`);
+      return;
+    }
+    if (room.gameStarted) {
+      console.log(`⛔ Refused restart of ${roomCode}: the game is already running`);
+      return;
+    }
     if (room && room.players.length >= MIN_PLAYERS) {
       const { standardDeck, wildDeck } = generateDecks(room.players.length);
 
