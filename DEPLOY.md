@@ -152,6 +152,63 @@ gh pr create --base main --head overnight-rebuild \
 
 ---
 
+## Confirming a deploy actually landed — read this first
+
+**The bundle hash only proves anything when the push changed a client file.**
+
+The usual check is to watch `client/build/static/js/main.<hash>.js` change on the live site.
+That works for a client change, because CRA hashes the bundle by content. **For a server-only
+push it can never move** — `server.js`, `server/feed/*` and `tests/` are not in the bundle, so
+the old hash keeps being served by a brand-new build, and by a build that never happened. The
+two are indistinguishable from outside.
+
+```bash
+# Is this push even verifiable by hash?
+git diff --name-only <previous-main> <new-main> | grep '^client/' | head
+# no output -> server-only -> the hash will NOT move, and proves nothing
+```
+
+Two things do work:
+
+**1. The Render Logs boot line.** The authority, and the only check that covers every push:
+
+```
+Running code: <sha> (from env)  |  node <version>  |  started <timestamp>
+```
+
+On Render this reads `(from env)` rather than a branch name, because `bootCommit()` prefers
+`RENDER_GIT_COMMIT`. That is correct, not a stale server. If the sha is not the merge commit
+you pushed, nothing you pushed is live.
+
+**2. Probe the behaviour over a socket.** Available without the dashboard, and it tests the
+running code rather than a label. Connect with `socket.io-client`, create a throwaway room,
+and exercise something the new commit changed:
+
+```js
+// Does the running server have the Session 21 Ref-only declaration guard?
+// declareFirstDown does not require a started game, so two sockets settle it:
+//   old code -> `declaredCard` broadcasts to the room
+//   new code -> refused, nothing happens
+ben.emit('firstDownEvent', { roomCode });
+```
+
+Pick a marker that exists ONLY after the commit in question, and prefer one that needs the
+fewest players — a two-socket probe is far more reliable than a three-socket one. Leave the
+room afterwards so the reaper clears it.
+
+> **This is not hypothetical.** On 2026-09-09 three consecutive pushes — `ac67847`, `a7cbb94`
+> and `defd736` — were on `origin/main` and **not deployed**. Two were server-only, so their
+> unchanged bundle hash looked exactly like a successful deploy, and they were reported as
+> shipped. A socket probe found it: a non-Ref emitted `firstDownEvent` in a live production
+> room and the round declared, which the guard in `a7cbb94` forbids. Render had stopped
+> building; the code was fine and had never run.
+>
+> The lesson is narrow and worth keeping: **an unchanged bundle hash is not evidence of
+> anything.** For a server-only push it is the expected result whether or not the deploy
+> happened, so treat it as no signal at all rather than as a pass.
+
+---
+
 ## After the deploy — check these, in this order
 
 **1. The socket is talking to production, not to your house.**
@@ -185,7 +242,8 @@ Running code: <sha> (<branch>)  |  node <version>  |  started <timestamp>
 ```
 
 If that sha is not what you just pushed, you are looking at a stale server. This line has
-already caught exactly that once.
+already caught exactly that once — and on 2026-09-09 it was the check that was skipped for
+three server-only pushes, none of which had deployed. See the section above.
 
 ---
 
