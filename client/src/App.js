@@ -31,6 +31,7 @@ import DrinkAssigner from './components/DrinkAssigner';
 import GameCard from './components/GameCard';
 import MenuSheet from './components/MenuSheet';
 import RemovePlayerSheet from './components/RemovePlayerSheet';
+import Announcement from './components/Announcement';
 import {
   swappableGroups, toggleSelection, selectedCount, totalSelected, selectionToCards, groupKey,
 } from './lib/duplicate-cards';
@@ -259,6 +260,16 @@ const [isRemovePlayerOpen, setIsRemovePlayerOpen] = useState(false);
   const [swapSelection, setSwapSelection] = useState({});
   const [breakOpen, setBreakOpen] = useState(false);
   const [quarterWarning, setQuarterWarning] = useState(null);
+  /**
+   * The one popup that must be acknowledged. Replaces every `alert()` in this
+   * file — see components/Announcement.jsx for why the mechanism mattered.
+   *
+   * A QUEUE, not a single slot: `newHost` can land while the rules are still
+   * up, and the old `alert()` serialised those for free. Dropping the second
+   * one would silently lose the whistle notice, which is the one message this
+   * whole change exists to deliver.
+   */
+  const [announcements, setAnnouncements] = useState([]);
   const [instructionsmessage] = useState('Instructions: \n1. Host will select a card event when an event occurs.\n2. If you have corresponding cards you will be prompted to Assign drinks or shotguns.\n3. Select your Neon Green Wild Card when the event occurs. Host will confirm event\n4. After each Quarter the host will confirm a Quarter has ended and you will have an option to swap out one of your wild cards\n5. Drink responsibly! Must be 21+ Years Old');
 
   // 🔧 CRITICAL FIX: Sync refs with state to restore functionality
@@ -335,7 +346,7 @@ const [isRemovePlayerOpen, setIsRemovePlayerOpen] = useState(false);
       setErrorMessage('Please enter your name first');
       return;
     }
-    alert(instructionsmessage)
+    announce('How to play', instructionsmessage);
     if (playerName) {
       socket.emit('createRoom', playerName);
     } else {
@@ -491,7 +502,8 @@ const toggleMenu = () => {
 
 // Handle showing the instructions
 const handleShowInstructions = () => {
-  alert(instructionsmessage)
+  setIsMenuOpen(false);
+  announce('How to play', instructionsmessage);
 };
 //handle declare action
 const handleDeclareAction = () => {
@@ -631,6 +643,20 @@ const handleRemovePlayer = (playerId) => {
   setIsRemovePlayerOpen(false);
 };
 
+/**
+ * Queue something the player must acknowledge.
+ *
+ * Defined via the setter's callback form so it never reads a stale queue: it
+ * is called from socket handlers registered in a []-deps effect, and closing
+ * over `announcements` there would freeze it at [] forever — the Session 8
+ * mistake, in a new place.
+ */
+const announce = (title, body, dismissText) => {
+  setAnnouncements((queue) => [...queue, { title, body, dismissText }]);
+};
+
+const dismissAnnouncement = () => setAnnouncements((queue) => queue.slice(1));
+
 const handleShareGame = () => {
   const gameUrl = `${window.location.origin}?room=${roomCode}`;
   const shareText = `Join my Shotgun Formation game! Room Code: ${roomCode}\n\nClick here to join: ${gameUrl}`;
@@ -643,7 +669,7 @@ const handleShareGame = () => {
     }).catch(err => console.log('Error sharing:', err));
   } else if (navigator.clipboard) {
     navigator.clipboard.writeText(shareText).then(() => {
-      alert('Game link copied to clipboard!');
+      announce('Link copied', 'The game link is on your clipboard — paste it to whoever you want in.');
     }).catch(err => {
       console.log('Error copying to clipboard:', err);
       fallbackCopyTextToClipboard(shareText);
@@ -665,9 +691,10 @@ const fallbackCopyTextToClipboard = (text) => {
   textArea.select();
   try {
     document.execCommand('copy');
-    alert('Game link copied to clipboard!');
+    announce('Link copied', 'The game link is on your clipboard — paste it to whoever you want in.');
   } catch (err) {
-    alert(`Share this game link: ${text}`);
+    // Copying failed, so the link itself has to be readable on screen.
+    announce('Share this link', text);
   }
   document.body.removeChild(textArea);
 };
@@ -1460,7 +1487,10 @@ useEffect(() => {
     const localState = loadGameStateLocally();
     if (localState && gameState === 'game') {
       console.log('Using local storage as fallback after reconnection failure');
-      alert('Connection lost. Using saved game state. Some features may not work until connection is restored.');
+      announce(
+        'Connection lost',
+        'You are on a saved copy of the game. Scores and cards may be out of date until you reconnect.',
+      );
       
       // Restore what we can from local storage
       if (localState.players && localState.players.length > 0) {
@@ -1471,7 +1501,7 @@ useEffect(() => {
       }
       setQuarter(localState.quarter);
     } else {
-      alert('Unable to reconnect to the game. Please refresh the page.');
+      announce('Could not reconnect', 'Refresh the page to get back into the game.');
     }
   };
   
@@ -1544,9 +1574,11 @@ useEffect(() => {
 // Listen for messages from the server
 useEffect(() => {
   socket.on('actionInProgress', (message) => {
-    alert(message);  // Show the "Action in progress" message
+    // This one fires WHILE a round is running, by definition — it is the
+    // server saying "a round is already in progress". Freezing the main
+    // thread here stopped the very countdown the message is about.
+    announce('Hold on', message);
     console.log("set action message", message);
-
   });
 
   socket.on('roundEnded', (message) => {
@@ -1873,8 +1905,8 @@ useEffect(() => {
       setGameState('lobby');
       console.log('🎯 Setting gameState to: lobby');
         
-      // ✅ FIX: Show rules popup when joining a game (same as starting a game)
-      alert(instructionsmessage);
+      // Rules on joining, same as on starting a game.
+      announce('How to play', instructionsmessage);
       
       console.log('✅ Lobby state updated successfully');
     });
@@ -2033,7 +2065,12 @@ useEffect(() => {
     // Handle when a new host is assigned
     socket.on('newHost', ({ newHostId, message }) => {
       setHostId(newHostId);  // isHost is derived from this
-      alert(message);  // Display the host change message
+      // Was `alert(message)`. The popup stays and still needs a tap; what
+      // changed is that the round underneath keeps running while it is up.
+      // This fires mid-round by definition — the usual reason the whistle
+      // moves is that somebody's phone just died — so freezing the main
+      // thread here cost people the rest of the round.
+      announce('The whistle moved', message);
     });
 
     // Handle when a player disconnects during the game
@@ -2249,7 +2286,7 @@ socket.on('playSkipped', ({ cardId, reason } = {}) => {
 
 socket.off('gameOver');
 socket.on('gameOver', (message) => {
-  alert(message);  // Notify the players
+  announce('Game over', message);
   // Redirect everyone back to the main screen
   setGameState('initial');
   forgetSavedGame();  // the game is over; do not rejoin it on the next load
@@ -2534,6 +2571,19 @@ socket.on('gameOver', (message) => {
     />
   );
 
+  // One at a time, oldest first, each needing its own tap. Rendered above every
+  // screen — `newHost` and `gameOver` can land in the lobby as easily as
+  // mid-game, and the old alert() was not screen-specific either.
+  const announcement = announcements.length > 0 ? (
+    <Announcement
+      open
+      title={announcements[0].title}
+      body={announcements[0].body}
+      dismissText={announcements[0].dismissText}
+      onDismiss={dismissAnnouncement}
+    />
+  ) : null;
+
   const removePlayerSheet = isHost ? (
     <RemovePlayerSheet
       open={isRemovePlayerOpen}
@@ -2552,37 +2602,48 @@ socket.on('gameOver', (message) => {
     // could not get in at all.
     const hasSharedRoomCode = roomCodeFromSearch(window.location.search) !== '';
     return (
-      <JoinScreen
-        playerName={playerName}
-        onPlayerName={setPlayerName}
-        roomCode={roomCode}
-        onRoomCode={(v) => { setRoomCode(v); setErrorMessage(''); }}
-        onCreate={startGame}
-        onJoin={joinGame}
-        hasSharedRoomCode={hasSharedRoomCode}
-        errorMessage={errorMessage}
-      />
+      <>
+        <JoinScreen
+          playerName={playerName}
+          onPlayerName={setPlayerName}
+          roomCode={roomCode}
+          onRoomCode={(v) => { setRoomCode(v); setErrorMessage(''); }}
+          onCreate={startGame}
+          onJoin={joinGame}
+          hasSharedRoomCode={hasSharedRoomCode}
+          errorMessage={errorMessage}
+        />
+        {announcement}
+      </>
     );
   }
 
   // ── connecting ─────────────────────────────────────────────────────────
   if (gameState === 'connecting') {
-    return <ConnectingScreen roomCode={roomCode} onGiveUp={abandonRejoin} />;
+    return (
+      <>
+        <ConnectingScreen roomCode={roomCode} onGiveUp={abandonRejoin} />
+        {announcement}
+      </>
+    );
   }
 
   // ── lobby ──────────────────────────────────────────────────────────────
   if (gameState === 'lobby') {
     return (
-      <LobbyScreen
-        roomCode={roomCode}
-        players={players.map(withAvatar)}
-        isHost={isHost}
-        canStart={players.length >= MIN_PLAYERS}
-        minPlayers={MIN_PLAYERS}
-        onStart={startTheGame}
-        onLeave={leaveLobby}
-        onShare={handleShareGame}
-      />
+      <>
+        <LobbyScreen
+          roomCode={roomCode}
+          players={players.map(withAvatar)}
+          isHost={isHost}
+          canStart={players.length >= MIN_PLAYERS}
+          minPlayers={MIN_PLAYERS}
+          onStart={startTheGame}
+          onLeave={leaveLobby}
+          onShare={handleShareGame}
+        />
+        {announcement}
+      </>
     );
   }
 
@@ -2699,6 +2760,7 @@ socket.on('gameOver', (message) => {
         />
         {menu}
         {removePlayerSheet}
+        {announcement}
         <Toast message={toastMessage} />
 
         {/* Declare Action — the Ref picks what just happened on the TV.

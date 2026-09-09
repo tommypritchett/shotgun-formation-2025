@@ -234,8 +234,12 @@ a cold start regularly exceeds the 10-second timeout, so this fires on the first
   the same class as the host-handoff bug fixed in Session 11.
 - **`newHost` fires a blocking native `alert()` on every phone in the room**, including mid-round.
   On iOS Safari that blocks the main thread and freezes the timer until dismissed.
-- **`wildCardSelected` is stored under key `player` (`App.js:1294`) and read as `playerId`
-  (`:2310`)**, so the Ref's confirmation prompt always says "A player" instead of the name.
+- ~~**`wildCardSelected` is stored under key `player` and read as `playerId`, so the Ref's
+  confirmation prompt always says "A player" instead of the name.**~~
+  **NOT A BUG — closed 2026-09-09.** The wording is deliberate and matches P1: naming who
+  offered a card lets people target each other, and a wild card is exactly when they might.
+  The key mismatch is real but the prompt it produces is the desired behaviour, so it is
+  load-bearing. See `FOLLOW_UPS.md` P1. **Do not repair the key to make the name appear.**
 
 ---
 

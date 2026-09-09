@@ -109,6 +109,23 @@ this is the answer: it should not.
 **The same reasoning applies to the passive screen.** Do not add per-player pour
 attribution there either.
 
+**And to the wild-card confirm prompt.** The Ref's prompt reads *"A player wants
+to play X"*, never *"Shannon wants to play X"*. That is the same decision for the
+same reason: naming who offered a card lets people target each other, and a wild
+card is precisely the moment somebody might.
+
+`docs/AUDIT_PRE_LAUNCH.md` listed the wording as a defect — it noted that the
+client stores the id under the key `player` (`App.js`) and reads it as
+`playerId`, and concluded the prompt "always says 'A player' instead of the
+name". The key mismatch is real; the *wording it produces* is what we want.
+**Owner's decision, 2026-09-09: leave both alone.** Do not "fix" the key to make
+the name appear, and do not rename the key on the grounds that it is tidier —
+the mismatch is now load-bearing, and a future session that repairs it will
+silently change a product decision into a griefing surface.
+
+If the key is ever cleaned up for its own sake, the prompt must keep saying
+"A player" independently of it.
+
 ---
 
 ## P2 — RESOLVED: the app is capped at 10 players, matching the box
