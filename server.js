@@ -71,6 +71,47 @@ const ROUND_DURATIONS = { standard: 21, wild: 11, firstDown: 6 };
 /** Ten drinks make a shotgun. The one place that number lives on the server. */
 const DRINKS_PER_SHOTGUN = 10;
 
+/**
+ * The most a single `assignDrinks` message may add to one player.
+ *
+ * Generous on purpose. The largest card in the deck is worth 40 drinks, and
+ * the client flushes small deltas roughly every 700ms while a holder pours, so
+ * a real message is single digits and 100 is far above anything legitimate.
+ * This is a backstop against absurd values, not a rule of the game.
+ */
+const MAX_ASSIGNMENT = 100;
+
+/**
+ * Whatever a client sent, as a number the scoreboard can survive.
+ *
+ * `roundResults[room][id].drinks += drinksToGive[id]` had no coercion, so a
+ * STRING survived: `0 + "abc"` is `"0abc"` and every later `+=` concatenates.
+ * Measured before the fix — a total read `"01abc"`, and the `>= 10` comparison
+ * that folds drinks into a shotgun silently stopped working for that player
+ * for the rest of the game.
+ *
+ * This is about type safety, not cheating: whatever arrives, totals stay
+ * finite integers. Anything unreadable becomes 0 rather than throwing, because
+ * one malformed field must not cost the other players in the same message
+ * their pour.
+ *
+ * **NEGATIVES ARE LEGITIMATE AND MUST SURVIVE.** Undo is implemented by
+ * sending a negative amount — `pour(host, room, ben, -1)` — so flooring at
+ * zero here silently breaks the undo button. A first version of this did
+ * exactly that and `tests/undo-pour.test.js` caught it. The range is bounded
+ * on BOTH sides instead. Nothing here needs to stop a total going below zero:
+ * the borrow-back-from-a-shotgun logic further down already does that, and
+ * `tests/undo-pour.test.js` pins it.
+ *
+ * `Math.trunc`, not `Math.floor`: truncating toward zero is the right
+ * semantic for an undo, so -1.5 takes back one drink rather than two.
+ */
+const safeAmount = (value) => {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return 0;
+  return Math.max(-MAX_ASSIGNMENT, Math.min(Math.trunc(n), MAX_ASSIGNMENT));
+};
+
 const activeRounds = {};  // Track which rooms have active rounds: { roomCode: { declaredCard, timeRemaining, startTime } }
 const socketIdMappings = {};  // Track old->new socket ID mappings during active rounds: { roomCode: { oldSocketId: newSocketId } }
 
@@ -2402,7 +2443,42 @@ socket.on('wildCardSwap', ({ roomCode, discardedCard } = {}) => {
 
 
 // Handle First Down event
+/**
+ * Only the Ref may declare a round.
+ *
+ * The client has always gated Declare Action to the Ref; the server did not
+ * check at all, so any client in the room could start a round for the whole
+ * table. Worse, `refTookOver()` runs first, so a non-Ref declaring also threw
+ * away every detection the feed had queued for that room.
+ *
+ * One helper rather than three copies of the same `if`, so a fourth
+ * declaration path cannot be added later that forgets it.
+ *
+ * Silent, like the other refusals in this file: no client listens for a reply,
+ * and the real client never sends these unless it believes it is the Ref, so
+ * anything arriving here from a player is a stale render or a hand-rolled
+ * message rather than something a person did.
+ *
+ * NOTE the deliberate exception: `wildCardSelected` stays open to any player.
+ * A player tapping one of their own wild cards to OFFER it is the designed
+ * flow — it only puts a prompt on the Ref's screen, and the Ref confirming is
+ * what declares. That confirm is `wildCardConfirmed`, which is gated below.
+ *
+ * The feed's auto-calls are unaffected: they call `declareStandardCard` and
+ * friends directly, not through these handlers.
+ */
+const refIsSending = (roomCode, socketId, what) => {
+  const room = rooms[roomCode];
+  if (!room) return false;
+  if (room.host !== socketId) {
+    console.log(`⛔ ${socketId} tried to declare ${what} in ${roomCode} without the whistle`);
+    return false;
+  }
+  return true;
+};
+
 socket.on('firstDownEvent', ({ roomCode } = {}) => {
+  if (!refIsSending(roomCode, socket.id, 'First Down')) return;
   refTookOver(roomCode);
   const result = declareFirstDown(roomCode);
   if (result.ok) tellRoundSource(roomCode, 'ref', 'First Down');
@@ -2411,6 +2487,7 @@ socket.on('firstDownEvent', ({ roomCode } = {}) => {
 
   // Play Standard Card Event (Triggered by the host)
   socket.on('playStandardCard', ({ roomCode, cardType } = {}) => {
+    if (!refIsSending(roomCode, socket.id, cardType)) return;
     refTookOver(roomCode);
     const result = declareStandardCard(roomCode, cardType);
     if (result.ok) tellRoundSource(roomCode, 'ref', cardType);
@@ -2434,6 +2511,7 @@ socket.on('wildCardSelected', ({ roomCode, playerId, wildcardtype } = {}) => {
 // Listen for the confirmed wild card action from the host
 socket.on('wildCardConfirmed', ({ roomCode, wildcardtype, player } = {}) => {
     void player;   // only ever used for a log line; the work loops over holders
+    if (!refIsSending(roomCode, socket.id, wildcardtype)) return;
     refTookOver(roomCode);
     const result = declareWildCard(roomCode, wildcardtype);
     if (result.ok) tellRoundSource(roomCode, 'ref', wildcardtype);
@@ -2513,7 +2591,8 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
     
     Object.entries(drinksToGive || {}).forEach(([originalId, drinks]) => {
       const resolvedId = resolveTransitively(originalId);
-      resolvedDrinksToGive[resolvedId] = drinks;
+      // Coerced HERE, at the boundary, so nothing downstream has to remember.
+      resolvedDrinksToGive[resolvedId] = safeAmount(drinks);
       if (originalId !== resolvedId) {
         console.log(`🔄 Resolved drinks mapping: ${originalId.slice(-4)} → ${resolvedId.slice(-4)} (${drinks} drinks)`);
       }
@@ -2521,7 +2600,7 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
     
     Object.entries(shotgunsToGive || {}).forEach(([originalId, shotguns]) => {
       const resolvedId = resolveTransitively(originalId);
-      resolvedShotgunsToGive[resolvedId] = shotguns;
+      resolvedShotgunsToGive[resolvedId] = safeAmount(shotguns);
       if (originalId !== resolvedId) {
         console.log(`🔄 Resolved shotguns mapping: ${originalId.slice(-4)} → ${resolvedId.slice(-4)} (${shotguns} shotguns)`);
       }
