@@ -77,6 +77,10 @@ export default function JoinScreen({
         </button>
 
         {errorMessage ? <p className="err">{errorMessage}</p> : null}
+
+        {/* The walkthrough. A plain <a>, not a handler: it is a real route
+            (/how-to-play) so it can be linked to, bookmarked and sent. */}
+        <a className="howto" href="/how-to-play">New here? Watch how it works</a>
       </div>
     </div>
   );

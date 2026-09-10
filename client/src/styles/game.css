@@ -764,6 +764,17 @@ button.card:active{transform:translateY(2px) scale(.985)}
    opposed to a sheet you opened. Needs a tap, and deliberately has no scrim
    handler and no Escape, so it cannot be dismissed without being seen.
    `white-space:pre-wrap` because the rules text arrives with real newlines. */
+/* The link out to /how-to-play, on the join screen and in the lobby. Quiet on
+   purpose: useful to somebody who has never played, invisible to everyone
+   else. */
+.howto{
+  display:block;text-align:center;margin-top:14px;
+  font-family:var(--font-body,Inter),system-ui,sans-serif;font-size:12.5px;
+  letter-spacing:.03em;color:var(--sf-muted,#8a9099);text-decoration:underline;
+  text-underline-offset:3px;
+}
+.howto:hover{color:var(--sf-amber,#FFB020)}
+
 .sheet.announce{text-align:center}
 .announce .announce-t{
   font-family:var(--sf-display,Oswald),system-ui,sans-serif;
