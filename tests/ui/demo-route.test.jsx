@@ -72,23 +72,22 @@ describe('it mounts with no server running', () => {
 
   it('shows all three players once the hands are dealt', async () => {
     useFakeClock();
-    atUrl('?beat=2');
+    atUrl('?beat=3');
     render(<Demo />);
     await runFor(1500);
-    for (const p of PLAYERS) {
-      expect(screen.getByLabelText(`${p.name}'s phone`), `${p.name} is missing`).toBeTruthy();
-    }
+    // Three real screens, one per player.
+    expect(document.querySelectorAll('.dphone')).toHaveLength(PLAYERS.length);
   });
 });
 
 describe('deep-linking a beat', () => {
-  it('?beat=8 opens on the shotgun without replaying the top', async () => {
+  it('?beat=N opens on the shotgun without replaying the top', async () => {
+    const climax = BEATS.find((b) => b.id === 'shotgun');
     useFakeClock();
-    atUrl('?beat=8');
+    atUrl(`?beat=${climax.n}`);
     const { container } = render(<Demo />);
     await runFor(1200);
-    // Beat 8 declares the 20-value Wild.
-    expect(container.textContent).toContain(BEATS[7].set.declared.cardId);
+    expect(container.textContent).toContain(climax.set.declared.cardId);
   });
 
   it('clamps a nonsense beat rather than breaking', async () => {
@@ -109,7 +108,7 @@ describe('the two modes', () => {
     await runFor(400);
     expect(screen.getByRole('button', { name: /restart/i })).toBeTruthy();
     expect(screen.getByRole('button', { name: /pause|play/i })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Beat 8' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Beat 11' })).toBeTruthy();
   });
 
   it('stepping to a beat by hand shows that beat', async () => {
@@ -117,9 +116,12 @@ describe('the two modes', () => {
     atUrl('');
     const { container } = render(<Demo />);
     await runFor(400);
-    await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Beat 8' })); });
+    const climax = BEATS.find((b) => b.id === 'shotgun');
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: `Beat ${climax.n}` }));
+    });
     await runFor(1200);
-    expect(container.textContent).toContain(BEATS[7].set.declared.cardId);
+    expect(container.textContent).toContain(climax.set.declared.cardId);
   });
 
   it('clean mode hides every control', async () => {

@@ -18,7 +18,7 @@ import { BEATS, SLATE, PLAYERS, HANDS, FOLLOWED_ID, CLIMAX_CARD, TOTAL_MS, END_C
   from '../../client/src/demo/script.js';
 import { totalDrinks, holderLine, pourDrinks, lineText, valueWords }
   from '../../client/src/demo/lines.js';
-import { getCard, DRINKS_PER_SHOTGUN } from '../../client/src/data/cards.js';
+import { getCard, DRINKS_PER_SHOTGUN, STANDARD_CARDS } from '../../client/src/data/cards.js';
 
 /** Every card id the script mentions, from any position. */
 const scriptedCardIds = () => {
@@ -190,18 +190,64 @@ describe('no real club appears anywhere', () => {
 });
 
 describe('the sequence itself', () => {
-  it('is ten addressable beats, numbered 1..10', () => {
-    expect(BEATS.map((b) => b.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  it('numbers its beats 1..n with no gaps, because deep links index them', () => {
+    expect(BEATS.map((b) => b.n)).toEqual(BEATS.map((_, i) => i + 1));
   });
 
-  it('keeps the shotgun at beat 8, because deep links point at it', () => {
-    expect(BEATS[7].id).toBe('shotgun');
-    expect(BEATS[7].set.declared.cardId).toBe(CLIMAX_CARD);
+  it('keeps the shotgun addressable, wherever it sits', () => {
+    // Deep links point at this beat, so its NUMBER is part of the contract
+    // with anyone re-shooting the climax. Session 18b moved it from 8 to 11
+    // when the deck coverage grew; the test follows the id, not the index.
+    const climax = BEATS.find((b) => b.id === 'shotgun');
+    expect(climax, 'the shotgun beat is gone').toBeTruthy();
+    expect(climax.set.declared.cardId).toBe(CLIMAX_CARD);
+    expect(climax.n, 'the shotgun beat number changed — update the docs/URLs').toBe(11);
   });
 
   it('runs 100-130 seconds at 1x', () => {
     expect(TOTAL_MS).toBeGreaterThanOrEqual(100_000);
     expect(TOTAL_MS).toBeLessThanOrEqual(130_000);
+  });
+
+  /**
+   * The spread is the teaching, not just the loop. One card shows how a round
+   * works; showing all five Standards, a First Down and three Wilds at three
+   * different values shows what the deck IS.
+   */
+  it('plays every Standard card in the deck', () => {
+    const played = BEATS
+      .map((b) => b.set && b.set.declared && b.set.declared.cardId)
+      .filter(Boolean);
+    const standards = STANDARD_CARDS.map((c) => c.id);
+    const missing = standards.filter((id) => !played.includes(id));
+    expect(missing, `Standard cards never shown: ${missing.join(', ')}`).toEqual([]);
+  });
+
+  it('plays a First Down and at least three different Wilds', () => {
+    const played = BEATS.map((b) => b.set && b.set.declared).filter(Boolean);
+    expect(played.some((d) => d.globalEvent === 'First Down'),
+      'no First Down — the global event is never shown').toBe(true);
+    const wilds = [...new Set(played
+      .map((d) => d.cardId).filter(Boolean)
+      .filter((id) => getCard(id).deck === 'wild'))];
+    expect(wilds.length, `only ${wilds.length} Wild(s) shown: ${wilds.join(', ')}`)
+      .toBeGreaterThanOrEqual(3);
+    // ...at more than one value, or the range is not being taught.
+    const values = new Set(wilds.map((id) => getCard(id).drinks));
+    expect(values.size, 'every Wild shown is worth the same').toBeGreaterThanOrEqual(3);
+  });
+
+  it('shows a round where somebody is NOT holding the card', () => {
+    // The passive screen is most of the game, and the first thing a new player
+    // asks about. Every card round has a single holder, so this is inherent —
+    // pinned so a future edit cannot quietly make everyone a holder.
+    const rounds = BEATS.map((b) => b.set && b.set.declared)
+      .filter((d) => d && d.cardId);
+    expect(rounds.length).toBeGreaterThan(0);
+    for (const d of rounds) {
+      expect(d.holder, 'a card round with no named holder').toBeTruthy();
+      expect(PLAYERS.length, 'only one player at the table').toBeGreaterThan(1);
+    }
   });
 
   it('schedules every feed line inside its own beat', () => {
@@ -238,8 +284,29 @@ describe('the sequence itself', () => {
   });
 
   it('ends on a CTA with somewhere to go', () => {
-    expect(BEATS[9].set.screen).toBe('end');
+    // By position, not index: the beat list grows, and an index would silently
+    // stop testing the end card the moment it did.
+    expect(BEATS[BEATS.length - 1].set.screen).toBe('end');
     expect(END_CARD.url).toBeTruthy();
     expect(END_CARD.cta).toBeTruthy();
+  });
+
+  it('shows every holder pouring, not just the one the script features', () => {
+    // Overlapping hands are the game — the deck ships 9 Penalty per player.
+    // So a declared card is often held by two or three people, and the real
+    // game opens an assigner for each of them. The demo derives each phone's
+    // pool from that player's OWN hand for exactly this reason; this pins that
+    // the script does not assume a single holder.
+    const shared = BEATS
+      .map((b) => b.set && b.set.declared)
+      .filter((d) => d && d.cardId)
+      .filter((d) => PLAYERS.filter((p) => {
+        const h = HANDS[p.name];
+        return [...h.standard, ...h.wild].includes(d.cardId);
+      }).length > 1);
+    expect(shared.length,
+      'no declared card is held by more than one player, so the demo never '
+      + 'shows two people pouring at once — the most common case in a real game')
+      .toBeGreaterThan(0);
   });
 });

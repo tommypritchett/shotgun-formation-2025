@@ -26,14 +26,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BEATS, SLATE, PLAYERS, HANDS, FOLLOWED_ID, END_CARD, TOTAL_MS } from './script';
 import { assignAvatars } from '../lib/avatars';
-import { pourDrinks } from './lines';
+import { pourDrinks, totalDrinks } from './lines';
 import { DRINKS_PER_SHOTGUN } from '../data/cards';
 import DemoPicker from './DemoPicker';
-import DemoPlayer from './DemoPlayer';
+import DemoPhone from './DemoPhone';
 import DemoFeed from './DemoFeed';
 import './demo.css';
 
-const SPEEDS = [0.5, 1, 2];
+const SPEEDS = [1, 2, 3];
+
+/** A fixed room code, so the header reads like a real game. Never dialled. */
+const ROOM_CODE = '48213';
 
 /** Cumulative start time of each beat, so elapsed -> beat is a lookup. */
 const STARTS = BEATS.reduce((acc, b) => {
@@ -54,7 +57,6 @@ const stageAt = (elapsed) => {
     screen: 'picker',
     pickedId: null,
     hovering: null,
-    dealt: false,
     declared: null,
     showStandings: false,
     score: { away: 14, home: 10 },
@@ -63,10 +65,25 @@ const stageAt = (elapsed) => {
     caption: null,
     caption2: null,
     totals: {},
-    incoming: {},
-    pouring: null,
+    secondsLeft: 0,
+    given: {},
+    boardTab: 'stand',
+    lastRoundCardId: null,
   };
-  PLAYERS.forEach((p) => { state.totals[p.name] = { drinks: 0, shotguns: 0 }; });
+  PLAYERS.forEach((p) => {
+    state.totals[p.name] = { drinks: 0, shotguns: 0 };
+    state.given[p.name] = { shotguns: {}, drinks: {} };
+  });
+
+  const byName = Object.fromEntries(PLAYERS.map((p) => [p.name, p]));
+  /** Ten-to-one, once, exactly as the server folds it. */
+  const add = (name, drinks) => {
+    const t = state.totals[name];
+    if (!t) return;
+    const raw = t.drinks + drinks;
+    t.shotguns += Math.floor(raw / DRINKS_PER_SHOTGUN);
+    t.drinks = raw % DRINKS_PER_SHOTGUN;
+  };
 
   let key = 0;
   for (let i = 0; i < BEATS.length; i += 1) {
@@ -74,54 +91,106 @@ const stageAt = (elapsed) => {
     const start = beatStart(i);
     if (elapsed < start) break;
     const into = elapsed - start;
-    const done = into >= beat.ms;
+    const live = into < beat.ms;
 
     Object.assign(state, beat.set || {});
     if (beat.caption) { state.caption = beat.caption; state.caption2 = beat.caption2 || null; }
+    else if (beat.set && beat.set.declared !== undefined) { state.caption = null; state.caption2 = null; }
 
-    // Beat 1's cursor lands on the followed game part-way through.
+    // A new round is a clean slate for what has been poured.
+    if (beat.set && 'declared' in beat.set) {
+      PLAYERS.forEach((p) => { state.given[p.name] = { shotguns: {}, drinks: {} }; });
+    }
+
     if (beat.pickAt !== undefined) {
       state.hovering = FOLLOWED_ID;
       state.pickedId = into >= beat.pickAt ? FOLLOWED_ID : null;
+    }
+
+    // The round clock, ticking inside the beat like the real one does.
+    if (beat.set && beat.set.round) {
+      const secs = beat.set.round.seconds;
+      state.secondsLeft = live
+        ? Math.max(0, Math.ceil(secs - (into / 1000)))
+        : 0;
     }
 
     for (const entry of (beat.feed || [])) {
       key += 1;
       if (into < entry.at) continue;
       state.lines.push({ ...entry, key: `l${key}` });
-
-      if (entry.kind === 'pour') {
-        const drinks = pourDrinks(entry);
-        const to = state.totals[entry.to];
-        if (to) {
-          // Fold exactly once, the way the server does, so the demo can never
-          // display a total the real game would not produce.
-          const raw = to.drinks + drinks;
-          to.shotguns += Math.floor(raw / DRINKS_PER_SHOTGUN);
-          to.drinks = raw % DRINKS_PER_SHOTGUN;
-        }
-        // A brief landing flash, only while the beat is still on this line.
-        if (!done && into < entry.at + 1400) {
-          state.incoming[entry.to] = entry.shotguns
-            ? `${entry.shotguns} SG` : `${entry.drinks}`;
-          state.pouring = entry.from;
-        }
-      }
     }
 
-    // First Down is global: everyone, once, no card.
-    const ge = state.declared && state.declared.globalEvent;
-    if (ge && into >= 900 && !state[`ge_${i}`]) {
-      state[`ge_${i}`] = true;
-      PLAYERS.forEach((p) => {
-        const t = state.totals[p.name];
-        const raw = t.drinks + 1;
-        t.shotguns += Math.floor(raw / DRINKS_PER_SHOTGUN);
-        t.drinks = raw % DRINKS_PER_SHOTGUN;
-      });
+    // Pours land into the holder's `given` map, which is what drives the
+    // real assigner's tallies, and into the recipient's totals.
+    for (const pour of (beat.pours || [])) {
+      if (into < pour.at) continue;
+      const toId = byName[pour.to] && byName[pour.to].id;
+      const bucket = pour.shotgun ? 'shotguns' : 'drinks';
+      const g = state.given[pour.from];
+      if (g && toId) g[bucket][toId] = (g[bucket][toId] || 0) + pour.n;
+      add(pour.to, pour.shotgun ? pour.n * DRINKS_PER_SHOTGUN : pour.n);
+    }
+
+    // First Down: everyone, once.
+    if (beat.everyone && into >= 800) {
+      PLAYERS.forEach((p) => add(p.name, beat.everyone));
+    }
+
+    if (beat.set && beat.set.declared && beat.set.declared.cardId) {
+      state.lastRoundCardId = beat.set.declared.cardId;
     }
   }
   return state;
+};
+
+/**
+ * What one player's phone shows right now.
+ *
+ * `owed` is the whole point: the holder gets a pool to hand out, everybody else
+ * gets the same component in `passive` mode. That is the real game's behaviour
+ * and it is what a new player most needs to see — "what happens when I don't
+ * have the card" is most of the game.
+ */
+const viewFor = (player, stage, roomCode) => {
+  const d = stage.declared;
+  const hand = HANDS[player.name] || { standard: [], wild: [] };
+
+  /**
+   * Copies come from THIS player's own hand, not from the script.
+   *
+   * In the real game every holder of the declared card pours — a card held by
+   * three people opens three assigners, each with its own pool. An earlier
+   * version read `copies` off the script and gave the pool to one nominated
+   * player, which showed two people the passive screen while the game would
+   * have shown them a pool. That is a misrepresentation in an asset whose
+   * entire job is to show what the game does, and a test caught it.
+   */
+  const copiesHeld = d && d.cardId
+    ? [...hand.standard, ...hand.wild].filter((id) => id === d.cardId).length
+    : 0;
+  let owed = { shotguns: 0, drinks: 0 };
+  if (copiesHeld > 0) {
+    const total = totalDrinks(d.cardId, copiesHeld);
+    owed = {
+      shotguns: Math.floor(total / DRINKS_PER_SHOTGUN),
+      drinks: total % DRINKS_PER_SHOTGUN,
+    };
+  }
+  return {
+    declared: d ? { ...d, copies: copiesHeld || d.copies } : d,
+    owed,
+    given: stage.given[player.name],
+    secondsLeft: stage.secondsLeft,
+    hand,
+    quarter: 2,
+    roomCode,
+    watching: stage.watching || null,
+    boardTab: stage.boardTab,
+    lastRoundCardId: stage.lastRoundCardId,
+    lastRoundRows: [],
+    source: d && d.cardId ? 'The game called it' : null,
+  };
 };
 
 const clampBeat = (n) => Math.min(BEATS.length, Math.max(1, n || 1));
@@ -137,7 +206,8 @@ export default function Demo() {
 
   const [elapsed, setElapsed] = useState(() => beatStart(startBeat - 1));
   const [playing, setPlaying] = useState(true);
-  const [speed, setSpeed] = useState(1);
+  // Fast by default: the sequence is a demo, not a tutorial to sit through.
+  const [speed, setSpeed] = useState(2);
   const [vertical, setVertical] = useState(startVertical);
   const [captionsOn, setCaptionsOn] = useState(true);
 
@@ -183,6 +253,32 @@ export default function Demo() {
     [avatars],
   );
 
+  /**
+   * The roster as every screen sees it: avatars, live totals, and who holds
+   * the whistle. Built once per frame and shared, because all three phones are
+   * looking at the same table.
+   */
+  const boardPlayers = useMemo(
+    () => players.map((p) => ({
+      ...p,
+      totalDrinks: stage.totals[p.name].drinks,
+      totalShotguns: stage.totals[p.name].shotguns,
+      isSelf: false,
+      isRef: Boolean(p.isRef),
+    })),
+    [players, stage.totals],
+  );
+
+  /** "handing out" vs "drinking" is decided by the hand, like the pool is. */
+  const labelFor = (p, st) => {
+    const d = st.declared;
+    if (!d) return p.name;
+    if (d.globalEvent) return `${p.name} — everyone drinks`;
+    const hand = HANDS[p.name] || { standard: [], wild: [] };
+    const holds = [...hand.standard, ...hand.wild].some((id) => id === d.cardId);
+    return holds ? `${p.name} — handing out` : `${p.name} — drinking`;
+  };
+
   const followed = SLATE.find((g) => g.id === FOLLOWED_ID);
   const atEnd = stage.screen === 'end';
 
@@ -220,42 +316,20 @@ export default function Demo() {
               </div>
             ) : null}
 
-            <div className="dplayers">
+            {/* Three REAL screens, side by side. The holder is handing out
+                drinks; the other two are on the same component in passive
+                mode, which is what the game actually shows them. */}
+            <div className="dphones">
               {players.map((p) => (
-                <DemoPlayer
+                <DemoPhone
                   key={p.id}
                   player={p}
-                  hand={HANDS[p.name] || { standard: [], wild: [] }}
-                  declared={stage.declared}
-                  totals={stage.totals[p.name]}
-                  incoming={stage.incoming[p.name]}
-                  pouring={stage.pouring === p.name}
-                  compact={vertical}
+                  players={boardPlayers}
+                  view={viewFor(p, stage, ROOM_CODE)}
+                  label={labelFor(p, stage)}
                 />
               ))}
             </div>
-
-            {stage.showStandings ? (
-              <section className="dstand" aria-label="Standings">
-                <h2>Standings</h2>
-                <ol>
-                  {[...players]
-                    .sort((a, b) => {
-                      const A = stage.totals[a.name]; const B = stage.totals[b.name];
-                      return (B.shotguns * DRINKS_PER_SHOTGUN + B.drinks)
-                           - (A.shotguns * DRINKS_PER_SHOTGUN + A.drinks);
-                    })
-                    .map((p) => (
-                      <li key={p.id}>
-                        <span className="ds-n">{p.name}</span>
-                        <span className="ds-v">
-                          {stage.totals[p.name].shotguns} SG · {stage.totals[p.name].drinks} DR
-                        </span>
-                      </li>
-                    ))}
-                </ol>
-              </section>
-            ) : null}
           </>
         ) : null}
 
