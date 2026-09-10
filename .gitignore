@@ -71,6 +71,12 @@ transcripts/
 artifacts/video/
 artifacts/*.png
 artifacts/*.json
+# ...and in any SUBDIRECTORY. `artifacts/*.png` only matches the top level, so
+# a run that wrote artifacts/demo/*.png slipped 2 MB of working screenshots
+# into a commit. Repo weight is a standing concern here (screenshots/ is ~9 MB
+# and permanent in history); this keeps the next one out.
+artifacts/**/*.png
+artifacts/**/*.json
 
 # Recorded walkthroughs: ~20MB of webm per seat. The artifact is the point, but
 # it does not belong in the repo — repo weight is already a known concern.
