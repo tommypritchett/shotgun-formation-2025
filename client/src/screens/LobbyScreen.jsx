@@ -40,6 +40,9 @@ export default function LobbyScreen({
         )}
         <button type="button" className="btn ghost" onClick={onShare}>Share game link</button>
         <button type="button" className="btn ghost" onClick={onLeave}>Leave</button>
+        {/* Somewhere to send the person who has never played, while everyone
+            else is still arriving. */}
+        <a className="howto" href="/how-to-play">How to play</a>
       </div>
     </div>
   );

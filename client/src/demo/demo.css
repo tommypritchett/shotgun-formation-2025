@@ -1,0 +1,318 @@
+/**
+ * The walkthrough's own stylesheet.
+ *
+ * Playbook Chalk tokens only — amber for Standard, neon for Wild, red reserved
+ * for the four-shotgun cards. No colour is invented here; every value below is
+ * either a token from styles/tokens.css or a neutral derived from the chalk
+ * base. Card colour comes from GameCard, which reads the deck from cards.js.
+ *
+ * Two layouts from one component:
+ *   .demo            16:9 — picker/header across the top, three phones in a
+ *                    row, feed as a right-hand column
+ *   .demo.vertical   9:16 — the one that matters, because TikTok and Reels are
+ *                    the destination. Header, three compressed phones, feed
+ *                    below. Checked at 390px with no horizontal scroll and no
+ *                    text under ~28px effective at 1080 wide.
+ */
+
+.demo {
+  --dgap: 14px;
+  min-height: 100vh;
+  background: var(--sf-board, #0D1017);
+  color: var(--sf-chalk, #F2EFE7);
+  font-family: var(--font-body, Inter), system-ui, sans-serif;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--dgap);
+  padding: var(--dgap);
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* ── header ─────────────────────────────────────────────────────────── */
+.dhead {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--sf-line, rgba(242,239,231,.12));
+  padding-bottom: 8px;
+}
+.dh-follow {
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--sf-muted, #8a9099);
+}
+.dh-teams {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-weight: 700; font-size: clamp(18px, 3.2vw, 26px);
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.dh-teams .at { color: var(--sf-muted, #8a9099); margin: 0 4px; }
+.dh-score {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-weight: 700; font-size: clamp(20px, 3.6vw, 30px);
+  color: var(--sf-amber, #FFB020); margin-left: auto;
+}
+.dh-clock { font-size: 13px; color: var(--sf-muted, #8a9099); }
+
+/* ── body ───────────────────────────────────────────────────────────── */
+.dbody { display: flex; flex-direction: column; gap: var(--dgap); min-width: 0; }
+
+/* ── picker ─────────────────────────────────────────────────────────── */
+.dpicker-h, .dfeed-h, .dstand h2 {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-weight: 700; font-size: 14px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--sf-muted, #8a9099);
+  margin: 0 0 8px;
+}
+.dpicker-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.dgame {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center;
+  padding: 11px 13px; border: 1px solid var(--sf-line, rgba(242,239,231,.12));
+  border-radius: 10px; background: var(--sf-board-2, #141922);
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+.dgame.live { border-left: 3px solid var(--sf-amber, #FFB020); }
+.dgame.hover { border-color: rgba(255,176,32,.45); }
+.dgame.picked {
+  border-color: var(--sf-amber, #FFB020);
+  background: rgba(255,176,32,.12);
+  transform: translateX(3px);
+}
+.dg-teams {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-weight: 600; font-size: 16px; letter-spacing: .05em;
+}
+.dg-teams .at { color: var(--sf-muted, #8a9099); }
+.dg-score {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-size: 15px; color: var(--sf-amber, #FFB020);
+}
+.dg-when { font-size: 12px; color: var(--sf-muted, #8a9099); white-space: nowrap; }
+
+/* ── what was called ────────────────────────────────────────────────── */
+.ddeclared {
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  padding: 9px 13px; border-radius: 10px;
+  background: rgba(255,176,32,.1);
+  border: 1px solid rgba(255,176,32,.34);
+}
+.dd-what {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-weight: 700; font-size: clamp(17px, 3vw, 22px);
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--sf-amber, #FFB020);
+}
+.dd-who { font-size: 13px; color: var(--sf-chalk, #F2EFE7); }
+
+/* ── the three phones ───────────────────────────────────────────────── */
+.dplayers {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--dgap); align-items: start;
+}
+.dplayer {
+  border: 1px solid var(--sf-line, rgba(242,239,231,.12));
+  border-radius: 14px; padding: 11px; background: var(--sf-board-2, #141922);
+  min-width: 0; transition: border-color .2s ease, box-shadow .2s ease;
+}
+.dplayer.holding {
+  border-color: var(--sf-amber, #FFB020);
+  box-shadow: 0 0 0 1px rgba(255,176,32,.3), 0 6px 22px rgba(255,176,32,.12);
+}
+.dplayer.landing { border-color: var(--sf-neon, #8AFF3D); }
+.dp-head { display: flex; align-items: center; gap: 6px; margin-bottom: 7px; min-width: 0; flex-wrap: wrap; }
+.dp-av {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid var(--ring, #7FB2FF); object-fit: cover; flex: 0 0 auto;
+}
+.dp-name {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-weight: 700; font-size: 15px; letter-spacing: .02em; text-transform: uppercase;
+  min-width: 0; white-space: nowrap;
+}
+.dp-ref {
+  font-size: 9px; letter-spacing: .14em; padding: 2px 5px; border-radius: 3px;
+  background: var(--sf-amber, #FFB020); color: var(--sf-amber-ink, #12151a);
+  font-weight: 700; flex: 0 0 auto;
+}
+.dp-tot {
+  display: flex; align-items: baseline; gap: 4px; margin-bottom: 9px;
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+}
+.dp-sg, .dp-dr { font-size: 19px; font-weight: 700; }
+.dp-sg { color: var(--sf-neon, #8AFF3D); }
+.dp-dr { color: var(--sf-amber, #FFB020); margin-left: 8px; }
+.dp-u { font-size: 10px; letter-spacing: .1em; color: var(--sf-muted, #8a9099); }
+.dp-plus {
+  margin-left: auto; font-size: 14px; font-weight: 700;
+  color: var(--sf-neon, #8AFF3D);
+}
+/*
+ * `--card-w` is a ROOT variable in styles/game.css (118px, 172px on a big
+ * screen) because the real game shows a few large cards. Three hands of seven
+ * side by side is a different problem, so the demo overrides it per context —
+ * without it the cards inherited full size, burst out of their panels and
+ * pushed the event feed off the bottom of a 390px screen entirely.
+ */
+.dp-hand {
+  --card-w: 72px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+  gap: 5px; justify-items: center;
+}
+.dp-hand.wild { margin-top: 6px; }
+.dcard { opacity: .5; transition: opacity .2s ease, transform .2s ease; }
+.dcard.lit { opacity: 1; transform: translateY(-3px); }
+
+/* ── standings ──────────────────────────────────────────────────────── */
+.dstand { border-top: 1px solid var(--sf-line, rgba(242,239,231,.12)); padding-top: 10px; }
+.dstand ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.dstand li {
+  display: flex; justify-content: space-between; padding: 7px 11px;
+  background: var(--sf-board-2, #141922); border-radius: 8px;
+}
+.ds-n { font-family: var(--sf-display, Oswald), system-ui, sans-serif; letter-spacing: .05em; }
+.ds-v { color: var(--sf-amber, #FFB020); font-size: 13px; }
+
+/* ── feed ───────────────────────────────────────────────────────────── */
+.dfeed {
+  border: 1px solid var(--sf-line, rgba(242,239,231,.12));
+  border-radius: 12px; padding: 11px; background: var(--sf-board-2, #141922);
+  min-width: 0;
+}
+.dfeed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+.dfeed-row {
+  font-size: 13px; line-height: 1.45; color: var(--sf-chalk, #F2EFE7);
+  overflow-wrap: anywhere;
+}
+.dfeed-row.k-event {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--sf-amber, #FFB020); margin-top: 6px;
+}
+.dfeed-row.k-holder { padding-left: 14px; color: var(--sf-muted, #8a9099); }
+.dfeed-row.k-pour { padding-left: 14px; }
+.dfeed-row.k-note { color: var(--sf-muted, #8a9099); }
+
+/* ── captions ───────────────────────────────────────────────────────── */
+.dcap {
+  border-left: 3px solid var(--sf-neon, #8AFF3D);
+  padding: 8px 13px; background: rgba(138,255,61,.07); border-radius: 0 10px 10px 0;
+}
+.dcap p { margin: 0; font-size: clamp(14px, 2.4vw, 18px); line-height: 1.4; }
+.dcap .dcap2 { margin-top: 5px; font-size: 12.5px; color: var(--sf-muted, #8a9099); }
+
+/* ── end card ───────────────────────────────────────────────────────── */
+.dend { text-align: center; padding: 8vh 16px; }
+.dend h1 {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-size: clamp(30px, 8vw, 62px); letter-spacing: .05em; text-transform: uppercase;
+  margin: 0 0 12px; color: var(--sf-amber, #FFB020);
+}
+.de-line { font-size: clamp(16px, 3vw, 22px); margin: 0 0 16px; }
+.de-url {
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-size: clamp(18px, 4vw, 28px); letter-spacing: .04em; margin: 0 0 8px;
+}
+.de-sub { color: var(--sf-muted, #8a9099); font-size: 13px; margin: 0 0 22px; }
+.de-cta {
+  display: inline-block; padding: 13px 26px;
+  background: var(--sf-amber, #FFB020); color: var(--sf-amber-ink, #12151a);
+  font-family: var(--sf-display, Oswald), system-ui, sans-serif;
+  font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+}
+
+/* ── controls ───────────────────────────────────────────────────────── */
+.dctl {
+  display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+  border-top: 1px solid var(--sf-line, rgba(242,239,231,.12)); padding-top: 10px;
+}
+.dctl button {
+  background: none; border: 1px solid var(--sf-line, rgba(242,239,231,.16));
+  color: var(--sf-chalk, #F2EFE7); border-radius: 999px;
+  font-size: 12px; padding: 6px 12px; cursor: pointer; font-family: inherit;
+}
+.dctl button.on {
+  background: var(--sf-amber, #FFB020); color: var(--sf-amber-ink, #12151a);
+  border-color: transparent; font-weight: 600;
+}
+.dctl-rail, .dctl-grp { display: flex; gap: 4px; }
+.dctl-rail .rail-b { min-width: 26px; padding: 5px 0; font-size: 11px; }
+.dctl-rail .rail-b.on { background: var(--sf-amber, #FFB020); color: var(--sf-amber-ink, #12151a); }
+
+/* ── 16:9 — feed as a right-hand column ─────────────────────────────── */
+@media (min-width: 900px) {
+  .demo:not(.vertical) { grid-template-columns: 1fr 320px; grid-template-rows: auto 1fr auto; }
+  .demo:not(.vertical) .dhead { grid-column: 1 / -1; }
+  .demo:not(.vertical) .dbody { grid-column: 1; }
+  .demo:not(.vertical) .dfeed { grid-column: 2; grid-row: 2; align-self: start; }
+  .demo:not(.vertical) .dcap { grid-column: 1 / -1; }
+  .demo:not(.vertical) .dctl { grid-column: 1 / -1; }
+}
+
+/* ── 9:16 — the one that matters ────────────────────────────────────── */
+/*
+ * Type in this mode is sized in `vw`, not px, so it is legible at BOTH widths
+ * this gets viewed at: a 390px phone, and a 1080px-wide recording viewport.
+ * Fixed px would be right for one and far too small for the other — 13px at a
+ * 1080 CSS viewport is 13px effective in the finished video, well under the
+ * ~28px floor, even though the same 13px at 390px scales up to ~36px.
+ *
+ * 1.2vw..3.4vw resolves to ~13px at 390 wide and ~30-36px at 1080 wide.
+ */
+.demo.vertical { grid-template-columns: 1fr; }
+.demo.vertical .dfeed-row { font-size: clamp(13px, 2.6vw, 30px); }
+.demo.vertical .dp-name   { font-size: clamp(13px, 2.9vw, 34px); }
+.demo.vertical .dp-sg,
+.demo.vertical .dp-dr     { font-size: clamp(16px, 3.6vw, 42px); }
+.demo.vertical .dp-u      { font-size: clamp(10px, 1.9vw, 22px); }
+.demo.vertical .dcap p    { font-size: clamp(15px, 3.2vw, 38px); }
+.demo.vertical .dcap .dcap2 { font-size: clamp(12px, 2.3vw, 27px); }
+.demo.vertical .dg-teams  { font-size: clamp(14px, 3vw, 34px); }
+.demo.vertical .dg-when,
+.demo.vertical .dg-score  { font-size: clamp(12px, 2.4vw, 28px); }
+.demo.vertical .dd-what   { font-size: clamp(17px, 4vw, 46px); }
+.demo.vertical .dd-who    { font-size: clamp(13px, 2.6vw, 30px); }
+.demo.vertical .dh-teams  { font-size: clamp(18px, 3.6vw, 42px); }
+.demo.vertical .dh-score  { font-size: clamp(20px, 4.2vw, 48px); }
+.demo.vertical .dh-clock,
+.demo.vertical .dh-follow { font-size: clamp(11px, 2.2vw, 26px); }
+.demo.vertical .dfeed-h,
+.demo.vertical .dpicker-h { font-size: clamp(12px, 2.2vw, 26px); }
+.demo.vertical .ds-n,
+.demo.vertical .ds-v      { font-size: clamp(13px, 2.6vw, 30px); }
+.demo.vertical .dp-av     { width: clamp(24px, 5vw, 58px); height: clamp(24px, 5vw, 58px); }
+.demo.vertical .dplayers { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.demo.vertical .dplayer { padding: 8px; border-radius: 11px; }
+/*
+ * One card, big enough to actually read. See renderCompactHand in
+ * DemoPlayer.jsx: seven cards across three panels on a phone puts each at
+ * ~44px, where the value chip and the name clip — including the 20-point Wild
+ * that is the whole point of beat 8.
+ */
+.demo.vertical .dp-hand.one {
+  --card-w: clamp(78px, 24vw, 260px);
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.demo.vertical .dp-more {
+  font-size: clamp(10px, 2vw, 24px); color: var(--sf-muted, #8a9099);
+  letter-spacing: .04em;
+}
+/* NOTE: type sizes for this mode are the vw clamps above. Fixed px rules used
+   to live here and, being later in the file at equal specificity, silently
+   overrode them — the clamps were dead and 1080-wide recordings came out with
+   13px text. Do not reintroduce a px font-size in this block. */
+
+/* Narrow phones: the same stack, tightened. Nothing may scroll sideways. */
+@media (max-width: 480px) {
+  .demo { --dgap: 9px; padding: 9px; }
+  .dplayers { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .dplayer { padding: 7px; }
+  .dp-av { width: 22px; height: 22px; }
+  .dp-name { font-size: 12px; letter-spacing: .03em; }
+  .dp-ref { font-size: 8px; padding: 1px 4px; }
+  .dp-sg, .dp-dr { font-size: 16px; }
+  .dp-hand { --card-w: 52px; gap: 3px; }
+  .dfeed-row { font-size: 12.5px; }
+  .dg-teams { font-size: 14px; }
+}
+
+/* Clean mode: nothing but the show. */
+.demo.clean .dctl { display: none; }
