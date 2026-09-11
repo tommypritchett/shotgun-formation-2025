@@ -2652,6 +2652,26 @@ socket.on('gameOver', (message) => {
       onHandOff={isHost ? handleHostSwap : undefined}
       onRemovePlayer={isHost ? openRemovePlayer : undefined}
       onEndGame={isHost ? handleEndGame : undefined}
+      shareSlot={
+        /**
+         * A game runs long and the best moment is often not the end — it is
+         * somebody taking ten drinks in a round. Every player can share the
+         * standings as they stand, from here, at any time.
+         *
+         * `title: 'RIGHT NOW'` rather than FINAL, and deliberately NO
+         * timestamp or quarter label: it will be posted five minutes later
+         * either way, and a stale clock on the image is worse than no clock.
+         */
+        gameState === 'game' && boardPlayers.length > 0 ? (
+          <ShareResult
+            players={boardPlayers}
+            roomCode={roomCode}
+            size="story"
+            title="RIGHT NOW"
+            label="Share the score"
+          />
+        ) : null
+      }
     />
   );
 

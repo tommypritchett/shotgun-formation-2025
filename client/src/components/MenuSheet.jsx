@@ -1,7 +1,7 @@
 /** The bottom menu sheet, opened from the header. */
 export default function MenuSheet({
   open, onClose, roomCode, playerCount, maxPlayers,
-  onRules, onLeave, onHandOff, onRemovePlayer, onEndGame,
+  onRules, onLeave, onHandOff, onRemovePlayer, onEndGame, shareSlot = null,
 }) {
   return (
     <>
@@ -17,6 +17,11 @@ export default function MenuSheet({
         <button type="button" className="mi" onClick={onClose}>
           Room code <span className="k">{roomCode}</span>
         </button>
+        {/* Item 3: share the game as it stands, from the menu, available to
+            EVERY player at any time. Deliberately not a button competing with
+            the round controls — the round screen is the busiest thing in the
+            app and nothing may make pouring harder. */}
+        {shareSlot}
         {onHandOff ? (
           <button type="button" className="mi" onClick={onHandOff}>
             Hand off the whistle <span className="k">NEW REF</span>

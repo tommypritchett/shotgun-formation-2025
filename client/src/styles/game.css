@@ -885,6 +885,17 @@ button.card:active{transform:translateY(2px) scale(.985)}
 
 /* "Share result" — sits with the standings once there is a result worth
    sharing. Quiet until tapped; the card itself is the loud part. */
+/* In the menu sheet the share control is a menu row, not a page button. */
+.sheet .shareres{margin:0}
+.sheet .shareres .shareres-btn{
+  display:flex;align-items:center;width:100%;min-height:52px;padding:0 6px;
+  border:0;border-bottom:1px solid rgba(242,239,231,.07);border-radius:0;
+  background:none;color:var(--sf-chalk);justify-content:flex-start;
+  font-family:var(--sf-display);font-weight:600;font-size:16px;
+  text-transform:uppercase;letter-spacing:.05em;
+}
+.sheet .shareres .shareres-img img{max-width:180px}
+
 .shareres{margin:10px 0 2px}
 .shareres-btn{width:100%}
 .shareres-img{margin-top:10px;text-align:center}
