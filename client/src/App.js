@@ -32,6 +32,7 @@ import GameCard from './components/GameCard';
 import MenuSheet from './components/MenuSheet';
 import RemovePlayerSheet from './components/RemovePlayerSheet';
 import Announcement from './components/Announcement';
+import ShareResult from './components/ShareResult';
 import {
   swappableGroups, toggleSelection, selectedCount, totalSelected, selectionToCards, groupKey,
 } from './lib/duplicate-cards';
@@ -2656,6 +2657,20 @@ socket.on('gameOver', (message) => {
     return (
       <>
         <GameScreen
+          /**
+           * The result card sits with the standings once there is a result to
+           * share. Session 18 asked for it "at game end" — there is no
+           * game-end SCREEN in this app (`gameOver` announces and returns
+           * everyone to the join screen), so the honest place is beside the
+           * standings, from the moment they mean anything. Games more often
+           * fizzle out than formally end, and this way the card is there
+           * either way.
+           */
+          boardExtra={
+            boardPlayers.some((p) => (p.totalDrinks || 0) > 0 || (p.totalShotguns || 0) > 0)
+              ? <ShareResult players={boardPlayers} roomCode={roomCode} />
+              : null
+          }
           quarter={quarter}
           roomCode={roomCode}
           onMenu={toggleMenu}

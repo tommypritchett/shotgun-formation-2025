@@ -28,6 +28,10 @@ export default function GameScreen({
   callEntries = [], callFeedOpen = false, onCallFeedToggle,
   autoCallPaused = false, feedNotice = '', onOpenDial,
   suggestion = null, suggestionLeft = 0, onAcceptSuggestion, onDismissSuggestion,
+  // Optional slot under the board — the end-of-game "Share result" control.
+  // Absent by default, so a room that never reaches it renders exactly what it
+  // rendered before this existed.
+  boardExtra = null,
 }) {
   return (
     <div className="app">
@@ -55,6 +59,7 @@ export default function GameScreen({
             quarter={quarter}
             selfId={selfId}
           />
+          {boardExtra}
           <div className="blk-hand">
             <HandGrid standard={hand.standard} wild={hand.wild} onCardTap={onCardTap} />
           </div>

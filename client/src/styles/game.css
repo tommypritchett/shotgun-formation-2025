@@ -775,6 +775,16 @@ button.card:active{transform:translateY(2px) scale(.985)}
 }
 .howto:hover{color:var(--sf-amber,#FFB020)}
 
+/* "Share result" — sits with the standings once there is a result worth
+   sharing. Quiet until tapped; the card itself is the loud part. */
+.shareres{margin:10px 0 2px}
+.shareres-btn{width:100%}
+.shareres-img{margin-top:10px;text-align:center}
+.shareres-img img{
+  width:100%;max-width:320px;border-radius:10px;
+  border:1px solid var(--sf-line,rgba(242,239,231,.14));
+}
+
 .sheet.announce{text-align:center}
 .announce .announce-t{
   font-family:var(--sf-display,Oswald),system-ui,sans-serif;
