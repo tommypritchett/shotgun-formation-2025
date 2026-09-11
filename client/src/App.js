@@ -36,6 +36,7 @@ import ShareResult from './components/ShareResult';
 import { shareInvite } from './lib/invite';
 import AnnouncementBanner from './components/AnnouncementBanner';
 import AgeGate from './components/AgeGate';
+import GameOverScreen from './screens/GameOverScreen';
 import { hasPassed as agePassed, remember as rememberAge } from './lib/age-gate';
 import { parseAnnouncement, isDismissed, dismiss as dismissAnnouncementId } from './lib/announcement';
 import {
@@ -284,6 +285,8 @@ const [isRemovePlayerOpen, setIsRemovePlayerOpen] = useState(false);
    * that fails CLOSED.
    */
   const [ageOk, setAgeOk] = useState(() => agePassed());
+  /** Final standings, once the game has ended. Non-null means show the curtain call. */
+  const [finalStandings, setFinalStandings] = useState(null);
   /** An action held back by the gate, replayed once it is passed. */
   const [afterGate, setAfterGate] = useState(null);
   const [instructionsmessage] = useState('Instructions: \n1. Host will select a card event when an event occurs.\n2. If you have corresponding cards you will be prompted to Assign drinks or shotguns.\n3. Select your Neon Green Wild Card when the event occurs. Host will confirm event\n4. After each Quarter the host will confirm a Quarter has ended and you will have an option to swap out one of your wild cards\n5. Drink responsibly! Must be 21+ Years Old');
@@ -688,6 +691,17 @@ const handleInvite = async () => {
   } else if (how === 'failed') {
     announce('Could not share', `Read them the room code instead: ${roomCodeRef.current || roomCode}`);
   }
+};
+
+/** The Ref finishes the game for everyone. */
+const handleEndGame = () => {
+  setIsMenuOpen(false);
+  socket.emit('endGame', { roomCode: roomCodeRef.current || roomCode });
+};
+
+/** Same room, same people, scores cleared. Ref-only, like startGame. */
+const handlePlayAgain = () => {
+  socket.emit('playAgain', { roomCode: roomCodeRef.current || roomCode });
 };
 
 const handleShareGame = () => {
@@ -2331,6 +2345,28 @@ socket.on('playSkipped', ({ cardId, reason } = {}) => {
   ].slice(0, 100));
 });
 
+/**
+ * The game finished on purpose. Everyone lands on the curtain call.
+ *
+ * `gameOver` (below) stays exactly as it was — it is an ABANDONMENT path, not
+ * a result, and dropping someone on a scoreboard because the room emptied
+ * would be claiming a finish that did not happen.
+ */
+socket.off('gameEnded');
+socket.on('gameEnded', ({ standings } = {}) => {
+  setFinalStandings(Array.isArray(standings) ? standings : []);
+  setGameState('over');
+  forgetSavedGame();   // it is over; do not try to rejoin it on the next load
+});
+
+socket.off('returnedToLobby');
+socket.on('returnedToLobby', ({ players: roster } = {}) => {
+  setFinalStandings(null);
+  if (Array.isArray(roster)) setPlayers(roster);
+  setDeclaredCard('');
+  setGameState('lobby');
+});
+
 socket.off('gameOver');
 socket.on('gameOver', (message) => {
   announce('Game over', message);
@@ -2615,6 +2651,7 @@ socket.on('gameOver', (message) => {
       onLeave={handleLeaveGame}
       onHandOff={isHost ? handleHostSwap : undefined}
       onRemovePlayer={isHost ? openRemovePlayer : undefined}
+      onEndGame={isHost ? handleEndGame : undefined}
     />
   );
 
@@ -2739,6 +2776,22 @@ socket.on('gameOver', (message) => {
           onStart={startTheGame}
           onLeave={leaveLobby}
           onShare={handleInvite}
+        />
+        {announcement}
+      </>
+    );
+  }
+
+  // ── game over ──────────────────────────────────────────────────────────
+  if (gameState === 'over') {
+    return (
+      <>
+        <GameOverScreen
+          standings={finalStandings || []}
+          roomCode={roomCode}
+          isHost={isHost}
+          onPlayAgain={isHost ? handlePlayAgain : undefined}
+          onLeave={handleLeaveGame}
         />
         {announcement}
       </>

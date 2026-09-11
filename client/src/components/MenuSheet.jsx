@@ -1,7 +1,7 @@
 /** The bottom menu sheet, opened from the header. */
 export default function MenuSheet({
   open, onClose, roomCode, playerCount, maxPlayers,
-  onRules, onLeave, onHandOff, onRemovePlayer,
+  onRules, onLeave, onHandOff, onRemovePlayer, onEndGame,
 }) {
   return (
     <>
@@ -27,6 +27,13 @@ export default function MenuSheet({
         {onRemovePlayer ? (
           <button type="button" className="mi" onClick={onRemovePlayer}>
             Remove a player <span className="k">REF</span>
+          </button>
+        ) : null}
+        {/* Ref-only: finishes the game for EVERYONE and shows the result.
+            Sits above Leave, because leaving is the thing you do after. */}
+        {onEndGame ? (
+          <button type="button" className="mi" onClick={onEndGame}>
+            End game <span className="k">FINAL SCORE</span>
           </button>
         ) : null}
         <button type="button" className="mi" onClick={onLeave}>Leave game</button>
