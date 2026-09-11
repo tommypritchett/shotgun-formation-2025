@@ -32,6 +32,8 @@
  * None. Not one call to Math.random or Date.now. Same run, every time.
  */
 
+import { SITE_LABEL } from '../lib/site';
+
 /**
  * The slate the picker shows. All invented — see rule 2 above.
  * `at` is the away side, `home` the home side, exactly as a real slate reads.
@@ -355,11 +357,15 @@ export const BEATS = [
   },
 ];
 
-/** The end card. Copy lives here so it can be re-cut with the rest. */
+/**
+ * The end card. Copy lives here so it can be re-cut with the rest — except the
+ * domain, which comes from lib/site.js like every other user-visible URL, so
+ * the day DNS verifies is a one-line change rather than a grep.
+ */
 export const END_CARD = {
   title: 'Shotgun Formation',
   line: 'Play it free with your friends.',
-  url: 'shotgunformation.com',
+  url: SITE_LABEL,
   sub: 'Physical deck coming soon.',
   cta: 'Play it now',
 };

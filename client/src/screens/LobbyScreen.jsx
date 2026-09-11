@@ -38,7 +38,11 @@ export default function LobbyScreen({
         ) : (
           <p className="waiting">Waiting for the Ref to start…</p>
         )}
-        <button type="button" className="btn ghost" onClick={onShare}>Share game link</button>
+        {/* The one-tap invite. Prominent, and above Leave, because it is the
+            thing the host is actually trying to do in the lobby. */}
+        <button type="button" className="btn ghost invite" onClick={onShare}>
+          Invite players
+        </button>
         <button type="button" className="btn ghost" onClick={onLeave}>Leave</button>
         {/* Somewhere to send the person who has never played, while everyone
             else is still arriving. */}

@@ -32,6 +32,12 @@ import GameCard from './components/GameCard';
 import MenuSheet from './components/MenuSheet';
 import RemovePlayerSheet from './components/RemovePlayerSheet';
 import Announcement from './components/Announcement';
+import ShareResult from './components/ShareResult';
+import { shareInvite } from './lib/invite';
+import AnnouncementBanner from './components/AnnouncementBanner';
+import AgeGate from './components/AgeGate';
+import { hasPassed as agePassed, remember as rememberAge } from './lib/age-gate';
+import { parseAnnouncement, isDismissed, dismiss as dismissAnnouncementId } from './lib/announcement';
 import {
   swappableGroups, toggleSelection, selectedCount, totalSelected, selectionToCards, groupKey,
 } from './lib/duplicate-cards';
@@ -270,6 +276,16 @@ const [isRemovePlayerOpen, setIsRemovePlayerOpen] = useState(false);
    * whole change exists to deliver.
    */
   const [announcements, setAnnouncements] = useState([]);
+  /** The returning-player banner. Null unless the server sent a usable one. */
+  const [banner, setBanner] = useState(null);
+  /**
+   * The age gate. Passed once per device; `agePassed()` returns false when
+   * storage is unavailable, so the gate shows — the one place in this session
+   * that fails CLOSED.
+   */
+  const [ageOk, setAgeOk] = useState(() => agePassed());
+  /** An action held back by the gate, replayed once it is passed. */
+  const [afterGate, setAfterGate] = useState(null);
   const [instructionsmessage] = useState('Instructions: \n1. Host will select a card event when an event occurs.\n2. If you have corresponding cards you will be prompted to Assign drinks or shotguns.\n3. Select your Neon Green Wild Card when the event occurs. Host will confirm event\n4. After each Quarter the host will confirm a Quarter has ended and you will have an option to swap out one of your wild cards\n5. Drink responsibly! Must be 21+ Years Old');
 
   // 🔧 CRITICAL FIX: Sync refs with state to restore functionality
@@ -656,6 +672,23 @@ const announce = (title, body, dismissText) => {
 };
 
 const dismissAnnouncement = () => setAnnouncements((queue) => queue.slice(1));
+
+/**
+ * One tap to invite. Item 2 of Session 18.
+ *
+ * `shareInvite` tries the OS share sheet, then the clipboard. The result is
+ * SHOWN either way — a silent clipboard write reads as a dead button, which is
+ * the same lost player this exists to prevent.
+ */
+const handleInvite = async () => {
+  setIsMenuOpen(false);
+  const how = await shareInvite(roomCodeRef.current || roomCode);
+  if (how === 'copied') {
+    announce('Invite copied', 'Paste it to whoever you want in. The link carries the room code.');
+  } else if (how === 'failed') {
+    announce('Could not share', `Read them the room code instead: ${roomCodeRef.current || roomCode}`);
+  }
+};
 
 const handleShareGame = () => {
   const gameUrl = `${window.location.origin}?room=${roomCode}`;
@@ -2175,6 +2208,20 @@ socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
 // The quarter break, as a room-level phase rather than a modal each client
 // opens for itself. The server holds `isActionInProgress` for its duration, so
 // nothing can start a round mid-break; this is only so the table can SEE it.
+// The returning-player announcement. Validated here as well as on the server,
+// because this is the one string in the app that arrives from outside config
+// and is shown to everyone. Anything not fully understood renders nothing.
+socket.off('announcement');
+socket.on('announcement', (payload) => {
+  const parsed = parseAnnouncement(payload);
+  if (parsed && !isDismissed(parsed.id)) setBanner(parsed);
+});
+// Ask, rather than relying on the server's emit-on-connect: `io()` runs at
+// module load, so the socket is often already connected by the time this
+// handler is registered and that emit would have gone to nobody.
+if (socket.connected) socket.emit('requestAnnouncement');
+else socket.once('connect', () => socket.emit('requestAnnouncement'));
+
 socket.off('quarterBreak');
 socket.on('quarterBreak', ({ open } = {}) => {
   setBreakOpen(Boolean(open));
@@ -2594,6 +2641,53 @@ socket.on('gameOver', (message) => {
     />
   ) : null;
 
+  /**
+   * ── WHERE THE GATE SITS, and why ──────────────────────────────────────
+   *
+   * In App, in front of ENTERING A ROOM — not in index.js around <App/>, and
+   * not inside JoinScreen.
+   *
+   *  - `index.js` would gate the LANDING PAGE, which the brief forbids. It
+   *    would leave /how-to-play untouched, but at the cost of walling off the
+   *    front door to everyone who has never played.
+   *  - `JoinScreen` alone would gate the form but not the ACTIONS, and the
+   *    form is also what someone sees before they have decided to play.
+   *
+   * So: /how-to-play is exempt BY CONSTRUCTION — it never mounts <App/> at all
+   * (index.js picks by pathname), so no variant of it can show this. The bare
+   * landing page is not gated either. The gate fires on an act to enter a
+   * room: tapping Create or Join, or ARRIVING on a ?room= link, which is an
+   * act to enter even though it lands on the join screen rather than a game.
+   *
+   * It is scoped to `gameState === 'initial'`, so it can never appear
+   * mid-game or on a reconnect — a gate firing at 11pm on a dropped phone
+   * would lose that player permanently.
+   */
+  const arrivedOnRoomLink = roomCodeFromSearch(
+    typeof window === 'undefined' ? '' : window.location.search,
+  ) !== '';
+
+  if (gameState === 'initial' && !ageOk && (arrivedOnRoomLink || afterGate)) {
+    return (
+      <AgeGate
+        onPass={() => {
+          rememberAge();
+          setAgeOk(true);
+          const next = afterGate;
+          setAfterGate(null);
+          if (next === 'create') startGame();
+          if (next === 'join') joinGame();
+        }}
+      />
+    );
+  }
+
+  /** Run `what` now, or hold it behind the gate. */
+  const gated = (what, run) => () => {
+    if (ageOk) { run(); return; }
+    setAfterGate(what);
+  };
+
   // ── initial ────────────────────────────────────────────────────────────
   if (gameState === 'initial') {
     // True only when the link actually carried a usable code. It now drives
@@ -2603,13 +2697,17 @@ socket.on('gameOver', (message) => {
     const hasSharedRoomCode = roomCodeFromSearch(window.location.search) !== '';
     return (
       <>
+        <AnnouncementBanner
+          announcement={banner}
+          onDismiss={() => { if (banner) { dismissAnnouncementId(banner.id); setBanner(null); } }}
+        />
         <JoinScreen
           playerName={playerName}
           onPlayerName={setPlayerName}
           roomCode={roomCode}
           onRoomCode={(v) => { setRoomCode(v); setErrorMessage(''); }}
-          onCreate={startGame}
-          onJoin={joinGame}
+          onCreate={gated('create', startGame)}
+          onJoin={gated('join', joinGame)}
           hasSharedRoomCode={hasSharedRoomCode}
           errorMessage={errorMessage}
         />
@@ -2640,7 +2738,7 @@ socket.on('gameOver', (message) => {
           minPlayers={MIN_PLAYERS}
           onStart={startTheGame}
           onLeave={leaveLobby}
-          onShare={handleShareGame}
+          onShare={handleInvite}
         />
         {announcement}
       </>
@@ -2656,6 +2754,20 @@ socket.on('gameOver', (message) => {
     return (
       <>
         <GameScreen
+          /**
+           * The result card sits with the standings once there is a result to
+           * share. Session 18 asked for it "at game end" — there is no
+           * game-end SCREEN in this app (`gameOver` announces and returns
+           * everyone to the join screen), so the honest place is beside the
+           * standings, from the moment they mean anything. Games more often
+           * fizzle out than formally end, and this way the card is there
+           * either way.
+           */
+          boardExtra={
+            boardPlayers.some((p) => (p.totalDrinks || 0) > 0 || (p.totalShotguns || 0) > 0)
+              ? <ShareResult players={boardPlayers} roomCode={roomCode} />
+              : null
+          }
           quarter={quarter}
           roomCode={roomCode}
           onMenu={toggleMenu}
