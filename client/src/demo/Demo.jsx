@@ -69,6 +69,8 @@ const stageAt = (elapsed) => {
     given: {},
     boardTab: 'stand',
     lastRoundCardId: null,
+    lastRoundRows: [],
+    locked: false,
   };
   PLAYERS.forEach((p) => {
     state.totals[p.name] = { drinks: 0, shotguns: 0 };
@@ -76,15 +78,6 @@ const stageAt = (elapsed) => {
   });
 
   const byName = Object.fromEntries(PLAYERS.map((p) => [p.name, p]));
-  /** Ten-to-one, once, exactly as the server folds it. */
-  const add = (name, drinks) => {
-    const t = state.totals[name];
-    if (!t) return;
-    const raw = t.drinks + drinks;
-    t.shotguns += Math.floor(raw / DRINKS_PER_SHOTGUN);
-    t.drinks = raw % DRINKS_PER_SHOTGUN;
-  };
-
   let key = 0;
   for (let i = 0; i < BEATS.length; i += 1) {
     const beat = BEATS[i];
@@ -92,14 +85,15 @@ const stageAt = (elapsed) => {
     if (elapsed < start) break;
     const into = elapsed - start;
     const live = into < beat.ms;
+    const showingResults = beat.resultsAt !== undefined && into >= beat.resultsAt;
 
     Object.assign(state, beat.set || {});
     if (beat.caption) { state.caption = beat.caption; state.caption2 = beat.caption2 || null; }
     else if (beat.set && beat.set.declared !== undefined) { state.caption = null; state.caption2 = null; }
 
-    // A new round is a clean slate for what has been poured.
     if (beat.set && 'declared' in beat.set) {
       PLAYERS.forEach((p) => { state.given[p.name] = { shotguns: {}, drinks: {} }; });
+      state.locked = false;
     }
 
     if (beat.pickAt !== undefined) {
@@ -107,12 +101,9 @@ const stageAt = (elapsed) => {
       state.pickedId = into >= beat.pickAt ? FOLLOWED_ID : null;
     }
 
-    // The round clock, ticking inside the beat like the real one does.
     if (beat.set && beat.set.round) {
       const secs = beat.set.round.seconds;
-      state.secondsLeft = live
-        ? Math.max(0, Math.ceil(secs - (into / 1000)))
-        : 0;
+      state.secondsLeft = live ? Math.max(0, Math.ceil(secs - (into / 1000))) : 0;
     }
 
     for (const entry of (beat.feed || [])) {
@@ -121,24 +112,65 @@ const stageAt = (elapsed) => {
       state.lines.push({ ...entry, key: `l${key}` });
     }
 
-    // Pours land into the holder's `given` map, which is what drives the
-    // real assigner's tallies, and into the recipient's totals.
+    /**
+     * What each player TOOK this round, before any folding.
+     *
+     * Kept separate from the running totals because the server folds ten into
+     * one shotgun PER ROUND, not per pour. Dylan taking 8 and then 2 is one
+     * shotgun; folding as each pour lands would give him 0 shotguns and 10
+     * loose drinks, which is not what the game does and would make the beat
+     * that exists to show the fold show nothing.
+     */
+    const received = {};
+    PLAYERS.forEach((p) => { received[p.name] = 0; });
+
     for (const pour of (beat.pours || [])) {
       if (into < pour.at) continue;
       const toId = byName[pour.to] && byName[pour.to].id;
       const bucket = pour.shotgun ? 'shotguns' : 'drinks';
       const g = state.given[pour.from];
       if (g && toId) g[bucket][toId] = (g[bucket][toId] || 0) + pour.n;
-      add(pour.to, pour.shotgun ? pour.n * DRINKS_PER_SHOTGUN : pour.n);
+      received[pour.to] += pour.shotgun ? pour.n * DRINKS_PER_SHOTGUN : pour.n;
     }
-
-    // First Down: everyone, once.
     if (beat.everyone && into >= 800) {
-      PLAYERS.forEach((p) => add(p.name, beat.everyone));
+      PLAYERS.forEach((p) => { received[p.name] += beat.everyone; });
     }
 
-    if (beat.set && beat.set.declared && beat.set.declared.cardId) {
-      state.lastRoundCardId = beat.set.declared.cardId;
+    // Everyone has poured and tapped Lock In.
+    if (beat.lockAt !== undefined && into >= beat.lockAt) state.locked = true;
+
+    // Round Results: the fold happens here, once, exactly as the server does it.
+    const rows = PLAYERS
+      .map((p) => ({
+        id: p.id,
+        name: p.name,
+        shotguns: Math.floor(received[p.name] / DRINKS_PER_SHOTGUN),
+        drinks: received[p.name] % DRINKS_PER_SHOTGUN,
+      }))
+      .filter((r) => r.drinks > 0 || r.shotguns > 0);
+
+    // ONLY beats that are actually a round have a results phase. Keying this
+    // off `!live` alone flipped the board to "Round Results — nothing was
+    // poured" for the picker and the deal, because those beats are also
+    // finished by the time a later one is playing.
+    const isRound = beat.resultsAt !== undefined;
+    const roundOver = isRound && (showingResults || !live);
+
+    if (roundOver) {
+      state.declared = null;
+      state.boardTab = 'last';
+      state.lastRoundRows = rows;
+      state.lastRoundCardId = (beat.set && beat.set.declared && beat.set.declared.cardId) || null;
+      state.secondsLeft = 0;
+    }
+
+    // Totals carry forward once the round has actually finished.
+    if (roundOver) {
+      rows.forEach((r) => {
+        const t = state.totals[r.name];
+        t.shotguns += r.shotguns;
+        t.drinks += r.drinks;
+      });
     }
   }
   return state;
@@ -188,7 +220,8 @@ const viewFor = (player, stage, roomCode) => {
     watching: stage.watching || null,
     boardTab: stage.boardTab,
     lastRoundCardId: stage.lastRoundCardId,
-    lastRoundRows: [],
+    lastRoundRows: stage.lastRoundRows || [],
+    sent: Boolean(stage.locked),
     source: d && d.cardId ? 'The game called it' : null,
   };
 };

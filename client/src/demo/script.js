@@ -108,7 +108,11 @@ export const PLAYERS = [
  */
 export const HANDS = {
   Tommy: {
-    standard: ['Turnover', 'Penalty', 'Field Goal', 'Penalty', 'Sacks'],
+    // TWO Turnovers on purpose: 2 x 4 = 8, and with Marcus's single Turnover
+    // pouring 2 more onto the same player that round totals exactly 10 —
+    // which is what makes the round results fold it into one shotgun. See
+    // the `turnover` beat.
+    standard: ['Turnover', 'Turnover', 'Field Goal', 'Penalty', 'Sacks'],
     wild: ['Big Play 20+', 'Blocked Kicks'],
   },
   Dylan: {
@@ -151,6 +155,18 @@ export const CLIMAX_CARD = 'Safety';
  *   'pour'   — one player pouring on another
  *   'note'   — plain commentary
  */
+/**
+ * Every round beat runs in two halves:
+ *
+ *   1. the round — EVERY holder pours their whole pool, then locks in
+ *   2. `resultsAt` — the board flips to Round Results for RESULTS_MS
+ *
+ * Both halves matter. A demo where one person pours and the others watch
+ * misrepresents the game; a demo that cuts before the results never shows the
+ * ten-drinks-is-one-shotgun fold, which is the rule the game is named after.
+ */
+export const RESULTS_MS = 3000;
+
 export const BEATS = [
   {
     n: 1, id: 'pick', ms: 6500,
@@ -159,15 +175,15 @@ export const BEATS = [
     feed: [], pickAt: 3800,
   },
   {
-    n: 2, id: 'deal', ms: 7000,
+    n: 2, id: 'deal', ms: 5000,
     caption: 'Everyone gets a hand: five Standard, two Wild.',
     set: { screen: 'board', declared: null, scoreDetail: 'Q2 8:41' },
     feed: [{ at: 200, kind: 'note', text: 'Following: Lakeshore @ Fort Vale' }],
   },
 
-  // ── a Standard card, and what the OTHER two see ───────────────────────
+  // Every one of the three holds a Sack, so all three pour.
   {
-    n: 3, id: 'sack', ms: 9000,
+    n: 3, id: 'sack', ms: 12500, resultsAt: 9500,
     caption: 'The app watches the game and calls the card for you.',
     caption2: 'It holds each call a few seconds, so it never announces a play before you see it.',
     set: {
@@ -176,15 +192,19 @@ export const BEATS = [
     },
     feed: [
       { at: 200, kind: 'event', text: 'SACK — Fort Vale' },
-      { at: 1600, kind: 'holder', player: 'Marcus', cardId: 'Sacks', copies: 1 },
-      { at: 5200, kind: 'pour', from: 'Marcus', to: 'Tommy', drinks: 2 },
+      { at: 1400, kind: 'note', text: 'All three are holding a Sack' },
+      { at: 6800, kind: 'note', text: 'Everyone locks in' },
     ],
-    pours: [{ at: 5200, from: 'Marcus', to: 'Tommy', n: 2 }],
+    pours: [
+      { at: 3000, from: 'Tommy', to: 'Dylan', n: 2 },
+      { at: 4200, from: 'Dylan', to: 'Marcus', n: 2 },
+      { at: 5400, from: 'Marcus', to: 'Tommy', n: 2 },
+    ],
+    lockAt: 6800,
   },
 
-  // ── the global event ──────────────────────────────────────────────────
   {
-    n: 4, id: 'firstdown', ms: 6500,
+    n: 4, id: 'firstdown', ms: 8000, resultsAt: 5000,
     caption: 'Not everything is a card. A first down is everyone, once.',
     set: {
       declared: { cardId: null, globalEvent: 'First Down', holder: null, copies: 0 },
@@ -194,9 +214,8 @@ export const BEATS = [
     everyone: 1,
   },
 
-  // ── copies stack, and the holder picks who ────────────────────────────
   {
-    n: 5, id: 'touchdown', ms: 11000,
+    n: 5, id: 'touchdown', ms: 13000, resultsAt: 10000,
     caption: 'Holding two copies? It counts twice — and you choose who drinks.',
     set: {
       declared: { cardId: 'Touchdown', holder: 'Dylan', copies: 2 },
@@ -204,19 +223,19 @@ export const BEATS = [
     },
     feed: [
       { at: 200, kind: 'event', text: 'TOUCHDOWN — Lakeshore' },
-      { at: 1500, kind: 'holder', player: 'Dylan', cardId: 'Touchdown', copies: 2 },
-      { at: 4600, kind: 'pour', from: 'Dylan', to: 'Marcus', drinks: 4 },
-      { at: 7600, kind: 'pour', from: 'Dylan', to: 'Tommy', drinks: 2 },
+      { at: 1400, kind: 'note', text: 'Dylan holds two, Marcus holds one' },
+      { at: 7600, kind: 'note', text: 'Both lock in' },
     ],
     pours: [
-      { at: 4600, from: 'Dylan', to: 'Marcus', n: 4 },
-      { at: 7600, from: 'Dylan', to: 'Tommy', n: 2 },
+      { at: 2800, from: 'Dylan', to: 'Tommy', n: 4 },
+      { at: 4200, from: 'Dylan', to: 'Marcus', n: 2 },
+      { at: 5800, from: 'Marcus', to: 'Tommy', n: 3 },
     ],
+    lockAt: 7600,
   },
 
-  // ── the rest of the Standard deck ─────────────────────────────────────
   {
-    n: 6, id: 'fieldgoal', ms: 8000,
+    n: 6, id: 'fieldgoal', ms: 11500, resultsAt: 8500,
     caption: null,
     set: {
       declared: { cardId: 'Field Goal', holder: 'Tommy', copies: 1 },
@@ -224,13 +243,18 @@ export const BEATS = [
     },
     feed: [
       { at: 200, kind: 'event', text: 'FIELD GOAL — Fort Vale' },
-      { at: 1500, kind: 'holder', player: 'Tommy', cardId: 'Field Goal', copies: 1 },
-      { at: 4400, kind: 'pour', from: 'Tommy', to: 'Dylan', drinks: 2 },
+      { at: 6200, kind: 'note', text: 'Everyone locks in' },
     ],
-    pours: [{ at: 4400, from: 'Tommy', to: 'Dylan', n: 2 }],
+    pours: [
+      { at: 2400, from: 'Tommy', to: 'Marcus', n: 2 },
+      { at: 3600, from: 'Dylan', to: 'Marcus', n: 2 },
+      { at: 4800, from: 'Marcus', to: 'Dylan', n: 2 },
+    ],
+    lockAt: 6200,
   },
+
   {
-    n: 7, id: 'penalty', ms: 7000,
+    n: 7, id: 'penalty', ms: 10500, resultsAt: 7500,
     caption: null,
     set: {
       declared: { cardId: 'Penalty', holder: 'Marcus', copies: 1 },
@@ -238,29 +262,41 @@ export const BEATS = [
     },
     feed: [
       { at: 200, kind: 'event', text: 'PENALTY — holding, Lakeshore' },
-      { at: 1400, kind: 'holder', player: 'Marcus', cardId: 'Penalty', copies: 1 },
-      { at: 3800, kind: 'pour', from: 'Marcus', to: 'Dylan', drinks: 1 },
+      { at: 5400, kind: 'note', text: 'Everyone locks in' },
     ],
-    pours: [{ at: 3800, from: 'Marcus', to: 'Dylan', n: 1 }],
+    pours: [
+      { at: 2200, from: 'Tommy', to: 'Dylan', n: 1 },
+      { at: 3200, from: 'Dylan', to: 'Marcus', n: 1 },
+      { at: 4200, from: 'Marcus', to: 'Tommy', n: 1 },
+    ],
+    lockAt: 5400,
   },
+
+  // ── the fold: Dylan takes 8 + 2 = 10 in one round, and the results
+  //    turn that into a single shotgun. This is the rule the game is
+  //    named after, so it gets its own beat and a caption.
   {
-    n: 8, id: 'turnover', ms: 9000,
-    caption: 'Turnover is the biggest card in the Standard deck.',
+    n: 8, id: 'turnover', ms: 14500, resultsAt: 11000,
+    caption: 'Ten drinks in a round is a shotgun. Watch the results.',
     set: {
-      declared: { cardId: 'Turnover', holder: 'Tommy', copies: 1 },
+      declared: { cardId: 'Turnover', holder: 'Tommy', copies: 2 },
       scoreDetail: 'Q2 3:19', round: { seconds: 21 },
     },
     feed: [
       { at: 200, kind: 'event', text: 'TURNOVER — interception' },
-      { at: 1500, kind: 'holder', player: 'Tommy', cardId: 'Turnover', copies: 1 },
-      { at: 5000, kind: 'pour', from: 'Tommy', to: 'Marcus', drinks: 4 },
+      { at: 1400, kind: 'note', text: 'Tommy holds two Turnovers — eight drinks' },
+      { at: 8600, kind: 'note', text: "That is ten on Dylan — it becomes a shotgun" },
     ],
-    pours: [{ at: 5000, from: 'Tommy', to: 'Marcus', n: 4 }],
+    pours: [
+      { at: 3000, from: 'Tommy', to: 'Dylan', n: 8 },
+      { at: 5600, from: 'Marcus', to: 'Dylan', n: 2 },
+      { at: 7000, from: 'Marcus', to: 'Tommy', n: 2 },
+    ],
+    lockAt: 8600,
   },
 
-  // ── the Wild deck, three of them, three different values ──────────────
   {
-    n: 9, id: 'wild-bigplay', ms: 8500,
+    n: 9, id: 'wild-bigplay', ms: 10500, resultsAt: 7500,
     caption: 'Wild cards are green, and worth more.',
     set: {
       declared: { cardId: 'Big Play 20+', holder: 'Tommy', copies: 1, wild: true },
@@ -268,13 +304,14 @@ export const BEATS = [
     },
     feed: [
       { at: 200, kind: 'event', text: 'BIG PLAY — 34 yards, Lakeshore' },
-      { at: 1400, kind: 'holder', player: 'Tommy', cardId: 'Big Play 20+', copies: 1 },
-      { at: 4600, kind: 'pour', from: 'Tommy', to: 'Dylan', drinks: 5 },
+      { at: 5400, kind: 'note', text: 'Tommy locks in' },
     ],
-    pours: [{ at: 4600, from: 'Tommy', to: 'Dylan', n: 5 }],
+    pours: [{ at: 2600, from: 'Tommy', to: 'Marcus', n: 5 }],
+    lockAt: 5400,
   },
+
   {
-    n: 10, id: 'wild-3nout', ms: 8000,
+    n: 10, id: 'wild-3nout', ms: 10000, resultsAt: 7000,
     caption: null,
     set: {
       declared: { cardId: '3 n Out', holder: 'Dylan', copies: 1, wild: true },
@@ -282,37 +319,36 @@ export const BEATS = [
     },
     feed: [
       { at: 200, kind: 'event', text: 'THREE AND OUT — Fort Vale punts' },
-      { at: 1400, kind: 'holder', player: 'Dylan', cardId: '3 n Out', copies: 1 },
-      { at: 4400, kind: 'pour', from: 'Dylan', to: 'Tommy', drinks: 4 },
+      { at: 5000, kind: 'note', text: 'Dylan locks in' },
     ],
-    pours: [{ at: 4400, from: 'Dylan', to: 'Tommy', n: 4 }],
+    pours: [{ at: 2400, from: 'Dylan', to: 'Tommy', n: 4 }],
+    lockAt: 5000,
   },
 
-  // ── the climax: a Wild worth 20 is TWO SHOTGUNS ───────────────────────
   {
-    n: 11, id: 'shotgun', ms: 14000,
-    caption: 'Ten drinks is one shotgun. A Wild worth twenty is two.',
+    n: 11, id: 'shotgun', ms: 14000, resultsAt: 11000,
+    caption: 'A Wild worth twenty is two shotguns on its own.',
     set: {
       declared: { cardId: CLIMAX_CARD, holder: 'Marcus', copies: 1, wild: true },
       scoreDetail: 'Q2 1:44', round: { seconds: 11 },
     },
     feed: [
       { at: 200, kind: 'event', text: 'SAFETY — Fort Vale' },
-      { at: 1800, kind: 'note', text: 'Marcus plays a Wild — the Ref confirms it' },
-      { at: 4200, kind: 'holder', player: 'Marcus', cardId: CLIMAX_CARD, copies: 1 },
-      { at: 8200, kind: 'pour', from: 'Marcus', to: 'Dylan', shotguns: 2 },
+      { at: 1600, kind: 'note', text: 'Marcus plays a Wild — the Ref confirms it' },
+      { at: 7600, kind: 'note', text: 'Marcus locks in' },
     ],
-    pours: [{ at: 8200, from: 'Marcus', to: 'Dylan', n: 2, shotgun: true }],
+    pours: [{ at: 4600, from: 'Marcus', to: 'Dylan', n: 2, shotgun: true }],
+    lockAt: 7600,
   },
 
   {
-    n: 12, id: 'standings', ms: 8500,
+    n: 12, id: 'standings', ms: 6500,
     caption: "There's a running score. It is a competition.",
     set: { declared: null, showStandings: true, scoreDetail: 'Q2 0:31', boardTab: 'stand' },
-    feed: [{ at: 300, kind: 'note', text: 'Round over — standings updated' }],
+    feed: [{ at: 300, kind: 'note', text: 'Standings after the quarter' }],
   },
   {
-    n: 13, id: 'end', ms: 9000,
+    n: 13, id: 'end', ms: 7000,
     caption: null,
     set: { screen: 'end', showStandings: false },
     feed: [],

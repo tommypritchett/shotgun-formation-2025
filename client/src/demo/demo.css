@@ -142,6 +142,41 @@
   transform: scale(var(--ps)); transform-origin: top left;
   overflow: hidden;
 }
+/*
+ * ── Why these overrides exist ──────────────────────────────────────────
+ *
+ * A CSS transform does not create a viewport. The phone inside the frame is
+ * 400px wide, but `@media (min-width:900px)` resolves against the BROWSER
+ * window, so on a desktop every frame renders the app's DESKTOP layout at
+ * phone width — `.s1grid` becomes two columns and the hand is squeezed into a
+ * 130px gutter where each card computes to 12px.
+ *
+ * An iframe would fix this properly, because it gets its own viewport. That is
+ * the right answer if this ever needs to be exact; it costs a second route and
+ * cross-frame state, which is not worth it for a scripted demo.
+ *
+ * So: the handful of desktop-only rules that break the phone layout are undone
+ * here, and nothing else. This is deliberately NOT a copy of game.css's mobile
+ * block — if more of the desktop layout leaks in later, prefer the iframe over
+ * growing this list.
+ */
+.dphone .app { max-width: none; padding: 0 12px; }
+.dphone .body { padding: 12px 2px 16px; }
+.dphone .s1grid {
+  grid-template-columns: 1fr;
+  grid-template-areas: none;
+  grid-template-rows: auto auto;
+  gap: 8px;
+}
+.dphone .blk-stand, .dphone .blk-hand { grid-area: auto; }
+.dphone .dock { max-width: none; margin-left: 0; }
+.dphone .abody { max-width: none; padding: 14px 12px 20px; }
+.dphone .pgrid, .dphone .pgrid.cols3 {
+  grid-template-columns: repeat(2, 1fr); grid-auto-rows: 118px; gap: 8px;
+}
+.dphone .adock-in, .dphone .passive-dock .in { max-width: none; }
+.dphone .assign .declared { padding: 10px 12px; }
+
 /* The real screens are position:sticky/fixed in places; inside a scaled frame
    they must stay within it rather than escaping to the page. */
 .dphone .app { min-height: var(--ph); height: var(--ph); overflow: hidden; }
