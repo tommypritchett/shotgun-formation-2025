@@ -775,6 +775,16 @@ button.card:active{transform:translateY(2px) scale(.985)}
 }
 .howto:hover{color:var(--sf-amber,#FFB020)}
 
+/* "No app, no signup" — quiet by design. It informs; it does not sell. */
+.noapp{
+  text-align:center;margin:14px 0 0;
+  font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--sf-muted,#8a9099);
+}
+/* The invite is what the host is actually trying to do in the lobby. */
+.btn.ghost.invite{border-color:rgba(255,176,32,.45);color:var(--sf-amber,#FFB020)}
+
 /* "Share result" — sits with the standings once there is a result worth
    sharing. Quiet until tapped; the card itself is the loud part. */
 .shareres{margin:10px 0 2px}

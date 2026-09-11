@@ -33,6 +33,7 @@ import MenuSheet from './components/MenuSheet';
 import RemovePlayerSheet from './components/RemovePlayerSheet';
 import Announcement from './components/Announcement';
 import ShareResult from './components/ShareResult';
+import { shareInvite } from './lib/invite';
 import {
   swappableGroups, toggleSelection, selectedCount, totalSelected, selectionToCards, groupKey,
 } from './lib/duplicate-cards';
@@ -657,6 +658,23 @@ const announce = (title, body, dismissText) => {
 };
 
 const dismissAnnouncement = () => setAnnouncements((queue) => queue.slice(1));
+
+/**
+ * One tap to invite. Item 2 of Session 18.
+ *
+ * `shareInvite` tries the OS share sheet, then the clipboard. The result is
+ * SHOWN either way — a silent clipboard write reads as a dead button, which is
+ * the same lost player this exists to prevent.
+ */
+const handleInvite = async () => {
+  setIsMenuOpen(false);
+  const how = await shareInvite(roomCodeRef.current || roomCode);
+  if (how === 'copied') {
+    announce('Invite copied', 'Paste it to whoever you want in. The link carries the room code.');
+  } else if (how === 'failed') {
+    announce('Could not share', `Read them the room code instead: ${roomCodeRef.current || roomCode}`);
+  }
+};
 
 const handleShareGame = () => {
   const gameUrl = `${window.location.origin}?room=${roomCode}`;
@@ -2641,7 +2659,7 @@ socket.on('gameOver', (message) => {
           minPlayers={MIN_PLAYERS}
           onStart={startTheGame}
           onLeave={leaveLobby}
-          onShare={handleShareGame}
+          onShare={handleInvite}
         />
         {announcement}
       </>

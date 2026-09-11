@@ -80,6 +80,11 @@ export default function JoinScreen({
 
         {/* The walkthrough. A plain <a>, not a handler: it is a real route
             (/how-to-play) so it can be linked to, bookmarked and sent. */}
+        {/* Item 3. One quiet line, doing real work: a stranger handed a link
+            by a friend does not yet know this will not ask them to install
+            anything. It does that work by being present, not by being loud. */}
+        <p className="noapp">No app, no signup.</p>
+
         <a className="howto" href="/how-to-play">New here? Watch how it works</a>
       </div>
     </div>
