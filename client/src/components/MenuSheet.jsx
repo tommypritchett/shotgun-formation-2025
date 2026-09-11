@@ -2,6 +2,7 @@
 export default function MenuSheet({
   open, onClose, roomCode, playerCount, maxPlayers,
   onRules, onLeave, onHandOff, onRemovePlayer, onEndGame, shareSlot = null,
+  soundOn = true, onToggleSound,
 }) {
   return (
     <>
@@ -22,6 +23,14 @@ export default function MenuSheet({
             the round controls — the round screen is the busiest thing in the
             app and nothing may make pouring harder. */}
         {shareSlot}
+        {/* One toggle, no slider. This is a drinking game, not a mixing desk.
+            Somebody whose phone is the party speaker wants this off within
+            about four seconds. */}
+        {onToggleSound ? (
+          <button type="button" className="mi" onClick={onToggleSound} aria-pressed={soundOn}>
+            Sounds <span className="k">{soundOn ? 'ON' : 'OFF'}</span>
+          </button>
+        ) : null}
         {onHandOff ? (
           <button type="button" className="mi" onClick={onHandOff}>
             Hand off the whistle <span className="k">NEW REF</span>
