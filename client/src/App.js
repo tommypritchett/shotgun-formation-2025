@@ -34,6 +34,8 @@ import RemovePlayerSheet from './components/RemovePlayerSheet';
 import Announcement from './components/Announcement';
 import ShareResult from './components/ShareResult';
 import { shareInvite } from './lib/invite';
+import AnnouncementBanner from './components/AnnouncementBanner';
+import { parseAnnouncement, isDismissed, dismiss as dismissAnnouncementId } from './lib/announcement';
 import {
   swappableGroups, toggleSelection, selectedCount, totalSelected, selectionToCards, groupKey,
 } from './lib/duplicate-cards';
@@ -272,6 +274,8 @@ const [isRemovePlayerOpen, setIsRemovePlayerOpen] = useState(false);
    * whole change exists to deliver.
    */
   const [announcements, setAnnouncements] = useState([]);
+  /** The returning-player banner. Null unless the server sent a usable one. */
+  const [banner, setBanner] = useState(null);
   const [instructionsmessage] = useState('Instructions: \n1. Host will select a card event when an event occurs.\n2. If you have corresponding cards you will be prompted to Assign drinks or shotguns.\n3. Select your Neon Green Wild Card when the event occurs. Host will confirm event\n4. After each Quarter the host will confirm a Quarter has ended and you will have an option to swap out one of your wild cards\n5. Drink responsibly! Must be 21+ Years Old');
 
   // 🔧 CRITICAL FIX: Sync refs with state to restore functionality
@@ -2194,6 +2198,20 @@ socket.on('playerLeft', ({ playerId, remainingPlayers }) => {
 // The quarter break, as a room-level phase rather than a modal each client
 // opens for itself. The server holds `isActionInProgress` for its duration, so
 // nothing can start a round mid-break; this is only so the table can SEE it.
+// The returning-player announcement. Validated here as well as on the server,
+// because this is the one string in the app that arrives from outside config
+// and is shown to everyone. Anything not fully understood renders nothing.
+socket.off('announcement');
+socket.on('announcement', (payload) => {
+  const parsed = parseAnnouncement(payload);
+  if (parsed && !isDismissed(parsed.id)) setBanner(parsed);
+});
+// Ask, rather than relying on the server's emit-on-connect: `io()` runs at
+// module load, so the socket is often already connected by the time this
+// handler is registered and that emit would have gone to nobody.
+if (socket.connected) socket.emit('requestAnnouncement');
+else socket.once('connect', () => socket.emit('requestAnnouncement'));
+
 socket.off('quarterBreak');
 socket.on('quarterBreak', ({ open } = {}) => {
   setBreakOpen(Boolean(open));
@@ -2622,6 +2640,10 @@ socket.on('gameOver', (message) => {
     const hasSharedRoomCode = roomCodeFromSearch(window.location.search) !== '';
     return (
       <>
+        <AnnouncementBanner
+          announcement={banner}
+          onDismiss={() => { if (banner) { dismissAnnouncementId(banner.id); setBanner(null); } }}
+        />
         <JoinScreen
           playerName={playerName}
           onPlayerName={setPlayerName}

@@ -1575,6 +1575,24 @@ const refTookOver = (roomCode) => {
   // Add this to your server.js file in the io.on('connection') section
 io.on('connection', (socket) => {
   console.log(`Client connected: ${socket.id} with transport: ${socket.conn.transport.name}`);
+
+  // The returning-player announcement, if one is configured. Sent on connect
+  // so it is available on the join screen, before anyone is in a room. Absent
+  // config sends nothing at all, so a client that never hears this event
+  // renders exactly what it rendered before the feature existed.
+  if (ANNOUNCEMENT) socket.emit('announcement', ANNOUNCEMENT);
+
+  /**
+   * ...and again on request.
+   *
+   * The emit above races the client: `io()` runs at module load, so a socket
+   * can be connected before React has mounted and registered a listener, and
+   * the announcement would be sent to nobody. The client asks once on mount,
+   * which makes delivery deterministic instead of dependent on that ordering.
+   */
+  socket.on('requestAnnouncement', () => {
+    if (ANNOUNCEMENT) socket.emit('announcement', ANNOUNCEMENT);
+  });
   
   // Set up a heartbeat mechanism to detect disconnected clients
   let heartbeatInterval;
@@ -3585,6 +3603,46 @@ const distributeCards = (players, standardDeck, wildDeck) => {
  * have edited server.js without committing, the SHA is still the last commit.
  * It answers "is this a stale process?", not "is this file dirty?".
  */
+/**
+ * The returning-player announcement, from config rather than a deploy.
+ *
+ * There is no email list by design, so on the day the physical deck ships this
+ * banner is the only channel to the people who played. It is read ONCE at boot
+ * from ANNOUNCEMENT_JSON — an environment variable is enough, and it is what
+ * Render makes easy.
+ *
+ *     ANNOUNCEMENT_JSON='{"id":"deck-2026","text":"The deck ships Friday.","link":"https://..."}'
+ *
+ * Fields: `id`, `text`, and an optional `link`. TEXT ONLY — no HTML. Anything
+ * that renders server-supplied markup in a client is a hole, and this one is
+ * reachable by whoever gets at the config.
+ *
+ * Malformed, empty or absent config yields null and the event is never sent.
+ * **The server must still boot.** A typo in an env var taking the whole game
+ * down would be a far worse failure than a missing banner, so this is wrapped
+ * and logged rather than thrown.
+ */
+const ANNOUNCEMENT = (() => {
+  const raw = process.env.ANNOUNCEMENT_JSON;
+  if (!raw || !raw.trim()) return null;
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('not an object');
+    const id = typeof parsed.id === 'string' ? parsed.id.trim() : '';
+    const text = typeof parsed.text === 'string' ? parsed.text.trim() : '';
+    if (!id || !text) throw new Error('id and text are required strings');
+    const out = { id: id.slice(0, 64), text: text.slice(0, 280) };
+    if (typeof parsed.link === 'string' && /^https?:\/\//i.test(parsed.link.trim())) {
+      out.link = parsed.link.trim();
+    }
+    console.log(`📣 Announcement configured: ${out.id}`);
+    return out;
+  } catch (err) {
+    console.error(`📣 ANNOUNCEMENT_JSON ignored — ${err && err.message}`);
+    return null;
+  }
+})();
+
 const bootCommit = () => {
   const fromEnv = process.env.RENDER_GIT_COMMIT || process.env.SOURCE_VERSION;
   if (fromEnv) return `${fromEnv.slice(0, 7)} (from env)`;
