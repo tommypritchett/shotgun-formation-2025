@@ -35,6 +35,8 @@ import Announcement from './components/Announcement';
 import ShareResult from './components/ShareResult';
 import { shareInvite } from './lib/invite';
 import AnnouncementBanner from './components/AnnouncementBanner';
+import AgeGate from './components/AgeGate';
+import { hasPassed as agePassed, remember as rememberAge } from './lib/age-gate';
 import { parseAnnouncement, isDismissed, dismiss as dismissAnnouncementId } from './lib/announcement';
 import {
   swappableGroups, toggleSelection, selectedCount, totalSelected, selectionToCards, groupKey,
@@ -276,6 +278,14 @@ const [isRemovePlayerOpen, setIsRemovePlayerOpen] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
   /** The returning-player banner. Null unless the server sent a usable one. */
   const [banner, setBanner] = useState(null);
+  /**
+   * The age gate. Passed once per device; `agePassed()` returns false when
+   * storage is unavailable, so the gate shows — the one place in this session
+   * that fails CLOSED.
+   */
+  const [ageOk, setAgeOk] = useState(() => agePassed());
+  /** An action held back by the gate, replayed once it is passed. */
+  const [afterGate, setAfterGate] = useState(null);
   const [instructionsmessage] = useState('Instructions: \n1. Host will select a card event when an event occurs.\n2. If you have corresponding cards you will be prompted to Assign drinks or shotguns.\n3. Select your Neon Green Wild Card when the event occurs. Host will confirm event\n4. After each Quarter the host will confirm a Quarter has ended and you will have an option to swap out one of your wild cards\n5. Drink responsibly! Must be 21+ Years Old');
 
   // 🔧 CRITICAL FIX: Sync refs with state to restore functionality
@@ -2631,6 +2641,53 @@ socket.on('gameOver', (message) => {
     />
   ) : null;
 
+  /**
+   * ── WHERE THE GATE SITS, and why ──────────────────────────────────────
+   *
+   * In App, in front of ENTERING A ROOM — not in index.js around <App/>, and
+   * not inside JoinScreen.
+   *
+   *  - `index.js` would gate the LANDING PAGE, which the brief forbids. It
+   *    would leave /how-to-play untouched, but at the cost of walling off the
+   *    front door to everyone who has never played.
+   *  - `JoinScreen` alone would gate the form but not the ACTIONS, and the
+   *    form is also what someone sees before they have decided to play.
+   *
+   * So: /how-to-play is exempt BY CONSTRUCTION — it never mounts <App/> at all
+   * (index.js picks by pathname), so no variant of it can show this. The bare
+   * landing page is not gated either. The gate fires on an act to enter a
+   * room: tapping Create or Join, or ARRIVING on a ?room= link, which is an
+   * act to enter even though it lands on the join screen rather than a game.
+   *
+   * It is scoped to `gameState === 'initial'`, so it can never appear
+   * mid-game or on a reconnect — a gate firing at 11pm on a dropped phone
+   * would lose that player permanently.
+   */
+  const arrivedOnRoomLink = roomCodeFromSearch(
+    typeof window === 'undefined' ? '' : window.location.search,
+  ) !== '';
+
+  if (gameState === 'initial' && !ageOk && (arrivedOnRoomLink || afterGate)) {
+    return (
+      <AgeGate
+        onPass={() => {
+          rememberAge();
+          setAgeOk(true);
+          const next = afterGate;
+          setAfterGate(null);
+          if (next === 'create') startGame();
+          if (next === 'join') joinGame();
+        }}
+      />
+    );
+  }
+
+  /** Run `what` now, or hold it behind the gate. */
+  const gated = (what, run) => () => {
+    if (ageOk) { run(); return; }
+    setAfterGate(what);
+  };
+
   // ── initial ────────────────────────────────────────────────────────────
   if (gameState === 'initial') {
     // True only when the link actually carried a usable code. It now drives
@@ -2649,8 +2706,8 @@ socket.on('gameOver', (message) => {
           onPlayerName={setPlayerName}
           roomCode={roomCode}
           onRoomCode={(v) => { setRoomCode(v); setErrorMessage(''); }}
-          onCreate={startGame}
-          onJoin={joinGame}
+          onCreate={gated('create', startGame)}
+          onJoin={gated('join', joinGame)}
           hasSharedRoomCode={hasSharedRoomCode}
           errorMessage={errorMessage}
         />
