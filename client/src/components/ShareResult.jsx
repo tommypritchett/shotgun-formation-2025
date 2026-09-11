@@ -22,7 +22,7 @@ import { SITE_LABEL } from '../lib/site';
  * The card is rendered once on mount rather than on tap, so a button is only
  * ever shown when there is definitely something behind it.
  */
-export default function ShareResult({ players = [], roomCode = '' }) {
+export default function ShareResult({ players = [], roomCode = '', size = 'feed', title = null, label = 'Share result' }) {
   const [card, setCard] = useState(null);
   const [mode, setMode] = useState('idle');
 
@@ -30,7 +30,7 @@ export default function ShareResult({ players = [], roomCode = '' }) {
     let alive = true;
     (async () => {
       try {
-        const out = await renderResultCard({ players, roomCode });
+        const out = await renderResultCard({ players, roomCode, size, title });
         if (alive && out) setCard(out);
       } catch {
         // Deliberately silent. A card that cannot be drawn is not an error the
@@ -55,7 +55,7 @@ export default function ShareResult({ players = [], roomCode = '' }) {
   return (
     <section className="shareres" aria-label="Share the result">
       <button type="button" className="btn ghost shareres-btn" onClick={onShare}>
-        Share result
+        {label}
       </button>
       {mode === 'image' ? (
         <div className="shareres-img">

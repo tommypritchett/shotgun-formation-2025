@@ -775,6 +775,59 @@ button.card:active{transform:translateY(2px) scale(.985)}
 }
 .howto:hover{color:var(--sf-amber,#FFB020)}
 
+/* ── the curtain call ──────────────────────────────────────────────────
+   A terminal screen, not a report. The winner has to be unmistakable at a
+   glance without reading any numbers — which is what the size and the amber
+   are doing. It persists: no timeout, no dismiss-on-tap. */
+.gameover .go-k{
+  text-align:center;margin:6vh 0 2px;
+  font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sf-muted,#8a9099);
+}
+.gameover .go-win{text-align:center;margin:0 0 22px}
+.gameover .go-win-n{
+  display:block;font-family:var(--sf-display,Oswald),system-ui,sans-serif;
+  font-size:clamp(34px,10vw,56px);font-weight:700;letter-spacing:.03em;
+  text-transform:uppercase;color:var(--sf-amber,#FFB020);line-height:1.05;
+}
+.gameover .go-win-l{
+  display:block;font-family:var(--sf-display,Oswald),system-ui,sans-serif;
+  font-size:clamp(15px,4vw,20px);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--sf-chalk,#F2EFE7);margin-top:2px;
+}
+.gameover .go-list{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:5px}
+.gameover .go-row{
+  display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;
+  padding:9px 12px;border-radius:9px;background:var(--sf-board-2,#141922);
+  border:1px solid transparent;
+}
+.gameover .go-row.first{border-color:rgba(255,176,32,.45);background:rgba(255,176,32,.09)}
+.gameover .go-rank{
+  font-family:var(--sf-display,Oswald),system-ui,sans-serif;
+  color:var(--sf-muted,#8a9099);font-size:14px;
+}
+.gameover .go-row.first .go-rank{color:var(--sf-amber,#FFB020);font-weight:700}
+.gameover .go-name{
+  font-family:var(--sf-display,Oswald),system-ui,sans-serif;
+  font-size:16px;letter-spacing:.04em;text-transform:uppercase;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.gameover .go-amt{display:flex;gap:6px;align-items:center}
+.gameover .go-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:var(--sf-display,Oswald),system-ui,sans-serif;font-size:14px;
+  padding:2px 8px;border-radius:999px;
+}
+.gameover .go-chip img{height:13px}
+.gameover .go-chip.s{background:rgba(138,255,61,.14);color:var(--sf-neon,#8AFF3D)}
+.gameover .go-chip.d{background:rgba(255,176,32,.14);color:var(--sf-amber,#FFB020)}
+.gameover .go-chip.none{color:var(--sf-muted,#8a9099)}
+.gameover .go-room{
+  text-align:center;color:var(--sf-muted,#8a9099);font-size:12px;
+  letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px;
+}
+
 /* The age gate. Plain, quiet, and deliberately not a marketing surface. */
 .agegate .ag-h{
   font-family:var(--sf-display,Oswald),system-ui,sans-serif;
@@ -832,6 +885,17 @@ button.card:active{transform:translateY(2px) scale(.985)}
 
 /* "Share result" — sits with the standings once there is a result worth
    sharing. Quiet until tapped; the card itself is the loud part. */
+/* In the menu sheet the share control is a menu row, not a page button. */
+.sheet .shareres{margin:0}
+.sheet .shareres .shareres-btn{
+  display:flex;align-items:center;width:100%;min-height:52px;padding:0 6px;
+  border:0;border-bottom:1px solid rgba(242,239,231,.07);border-radius:0;
+  background:none;color:var(--sf-chalk);justify-content:flex-start;
+  font-family:var(--sf-display);font-weight:600;font-size:16px;
+  text-transform:uppercase;letter-spacing:.05em;
+}
+.sheet .shareres .shareres-img img{max-width:180px}
+
 .shareres{margin:10px 0 2px}
 .shareres-btn{width:100%}
 .shareres-img{margin-top:10px;text-align:center}

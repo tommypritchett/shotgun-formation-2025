@@ -36,6 +36,10 @@ import ShareResult from './components/ShareResult';
 import { shareInvite } from './lib/invite';
 import AnnouncementBanner from './components/AnnouncementBanner';
 import AgeGate from './components/AgeGate';
+import GameOverScreen from './screens/GameOverScreen';
+import { unlockAudio, playRoundStart, playRoundEnd, soundEnabled, setSoundEnabled }
+  from './lib/sounds';
+import { vibrate, createTitleFlasher } from './lib/attention';
 import { hasPassed as agePassed, remember as rememberAge } from './lib/age-gate';
 import { parseAnnouncement, isDismissed, dismiss as dismissAnnouncementId } from './lib/announcement';
 import {
@@ -284,6 +288,12 @@ const [isRemovePlayerOpen, setIsRemovePlayerOpen] = useState(false);
    * that fails CLOSED.
    */
   const [ageOk, setAgeOk] = useState(() => agePassed());
+  /** Final standings, once the game has ended. Non-null means show the curtain call. */
+  const [finalStandings, setFinalStandings] = useState(null);
+  /** Sound is on by default; a device that turned it off is remembered. */
+  const [soundOn, setSoundOn] = useState(() => soundEnabled());
+  const soundOnRef = useRef(true);
+  const flasherRef = useRef(null);
   /** An action held back by the gate, replayed once it is passed. */
   const [afterGate, setAfterGate] = useState(null);
   const [instructionsmessage] = useState('Instructions: \n1. Host will select a card event when an event occurs.\n2. If you have corresponding cards you will be prompted to Assign drinks or shotguns.\n3. Select your Neon Green Wild Card when the event occurs. Host will confirm event\n4. After each Quarter the host will confirm a Quarter has ended and you will have an option to swap out one of your wild cards\n5. Drink responsibly! Must be 21+ Years Old');
@@ -690,6 +700,38 @@ const handleInvite = async () => {
   }
 };
 
+/** The Ref finishes the game for everyone. */
+/**
+ * Unlock audio on a REAL user gesture.
+ *
+ * This is the part that silently does not work anywhere else. Browsers block
+ * audio until the user has interacted, and iOS Safari is strictest: a context
+ * created before a gesture starts `suspended` and every sound fails with no
+ * error and nothing to debug.
+ *
+ * Called from creating a room, joining one, and passing the age gate — all
+ * real taps, all before any round can start. Safe to call repeatedly.
+ */
+const unlockOnGesture = () => { unlockAudio(); };
+
+const toggleSound = () => {
+  const next = !soundOnRef.current;
+  setSoundOn(next);
+  setSoundEnabled(next);
+  // Turning it ON is itself a gesture, so take the chance to unlock.
+  if (next) unlockAudio();
+};
+
+const handleEndGame = () => {
+  setIsMenuOpen(false);
+  socket.emit('endGame', { roomCode: roomCodeRef.current || roomCode });
+};
+
+/** Same room, same people, scores cleared. Ref-only, like startGame. */
+const handlePlayAgain = () => {
+  socket.emit('playAgain', { roomCode: roomCodeRef.current || roomCode });
+};
+
 const handleShareGame = () => {
   const gameUrl = `${window.location.origin}?room=${roomCode}`;
   const shareText = `Join my Shotgun Formation game! Room Code: ${roomCode}\n\nClick here to join: ${gameUrl}`;
@@ -773,6 +815,22 @@ useEffect(() => { roomCodeRef.current = roomCode; }, [roomCode]);
 // The auto-rejoin effect runs once and its timeouts fire ten seconds later,
 // long after their closure went stale. They read the game state from here.
 useEffect(() => { gameStateRef.current = gameState; }, [gameState]);
+useEffect(() => { soundOnRef.current = soundOn; }, [soundOn]);
+
+/**
+ * The tab title stops flashing the moment somebody looks at the tab.
+ * `document.hidden` and `visibilitychange`, nothing more — no permission, no
+ * service worker.
+ */
+useEffect(() => {
+  if (!flasherRef.current) flasherRef.current = createTitleFlasher();
+  const onVisible = () => { if (!document.hidden) flasherRef.current.stop(); };
+  document.addEventListener('visibilitychange', onVisible);
+  return () => {
+    document.removeEventListener('visibilitychange', onVisible);
+    if (flasherRef.current) flasherRef.current.stop();
+  };
+}, []);
 
 // A suggestion is an offer with a clock on it. When it runs out it disappears
 // rather than sitting there looking live.
@@ -1804,6 +1862,9 @@ useEffect(() => {
     // ✅ FIX: Only reset drink assignment state if round is officially finalized
     // 🛡️ ULTRA PROTECTION: Never reset during active drink distribution
     if (roundFinalized === true) {
+      // Distinctly different from the start: higher, softer, falling.
+      playRoundEnd({ enabled: soundOnRef.current });
+      if (flasherRef.current) flasherRef.current.stop();
       // The board flips itself to Round Results the moment a round lands --
       // that is when everyone looks at their phone. Standings is one tap back.
       setLastRoundCard(declaredCardRef.current || null);
@@ -1841,6 +1902,14 @@ useEffect(() => {
 useEffect(() => {
   // Listen for the declared card from the server
   socket.on('declaredCard', (cardType) => {
+    // A round is starting. Buzz, vibrate, and flash the tab if they are away.
+    // `cardType` is also broadcast as null to CLEAR a round, so only a real
+    // card counts as a start.
+    if (cardType) {
+      playRoundStart({ enabled: soundOnRef.current });
+      vibrate();
+      if (flasherRef.current) flasherRef.current.start('🏈 Round started!');
+    }
     console.log('New card declared:', cardType);
     setDeclaredCard(cardType);  // Update the state with the declared card
     // `declaredCard: null` is the finalize reset. Drop the attribution with it,
@@ -2331,6 +2400,28 @@ socket.on('playSkipped', ({ cardId, reason } = {}) => {
   ].slice(0, 100));
 });
 
+/**
+ * The game finished on purpose. Everyone lands on the curtain call.
+ *
+ * `gameOver` (below) stays exactly as it was — it is an ABANDONMENT path, not
+ * a result, and dropping someone on a scoreboard because the room emptied
+ * would be claiming a finish that did not happen.
+ */
+socket.off('gameEnded');
+socket.on('gameEnded', ({ standings } = {}) => {
+  setFinalStandings(Array.isArray(standings) ? standings : []);
+  setGameState('over');
+  forgetSavedGame();   // it is over; do not try to rejoin it on the next load
+});
+
+socket.off('returnedToLobby');
+socket.on('returnedToLobby', ({ players: roster } = {}) => {
+  setFinalStandings(null);
+  if (Array.isArray(roster)) setPlayers(roster);
+  setDeclaredCard('');
+  setGameState('lobby');
+});
+
 socket.off('gameOver');
 socket.on('gameOver', (message) => {
   announce('Game over', message);
@@ -2615,6 +2706,29 @@ socket.on('gameOver', (message) => {
       onLeave={handleLeaveGame}
       onHandOff={isHost ? handleHostSwap : undefined}
       onRemovePlayer={isHost ? openRemovePlayer : undefined}
+      onEndGame={isHost ? handleEndGame : undefined}
+      soundOn={soundOn}
+      onToggleSound={toggleSound}
+      shareSlot={
+        /**
+         * A game runs long and the best moment is often not the end — it is
+         * somebody taking ten drinks in a round. Every player can share the
+         * standings as they stand, from here, at any time.
+         *
+         * `title: 'RIGHT NOW'` rather than FINAL, and deliberately NO
+         * timestamp or quarter label: it will be posted five minutes later
+         * either way, and a stale clock on the image is worse than no clock.
+         */
+        gameState === 'game' && boardPlayers.length > 0 ? (
+          <ShareResult
+            players={boardPlayers}
+            roomCode={roomCode}
+            size="story"
+            title="RIGHT NOW"
+            label="Share the score"
+          />
+        ) : null
+      }
     />
   );
 
@@ -2671,6 +2785,7 @@ socket.on('gameOver', (message) => {
     return (
       <AgeGate
         onPass={() => {
+          unlockOnGesture();
           rememberAge();
           setAgeOk(true);
           const next = afterGate;
@@ -2684,6 +2799,8 @@ socket.on('gameOver', (message) => {
 
   /** Run `what` now, or hold it behind the gate. */
   const gated = (what, run) => () => {
+    // A tap is a tap: unlock audio here whether or not the gate intervenes.
+    unlockOnGesture();
     if (ageOk) { run(); return; }
     setAfterGate(what);
   };
@@ -2739,6 +2856,22 @@ socket.on('gameOver', (message) => {
           onStart={startTheGame}
           onLeave={leaveLobby}
           onShare={handleInvite}
+        />
+        {announcement}
+      </>
+    );
+  }
+
+  // ── game over ──────────────────────────────────────────────────────────
+  if (gameState === 'over') {
+    return (
+      <>
+        <GameOverScreen
+          standings={finalStandings || []}
+          roomCode={roomCode}
+          isHost={isHost}
+          onPlayAgain={isHost ? handlePlayAgain : undefined}
+          onLeave={handleLeaveGame}
         />
         {announcement}
       </>

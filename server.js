@@ -1946,6 +1946,14 @@ function handleJoinRoom(socket, roomCode, playerName) {
     // the original host's name is a different person as far as this is
     // concerned, and must not inherit the whistle.
     restoreOriginalHostIfDue(roomCode, socket.id, playerName);
+    // A finished game: land them on how it ended rather than an empty form.
+    // Someone whose phone died in the fourth quarter should still get to see
+    // the result, and still be able to share it.
+    if (rooms[roomCode].finished) {
+      socket.emit('gameEnded', {
+        roomCode, standings: rooms[roomCode].finished.standings,
+      });
+    }
     return;
   }
 
@@ -2706,6 +2714,105 @@ socket.on('assignDrinks', ({ roomCode, selectedPlayerIds, drinksToGive, shotguns
  * room going empty, and refreshes everyone's hand. A second copy of that would
  * drift, and this codebase has been bitten by exactly that before.
  */
+/**
+ * The final standings, as a flat ordered list.
+ *
+ * Names and the two totals, nothing else. A share card is built from this and
+ * Round Results are anonymous by deliberate product decision (FOLLOW_UPS.md
+ * P1) — so there is no pour attribution in here to leak, structurally rather
+ * than by remembering.
+ */
+const finalStandings = (room) => {
+  if (!room) return [];
+  return room.players
+    .map((p) => {
+      const st = playerStats[p.id] || {};
+      return {
+        id: p.id,
+        name: p.name,
+        totalDrinks: Number(st.totalDrinks) || 0,
+        totalShotguns: Number(st.totalShotguns) || 0,
+      };
+    })
+    .sort((a, b) =>
+      (b.totalShotguns * DRINKS_PER_SHOTGUN + b.totalDrinks)
+      - (a.totalShotguns * DRINKS_PER_SHOTGUN + a.totalDrinks));
+};
+
+/**
+ * The Ref ends the game, on purpose.
+ *
+ * Every existing `gameOver` emit is an ABANDONMENT path — everyone left, or
+ * everyone disconnected — so before this there was no way for a table to
+ * finish a game together, and the end-of-game moment could only be reached by
+ * the last person still holding a phone.
+ *
+ * Additive: a new event, no rename, no payload change. Ref-only, matching
+ * startGame / nextQuarter / removePlayer.
+ *
+ * The room is KEPT, marked finished, so a player whose phone died in the
+ * fourth quarter can reconnect and still see how it ended.
+ */
+socket.on('endGame', ({ roomCode } = {}) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  if (room.host !== socket.id) {
+    console.log(`⛔ ${socket.id} tried to end the game in ${roomCode} without the whistle`);
+    return;
+  }
+  if (room.finished) return;                 // already over; ignore a double tap
+
+  const standings = finalStandings(room);
+  room.finished = { standings };
+  room.isActionInProgress = false;
+  if (room.quarterBreak) endQuarterBreak(roomCode, 'the game ended');
+
+  // A watched game must let go cleanly rather than keep polling ESPN for a
+  // room that has finished. Same path `detachGame` uses.
+  if (room.watching) {
+    const entry = watchers.forRoom(roomCode);
+    const dropped = entry && entry.queueRef
+      ? entry.queueRef.clear('the game ended').dropped : 0;
+    watchers.release(roomCode);
+    room.watching = null;
+    room.autoCallPaused = false;
+    io.to(roomCode).emit('gameDetached', { roomCode, dropped });
+  }
+
+  io.to(roomCode).emit('gameEnded', { roomCode, standings });
+  console.log(`🏁 Game ended in ${roomCode} by the Ref`);
+});
+
+/**
+ * Play again: same room, same people, scores cleared.
+ *
+ * Ref-only for the same reason `startGame` is — it resets everyone's state,
+ * and one person tapping it must not be able to wipe the table by accident.
+ */
+socket.on('playAgain', ({ roomCode } = {}) => {
+  const room = rooms[roomCode];
+  if (!room) return;
+  if (room.host !== socket.id) return;
+
+  room.finished = null;
+  room.gameStarted = false;
+  room.quarter = 1;
+  room.wildSwapQuarter = {};
+  room.isActionInProgress = false;
+  delete room.deck;
+  roundResults[roomCode] = {};
+  usedCards[roomCode] = { standard: [], wild: [] };
+
+  // Fresh scores, same seats.
+  room.players.forEach((p) => {
+    playerStats[p.id] = { totalDrinks: 0, totalShotguns: 0, standard: [], wild: [] };
+  });
+
+  io.to(roomCode).emit('returnedToLobby', { roomCode, players: room.players });
+  io.to(roomCode).emit('updatePlayers', room.players);
+  console.log(`🔄 ${roomCode} back in the lobby for another game`);
+});
+
 socket.on('removePlayer', ({ roomCode, playerId } = {}) => {
   const room = rooms[roomCode];
   if (!room) return;
