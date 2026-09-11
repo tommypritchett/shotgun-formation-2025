@@ -14,7 +14,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
   drawResultCard, renderResultCard, fitText, rankForCard, listBottom,
-  CARD_W, CARD_H,
+  CARD_W, CARD_H, SIZES, layoutFor, STORY_SAFE,
 } from '../../client/src/lib/result-card.js';
 import { canShareFiles, shareResultCard } from '../../client/src/lib/share-result.js';
 import { SITE_LABEL } from '../../client/src/lib/site.js';
@@ -228,5 +228,131 @@ describe('sharing, and what happens when it is not available', () => {
     expect(canShareFiles(null)).toBe(false);
     expect(canShareFiles({ share: () => {}, canShare: () => { throw new Error('no'); } }))
       .toBe(false);
+  });
+});
+
+
+/**
+ * The 9:16 story card.
+ *
+ * Instagram and Snapchat overlay chrome on a Story — profile row and close
+ * button at the top, reply bar at the bottom. Anything in the top or bottom
+ * ~10% sits under a UI element on somebody's phone, and the URL is the only
+ * part of the image doing commercial work. So "does it survive the crop" is
+ * the property under test, not "does it render".
+ */
+describe('the story card, 9:16', () => {
+  it('is 1080x1920', () => {
+    expect(SIZES.story).toEqual({ w: 1080, h: 1920 });
+    const L = layoutFor('story');
+    expect(L.w).toBe(1080);
+    expect(L.h).toBe(1920);
+  });
+
+  it('keeps EVERYTHING inside the safe band, at every table size', () => {
+    for (const n of [2, 3, 6, 8, 10]) {
+      const ctx = recorder();
+      drawResultCard(ctx, { players: players(n), roomCode: '48213', size: 'story' });
+      const L = layoutFor('story');
+      for (const t of ctx.calls.text) {
+        expect(t.y, `${n}p: "${t.s}" sits under the top chrome`)
+          .toBeGreaterThanOrEqual(L.safeTop);
+        expect(t.y, `${n}p: "${t.s}" sits under the reply bar`)
+          .toBeLessThanOrEqual(L.safeBottom);
+      }
+    }
+  });
+
+  it('keeps the URL — the only commercial element — well inside the crop', () => {
+    const ctx = recorder();
+    drawResultCard(ctx, { players: players(6), roomCode: '48213', size: 'story' });
+    const L = layoutFor('story');
+    const url = ctx.calls.text.find((t) => /SHOTGUNFORMATION/i.test(t.s));
+    expect(url, 'the URL is not on the card').toBeTruthy();
+    expect(url.y).toBeLessThanOrEqual(L.safeBottom);
+    expect(url.y).toBeGreaterThan(L.h * 0.75);   // anchored low, but not under the bar
+  });
+
+  it('reserves a tenth of the height at each end', () => {
+    expect(STORY_SAFE).toBe(0.10);
+    const L = layoutFor('story');
+    expect(L.safeTop).toBe(192);
+    expect(L.safeBottom).toBe(1728);
+  });
+
+  it('stays inside the horizontal safe area too', () => {
+    const ctx = recorder();
+    drawResultCard(ctx, {
+      players: [{ id: 'x', name: 'Bartholomew Fitzgerald-Wellington III', totalDrinks: 9, totalShotguns: 4 }],
+      roomCode: '48213', size: 'story',
+    });
+    const L = layoutFor('story');
+    for (const t of ctx.calls.text) {
+      expect(t.x, `"${t.s}" is outside the horizontal safe area`)
+        .toBeGreaterThanOrEqual(L.w * 0.05 - 1);
+      expect(t.x, `"${t.s}" is outside the horizontal safe area`)
+        .toBeLessThanOrEqual(L.w * 0.95 + 1);
+    }
+  });
+
+  it('fits ten players in the taller frame', () => {
+    expect(listBottom(10, 'story')).toBeLessThan(layoutFor('story').safeBottom);
+  });
+
+  it('still draws the feed size unchanged', () => {
+    const ctx = recorder();
+    drawResultCard(ctx, { players: players(3), roomCode: '1' });   // default = feed
+    expect(ctx.calls.rect[0]).toMatchObject({ w: CARD_W, h: CARD_H });
+  });
+
+  it('takes a heading, so a mid-game card is not labelled FINAL', () => {
+    const ctx = recorder();
+    drawResultCard(ctx, { players: players(3), roomCode: '1', size: 'story', title: 'RIGHT NOW' });
+    const said = ctx.calls.text.map((t) => t.s);
+    expect(said).toContain('RIGHT NOW');
+    expect(said, 'a live snapshot claimed to be the final result').not.toContain('FINAL');
+  });
+});
+
+/**
+ * The anonymity rule, made STRUCTURAL rather than remembered.
+ *
+ * Round Results are anonymous by deliberate product decision — "X drank N",
+ * never "X gave Y" (FOLLOW_UPS.md P1) — and a share card is the most public
+ * surface in the product. The card is fed a ROSTER, and a roster has no notion
+ * of who poured what, so there is nothing for it to leak.
+ */
+describe('a share card cannot leak who poured what', () => {
+  it('draws nothing but names and the two totals', () => {
+    const ctx = recorder();
+    drawResultCard(ctx, {
+      players: [
+        { id: 'a', name: 'Ava', totalDrinks: 4, totalShotguns: 1 },
+        { id: 'b', name: 'Ben', totalDrinks: 2, totalShotguns: 0 },
+      ],
+      roomCode: '48213', size: 'story',
+    });
+    const allowed = new Set([
+      'SHOTGUN', 'FORMATION', 'FINAL', 'SG', 'DR', 'ROOM 48213',
+      'SHOTGUNFORMATION.COM', 'Ava', 'Ben', '1', '2', '4', '0',
+    ]);
+    for (const t of ctx.calls.text) {
+      expect(allowed.has(t.s), `the card drew "${t.s}", which is not a name or a total`)
+        .toBe(true);
+    }
+  });
+
+  it('ignores pour attribution even when it is handed some', () => {
+    // If a caller ever passes richer rows, the card must still not render them.
+    const ctx = recorder();
+    drawResultCard(ctx, {
+      players: [{
+        id: 'a', name: 'Ava', totalDrinks: 4, totalShotguns: 0,
+        gaveTo: 'Ben', receivedFrom: 'Marcus', pours: [{ to: 'Ben', n: 4 }],
+      }],
+      roomCode: '48213', size: 'story',
+    });
+    const said = ctx.calls.text.map((t) => t.s).join(' | ');
+    expect(said, 'pour attribution reached the card').not.toMatch(/Ben|Marcus|gave/i);
   });
 });

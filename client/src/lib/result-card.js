@@ -24,11 +24,55 @@
  */
 import { SITE_LABEL } from './site';
 
-/** Portrait, the shape every messaging app previews well. */
-export const CARD_W = 1080;
-export const CARD_H = 1350;
+/**
+ * Two shapes, one drawing routine.
+ *
+ *   feed   1080x1350 (4:5) — a feed post
+ *   story  1080x1920 (9:16) — Instagram and Snapchat Stories
+ *
+ * Story is the default and the only one the app offers, because that is where
+ * this gets shared. A 4:5 image in a Story gets cropped and padded and looks
+ * like something posted somewhere else first.
+ *
+ * ── Safe margins ────────────────────────────────────────────────────────
+ *
+ * Instagram and Snapchat both overlay chrome on a Story: profile row and close
+ * button at the top, reply bar at the bottom. Anything in the top or bottom
+ * ~10% sits under a UI element on somebody's phone. So everything meaningful —
+ * and the URL especially, which is the only part doing commercial work — stays
+ * inside the middle 80% vertically and 90% horizontally.
+ */
+export const SIZES = {
+  feed: { w: 1080, h: 1350 },
+  story: { w: 1080, h: 1920 },
+};
+
+/** Fraction of the height reserved for app chrome at each end of a Story. */
+export const STORY_SAFE = 0.10;
+
+/** Kept for callers that predate the size parameter. */
+export const CARD_W = SIZES.feed.w;
+export const CARD_H = SIZES.feed.h;
 /** Drawn at 2x and scaled down, or the text looks soft. */
 export const CARD_SCALE = 2;
+
+/** Geometry for one size: where the bands sit, and what is safe. */
+export const layoutFor = (size = 'story') => {
+  const { w, h } = SIZES[size] || SIZES.story;
+  const isStory = size === 'story';
+  // Horizontal safety is 5% a side on a story; the feed card has no chrome.
+  const padX = isStory ? Math.round(w * 0.05) + 30 : 72;
+  const safeTop = isStory ? Math.round(h * STORY_SAFE) : 0;
+  const safeBottom = isStory ? Math.round(h * (1 - STORY_SAFE)) : h;
+  return {
+    w, h, padX, safeTop, safeBottom, isStory,
+    // The wordmark sits just inside the top safe line.
+    markY: isStory ? safeTop + 96 : 150,
+    // ...and the footer just inside the bottom one.
+    urlY: isStory ? safeBottom - 40 : h - 62,
+    roomY: isStory ? safeBottom - 112 : h - 128,
+  };
+};
 
 const PAD = 72;
 const INK = '#F2EFE7';
@@ -42,29 +86,38 @@ const DISPLAY = '"Oswald", system-ui, sans-serif';
 const BODY = '"Inter", system-ui, sans-serif';
 
 /** Rows shrink as the table grows, so ten players fit the same frame as two. */
-const rowMetrics = (count) => {
-  if (count <= 4) return { h: 108, name: 46, num: 44, avatar: 0 };
-  if (count <= 6) return { h: 92, name: 40, num: 38, avatar: 0 };
-  if (count <= 8) return { h: 78, name: 34, num: 33, avatar: 0 };
-  return { h: 66, name: 29, num: 28, avatar: 0 };
+const rowMetrics = (count, size = 'feed') => {
+  // A story frame is 570px taller, so rows can afford to be bigger — which
+  // matters because a Story is watched at arm's length for two seconds.
+  const k = size === 'story' ? 1.3 : 1;
+  const at = (h, name, num) => ({
+    h: Math.round(h * k), name: Math.round(name * k), num: Math.round(num * k), avatar: 0,
+  });
+  if (count <= 4) return at(108, 46, 44);
+  if (count <= 6) return at(92, 40, 38);
+  if (count <= 8) return at(78, 34, 33);
+  return at(66, 29, 28);
 };
 
 /** Top and bottom of the space the list may use, between wordmark and footer. */
-const LIST_ZONE_TOP = 330;
-const LIST_ZONE_BOTTOM = CARD_H - 190;
+const listZone = (size) => {
+  const L = layoutFor(size);
+  return { top: L.markY + 180, bottom: L.roomY - 70 };
+};
 
 /**
  * Where the list starts.
  *
  * Centred in the space it has rather than pinned to the top: a two-player card
- * pinned at 330 left a third of the frame empty in the middle, which reads as
- * a rendering failure at thumbnail size. Never rises above LIST_ZONE_TOP, so a
- * full table still starts directly under the wordmark.
+ * pinned at the top left a third of the frame empty in the middle, which reads
+ * as a rendering failure at thumbnail size. Never rises above the zone top, so
+ * a full table still starts directly under the wordmark.
  */
-export const listTopFor = (count) => {
-  const height = count * rowMetrics(count).h;
-  const slack = (LIST_ZONE_BOTTOM - LIST_ZONE_TOP) - height;
-  return LIST_ZONE_TOP + Math.max(0, slack / 2);
+export const listTopFor = (count, size = 'feed') => {
+  const zone = listZone(size);
+  const height = count * rowMetrics(count, size).h;
+  const slack = (zone.bottom - zone.top) - height;
+  return zone.top + Math.max(0, slack / 2);
 };
 
 /**
@@ -100,40 +153,43 @@ export const rankForCard = (players = [], drinksPerShotgun = 10) =>
  * @param {CanvasRenderingContext2D} ctx
  * @param {{players: Array, roomCode: string}} data
  */
-export const drawResultCard = (ctx, { players = [], roomCode = '' } = {}) => {
+export const drawResultCard = (ctx, { players = [], roomCode = '', size = 'feed', title = null } = {}) => {
+  const L = layoutFor(size);
   const ranked = rankForCard(players);
 
   // ── background ──────────────────────────────────────────────────────
-  const bg = ctx.createLinearGradient(0, 0, 0, CARD_H);
+  const bg = ctx.createLinearGradient(0, 0, 0, L.h);
   bg.addColorStop(0, BG_TOP);
   bg.addColorStop(1, BG_BOTTOM);
   ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, CARD_W, CARD_H);
+  ctx.fillRect(0, 0, L.w, L.h);
 
   // ── wordmark ────────────────────────────────────────────────────────
+  const markSize = L.isStory ? 104 : 84;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'alphabetic';
   ctx.fillStyle = INK;
-  ctx.font = `700 84px ${DISPLAY}`;
-  ctx.fillText('SHOTGUN', CARD_W / 2, 150);
+  ctx.font = `700 ${markSize}px ${DISPLAY}`;
+  ctx.fillText('SHOTGUN', L.w / 2, L.markY);
   ctx.fillStyle = AMBER;
-  ctx.fillText('FORMATION', CARD_W / 2, 240);
+  ctx.fillText('FORMATION', L.w / 2, L.markY + markSize * 1.08);
 
   // ── standings ───────────────────────────────────────────────────────
-  const m = rowMetrics(ranked.length);
-  const listTop = listTopFor(ranked.length);
-  const numRight = CARD_W - PAD;
-  const sgX = numRight - 150;
-  const nameLeft = PAD + 74;
+  const m = rowMetrics(ranked.length, size);
+  const listTop = listTopFor(ranked.length, size);
+  const numRight = L.w - L.padX;
+  const sgX = numRight - (L.isStory ? 185 : 150);
+  const nameLeft = L.padX + (L.isStory ? 92 : 74);
   const nameMax = sgX - nameLeft - 40;
+  const headSize = L.isStory ? 32 : 26;
 
   ctx.textAlign = 'left';
   ctx.fillStyle = MUTED;
-  ctx.font = `600 26px ${BODY}`;
-  ctx.fillText('FINAL', PAD, listTop - 34);
+  ctx.font = `600 ${headSize}px ${BODY}`;
+  ctx.fillText(title || 'FINAL', L.padX, listTop - headSize * 1.35);
   ctx.textAlign = 'right';
-  ctx.fillText('SG', sgX + 40, listTop - 34);
-  ctx.fillText('DR', numRight, listTop - 34);
+  ctx.fillText('SG', sgX + 40, listTop - headSize * 1.35);
+  ctx.fillText('DR', numRight, listTop - headSize * 1.35);
 
   ranked.forEach((p, i) => {
     const y = listTop + i * m.h + m.h * 0.66;
@@ -141,7 +197,7 @@ export const drawResultCard = (ctx, { players = [], roomCode = '' } = {}) => {
     ctx.textAlign = 'left';
     ctx.fillStyle = i === 0 ? AMBER : MUTED;
     ctx.font = `700 ${m.num}px ${DISPLAY}`;
-    ctx.fillText(String(i + 1), PAD, y);
+    ctx.fillText(String(i + 1), L.padX, y);
 
     ctx.fillStyle = INK;
     ctx.font = `600 ${m.name}px ${DISPLAY}`;
@@ -158,15 +214,16 @@ export const drawResultCard = (ctx, { players = [], roomCode = '' } = {}) => {
   // ── footer ──────────────────────────────────────────────────────────
   ctx.textAlign = 'center';
   ctx.fillStyle = MUTED;
-  ctx.font = `600 30px ${BODY}`;
-  if (roomCode) ctx.fillText(`ROOM ${roomCode}`, CARD_W / 2, CARD_H - 128);
+  ctx.font = `600 ${L.isStory ? 34 : 30}px ${BODY}`;
+  if (roomCode) ctx.fillText(`ROOM ${roomCode}`, L.w / 2, L.roomY);
   ctx.fillStyle = INK;
-  ctx.font = `700 44px ${DISPLAY}`;
-  ctx.fillText(SITE_LABEL.toUpperCase(), CARD_W / 2, CARD_H - 62);
+  ctx.font = `700 ${L.isStory ? 52 : 44}px ${DISPLAY}`;
+  ctx.fillText(SITE_LABEL.toUpperCase(), L.w / 2, L.urlY);
 };
 
 /** Where the list ends, so a test can prove ten players still fit. */
-export const listBottom = (count) => listTopFor(count) + count * rowMetrics(count).h;
+export const listBottom = (count, size = 'feed') =>
+  listTopFor(count, size) + count * rowMetrics(count, size).h;
 
 /**
  * Render to a real canvas and hand back a PNG blob.
@@ -178,9 +235,10 @@ export const renderResultCard = async (data, doc = (typeof document !== 'undefin
   if (!doc || !doc.fonts || typeof doc.fonts.ready?.then !== 'function') return null;
   await doc.fonts.ready;
 
+  const L = layoutFor((data && data.size) || 'feed');
   const canvas = doc.createElement('canvas');
-  canvas.width = CARD_W * CARD_SCALE;
-  canvas.height = CARD_H * CARD_SCALE;
+  canvas.width = L.w * CARD_SCALE;
+  canvas.height = L.h * CARD_SCALE;
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
   ctx.scale(CARD_SCALE, CARD_SCALE);
