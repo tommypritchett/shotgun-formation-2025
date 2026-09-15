@@ -916,6 +916,42 @@ button.card:active{transform:translateY(2px) scale(.985)}
   margin:0 0 14px;white-space:pre-wrap;text-align:left;
 }
 .announce button.mi{justify-content:center;border-bottom:0;color:var(--sf-amber,#FFB020);font-weight:700}
+
+/* The feed's suggestion, as a modal that must be answered.
+   Shares the announcement sheet's shape on purpose — it is the same kind of
+   interruption, and the Ref has already learnt what that shape means. The
+   difference is two real buttons instead of one, because this one asks rather
+   than tells. */
+.sheet.suggest-modal{text-align:center}
+.suggest-modal .sg-kicker{
+  font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--sf-muted,#8A9099);margin:2px 0 6px;
+}
+.suggest-modal .sg-card{
+  font-family:var(--sf-display,Oswald),system-ui,sans-serif;
+  font-weight:700;font-size:30px;line-height:1.05;letter-spacing:.01em;
+  text-transform:uppercase;color:var(--sf-neon,#8AFF3D);margin:0 0 8px;
+}
+.suggest-modal .sg-why{
+  font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-size:13.5px;line-height:1.45;color:var(--sf-chalk,#e8eaed);margin:0 0 12px;
+}
+.suggest-modal .sg-queued{
+  font-family:var(--font-body,Inter),system-ui,sans-serif;
+  font-size:12px;letter-spacing:.04em;color:var(--sf-muted,#8A9099);margin:0 0 12px;
+}
+/* `.sheet button.mi:last-child` paints the last row red for the destructive
+   action in a menu sheet. Skip is not destructive and red is reserved for the
+   four 40-drink shotgun cards, so it is overridden back to chalk here. */
+.suggest-modal button.mi{
+  justify-content:center;border-bottom:0;font-weight:700;
+  color:var(--sf-chalk,#e8eaed);
+}
+.suggest-modal button.mi:last-child{color:var(--sf-chalk,#e8eaed)}
+/* Call it is the affirmative, so it carries the deck colour the card is in.
+   It is NOT a default — nothing happens without a tap either way. */
+.suggest-modal button.mi.mi-call{color:var(--sf-neon,#8AFF3D)}
 .sheet .mi.away .k{color:var(--sf-muted);letter-spacing:.12em}
 
 /* The moment the assigner rolls over from shotguns to drinks. The unit, the

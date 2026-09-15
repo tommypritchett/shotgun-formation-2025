@@ -9,7 +9,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import CardDial from '../../client/src/components/CardDial.jsx';
-import SuggestionPrompt from '../../client/src/components/SuggestionPrompt.jsx';
+import SuggestionModal from '../../client/src/components/SuggestionModal.jsx';
 import { GROUPS, REF_ONLY, frequencyLabel } from '../../client/src/lib/card-groups.js';
 
 afterEach(cleanup);
@@ -82,32 +82,70 @@ describe('what the dial shows', () => {
 });
 
 describe('a suggestion is a question', () => {
+  /**
+   * Session 20 replaced the countdown strip with a modal that does not expire.
+   *
+   * These tests changed with it, because the behaviour they pinned is the
+   * behaviour that was wrong: an offer that ran out on its own made "the Ref
+   * ignored it" and "the Ref never saw it" the same event. The rule they were
+   * really protecting — a suggestion must be answerable and must not linger
+   * once answered — is still here, now expressed against two real buttons.
+   */
   const offer = { cardId: '3 n Out', reason: '3 offensive plays, punt', playId: 'p1' };
 
-  it('shows the card, the reason and how long is left', () => {
-    render(<SuggestionPrompt suggestion={offer} secondsLeft={12} onAccept={() => {}} onDismiss={() => {}} />);
+  it('shows the card and the reason', () => {
+    render(<SuggestionModal suggestion={offer} onCall={() => {}} onSkip={() => {}} />);
     expect(screen.getByText('3 n Out')).toBeTruthy();
     expect(screen.getByText('3 offensive plays, punt')).toBeTruthy();
-    expect(screen.getByText('12s')).toBeTruthy();
   });
 
-  it('declares when accepted', () => {
-    const onAccept = vi.fn();
-    render(<SuggestionPrompt suggestion={offer} secondsLeft={9} onAccept={onAccept} onDismiss={() => {}} />);
+  it('shows no countdown at all', () => {
+    const { container } = render(<SuggestionModal suggestion={offer} />);
+    expect(container.textContent, 'the modal still counts down').not.toMatch(/\d+\s*s\b/);
+  });
+
+  it('declares when called', () => {
+    const onCall = vi.fn();
+    render(<SuggestionModal suggestion={offer} onCall={onCall} onSkip={() => {}} />);
     fireEvent.click(screen.getByText('Call it'));
-    expect(onAccept).toHaveBeenCalledWith(offer);
+    expect(onCall).toHaveBeenCalledWith(offer);
   });
 
-  it('can be ignored', () => {
-    const onDismiss = vi.fn();
-    render(<SuggestionPrompt suggestion={offer} secondsLeft={9} onAccept={() => {}} onDismiss={onDismiss} />);
-    fireEvent.click(screen.getByLabelText('Ignore'));
-    expect(onDismiss).toHaveBeenCalled();
+  it('is skipped by an explicit answer, not by inaction', () => {
+    const onSkip = vi.fn();
+    render(<SuggestionModal suggestion={offer} onCall={() => {}} onSkip={onSkip} />);
+    fireEvent.click(screen.getByText('Skip'));
+    expect(onSkip).toHaveBeenCalledWith(offer);
   });
 
-  it('renders nothing once it has expired', () => {
-    // An expired suggestion must not linger looking live.
-    const { container } = render(<SuggestionPrompt suggestion={null} secondsLeft={0} />);
+  it('interrupts, like the announcement modal does', () => {
+    render(<SuggestionModal suggestion={offer} />);
+    const dialog = screen.getByRole('alertdialog');
+    expect(dialog.getAttribute('aria-modal')).toBe('true');
+  });
+
+  it('cannot be dismissed by tapping the scrim', () => {
+    // The scrim dims. It is not a way out — same rule as Announcement.
+    const onSkip = vi.fn();
+    const { container } = render(<SuggestionModal suggestion={offer} onSkip={onSkip} />);
+    const scrim = container.querySelector('.scrim');
+    expect(scrim).toBeTruthy();
+    fireEvent.click(scrim);
+    expect(onSkip, 'tapping the scrim answered the question').not.toHaveBeenCalled();
+  });
+
+  it('says how many more are waiting behind it', () => {
+    render(<SuggestionModal suggestion={offer} queued={2} />);
+    expect(screen.getByText(/2 more waiting/)).toBeTruthy();
+  });
+
+  it('stays quiet about the queue when it is the only one', () => {
+    render(<SuggestionModal suggestion={offer} queued={0} />);
+    expect(screen.queryByText(/more waiting/)).toBeNull();
+  });
+
+  it('renders nothing when there is nothing to ask', () => {
+    const { container } = render(<SuggestionModal suggestion={null} />);
     expect(container.innerHTML).toBe('');
   });
 });
