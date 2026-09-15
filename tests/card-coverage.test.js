@@ -20,7 +20,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const { detectPlay, detectDrive } = require(path.join(ROOT, 'server/feed/detect.js'));
-const { MODES, modeFor, NEVER } = require(path.join(ROOT, 'server/feed/cards.js'));
+const { MODES, modeFor, NEVER, AUTO, SUGGEST } = require(path.join(ROOT, 'server/feed/cards.js'));
 
 /**
  * Cards with no real-data coverage, and why. Removing a card from this list
@@ -82,6 +82,35 @@ describe('real-data coverage', () => {
   it('never machine-calls the Ref-only cards', () => {
     for (const cardId of ['Doink', 'Record Broken', 'Fake Punt/FG']) {
       expect(tally[cardId] || 0, `${cardId} fired, and it must never`).toBe(0);
+    }
+  });
+});
+
+/**
+ * The tier table, pinned so the docs and the code cannot drift apart.
+ *
+ * `docs/LIVE_GAME_PLAN.md` carries the same list in prose. It has been wrong
+ * before — the plan described a tiering the code had already moved past — and
+ * a table nobody can verify is worse than no table.
+ */
+describe('which tier each card is in', () => {
+  it('auto-calls the four cards promoted on 2026-09-15', () => {
+    // Owner decision after a live game. `3 n Out` carried a documented risk
+    // (a penalty makes offensivePlays lie); measured at 31/31 correct across
+    // the fixtures with drive data before the move.
+    for (const id of ['3 n Out', 'Blocked Kicks', 'Onside Attempt', 'Onside Recovered']) {
+      expect(modeFor(id), `${id} should be auto`).toBe(AUTO);
+    }
+  });
+
+  it('leaves exactly two cards on suggest', () => {
+    const suggested = Object.keys(MODES).filter((id) => MODES[id] === SUGGEST);
+    expect(suggested.sort()).toEqual(['Disqualified', 'Penalty Calls TD Back']);
+  });
+
+  it('keeps the never-called cards never-called', () => {
+    for (const id of ['Doink', 'Record Broken']) {
+      expect(modeFor(id), `${id} must never be machine-called`).toBe(NEVER);
     }
   });
 });
