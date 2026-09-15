@@ -29,12 +29,15 @@ const RELEASE_TICK_MS = 1_000;
  * @param {object} handlers
  * @param {Function} handlers.onDetected  (detections, play) — immediately, for the log
  * @param {Function} handlers.onRelease   (detection) — after the broadcast delay
+ * @param {Function} handlers.onGiveUp    (detection, why) — re-offered until the
+ *                                        grace window closed, and now lost for good
  * @param {Function} handlers.onState     (state) — score/period/clock for the header
  * @param {object} [options]
  */
 const runPipeline = (feed, handlers = {}, options = {}) => {
   const {
     onDetected = () => {}, onRelease = () => {}, onState = () => {}, onEnd = () => {},
+    onGiveUp = () => {},
   } = handlers;
 
   const queue = new DetectionQueue(options.queue);
@@ -104,7 +107,23 @@ const runPipeline = (feed, handlers = {}, options = {}) => {
       // Never hold anything back once the feed has ended. At that point the
       // queue is draining a game that has stopped, and re-offering a call the
       // room was too busy for only delays letting go of the room.
-      if (took === false && !ended) queue.retry(detection);
+      if (took === false) {
+        const held = !ended && queue.retry(detection);
+        /**
+         * It is not coming back. SAY SO.
+         *
+         * This is the silent loss the feed had: a busy detection was
+         * re-offered, deliberately not announced (a "skipped" line followed by
+         * the round itself reads as a bug), and then when the grace window ran
+         * out it was dropped with nothing emitted anywhere. The room never
+         * learnt that a call had been spotted and lost — the counter moved and
+         * that was all.
+         *
+         * Announcing it HERE rather than at the first failure is the whole
+         * point: by now it really is gone.
+         */
+        if (!held) onGiveUp(detection, ended ? 'the feed ended' : 'the room was busy');
+      }
     }
 
     // The feed ending does NOT mean the queue is empty. At the final whistle

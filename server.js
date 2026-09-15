@@ -506,6 +506,29 @@ const allocateRoomCode = (rooms) => {
  * The dial the owner tunes after a real game night, so moving a card between
  * modes must never need a code change.
  */
+/**
+ * What the Ref can be told about the feed's queue.
+ *
+ * Diagnostic, not a headline: depth is how many calls are waiting out the
+ * broadcast delay right now, and the three drop counts are the ways a
+ * detection dies. `late` is the one that matters most — it means the room was
+ * mid-round every time the call was re-offered until its patience ran out.
+ */
+const queueHealth = (entry) => {
+  const q = entry && entry.queueRef;
+  if (!q) return null;
+  const st = q.stats || {};
+  return {
+    depth: q.depth || 0,
+    released: st.released || 0,
+    lost: (entry.stats && entry.stats.lost) || 0,
+    droppedLate: st.droppedLate || 0,
+    droppedStale: st.droppedStale || 0,
+    droppedFull: st.droppedFull || 0,
+    drivesFailing: Boolean(entry.drivesFailing),
+  };
+};
+
 const modeOf = (room, cardId) => {
   const override = room && room.cardModes ? room.cardModes[cardId] : undefined;
   return override || modeFor(cardId);
@@ -588,6 +611,24 @@ const watchers = new Watchers({
       }).catch(() => {});
     }
 
+    /**
+     * The drives endpoint going quiet, said out loud.
+     *
+     * `3 n Out` and `Turnover on Downs` are the only drive-level cards, so a
+     * drives outage silently removes both. Carried on the existing
+     * `gameFeedUpdate` payload rather than a new event, so old clients are
+     * unaffected.
+     */
+    feed.on('drivesHealth', ({ failing }) => {
+      entry.drivesFailing = Boolean(failing);
+      for (const roomCode of entry.rooms) {
+        io.to(roomCode).emit('gameFeedUpdate', {
+          league, gameId: entry.gameId, ...entry.state, feedHealth: queueHealth(entry),
+        });
+      }
+      console.log(`🏈 ${league}/${gameId} drives ${failing ? 'FAILING — 3 n Out and Turnover on Downs are uncallable' : 'recovered'}`);
+    });
+
     const tell = (event, payload) => {
       for (const roomCode of entry.rooms) io.to(roomCode).emit(event, payload);
     };
@@ -596,7 +637,17 @@ const watchers = new Watchers({
       onState: (state) => {
         const wasPeriod = entry.state && entry.state.period;
         entry.state = { ...entry.state, ...state };
-        tell('gameFeedUpdate', { league, gameId: entry.gameId, ...entry.state });
+        tell('gameFeedUpdate', {
+          league, gameId: entry.gameId, ...entry.state,
+          // ADDITIVE field. Old clients ignore it; the contract is unchanged.
+          //
+          // The queue has counted droppedStale / droppedFull / droppedLate
+          // since Session 15 and NOTHING has ever read them — not the server,
+          // not the client. Session 15 required showing them to the Ref so a
+          // backed-up room would be visible rather than silently losing calls,
+          // and that requirement was simply never met. This is it being met.
+          feedHealth: queueHealth(entry),
+        });
 
         // The real game's period drives the app's quarter. Same advance path
         // the Ref uses, not a parallel one — exactly as an auto-called round
@@ -720,6 +771,34 @@ const watchers = new Watchers({
         // Only ask for a retry if waiting could actually change the outcome.
         if (!firedAnywhere && busyAnywhere) return false;
         return true;
+      },
+      /**
+       * A detection that was re-offered until its grace window closed.
+       *
+       * This is the line the feed never had. `onRelease` deliberately stays
+       * quiet about a busy room — it may fire a moment later, and a "skipped"
+       * line followed by the round itself reads as a bug — but nothing said
+       * anything when it finally ran out either. A Penalty went missing in a
+       * real game exactly here, and the only trace was a counter nobody could
+       * see.
+       *
+       * Reuses `playSkipped` rather than adding an event: the payload shape is
+       * already {league, gameId, cardId, reason} and old clients render it.
+       */
+      onGiveUp: (detection, why) => {
+        for (const roomCode of entry.rooms) {
+          const room = rooms[roomCode];
+          if (!room) continue;
+          // Only tell a room that actually wanted this card — a room whose Ref
+          // switched it off never lost anything.
+          if (modeOf(room, detection.cardId) !== AUTO) continue;
+          entry.stats.lost = (entry.stats.lost || 0) + 1;
+          io.to(roomCode).emit('playSkipped', {
+            league, gameId: entry.gameId, cardId: detection.cardId,
+            reason: `not called — ${why}`,
+          });
+        }
+        console.log(`🏈 ${league}/${entry.gameId} LOST ${detection.cardId} (play ${detection.playId}): ${why}`);
       },
       onEnd: (info) => {
         // Drain rather than fire late. Whatever is still queued belongs to a
