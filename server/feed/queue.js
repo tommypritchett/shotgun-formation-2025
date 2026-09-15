@@ -56,11 +56,17 @@ const { byPriority } = require('./cards');
  * tail it can be ~20s early on cable and ~35s early on a stream. Only an
  * antenna is reliably ahead of it.
  *
- * **That is the accepted cost.** The owner chose zero with these numbers in
- * front of them, having felt the 78s version during a real game, and confirmed
- * it afterwards when the median-early consequence was spelled out. Being
- * consistently a few seconds early was judged the better failure than being a
- * minute late.
+ * **Zero was tried, and the predicted failure is the one that happened.**
+ * The owner ran it against a live game on 2026-09-14 and saw calls land
+ * BEFORE the play appeared on screen — exactly the median-early case set out
+ * above. The delay is now **10s**, which moves the median call to ~41s:
+ * roughly 3s after cable and still ~12s ahead of a stream. That is a
+ * deliberate trade of "slightly late on cable" for "no longer spoils the
+ * play", and it is a correction from live observation rather than a new
+ * estimate.
+ *
+ * The earlier reasoning for zero is kept above because it is still the right
+ * arithmetic — what changed is the measurement, not the model.
  *
  * **If this is revisited, do not just raise the constant.** A fixed number
  * cannot fit a publish lag that ranges 14s to 161s: whatever value makes the
@@ -81,7 +87,7 @@ const { byPriority } = require('./cards');
 const BROADCAST_DELAY_MS = Number.isFinite(Number(process.env.BROADCAST_DELAY_MS))
   && process.env.BROADCAST_DELAY_MS !== undefined && process.env.BROADCAST_DELAY_MS !== ''
   ? Number(process.env.BROADCAST_DELAY_MS)
-  : 0;
+  : 10_000;
 
 /**
  * How long a detection may wait for a busy room before it is given up on.
