@@ -207,3 +207,61 @@ the failing test for outstanding work.
   the server.
 - **The `node_modules` deploy blocker.** Resolved in Session 4: the root build script now
   runs its own `npm install`, verified by a clean-checkout build-and-serve rehearsal.
+
+---
+
+## F-TRICK — Trick Play, deferred not rejected (2026-09-15)
+
+A `Trick Play` Wild card was implemented on `capture-harness` and then removed at the owner's
+request. **The idea is worth keeping; the detection is the problem.**
+
+**Why it was pulled:** it arrived in a prompt the owner had not reviewed before sending. Removed from
+`capture-harness` only — it never reached `main` or `session-20`, so no deck in production or on
+GitHub ever contained it.
+
+**Owner's position:** "a semi good wild card to be honest, but would be hard to auto trigger."
+Revisit, do not discard.
+
+**The measurement that matters, so nobody has to redo it.** Across 1,791 real plays in the fixtures:
+
+| Phrase | Occurrences |
+|---|---|
+| `flea flicker` | 0 |
+| `double pass` | 0 |
+| `reverse` | 0 |
+| `trick` | 0 |
+| `lateral` | 1 |
+
+ESPN's play text does not name trick plays. This is the same finding that moved `Fake Punt/FG` to
+`NEVER` — the word "fake" appeared in 0 of 111 games scanned.
+
+**So if it comes back, it comes back as Ref-only**, alongside Doink and Record Broken, and the UI
+should say so plainly rather than leaving a card that silently never fires. Proposed value was
+1 shotgun.
+
+**What to check before re-adding:**
+
+- Deck balance. Wild is 43 per player; the removed version made it 44 (+2.3%). Wild-deck exhaustion by
+  end of Q3 is still an open playtest question.
+- It needs art. `CardIcon` renders nothing for an unknown card name, so a new card shows a blank face.
+  Production art is locked separately — list the need, do not draw it.
+- `server.js` `generateDecks` hardcodes the whole deck, duplicating `client/src/data/cards.js`. Any
+  new card must be added in both. See F-DECK below.
+
+## F-DECK — two sources of truth for the deck (2026-09-15)
+
+`server.js` `generateDecks` hardcodes the entire deck, duplicating `client/src/data/cards.js`. They
+agree exactly on all 23 cards today — nothing has drifted — but this is two places to change and one
+of them is the thing being sent to a printer.
+
+Also open: `cards.js` totals **150** against the stated physical deck of **160** — **Wild is 2 short
+(45 vs 47) and Standard is 8 short (105 vs 113).**
+
+The 47 figure is worth being careful with. `cards.js` briefly summed to exactly 47 Wild, but only
+because the removed Trick Play carried `printCopies: 2`; that was a coincidence, not a
+reconciliation, and it went away with the card. The copies numbers have never been counted against
+the real deck, so it is just as likely that two copies of an existing Wild card are missing from the
+estimates. The gap has never been explained and should be resolved before the physical deck is
+locked.
+
+Collapse to one source. Not urgent for the app; urgent for print.
