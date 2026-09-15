@@ -407,9 +407,21 @@ describe('penalties', () => {
 
 describe('the Tier B set', () => {
   it('suggests rather than auto-fires', () => {
-    for (const id of ['3 n Out', 'Blocked Kicks', 'Onside Attempt', 'Onside Recovered',
-      'Penalty Calls TD Back', 'Disqualified']) {
+    /**
+     * Two left, not six.
+     *
+     * `3 n Out`, `Blocked Kicks`, `Onside Attempt` and `Onside Recovered` were
+     * promoted to auto on 2026-09-15 by owner decision after a live game. The
+     * documented risk was `3 n Out`: a penalty makes ESPN's `offensivePlays`
+     * count lie, and on auto that is a wrong call rather than an ignorable
+     * prompt. Measured across the 11 fixtures with drive data before the move —
+     * 31 fired, 31 genuine. See docs/LIVE_GAME_PLAN.md.
+     */
+    for (const id of ['Penalty Calls TD Back', 'Disqualified']) {
       expect(modeFor(id), `${id} should be a suggestion`).toBe(SUGGEST);
+    }
+    for (const id of ['3 n Out', 'Blocked Kicks', 'Onside Attempt', 'Onside Recovered']) {
+      expect(modeFor(id), `${id} should now be auto`).toBe(AUTO);
     }
     // Fake Punt/FG left this set in Session 17: the word "fake" appears in 0 of
     // 111 real games, so there is no signal and the card is Ref-only.

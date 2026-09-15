@@ -44,7 +44,9 @@ describe('the delay is a constant, not a setting', () => {
     // Adding 45s on top made the real end-to-end delay ~78s, which is what the
     // owner felt at the table. Owner's decision to take it to zero.
     expect(process.env.BROADCAST_DELAY_MS).toBeUndefined();
-    expect(BROADCAST_DELAY_MS).toBe(0);
+    // 10s, set from live observation on 2026-09-14: at zero the call landed
+    // before the play showed on cable. See the constant's comment.
+    expect(BROADCAST_DELAY_MS).toBe(10_000);
   });
 
   it('still lets the tests drive it, so the delay path stays exercised', () => {

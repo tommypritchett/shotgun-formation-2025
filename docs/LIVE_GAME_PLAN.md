@@ -165,16 +165,39 @@ looks right, but it is a decision rather than an accident.
 
 Cost measured across the five real fixtures: **+1 to +9 cards a game**, mean +5.
 
+**Also Tier A since 2026-09-15:** `3 n Out`, `Blocked Kicks`, `Onside Attempt`,
+`Onside Recovered` — moved up from Tier B, see below.
+
 ### Tier B — derivable, medium confidence → suggest, never auto-fire
 
-- **3 n Out** — drive-level: three plays, no first down, ends in a punt. Clean logic, but it needs
-  the drives endpoint and careful handling of penalties inside the drive.
-- **Blocked Kicks** — text match on the play description.
-- **Onside Attempt / Onside Recovered** — kickoff play type with short yardage, plus text.
+> **Four cards left this tier on 2026-09-15**, by owner decision after watching a
+> live game: `3 n Out`, `Blocked Kicks`, `Onside Attempt` and `Onside Recovered`
+> are now **Tier A / auto**. They are listed under Tier A below. Only the two
+> entries here remain on suggest.
+
 - **Penalty Calls TD Back** — needs sequence reasoning: a touchdown followed by a negating penalty.
   The hardest of these and the most likely to misfire.
+- **Disqualified** — college only, and enforced as such in `detect.js`.
 
-These surface to the Ref as *"3rd and out — call it?"* with a countdown. Ref taps yes or ignores it.
+These surface to the Ref as a modal that does not expire and must be answered —
+**Call it** or **Skip**. It used to be a 20-second countdown that expired
+silently, which meant an ignored suggestion and an unseen one were
+indistinguishable. See Session 20.
+
+#### What moving `3 n Out` to auto costs
+
+It was Tier B because a penalty inside a drive makes ESPN's `offensivePlays`
+count lie, so a drive that was not a three-and-out can read as three plays — and
+on auto that is a wrong call at the table rather than a prompt to ignore.
+
+Measured across the 11 fixtures carrying drive data before the move: the rule
+fired **31 times**, and all **31** were genuine — no first down gained, ended in
+a punt. Penalties *did* occur inside several of those drives; ESPN excludes
+"NO PLAY" snaps from `offensivePlays`, so the count survived the exact thing it
+was feared for.
+
+Eleven games is not a season and the failure mode is still real — it simply did
+not occur in the sample.
 
 ### Tier C — not detectable. Ref-only, forever.
 

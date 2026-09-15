@@ -332,9 +332,26 @@ describe('a share card cannot leak who poured what', () => {
       ],
       roomCode: '48213', size: 'story',
     });
+    /**
+     * Two kinds of string reach the canvas, and only one of them is a risk.
+     *
+     *   FIXED CHROME — constants compiled into the card. They cannot carry
+     *   information about the game because they do not vary with it.
+     *   DATA — names and totals, taken from the roster.
+     *
+     * The guarantee this test exists for is about the second kind: a roster
+     * has no notion of who poured what, so there is nothing to leak. Session
+     * 20 added chrome (a podium label, an icon legend, a tagline) and each new
+     * constant is listed here individually rather than the check being relaxed
+     * to a pattern — anything NOT named here still fails, which is the point.
+     */
     const allowed = new Set([
-      'SHOTGUN', 'FORMATION', 'FINAL', 'SG', 'DR', 'ROOM 48213',
-      'SHOTGUNFORMATION.COM', 'Ava', 'Ben', '1', '2', '4', '0',
+      // chrome
+      'SHOTGUN', 'FORMATION', 'FINAL', 'FINAL STANDINGS', 'SG', 'DR',
+      'WINNER', 'SHOTGUNS', 'DRINKS', 'NO APP · NO SIGNUP',
+      'ROOM 48213', 'SHOTGUNFORMATION.COM',
+      // data
+      'Ava', 'Ben', '1', '2', '4', '0',
     ]);
     for (const t of ctx.calls.text) {
       expect(allowed.has(t.s), `the card drew "${t.s}", which is not a name or a total`)

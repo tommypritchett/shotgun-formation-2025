@@ -65,11 +65,29 @@ const MODES = {
   'First Down': AUTO,
   'Penalty': AUTO,
 
+  /**
+   * Moved to Tier A on 2026-09-15, by owner decision after watching a game.
+   *
+   * `3 n Out` was Tier B for a documented reason: a penalty inside a drive
+   * makes ESPN's `offensivePlays` count lie, so a drive that was not a
+   * three-and-out could read as three plays. On auto that becomes a wrong
+   * call at the table rather than a prompt the Ref can ignore.
+   *
+   * MEASURED before moving it, across the 11 fixtures that carry drive data:
+   * the rule fired 31 times and all 31 drives gained no first down and ended
+   * in a punt — every one a genuine three-and-out, zero wrong calls. Penalties
+   * DID occur inside several of them; ESPN excludes "NO PLAY" snaps from
+   * `offensivePlays`, so the count survived the thing it was feared for.
+   *
+   * That is 11 games, not a season, and the failure mode is still real — it
+   * simply did not occur in the sample. The trade is accepted knowingly.
+   */
+  '3 n Out': AUTO,
+  'Blocked Kicks': AUTO,
+  'Onside Attempt': AUTO,
+  'Onside Recovered': AUTO,
+
   // Tier B — suggested to the Ref, never fired alone.
-  '3 n Out': SUGGEST,
-  'Blocked Kicks': SUGGEST,
-  'Onside Attempt': SUGGEST,
-  'Onside Recovered': SUGGEST,
   'Penalty Calls TD Back': SUGGEST,
   'Disqualified': SUGGEST,   // college only — enforced in detect.js
 

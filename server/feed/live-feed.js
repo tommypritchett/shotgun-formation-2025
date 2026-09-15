@@ -13,6 +13,16 @@
 const { Feed } = require('./feed');
 const { normalisePlay, normaliseDrive } = require('./normalise');
 
+/**
+ * Consecutive drives failures before the Ref is told.
+ *
+ * Not the first: a single failed poll is ordinary internet and announcing it
+ * would make the feed look broken every few minutes. Three in a row is an
+ * outage, and at roughly one poll per 30s that is ~90 seconds of two cards
+ * being silently uncallable.
+ */
+const DRIVES_QUIET_AFTER = 3;
+
 const CORE = 'https://sports.core.api.espn.com/v2/sports/football/leagues';
 const SITE = 'https://site.api.espn.com/apis/site/v2/sports/football';
 
@@ -118,7 +128,27 @@ class LiveFeed extends Feed {
           this.seenDrives.add(drive.id);
           this.emit('drive', drive);
         }
+        // A poll that came back is a poll that is working again.
+        if (this.drivesFailures > 0) {
+          this.drivesFailures = 0;
+          this.emit('drivesHealth', { failing: false, failures: 0 });
+        }
       } catch (error) {
+        /**
+         * Swallowing this is right; hiding it is not.
+         *
+         * Plays must keep polling when drives fail — that decision stands. But
+         * `3 n Out` and `Turnover on Downs` are the ONLY two drive-level cards,
+         * so a drives outage makes both go permanently quiet with nothing
+         * anywhere to say why. The Ref sees a feed that has simply stopped
+         * calling two things and has no way to know it.
+         *
+         * So the failure is still non-fatal, and now it is also visible.
+         */
+        this.drivesFailures = (this.drivesFailures || 0) + 1;
+        if (this.drivesFailures === DRIVES_QUIET_AFTER) {
+          this.emit('drivesHealth', { failing: true, failures: this.drivesFailures });
+        }
         this._onError(error, 'drives');
       }
     }

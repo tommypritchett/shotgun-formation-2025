@@ -56,11 +56,17 @@ const { byPriority } = require('./cards');
  * tail it can be ~20s early on cable and ~35s early on a stream. Only an
  * antenna is reliably ahead of it.
  *
- * **That is the accepted cost.** The owner chose zero with these numbers in
- * front of them, having felt the 78s version during a real game, and confirmed
- * it afterwards when the median-early consequence was spelled out. Being
- * consistently a few seconds early was judged the better failure than being a
- * minute late.
+ * **Zero was tried, and the predicted failure is the one that happened.**
+ * The owner ran it against a live game on 2026-09-14 and saw calls land
+ * BEFORE the play appeared on screen — exactly the median-early case set out
+ * above. The delay is now **10s**, which moves the median call to ~41s:
+ * roughly 3s after cable and still ~12s ahead of a stream. That is a
+ * deliberate trade of "slightly late on cable" for "no longer spoils the
+ * play", and it is a correction from live observation rather than a new
+ * estimate.
+ *
+ * The earlier reasoning for zero is kept above because it is still the right
+ * arithmetic — what changed is the measurement, not the model.
  *
  * **If this is revisited, do not just raise the constant.** A fixed number
  * cannot fit a publish lag that ranges 14s to 161s: whatever value makes the
@@ -81,7 +87,7 @@ const { byPriority } = require('./cards');
 const BROADCAST_DELAY_MS = Number.isFinite(Number(process.env.BROADCAST_DELAY_MS))
   && process.env.BROADCAST_DELAY_MS !== undefined && process.env.BROADCAST_DELAY_MS !== ''
   ? Number(process.env.BROADCAST_DELAY_MS)
-  : 0;
+  : 10_000;
 
 /**
  * How long a detection may wait for a busy room before it is given up on.
@@ -97,6 +103,40 @@ const BROADCAST_DELAY_MS = Number.isFinite(Number(process.env.BROADCAST_DELAY_MS
  * fire within a few seconds of its moment is still better lost than fired a
  * minute late. This is the "drop rather than fire late" rule, with just enough
  * slack to survive one short round.
+ *
+ * ── MEASURED, 2026-09-15 ─────────────────────────────────────────────────
+ *
+ * "One short round" had never been measured. `tests/round-duration-probe.test.js`
+ * times a real server from declaration to `roundFinalized`, which is the same
+ * instant `isActionInProgress` clears and the room can take the next call:
+ *
+ *     First Down   nominal  6s  ->  7,014ms busy
+ *     Standard     nominal 21s  -> 22,037ms busy
+ *     Wild         nominal 11s  -> ~12,000ms busy (6s and 21s bracket it)
+ *
+ * The extra second is the timer's own tick: it counts down to 0 and finalises
+ * on the NEXT tick.
+ *
+ * So 8s covers a First Down round by 986ms — which is exactly what the
+ * paragraph above claimed it was tuned for, and now there is a number behind
+ * the claim. It does NOT cover a Wild round (~12s) or a Standard one (~22s):
+ * a detection arriving during either is re-offered, runs out of patience, and
+ * is dropped.
+ *
+ * **The value is deliberately UNCHANGED.** Covering a Wild round would need
+ * ~13s, and `tests/delay-queue.test.js` pins a product ceiling of 10s on the
+ * grounds that the whole feature rests on a call landing while the play is
+ * still on the television. With BROADCAST_DELAY_MS now at 10s a call already
+ * lands ~41s after its play; 13s of grace would take the worst case to ~54s,
+ * past cable entirely. Raising it is an owner decision about that trade, not a
+ * tuning detail, so the measurement is reported rather than acted on.
+ *
+ * What DID change is that a detection dropped this way is no longer silent —
+ * see `onGiveUp` in server.js.
+ *
+ * NOTE: this does not interact with BROADCAST_DELAY_MS. The delay decides WHEN
+ * a detection becomes due; this decides how long it may wait for a busy room
+ * AFTER that. Raising one does not shorten the other.
  */
 const MAX_LATE_MS = 8_000;
 

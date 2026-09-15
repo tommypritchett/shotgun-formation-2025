@@ -22,7 +22,6 @@ import { SOCKET_OPTIONS } from './lib/socket-options';
 import { sourceLine } from './lib/round-source';
 import CallFeed from './components/CallFeed';
 import CardDial from './components/CardDial';
-import SuggestionPrompt from './components/SuggestionPrompt';
 import GamePicker from './components/GamePicker';
 import LiveScore from './components/LiveScore';
 import CardSheet from './components/CardSheet';
@@ -146,8 +145,15 @@ class ErrorBoundary extends Component {
   }
 }
 
-/** How long a suggestion stays on offer before it expires quietly. */
-const SUGGESTION_SECONDS = 20;
+/**
+ * How many suggestions may wait behind the one on screen.
+ *
+ * A suggestion no longer expires — it is answered or it is not — so the queue
+ * needs a ceiling or a backed-up room could stack a whole quarter of prompts
+ * in front of the Ref. Past this the OLDEST is discarded: a suggestion about a
+ * play four calls ago is noise, and the newest is the one still worth asking.
+ */
+const MAX_PENDING_SUGGESTIONS = 3;
 
 // SPREAD, always. `io()` hands this object straight to the Manager, which
 // writes its default onto it (`opts.path = opts.path || "/socket.io"`).
@@ -221,9 +227,16 @@ function App() {
   const [cardModes, setCardModes] = useState({});
   const [cardDefaults, setCardDefaults] = useState({});
   const [autoCallPaused, setAutoCallPaused] = useState(false);
-  // A suggestion is a question. It expires on its own rather than lingering.
-  const [suggestion, setSuggestion] = useState(null);
-  const [suggestionLeft, setSuggestionLeft] = useState(0);
+  /**
+   * Suggestions waiting for the Ref, oldest first.
+   *
+   * A QUEUE rather than a single slot, and one modal at a time — the same
+   * shape the announcement modal uses. A suggestion no longer expires, so two
+   * arriving close together would otherwise either stack modals over each
+   * other or silently overwrite one another. The head is showing; the rest
+   * wait their turn and the modal says how many.
+   */
+  const [suggestions, setSuggestions] = useState([]);
   // Its own state rather than the round's message, which round logic clears.
   const [feedNotice, setFeedNotice] = useState('');
   // Who started the round now on screen. Null until the server says.
@@ -628,10 +641,27 @@ const handlePauseAutoCall = (paused) => {
   socket.emit('pauseAutoCall', { roomCode: roomCodeRef.current, paused });
 };
 
+/** Drop one suggestion from the queue, whichever way it was answered. */
+const dropSuggestion = (offer) => setSuggestions((prev) =>
+  prev.filter((x) => !(x.cardId === offer.cardId && x.playId === offer.playId)));
+
 const handleAcceptSuggestion = (offer) => {
   if (!offer) return;
+  // Unchanged wire call: the modal replaced the prompt, not the contract.
   socket.emit('acceptSuggestion', { roomCode: roomCodeRef.current, cardId: offer.cardId });
-  setSuggestion(null);
+  dropSuggestion(offer);
+};
+
+/**
+ * "Skip" is an ANSWER, and only to this one.
+ *
+ * Nothing is emitted: the server offered, the Ref declined, and declining is
+ * the absence of a declaration. What it must not do is clear the rest of the
+ * queue — each suggestion is its own question.
+ */
+const handleSkipSuggestion = (offer) => {
+  if (!offer) return;
+  dropSuggestion(offer);
 };
 
 // Handle Leave Game logic
@@ -649,7 +679,7 @@ const handleLeaveGame = () => {
   clearURL();
   setWatching(null);   // a game you have left is not a game you are watching
   setCallEntries([]);
-  setSuggestion(null);
+  setSuggestions([]);
   setAutoCallPaused(false);
 };
 
@@ -832,14 +862,22 @@ useEffect(() => {
   };
 }, []);
 
-// A suggestion is an offer with a clock on it. When it runs out it disappears
-// rather than sitting there looking live.
+// No expiry effect, deliberately. A suggestion is answered or it is not; it
+// does not quietly stop existing. See SuggestionModal for why.
+
+
+/**
+ * A round starting answers every pending suggestion by overtaking it.
+ *
+ * Whether the Ref declared by hand or an auto-call fired, the table has moved
+ * on — and a modal asking about the play before last is worse than no modal.
+ * This is the release valve that makes a never-expiring prompt safe: it cannot
+ * outlive its moment, it just cannot vanish WITHOUT one.
+ */
 useEffect(() => {
-  if (!suggestion) return undefined;
-  if (suggestionLeft <= 0) { setSuggestion(null); return undefined; }
-  const timer = setTimeout(() => setSuggestionLeft((n) => n - 1), 1000);
-  return () => clearTimeout(timer);
-}, [suggestion, suggestionLeft]);
+  if (!declaredCard) return;
+  setSuggestions([]);
+}, [declaredCard]);
 
 // The one-off "the feed is calling" line clears itself.
 useEffect(() => {
@@ -2375,9 +2413,14 @@ socket.on('playSuggested', ({ cardId, reason, playId } = {}) => {
     { key: `${playId || 'x'}-${cardId}-s${callSeq}`, cardId, reason: reason || '', at: clockNow(), suggestion: true },
     ...prev,
   ].slice(0, 100));
-  // Offer it to the Ref with a countdown. Ignoring it lets it expire.
-  setSuggestion({ cardId, reason: reason || '', playId });
-  setSuggestionLeft(SUGGESTION_SECONDS);
+  // Queue it. Same play suggested twice is one question, not two.
+  setSuggestions((prev) => {
+    if (prev.some((x) => x.cardId === cardId && x.playId === playId)) return prev;
+    const next = [...prev, { cardId, reason: reason || '', playId }];
+    return next.length > MAX_PENDING_SUGGESTIONS
+      ? next.slice(next.length - MAX_PENDING_SUGGESTIONS)
+      : next;
+  });
 });
 
 socket.off('roundSource');
@@ -2925,10 +2968,10 @@ socket.on('gameOver', (message) => {
           autoCallPaused={autoCallPaused}
           feedNotice={feedNotice}
           onOpenDial={isHost ? () => setDialOpen(true) : undefined}
-          suggestion={isHost ? suggestion : null}
-          suggestionLeft={suggestionLeft}
+          suggestion={isHost ? (suggestions[0] || null) : null}
+          suggestionQueued={Math.max(0, suggestions.length - 1)}
           onAcceptSuggestion={handleAcceptSuggestion}
-          onDismissSuggestion={() => setSuggestion(null)}
+          onSkipSuggestion={handleSkipSuggestion}
         />
 
         {dialOpen && (

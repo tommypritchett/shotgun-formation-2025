@@ -13,7 +13,7 @@ import ScoreBoard from '../components/ScoreBoard';
 import HandGrid from '../components/HandGrid';
 import LiveScore from '../components/LiveScore';
 import CallFeed from '../components/CallFeed';
-import SuggestionPrompt from '../components/SuggestionPrompt';
+import SuggestionModal from '../components/SuggestionModal';
 
 export default function GameScreen({
   quarter, roomCode, onMenu,
@@ -27,7 +27,7 @@ export default function GameScreen({
   watching = null, onWatchGame, onDetachGame,
   callEntries = [], callFeedOpen = false, onCallFeedToggle,
   autoCallPaused = false, feedNotice = '', onOpenDial,
-  suggestion = null, suggestionLeft = 0, onAcceptSuggestion, onDismissSuggestion,
+  suggestion = null, suggestionQueued = 0, onAcceptSuggestion, onSkipSuggestion,
   // Optional slot under the board — the end-of-game "Share result" control.
   // Absent by default, so a room that never reaches it renders exactly what it
   // rendered before this existed.
@@ -67,11 +67,11 @@ export default function GameScreen({
       </div>
 
       {suggestion ? (
-        <SuggestionPrompt
+        <SuggestionModal
           suggestion={suggestion}
-          secondsLeft={suggestionLeft}
-          onAccept={onAcceptSuggestion}
-          onDismiss={onDismissSuggestion}
+          queued={suggestionQueued}
+          onCall={onAcceptSuggestion}
+          onSkip={onSkipSuggestion}
         />
       ) : null}
 
